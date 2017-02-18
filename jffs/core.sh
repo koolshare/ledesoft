@@ -1,17 +1,17 @@
 #!/bin/sh
-export PERP_BASE=/jffs/koolshare/perp
-export PATH=/jffs/koolshare/bin:/jffs/koolshare/scripts:/usr/bin:/sbin:/bin:/usr/sbin
+
+export KSROOT=/jffs/koolshare
+source $KSROOT/scripts/base.sh
 
 #启动环境服务
-rm -f /tmp/skpid.pid
-rm -f /tmp/httpdb.pid
-cd /jffs/koolshare
-chmod 755 /jffs/koolshare/bin/*
-chmod 755 /jffs/koolshare/scripts/*
-/jffs/koolshare/bin/skipd &
+chmod 755 $KSROOT/bin/*
+chmod 755 $KSROOT/scripts/*
 
-#劫持默认端口并重启生效
-lanip=$(nvram get lan_ipaddr)
+SKIPD_PID=$(pidof skipd)
+if [ "$SKIPD_PID" == "" ]; then
+rm -f /tmp/skpid.pid
+$KSROOT/bin/skipd &
+fi
 
 #80
 lanport=$(nvram get http_lanport) 
@@ -22,10 +22,15 @@ nvram commit
 service httpd restart
 fi
 
+HTTPDB_PID=$(pidof httpdb)
+if [ "$HTTPDB_PID" == "" ]; then
+rm -f /tmp/httpdb.pid
 lanport1=$(nvram get http_lanport1)
-/jffs/koolshare/bin/httpdb -p $lanport1 -r $lanip:9527 -w /jffs/koolshare/webs >/tmp/httpdb.pid 2>&1 &
+$KSROOT/bin/httpdb -p $lanport1 -r $LANIP:9527 >/tmp/httpdb.pid 2>&1 &
+fi
 
 #初始化软件中心
 if [ `dbus get softcenter_version` == "" ]; then
 dbus set softcenter_version=0.0.0
 fi
+
