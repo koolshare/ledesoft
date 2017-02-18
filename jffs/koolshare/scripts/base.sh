@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export KSROOT=/jffs/koolshare
+export KSURL=https://ttsoft.ngrok.wang
 export PERP_BASE=$KSROOT/perp
 export PATH=$KSROOT/bin:$KSROOT/scripts:/usr/bin:/sbin:/bin:/usr/sbin
 
