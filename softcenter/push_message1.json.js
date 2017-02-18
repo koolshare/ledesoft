@@ -1,7 +1,7 @@
 {
-"title":"<em>梅林改版固件&nbsp;-&nbsp;软件中心</em>",
-"content1":"<b><font size='4px'>你可能用了假的koolproxy！</font></b>",
-"content2":"因为我个人（sadog）的误操作，导致ss安装包里带了3.1.0-beta5的koolproxy程序，而更新ss插件会导致koolproxy程序会被这个老的koolproxy覆盖！",
-"content3":"这里建议大家更新koolproxy 3.2.5.1，并检查插件版本和运行状态里的版本是否一致（例如插件版本3.2.5.1和程序版本v3.2.5，则为一致），如果不一致，建议大家关闭重装koolproxy！",
-"content4":"这里对大家表示非常的抱歉！"
+"title":"<b>Tomato&nbsp;-&nbsp;软件中心</b>",
+"content1":"<b>你可能用了假的koolproxy！</b>",
+"content2":"插件中心正处于开发当中，在使用过程中出现任何问题请至论坛反馈。",
+"content3":"感谢您的支持与厚爱！",
+"content4":"有任何意见或建议请反馈至 小宝。"
 }
