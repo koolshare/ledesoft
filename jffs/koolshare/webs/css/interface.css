@@ -36,6 +36,21 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 	white-space:nowrap;
 	margin-top:4px;
 }
-.boxr{
-	min-height:450px;
+.boxr2{
+	display:none;
+}
+.boxr3{
+	display:none;
+}
+.boxr4{
+	display:none;
+}
+.boxr5{
+	display:none;
+}
+#push_content3{
+	display:none;
+}
+#push_content4{
+	display:none;
 }
