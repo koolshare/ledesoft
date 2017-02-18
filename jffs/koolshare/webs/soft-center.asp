@@ -26,37 +26,41 @@ function tabSelect(obj){
 		$('#app2-server1-advanced-tab').removeClass("active");
 		$('#app3-server1-keys-tab').removeClass("active");
 		$('#app4-server1-status-tab').removeClass("active");
-		$('.tabContent1').show();
-		$('.tabContent2').hide();
-		$('.tabContent3').hide();
-		$('.tabContent4').hide();
+		$('.boxr1').show();
+		$('.boxr2').hide();
+		$('.boxr3').hide();
+		$('.boxr4').hide();
+		$('.boxr5').hide();
 	}else if(obj=="app2"){
 		$('#app1-server1-basic-tab').removeClass("active");
 		$('#app2-server1-advanced-tab').addClass("active");
 		$('#app3-server1-keys-tab').removeClass("active");
 		$('#app4-server1-status-tab').removeClass("active");
-		$('.tabContent1').hide();
-		$('.tabContent2').show();
-		$('.tabContent3').hide();
-		$('.tabContent4').hide();
+		$('.boxr1').hide();
+		$('.boxr2').show();
+		$('.boxr3').hide();
+		$('.boxr4').hide();
+		$('.boxr5').hide();
 	}else if(obj=="app3"){
 		$('#app1-server1-basic-tab').removeClass("active");
 		$('#app2-server1-advanced-tab').removeClass("active");
 		$('#app3-server1-keys-tab').addClass("active");
 		$('#app4-server1-status-tab').removeClass("active");
-		$('.tabContent1').hide();
-		$('.tabContent2').hide();
-		$('.tabContent3').show();
-		$('.tabContent4').hide();
+		$('.boxr1').hide();
+		$('.boxr2').hide();
+		$('.boxr3').show();
+		$('.boxr4').show();
+		$('.boxr5').hide();
 	}else if(obj=="app4"){
 		$('#app1-server1-basic-tab').removeClass("active");
 		$('#app2-server1-advanced-tab').removeClass("active");
 		$('#app3-server1-keys-tab').removeClass("active");
 		$('#app4-server1-status-tab').addClass("active");
-		$('.tabContent1').hide();
-		$('.tabContent2').hide();
-		$('.tabContent3').hide();
-		$('.tabContent4').show();
+		$('.boxr1').hide();
+		$('.boxr2').hide();
+		$('.boxr3').hide();
+		$('.boxr4').hide();
+		$('.boxr5').show();
 	}
 }
 
@@ -68,7 +72,7 @@ function tabSelect(obj){
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
 // 安装的时候会有一个同样的计时,若这个超时时间内,安装状态有变化,则更新安装状态.从而可以实时更新安装进程.
 var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
-var softcenterUrl = "https://koolshare.ngrok.wang";
+var softcenterUrl = "https://ttsoft.ngrok.wang/";
 //var softcenterUrl = "https://raw.githubusercontent.com/koolshare/koolshare.github.io/acelan_softcenter_ui";
 var TIMEOUT_SECONDS = 18;
 var softInfo = {};
@@ -331,7 +335,7 @@ function softCenterInit(){
 			</fieldset>
 			<fieldset>
 				<label class="col-sm-2 control-left-label">
-				<img src="/logo.png"/>
+				<span><img src="res/logo.png" alt="" class="img-responsive"></span>
 				</label>
 				<div class="col-sm-10">
 					<ul class="pullmsg">
@@ -344,8 +348,8 @@ function softCenterInit(){
 						<li id="push_content2">
 							如果你想加入我们的工作，在 <a href="http://www.koolshare.cn" target="_blank"> <i><u>www.koolshare.cn</u></i> </a>联系我们！
 						</li>
-						<li id="push_content3" style="display: none;"></li>
-						<li id="push_content4" style="display: none;"></li>
+						<li id="push_content3"></li>
+						<li id="push_content4"></li>
 					</ul>
 				</div>
 			</fieldset>
@@ -362,16 +366,65 @@ function softCenterInit(){
 			<a href="javascript:tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a>
 		</li>
 		<li>
-			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> Status</a>
+			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 状态日志</a>
 		</li>
 	</ul>
-		<div class="box boxr">
+		<div class="box boxr1">
+			<div class="heading">已安装软件列表</div>
 			<div class="content">
 				<div class="tabContent1">
 					<!--app info -->
 					<!--app info -->
 				</div>
-				<div class="tabContent2" style="display:none;">
+			</div>
+		</div>
+		<div class="box boxr2">
+			<div class="heading">未安装软件列表</div>
+			<div class="content">
+				<div class="tabContent2">
+					<!--app info -->
+					<!--app info -->
+				</div>
+			</div>
+		</div>
+		<div class="box boxr3">
+			<div class="heading">插件离线安装界面</div>
+			<div class="content">
+				<div class="tabContent3">
+					<ul>
+						<li>此页面功能需要在7.0及其以上的固件才能使用。</li>
+						<li>通过本页面，你可以上传插件的离线安装包来安装插件；</li>
+						<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
+						<li>建议开发者将插件版本号，md5等信息在install.sh文件内进行写入；</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="box boxr4">
+			<div class="heading">离线安装</div>
+			<div class="content">
+				<div id="identification" class="section">
+					<fieldset>
+						<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
+						<div class="col-sm-9">
+							<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
+						</div>
+					</fieldset>
+					<fieldset>
+						<label class="control-left-label col-sm-3">选择安装包</label>
+						<div class="col-sm-9">
+							<form name="form_upgrade" method="post" action="" encType="multipart/form-data">
+								<input type="file" name="file" size="50"> <button type="button" value="Upgrade" id="afu-upgrade-button" class="btn btn-danger">Up & Install <i class="icon-cloud"></i></button>
+							</form>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+		<div class="box boxr5">
+			<div class="heading">状态日志</div>
+			<div class="content">
+				<div class="tabContent4">
 					<!--app info -->
 					<!--app info -->
 				</div>
