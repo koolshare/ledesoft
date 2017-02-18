@@ -1,7 +1,8 @@
 #!/bin/sh
 
-export PERP_BASE=/jffs/koolshare/perp
-export PATH=/jffs/koolshare/bin:/jffs/koolshare/scripts:/usr/bin:/sbin:/bin:/usr/sbin
+export KSROOT=/jffs/koolshare
+export PERP_BASE=$KSROOT/perp
+export PATH=$KSROOT/bin:$KSROOT/scripts:/usr/bin:/sbin:/bin:/usr/sbin
 
 ACTION=$1
 ID=$1
