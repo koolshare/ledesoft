@@ -31,11 +31,6 @@
             "version": "0.1.6"
         }, 
         {
-            "name": "jffs", 
-            "tar_url": "jffs/jffs.tar.gz", 
-            "title": "jffs"
-        }, 
-        {
             "build_date": "2016-06-20_17:00:29", 
             "description": "迅雷快鸟，为上网加速而生~", 
             "home_url": "Module_kuainiao.asp", 
@@ -47,7 +42,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "dc3e6e9cefa2defbb845b2e4cbf43337", 
+    "md5": "cdd7532bb2dd54806c285d6e98e79f24", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "1.2.9"
 }
