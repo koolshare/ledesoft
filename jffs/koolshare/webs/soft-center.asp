@@ -60,7 +60,6 @@ function tabSelect(obj){
 }
 
 </script>
-
 <script type="text/javascript">
 // 安装信息更新策略:
 // 当软件安装的时候,安装进程内部会有超时时间. 超过超时时间 没安装成功,则认为失败.
@@ -69,9 +68,8 @@ function tabSelect(obj){
 var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
 var softcenterUrl = "https://ttsoft.ngrok.wang";
 //var softcenterUrl = "https://koolshare.ngrok.wang";
-var TIMEOUT_SECONDS = 18;
 var softInfo = {};
-
+var TimeOut = 0;
 //初始化软件中心
 notice_show();
 softCenterInit();
@@ -101,7 +99,6 @@ function notice_show(){
 function appinstall(obj){
     var name = obj.value;
 	_formatData(name,'install');
-	
 }
 function appuninstall(obj){
     var name = obj.value;
@@ -112,7 +109,6 @@ function appupdata(obj){
     _formatData(name,'install');
 }
 function appInstallModule(moduleInfo) {
-
     appPostScript(moduleInfo, "ks_app_install.sh");
 }
 function appUninstallModule(moduleInfo) {
@@ -121,7 +117,6 @@ function appUninstallModule(moduleInfo) {
     }
     appPostScript(moduleInfo, "ks_app_remove.sh");
 }
-
 function _formatData(name,mod){
 	$('button').addClass('disabled');
 	$('button').prop('disabled', true);
@@ -271,8 +266,6 @@ function getSoftCenter(obj){
 						"tar_url": re.tar_url,
 						"version": re.version
 					};
-					$('button').addClass('disabled');
-					$('button').prop('disabled', true);
 					appPostScript(moduleInfo, "ks_app_install.sh");
 				});
 			}
@@ -282,17 +275,8 @@ function getSoftCenter(obj){
 	});
 }
 
-
 //安装APP
 function appPostScript(moduleInfo, script) {
-	checkInstallStatus();
-    if(currState.installing) {
-		showMsg("msg_warring","非常抱歉","<b>当前已经有程序在执行咯，休息一会再试吧！</b>");
-		$('button').addClass('disabled');
-		$('button').prop('disabled', true);
-    //console.log("current is in installing state");
-    return;
-    }
     var id = 1 + Math.floor(Math.random() * 6);
 	var data = {};
     var applyUrl = "/_api/";
@@ -307,8 +291,6 @@ function appPostScript(moduleInfo, script) {
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	var success = function(data) {
 		//console.log("success",data);
-		$('button').removeClass('disabled');
-		$('button').prop('disabled', false);
 		switch(data.result)
 		{
 		case "1":
@@ -341,14 +323,11 @@ function appPostScript(moduleInfo, script) {
 		default:
 			showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 		}
-		
 	};
 	var error = function(data) {
 		//请求错误！
 		//console.log("error",data);
-		$('button').removeClass('disabled');
-		$('button').prop('disabled', false);
-		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");	
+		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 	};
 	$.ajax({
 	  type: "POST",
@@ -358,7 +337,18 @@ function appPostScript(moduleInfo, script) {
 	  error: error,
 	  dataType: "json"
 	});
+	CheckX();
 }
+function changeButton(obj){
+	if(obj){
+		$('button').addClass('disabled');
+		$('button').prop('disabled', true);
+	}else{
+		$('button').removeClass('disabled');
+		$('button').prop('disabled', false);
+	}
+}
+
 function showMsg(Outtype,title,msg){
 	$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 	$('#'+Outtype).show();
@@ -376,10 +366,17 @@ var appsInfo;
 		var installing  = appsInfo["softcenter_installing_status"];
 		if(!installing || installing=="0"){
 			currState.installing = false;
+			changeButton(false);
+			clearTimeout(TimeOut);
 		}else{
 			currState.installing = true;
+			changeButton(true);
 		}
 	});
+}
+
+function CheckX(){
+	TimeOut = window.setInterval(checkInstallStatus, 2000); 
 }
 
 function softCenterInit(){
