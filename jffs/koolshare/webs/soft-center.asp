@@ -1,8 +1,6 @@
 <title>软件中心</title>
 <content>
 <script type="text/javascript">
-//    <% nvstat(); %>
-//    <% etherstates(); %>
 $("#app1-server1-basic-tab").addClass("active");
 //APPS 控制模块
 function change1(obj){
@@ -179,7 +177,7 @@ var appButton = "";
 			for(var i=0; i < soft.length; i++) {  
 				name = soft[i]["name"];				//内部软件名
 				title = soft[i]["title"];			//显示软件名
-				//aurl = soft[i]["home_url"];			//调用网页地址
+				aurl = soft[i]["home_url"];			//调用网页地址
 				tar_url = soft[i]["tar_url"];		//tar包相对地址  aria2/aria2.tar.gz
 				app_version = soft[i]["version"];	//app版本号
 				app_md5 = soft[i]["md5"];			//app MD5
@@ -195,6 +193,10 @@ var appButton = "";
 				};
 				if (obj["softcenter_module_"+name"_install"] =="1"){
 					var data = {};
+					data["softcenter_module_"+name+"_name"] = name;
+					data["softcenter_module_"+name+"_title"] = title;
+					data["softcenter_module_"+name+"_home_url"] = aurl;
+					data["softcenter_module_"+name+"_description"] = description;
 					data["softcenter_module_"+name+"_oversion"] = app_version;
 					var postData = {"id": 0, "method":"", "params":[], "fields": data};
 					$.ajax({
