@@ -66,7 +66,7 @@ function tabSelect(obj){
 // 当软件安装的时候,安装进程内部会有超时时间. 超过超时时间 没安装成功,则认为失败.
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
 // 安装的时候会有一个同样的计时,若这个超时时间内,安装状态有变化,则更新安装状态.从而可以实时更新安装进程.
-var currState = {"installing": true, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
+var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
 var softcenterUrl = "https://ttsoft.ngrok.wang";
 //var softcenterUrl = "https://koolshare.ngrok.wang";
 var TIMEOUT_SECONDS = 18;
@@ -101,20 +101,18 @@ function notice_show(){
 function appinstall(obj){
     var name = obj.value;
 	_formatData(name,'install');
-
-
+	
 }
 function appuninstall(obj){
     var name = obj.value;
     _formatData(name,'uninstall');
-    
 }
 function appupdata(obj){
     var name = obj.value;
     _formatData(name,'install');
 }
-
 function appInstallModule(moduleInfo) {
+
     appPostScript(moduleInfo, "ks_app_install.sh");
 }
 function appUninstallModule(moduleInfo) {
@@ -124,38 +122,35 @@ function appUninstallModule(moduleInfo) {
     appPostScript(moduleInfo, "ks_app_remove.sh");
 }
 
-function _formatData(name,objs){
-	$.ajax({
-　　	url: softcenterUrl+'/softcenter/app.json.js',
-        type: 'GET',
-        dataType: 'jsonp',
-		async:false,
-	}).done(function(data){
-　　	soft = data.apps;
-		for(var i=0; i < soft.length; i++) {  
-			aname = soft[i]["name"];
-			if (aname == name){
-				title = soft[i]["title"];
-				tar_url = soft[i]["tar_url"];
-				app_version = soft[i]["version"];
-				app_md5 = soft[i]["md5"];			
-				xxx = {
-					"name":name,
-					"md5": app_md5,
-					"tar_url": tar_url,
-					"version": app_version,
-					"title":title
+function _formatData(name,mod){
+	for(var aname in softInfo){
+		if(aname.indexOf(name) > 0 ){
+			app_name = softInfo[aname];
+			if(mod=="install" && name == app_name){
+				var xxx = {
+					"name":app_name,
+					"md5": softInfo['app_'+app_name+'_md5'],
+					"tar_url": softInfo['app_'+app_name+'_tar_url'],
+					"version": softInfo['app_'+app_name+'_oversion'],
+					"title":softInfo['app_'+app_name+'_title']
 				};
-				if(objs=="install"){
-					appInstallModule(xxx);
-				};
-				if(objs=="uninstall"){
-				xxx = {"name":name};
-					appUninstallModule(xxx);
-				};
+				appInstallModule(xxx);
+				return;
 			}
-		};
-	});
+			if(mod=="uninstall" && name == app_name){
+				var xxx = {
+					"name":app_name,
+					"md5": softInfo['app_'+app_name+'_md5'],
+					"tar_url": softInfo['app_'+app_name+'_tar_url'],
+					"version": softInfo['app_'+app_name+'_oversion'],
+					"title":softInfo['app_'+app_name+'_title']
+				};
+				appUninstallModule(xxx);
+				return;
+			}
+			
+		}
+	};
 }
 
 function getSoftCenter(obj){
@@ -170,9 +165,6 @@ function getSoftCenter(obj){
 			var appButton = "";
 			soft = re.apps;
 			onlineversion = re.version;
-			if(obj["softcenter_installing_todo"]==""){
-				currState.installing=false;
-			};
 			locversion = obj["softcenter_version"];
 			$("#version").text("本地版本："+locversion+" , 线上版本："+onlineversion);
 			var object = $.extend([],obj, soft);
@@ -208,7 +200,9 @@ function getSoftCenter(obj){
 				appObject["app_"+o_name+"_description"] = o_description;
 				appObject["app_"+o_name+"_md5"] = o_md5;
 			};
-			console.log("All_App_Object",appObject);
+			//console.log("All_App_Object",appObject);
+			softInfo = appObject;
+			//console.log("All_App_Object",softInfo);
 			for(var name in appObject){
 				if(name.indexOf("name") > 0 ){
 					var appname = appObject[name];
@@ -223,9 +217,9 @@ function getSoftCenter(obj){
 					if(install=="1" || install=="2"){
 						aurl = "#" + appObject["app_"+appname+"_home_url"];
 						if(oversion!=version && oversion){
-							appButton = '<button style="height:25px;" type="button" value="'+appname+'" onclick="appuninstall(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
+							appButton = '<button style="height:25px;" value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
 						}else{
-							appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
+							appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
 						}
 						appimg = "/res/icon-"+appname+".png";
 						vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
@@ -238,9 +232,10 @@ function getSoftCenter(obj){
 							appButton+
 							'</div>'+
 						'</div>';
+						appButton="";
 					}else{
 						aurl = "javascript:void(0)";
-						appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
+						appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary btn-sm">安装</button>';
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
 						vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
 							'<a href="'+aurl+'" title="'+description+'">'+
@@ -251,7 +246,8 @@ function getSoftCenter(obj){
 							'<div class="appDesc">'+
 							appButton+
 							'</div>'+
-						'</div>';		
+						'</div>';
+						appButton="";
 					}
 				}
 			};
@@ -259,7 +255,6 @@ function getSoftCenter(obj){
 			$(".tabContent2").html(vhtml2);
 			vhtml1="";
 			vhtml2="";
-			appButton="";
 			$("#app2-server1-advanced-tab").html('未安装('+object.length+') <i class="icon-globe"></i>');
 			$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-globe"></i>');
 			//软件中心更新 start
@@ -284,11 +279,12 @@ function getSoftCenter(obj){
 
 //安装APP
 function appPostScript(moduleInfo, script) {
+	checkInstallStatus();
     if(currState.installing) {
 		$('#msg').html('<h5>亲爱的小伙伴</h5> 已经有APP在安装中了， 不要急嘛！等会再试！<a class="close"><i class="icon-cancel"></i></a>');
 		$('#msg').show();
 		setTimeout("$('#msg').hide()", 5000);
-    console.log("current is in installing state");
+    //console.log("current is in installing state");
     return;
     }
     var id = 1 + Math.floor(Math.random() * 6);
@@ -302,11 +298,9 @@ function appPostScript(moduleInfo, script) {
     data["softcenter_installing_version"] = moduleInfo.version;
     data[moduleInfo.name + "_title"] = moduleInfo.title;
     }
-	currState.installing = true;
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	var success = function(data) {
-		console.log("success",data);
-		currState.installing = false;
+		//console.log("success",data);
 		if(data.result == "ok") {
 		//shell执行成功！命令：http_response "postend"
 			$('#msg2').html('<h5>安装成功</h5> 配置成功，等待刷新。<a class="close"><i class="icon-cancel"></i></a>');
@@ -320,9 +314,8 @@ function appPostScript(moduleInfo, script) {
 		}
 	};
 	var error = function(data) {
-		currState.installing = false;
 		//请求错误！
-		console.log("error",data);
+		//console.log("error",data);
 		$('#msg3').html('<h5>失败</h5> 错误原因：'+data.result+'<a class="close"><i class="icon-cancel"></i></a>');
 		$('#msg3').show();
 		setTimeout("$('#msg3').hide()", 5000);
@@ -337,11 +330,24 @@ function appPostScript(moduleInfo, script) {
 	});
 }
 
+function checkInstallStatus(){
+var appsInfo;
+	$.getJSON("/_api/softcenter_installing_", function(resp) {
+		appsInfo=resp.result[0];
+		var installing  = appsInfo["softcenter_installing_status"];
+		if(!installing || installing=="0"){
+			currState.installing = false;
+		}else{
+			currState.installing = true;
+		}
+	});
+}
+
 function softCenterInit(){
 var appsInfo;
 	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
-		console.log("appsinfo",appsInfo);
+		//console.log("appsinfo",appsInfo);
 		getSoftCenter(appsInfo);
 	});
 }
