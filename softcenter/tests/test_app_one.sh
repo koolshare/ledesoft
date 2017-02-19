@@ -18,7 +18,7 @@ dbus set softcenter_home_url="https://ttsoft.ngrok.wang"
 #export softcenter_installing_tick
 export softcenter_installing_todo=shellinabox
 export softcenter_installing_version=1.4
-export softcenter_installing_md5=655870d2f498d346942d9991e1404a35
+export softcenter_installing_md5=3b091ac52447e6dafe3386a0e25b3d0c
 export softcenter_installing_tar_url="shellinabox/shellinabox.tar.gz"
 dbus save softcenter_installing
 
