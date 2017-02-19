@@ -126,7 +126,6 @@ function appUninstallModule(moduleInfo) {
 }
 
 function _formatData(name,objs){
-var xxx;
 	$.ajax({
 　　	url: softcenterUrl+'/softcenter/app.json.js',
         type: 'GET',
@@ -194,7 +193,7 @@ var appButton = "";
 					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
 					vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+softcenterUrl+'/softcenter/softcenter/res/icon-'+name+'.png"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
 				};
-				if (obj["softcenter_module_"+name] =="1"){
+				if (obj["softcenter_module_"+name] =="1" || obj["softcenter_module_"+name] =="2"){
 					var data = {};
 					data["softcenter_module_"+name+"_oversion"] = app_version;
 					var postData = {"id": 0, "method":"", "params":[], "fields": data};
@@ -227,29 +226,10 @@ var appButton = "";
 	});
 }
 
-function getLocalAppsJson(obj) {
-	var newobjs = {};
-	for(var p in obj) {
-		var ps = p.split("_");
-		if(ps.length > 3 && !newobjs[ps[2]]) {
-			var o = {};
-			o[ps[3]] = obj[p];
-			o["title"] = ps[2];
-			newobjs[ps[2]] = o;
-		} else {
-			var o = newobjs[ps[2]];
-			o[ps[3]] = obj[p];
-		}
-	}
-}
-
 function getLocalApp(obj){
 	var vhtml1 ="";
 	var j=0;
 	console.log(obj);
-	//TODO ??? merge from remote app.json.js with local one
-	var objs = getLocalAppsJson(obj);
-
 	for(var p in objs) {
 		//console.log(p);  //获取到元素
 		j++;
