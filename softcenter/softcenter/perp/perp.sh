@@ -1,7 +1,7 @@
 #!/bin/sh
 
-source /koolshare/scripts/base.sh
-export PERP_BASE=/koolshare/perp
+export KSROOT=/jffs/koolshare
+source $KSROOT/scripts/base.sh
 
 case $ACTION in
 start)

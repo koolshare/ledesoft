@@ -1,6 +1,7 @@
 #!/bin/sh
 
-source /koolshare/scripts/base.sh
+export KSROOT=/jffs/koolshare
+source $KSROOT/scripts/base.sh
 
 detect_skipd(){
 	i=120
