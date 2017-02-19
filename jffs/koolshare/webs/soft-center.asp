@@ -176,7 +176,7 @@ var appButton = "";
 			};
 			locversion = obj["softcenter_version"];
 			$("#version").text("本地版本："+locversion+" , 线上版本："+onlineversion);
-			//$("#version").text(obj["softcenter_apps_ddnspod"]);
+			//$("#version").text(obj["softcenter_module_ddnspod"]);
 			for(var i=0; i < soft.length; i++) {  
 				name = soft[i]["name"];				//内部软件名
 				title = soft[i]["title"];			//显示软件名
@@ -188,15 +188,15 @@ var appButton = "";
 				if(description==""){
 					description="暂无描述";
 				}
-				if (obj["softcenter_apps_"+name] !="1"){
+				if (obj["softcenter_module_"+name] !="1"){
 					j++;
 					aurl = 'javascript:void(0);';
 					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
 					vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+softcenterUrl+'/softcenter/softcenter/res/icon-'+name+'.png"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
 				};
-				if (obj["softcenter_apps_"+name] =="1"){
+				if (obj["softcenter_module_"+name] =="1"){
 					var data = {};
-					data["softcenter_apps_"+name+"_oversion"] = app_version;
+					data["softcenter_module_"+name+"_oversion"] = app_version;
 					var postData = {"id": 0, "method":"", "params":[], "fields": data};
 					$.ajax({
 						type: "POST",
@@ -227,38 +227,57 @@ var appButton = "";
 	});
 }
 
+function getLocalAppsJson(obj) {
+	var newobjs = {};
+	for(var p in obj) {
+		var ps = p.split("_");
+		if(ps.length > 3 && !newobjs[ps[2]]) {
+			var o = {};
+			o[ps[3]] = obj[p];
+			o["title"] = ps[2];
+			newobjs[ps[2]] = o;
+		} else {
+			var o = newobjs[ps[2]];
+			o[ps[3]] = obj[p];
+		}
+	}
+}
+
 function getLocalApp(obj){
 	var vhtml1 ="";
 	var j=0;
+	console.log(obj);
+	//TODO ??? merge from remote app.json.js with local one
+	var objs = getLocalAppsJson(obj);
 
-	for(var p in obj) {
+	for(var p in objs) {
 		//console.log(p);  //获取到元素
-		if(p.indexOf("name") > 0 ){  
-			j++;
-			var appButton="";
-			name = obj[p];
-			aurl = "#" + obj["softcenter_apps_"+name+"_home_url"];
-			description = obj["softcenter_apps_"+name+"_description"];
-			title = obj["softcenter_apps_"+name+"_title"];
-			version = obj["softcenter_apps_"+name+"_version"];
-			aname = obj["softcenter_apps_"+name];
-			appimg = "/res/icon-"+name+".png";
-			if(description==""){
-				description="暂无描述";
-			};
-			if(aname =="1"){
-				oversion = obj["softcenter_apps_"+name+"_oversion"];
-				if(version!=oversion){
-					appButton ='<button style="height:25px;" type="button" value="'+name+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
-				}else{
-					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
-				};
+		j++;
+		var appButton="";
+		var app = obj[p];
+		name = app["title"];
+		aurl = "#" + app["softcenter_module_"+name+"_home_url"];
+		description = obj["softcenter_module_"+name+"_description"];
+		title = obj["softcenter_module_"+name+"_title"];
+		version = obj["softcenter_module_"+name+"_version"];
+		aname = obj["softcenter_module_"+name];
+		appimg = "/res/icon-"+name+".png";
+		if(description==""){
+			description="暂无描述";
+		};
+		if(aname =="1"){
+			oversion = obj["softcenter_module_"+name+"_oversion"];
+			if(version!=oversion){
+				appButton ='<button style="height:25px;" type="button" value="'+name+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
 			}else{
 				appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
 			};
-			vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
-		}  						
-	}
+		}else{
+			appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
+		};
+		vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
+	}  						
+
 	$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-system"></i>');
 	$(".tabContent1").html(vhtml1);
 }
