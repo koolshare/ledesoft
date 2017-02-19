@@ -5,6 +5,9 @@ source $KSROOT/scripts/base.sh
 
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
+if [ ! -L $KSROOT/res ]; then
+	cd $KSROOT && rm -rf $KSROOT/res && ln -sf $KSROOT/webs/res res && cd -
+fi
 
 SKIPD_PID=$(pidof skipd)
 if [ "$SKIPD_PID" == "" ]; then
@@ -32,5 +35,5 @@ if [ "$SOFTVER" == "" ]; then
 dbus set softcenter_version=0.0.0
 fi
 
-$KSROOT/startwan.sh
+$KSROOT/bin/startwan.sh
 
