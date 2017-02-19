@@ -282,9 +282,7 @@ function getSoftCenter(obj){
 function appPostScript(moduleInfo, script) {
 	checkInstallStatus();
     if(currState.installing) {
-		$('#msg').html('<h5>亲爱的小伙伴</h5> 已经有APP在安装中了， 不要急嘛！等会再试！<a class="close"><i class="icon-cancel"></i></a>');
-		$('#msg').show();
-		setTimeout("$('#msg').hide()", 5000);
+		showMsg("msg_warring","非常抱歉","<b>当前已经有程序在执行咯，休息一会再试吧！</b>");
     //console.log("current is in installing state");
     return;
     }
@@ -302,24 +300,44 @@ function appPostScript(moduleInfo, script) {
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	var success = function(data) {
 		//console.log("success",data);
-		if(data.result == "ok") {
-		//shell执行成功！命令：http_response "postend"
-			$('#msg2').html('<h5>安装成功</h5> 配置成功，等待刷新。<a class="close"><i class="icon-cancel"></i></a>');
-			$('#msg2').show();
-			setTimeout("window.location.reload()", 12000);
-		}else{
-		//shell执行失败！命令：http_response  "失败原因"
-			$('#msg3').html('<h5>错误</h5> 失败原因：'+data.result+' <a class="close"><i class="icon-cancel"></i></a>');
-			$('#msg3').show();
-			setTimeout("$('#msg3').hide()", 5000);
+		
+		switch(data.result)
+		{
+		case "1":
+			showMsg("msg_error","获取数据失败","<b>获取线上插件下载地址失败！</b>");
+			break;
+		case "2":
+			showMsg("msg_warring","非常抱歉","<b>当前已经有程序在执行咯，休息一会再试吧！</b>");
+			break;
+		case "3":
+			showMsg("msg_error","获取数据失败","<b>获取线上插件名称失败！</b>");
+			break;
+		case "4":
+			showMsg("msg_error","获取数据失败","<b>下载插件失败！</b>");
+			break;
+		case "5":
+			showMsg("msg_error","校验失败","<b>插件包 MD5 校验失败！</b>");
+			break;
+		case "6":
+			showMsg("msg_error","执行失败","<b>插件包内没有 install.sh 执行文件！</b>");
+			break;
+		case "7":
+			showMsg("msg_success","安装成功","<b>恭喜插件安装成功 ，请等待页面自动刷新！</b>");
+			break;
+		case "8":
+			showMsg("msg_warring","系统提示","<b>当前插件未最新版，无需升级！</b>");
+			break;
+		case "9":
+			showMsg("msg_error","卸载失败","<b>请关闭程序后，再执行点击卸载按钮！</b>");
+			break;
+		default:
+			showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 		}
 	};
 	var error = function(data) {
 		//请求错误！
 		//console.log("error",data);
-		$('#msg3').html('<h5>失败</h5> 错误原因：'+data.result+'<a class="close"><i class="icon-cancel"></i></a>');
-		$('#msg3').show();
-		setTimeout("$('#msg3').hide()", 5000);
+		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 	};
 	$.ajax({
 	  type: "POST",
@@ -330,7 +348,16 @@ function appPostScript(moduleInfo, script) {
 	  dataType: "json"
 	});
 }
-
+function showMsg(Outtype,title,msg){
+	$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
+	$('#'+Outtype).show();
+	if(Outtype=="msg_success"){
+		setTimeout("window.location.reload()", 12000);
+	}else{
+		setTimeout("$('#msg_error').hide()", 8000);
+		setTimeout("$('#msg_warring').hide()", 8000);
+	}
+}
 function checkInstallStatus(){
 var appsInfo;
 	$.getJSON("/_api/softcenter_installing_", function(resp) {
@@ -353,11 +380,11 @@ var appsInfo;
 	});
 }
 </script>
-	<div id="msg" class="alert alert-warning icon" style="display:none;">
+	<div id="msg_warring" class="alert alert-warning icon" style="display:none;">
 	</div>
-	<div id="msg2" class="alert alert-success icon" style="display:none;">
+	<div id="msg_success" class="alert alert-success icon" style="display:none;">
 	</div>
-	<div id="msg3" class="alert alert-error icon" style="display:none;">
+	<div id="msg_error" class="alert alert-error icon" style="display:none;">
 	</div>
 	<div class="box" data-box="soft-center">
 		<div class="heading">
