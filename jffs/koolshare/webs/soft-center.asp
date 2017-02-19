@@ -400,8 +400,8 @@ var appsInfo;
 		</div>
 		<div class="content">
 			<fieldset>
-				<label class="col-sm-3 control-left-label" for="_tomatoanon_answer"><span id="version"><font color="red">网络异常，无法获得线上服务。</font></span></label>
-				<div class="col-sm-9">
+				<label class="col-sm-6 control-left-label" for="_tomatoanon_answer"><span id="version"><font color="red">网络异常，无法获得线上服务。</font></span></label>
+				<div class="col-sm-6">
 					<button id="update" style="display:none;" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
 					<span class="help-block"> </span>
 				</div>
