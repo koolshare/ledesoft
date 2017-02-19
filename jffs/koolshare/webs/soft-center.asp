@@ -123,6 +123,8 @@ function appUninstallModule(moduleInfo) {
 }
 
 function _formatData(name,mod){
+	$('button').addClass('disabled');
+	$('button').prop('disabled', true);
 	for(var aname in softInfo){
 		if(aname.indexOf(name) > 0 ){
 			app_name = softInfo[aname];
@@ -169,9 +171,9 @@ function getSoftCenter(obj){
 			$("#version").text("本地版本："+locversion+" , 线上版本："+onlineversion);
 			var object = $.extend([],obj, soft);
 			var j=0;
+			var x=0;
 			for(var name in object){
 				if(name.indexOf("name") > 0 ){
-					j++;
 					app_name = object[name];
 					appObject["app_"+app_name+"_name"] = object['softcenter_module_'+app_name+'_name'];
 					appObject["app_"+app_name+"_title"] = object['softcenter_module_'+app_name+'_title'];
@@ -215,6 +217,7 @@ function getSoftCenter(obj){
 						description="暂无描述";
 					};
 					if(install=="1" || install=="2"){
+						j++;
 						aurl = "#" + appObject["app_"+appname+"_home_url"];
 						if(oversion!=version && oversion){
 							appButton = '<button style="height:25px;" value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
@@ -234,6 +237,7 @@ function getSoftCenter(obj){
 						'</div>';
 						appButton="";
 					}else{
+						x++;
 						aurl = "javascript:void(0)";
 						appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary btn-sm">安装</button>';
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
@@ -255,9 +259,8 @@ function getSoftCenter(obj){
 			$(".tabContent2").html(vhtml2);
 			vhtml1="";
 			vhtml2="";
-			var x= object.length - 1;
-			$("#app2-server1-advanced-tab").html('未安装('+x+') <i class="icon-globe"></i>');
-			$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-globe"></i>');
+			$("#app1-server1-basic-tab").html('<i class="icon-system"></i> 已安装（'+j+'）');
+			$("#app2-server1-advanced-tab").html('<i class="icon-globe"></i> 未安装（'+x+'）');
 			//软件中心更新 start
 			if (onlineversion != locversion){
 				$("#update").show();
@@ -268,6 +271,8 @@ function getSoftCenter(obj){
 						"tar_url": re.tar_url,
 						"version": re.version
 					};
+					$('button').addClass('disabled');
+					$('button').prop('disabled', true);
 					appPostScript(moduleInfo, "ks_app_install.sh");
 				});
 			}
@@ -283,6 +288,8 @@ function appPostScript(moduleInfo, script) {
 	checkInstallStatus();
     if(currState.installing) {
 		showMsg("msg_warring","非常抱歉","<b>当前已经有程序在执行咯，休息一会再试吧！</b>");
+		$('button').addClass('disabled');
+		$('button').prop('disabled', true);
     //console.log("current is in installing state");
     return;
     }
@@ -300,7 +307,8 @@ function appPostScript(moduleInfo, script) {
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	var success = function(data) {
 		//console.log("success",data);
-		
+		$('button').removeClass('disabled');
+		$('button').prop('disabled', false);
 		switch(data.result)
 		{
 		case "1":
@@ -333,11 +341,14 @@ function appPostScript(moduleInfo, script) {
 		default:
 			showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 		}
+		
 	};
 	var error = function(data) {
 		//请求错误！
 		//console.log("error",data);
-		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
+		$('button').removeClass('disabled');
+		$('button').prop('disabled', false);
+		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");	
 	};
 	$.ajax({
 	  type: "POST",
@@ -399,10 +410,7 @@ var appsInfo;
 				</div>
 			</fieldset>
 			<fieldset>
-				<label class="col-sm-2 control-left-label">
-				<span><img src="res/logo.png" alt="" class="img-responsive"></span>
-				</label>
-				<div class="col-sm-10">
+				<div class="col-sm-12">
 					<ul class="pullmsg">
 						<li id="push_titile">
 							欢迎
