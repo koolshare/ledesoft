@@ -1,6 +1,8 @@
 <title>软件中心</title>
 <content>
 <script type="text/javascript">
+//    <% nvstat(); %>
+//    <% etherstates(); %>
 $("#app1-server1-basic-tab").addClass("active");
 //APPS 控制模块
 function change1(obj){
@@ -191,7 +193,7 @@ var appButton = "";
 					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
 					vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+softcenterUrl+'/softcenter/softcenter/res/icon-'+name+'.png"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
 				};
-				if (obj["softcenter_module_"+name"_install"] =="1"){
+				if (obj["softcenter_module_"+name+"_install"] =="1"){
 					var data = {};
 					data["softcenter_module_"+name+"_name"] = name;
 					data["softcenter_module_"+name+"_title"] = title;
@@ -233,10 +235,11 @@ function getLocalApp(obj){
 	var j=0;
 	for(var p in obj) {
 		//console.log(p);  //获取到元素
-		if(p.indexOf("install") > 0 ){  
+		if(p.indexOf("name") > 0 ){  
 			j++;
 			var appButton="";
 			name = obj[p];
+			console.log("name",name);
 			aurl = "#" + obj["softcenter_module_"+name+"_home_url"];
 			description = obj["softcenter_module_"+name+"_description"];
 			title = obj["softcenter_module_"+name+"_title"];
@@ -321,6 +324,7 @@ function softCenterInit(){
 var appsInfo;
 	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
+		console.log("appsinfo",appsInfo);
 		getSoftCenter(appsInfo);
 		getLocalApp(appsInfo);
 	});
