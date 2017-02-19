@@ -164,6 +164,10 @@ function getSoftCenter(obj){
 		dataType:'jsonp',  
 		method: 'GET', 
 		success:function(re) {
+			var appObject={};
+			var vhtml1 = "";
+			var vhtml2 = "";
+			var appButton = "";
 			soft = re.apps;
 			onlineversion = re.version;
 			if(obj["softcenter_installing_todo"]==""){
@@ -171,40 +175,93 @@ function getSoftCenter(obj){
 			};
 			locversion = obj["softcenter_version"];
 			$("#version").text("本地版本："+locversion+" , 线上版本："+onlineversion);
-			//$("#version").text(obj["softcenter_module_ddnspod"]);
-			for(var i=0; i < soft.length; i++) {  
-				name = soft[i]["name"];				//内部软件名
-				title = soft[i]["title"];			//显示软件名
-				aurl = soft[i]["home_url"];			//调用网页地址
-				tar_url = soft[i]["tar_url"];		//tar包相对地址  aria2/aria2.tar.gz
-				app_version = soft[i]["version"];	//app版本号
-				app_md5 = soft[i]["md5"];			//app MD5
-				description = soft[i]["description"];//描述
-				if(description==""){
-					description="暂无描述";
+			var object = $.extend([],obj, soft);
+			var j=0;
+			for(var name in object){
+				if(name.indexOf("name") > 0 ){
+					j++;
+					app_name = object[name];
+					appObject["app_"+app_name+"_name"] = object['softcenter_module_'+app_name+'_name'];
+					appObject["app_"+app_name+"_title"] = object['softcenter_module_'+app_name+'_title'];
+					appObject["app_"+app_name+"_home_url"] = object['softcenter_module_'+app_name+'_home_url'];
+					appObject["app_"+app_name+"_version"] = object['softcenter_module_'+app_name+'_version'];
+					appObject["app_"+app_name+"_description"] = object['softcenter_module_'+app_name+'_description'];
+					appObject["app_"+app_name+"_install"] = object['softcenter_module_'+app_name+'_install'];
 				}
 			};
-			//app 模板
-					var tpl = ['',
-						'<div class="apps install-status-#{install}" onmouseover="change1(this);" onmouseout="change2(this);">',
-							'<a href="#{home_url}" title="#{description}">',
-								'<img class="appimg" src="#{icon}"/>',
-								'<div class="app-name">#{title}</div>',
-								'<p class="desc">#{description}</p>',
-							'</a>',
-							'<div class="appDesc">',
-								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>',
-								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appuninstall(this)" id="app-update" class="btn btn-success btn-sm">更新</button>',
-								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appinstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>',
-							'</div>',
-						'</div>'
-					].join('');
-			$("#app2-server1-advanced-tab").html('未安装('+j+') <i class="icon-globe"></i>');
-			
-			$(".tabContent2").html(vhtml);
-			
-			
-			
+			for(var i=0; i < object.length; i++) {  
+				o_name = object[i]["name"];				//内部软件名
+				o_title = object[i]["title"];			//显示软件名
+				o_home_url = object[i]["home_url"];			//调用网页地址
+				o_tar_url = object[i]["tar_url"];		//tar包相对地址  aria2/aria2.tar.gz
+				o_version = object[i]["version"];	//app版本号
+				o_md5 = object[i]["md5"];			//app MD5
+				o_description = object[i]["description"];//描述
+				if(o_description==""){
+					o_description="暂无描述";
+				};
+				appObject["app_"+o_name+"_name"] = o_name;
+				appObject["app_"+o_name+"_title"] = o_title;
+				appObject["app_"+o_name+"_home_url"] = o_home_url;
+				appObject["app_"+o_name+"_tar_url"] = o_tar_url;
+				appObject["app_"+o_name+"_oversion"] = o_version;
+				appObject["app_"+o_name+"_description"] = o_description;
+				appObject["app_"+o_name+"_md5"] = o_md5;
+			};
+			console.log("All_App_Object",appObject);
+			for(var name in appObject){
+				if(name.indexOf("name") > 0 ){
+					var appname = appObject[name];
+					title = appObject["app_"+appname+"_title"];
+					version = appObject["app_"+appname+"_version"];
+					install = appObject["app_"+appname+"_install"];
+					oversion = appObject["app_"+appname+"_oversion"];
+					description = appObject["app_"+appname+"_description"];
+					if(description=="" && description){
+						description="暂无描述";
+					};
+					if(install=="1" || install=="2"){
+						aurl = "#" + appObject["app_"+appname+"_home_url"];
+						if(oversion!=version && oversion){
+							appButton = '<button style="height:25px;" type="button" value="'+appname+'" onclick="appuninstall(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
+						}else{
+							appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
+						}
+						appimg = "/res/icon-"+appname+".png";
+						vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
+							'<a href="'+aurl+'" title="'+description+'">'+
+								'<img class="appimg" src="'+appimg+'"/>'+
+								'<div class="app-name">'+appname+'</div>'+
+								'<p class="desc">'+description+'</p>'+
+							'</a>'+
+							'<div class="appDesc">'+
+							appButton+
+							'</div>'+
+						'</div>';
+					}else{
+						aurl = "javascript:void(0)";
+						appButton = '<button style="height:25px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
+						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
+						vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
+							'<a href="'+aurl+'" title="'+description+'">'+
+								'<img class="appimg" src="'+appimg+'"/>'+
+								'<div class="app-name">'+appname+'</div>'+
+								'<p class="desc">'+description+'</p>'+
+							'</a>'+
+							'<div class="appDesc">'+
+							appButton+
+							'</div>'+
+						'</div>';		
+					}
+				}
+			};
+			$(".tabContent1").html(vhtml1);
+			$(".tabContent2").html(vhtml2);
+			vhtml1="";
+			vhtml2="";
+			appButton="";
+			$("#app2-server1-advanced-tab").html('未安装('+object.length+') <i class="icon-globe"></i>');
+			$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-globe"></i>');
 			//软件中心更新 start
 			if (onlineversion != locversion){
 				$("#update").show();
