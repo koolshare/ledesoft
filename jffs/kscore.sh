@@ -41,6 +41,7 @@ fi
 
 VER_SUFFIX=_version
 MD5_SUFFIX=_md5
+NAME_SUFFIX=_name
 INSTALL_SUFFIX=_install
 UNINSTALL_SUFFIX=_uninstall
 
@@ -154,6 +155,7 @@ install_module() {
 		rm -rf "/tmp/$softcenter_installing_module"
 
 		if [ "$softcenter_installing_module" != "softcenter" ]; then
+			dbus set "softcenter_module_$softcenter_installing_module$NAME_SUFFIX=$softcenter_installing_module"
 			dbus set "softcenter_module_$softcenter_installing_module$MD5_SUFFIX=$softcenter_installing_md5"
 			dbus set "softcenter_module_$softcenter_installing_module$VER_SUFFIX=$softcenter_installing_version"
 			dbus set "softcenter_module_$softcenter_installing_module$INSTALL_SUFFIX=1"
@@ -164,7 +166,7 @@ install_module() {
 		fi
 		dbus set softcenter_installing_module=""
 		dbus set softcenter_installing_todo=""
-		dbus set softcenter_installing_status="1"
+		dbus set softcenter_installing_status="0"
 		LOGGER "7" #"ok"
 	fi
 
