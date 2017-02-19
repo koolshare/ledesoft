@@ -32,3 +32,5 @@ if [ "$SOFTVER" == "" ]; then
 dbus set softcenter_version=0.0.0
 fi
 
+$KSROOT/startwan.sh
+
