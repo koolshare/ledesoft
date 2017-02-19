@@ -1,8 +1,6 @@
 <title>软件中心</title>
 <content>
 <script type="text/javascript">
-//    <% nvstat(); %>
-//    <% etherstates(); %>
 $("#app1-server1-basic-tab").addClass("active");
 //APPS 控制模块
 function change1(obj){
@@ -99,6 +97,7 @@ function notice_show(){
     });
 }
 //类
+
 function appinstall(obj){
     var name = obj.value;
 	_formatData(name,'install');
@@ -151,6 +150,7 @@ function _formatData(name,objs){
 					appInstallModule(xxx);
 				};
 				if(objs=="uninstall"){
+				xxx = {"name":name};
 					appUninstallModule(xxx);
 				};
 			}
@@ -159,15 +159,11 @@ function _formatData(name,objs){
 }
 
 function getSoftCenter(obj){
-var vhtml2 = "";
-var appButton = "";
 	$.ajax({  
 		url:softcenterUrl+"/softcenter/app.json.js",  
 		dataType:'jsonp',  
 		method: 'GET', 
 		success:function(re) {
-		//在线
-			var j =0;
 			soft = re.apps;
 			onlineversion = re.version;
 			if(obj["softcenter_installing_todo"]==""){
@@ -187,30 +183,28 @@ var appButton = "";
 				if(description==""){
 					description="暂无描述";
 				}
-				if (obj["softcenter_module_"+name+"_install"] !="1"){
-					j++;
-					aurl = 'javascript:void(0);';
-					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
-					vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+softcenterUrl+'/softcenter/softcenter/res/icon-'+name+'.png"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
-				};
-				if (obj["softcenter_module_"+name+"_install"] =="1"){
-					var data = {};
-					data["softcenter_module_"+name+"_name"] = name;
-					data["softcenter_module_"+name+"_title"] = title;
-					data["softcenter_module_"+name+"_home_url"] = aurl;
-					data["softcenter_module_"+name+"_description"] = description;
-					data["softcenter_module_"+name+"_oversion"] = app_version;
-					var postData = {"id": 0, "method":"", "params":[], "fields": data};
-					$.ajax({
-						type: "POST",
-						url: "/_api/",
-						data: JSON.stringify(postData),
-						dataType: "json"
-					});
-				};
 			};
+			//app 模板
+					var tpl = ['',
+						'<div class="apps install-status-#{install}" onmouseover="change1(this);" onmouseout="change2(this);">',
+							'<a href="#{home_url}" title="#{description}">',
+								'<img class="appimg" src="#{icon}"/>',
+								'<div class="app-name">#{title}</div>',
+								'<p class="desc">#{description}</p>',
+							'</a>',
+							'<div class="appDesc">',
+								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>',
+								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appuninstall(this)" id="app-update" class="btn btn-success btn-sm">更新</button>',
+								'<button style="height:25px;display:none;" type="button" value="#{name}" onclick="appinstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>',
+							'</div>',
+						'</div>'
+					].join('');
 			$("#app2-server1-advanced-tab").html('未安装('+j+') <i class="icon-globe"></i>');
-			$(".tabContent2").html(vhtml2);
+			
+			$(".tabContent2").html(vhtml);
+			
+			
+			
 			//软件中心更新 start
 			if (onlineversion != locversion){
 				$("#update").show();
@@ -230,47 +224,13 @@ var appButton = "";
 	});
 }
 
-function getLocalApp(obj){
-	var vhtml1 ="";
-	var j=0;
-	for(var p in obj) {
-		//console.log(p);  //获取到元素
-		if(p.indexOf("name") > 0 ){  
-			j++;
-			var appButton="";
-			name = obj[p];
-			console.log("name",name);
-			aurl = "#" + obj["softcenter_module_"+name+"_home_url"];
-			description = obj["softcenter_module_"+name+"_description"];
-			title = obj["softcenter_module_"+name+"_title"];
-			version = obj["softcenter_module_"+name+"_version"];
-			install = obj["softcenter_module_"+name+"_install"];
-			appimg = "/res/icon-"+name+".png";
-			if(description==""){
-				description="暂无描述";
-			};
-			if(install =="1"){
-				oversion = obj["softcenter_module_"+name+"_oversion"];
-				if(version!=oversion){
-					appButton ='<button style="height:25px;" type="button" value="'+name+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
-				}else{
-					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
-				};
-			}else{
-				appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
-			};
-			vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
-		}  						
-	}
-	$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-system"></i>');
-	$(".tabContent1").html(vhtml1);
-}
 
 //安装APP
 function appPostScript(moduleInfo, script) {
     if(currState.installing) {
 		$('#msg').html('<h5>亲爱的小伙伴</h5> 已经有APP在安装中了， 不要急嘛！等会再试！<a class="close"><i class="icon-cancel"></i></a>');
 		$('#msg').show();
+		setTimeout("$('#msg').hide()", 5000);
     console.log("current is in installing state");
     return;
     }
@@ -326,7 +286,6 @@ var appsInfo;
 		appsInfo=resp.result[0];
 		console.log("appsinfo",appsInfo);
 		getSoftCenter(appsInfo);
-		getLocalApp(appsInfo);
 	});
 }
 </script>
