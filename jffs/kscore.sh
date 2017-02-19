@@ -5,8 +5,11 @@ source $KSROOT/scripts/base.sh
 
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
-if [ ! -L $KSROOT/res ]; then
-	cd $KSROOT && rm -rf $KSROOT/res && ln -sf $KSROOT/webs/res res && cd -
+chmod 755 $KSROOT/perp/*
+chmod 755 $KSROOT/perp/.boot/*
+chmod 755 $KSROOT/perp/.control/*
+if [ ! -L $KSROOT/webs/res ]; then
+	cd $KSROOT/webs && rm -rf $KSROOT/webs/res && ln -sf $KSROOT/res res && cd -
 fi
 
 SKIPD_PID=$(pidof skipd)
