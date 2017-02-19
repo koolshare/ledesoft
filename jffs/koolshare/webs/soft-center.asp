@@ -187,13 +187,13 @@ var appButton = "";
 				if(description==""){
 					description="暂无描述";
 				}
-				if (obj["softcenter_module_"+name] !="1"){
+				if (obj["softcenter_module_"+name+"_install"] !="1"){
 					j++;
 					aurl = 'javascript:void(0);';
 					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appinstall(this)" id="app-install" class="btn btn-primary btn-sm">安装</button>';
 					vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+softcenterUrl+'/softcenter/softcenter/res/icon-'+name+'.png"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
 				};
-				if (obj["softcenter_module_"+name] =="1" || obj["softcenter_module_"+name] =="2"){
+				if (obj["softcenter_module_"+name"_install"] =="1"){
 					var data = {};
 					data["softcenter_module_"+name+"_oversion"] = app_version;
 					var postData = {"id": 0, "method":"", "params":[], "fields": data};
@@ -229,35 +229,34 @@ var appButton = "";
 function getLocalApp(obj){
 	var vhtml1 ="";
 	var j=0;
-	console.log(obj);
-	for(var p in objs) {
+	for(var p in obj) {
 		//console.log(p);  //获取到元素
-		j++;
-		var appButton="";
-		var app = obj[p];
-		name = app["title"];
-		aurl = "#" + app["softcenter_module_"+name+"_home_url"];
-		description = obj["softcenter_module_"+name+"_description"];
-		title = obj["softcenter_module_"+name+"_title"];
-		version = obj["softcenter_module_"+name+"_version"];
-		aname = obj["softcenter_module_"+name];
-		appimg = "/res/icon-"+name+".png";
-		if(description==""){
-			description="暂无描述";
-		};
-		if(aname =="1"){
-			oversion = obj["softcenter_module_"+name+"_oversion"];
-			if(version!=oversion){
-				appButton ='<button style="height:25px;" type="button" value="'+name+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
+		if(p.indexOf("install") > 0 ){  
+			j++;
+			var appButton="";
+			name = obj[p];
+			aurl = "#" + obj["softcenter_module_"+name+"_home_url"];
+			description = obj["softcenter_module_"+name+"_description"];
+			title = obj["softcenter_module_"+name+"_title"];
+			version = obj["softcenter_module_"+name+"_version"];
+			install = obj["softcenter_module_"+name+"_install"];
+			appimg = "/res/icon-"+name+".png";
+			if(description==""){
+				description="暂无描述";
+			};
+			if(install =="1"){
+				oversion = obj["softcenter_module_"+name+"_oversion"];
+				if(version!=oversion){
+					appButton ='<button style="height:25px;" type="button" value="'+name+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
+				}else{
+					appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
+				};
 			}else{
 				appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
 			};
-		}else{
-			appButton ='<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" id="app-uninstall" class="btn btn-danger btn-sm">卸载</button>';
-		};
-		vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
-	}  						
-
+			vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+title+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
+		}  						
+	}
 	$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-system"></i>');
 	$(".tabContent1").html(vhtml1);
 }
@@ -318,7 +317,7 @@ function appPostScript(moduleInfo, script) {
 
 function softCenterInit(){
 var appsInfo;
-	$.getJSON("/_api/softcenter_", function(resp) {
+	$.getJSON("/_api/softcenter_module_", function(resp) {
 		appsInfo=resp.result[0];
 		getSoftCenter(appsInfo);
 		getLocalApp(appsInfo);
