@@ -317,7 +317,7 @@ function appPostScript(moduleInfo, script) {
 
 function softCenterInit(){
 var appsInfo;
-	$.getJSON("/_api/softcenter_module_", function(resp) {
+	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
 		getSoftCenter(appsInfo);
 		getLocalApp(appsInfo);
