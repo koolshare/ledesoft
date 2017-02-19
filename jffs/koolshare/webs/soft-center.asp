@@ -255,7 +255,8 @@ function getSoftCenter(obj){
 			$(".tabContent2").html(vhtml2);
 			vhtml1="";
 			vhtml2="";
-			$("#app2-server1-advanced-tab").html('未安装('+object.length+') <i class="icon-globe"></i>');
+			var x= object.length - 1;
+			$("#app2-server1-advanced-tab").html('未安装('+x+') <i class="icon-globe"></i>');
 			$("#app1-server1-basic-tab").html('已安装('+j+') <i class="icon-globe"></i>');
 			//软件中心更新 start
 			if (onlineversion != locversion){
