@@ -41,6 +41,7 @@ fi
 
 VER_SUFFIX=_version
 MD5_SUFFIX=_md5
+NAME_SUFFIX=_name
 INSTALL_SUFFIX=_install
 UNINSTALL_SUFFIX=_uninstall
 
@@ -52,7 +53,7 @@ LOGGER() {
 
 install_module() {
 	if [ "$softcenter_home_url" = "" -o "$softcenter_installing_md5" = "" -o "$softcenter_installing_version" = "" ]; then
-		LOGGER "input error, something not found"
+		LOGGER "1" #"input error, something not found"
 		exit 1
 	fi
 
@@ -61,13 +62,13 @@ install_module() {
 	fi
 	LAST_TICK=`expr $softcenter_installing_tick + 20`
 	if [ "$LAST_TICK" -ge "$CURR_TICK" -a "$softcenter_installing_module" != "" ]; then
-		LOGGER "module $softcenter_installing_module is installing"
+		LOGGER "2" #"module $softcenter_installing_module is installing"
 		exit 2
 	fi
 
 	if [ "$softcenter_installing_todo" = "" ]; then
 		#curr module name not found
-		LOGGER "module name not found"
+		LOGGER "3" #"module name not found"
 		exit 3
 	fi
 
@@ -107,13 +108,13 @@ install_module() {
 	dbus set softcenter_installing_status="0"
 	dbus set softcenter_installing_module=""
 	dbus set softcenter_installing_todo=""
-	LOGGER "wget error, $RETURN_CODE"
+	LOGGER "4" #"wget error, $RETURN_CODE"
 	exit 4
 	fi
 
 	md5sum_gz=$(md5sum /tmp/$FNAME | sed 's/ /\n/g'| sed -n 1p)
 	if [ "$md5sum_gz"x != "$softcenter_installing_md5"x ]; then
-		LOGGER "md5 not equal $md5sum_gz"
+		LOGGER "5" #"md5 not equal $md5sum_gz"
 		dbus set softcenter_installing_status="12"
 		rm -f $FNAME
 		sleep 2
@@ -137,7 +138,7 @@ install_module() {
 			#rm -f $FNAME
 			#rm -rf "/tmp/$softcenter_installing_module"
 
-			LOGGER "package hasn't install.sh"
+			LOGGER "6" #"package hasn't install.sh"
 			exit 5
 		fi
 
@@ -154,6 +155,7 @@ install_module() {
 		rm -rf "/tmp/$softcenter_installing_module"
 
 		if [ "$softcenter_installing_module" != "softcenter" ]; then
+			dbus set "softcenter_module_$softcenter_installing_module$NAME_SUFFIX=$softcenter_installing_module"
 			dbus set "softcenter_module_$softcenter_installing_module$MD5_SUFFIX=$softcenter_installing_md5"
 			dbus set "softcenter_module_$softcenter_installing_module$VER_SUFFIX=$softcenter_installing_version"
 			dbus set "softcenter_module_$softcenter_installing_module$INSTALL_SUFFIX=1"
@@ -164,12 +166,12 @@ install_module() {
 		fi
 		dbus set softcenter_installing_module=""
 		dbus set softcenter_installing_todo=""
-		dbus set softcenter_installing_status="1"
-		LOGGER "ok"
+		dbus set softcenter_installing_status="0"
+		LOGGER "7" #"ok"
 	fi
 
 	else
-		LOGGER "current version is newest version"
+		LOGGER "8" #"current version is newest version"
 		dbus set softcenter_installing_status="13"
 		sleep 3
 
@@ -185,19 +187,19 @@ uninstall_module() {
 	fi
 	LAST_TICK=`expr $softcenter_installing_tick + 20`
 	if [ "$LAST_TICK" -ge "$CURR_TICK" -a "$softcenter_installing_module" != "" ]; then
-		LOGGER "module $softcenter_installing_module is installing"
+		LOGGER "2" #"module $softcenter_installing_module is installing"
 		exit 2
 	fi
 
 	if [ "$softcenter_installing_todo" = "" -o "$softcenter_installing_todo" = "softcenter" ]; then
 		#curr module name not found
-		LOGGER "module name not found"
+		LOGGER "3" #"module name not found"
 		exit 3
 	fi
 
 	ENABLED=`dbus get "$softcenter_installing_todo""_enable"`
 	if [ "$ENABLED" = "1" ]; then
-		LOGGER "please disable this module than try again"
+		LOGGER "9" #"please disable this module than try again"
 		exit 4
 	fi
 
