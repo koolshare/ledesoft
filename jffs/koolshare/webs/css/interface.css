@@ -57,4 +57,49 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 .backsoftcenter {
 	margin-right: 20px;
 	margin-top: -30px;
+	
+}
+.loader{width:65px;;height:5px;margin-top:8px; float:left;border:0px solid #3498db; box-sizing:border-box; display:flex;/*多轮布局*/ align-items:center;/*垂直*/ justify-content:center;/*水平*/}
+@-webkit-keyframes loading-2{
+	0%{
+		transform:scaleY(1);
+		-moz-transform:scaleY(1);
+		-webkit-transform:scaleY(1);
+	}
+	50%{
+		transform:scaleY(.4);
+		-moz-transform:scaleY(.4);
+		-webkit-transform:scaleY(.4);
+	}
+	100%{
+		transform:scaleY(1);
+		-moz-transform:scaleY(1);
+		-webkit-transform:scaleY(1);
+	}
+}
+.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px; background:#3498db;margin:0 2px;}
+.loading-2 i:nth-child(1){
+	-webkit-animation:loading-2 1s ease-in .1s infinite;
+	-moz-animation:loading-2 1s ease-in .1s infinite;
+	animation:loading-2 1s ease-in .1s infinite;
+}
+.loading-2 i:nth-child(2){
+	-webkit-animation:loading-2 1s ease-in .2s infinite;
+	-moz-animation:loading-2 1s ease-in .2s infinite;
+	animation:loading-2 1s ease-in .2s infinite;
+}
+.loading-2 i:nth-child(3){
+	-webkit-animation:loading-2 1s ease-in .3s infinite;
+	-moz-animation:loading-2 1s ease-in .3s infinite;
+	animation:loading-2 1s ease-in .3s infinite;
+}
+.loading-2 i:nth-child(4){
+	-webkit-animation:loading-2 1s ease-in .4s infinite;
+	-moz-animation:loading-2 1s ease-in .4s infinite;
+	animation:loading-2 1s ease-in .4s infinite;
+}
+.loading-2 i:nth-child(5){
+	-webkit-animation:loading-2 1s ease-in .5s infinite;
+	-moz-animation:loading-2 1s ease-in .5s infinite;
+	animation:loading-2 1s ease-in .5s infinite;
 }
