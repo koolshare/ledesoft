@@ -223,7 +223,7 @@ function getSoftCenter(obj){
 						vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
 							'<a href="'+aurl+'" title="'+description+'">'+
 								'<img class="appimg" src="'+appimg+'"/>'+
-								'<div class="app-name">'+appname+'</div>'+
+								'<div class="app-name">'+title+'</div>'+
 								'<p class="desc">'+description+'</p>'+
 							'</a>'+
 							'<div class="appDesc">'+
@@ -239,7 +239,7 @@ function getSoftCenter(obj){
 						vhtml2 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);">'+
 							'<a href="'+aurl+'" title="'+description+'">'+
 								'<img class="appimg" src="'+appimg+'"/>'+
-								'<div class="app-name">'+appname+'</div>'+
+								'<div class="app-name">'+title+'</div>'+
 								'<p class="desc">'+description+'</p>'+
 							'</a>'+
 							'<div class="appDesc">'+
