@@ -163,7 +163,7 @@ function getSoftCenter(obj){
 			soft = re.apps;
 			onlineversion = re.version;
 			locversion = obj["softcenter_version"];
-			$("#version").text("本地版本："+locversion+" , 线上版本："+onlineversion);
+			$("#version").html("<font color='#3498db'>Local Version："+locversion+" , Online Version："+onlineversion+"</font>");
 			var object = $.extend([],obj, soft);
 			var j=0;
 			var x=0;
@@ -271,10 +271,35 @@ function getSoftCenter(obj){
 			}
 			//软件中心更新 end
 		},
-		timeout:3000  
+		error :function(data){
+			$("#version").html("<font color='red'>X Connection Server Timeout , Please Try Again ……</font>");
+			$(".loader").hide();
+			getLocalApp(obj)
+			//console.log("network error",data);
+			
+		},
+		timeout:3000
 	});
 }
-
+function getLocalApp(obj){
+	var vhtml1 ="";
+	var j=0;
+	for(var p in obj) {
+		//console.log(p);  //获取到元素
+		if(p.indexOf("name") > 0 ){  
+			j++;
+			var appButton="";
+			name = obj[p];
+			aurl = "#Module_" + name+".asp";
+			description = "本地版本："+obj["softcenter_module_"+name+"_version"];
+			appimg = "/res/icon-"+name+".png";
+			appButton = '<button style="height:25px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
+			vhtml1 += '<div class="apps" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><img class="appimg" src="'+appimg+'"/><div class="app-name">'+name+'</div><p class="desc">'+description+'</p></a><div class="appDesc">'+appButton+'</div></div>';
+		}  						
+	}
+	$("#app1-server1-basic-tab").html('<i class="icon-system"></i> 已安装（'+j+'）');
+	$(".tabContent1").html(vhtml1);
+}
 //安装APP
 function appPostScript(moduleInfo, script) {
     var id = 1 + Math.floor(Math.random() * 6);
@@ -400,14 +425,28 @@ var appsInfo;
 		</div>
 		<div class="content">
 			<fieldset>
-				<label class="col-sm-6 control-left-label" for="_tomatoanon_answer"><span id="version"><font color="red">网络异常，无法获得线上服务。</font></span></label>
+				<label class="col-sm-6 control-left-label" for="_tomatoanon_answer">
+					<div class="loader">
+						<div class="loading-2">
+							<i></i>
+							<i></i>
+							<i></i>
+							<i></i>
+							<i></i>
+						</div>
+					</div>
+					<span id="version"><font color="#3498db">Requesting Online Service ……</font></span>
+				</label>
 				<div class="col-sm-6">
 					<button id="update" style="display:none;" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
 					<span class="help-block"> </span>
 				</div>
 			</fieldset>
 			<fieldset>
-				<div class="col-sm-12">
+				<div class="col-sm-2" style="width:140px;">
+					<img class="pull-left" src="https://advancedtomato.com/images/github.png">
+				</div>
+				<div class="col-sm-10">
 					<ul class="pullmsg">
 						<li id="push_titile">
 							欢迎
