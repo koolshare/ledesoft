@@ -15,7 +15,7 @@ $("#shell").attr("src","http://" + location.hostname + ":4200/");
 		</ul>
 		<br><hr>
 		<div class="tabContent">
-		<iframe allowtransparency="true" style="background-color=transparent" id="shell" frameborder="0" width="100%" height="400px;" scrolling="no"></iframe>
+		<iframe allowtransparency="true" style="background-color=transparent" id="shell" frameborder="0" width="100%" height="600px;" scrolling="no"></iframe>
 		</div>
 	</div>
 </div>
