@@ -37,7 +37,7 @@ $('#aliddns-fields').forms([
 { title: '开启Aliddns', name: 'aliddns_open', type: 'checkbox', value: nvram.aliddns_open },
 { title: '上次运行', name: 'aliddns_last', text: nvram.aliddns_last },
 { title: 'App Key', name: 'aliddns_key', type: 'text', maxlen: 63, size: 34, value: nvram.aliddns_key },
-{ title: 'App Secret', name: 'aliddns_secret', type: 'text', maxlen: 32, size: 34, value: nvram.aliddns_secret },
+{ title: 'App Secret', name: 'aliddns_secret', type: 'password', maxlen: 32, size: 34, value: nvram.aliddns_secret },
 { title: '检查周期', name: 'aliddns_check', type: 'text', maxlen: 5, size: 5, value: nvram.aliddns_check || '600'},
 { title: '域名', name: 'aliddns_domain', type: 'text', maxlen: 32, size: 34, value: nvram.aliddns_domain || 'text.cctv.com'},
 { title: 'DNS服务器', name: 'aliddns_dns', type: 'text', maxlen: 15, size: 15, value: nvram.aliddns_dns ||'235.35.35.35'},
