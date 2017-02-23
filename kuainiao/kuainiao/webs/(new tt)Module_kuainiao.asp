@@ -3,12 +3,12 @@
 <script type="text/javascript">
 //数据 -  绘制界面用 - 直接 声明一个 nvram 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 nvram = {
-	'kuainiao_open':'1',
-	'kuainiao_user':'admin@admin.com',
-	'kuainiao_pass':'897hj6sd4f89e4thw5',
-	'kuainiao_status':'2016-02-22 08:00:00',
-	'kuainiao_speed':'100M',
-	'kuainiao_onstart':'1',
+	'kuainiao_open':0,
+	'kuainiao_user':'test@test.com',
+	'kuainiao_pass':'',
+	'kuainiao_status':'0000-00-00 00:00:00',
+	'kuainiao_speed':'未加速',
+	'kuainiao_onstart':1,
 	'kuainiao_waittime':'1',
 	'kuainiao_nwan':'1'
 };
@@ -17,10 +17,10 @@ function verifyFields(focused, quiet){
 	return 1;
 }
 function save(){
-	nvram.kuainiao_open = E('_aliddns_open').checked ? '1':'0';
+	nvram.kuainiao_open = E('_aliddns_open').checked ? 1:0;
 	nvram.kuainiao_user = E('_aliddns_key').value;
 	nvram.kuainiao_pass = E('_kuainiao_pass').value;
-	nvram.kuainiao_onstart = E('_kuainiao_onstart').checked ? '1':'0';
+	nvram.kuainiao_onstart = E('_kuainiao_onstart').checked ? 1:0;
 	nvram.kuainiao_waittime = E('_kuainiao_waittime').value;
 	nvram.kuainiao_nwan = E('_kuainiao_nwan').value;
 }
@@ -43,13 +43,12 @@ $('#aliddns-fields').forms([
 </script>
 <h4>Notes</h4>
 <ul>
-<li>Not all models support these options</li>
+<li>This is your place , just do it. —— @JsMonkey</li>
 </ul>
 </div>
 </div>
-<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
+<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
-</form>
 <script type="text/javascript">verifyFields(null, 1);</script>
 </content>
