@@ -163,6 +163,8 @@ function getSoftCenter(obj){
 			soft = re.apps;
 			onlineversion = re.version;
 			locversion = obj["softcenter_version"];
+			$("#loading").hide();
+			$(".loader").show();
 			$("#version").html("<font color='#3498db'>Local Version："+locversion+" , Online Version："+onlineversion+"</font>");
 			var object = $.extend([],obj, soft);
 			var j=0;
@@ -258,7 +260,6 @@ function getSoftCenter(obj){
 			$("#app2-server1-advanced-tab").html('<i class="icon-globe"></i> 未安装（'+x+'）');
 			//软件中心更新 start
 			if (onlineversion != locversion){
-				$("#update").show();
 				$("#update").click(function () {
 					var moduleInfo = {
 						"name":"softcenter",
@@ -272,8 +273,8 @@ function getSoftCenter(obj){
 			//软件中心更新 end
 		},
 		error :function(data){
+			$("#loading").hide();
 			$("#version").html("<font color='red'>X Connection Server Timeout , Please Try Again ……</font>");
-			$(".loader").hide();
 			getLocalApp(obj)
 			//console.log("network error",data);
 			
@@ -426,7 +427,8 @@ var appsInfo;
 		<div class="content">
 			<fieldset>
 				<label class="col-sm-6 control-left-label" for="_tomatoanon_answer">
-					<div class="loader">
+				<div id="loading"><br><b>Loading...</b> <div class="spinner"></div></div>
+					<div class="loader" style="display:none;">
 						<div class="loading-2">
 							<i></i>
 							<i></i>
@@ -435,7 +437,7 @@ var appsInfo;
 							<i></i>
 						</div>
 					</div>
-					<span id="version"><font color="#3498db">Requesting Online Service ……</font></span>
+					<span id="version"></span>
 				</label>
 				<div class="col-sm-6">
 					<button id="update" style="display:none;" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
