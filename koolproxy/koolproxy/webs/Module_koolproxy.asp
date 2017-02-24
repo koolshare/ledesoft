@@ -5,20 +5,6 @@ var kprules = [];
 var options_type = [];
 var ruletmp = '';
 
-$(function () {
-$("#koolproxy_open").click(
-	function(){
-		if(document.getElementById('koolproxy_open').checked){
-			nvram.koolproxy_open = 1;
-			$('#koolproxy_status').html('<font color="#1bbf35">我运行了</font>');
-		}else{
-			nvram.koolproxy_open = 0;
-			$('#koolproxy_status').html('<font color="#c9ced3">我停止了</font>');
-		}
-	}
-)
-})
-
 function tabSelect(obj){
 	if(obj=="app1"){
 		$('#app1-server1-jb-tab').addClass("active");
@@ -260,7 +246,8 @@ verifyFields( null, 1 );
 nvram = {
 	'koolproxy_blacklist': '1<-1<http://winhelp2002.mvps.org/hosts.txt<Hello>1<-1<http://adaway.org/hosts.txt<Fuck you>',
 	'koolproxy_ctrlist': '1<192.168.1.27<D4:3D:7E:22:42:4E>1<192.168.2.1<3C:E5:A6:23:F5:45>',
-	'koolproxy_status':'1',
+	'koolproxy_open':'1',
+	'koolproxy_status':'正在运行',
 	'koolproxy_mode':'',
 	'koolproxy_update':'',
 	'koolproxy_update_time':'',
@@ -276,6 +263,7 @@ var b = E('_koolproxy_update_time');
 var d = E('_koolproxy_mode');
 var e = E('_koolproxy_restart').checked ? '1':'0';
 var f = E('_koolproxy_restart_time');
+var g = E('_koolproxy_open').checked ? '1':'0';
 if(c =='1'){
 PR(b).style.display='';
 }else{
@@ -286,6 +274,7 @@ PR(f).style.display='';
 }else{
 PR(f).style.display='none';
 }
+nvram.koolproxy_open = g;
 nvram.koolproxy_mode = d.value;
 nvram.koolproxy_update = c;
 nvram.koolproxy_update_time = b.value;
@@ -336,24 +325,11 @@ return ok;
 			<div class="content">
 				<div class="tabContent">
 					<!--app info -->
-					<fieldset>
-						<label class="col-sm-3 control-left-label">开启Koolproxy</label>
-						<div class="col-sm-9">
-							<span class='tg-list-item'>
-								<input class='tgl tgl-flat' id='koolproxy_open' type='checkbox'>
-								<label class='tgl-btn' for='koolproxy_open'></label>
-							</span>
-						</div>
-					</fieldset>
-					<fieldset>
-						<label class="col-sm-3 control-left-label">运行状态</label>
-						<div class="col-sm-9 text-block">
-							<span id='koolproxy_status'></span>
-						</div>
-					</fieldset>	
 					<div id="kpsetting"></div><hr>
 					<script type="text/javascript">
 						$( '#kpsetting' ).forms( [
+							{title: '启用', name:'koolproxy_open',type:'checkbox',value:nvram.koolproxy_open },
+							{title: '运行状态', name:'koolproxy_status',text:nvram.koolproxy_status },
 							{title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式']],value:nvram.koolproxy_mode },
 							{title: '规则自动更新',name:'koolproxy_update',type:'checkbox',value:nvram.koolproxy_update},
 							{title: '&nbsp;',name:'koolproxy_update_time',type:'select',options:[['1','每1小时'],['2','每2小时'],['4','每4小时'],['6','每6小时'],['8','每8小时'],['12','每12小时'],['24','每24小时'],['48','每48小时']],hidden:1,value: nvram.koolproxy_update_time},
