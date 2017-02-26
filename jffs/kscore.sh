@@ -3,6 +3,7 @@
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
+mkdir -p /tmp/upload
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
 chmod 755 $KSROOT/perp/*
