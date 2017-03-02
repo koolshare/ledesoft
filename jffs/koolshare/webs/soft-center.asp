@@ -525,8 +525,9 @@ var appsInfo;
 					<fieldset>
 						<label class="control-left-label col-sm-3">选择安装包</label>
 						<div class="col-sm-9">
-							<form name="form_upgrade" method="post" action="" encType="multipart/form-data">
-								<input type="file" name="file" size="50"> <button type="button" value="Upgrade" id="afu-upgrade-button" class="btn btn-danger">Up & Install <i class="icon-cloud"></i></button>
+							<form method="POST" action="/_upload" enctype="multipart/form-data">
+								<input type="file" name="file" size="50"> 
+								<button type="submit" value="Upload" class="btn btn-danger">安装 <i class="icon-cloud"></i></button>
 							</form>
 						</div>
 					</fieldset>
