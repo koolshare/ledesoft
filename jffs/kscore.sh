@@ -4,18 +4,23 @@ export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
 mkdir -p /tmp/upload
+mkdir -p $KSROOT/perp/.control
+mkdir -p $KSROOT/perp/.boot
+mkdir -p $KSROOT/init.d
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
 chmod 755 $KSROOT/perp/*
 chmod 755 $KSROOT/perp/.boot/*
 chmod 755 $KSROOT/perp/.control/*
+
 if [ ! -L $KSROOT/webs/res ]; then
 	cd $KSROOT/webs && rm -rf $KSROOT/webs/res && ln -sf $KSROOT/res res && cd -
 fi
 
+$KSROOT/perp/perp.sh start
 SKIPD_PID=$(pidof skipd)
 if [ "$SKIPD_PID" == "" ]; then
-$KSROOT/bin/skipd &
+perp-restart skipd
 fi
 
 #80
@@ -29,9 +34,7 @@ fi
 
 HTTPDB_PID=$(pidof httpdb)
 if [ "$HTTPDB_PID" == "" ]; then
-rm -f /tmp/httpdb.pid
-lanport1=$(nvram get http_lanport1)
-$KSROOT/bin/httpdb -p $lanport1 -r $LANIP:9527 >/tmp/httpdb.pid 2>&1 &
+perp-restart httpdb
 fi
 
 SOFTVER=`dbus get softcenter_version`

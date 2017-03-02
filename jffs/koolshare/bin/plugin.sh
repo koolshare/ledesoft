@@ -16,14 +16,16 @@ do
             # Source shell script for speed.
             trap "" INT QUIT TSTP EXIT
             #set $1
-            #echo "trying $i" >> /tmp/rc.log
+            logger "trying1 $i"
             if [ -r "$i" ]; then
             . $i $ACTION
             fi
             ;;
         *)
             # No sh extension, so fork subprocess.
+            logger "trying2 $i"
             $i $ACTION
             ;;
     esac
 done
+

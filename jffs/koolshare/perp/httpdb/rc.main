@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export KSROOT=/jffs/koolshare
+source $KSROOT/scripts/base.sh
+
+sleep 1
+lanport1=$(nvram get http_lanport1)
+exec 2>&1
+exec httpdb -p $lanport1 -r $LANIP:9527
