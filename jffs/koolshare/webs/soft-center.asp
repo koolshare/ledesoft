@@ -347,6 +347,9 @@ function appPostScript(moduleInfo, script) {
 		case "9":
 			showMsg("msg_error","卸载失败","<b>请关闭程序后，再执行点击卸载按钮！</b>");
 			break;
+		case "10":
+			showMsg("msg_success","卸载成功","<b>欢迎下次光临哦！</b>");
+			break;
 		default:
 			showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 		}
