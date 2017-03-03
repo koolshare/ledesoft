@@ -10,6 +10,8 @@ mkdir -p $KSROOT/init.d
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
 chmod 755 $KSROOT/perp/*
+chmod 755 $KSROOT/perp/httpdb/*
+chmod 755 $KSROOT/perp/skipd/*
 chmod 755 $KSROOT/perp/.boot/*
 chmod 755 $KSROOT/perp/.control/*
 
