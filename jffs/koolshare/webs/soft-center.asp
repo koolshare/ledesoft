@@ -360,7 +360,6 @@ var appsInfo;
 			currState.installing = false;
 			changeButton(false);
 			clearTimeout(TimeOut);
-			$('.popover').html('操作成功，等待浏览器刷新……');
 			setTimeout("window.location.reload()", 2000);
 		}else{
 			currState.installing = true;
@@ -369,15 +368,15 @@ var appsInfo;
             "操作失败",
             "已安装",
             "将被安装到jffs分区...",
-            "正在下载中...请耐心等待...",
+            "正在下载...",
             "正在安装中...",
-            "安装成功！请5秒后刷新本页面！...",
+            "安装成功！请等待浏览器跳转！",
             "卸载中......",
-            "卸载成功！",
+            "卸载成功！请等待浏览器跳转",
             "没有检测到在线版本号！",
             "正在下载更新......",
             "正在安装更新...",
-            "安装更新成功，5秒后刷新本页！ ",
+            "安装更新成功，请等待浏览器跳转！ ",
             "下载文件校验不一致！",
             "然而并没有更新！",
             "正在检查是否有更新~",
@@ -389,7 +388,7 @@ var appsInfo;
 }
 
 function CheckX(){
-	$('.popover').html('正在努力工作，请稍后……');
+	$('.popover').html('请稍后……');
 	changeButton(true);
 	TimeOut = window.setInterval(checkInstallStatus, 1000); 
 }
@@ -400,6 +399,9 @@ var appsInfo;
 		appsInfo=resp.result[0];
 		//console.log("appsinfo",appsInfo);
 		getSoftCenter(appsInfo);
+		if(resp.softcenter_installing_status != '0' && resp.softcenter_installing_status){
+			CheckX();
+		}
 	});
 }
 </script>
