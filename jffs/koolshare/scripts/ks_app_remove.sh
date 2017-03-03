@@ -95,6 +95,7 @@ uninstall_module() {
 	sleep 3
 	dbus set softcenter_installing_module=""
 	dbus set softcenter_installing_status="7"
+	sleep 1
 	dbus set softcenter_installing_todo=""
 
 	#try to call uninstall script
@@ -112,10 +113,6 @@ uninstall_module() {
 
 #LOGGER $BIN_NAME
 case $BIN_NAME in
-start)
-	sh $KSROOT/perp/perp.sh stop
-	sh $KSROOT/perp/perp.sh start
-	;;
 ks_app_remove)
 	uninstall_module
 	;;
