@@ -34,6 +34,42 @@ eval `dbus export softcenter_installing_`
 softcenter_home_url=`dbus get softcenter_home_url`
 CURR_TICK=`date +%s`
 BIN_NAME=$(basename "$0")
+#!/bin/sh
+
+export KSROOT=/jffs/koolshare
+source $KSROOT/scripts/base.sh
+
+#From dbus to local variable
+eval `dbus export softcenter_installing_`
+
+#softcenter_installing_module 	#正在安装的模块
+#softcenter_installing_todo 	#希望安装的模块
+#softcenter_installing_tick 	#上次安装开始的时间
+#softcenter_installing_version 	#正在安装的版本
+#softcenter_installing_md5 	#正在安装的版本的md5值
+#softcenter_installing_tar_url 	#模块对应的下载地址
+
+#softcenter_installing_status=		#尚未安装
+#softcenter_installing_status=0		#尚未安装
+#softcenter_installing_status=1		#已安装
+#softcenter_installing_status=2		#将被安装到jffs分区...
+#softcenter_installing_status=3		#正在下载中...请耐心等待...
+#softcenter_installing_status=4		#正在安装中...
+#softcenter_installing_status=5		#安装成功！请5秒后刷新本页面！...
+#softcenter_installing_status=6		#卸载中......
+#softcenter_installing_status=7		#卸载成功！
+#softcenter_installing_status=8		#没有检测到在线版本号！
+#softcenter_installing_status=9		#正在下载更新......
+#softcenter_installing_status=10	#正在安装更新...
+#softcenter_installing_status=11	#安装更新成功，5秒后刷新本页！
+#softcenter_installing_status=12	#下载文件校验不一致！
+#softcenter_installing_status=13	#然而并没有更新！
+#softcenter_installing_status=14	#正在检查是否有更新~
+#softcenter_installing_status=15	#检测更新错误！
+
+softcenter_home_url=`dbus get softcenter_home_url`
+CURR_TICK=`date +%s`
+BIN_NAME=$(basename "$0")
 BIN_NAME="${BIN_NAME%.*}"
 if [ "$ACTION" != "" ]; then
 	BIN_NAME=$ACTION
@@ -77,7 +113,7 @@ install_module() {
 	export softcenter_installing_tick=`date +%s`
 	export softcenter_installing_status="2"
 	dbus save softcenter_installing_
-
+	sleep 1
 	URL_SPLIT="/"
 	#OLD_MD5=`dbus get softcenter_module_$softcenter_installing_module$MD5_SUFFIX`
 	OLD_VERSION=`dbus get softcenter_module_$softcenter_installing_module$VER_SUFFIX`
@@ -98,6 +134,8 @@ install_module() {
 	cd /tmp
 	rm -f $FNAME
 	rm -rf "/tmp/$softcenter_installing_module"
+	dbus set softcenter_installing_status="3"
+	sleep 1
 	wget --no-check-certificate --tries=1 --timeout=15 $TAR_URL
 	RETURN_CODE=$?
 
@@ -129,7 +167,7 @@ install_module() {
 	else
 		tar -zxf $FNAME
 		dbus set softcenter_installing_status="4"
-
+		sleep 1
 		if [ ! -f /tmp/$softcenter_installing_module/install.sh ]; then
 			dbus set softcenter_installing_status="0"
 			dbus set softcenter_installing_module=""
@@ -155,6 +193,8 @@ install_module() {
 		rm -rf "/tmp/$softcenter_installing_module"
 
 		if [ "$softcenter_installing_module" != "softcenter" ]; then
+			dbus set softcenter_installing_status="5"
+			sleep 1
 			dbus set "softcenter_module_$softcenter_installing_module$NAME_SUFFIX=$softcenter_installing_module"
 			dbus set "softcenter_module_$softcenter_installing_module$MD5_SUFFIX=$softcenter_installing_md5"
 			dbus set "softcenter_module_$softcenter_installing_module$VER_SUFFIX=$softcenter_installing_version"
@@ -256,6 +296,125 @@ ks_app_install)
 	;;
 ks_app_remove)
 	uninstall_module
+	;;
+*)
+	install_module
+	;;
+esac
+
+	FNAME=`basename $softcenter_installing_tar_url`
+
+	if [ "$OLD_VERSION" = "" ]; then
+		OLD_VERSION=0
+	fi
+
+	CMP=`versioncmp $softcenter_installing_version $OLD_VERSION`
+	if [ -f $KSROOT/webs/Module_$softcenter_installing_module.sh -o "$softcenter_installing_todo" = "softcenter" ]; then
+		CMP="-1"
+	fi
+	if [ "$CMP" = "-1" ]; then
+
+	cd /tmp
+	rm -f $FNAME
+	rm -rf "/tmp/$softcenter_installing_module"
+	wget --no-check-certificate --tries=1 --timeout=15 $TAR_URL
+	RETURN_CODE=$?
+
+	if [ "$RETURN_CODE" != "0" ]; then
+	dbus set softcenter_installing_status="12"
+	sleep 2
+
+	dbus set softcenter_installing_status="0"
+	dbus set softcenter_installing_module=""
+	dbus set softcenter_installing_todo=""
+	LOGGER "4" #"wget error, $RETURN_CODE"
+	exit 4
+	fi
+
+	md5sum_gz=$(md5sum /tmp/$FNAME | sed 's/ /\n/g'| sed -n 1p)
+	if [ "$md5sum_gz"x != "$softcenter_installing_md5"x ]; then
+		LOGGER "5" #"md5 not equal $md5sum_gz"
+		dbus set softcenter_installing_status="12"
+		rm -f $FNAME
+		sleep 2
+
+		dbus set softcenter_installing_status="0"
+		dbus set softcenter_installing_module=""
+		dbus set softcenter_installing_todo=""
+
+		rm -f $FNAME
+		rm -rf "/tmp/$softcenter_installing_module"
+		exit
+	else
+		tar -zxf $FNAME
+		dbus set softcenter_installing_status="4"
+
+		if [ ! -f /tmp/$softcenter_installing_module/install.sh ]; then
+			dbus set softcenter_installing_status="0"
+			dbus set softcenter_installing_module=""
+			dbus set softcenter_installing_todo=""
+
+			#rm -f $FNAME
+			#rm -rf "/tmp/$softcenter_installing_module"
+
+			LOGGER "6" #"package hasn't install.sh"
+			exit 5
+		fi
+
+		if [ -f /tmp/$softcenter_installing_module/uninstall.sh ]; then
+			chmod 755 /tmp/$softcenter_installing_module/uninstall.sh
+			mv /tmp/$softcenter_installing_module/uninstall.sh $KSROOT/scripts/uninstall_$softcenter_installing_todo.sh
+		fi
+
+		chmod a+x /tmp/$softcenter_installing_module/install.sh
+		sh /tmp/$softcenter_installing_module/install.sh
+		sleep 2
+
+		rm -f $FNAME
+		rm -rf "/tmp/$softcenter_installing_module"
+
+		if [ "$softcenter_installing_module" != "softcenter" ]; then
+			dbus set "softcenter_module_$softcenter_installing_module$NAME_SUFFIX=$softcenter_installing_module"
+			dbus set "softcenter_module_$softcenter_installing_module$MD5_SUFFIX=$softcenter_installing_md5"
+			dbus set "softcenter_module_$softcenter_installing_module$VER_SUFFIX=$softcenter_installing_version"
+			dbus set "softcenter_module_$softcenter_installing_module$INSTALL_SUFFIX=1"
+			dbus set "$softcenter_installing_module$VER_SUFFIX=$softcenter_installing_version"
+		else
+			dbus set softcenter_version=$softcenter_installing_version;
+			dbus set softcenter_md5=$softcenter_installing_md5
+		fi
+		dbus set softcenter_installing_module=""
+		dbus set softcenter_installing_todo=""
+		dbus set softcenter_installing_status="0"
+		LOGGER "7" #"ok"
+	fi
+
+	else
+		LOGGER "8" #"current version is newest version"
+		dbus set softcenter_installing_status="13"
+		sleep 3
+
+		dbus set softcenter_installing_status="0"
+		dbus set softcenter_installing_module=""
+		dbus set softcenter_installing_todo=""
+	fi
+}
+
+
+#LOGGER $BIN_NAME
+case $BIN_NAME in
+start)
+	sh $KSROOT/perp/perp.sh stop
+	sh $KSROOT/perp/perp.sh start
+	;;
+update)
+	install_module
+	;;
+install)
+	install_module
+	;;
+ks_app_install)
+	install_module
 	;;
 *)
 	install_module
