@@ -1,7 +1,7 @@
 <title>软件中心</title>
 <content>
 <style type="text/css">
-.apps a:link{color: #fff}.apps a:visited{color: #fff}.apps a:hover{color: #fff}.apps a:active{color: #fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin-left:10px;margin-right:10px;margin-top:10px;padding-top:10px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;}.app .app-name{margin-top:5px;margin-bottom:5px;width:150px;} .infos{float:left;}.appimg{width:60px;height:60px;margin-left:10px;margin-right:10px;margin-top:10px;}.btn-sm{font-size:16px;padding:0px 5px 0px 5px;border-radius:2px;}.appDesc{width:20px;float:right;margin-top:-89px;margin-right:40px;}.desc{width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:4px;}.boxr2{display:none;}.boxr3{display:none;}.boxr4{display:none;}.boxr5{display:none;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}</style>
+.popover{font-size:14px;color:#63B8FF;}.apps a:link{color: #fff}.apps a:visited{color: #fff}.apps a:hover{color: #fff}.apps a:active{color: #fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin-left:10px;margin-right:10px;margin-top:10px;padding-top:10px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;}.app .app-name{margin-top:5px;margin-bottom:5px;width:150px;} .infos{float:left;}.appimg{width:60px;height:60px;margin-left:10px;margin-right:10px;margin-top:10px;}.btn-sm{font-size:16px;padding:0px 5px 0px 5px;border-radius:2px;}.appDesc{width:20px;float:right;margin-top:-89px;margin-right:40px;}.desc{width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:4px;}.boxr2{display:none;}.boxr3{display:none;}.boxr4{display:none;}.boxr5{display:none;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}</style>
 <script type="text/javascript">
 $("#app1-server1-basic-tab").addClass("active");
 //APPS 控制模块
@@ -170,7 +170,7 @@ function getSoftCenter(obj){
 			if(locversion != onlineversion){
 				$("#update").show();
 			}
-			$("#version").html("<font color='#3498db'>Local Version："+locversion+" , Online Version："+onlineversion+"</font>");
+			$("#version").html("<font color='#3498db'>当前版本："+locversion+" , 线上版本："+onlineversion+"</font>");
 			var object = $.extend([],obj, soft);
 			var j=0;
 			var x=0;
@@ -283,7 +283,7 @@ function getSoftCenter(obj){
 		},
 		error :function(data){
 			$("#loading").hide();
-			$("#version").html("<font color='red'>X Connection Server Timeout , Please Try Again ……</font>");
+			$("#version").html("<font color='red'>X 线上服务器超时 , 请稍后重试……</font>");
 			getLocalApp(obj)
 			//console.log("network error",data);
 			
@@ -326,47 +326,12 @@ function appPostScript(moduleInfo, script) {
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	var success = function(data) {
 		//console.log("success",data);
-		switch(data.result)
-		{
-		case "1":
-			showMsg("msg_error","获取数据失败","<b>获取线上插件下载地址失败！</b>");
-			break;
-		case "2":
-			showMsg("msg_warring","非常抱歉","<b>当前已经有程序在执行咯，休息一会再试吧！</b>");
-			break;
-		case "3":
-			showMsg("msg_error","获取数据失败","<b>获取线上插件名称失败！</b>");
-			break;
-		case "4":
-			showMsg("msg_error","获取数据失败","<b>下载插件失败！</b>");
-			break;
-		case "5":
-			showMsg("msg_error","校验失败","<b>插件包 MD5 校验失败！</b>");
-			break;
-		case "6":
-			showMsg("msg_error","执行失败","<b>插件包内没有 install.sh 执行文件！</b>");
-			break;
-		case "7":
-			showMsg("msg_success","安装成功","<b>恭喜插件安装成功 ，请等待页面自动刷新！</b>");
-			break;
-		case "8":
-			showMsg("msg_warring","系统提示","<b>当前插件未最新版，无需升级！</b>");
-			break;
-		case "9":
-			showMsg("msg_error","卸载失败","<b>请关闭程序后，再执行点击卸载按钮！</b>");
-			break;
-		case "10":
-			showMsg("msg_success","卸载成功","<b>欢迎下次光临哦！</b>");
-			break;
-		default:
-			showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
-		}
 	};
 	var error = function(data) {
 		//请求错误！
 		//console.log("error",data);
-		showMsg("msg_error","未知错误","<b>当前系统存在异常查看系统日志！</b>");
 	};
+	CheckX();
 	$.ajax({
 	  type: "POST",
 	  url: "/_api/",
@@ -375,7 +340,6 @@ function appPostScript(moduleInfo, script) {
 	  error: error,
 	  dataType: "json"
 	});
-	CheckX();
 }
 function changeButton(obj){
 	if(obj){
@@ -387,16 +351,6 @@ function changeButton(obj){
 	}
 }
 
-function showMsg(Outtype,title,msg){
-	$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
-	$('#'+Outtype).show();
-	if(Outtype=="msg_success"){
-		setTimeout("window.location.reload()", 12000);
-	}else{
-		setTimeout("$('#msg_error').hide()", 8000);
-		setTimeout("$('#msg_warring').hide()", 8000);
-	}
-}
 function checkInstallStatus(){
 var appsInfo;
 	$.getJSON("/_api/softcenter_installing_", function(resp) {
@@ -406,15 +360,38 @@ var appsInfo;
 			currState.installing = false;
 			changeButton(false);
 			clearTimeout(TimeOut);
+			$('.popover').html('操作成功，等待浏览器刷新……');
+			setTimeout("window.location.reload()", 2000);
 		}else{
 			currState.installing = true;
 			changeButton(true);
+			var infos = [
+            "操作失败",
+            "已安装",
+            "将被安装到jffs分区...",
+            "正在下载中...请耐心等待...",
+            "正在安装中...",
+            "安装成功！请5秒后刷新本页面！...",
+            "卸载中......",
+            "卸载成功！",
+            "没有检测到在线版本号！",
+            "正在下载更新......",
+            "正在安装更新...",
+            "安装更新成功，5秒后刷新本页！ ",
+            "下载文件校验不一致！",
+            "然而并没有更新！",
+            "正在检查是否有更新~",
+            "检测更新错误！"
+        ];
+		$('.popover').html(infos[installing]);
 		}
 	});
 }
 
 function CheckX(){
-	TimeOut = window.setInterval(checkInstallStatus, 2000); 
+	$('.popover').html('正在努力工作，请稍后……');
+	changeButton(true);
+	TimeOut = window.setInterval(checkInstallStatus, 1000); 
 }
 
 function softCenterInit(){
@@ -426,15 +403,8 @@ var appsInfo;
 	});
 }
 </script>
-	<div id="msg_warring" class="alert alert-warning icon" style="display:none;">
-	</div>
-	<div id="msg_success" class="alert alert-success icon" style="display:none;">
-	</div>
-	<div id="msg_error" class="alert alert-error icon" style="display:none;">
-	</div>
 	<div class="box" data-box="soft-center">
-		<div class="heading">
-			<b>Advanced Tomato Software Center</b>
+		<div class="heading"><h2>番茄软件中心</h2>
 		</div>
 		<div class="content">
 			<fieldset>
@@ -493,8 +463,9 @@ var appsInfo;
 			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 状态日志</a>
 		</li>
 	</ul>
+	
 		<div class="box boxr1">
-			<div class="heading">已安装软件列表</div>
+			<div class="heading">已安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 			<div class="content">
 				<div class="tabContent1">
 					<!--app info -->
@@ -503,7 +474,7 @@ var appsInfo;
 			</div>
 		</div>
 		<div class="box boxr2">
-			<div class="heading">未安装软件列表</div>
+			<div class="heading">未安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 			<div class="content">
 				<div class="tabContent2">
 					<!--app info -->
@@ -512,7 +483,7 @@ var appsInfo;
 			</div>
 		</div>
 		<div class="box boxr3">
-			<div class="heading">插件离线安装界面</div>
+			<div class="heading">插件离线安装界面&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 			<div class="content">
 				<div class="tabContent3">
 					<ul>
