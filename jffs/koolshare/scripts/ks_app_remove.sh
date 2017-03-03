@@ -82,6 +82,7 @@ uninstall_module() {
 	dbus remove "softcenter_module_$softcenter_installing_module$MD5_SUFFIX"
 	dbus remove "softcenter_module_$softcenter_installing_module$VER_SUFFIX"
 	dbus remove "softcenter_module_$softcenter_installing_module$INSTALL_SUFFIX"
+	dbus remove "softcenter_module_$softcenter_installing_module$NAME_SUFFIX"
 
 	txt=`dbus list $softcenter_installing_todo`
 	printf "%s\n" "$txt" |
@@ -113,6 +114,10 @@ uninstall_module() {
 
 #LOGGER $BIN_NAME
 case $BIN_NAME in
+start)
+	sh $KSROOT/perp/perp.sh stop
+	sh $KSROOT/perp/perp.sh start
+	;;
 ks_app_remove)
 	uninstall_module
 	;;
