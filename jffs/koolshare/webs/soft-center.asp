@@ -536,7 +536,7 @@ var appsInfo;
 			
 			<fieldset>
 				<div class="col-sm-2" style="width:140px;">
-					<img class="pull-left" src="https://advancedtomato.com/images/github.png">
+					<img class="pull-left" src="/res/github.png">
 				</div>
 				<div class="col-sm-10">
 					<ul class="pullmsg">
