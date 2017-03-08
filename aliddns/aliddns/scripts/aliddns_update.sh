@@ -1,4 +1,5 @@
 #!/bin/sh
+
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export aliddns_`
@@ -9,7 +10,6 @@ if [ "$aliddns_enable" != "1" ]; then
 fi
 
 now=`date`
-
 die () {
     echo $1
     dbus ram aliddns_last_act="$now: failed($1)"
@@ -20,7 +20,7 @@ die () {
 [ "$aliddns_ttl" = "" ] && aliddns_ttl="600"
 
 ip=`$aliddns_curl 2>&1` || die "$ip"
-name = ${$aliddns_domain%.*}
+name=`echo $aliddns_domain | cut -d \. -f 1`
 
 current_ip=`nslookup $aliddns_domain $aliddns_dns 2>&1`
 
