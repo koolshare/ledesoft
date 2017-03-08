@@ -64,7 +64,7 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">阿里云DDNS</div>
+<div class="heading">阿里云DDNS <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 <div class="content">
 <div id="aliddns-fields"></div><hr>
 <script type="text/javascript">
