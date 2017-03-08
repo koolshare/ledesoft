@@ -2,20 +2,27 @@
 <content>
 <script type="text/javascript">
 getAppData();
-var nvram = {};
+var nvram;
 function getAppData(){
 var appsInfo;
-	$.getJSON("/_api/aliddns_", function(resp) {
-		appsInfo=resp.result[0];
-		nvram = appsInfo;
+	$.ajax({
+	  	type: "GET",
+	 	url: "/_api/aliddns_",
+	  	dataType: "json",
+	  	async:false,
+	 	success: function(data){
+	 	 	nvram = data.result[0];
+	  	}
 	});
 }
+
+console.log('nvram',nvram);
 //数据 -  绘制界面用 - 直接 声明一个 nvram 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
 	return 1;
 }
 function save(){
-	nvram.aliddns_open = E('_aliddns_enable').checked ? '1':'0';
+	nvram.aliddns_enable = E('_aliddns_enable').checked ? '1':'0';
 	nvram.aliddns_ak = E('_aliddns_ak').value;
 	nvram.aliddns_sk = E('_aliddns_sk').value;
 	nvram.aliddns_interval = E('_aliddns_interval').value;
@@ -23,11 +30,17 @@ function save(){
 	nvram.aliddns_dns = E('_aliddns_dns').value;
 	nvram.aliddns_curl = E('_aliddns_curl').value;
 	nvram.aliddns_ttl = E('_aliddns_ttl').value;
+	nvram.action_mode = 'Refresh';
+
 	//-------------- post nvram to dbus ---------------
 	var id = 1 + Math.floor(Math.random() * 6);
 	var postData = {"id": id, "method":'aliddns_config.sh', "params":[], "fields": nvram};
 	var success = function(data) {
 		//
+		$('#footer-msg').text(data.result);
+		$('#footer-msg').show();
+		setTimeout("window.location.reload()", 10000);
+
 		//  do someting here.
 		//
 	};
@@ -36,6 +49,8 @@ function save(){
 		//  do someting here.
 		//
 	};
+	$('button').addClass('disabled');
+	$('button').prop('disabled', true);
 	$.ajax({
 	  type: "POST",
 	  url: "/_api/",
@@ -44,7 +59,7 @@ function save(){
 	  error: error,
 	  dataType: "json"
 	});
-	console.log('nvram',nvram);
+	
 	//-------------- post nvram to dbus ---------------
 }
 </script>
@@ -54,10 +69,10 @@ function save(){
 <div id="aliddns-fields"></div><hr>
 <script type="text/javascript">
 $('#aliddns-fields').forms([
-{ title: '开启Aliddns', name: 'aliddns_enable', type: 'checkbox', value: nvram.aliddns_enable != '0'},
+{ title: '开启Aliddns', name: 'aliddns_enable', type: 'checkbox', value: ((nvram.aliddns_enable == '1')? 1:0)},
 { title: '上次运行', name: 'aliddns_last_act', text: nvram.aliddns_last_act ||'--' },
-{ title: 'App Key', name: 'aliddns_ak', type: 'text', maxlen: 63, size: 34, value: nvram.aliddns_ak },
-{ title: 'App Secret', name: 'aliddns_sk', type: 'password', maxlen: 32, size: 34, value: nvram.aliddns_sk },
+{ title: 'App Key', name: 'aliddns_ak', type: 'text', maxlen: 34, size: 34, value: nvram.aliddns_ak },
+{ title: 'App Secret', name: 'aliddns_sk', type: 'text', maxlen: 34, size: 34, value: nvram.aliddns_sk },
 { title: '检查周期', name: 'aliddns_interval', type: 'text', maxlen: 5, size: 5, value: nvram.aliddns_interval || '120'},
 { title: '域名', name: 'aliddns_domain', type: 'text', maxlen: 32, size: 34, value: nvram.aliddns_domain || 'home.example.com'},
 { title: 'DNS服务器', name: 'aliddns_dns', type: 'text', maxlen: 15, size: 15, value: nvram.aliddns_dns ||'223.5.5.5',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为阿里云DNS</small>'},
@@ -73,6 +88,6 @@ $('#aliddns-fields').forms([
 </div>
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 <button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
-<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
+<span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
 <script type="text/javascript">verifyFields(null, 1);</script>
 </content>
