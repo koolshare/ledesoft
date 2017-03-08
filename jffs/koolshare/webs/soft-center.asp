@@ -148,6 +148,18 @@ function _formatData(name,mod){
 		}
 	};
 }
+
+function CheckImgExists(imgurl) {  
+  var ImgObj = new Image(); //判断图片是否存在  
+  ImgObj.src = imgurl;  
+  //没有图片，则返回-1  
+  if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
+    return true;  
+  } else {  
+    return false;
+  }  
+}
+
 function getSoftCenter(obj){
 	$.ajax({  
 		url:softcenterUrl+"/softcenter/app.json.js",  
@@ -211,23 +223,31 @@ function getSoftCenter(obj){
 					install = appObject["app_"+appname+"_install"];
 					oversion = appObject["app_"+appname+"_oversion"];
 					description = appObject["app_"+appname+"_description"];
-					if(description=="" && description){
+					if(!title){
+						title = appname;
+					}
+					if(description=="" || !description){
 						description="暂无描述";
 					};
 					if(install=="1" || install=="2"){
 						j++;
-						aurl = "#" + appObject["app_"+appname+"_home_url"];
+						aurl = "#Module_" +appname+".asp";
 						if(oversion!=version && oversion){
 							appButton = '<button style="height:103px;" value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
 						}else{
 							appButton = '<button style="height:103px;display:none;" type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
 						}
+
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
 						bgimg = "https://raw.githubusercontent.com/koolshare/ttsoft/master/softcenter/softcenter/res/icon-"+appname+"-bg.png";
+
+						if(!CheckImgExists(bgimg)){
+							bgimg = '/res/icon-'+appname+'-bg.png';
+						}
 						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
-							'<a href="'+aurl+'" title="'+description+'">'+
+							'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
-								'<img class="appimg" src="'+appimg+'"/></div>'+
+								'<img class="appimg" src="'+appimg+'" onerror="this.src=\'/res/icon-'+appname+'.png;this.onerror=null\'"/></div>'+
 								'<div class="app-name"><p>'+title+'</p>'+
 								'<p class="desc">'+description+'</p></div>'+
 							'</a>'+
@@ -388,7 +408,6 @@ function CheckX(){
 	TimeOut = window.setInterval(checkInstallStatus, 1000); 
 }
 function softCenterInit(){
-var appsInfo;
 	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
 		//console.log("appsinfo",appsInfo);
