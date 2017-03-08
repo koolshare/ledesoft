@@ -4,8 +4,7 @@
 $("#shell").attr("src","http://" + location.hostname + ":4200/");
 </script>
 <div class="box">
-	<div class="heading">Shellinabox</div>
-	<button onclick="window.history.back();" class="btn backsoftcenter pull-right">返回 <i class="icon-cloud"></i></button>
+	<div class="heading">Shellinabox <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 	<div class="content">
 		<ul>
 			<li>这是 Tomato 软件中心第一个移植的插件！</li>
