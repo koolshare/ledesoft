@@ -38,7 +38,7 @@ function save(){
 		//
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
-		setTimeout("window.location.reload()", 10000);
+		setTimeout("window.location.reload()", 3000);
 
 		//  do someting here.
 		//
