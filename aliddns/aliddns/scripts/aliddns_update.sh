@@ -1,15 +1,22 @@
 #!/bin/sh
-
+#debug
+set -x
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
+
 eval `dbus export aliddns_`
 
+a_name=`echo $aliddns_domain | cut -d \. -f 1`
+a_domain=`echo $aliddns_domain | cut -d \. -f 2`.`echo $aliddns_domain | cut -d \. -f 3`
+
 if [ "$aliddns_enable" != "1" ]; then
+    nvram set ddns_hostname_x=`nvram get ddns_hostname_old`
     echo "not enable"
     exit
 fi
 
 now=`date`
+
 die () {
     echo $1
     dbus ram aliddns_last_act="$now: failed($1)"
@@ -20,9 +27,14 @@ die () {
 [ "$aliddns_ttl" = "" ] && aliddns_ttl="600"
 
 ip=`$aliddns_curl 2>&1` || die "$ip"
-name=`echo $aliddns_domain | cut -d \. -f 1`
 
-current_ip=`nslookup $aliddns_domain $aliddns_dns 2>&1`
+#support @ record nslookup
+if [ "$a_name" = "@" ]
+then
+  current_ip=`nslookup $a_domain $aliddns_dns 2>&1`
+else
+  current_ip=`nslookup $aliddns_domain $aliddns_dns 2>&1`
+fi
 
 if [ "$?" -eq "0" ]
 then
@@ -32,8 +44,14 @@ then
     then
         echo "skipping"
         dbus set aliddns_last_act="$now: skipped($ip)"
+    	nvram set ddns_enable_x=1
+    	nvram set ddns_hostname_x="$aliddns_domain"
+    	#ddns_custom_updated 1
         exit 0
     fi 
+# fix when A record removed by manual dns is always update error
+else
+    unset aliddns_record_id
 fi
 
 
@@ -67,18 +85,29 @@ get_recordid() {
 }
 
 query_recordid() {
-    send_request "DescribeSubDomainRecords" "SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&SubDomain=$aliddns_domain&Timestamp=$timestamp"
+    send_request "DescribeSubDomainRecords" "SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&SubDomain=$a_name1.$a_domain&Timestamp=$timestamp"
 }
 
 update_record() {
-	
-    send_request "UpdateDomainRecord" "RR=$name&RecordId=$1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
+    send_request "UpdateDomainRecord" "RR=$a_name1&RecordId=$1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
 }
 
 add_record() {
-
-    send_request "AddDomainRecord&DomainName=$aliddns_domain" "RR=$name&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
+    send_request "AddDomainRecord&DomainName=$a_domain" "RR=$a_name1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
 }
+
+#add support */%2A and @/%40 record
+case  $a_name  in
+      \*)
+        a_name1=%2A
+        ;;
+      \@)
+        a_name1=%40
+        ;;
+      *)
+        a_name1=$a_name
+        ;;
+esac
 
 if [ "$aliddns_record_id" = "" ]
 then
@@ -97,7 +126,11 @@ fi
 if [ "$aliddns_record_id" = "" ]; then
     # failed
     dbus ram aliddns_last_act="$now: failed"
+    nvram set ddns_hostname_x=`nvram get ddns_hostname_old`
 else
     dbus ram aliddns_record_id=$aliddns_record_id
     dbus ram aliddns_last_act="$now: success($ip)"
+    nvram set ddns_enable_x=1
+    nvram set ddns_hostname_x="$aliddns_domain"
+    #ddns_custom_updated 1
 fi
