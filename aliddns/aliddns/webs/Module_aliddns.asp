@@ -68,7 +68,7 @@ function save(){
 <div class="heading">阿里云DDNS <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 <br><hr>
 <div class="content">
-<div id="aliddns-fields"></div><hr>
+<div id="aliddns-fields"></div>
 <script type="text/javascript">
 $('#aliddns-fields').forms([
 { title: '开启Aliddns', name: 'aliddns_enable', type: 'checkbox', value: ((Apps.aliddns_enable == '1')? 1:0)},
@@ -82,10 +82,6 @@ $('#aliddns-fields').forms([
 { title: 'TTL', name: 'aliddns_ttl', type: 'text', maxlen: 5, size: 5, value: Apps.aliddns_ttl || '600' ,suffix: ' <small> (范围: 1~86400; 默认: 600)</small>'},
 ]);
 </script>
-<h4>Notes</h4>
-<ul>
-<li>This is your place , just do it. —— @JsMonkey</li>
-</ul>
 </div>
 </div>
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
