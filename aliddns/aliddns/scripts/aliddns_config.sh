@@ -9,9 +9,8 @@ if [ "`dbus get aliddns_enable`" = "1" ]; then
 	sleep 2
 	sh $KSROOT/scripts/aliddns_update.sh
 	sleep 1
-	http_response '设置已保存！切勿重复提交！页面将在10秒后刷新'
+	http_response '设置已保存！切勿重复提交！页面将在3秒后刷新'
 
 else
     cru d aliddns
-    dbus set aliddns_ddns_hostname_x=`dbus get aliddns_ddns_hostname_old`
 fi
