@@ -13,8 +13,10 @@ function change2(obj){
 	var id = $(obj).find('button').attr("id");
 	if(id != 'app-update'){
 		$(obj).find('button').hide();
+		$(obj).find('.desc').width('150px');
+	}else{
+		$(obj).find('.desc').width('100px');
 	}
-	$(obj).find('.desc').width('150px');
 }
 function tabSelect(obj){
 	if(obj=="app1"){
@@ -66,19 +68,58 @@ function tabSelect(obj){
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
 // 安装的时候会有一个同样的计时,若这个超时时间内,安装状态有变化,则更新安装状态.从而可以实时更新安装进程.
 var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
-var softcenterUrl = "https://ttsoft.ngrok.wang";
-//var softcenterUrl = "https://koolshare.ngrok.wang";
+var softcenterUrl;
+var dataTypeX;
 var softInfo = {};
 var TimeOut = 0;
-//初始化软件中心
-notice_show();
-softCenterInit();
+var Msginfos = [
+            "操作失败",
+            "已安装",
+            "初始化中...",
+            "正在下载...",
+            "正在安装中...",
+            "安装成功！请等待浏览器跳转！",
+            "卸载中......",
+            "卸载成功！请等待浏览器跳转",
+            "没有检测到在线版本号！",
+            "正在下载更新......",
+            "正在安装更新...",
+            "安装更新成功，请等待浏览器跳转！ ",
+            "下载文件校验不一致！",
+            "然而并没有更新！",
+            "正在检查是否有更新~",
+            "检测更新错误！"
+       		 ];
+//检查并切换服务器
+$.ajax({
+	url: "https://ttsoft.ngrok.wang/softcenter/push_message1.json.js",
+    type: "GET",
+    dataType:'jsonp',
+    async: false,
+    success: function() {
+        softcenterUrl = "https://ttsoft.ngrok.wang";
+        dataTypeX = "jsonp";
+        $('#server').html('当前服务器：TTSoft');
+        //启用中专服务器
+		notice_show();
+		softCenterInit();	
+    },
+    error: function() {
+        softcenterUrl = "https://raw.githubusercontent.com/koolshare/ttsoft/master";
+        dataTypeX = "json";
+        $('#server').html('当前服务器：GitHub');
+        //启用GitHub服务器
+		notice_show();
+		softCenterInit();
+    },timeout:3000
+});
+
 //推送信息
 function notice_show(){
     $.ajax({
         url: softcenterUrl+'/softcenter/push_message1.json.js',
         type: 'GET',
-        dataType: 'jsonp',
+        dataType: dataTypeX,
         success: function(res) {
 			$("#push_titile").html(res.title);
 			$("#push_content1").html(res.content1);
@@ -101,7 +142,8 @@ function appinstall(obj){
 }
 function appuninstall(obj){
     var name = obj.value;
-    _formatData(name,'uninstall');
+    var xxx = {"name":name};
+	appUninstallModule(xxx);
 }
 function appupdata(obj){
     var name = obj.value;
@@ -132,19 +174,7 @@ function _formatData(name,mod){
 				};
 				appInstallModule(xxx);
 				return;
-			}
-			if(mod=="uninstall" && name == app_name){
-				var xxx = {
-					"name":app_name,
-					"md5": softInfo['app_'+app_name+'_md5'],
-					"tar_url": softInfo['app_'+app_name+'_tar_url'],
-					"version": softInfo['app_'+app_name+'_oversion'],
-					"title":softInfo['app_'+app_name+'_title']
-				};
-				appUninstallModule(xxx);
-				return;
-			}
-			
+			}			
 		}
 	};
 }
@@ -163,7 +193,7 @@ function CheckImgExists(imgurl) {
 function getSoftCenter(obj){
 	$.ajax({  
 		url:softcenterUrl+"/softcenter/app.json.js",  
-		dataType:'jsonp',  
+		dataType:dataTypeX,  
 		method: 'GET', 
 		success:function(re) {
 			var appObject={};
@@ -234,22 +264,27 @@ function getSoftCenter(obj){
 						aurl = "#Module_" +appname+".asp";
 						if(oversion!=version && oversion){
 							appButton = '<button style="height:103px;" value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
+							astyle = ' style="width:100px;"';
 						}else{
 							appButton = '<button style="height:103px;display:none;" type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
+							astyle = ' style="width:150px;"';
 						}
 
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
-						bgimg = "https://raw.githubusercontent.com/koolshare/ttsoft/master/softcenter/softcenter/res/icon-"+appname+"-bg.png";
+						bgimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+"-bg.png";
 
 						if(!CheckImgExists(bgimg)){
 							bgimg = '/res/icon-'+appname+'-bg.png';
 						}
+						if(!CheckImgExists(appimg)){
+							appimg = '/res/icon-'+appname+'.png';
+						}
 						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
 							'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
-								'<img class="appimg" src="'+appimg+'" onerror="this.src=\'/res/icon-'+appname+'.png;this.onerror=null\'"/></div>'+
+								'<img class="appimg" src="'+appimg+'"/></div>'+
 								'<div class="app-name"><p>'+title+'</p>'+
-								'<p class="desc">'+description+'</p></div>'+
+								'<p class="desc"'+astyle+'>'+description+'</p></div>'+
 							'</a>'+
 							'<div class="appDesc">'+
 							appButton+
@@ -259,7 +294,7 @@ function getSoftCenter(obj){
 					}else{
 						x++;
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
-						bgimg = "https://raw.githubusercontent.com/koolshare/ttsoft/master/softcenter/softcenter/res/icon-"+appname+"-bg.png";
+						bgimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+"-bg.png";
 						aurl='javascript:void(0);';
 						appButton = '<button style="height:103px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary btn-sm">安装</button>';
 						vhtml2 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
@@ -341,12 +376,14 @@ function appPostScript(moduleInfo, script) {
     data[moduleInfo.name + "_title"] = moduleInfo.title;
     }
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
+	
 	var success = function(data) {
 		//console.log("success",data);
+		$('.popover').html(data.result);
 	};
 	var error = function(data) {
 		//请求错误！
-		//console.log("error",data);
+		$('.popover').html('<font color=red>软件中心异常！</font>');
 	};
 	CheckX();
 	$.ajax({
@@ -376,29 +413,11 @@ var appsInfo;
 			currState.installing = false;
 			changeButton(false);
 			clearTimeout(TimeOut);
-			setTimeout("window.location.reload()", 2000);
+			setTimeout("window.location.reload()", 3000);
 		}else{
 			currState.installing = true;
 			changeButton(true);
-			var infos = [
-            "操作失败",
-            "已安装",
-            "将被安装到jffs分区...",
-            "正在下载...",
-            "正在安装中...",
-            "安装成功！请等待浏览器跳转！",
-            "卸载中......",
-            "卸载成功！请等待浏览器跳转",
-            "没有检测到在线版本号！",
-            "正在下载更新......",
-            "正在安装更新...",
-            "安装更新成功，请等待浏览器跳转！ ",
-            "下载文件校验不一致！",
-            "然而并没有更新！",
-            "正在检查是否有更新~",
-            "检测更新错误！"
-        ];
-		$('.popover').html(infos[installing]);
+		$('.popover').html(Msginfos[installing]);
 		}
 	});
 }
@@ -419,7 +438,7 @@ function softCenterInit(){
 }
 </script>
 	<div class="box" data-box="soft-center">
-		<div class="heading"><h2>番茄软件中心</h2>
+		<div class="heading"><h2>番茄软件中心<span id="server" style="color:#FF6A6A;font-size:12px;float:right;"></span></h2>
 		</div>
 		<div class="content">
 			<fieldset>
