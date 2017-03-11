@@ -44,7 +44,7 @@
             "build_date": "2017-03-12_17:00:29", 
             "description": "阿里云DDNS域名解析服务", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "e80656e8a2436d520c52e49ae2e607a3", 
+            "md5": "610d41503b2fbf80cd4e98755b7d5df2", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "阿里云DDNS", 
