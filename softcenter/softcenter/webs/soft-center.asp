@@ -92,22 +92,23 @@ var Msginfos = [
        		 ];
 //检查并切换服务器
 $.ajax({
-	url: "https://ttsoft.ngrok.wang/softcenter/push_message1.json.js",
+	url: "https://raw.githubusercontent.com/koolshare/ttsoft/master/softcenter/push_message1.json.js",
     type: "GET",
-    dataType:'jsonp',
+    dataType:'json',
     async: false,
     success: function() {
-        softcenterUrl = "https://ttsoft.ngrok.wang";
-        dataTypeX = "jsonp";
-        $('#server').html('当前服务器：TTSoft');
+        softcenterUrl = "https://raw.githubusercontent.com/koolshare/ttsoft/master";
+        dataTypeX = "json";
+        $('#server').html('当前服务器：GitHub');
+        
         //启用中专服务器
 		notice_show();
 		softCenterInit();	
     },
     error: function() {
-        softcenterUrl = "https://raw.githubusercontent.com/koolshare/ttsoft/master";
-        dataTypeX = "json";
-        $('#server').html('当前服务器：GitHub');
+        softcenterUrl = "https://ttsoft.ngrok.wang";
+        dataTypeX = "jsonp";
+        $('#server').html('当前服务器：TTSoft');
         //启用GitHub服务器
 		notice_show();
 		softCenterInit();
