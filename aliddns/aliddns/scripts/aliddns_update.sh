@@ -8,16 +8,15 @@ a_name=`echo $aliddns_domain | cut -d \. -f 1`
 a_domain=`echo $aliddns_domain | cut -d \. -f 2`.`echo $aliddns_domain | cut -d \. -f 3`
 
 if [ "$aliddns_enable" != "1" ]; then
-    dbus set ddns_hostname_x=`$ddns_hostname_old`
     echo "not enable"
     exit
 fi
 
-now=`date`
+now=`date "+%Y-%m-%d %H:%M:%S"`
 
 die () {
     echo $1
-    dbus ram aliddns_last_act="$now: failed($1)"
+    dbus ram aliddns_last_act="$now [失败](IP:$1)"
 }
 
 [ "$aliddns_curl" = "" ] && aliddns_curl="curl -s whatismyip.akamai.com"
@@ -41,10 +40,7 @@ then
     if [ "$ip" = "$current_ip" ]
     then
         echo "skipping"
-        dbus set aliddns_last_act="$now: skipped($ip)"
-    	dbus set ddns_enable_x=1
-    	dbus set ddns_hostname_x="$aliddns_domain"
-    	#ddns_custom_updated 1
+        dbus set aliddns_last_act="<font color=blue>$now    域名解析正常，跳过更新</font>"
         exit 0
     fi 
 # fix when A record removed by manual dns is always update error
@@ -123,12 +119,7 @@ fi
 # save to file
 if [ "$aliddns_record_id" = "" ]; then
     # failed
-    dbus ram aliddns_last_act="$now: failed"
-    dbus set ddns_hostname_x=`$ddns_hostname_old`
+    dbus ram aliddns_last_act="<font color=red>$now    域名解析失败</font>"
 else
-    dbus ram aliddns_record_id=$aliddns_record_id
-    dbus ram aliddns_last_act="$now: success($ip)"
-    dbus set ddns_enable_x=1
-    dbus set ddns_hostname_x="$aliddns_domain"
-    #ddns_custom_updated 1
+    dbus ram aliddns_last_act="<font color=green>$now    域名解析成功。当前IP：$ip</font>"
 fi
