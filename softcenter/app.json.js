@@ -39,6 +39,16 @@
             "tar_url": "kuainiao/kuainiao.tar.gz", 
             "title": "讯雷快鸟", 
             "version": "0.3.6"
+        }, 
+        {
+            "build_date": "2017-03-12_17:00:29", 
+            "description": "阿里云DDNS域名解析服务", 
+            "home_url": "Module_aliddns.asp", 
+            "md5": "e80656e8a2436d520c52e49ae2e607a3", 
+            "name": "aliddns", 
+            "tar_url": "aliddns/aliddns.tar.gz", 
+            "title": "阿里云DDNS", 
+            "version": "0.4"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
