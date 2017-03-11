@@ -1,6 +1,6 @@
 {
 "version":"0.4",
-"md5":"e80656e8a2436d520c52e49ae2e607a3",
+"md5":"610d41503b2fbf80cd4e98755b7d5df2",
 "home_url":"Module_aliddns.asp",
 "title":"阿里云DDNS",
 "description":"阿里云DDNS动态域名解析",
