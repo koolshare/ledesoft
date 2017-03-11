@@ -13,5 +13,5 @@ if [ "`dbus get aliddns_enable`" = "1" ]; then
 
 else
     cru d aliddns
-    dbus set ddns_hostname_x=`dbus get ddns_hostname_old`
+    dbus set aliddns_ddns_hostname_x=`dbus get aliddns_ddns_hostname_old`
 fi
