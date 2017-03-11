@@ -1,6 +1,4 @@
 #!/bin/sh
-#debug
-set -x
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
@@ -10,7 +8,7 @@ a_name=`echo $aliddns_domain | cut -d \. -f 1`
 a_domain=`echo $aliddns_domain | cut -d \. -f 2`.`echo $aliddns_domain | cut -d \. -f 3`
 
 if [ "$aliddns_enable" != "1" ]; then
-    nvram set ddns_hostname_x=`nvram get ddns_hostname_old`
+    dbus set ddns_hostname_x=`$ddns_hostname_old`
     echo "not enable"
     exit
 fi
@@ -44,8 +42,8 @@ then
     then
         echo "skipping"
         dbus set aliddns_last_act="$now: skipped($ip)"
-    	nvram set ddns_enable_x=1
-    	nvram set ddns_hostname_x="$aliddns_domain"
+    	dbus set ddns_enable_x=1
+    	dbus set ddns_hostname_x="$aliddns_domain"
     	#ddns_custom_updated 1
         exit 0
     fi 
@@ -126,11 +124,11 @@ fi
 if [ "$aliddns_record_id" = "" ]; then
     # failed
     dbus ram aliddns_last_act="$now: failed"
-    nvram set ddns_hostname_x=`nvram get ddns_hostname_old`
+    dbus set ddns_hostname_x=`$ddns_hostname_old`
 else
     dbus ram aliddns_record_id=$aliddns_record_id
     dbus ram aliddns_last_act="$now: success($ip)"
-    nvram set ddns_enable_x=1
-    nvram set ddns_hostname_x="$aliddns_domain"
+    dbus set ddns_enable_x=1
+    dbus set ddns_hostname_x="$aliddns_domain"
     #ddns_custom_updated 1
 fi
