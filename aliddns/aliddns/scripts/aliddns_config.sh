@@ -10,5 +10,6 @@ if [ "`dbus get aliddns_enable`" = "1" ]; then
 	sleep 1
 else
     cru d aliddns
+    dbus set aliddns_last_act="<font color=red>服务未开启</font>"
 fi
 http_response '设置已保存！切勿重复提交！页面将在3秒后刷新'
