@@ -9,21 +9,21 @@ fi
 
 [ $ACTION = stop -o $ACTION = restart -o $ACTION = kill ] && ORDER="-r"
 
-for i in $(find /jffs/koolshare/init.d/ -name 'S*' | sort $ORDER ) ;
+for i in $(find /jffs/koolshare/init.d/ -name 'N*' | sort $ORDER ) ;
 do
     case "$i" in
         S* | *.sh )
             # Source shell script for speed.
             trap "" INT QUIT TSTP EXIT
             #set $1
-            logger "plugin_log_1 $i"
+            logger "nat_log_1 $i"
             if [ -r "$i" ]; then
             . $i $ACTION
             fi
             ;;
         *)
             # No sh extension, so fork subprocess.
-            logger "plugin_log_2 $i"
+            logger "nat_log_2 $i"
             $i $ACTION
             ;;
     esac

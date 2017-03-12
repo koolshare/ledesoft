@@ -7,4 +7,4 @@ fi
 
 plugin.sh stop
 plugin.sh start
-dbus fire onwanstart
+
