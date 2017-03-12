@@ -21,9 +21,14 @@
             "version": "0.1.6"
         }, 
         {
+            "build_date": "2017-01-15_19:54:28", 
+            "description": "你懂得加速度……", 
+            "home_url": "Module_shadowsocks.asp", 
+            "md5": "123456789456456", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
-            "title": "shadowsocks"
+            "title": "ShadowSocks",
+            "version": "0.0.0"
         }, 
         {
             "build_date": "2016-06-29_11:33:47", 
@@ -46,9 +51,14 @@
             "version": "0.3.6"
         }, 
         {
+            "build_date": "2017-01-15_19:54:28", 
+            "description": "拒绝一切广告……", 
+            "home_url": "Module_koolproxy.asp", 
+            "md5": "123456789456456", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
-            "title": "koolproxy"
+            "title": "KoolProxy",
+            "version": "0.0.0"
         }, 
         {
             "build_date": "2017-02-19_08:56:14", 
