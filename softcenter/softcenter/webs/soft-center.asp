@@ -1,21 +1,33 @@
 <title>软件中心</title>
 <content>
+<link rel="stylesheet" href="css/animate.min.css" />
 <style type="text/css">
-.popover{font-size:14px;color:#63B8FF;}.apps a:link{color: #fff}.apps a:visited{color: #fff}.apps a:hover{color: #fff}.apps a:active{color: #fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin-left:10px;margin-right:10px;margin-top:10px;padding-top:10px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;}.app .app-name{margin-top:5px;margin-bottom:5px;width:150px;} .infos{float:left;}.appimg{width:60px;height:60px;margin-left:10px;margin-right:10px;margin-top:10px;}.btn-sm{font-size:16px;padding:0px 5px 0px 5px;border-radius:2px;}.appDesc{width:20px;float:right;margin-top:-89px;margin-right:40px;}.desc{width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:4px;}.boxr2{display:none;}.boxr3{display:none;}.boxr4{display:none;}.boxr5{display:none;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}</style>
+::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);border-radius:10px;background-color:#F5F5F5;}::-webkit-scrollbar{width:8px;background-color:#F5F5F5;}::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);background-color:#555;}.box .content{padding:0 15px 15px;display:block;}.popover{font-size:14px;color:#63B8FF;}.apps a:link{color:#fff}.apps a:visited{color:#fff}.apps a:hover{color:#fff}.apps a:active{color:#fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin:5px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;cursor:pointer;}.infos{width:80px;height:100px;float:left;}.appimg{width:60px;margin:20px 10px 20px 10px;pointer-events:none;}.app-name{padding:11px 0 11px 0;height:100px;width:170px;float:left;}.app-name p{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-shadow:#444 0 1px 0;pointer-events:none;}.appDesc{margin:0 auto;width:40px;height:100px;float:left;display:none;}.appDesc button.btn{width:35px;height:100px;font-family:"Segoe UI","Roboto",sans-serif;font-weight:400!important;vertical-align:middle;outline:0;outline-style:none;font-size:14px;padding:0 3px 0 3px;border-radius:0px;}.boxr2{display:none;}.boxr3{display:none;}.boxr4{display:none;}.boxr5{display:none;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}
+</style>
 <script type="text/javascript">
-$("#app1-server1-basic-tab").addClass("active");
 //APPS 控制模块
+var anmstatus=null;
 function change1(obj){
-	$(obj).find('button').show();
-	$(obj).find('.desc').width('100px');
+	x = $(anmstatus).find('.app-name').width();
+	if(x == '170px'){
+		anmstatus = null;
+	}
+	if(anmstatus != obj){
+		anmstatus = obj;
+		$(obj).stop().removeClass('animated flipInY').addClass('animated flipInY').one('animationend webkitAnimationEnd oAnimationEnd', function(){
+			$(obj).removeClass('animated flipInY');
+    	});	
+	}
+	$(obj).find('.appDesc').show();
+	$(obj).find('.app-name').width('130px');
 }
 function change2(obj){
 	var id = $(obj).find('button').attr("id");
 	if(id != 'app-update'){
-		$(obj).find('button').hide();
-		$(obj).find('.desc').width('150px');
+		$(obj).find('.appDesc').hide();
+		$(obj).find('.app-name').width('170px');
 	}else{
-		$(obj).find('.desc').width('100px');
+		$(obj).find('.app-name').width('130px');
 	}
 }
 function tabSelect(obj){
@@ -264,11 +276,9 @@ function getSoftCenter(obj){
 						j++;
 						aurl = "#Module_" +appname+".asp";
 						if(oversion!=version && oversion){
-							appButton = '<button style="height:103px;" value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success btn-sm">更新</button>';
-							astyle = ' style="width:100px;"';
+							appButton = '<button value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success">更新</button>';
 						}else{
-							appButton = '<button style="height:103px;display:none;" type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
-							astyle = ' style="width:150px;"';
+							appButton = '<button type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
 						}
 
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
@@ -281,11 +291,10 @@ function getSoftCenter(obj){
 							appimg = '/res/icon-'+appname+'.png';
 						}
 						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
-							'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
+						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg+'"/></div>'+
-								'<div class="app-name"><p>'+title+'</p>'+
-								'<p class="desc"'+astyle+'>'+description+'</p></div>'+
+								'<div class="app-name"><p>'+title+'</p><p>'+description+'</p></div>'+
 							'</a>'+
 							'<div class="appDesc">'+
 							appButton+
@@ -296,15 +305,13 @@ function getSoftCenter(obj){
 						x++;
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
 						bgimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+"-bg.png";
-						aurl='javascript:void(0);';
-						appButton = '<button style="height:103px;display:none;" type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary btn-sm">安装</button>';
-						vhtml2 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
-						'<a href="'+aurl+'" title="'+description+'">'+
+						appButton = '<button type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary">安装</button>';
+						vhtml2 += '<div title="'+title+'\n'+description+'" class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
+
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg+'"/></div>'+
 								'<div class="app-name"><p>'+title+'</p>'+
-								'<p class="desc">'+description+'</p></div>'+
-								'</a>'+
+								'<p>'+description+'</p></div>'+
 							'<div class="appDesc">'+
 							appButton+
 							'</div>'+
@@ -356,8 +363,8 @@ function getLocalApp(obj){
 			description = "本地版本："+obj["softcenter_module_"+name+"_version"];
 			appimg = "/res/icon-"+name+".png";
 			bgimg = "/res/icon-"+name+"-bg.png";
-			appButton = '<button style="height:103px;display:none;" type="button" value="'+name+'" onclick="appuninstall(this)" class="btn btn-danger btn-sm">卸载</button>';
-			vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+description+'"><div class="infos"><img class="appimg" src="'+appimg+'"/></div><div class="app-name"><p>'+name+'</p><p class="desc">'+description+'</p></div></a><div class="appDesc">'+appButton+'</div></div>';
+			appButton = '<button type="button" value="'+name+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
+			vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+name+'\n'+description+'"><div class="infos"><img class="appimg" src="'+appimg+'"/></div><div class="app-name"><p>'+name+'</p><p>'+description+'</p></div></a><div class="appDesc">'+appButton+'</div></div>';
 		}  						
 	}
 	$("#app1-server1-basic-tab").html('<i class="icon-system"></i> 已安装（'+j+'）');
@@ -486,7 +493,7 @@ function softCenterInit(){
 	</div>
 	​<ul class="nav nav-tabs">
 		<li>
-			<a href="javascript:tabSelect('app1');" id="app1-server1-basic-tab"><i class="icon-system"></i> 已安装</a>
+			<a href="javascript:tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a>
 		</li>
 		<li>
 			<a href="javascript:tabSelect('app2');" id="app2-server1-advanced-tab"><i class="icon-globe"></i> 未安装</a>
