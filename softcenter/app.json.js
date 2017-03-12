@@ -52,7 +52,7 @@
         }, 
         {
             "build_date": "2017-01-15_19:54:28", 
-            "description": "拒绝一切广告……", 
+            "description": "和谐一切本不该有的……", 
             "home_url": "Module_koolproxy.asp", 
             "md5": "123456789456456", 
             "name": "koolproxy", 
