@@ -1,6 +1,7 @@
 <title>软件中心 - Aliddns</title>
 <content>
 <script type="text/javascript">
+//-------------- get appsinfo from dbus ---------------
 getAppData();
 var Apps;
 function getAppData(){
@@ -15,13 +16,15 @@ var appsInfo;
 	  	}
 	});
 }
-
+//-------------- get appsinfo from dbus ---------------
+	
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
 	return 1;
 }
 function save(){
+	//  save all values to Apps
 	Apps.aliddns_enable = E('_aliddns_enable').checked ? '1':'0';
 	Apps.aliddns_ak = E('_aliddns_ak').value;
 	Apps.aliddns_sk = E('_aliddns_sk').value;
@@ -31,21 +34,21 @@ function save(){
 	Apps.aliddns_curl = E('_aliddns_curl').value;
 	Apps.aliddns_ttl = E('_aliddns_ttl').value;
 
-	//-------------- post Apps to dbus ---------------
+	//-------------- post Apps to dbus and run aliddns_config.sh---------------
 	var id = 1 + Math.floor(Math.random() * 6);
 	var postData = {"id": id, "method":'aliddns_config.sh', "params":[], "fields": Apps};
 	var success = function(data) {
-		//
+
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
 		setTimeout("window.location.reload()", 3000);
-
-		//  do someting here.
+		//
+		//  on success do someting here.
 		//
 	};
 	var error = function(data) {
 		//
-		//  do someting here.
+		//  on error do someting here.
 		//
 	};
 	$('#footer-msg').text('保存中……');
@@ -61,11 +64,11 @@ function save(){
 	  dataType: "json"
 	});
 	
-	//-------------- post Apps to dbus ---------------
+	//-------------- post Apps to dbus and run aliddns_config.sh ---------------
 }
 </script>
 <div class="box">
-<div class="heading">阿里云DDNS <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+<div class="heading">阿里云DDNS <a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 <br><hr>
 <div class="content">
 <div id="aliddns-fields"></div>
