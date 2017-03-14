@@ -1,1 +1,0 @@
-/koolshare/ddnspod/ddnspod.sh
