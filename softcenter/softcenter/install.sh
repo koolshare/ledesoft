@@ -1,9 +1,7 @@
 #!/bin/sh
 
-if [ -z $KSROOT ]; then
+mkdir /jffs/koolshare
 export KSROOT=/jffs/koolshare
-source $KSROOT/scripts/base.sh
-fi
 
 softcenter_install() {
 	if [ -d "/tmp/softcenter" ]; then
