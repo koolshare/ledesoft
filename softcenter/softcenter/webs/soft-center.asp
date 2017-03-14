@@ -31,46 +31,17 @@ function change2(obj){
 	}
 }
 function tabSelect(obj){
-	if(obj=="app1"){
-		$('#app1-server1-basic-tab').addClass("active");
-		$('#app2-server1-advanced-tab').removeClass("active");
-		$('#app3-server1-keys-tab').removeClass("active");
-		$('#app4-server1-status-tab').removeClass("active");
-		$('.boxr1').show();
-		$('.boxr2').hide();
-		$('.boxr3').hide();
-		$('.boxr4').hide();
-		$('.boxr5').hide();
-	}else if(obj=="app2"){
-		$('#app1-server1-basic-tab').removeClass("active");
-		$('#app2-server1-advanced-tab').addClass("active");
-		$('#app3-server1-keys-tab').removeClass("active");
-		$('#app4-server1-status-tab').removeClass("active");
-		$('.boxr1').hide();
-		$('.boxr2').show();
-		$('.boxr3').hide();
-		$('.boxr4').hide();
-		$('.boxr5').hide();
-	}else if(obj=="app3"){
-		$('#app1-server1-basic-tab').removeClass("active");
-		$('#app2-server1-advanced-tab').removeClass("active");
-		$('#app3-server1-keys-tab').addClass("active");
-		$('#app4-server1-status-tab').removeClass("active");
-		$('.boxr1').hide();
-		$('.boxr2').hide();
-		$('.boxr3').show();
-		$('.boxr4').show();
-		$('.boxr5').hide();
-	}else if(obj=="app4"){
-		$('#app1-server1-basic-tab').removeClass("active");
-		$('#app2-server1-advanced-tab').removeClass("active");
-		$('#app3-server1-keys-tab').removeClass("active");
-		$('#app4-server1-status-tab').addClass("active");
-		$('.boxr1').hide();
-		$('.boxr2').hide();
-		$('.boxr3').hide();
-		$('.boxr4').hide();
-		$('.boxr5').show();
+	var tableX = ['app1-server1-basic-tab','app2-server1-advanced-tab','app3-server1-keys-tab','app4-server1-status-tab'];
+	var boxX = ['boxr1','boxr2','boxr3','boxr4'];
+	var appX = ['app1','app2','app3','app4'];
+	for (var i = 0; i < tableX.length; i++){
+		if(obj == appX[i]){
+			$('#'+tableX[i]).addClass('active');
+			$('.'+boxX[i]).show();
+		}else{
+			$('#'+tableX[i]).removeClass('active');
+			$('.'+boxX[i]).hide();
+		}
 	}
 }
 </script>
@@ -528,31 +499,27 @@ function softCenterInit(){
 						<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
 						<li>建议开发者将插件版本号，md5等信息在install.sh文件内进行写入；</li>
 					</ul>
+					<br/>
+					<div id="identification" class="section">
+						<fieldset>
+							<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
+							<div class="col-sm-9">
+								<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
+							</div>
+						</fieldset>
+						<fieldset>
+							<label class="control-left-label col-sm-3">选择安装包</label>
+							<div class="col-sm-9">
+								<form name="form_upgrade" method="post" action="" encType="multipart/form-data">
+									<input type="file" name="file" size="50"> <button type="button" value="Upgrade" id="afu-upgrade-button" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
+								</form>
+							</div>
+						</fieldset>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="box boxr4">
-			<div class="heading">离线安装</div>
-			<div class="content">
-				<div id="identification" class="section">
-					<fieldset>
-						<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
-						<div class="col-sm-9">
-							<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
-						</div>
-					</fieldset>
-					<fieldset>
-						<label class="control-left-label col-sm-3">选择安装包</label>
-						<div class="col-sm-9">
-							<form name="form_upgrade" method="post" action="" encType="multipart/form-data">
-								<input type="file" name="file" size="50"> <button type="button" value="Upgrade" id="afu-upgrade-button" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
-							</form>
-						</div>
-					</fieldset>
-				</div>
-			</div>
-		</div>
-		<div class="box boxr5">
 			<div class="heading">状态日志</div>
 			<div class="content">
 				<div class="tabContent4">
