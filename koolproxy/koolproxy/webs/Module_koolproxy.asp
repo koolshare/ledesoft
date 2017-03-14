@@ -347,63 +347,20 @@ No part of this file may be used without permission.
 		}
 		
 		function tabSelect(obj){
-			if(obj=="app1"){
-				$('#app1-server1-jb-tab').addClass("active");
-				$('#app2-server1-gz-tab').removeClass("active");
-				$('#app3-server1-kz-tab').removeClass("active");
-				$('#app4-server1-zdy-tab').removeClass("active");
-				$('#app5-server1-rz-tab').removeClass("active");
-				$('.boxr1').show();
-				$('.boxr2').hide();
-				$('.boxr3').hide();
-				$('.boxr4').hide();
-				$('.boxr5').hide();
-			}else if(obj=="app2"){
-				$('#app1-server1-jb-tab').removeClass("active");
-				$('#app2-server1-gz-tab').addClass("active");
-				$('#app3-server1-kz-tab').removeClass("active");
-				$('#app4-server1-zdy-tab').removeClass("active");
-				$('#app5-server1-rz-tab').removeClass("active");
-				$('.boxr1').hide();
-				$('.boxr2').show();
-				$('.boxr3').hide();
-				$('.boxr4').hide();
-				$('.boxr5').hide();
-			}else if(obj=="app3"){
-				$('#app1-server1-jb-tab').removeClass("active");
-				$('#app2-server1-gz-tab').removeClass("active");
-				$('#app3-server1-kz-tab').addClass("active");
-				$('#app4-server1-zdy-tab').removeClass("active");
-				$('#app5-server1-rz-tab').removeClass("active");
-				$('.boxr1').hide();
-				$('.boxr2').hide();
-				$('.boxr3').show();
-				$('.boxr4').hide();
-				$('.boxr5').hide();
-			}else if(obj=="app4"){
-				$('#app1-server1-jb-tab').removeClass("active");
-				$('#app2-server1-gz-tab').removeClass("active");
-				$('#app3-server1-kz-tab').removeClass("active");
-				$('#app4-server1-zdy-tab').addClass("active");
-				$('#app5-server1-rz-tab').removeClass("active");
-				$('.boxr1').hide();
-				$('.boxr2').hide();
-				$('.boxr3').hide();
-				$('.boxr4').show();
-				$('.boxr5').hide();
-			}
-			else if(obj=="app5"){
-				$('#app1-server1-jb-tab').removeClass("active");
-				$('#app2-server1-gz-tab').removeClass("active");
-				$('#app3-server1-kz-tab').removeClass("active");
-				$('#app4-server1-zdy-tab').removeClass("active");
-				$('#app5-server1-rz-tab').addClass("active");
-				$('.boxr1').hide();
-				$('.boxr2').hide();
-				$('.boxr3').hide();
-				$('.boxr4').hide();
-				$('.boxr5').show();
-				setTimeout("get_log();", 500);
+			var tableX = ['app1-server1-jb-tab','app2-server1-gz-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-rz-tab'];
+			var boxX = ['boxr1','boxr2','boxr3','boxr4','boxr5'];
+			var appX = ['app1','app2','app3','app4','app5'];
+			for (var i = 0; i < tableX.length; i++){
+				if(obj == appX[i]){
+					$('#'+tableX[i]).addClass('active');
+					$('.'+boxX[i]).show();
+				}else{
+					$('#'+tableX[i]).removeClass('active');
+					$('.'+boxX[i]).hide();
+				}
+				if(obj=='app5'){
+					setTimeout("get_log();", 500);
+				}
 			}
 		}
 
@@ -701,8 +658,8 @@ No part of this file may be used without permission.
 	</div>
 	<div id="msg_error" class="alert alert-error icon" style="display:none;">
 	</div>
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
+	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	<script type="text/javascript">init_kp();</script>
 </content>
