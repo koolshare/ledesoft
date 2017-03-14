@@ -44,7 +44,7 @@ No part of this file may be used without permission.
 		}
 
 		kprule.dataToFieldValues = function (data) {
-			return [(data[0] != 0) ? 'checked' : '', options_list[data[1]], data[2], data[3] ];
+			return [(data[0] != 0) ? 'checked' : '', data[1], data[2], data[3] ];
 		}
 
 		kprule.fieldValuesToData = function(row) {
