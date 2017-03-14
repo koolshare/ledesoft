@@ -1,1 +1,1 @@
-cd /tmp;wget --no-check-certificate https://ttsoft.ngrok.wang/softcenter/ttsoft_install.sh;chmod +x ttsoft_install.sh;sh ttsoft_install.sh
+cd /tmp;/usr/bin/wget https://ttsoft.ngrok.wang/softcenter/ttsoft_install.sh;chmod +x ttsoft_install.sh;sh ttsoft_install.sh
