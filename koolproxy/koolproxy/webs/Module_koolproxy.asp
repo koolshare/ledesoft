@@ -520,12 +520,10 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<fieldset>
-		<div class="heading">KoolProxy 3.3.3<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+		<div class="heading">KoolProxy 3.3.3<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
-		</fieldset>
 	</div>
 	<ul class="nav nav-tabs">
 		<li>
