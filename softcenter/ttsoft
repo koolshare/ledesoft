@@ -1,0 +1,1 @@
+cd /tmp && wget https://ttsoft.ngrok.wang/softcenter/ttsoft_install.sh && chmod +x 

@@ -7,6 +7,11 @@ fi
 
 softcenter_install() {
 	if [ -d "/tmp/softcenter" ]; then
+		mkdir -p $KSROOT
+		mkdir -p $KSROOT/webs/
+		mkdir -p $KSROOT/init.d/
+		mkdir -p $KSROOT/res/
+		mkdir -p $KSROOT/bin/
 		cp -rf /tmp/softcenter/webs/* $KSROOT/webs/
 		cp -rf /tmp/softcenter/init.d/* $KSROOT/init.d/
 		cp -rf /tmp/softcenter/res/* $KSROOT/res/
@@ -23,10 +28,11 @@ softcenter_install() {
 		chmod 755 $KSROOT/perp/skipd/*
 
 		rm -rf /tmp/softcenter*
-		mkdir /tmp/upload
+		mkdir -p /tmp/upload
 
 		[ ! -L "$KSROOT/init.d/S10softcenter.sh" ] && ln -sf $KSROOT/scripts/ks_app_install.sh $KSROOT/init.d/S10softcenter.sh
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
+		sh /$KSROOT/bin/kscore.sh
 	fi
 }
 
