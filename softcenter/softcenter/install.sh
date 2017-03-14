@@ -32,6 +32,7 @@ softcenter_install() {
 
 		[ ! -L "$KSROOT/init.d/S10softcenter.sh" ] && ln -sf $KSROOT/scripts/ks_app_install.sh $KSROOT/init.d/S10softcenter.sh
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
+		nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
 		sh /$KSROOT/bin/kscore.sh
 	fi
 }

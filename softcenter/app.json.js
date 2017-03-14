@@ -49,7 +49,7 @@
             "build_date": "2016-12-27_09:15:58", 
             "description": "koolproxy", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "e7ebcbfe684fd77e42d2a3582f4517c5", 
+            "md5": "77cc568ec5a627b71999fd019d77db08", 
             "module": "koolproxy", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
@@ -68,7 +68,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "0f82e43ad7fc123dd6db50cbb4c30c99", 
+    "md5": "de47b9dc177d496576405a3f12c64296", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "1.3.1"
+    "version": "1.3.2"
 }
