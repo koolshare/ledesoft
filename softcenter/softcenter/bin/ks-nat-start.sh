@@ -1,18 +1,17 @@
 #!/bin/sh
 
-ACTION=$1
+#ACTION=$1
+ACTION="start_nat"
 
-if [ $# -lt 1 ]; then
-    printf "Usage: $0 {start|stop|restart|reconfigure|check|kill}\n" >&2
-    exit 1
-fi
+echo start `date` > /tmp/ks_nat_log.txt
 
-[ $ACTION = stop -o $ACTION = restart -o $ACTION = kill ] && ORDER="-r"
+ks_nat=`nvram get ks_nat`
+[ "$ks_nat" == "1" ] && echo exit `date` >> /tmp/ks_nat_log.txt && exit
 
-for i in $(find /jffs/koolshare/init.d/ -name 'N*' | sort $ORDER ) ;
+for i in $(find /jffs/koolshare/init.d/ -name 'N*' | sort) ;
 do
     case "$i" in
-        S* | *.sh )
+        *.sh )
             # Source shell script for speed.
             trap "" INT QUIT TSTP EXIT
             #set $1
@@ -29,3 +28,4 @@ do
     esac
 done
 
+echo finish `date` >> /tmp/ks_nat_log.txt

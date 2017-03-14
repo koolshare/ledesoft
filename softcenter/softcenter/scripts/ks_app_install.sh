@@ -175,6 +175,11 @@ install)
 ks_app_install)
 	install_module
 	;;
+stop)
+	# reset installing status incase of install failed
+	dbus set softcenter_installing_status="0"
+	echo software center: do nothing
+	;;
 *)
 	install_module
 	;;

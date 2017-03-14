@@ -19,17 +19,14 @@ softcenter_install() {
 		chmod 755 $KSROOT/perp/.boot/*
 		chmod 755 $KSROOT/perp/.control/*
 		chmod 755 $KSROOT/scripts/*
-		rm -rf /tmp/softcenter
-		rm -rf $KSROOT/init.d/S10Softcenter.sh
-		if [ ! -L "$KSROOT/init.d/S10Softcenter.sh" ]; then
-			ln -sf $KSROOT/scripts/ks_app_install.sh $KSROOT/init.d/S10softcenter.sh
-		fi
-		rm -rf $KSROOT/res/icon-koolsocks.png
-		dbus remove softcenter_module_koolsocks_install
-		dbus remove softcenter_module_koolsocks_version
-		if [ -f "$KSROOT/ss/ssconfig.sh" ]; then
-			dbus set softcenter_module_shadowsocks_install=4
-		fi
+		chmod 755 $KSROOT/perp/httpdb/*
+		chmod 755 $KSROOT/perp/skipd/*
+
+		rm -rf /tmp/softcenter*
+		mkdir /tmp/upload
+
+		[ ! -L "$KSROOT/init.d/S10softcenter.sh" ] && ln -sf $KSROOT/scripts/ks_app_install.sh $KSROOT/init.d/S10softcenter.sh
+		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
 	fi
 }
 
