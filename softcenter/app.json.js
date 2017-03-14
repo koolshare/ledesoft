@@ -14,7 +14,7 @@
             "build_date": "2016-12-27_09:15:58", 
             "description": "koolproxy", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "77cc568ec5a627b71999fd019d77db08", 
+            "md5": "a2f588ca5c125a725246c9c7a4cef803", 
             "module": "koolproxy", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
@@ -22,18 +22,18 @@
             "version": "3.3.4"
         }, 
         {
-            "build_date": "2017-02-19_08:56:14", 
+            "build_date": "2017-03-15_00:44:38", 
             "description": "超强的SSH网页客户端，webshell替代品~", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "3b091ac52447e6dafe3386a0e25b3d0c", 
+            "md5": "fa64472f0f0ed0b979773b931a74356f", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "shellinabox", 
-            "version": "1.4"
+            "version": "1.5"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "1d66f29519355a6c77f0b2988cb82741", 
+    "md5": "3cd93054a1d225fc134b54dcbda45372", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "1.3.4"
 }
