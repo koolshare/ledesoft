@@ -653,8 +653,7 @@ No part of this file may be used without permission.
 	</div>
 	<div id="msg_error" class="alert alert-error icon" style="display:none;">
 	</div>
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
-	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
+	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
+	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 	<script type="text/javascript">init_kp();</script>
 </content>
