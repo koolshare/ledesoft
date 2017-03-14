@@ -1,5 +1,10 @@
 <title>软件中心 - Aliddns</title>
 <content>
+<style type="text/css">
+input[disabled]:hover{
+    cursor:not-allowed;
+}
+</style>
 <script type="text/javascript">
 getAppData();
 var Apps;
@@ -19,6 +24,13 @@ var appsInfo;
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
+	var dnsenable = E('_aliddns_enable').checked ? '1':'0';
+	if(dnsenable == 0){
+		$('input').prop('disabled', true);
+		$(E('_aliddns_enable')).prop('disabled', false);
+	}else{
+		$('input').prop('disabled', false);
+	}
 	return 1;
 }
 function save(){
@@ -30,7 +42,10 @@ function save(){
 	Apps.aliddns_dns = E('_aliddns_dns').value;
 	Apps.aliddns_curl = E('_aliddns_curl').value;
 	Apps.aliddns_ttl = E('_aliddns_ttl').value;
-
+	if(Apps.aliddns_ak == "" || Apps.aliddns_sk == "" || Apps.aliddns_domain == "home.example.com"){
+		alert("填写的信息不全，请检查后再提交！");
+		return false;
+	}
 	//-------------- post Apps to dbus ---------------
 	var id = 1 + Math.floor(Math.random() * 6);
 	var postData = {"id": id, "method":'aliddns_config.sh', "params":[], "fields": Apps};
@@ -74,7 +89,7 @@ $('#aliddns-fields').forms([
 { title: '开启Aliddns', name: 'aliddns_enable', type: 'checkbox', value: ((Apps.aliddns_enable == '1')? 1:0)},
 { title: '上次运行', name: 'aliddns_last_act', text: Apps.aliddns_last_act ||'--' },
 { title: 'App Key', name: 'aliddns_ak', type: 'text', maxlen: 34, size: 34, value: Apps.aliddns_ak },
-{ title: 'App Secret', name: 'aliddns_sk', type: 'text', maxlen: 34, size: 34, value: Apps.aliddns_sk },
+{ title: 'App Secret', name: 'aliddns_sk', type: 'password', maxlen: 34, size: 34, value: Apps.aliddns_sk },
 { title: '检查周期', name: 'aliddns_interval', type: 'text', maxlen: 5, size: 5, value: Apps.aliddns_interval || '5',suffix:'分钟'},
 { title: '域名', name: 'aliddns_domain', type: 'text', maxlen: 32, size: 34, value: Apps.aliddns_domain || 'home.example.com'},
 { title: 'DNS服务器', name: 'aliddns_dns', type: 'text', maxlen: 15, size: 15, value: Apps.aliddns_dns ||'223.5.5.5',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为阿里云DNS</small>'},
