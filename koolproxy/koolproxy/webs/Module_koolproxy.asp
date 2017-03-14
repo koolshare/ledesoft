@@ -305,9 +305,6 @@ No part of this file may be used without permission.
 			});
 		}	
 
-		function reload_Soft_Center(){
-			location.href = "#soft-center.asp";
-		}
 		function download_cert(){
 			location.href = "http://110.110.110.110";
 		}
@@ -524,11 +521,9 @@ No part of this file may be used without permission.
 
 	<div class="box">
 		<fieldset>
-		<div class="heading">KoolProxy 3.3.3</div>
+		<div class="heading">KoolProxy 3.3.3<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 		<div class="content">
-			<button onclick="reload_Soft_Center();" class="btn backsoftcenter pull-right" style="margin-left: 20px;">返回 <i class="icon-cloud"></i></button>
-			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">
-			</span>
+			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
 		</fieldset>
 	</div>
@@ -658,8 +653,8 @@ No part of this file may be used without permission.
 	</div>
 	<div id="msg_error" class="alert alert-error icon" style="display:none;">
 	</div>
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
+	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
+	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	<script type="text/javascript">init_kp();</script>
 </content>
