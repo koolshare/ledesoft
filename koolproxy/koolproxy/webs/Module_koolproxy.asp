@@ -17,6 +17,7 @@ No part of this file may be used without permission.
 		var options_list = [];
 		var _responseLen;
 		var noChange = 0;
+		tabSelect('app1');
 		if(typeof btoa == "Function") {
 		   Base64 = {encode:function(e){ return btoa(e); }, decode:function(e){ return atob(e);}};
 		} else {
