@@ -107,10 +107,44 @@ sleep 1
 # now start skipd and httpdb
 # because tomato shell can't keep them running background when shell exit
 # we have to use exec in the end of this scripts
-killall skipd
-perpctl A skipd
+# the perp has been restartd at the begainning, there is no need to use arg X on perpctl
+STAT_S=`perpls skipd | grep +++`
+STAT_H=`perpls httpdb | grep +++`
+RUN_S=`pidof skipd`
+RUN_H=`pidof httpdb`
 
-killall httpdb
-echo finish `date` >> /tmp/ks_core_log.txt
-exec perpctl A httpdb
+if [ -n "$STAT_S" ] && [ -n "$STAT_S" ];then
+	echo skipd is working normally, do nothing.
+else
+	echo start skipd!
+	killall skipd > /dev/null 2>&1
+	perpctl A skipd
+fi
+
+if [ -n "$STAT_H" ] && [ -n "$RUN_H" ];then
+	echo skipd is working normally, do nothing.
+else
+	killall httpdb > /dev/null 2>&1
+	echo finish `date` >> /tmp/ks_core_log.txt
+	exec perpctl A httpdb
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ===============================

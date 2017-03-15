@@ -75,7 +75,7 @@ var Msginfos = [
        		 ];
 //检查并切换服务器
 $.ajax({
-	url: "https://ttsoft.ngrok.wang/softcenter/push_message1.json.js",
+	url: "https://ttsoft.ngrok.wang/softcenter/switch_server.json.js",
     type: "GET",
     dataType:'jsonp',
     async: false,
@@ -101,7 +101,7 @@ $.ajax({
 //推送信息
 function notice_show(){
     $.ajax({
-        url: softcenterUrl+'/softcenter/push_message1.json.js',
+        url: softcenterUrl+'/softcenter/push_message.json.js',
         type: 'GET',
         dataType: dataTypeX,
         success: function(res) {
