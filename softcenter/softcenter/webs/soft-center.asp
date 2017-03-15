@@ -97,7 +97,6 @@ $.ajax({
 		softCenterInit();
     },timeout:3000
 });
-
 //推送信息
 function notice_show(){
     $.ajax({
@@ -162,7 +161,6 @@ function _formatData(name,mod){
 		}
 	};
 }
-
 function CheckImgExists(imgurl) {  
   var ImgObj = new Image(); //判断图片是否存在  
   ImgObj.src = imgurl;  
@@ -173,7 +171,6 @@ function CheckImgExists(imgurl) {
     return false;
   }  
 }
-
 function getSoftCenter(obj){
 	$.ajax({  
 		url:softcenterUrl+"/softcenter/app.json.js",  
@@ -251,10 +248,8 @@ function getSoftCenter(obj){
 						}else{
 							appButton = '<button type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
 						}
-
 						appimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+".png";
 						bgimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+"-bg.png";
-
 						if(!CheckImgExists(bgimg)){
 							bgimg = '/res/icon-'+appname+'-bg.png';
 						}
@@ -278,7 +273,6 @@ function getSoftCenter(obj){
 						bgimg = softcenterUrl+"/softcenter/softcenter/res/icon-"+appname+"-bg.png";
 						appButton = '<button type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary">安装</button>';
 						vhtml2 += '<div title="'+title+'\n'+description+'" class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
-
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg+'"/></div>'+
 								'<div class="app-name"><p>'+title+'</p>'+
@@ -346,14 +340,21 @@ function appPostScript(moduleInfo, script) {
     var id = 1 + Math.floor(Math.random() * 6);
 	var data = {};
     var applyUrl = "/_api/";
-    data["softcenter_home_url"] = softcenterUrl;
-    data["softcenter_installing_todo"] = moduleInfo.name;
+	if(script =="ks_tar_install.sh"){
+	data["soft_name"] = moduleInfo.name;
+	data["soft_install_version"] = moduleInfo.version;
+	}else{
+	data["softcenter_home_url"] = softcenterUrl;
+	data["softcenter_installing_todo"] = moduleInfo.name;
+	}
+    
     if(script == "ks_app_install.sh") {
     data["softcenter_installing_tar_url"] = moduleInfo.tar_url;
     data["softcenter_installing_md5"] = moduleInfo.md5;
     data["softcenter_installing_version"] = moduleInfo.version;
     data[moduleInfo.name + "_title"] = moduleInfo.title;
     }
+	
 	var postData = {"id": id, "method":script, "params":[], "fields": data};
 	
 	var success = function(data) {
@@ -364,7 +365,9 @@ function appPostScript(moduleInfo, script) {
 		//请求错误！
 		$('.popover').html('<font color=red>软件中心异常！</font>');
 	};
-	CheckX();
+	if(script !="ks_tar_install.sh"){
+		CheckX();
+	}
 	$.ajax({
 	  type: "POST",
 	  url: "/_api/",
@@ -420,6 +423,41 @@ function softCenterInit(){
 		}
 	});
 }
+function uploadApp(){
+	var filename = $("#file").val();
+	filename = filename.split('\\');
+	filename = filename[filename.length-1];
+	var filelast = filename.split('.');
+	filelast = filelast[filelast.length-1];
+	var appversion = $('#_app_version').val();
+	if(filelast !='gz'){
+		alert('插件压缩包格式不正确！');
+		return false;
+	}
+	if(appversion==""){
+		alert('版本号未填写！');
+		return false;
+	}
+	var formData = new FormData();
+	formData.append(filename, $('#file')[0].files[0]);
+	$.ajax({
+		url: '/_upload',
+		type: 'POST',
+		cache: false,
+		data: formData,
+		processData: false,
+		contentType: false,
+		complete:function(res){
+			if(res.status==200){
+				var moduleInfo = {
+						"name":filename,
+						"version": appversion
+					};
+				appPostScript(moduleInfo,'ks_tar_intall.sh');
+			}
+		}
+	});
+}
 </script>
 	<div class="col">
 		<div class="heading">
@@ -472,7 +510,7 @@ function softCenterInit(){
 			<a href="javascript:tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a>
 		</li>
 		<li>
-			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 状态日志</a>
+			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 关于我们</a>
 		</li>
 	</ul>
 	
@@ -515,9 +553,10 @@ function softCenterInit(){
 						<fieldset>
 							<label class="control-left-label col-sm-3">选择安装包</label>
 							<div class="col-sm-9">
-								<form name="form_upgrade" method="post" action="" encType="multipart/form-data">
-									<input type="file" name="file" size="50"> <button type="button" value="Upgrade" id="afu-upgrade-button" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
-								</form>
+								
+									<input type="file" id="file" size="50">
+									<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
+								
 							</div>
 						</fieldset>
 					</div>
@@ -525,10 +564,16 @@ function softCenterInit(){
 			</div>
 		</div>
 		<div class="box boxr4">
-			<div class="heading">状态日志</div>
+			<div class="heading">关于我们</div>
 			<div class="content">
 				<div class="tabContent4">
 					<!--app info -->
+					<ul>
+						<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
+						<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、KoolShare开发组、以及其他人员。</font></li>
+						<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
+						<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-102-1.html" target="_blank"><font color="#FF6347">KoolShare Tomato</font></a> 版块反馈。</li>
+					</ul>
 					<!--app info -->
 				</div>
 			</div>
