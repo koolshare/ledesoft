@@ -22,14 +22,14 @@
             "version": "3.3.4"
         }, 
         {
-            "build_date": "2017-03-15_00:44:38", 
+            "build_date": "2017-03-15_08:42:22", 
             "description": "超强的SSH网页客户端，webshell替代品~", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "fa64472f0f0ed0b979773b931a74356f", 
+            "md5": "0dffac6ddc19c44a87208f77c923b54f", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "shellinabox", 
-            "version": "1.5"
+            "version": "1.6"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 

@@ -57,5 +57,6 @@ def build_module():
     hook_path = os.path.join(parent_path, "backup.sh")
     if os.path.isfile(hook_path):
         os.system(hook_path)
+    	os.system("./../softcenter/build_base.sh")
 
 build_module()
