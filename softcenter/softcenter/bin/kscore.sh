@@ -4,12 +4,23 @@
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 export PERP_BASE=$KSROOT/perp
-mkdir -p /tmp/upload
 echo start `date` > /tmp/ks_core_log.txt
-
+mkdir -p /tmp/upload
+STAT_S=`perpls skipd | grep ++`
+STAT_H=`perpls httpdb | grep ++`
+RUN_S=`pidof skipd`
+RUN_H=`pidof httpdb`
+perpboot=`pidof perpboot`
+tinylog=`pidof tinylog`
+perpd=`pidof perpd`
 # rstart perp
-$KSROOT/perp/perp.sh stop
-$KSROOT/perp/perp.sh start
+if [ -z "$perpboot" ] || [ -z "$tinylog" ] || [ -z "$perpd" ] || [ -z "$STAT_S" ] || [ -z "$STAT_H" ];then
+	echo perp need to restart!
+	$KSROOT/perp/perp.sh stop
+	$KSROOT/perp/perp.sh start
+else
+	echo "perp working normally, do nothing."
+fi
 
 # set ks_nat to 1
 router_status=`date | grep -E "UTC 1970"`
@@ -41,7 +52,7 @@ script_wanup=`nvram get script_wanup`
 if [ -n "$script_wanup" ];then
 wanstart=`echo $script_wanup | grep -E "$KSROOT/bin/ks-wan-start.sh"`
 if [ -n "$wanstart" ];then
-echo wan start for kscore already exist, do nothing!
+echo wan start for ks-wan-start.sh already exist, do nothing!
 else
 echo append wan start command!
 nvram set script_wanup="#Do not delete ks-wan-start.sh! It's very important for software center!!!
@@ -59,7 +70,7 @@ script_fire=`nvram get script_fire`
 if [ -n "$script_fire" ];then
 natstart=`echo $script_fire | grep -E "$KSROOT/bin/ks-nat-start.sh"`
 if [ -n "$natstart" ];then
-echo start up for nat.sh already exist, do nothing!
+echo start up for ks-nat-start.sh already exist, do nothing!
 else
 echo append wan start command!
 nvram set script_fire="#Do not delete nat.sh! It's important for software center!!!
@@ -95,23 +106,20 @@ nvram commit
 # ===============================
 # now creat dnsmasq api
 mkdir -p /jffs/etc/dnsmasq.d
-cat > /jffs/etc/dnsmasq.custom <<-EOF
-conf-dir=/jffs/etc/dnsmasq.d
-EOF
+[ -f "/jffs/etc/dnsmasq.custom" ] && conf_ok=`cat /jffs/etc/dnsmasq.custom|grep "conf-dir"`
+if [ -z "$conf_ok" ];then
+	cat > /jffs/etc/dnsmasq.custom <<-EOF
+	conf-dir=/jffs/etc/dnsmasq.d
+	EOF
+fi
 [ ! -L "/etc/dnsmasq.custom" ] && ln -sf /jffs/etc/dnsmasq.custom /etc/dnsmasq.custom
 # ===============================
-
 sleep 1
-
 # ===============================
 # now start skipd and httpdb
 # because tomato shell can't keep them running background when shell exit
 # we have to use exec in the end of this scripts
 # the perp has been restartd at the begainning, there is no need to use arg X on perpctl
-STAT_S=`perpls skipd | grep +++`
-STAT_H=`perpls httpdb | grep +++`
-RUN_S=`pidof skipd`
-RUN_H=`pidof httpdb`
 
 if [ -n "$STAT_S" ] && [ -n "$STAT_S" ];then
 	echo skipd is working normally, do nothing.
@@ -128,23 +136,5 @@ else
 	echo finish `date` >> /tmp/ks_core_log.txt
 	exec perpctl A httpdb
 fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # ===============================
+
