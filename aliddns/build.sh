@@ -2,7 +2,7 @@
 
 MODULE=aliddns
 VERSION=0.5
-TITLE=阿里云DDNS
+TITLE=AliDDNS
 DESCRIPTION=阿里云解析自动更新IP
 HOME_URL=Module_aliddns.asp
 #!/bin/sh
