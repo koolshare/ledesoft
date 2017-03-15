@@ -2,7 +2,7 @@
 <content>
 <link rel="stylesheet" href="css/animate.min.css" />
 <style type="text/css">
-::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);border-radius:10px;background-color:#F5F5F5;}::-webkit-scrollbar{width:8px;background-color:#F5F5F5;}::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);background-color:#555;}.box .content{padding:0 15px 15px;display:block;}.popover{font-size:14px;color:#63B8FF;}.apps a:link{color:#fff}.apps a:visited{color:#fff}.apps a:hover{color:#fff}.apps a:active{color:#fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin:5px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;cursor:pointer;}.infos{width:80px;height:100px;float:left;}.appimg{width:60px;margin:20px 10px 20px 10px;pointer-events:none;}.app-name{padding:11px 0 11px 0;height:100px;width:170px;float:left;}.app-name p{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-shadow:#444 0 1px 0;pointer-events:none;}.appDesc{margin:0 auto;width:40px;height:100px;float:left;display:none;}.appDesc button.btn{width:35px;height:100px;font-family:"Segoe UI","Roboto",sans-serif;font-weight:400!important;vertical-align:middle;outline:0;outline-style:none;font-size:14px;padding:0 3px 0 3px;border-radius:0px;}.boxr1{background: #f9fbfb;}.boxr2{display:none;background: #f9fbfb;}.boxr3{display:none;background: #f9fbfb;}.boxr4{display:none;background: #f9fbfb;}.boxr5{display:none;background: #f9fbfb;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}
+::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);border-radius:10px;background-color:#F5F5F5;}::-webkit-scrollbar{width:8px;background-color:#F5F5F5;}::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);background-color:#555;}.box .content{padding:0 15px 15px;display:block;}.popover{font-size:14px;color:#63B8FF;}.apps a:link{color:#fff}.apps a:visited{color:#fff}.apps a:hover{color:#fff}.apps a:active{color:#fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin:5px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;cursor:pointer;}.infos{width:80px;height:100px;float:left;}.appimg{width:60px;margin:20px 10px 20px 10px;pointer-events:none;}.app-name{padding:11px 0 11px 0;height:100px;width:170px;float:left;}.app-name p{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-shadow:#444 0 1px 0;pointer-events:none;}.appDesc{margin:0 auto;width:40px;height:100px;float:left;display:none;}.appDesc button.btn{width:35px;height:100px;font-family:"Segoe UI","Roboto",sans-serif;font-weight:400!important;vertical-align:middle;outline:0;outline-style:none;font-size:14px;padding:0 3px 0 3px;border-radius:0px;}.boxr1{background: #f9fbfb;}.boxr2{display:none;background: #f9fbfb;}.boxr3{display:none;background: #f9fbfb;}.boxr4{display:none;background: #f9fbfb;}.boxr5{display:none;background: #f9fbfb;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.soft_log{margin-top:50px;margin-left:15px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}
 </style>
 <script type="text/javascript">
 //APPS 控制模块
@@ -365,7 +365,9 @@ function appPostScript(moduleInfo, script) {
 		//请求错误！
 		$('.popover').html('<font color=red>软件中心异常！</font>');
 	};
-	if(script !="ks_tar_install.sh"){
+	if(script =="ks_tar_install.sh"){
+		CheckZ();
+	}else{
 		CheckX();
 	}
 	$.ajax({
@@ -398,7 +400,6 @@ var appsInfo;
 		}
 		if(!installing || installing=="0"){
 			currState.installing = false;
-			changeButton(false);
 			clearTimeout(TimeOut);
 			setTimeout("window.location.reload()", 3000);
 		}else{
@@ -412,6 +413,9 @@ function CheckX(){
 	$('.popover').html('请稍后……');
 	changeButton(true);
 	TimeOut = window.setInterval(checkInstallStatus, 1000); 
+}
+function CheckZ(){
+	TimeOut = window.setInterval(get_log, 1000); 
 }
 function softCenterInit(){
 	$.getJSON("/_api/softcenter_", function(resp) {
@@ -440,6 +444,8 @@ function uploadApp(){
 	}
 	var formData = new FormData();
 	formData.append(filename, $('#file')[0].files[0]);
+	$('.popover').html('正在安装，请稍后……');
+	changeButton(true);
 	$.ajax({
 		url: '/_upload',
 		type: 'POST',
@@ -453,9 +459,33 @@ function uploadApp(){
 						"name":filename,
 						"version": appversion
 					};
-				appPostScript(moduleInfo,'ks_tar_intall.sh');
+				appPostScript(moduleInfo,'ks_tar_install.sh');
 			}
 		}
+	});
+}
+function get_log(){
+var _temp;
+	$.ajax({
+		url: '/_temp/soft_log.txt',
+		type: 'GET',
+		dataType: 'text',
+		async:false,
+		success: function(result) {
+            if(result.length>0 && result.indexOf('jobdown')<0 && _temp != result) {
+                $("#soft_log").val(result);
+				_temp = result;
+            }else {
+				$('.popover').html('安装成功！页面即将跳转！');
+				clearTimeout(TimeOut);
+				setTimeout("window.location.reload()", 3000);
+            }
+        },
+        error: function(xhr, status, error) {
+			$('.popover').html('服务器出错，请稍候再试！');
+			changeButton(false);
+        },
+        cache:false
 	});
 }
 </script>
@@ -557,6 +587,16 @@ function uploadApp(){
 									<input type="file" id="file" size="50">
 									<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
 								
+							</div>
+						</fieldset>
+						<fieldset>
+							<label class="control-left-label col-sm-3">安装日志</label>
+							<div class="col soft_log">
+								<script type="text/javascript">
+									s = 'height:200px;display:block';
+									$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 80%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
+								
+								</script>
 							</div>
 						</fieldset>
 					</div>
