@@ -5,7 +5,7 @@ VERSION=0.5
 TITLE=阿里云DDNS
 DESCRIPTION=阿里云解析自动更新IP
 HOME_URL=Module_aliddns.asp
-
+#!/bin/sh
 # Check and include base
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ "$MODULE" == "" ]; then
