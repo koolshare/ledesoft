@@ -1,6 +1,4 @@
 #!/bin/sh
-#debug
-set -x
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
