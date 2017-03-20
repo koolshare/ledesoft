@@ -1,5 +1,5 @@
 #! /bin/sh
-
+export KSROOT=/jffs/koolshare
 if [ ! -L "$KSROOT/init.d/S99Shellinabox.sh" ]; then 
 	ln -sf $KSROOT/shellinabox/shellinabox_start.sh $KSROOT/init.d/S99Shellinabox.sh
 fi
