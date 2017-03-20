@@ -3,6 +3,7 @@ export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
 rm -rf $KSROOT/scripts/aliddns_*
+rm -rf $KSROOT/init.d/S98Aliddns.sh
 rm -rf $KSROOT/res/icon-aliddns*
 rm -rf $KSROOT/web/Module_aliddns.asp
 
