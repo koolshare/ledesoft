@@ -965,7 +965,7 @@
 		<fieldset>
 		<div class="heading">
 			<span id="_ss_version">shadowsocks for toamto</span>
-			<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;">返回</a>
+			<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
 		</div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:800px"><b>说明：</b>请在下面的账号设置表格中填入你的shadowsocks账号信息，选择好一个模式，点击提交后就能使用代理服务。</span>
