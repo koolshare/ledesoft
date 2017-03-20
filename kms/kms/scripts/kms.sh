@@ -84,9 +84,11 @@ stop)
 		stop_kms
    		start_kms
    		open_port
+		http_response '服务已开启！页面将在3秒后刷新'
    	else
    		close_port
 		stop_kms
+		http_response '服务已关闭！页面将在3秒后刷新'
 	fi
 	;;
 esac
