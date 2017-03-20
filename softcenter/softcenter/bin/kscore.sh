@@ -106,9 +106,10 @@ nvram commit
 # ===============================
 # now creat dnsmasq api
 mkdir -p /jffs/etc/dnsmasq.d
-[ -f "/jffs/etc/dnsmasq.custom" ] && conf_ok=`cat /jffs/etc/dnsmasq.custom|grep "conf-dir"`
-if [ -z "$conf_ok" ];then
+[ -f "/jffs/etc/dnsmasq.custom" ] && conf_ok=`cat /jffs/etc/dnsmasq.custom|grep -E "conf-dir|koolshare"|wc -l`
+if [ $conf_ok -ne 2 ];then
 	cat > /jffs/etc/dnsmasq.custom <<-EOF
+	# koolshare modified
 	conf-dir=/jffs/etc/dnsmasq.d
 	EOF
 fi

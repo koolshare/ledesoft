@@ -16,6 +16,7 @@ softcenter_install() {
 		cp -rf /tmp/softcenter/bin/* $KSROOT/bin/
 		cp -rf /tmp/softcenter/perp $KSROOT/
 		cp -rf /tmp/softcenter/scripts $KSROOT/
+		cp -rf /tmp/softcenter/module $KSROOT/
 		chmod 755 $KSROOT/bin/*
 		chmod 755 $KSROOT/init.d/*
 		chmod 755 $KSROOT/perp/*
