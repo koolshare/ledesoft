@@ -16,7 +16,7 @@ remove_conf_all(){
 	done
 	echo_date 设置一些默认参数...
 	dbus set ss_basic_enable="0"
-	dbus set ss_basic_version=`cat /koolshare/ss/version` 
+	dbus set ss_basic_version=`cat $KSROOT/ss/version` 
 	echo_date 完成！
 }
 

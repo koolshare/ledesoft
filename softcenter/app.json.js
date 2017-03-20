@@ -25,12 +25,12 @@
             "build_date": "2017-03-21_00:56:58", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "ae5fc1098de8e49ab53a80ff2eff2b19", 
+            "md5": "2c2003f94cb6afa5734b20d625792ed9", 
             "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.0.0"
+            "version": "1.0.1"
         }, 
         {
             "build_date": "2016-12-27_09:15:58", 
@@ -44,14 +44,14 @@
             "version": "3.3.4"
         }, 
         {
-            "build_date": "2017-03-18_14:33:57", 
+            "build_date": "2017-03-21_01:42:53", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "cdb371c16471077f2dd4f9e24a24cd1c", 
+            "md5": "49ff206d849dfe50f72d3323bbb8af8d", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
-            "version": "1.7"
+            "version": "1.8"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
