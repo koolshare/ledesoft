@@ -1,17 +1,21 @@
 #!/bin/sh
+#debug
+set -x
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
 eval `dbus export kms`
 CONFIG_FILE=/jffs/etc/dnsmasq.d/kms.conf
 FIREWALL_START=$KSROOT/scripts/firewall-start
-
+KMS_PID=0
 start_kms(){
 	$KSROOT/bin/vlmcsd
+	KMS_PID=`pidof "vlmcsd"`
+	dbus set kms_status="<font color=green>运行中，进程ID：$KMS_PID</font>"
 	echo "srv-host=_vlmcs._tcp.lan,`uname -n`.lan,1688,0,100" > $CONFIG_FILE
 	nvram set lan_domain=lan
    	nvram commit
-	service restart_dnsmasq
+	service dnsmasq restart
 	# creating iptables rules to firewall-start
 	mkdir -p $KSROOT/scripts
 	if [ ! -f $FIREWALL_START ]; then 
@@ -28,8 +32,9 @@ start_kms(){
 stop_kms(){
 	# clear start up command line in firewall-start
 	killall vlmcsd
+	dbus remove kms_status
 	rm $CONFIG_FILE
-	service restart_dnsmasq
+	service dnsmasq restart
 }
 
 open_port(){
@@ -84,7 +89,7 @@ stop)
 		stop_kms
    		start_kms
    		open_port
-		http_response '服务已开启！页面将在3秒后刷新'
+   		http_response '服务已开启！页面将在3秒后刷新'
    	else
    		close_port
 		stop_kms
