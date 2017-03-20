@@ -22,6 +22,17 @@
             "version": "1.3"
         }, 
         {
+            "build_date": "2017-03-21_00:56:58", 
+            "description": "fuck gfw", 
+            "home_url": "Module_shadowsocks.asp", 
+            "md5": "51495e1185e4e93fd32aab0aebebc57e", 
+            "module": "shadowsocks", 
+            "name": "shadowsocks", 
+            "tar_url": "shadowsocks/shadowsocks.tar.gz", 
+            "title": "shadowsocks", 
+            "version": "0.9.9"
+        }, 
+        {
             "build_date": "2016-12-27_09:15:58", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
@@ -44,7 +55,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "ae45ee61cf7bfe68b56b1fa464751a51", 
+    "md5": "8d3c556056b3c3b76405beaf3733137a", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.0.7"
 }
