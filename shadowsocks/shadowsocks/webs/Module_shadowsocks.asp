@@ -891,7 +891,7 @@
 			tabSelect("app8");
 		}
 		function manipulate_conf(script, arg){
-			if(arg == 1 || arg == 2 || arg == 3){
+			if(arg == 1 || arg == 2 || arg == 3 || arg == 5){
 				tabSelect("app8");
 			}
 			var id7 = parseInt(Math.random() * 100000000);
