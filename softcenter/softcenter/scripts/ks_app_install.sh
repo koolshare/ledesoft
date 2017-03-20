@@ -52,7 +52,7 @@ install_module() {
 	export softcenter_installing_tick=`date +%s`
 	export softcenter_installing_status="2"
 	dbus save softcenter_installing_
-	sleep 1
+	sleep 2
 	URL_SPLIT="/"
 	#OLD_MD5=`dbus get softcenter_module_$softcenter_installing_module$MD5_SUFFIX`
 	OLD_VERSION=`dbus get softcenter_module_$softcenter_installing_module$VER_SUFFIX`
@@ -74,7 +74,7 @@ install_module() {
 	rm -f $FNAME
 	rm -rf "/tmp/$softcenter_installing_module"
 	dbus set softcenter_installing_status="3"
-	sleep 1
+	sleep 2
 	wget --no-check-certificate --tries=1 --timeout=15 $TAR_URL
 	RETURN_CODE=$?
 
@@ -106,7 +106,7 @@ install_module() {
 	else
 		tar -zxf $FNAME
 		dbus set softcenter_installing_status="4"
-		sleep 1
+		sleep 2
 		if [ ! -f /tmp/$softcenter_installing_module/install.sh ]; then
 			dbus set softcenter_installing_status="0"
 			dbus set softcenter_installing_module=""
