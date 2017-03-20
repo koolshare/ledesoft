@@ -1,5 +1,10 @@
 <title>shadowsocks</title>
 <content>
+<style type="text/css">
+.box {
+	min-width:830px;
+}
+</style>
 	<script type="text/javascript">
 		get_arp_list();
 		var dbus;
@@ -967,15 +972,16 @@
 		</div>	
 		</fieldset>
 	</div>
-	<div class="box" style="margin-top: 0px;">
+	<div class="box" style="margin-top: 0px;min-width:830px;">
 		<div class="heading">开关</div>
 		<div class="content">
 			<div id="status_pannel" class="section"></div>
-				<script type="text/javascript">
+			<script type="text/javascript">
 				$('#status_pannel').forms([
 					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',value: dbus.ss_basic_enable == '1' }
 				]);
 			</script>
+			<hr />
 			<fieldset id="ss_status_pannel">
 				<label class="col-sm-3 control-left-label" for="_undefined">shadowsocks运行状态</label>
 				<div class="col-sm-9">
@@ -987,16 +993,16 @@
 			</fieldset>
 		</div>
 	</div>
-	<ul id="ss_tabs" class="nav nav-tabs">
-		<li><a href="javascript:tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 帐号设置</a></li>
-		<li><a href="javascript:tabSelect('app2');" id="app2-tab"><i class="icon-globe"></i> 节点管理</a></li>
-		<li><a href="javascript:tabSelect('app3');" id="app3-tab"><i class="icon-tools"></i> DNS设定</a></li>
-		<li><a href="javascript:tabSelect('app4');" id="app4-tab"><i class="icon-hammer"></i> 黑白名单</a></li>
-		<li><a href="javascript:tabSelect('app5');" id="app5-tab"><i class="icon-globe"></i> 规则管理</a></li>
-		<li><a href="javascript:tabSelect('app6');" id="app6-tab"><i class="icon-tools"></i> 访问控制</a></li>
-		<li><a href="javascript:tabSelect('app7');" id="app7-tab"><i class="icon-hammer"></i> 附加功能</a></li>
-		<li><a href="javascript:tabSelect('app8');" id="app8-tab"><i class="icon-info"></i> 查看日志</a></li>
-	</ul>
+	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:830px;">
+		<li><a href="javascript:tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 帐号设置</a></li>		
+		<li><a href="javascript:tabSelect('app2');" id="app2-tab"><i class="icon-globe"></i> 节点管理</a></li>		
+		<li><a href="javascript:tabSelect('app3');" id="app3-tab"><i class="icon-tools"></i> DNS设定</a></li>		
+		<li><a href="javascript:tabSelect('app4');" id="app4-tab"><i class="icon-hammer"></i> 黑白名单</a></li>		
+		<li><a href="javascript:tabSelect('app5');" id="app5-tab"><i class="icon-globe"></i> 规则管理</a></li>		
+		<li><a href="javascript:tabSelect('app6');" id="app6-tab"><i class="icon-tools"></i> 访问控制</a></li>		
+		<li><a href="javascript:tabSelect('app7');" id="app7-tab"><i class="icon-hammer"></i> 附加功能</a></li>		
+		<li><a href="javascript:tabSelect('app8');" id="app8-tab"><i class="icon-info"></i> 查看日志</a></li>	
+</ul>
 	<div class="box boxr1" id="ss_basic_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
