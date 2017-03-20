@@ -1,0 +1,4 @@
+Koolshare Asuswrt-Merlin shadowsocks Changelog
+===========================================
+0.9.9
+   - add	add shadowsocks for advanced tomato software center；

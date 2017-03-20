@@ -1,14 +1,14 @@
 {
     "apps": [
         {
-            "build_date": "2017-03-18_14:33:49", 
+            "build_date": "2017-03-21_01:17:58", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "0b65d1e370f9ac5137380755d47b494a", 
+            "md5": "c642acdc27a862236796a58075b380ba", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2016-11-25_21:35:44", 
@@ -44,7 +44,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "3c3fea1f82a569b77b2606267180c5d9", 
+    "md5": "ae45ee61cf7bfe68b56b1fa464751a51", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.0.7"
 }
