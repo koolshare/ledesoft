@@ -55,6 +55,7 @@ case $2 in
 	remove_ss_acl > /tmp/upload/ss_log.txt
 	;;
 4)
+	echo_date "" > /tmp/upload/ss_log.txt
 	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
 	sleep 1
 	;;

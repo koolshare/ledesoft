@@ -466,11 +466,13 @@
 			console.log("using_node:", node_sel);
 			console.log("node_ss_nu:", node_ss);
 			console.log("node_ssr_nu:", node_ssr);
-			
 			if (dbus["ssrconf_basic_rss_protocal_" + (node_sel - node_ss)]){ // using ssr
 				console.log("node_status:", "using ssr");
 				dbus["ss_basic_type"] = "1";
-				elem.display(PR('_ss_basic_rss_protocal'), PR('_ss_basic_rss_protocal_para'), true);
+				var o1  = E('_ss_basic_rss_protocal').value == 'auth_aes128_md5'; 
+				var o2  = E('_ss_basic_rss_protocal').value == 'auth_aes128_sha1'; 
+				elem.display(PR('_ss_basic_rss_protocal_para'), o1 || o2);
+				elem.display(PR('_ss_basic_rss_protocal'), true);
 				elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), true);
 				elem.display(PR('_ss_basic_mode'), true);
 				for (var i = 0; i < ssrbasic.length; i++) {
@@ -487,6 +489,7 @@
 				E('_ss_basic_rss_protocal_para').value = ""
 				E('_ss_basic_rss_obfs').value = ""
 				E('_ss_basic_rss_obfs_para').value = ""
+
 				elem.display(PR('_ss_basic_rss_protocal'), PR('_ss_basic_rss_protocal_para'), false);
 				elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), false);
 				elem.display(PR('_ss_basic_mode'), true);
@@ -621,6 +624,9 @@
 			var m  = E('_ss_basic_dnslookup').value == '1';
 			elem.display('_ss_basic_dnslookup_server', m);
 			elem.display('_ss_basic_dnslookup_txt', m);
+			var o1  = E('_ss_basic_rss_protocal').value == 'auth_aes128_md5'; 
+			var o2  = E('_ss_basic_rss_protocal').value == 'auth_aes128_sha1'; 
+			elem.display(PR('_ss_basic_rss_protocal_para'), o1 || o2);
 		}
 		function tabSelect(obj){
 			var tableX = ['app1-tab','app2-tab','app3-tab','app4-tab','app5-tab','app6-tab','app7-tab','app8-tab'];
