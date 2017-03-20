@@ -1,6 +1,11 @@
 {
     "apps": [
         {
+            "name": "phddns", 
+            "tar_url": "phddns/phddns.tar.gz", 
+            "title": "phddns"
+        }, 
+        {
             "build_date": "2017-03-18_14:33:49", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
@@ -9,6 +14,27 @@
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
             "version": "0.5"
+        }, 
+        {
+            "build_date": "2017-03-18_14:33:57", 
+            "description": "超强的SSH网页客户端", 
+            "home_url": "Module_shellinabox.asp", 
+            "md5": "cdb371c16471077f2dd4f9e24a24cd1c", 
+            "name": "shellinabox", 
+            "tar_url": "shellinabox/shellinabox.tar.gz", 
+            "title": "ShellnaBox", 
+            "version": "1.7"
+        }, 
+        {
+            "build_date": "2016-11-25_21:35:44", 
+            "description": "不可描述", 
+            "home_url": "Module_kms.asp", 
+            "md5": "2cbe66855c13d24e3d81d6d9093f99bc", 
+            "module": "kms", 
+            "name": "kms", 
+            "tar_url": "kms/kms.tar.gz", 
+            "title": "系统工具", 
+            "version": "1.3"
         }, 
         {
             "build_date": "2016-12-27_09:15:58", 
@@ -20,20 +46,10 @@
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "KoolProxy", 
             "version": "3.3.4"
-        }, 
-        {
-            "build_date": "2017-03-18_14:33:57", 
-            "description": "超强的SSH网页客户端", 
-            "home_url": "Module_shellinabox.asp", 
-            "md5": "cdb371c16471077f2dd4f9e24a24cd1c", 
-            "name": "shellinabox", 
-            "tar_url": "shellinabox/shellinabox.tar.gz", 
-            "title": "ShellnaBox", 
-            "version": "1.7"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "be46444d6c2e72813d267f6dce76e7ba", 
+    "md5": "49260b78feeac9ee5d71ef34fef7dbc7", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "0.0.6"
+    "version": "0.0.7"
 }
