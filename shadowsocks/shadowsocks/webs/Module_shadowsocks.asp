@@ -994,14 +994,14 @@
 		</div>
 	</div>
 	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:830px;">
-		<li><a href="javascript:tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 帐号设置</a></li>		
-		<li><a href="javascript:tabSelect('app2');" id="app2-tab"><i class="icon-globe"></i> 节点管理</a></li>		
-		<li><a href="javascript:tabSelect('app3');" id="app3-tab"><i class="icon-tools"></i> DNS设定</a></li>		
-		<li><a href="javascript:tabSelect('app4');" id="app4-tab"><i class="icon-hammer"></i> 黑白名单</a></li>		
-		<li><a href="javascript:tabSelect('app5');" id="app5-tab"><i class="icon-globe"></i> 规则管理</a></li>		
-		<li><a href="javascript:tabSelect('app6');" id="app6-tab"><i class="icon-tools"></i> 访问控制</a></li>		
-		<li><a href="javascript:tabSelect('app7');" id="app7-tab"><i class="icon-hammer"></i> 附加功能</a></li>		
-		<li><a href="javascript:tabSelect('app8');" id="app8-tab"><i class="icon-info"></i> 查看日志</a></li>	
+		<li><a href="javascript:tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 帐号设置</a></li>
+		<li><a href="javascript:tabSelect('app2');" id="app2-tab"><i class="icon-globe"></i> 节点管理</a></li>
+		<li><a href="javascript:tabSelect('app3');" id="app3-tab"><i class="icon-tools"></i> DNS设定</a></li>
+		<li><a href="javascript:tabSelect('app4');" id="app4-tab"><i class="icon-warning"></i> 黑白名单</a></li>
+		<li><a href="javascript:tabSelect('app5');" id="app5-tab"><i class="icon-cmd"></i> 规则管理</a></li>
+		<li><a href="javascript:tabSelect('app6');" id="app6-tab"><i class="icon-lock"></i> 访问控制</a></li>
+		<li><a href="javascript:tabSelect('app7');" id="app7-tab"><i class="icon-wake"></i> 附加功能</a></li>
+		<li><a href="javascript:tabSelect('app8');" id="app8-tab"><i class="icon-hourglass"></i> 查看日志</a></li>	
 </ul>
 	<div class="box boxr1" id="ss_basic_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
