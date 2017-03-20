@@ -1,6 +1,4 @@
 #!/bin/sh
-#debug
-set -x
 
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
@@ -86,11 +84,11 @@ query_recordid() {
 }
 
 update_record() {
-   # send_request "UpdateDomainRecord" "RR=$a_name1&RecordId=$1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
+    send_request "UpdateDomainRecord" "RR=$a_name1&RecordId=$1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
 }
 
 add_record() {
-    #send_request "AddDomainRecord&DomainName=$a_domain" "RR=$a_name1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
+    send_request "AddDomainRecord&DomainName=$a_domain" "RR=$a_name1&SignatureMethod=HMAC-SHA1&SignatureNonce=$timestamp&SignatureVersion=1.0&TTL=$aliddns_ttl&Timestamp=$timestamp&Type=A&Value=$ip"
 }
 
 #add support */%2A and @/%40 record
