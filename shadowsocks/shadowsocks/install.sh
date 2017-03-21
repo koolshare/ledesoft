@@ -33,6 +33,9 @@ cp -rf /tmp/shadowsocks/scripts/* $KSROOT/scripts/
 cp -rf /tmp/shadowsocks/webs/* $KSROOT/webs/
 cp -rf /tmp/shadowsocks/res/* $KSROOT/res/
 
+cp /tmp/shadowsocks/install.sh $KSROOT/scripts/ss_install.sh
+cp /tmp/shadowsocks/uninstall.sh $KSROOT/scripts/uninstall_shadowsocks.sh
+
 # 为新安装文件赋予执行权限...
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/ss/dns/dns.sh

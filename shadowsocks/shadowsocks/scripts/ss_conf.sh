@@ -47,17 +47,25 @@ remove_ss_acl(){
 case $2 in
 1)
 	remove_conf_all > /tmp/upload/ss_log.txt
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
 2)
 	remove_ss_node > /tmp/upload/ss_log.txt
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
 3)
 	remove_ss_acl > /tmp/upload/ss_log.txt
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
 4)
 	echo_date "" > /tmp/upload/ss_log.txt
 	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
 	sleep 1
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
 5)
 	echo_date "开始恢复SS配置..." > /tmp/upload/ss_log.txt
@@ -86,12 +94,27 @@ case $2 in
 	else
 		echo_date "配置文件格式错误！" >> /tmp/upload/ss_log.txt
 	fi
-	;;	
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
+	;;
+6)
+	echo_date "开始打包..." > /tmp/upload/ss_log.txt
+	echo_date "请等待一会儿...下载会自动开始." >> /tmp/upload/ss_log.txt
+	mkdir -p /jffs/koolshare/webs/files
+	cd $KSROOT/
+	mv $KSROOT/scripts/ss_install.sh $KSROOT/install.sh
+	cp $KSROOT/scripts/uninstall_shadowsocks.sh $KSROOT/uninstall.sh
+	tar -czv -f /jffs/koolshare/webs/files/shadowsocks.tar.gz bin/ss-* bin/rss-* bin/pdnsd bin/Pcap_DNSProxy bin/dns2socks bin/dnscrypt-proxy bin/chinadns bin/resolveip scripts/ss_* res/icon-shadowsocks* ss/ webs/Module_shadowsocks.asp ./install.sh ./uninstall.sh >> /tmp/upload/ss_log.txt
+	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
+	sleep 10 
+	rm -rf /jffs/koolshare/webs/files/shadowsocks.tar.gz
+	mv $KSROOT/install.sh $KSROOT/scripts/ss_install.sh 
+	rm -rf $KSROOT/uninstall.sh
+	;;
 esac
 
 
-echo XU6J03M6 >> /tmp/upload/ss_log.txt
-http_response "$1"
 
 
 
