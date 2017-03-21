@@ -31,8 +31,28 @@ softcenter_install() {
 
 		[ ! -L "$KSROOT/init.d/S10softcenter.sh" ] && ln -sf $KSROOT/scripts/ks_app_install.sh $KSROOT/init.d/S10softcenter.sh
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
-		nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
-		sh /$KSROOT/bin/kscore.sh
+		
+		# now set the navi portal
+		web_dir=`nvram get web_dir`
+		case "$web_dir" in
+			default)
+				webroot="/www"
+			;;
+			jffs)
+				webroot="/jffs/www"
+			;;
+			opt)
+				webroot="/opt/www"
+			;;
+			tmp)
+				webroot="/tmp/www"
+			;;
+		esac
+		softcenter=`cat $webroot/tomato.js | grep soft-center`
+		if [ -z "$softcenter" ];then
+			nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
+			sh /$KSROOT/bin/kscore.sh
+		fi
 	fi
 }
 
