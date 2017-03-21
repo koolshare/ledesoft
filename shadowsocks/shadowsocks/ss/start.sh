@@ -958,6 +958,7 @@ start_nat)
 	chromecast
 	;;
 stop)
+	echo_date ---------------------- Advanced Tomato 固件 shadowsocks -----------------------
 	restore_conf
 	restart_dnsmasq
 	restore_nat
@@ -966,5 +967,6 @@ stop)
 	restore_start_file
 	kill_process
 	kill_cron_job
+	echo_date ------------------------- shadowsocks 成功关闭 -------------------------
 	;;
 esac

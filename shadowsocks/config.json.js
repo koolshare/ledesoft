@@ -1,8 +1,8 @@
 {
-"version":"1.0.3",
-"md5":"3b4db90355def003c6782528834f67ce",
+"version":"1.0.4",
+"md5":"c449f6b5793e8e69558b9689bd102bf9",
 "home_url":"Module_shadowsocks.asp",
 "title":"shadowsocks",
 "description":"fuck gfw",
-"build_date":"2017-03-21_16:48:01"
+"build_date":"2017-03-22_00:02:44"
 }

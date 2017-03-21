@@ -20,9 +20,9 @@ esac
 case $2 in
 1)
 	if [ "$ss_basic_enable" == "1" ];then
-		sh /jffs/koolshare/ss/start.sh start_all $1 > /tmp/upload/ss_log.txt
+		sh /jffs/koolshare/ss/start.sh start_all > /tmp/upload/ss_log.txt
 	else
-		sh /jffs/koolshare/ss/start.sh stop > /tmp/upload/kp_log.txt
+		sh /jffs/koolshare/ss/start.sh stop > /tmp/upload/ss_log.txt
 	fi
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	http_response $1

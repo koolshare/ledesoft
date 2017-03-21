@@ -149,7 +149,7 @@
 		//============================================
 		var ss_node = new TomatoGrid();
 		ss_node.dataToView = function(data) {
-			return [ option_mode_name[data[0]], data[1] || "节点" + data.length, data[2], data[3], data[4], data[5]];
+			return [ option_mode_name[data[0]], data[1] || "节点" + data.length, data[2], data[3], "******", data[5]];
 		}
 		ss_node.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
@@ -192,7 +192,7 @@
 		//============================================
 		var ssr_node = new TomatoGrid();
 		ssr_node.dataToView = function(data) {
-			return [ option_mode_name[data[0]],	data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9]];
+			return [ option_mode_name[data[0]],	data[1], data[2], data[3], "******", data[5], data[6], "******", data[8], data[9]];
 		}
 		ssr_node.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
@@ -499,7 +499,6 @@
 				E('_ss_basic_rss_protocal_para').value = ""
 				E('_ss_basic_rss_obfs').value = ""
 				E('_ss_basic_rss_obfs_para').value = ""
-
 				elem.display(PR('_ss_basic_rss_protocal'), PR('_ss_basic_rss_protocal_para'), false);
 				elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), false);
 				elem.display(PR('_ss_basic_mode'), true);
@@ -524,13 +523,16 @@
 			if ( $(r).attr("id") == "_ss_basic_node" ) {
 				auto_node_sel();
 			}
-			var a  = E('_ss_basic_enable').checked;
 			// when check/uncheck ss_switch
+			var a  = E('_ss_basic_enable').checked;
 			if ( $(r).attr("id") == "_ss_basic_enable" ) {
-				elem.display('ss_status_pannel', a);
-				elem.display('ss_tabs', a);
-				elem.display('ss_basic_tab', a);
-				//console.log("tab1 active")
+				if(a){
+					elem.display('ss_status_pannel', a);
+					elem.display('ss_tabs', a);
+					tabSelect('app1')
+				}else{
+					tabSelect('fuckapp')
+				}
 			}
 			// when change mode, the default acl mode should be also changed
 			if ( $(r).attr("id") == "_ss_basic_mode" ) {
@@ -663,6 +665,22 @@
 					elem.display('cancel-button', false);
 					setTimeout("get_log();", 500);
 				}
+				if(obj=='fuckapp'){
+					elem.display('ss_status_pannel', false);
+					elem.display('ss_tabs', false);
+					elem.display('ss_basic_tab', false);
+					elem.display('ss_node_tab', false);
+					elem.display('ssr_node_tab', false);
+					elem.display('ss_dns_tab', false);
+					elem.display('ss_wblist_tab', false);
+					elem.display('ss_rule_tab', false);
+					elem.display('ss_acl_tab', false);
+					elem.display('ss_acl_tab_readme', false);
+					elem.display('ss_addon_tab', false);
+					elem.display('ss_log_tab', false);
+					E('save-button').style.display = "";
+					E('save-node').style.display = "none";
+				}
 			}
 		}
 		function showMsg(Outtype, title, msg){
@@ -721,10 +739,6 @@
 				data: JSON.stringify(postData3),
 				success: function(response){
 					if (response.result == id4){
-						//showMsg("msg_success","保存节点信息：","<b>成功提交数据，现在你可以前往基本设置界面，选择一个节点后提交！</b>");
-						//$('#msg_warring').hide();
-						//setTimeout("$('#msg_success').hide()", 500);
-						//setTimeout("window.location.reload()", 1000);
 						window.location.reload();
 					}else{
 						$('#msg_warring').hide();
@@ -820,14 +834,25 @@
 				data: JSON.stringify(postData3),
 				success: function(response){
 					if (response.result == id3){
-						showMsg("msg_success","提交成功","<b>成功提交数据</b>");
-						$('#msg_warring').hide();
-						setTimeout("$('#msg_success').hide()", 500);
-						status_time = 1;
-						setTimeout("get_run_status();", 2000);
-						//setTimeout("window.location.reload()", 500);
-						x = 4;
-						count_down_switch();
+						if(E('_ss_basic_enable').checked){
+							// show script running status
+							showMsg("msg_success","提交成功","<b>成功提交数据</b>");
+							$('#msg_warring').hide();
+							setTimeout("$('#msg_success').hide()", 500);
+							// start to check ss status
+							status_time = 1;
+							setTimeout("get_run_status();", 2000);
+							// switch to tab1 if the log area not clicked
+							x = 4;
+							count_down_switch();
+						}else{
+							// when shut down ss finished, close the log tab
+							$('#msg_warring').hide();
+							showMsg("msg_success","提交成功","<b>shadowsocks成功关闭！</b>");
+							setTimeout("$('#msg_success').hide()", 4000);
+							setTimeout("tabSelect('fuckapp')", 4000);
+							
+						}
 					}else{
 						$('#msg_warring').hide();
 						showMsg("msg_error","提交失败","<b>提交数据失败！错误代码：" + response.result + "</b>");
@@ -956,7 +981,7 @@
 				return false;
 			}
 			var formData = new FormData();
-			formData.append(filename, $('#file')[0].files[0]);
+			formData.append('ss_conf_backup.sh', $('#file')[0].files[0]);
 			$('.popover').html('正在恢复，请稍后……');
 			//changeButton(true);
 			$.ajax({
@@ -988,9 +1013,9 @@
 	<div class="box" style="margin-top: 0px;min-width:830px;">
 		<div class="heading">开关</div>
 		<div class="content">
-			<div id="status_pannel" class="section"></div>
+			<div id="ss_switch_pannel" class="section"></div>
 			<script type="text/javascript">
-				$('#status_pannel').forms([
+				$('#ss_switch_pannel').forms([
 					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',value: dbus.ss_basic_enable == '1' }
 				]);
 			</script>
@@ -1045,7 +1070,7 @@
 			</script>
 		</div>
 	</div>
-	<div class="box boxr2" style="margin-top: 0px;">
+	<div class="box boxr2" id="ss_node_tab" style="margin-top: 0px;">
 		<div class="heading">节点管理-SS节点</div>
 		<div class="content">
 			<div class="tabContent">
@@ -1055,7 +1080,7 @@
 			<br><hr>
 		</div>
 	</div>
-	<div class="box boxr2" style="margin-top: 0px;">
+	<div class="box boxr2" id="ssr_node_tab" style="margin-top: 0px;">
 		<div class="heading">节点管理-SSR节点</div>
 		<div class="content">
 			<div class="tabContent">
@@ -1176,7 +1201,7 @@
 			</script>
 		</div>
 	</div>
-	<div class="box boxr6" style="margin-top: 0px;">
+	<div class="box boxr6" id="ss_acl_tab" style="margin-top: 0px;">
 		<div class="content">
 			<div class="tabContent">
 				<table class="line-table" cellspacing=1 id="ss_acl_pannel"></table>
@@ -1184,7 +1209,7 @@
 			<br><hr>
 		</div>
 	</div>
-	<div class="box boxr6">
+	<div id="ss_acl_tab_readme" class="box boxr6">
 		<div class="heading">访问控制操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivnotes" style="display:none">
 				<li><b>1：</b> 你可以在这里轻松的定义你需要的主机走SS的模式，或者你可以什么都不做，使用缺省规则，代表全部主机都默认走【帐号设置】内的模式；</li>

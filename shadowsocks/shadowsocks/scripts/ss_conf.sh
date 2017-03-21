@@ -61,7 +61,7 @@ case $2 in
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
 4)
-	echo_date "" > /tmp/upload/ss_log.txt
+	echo "" > /tmp/upload/ss_log.txt
 	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
 	sleep 1
 	http_response "$1"
@@ -69,8 +69,7 @@ case $2 in
 	;;
 5)
 	echo_date "开始恢复SS配置..." > /tmp/upload/ss_log.txt
-	file_nu=`ls /tmp/upload/ss_conf_backup* wc -l`
-	file_name=`ls /tmp/upload/ss_conf_backup*`
+	file_nu=`ls /tmp/upload/ss_conf_backup | wc -l`
 	i=10
 	until [ -n "$file_nu" ]
 	do
@@ -81,14 +80,15 @@ case $2 in
 	    fi
 	    sleep 1
 	done
-	format=`cat /tmp/upload/ss_conf_backup_2017_03_20_20-23-41.txt |grep dbus`
+	format=`cat /tmp/upload/ss_conf_backup.sh |grep dbus`
 	if [ -n "format" ];then
 		echo_date "检测到正确格式的配置文件！" >> /tmp/upload/ss_log.txt
-		chmod +x /tmp/upload/$file_name
+		cd /tmp/upload
+		chmod +x ss_conf_backup.sh
 		echo_date "恢复中..." >> /tmp/upload/ss_log.txt
-		sh $file_name
+		sh ss_conf_backup.sh
 		sleep 1
-		rm -rm /tmp/upload/$file_name
+		rm -rf /tmp/upload/ss_conf_backup.sh
 		dbus set ss_basic_version=`cat $KSROOT/ss/version`
 		echo_date "恢复完毕！" >> /tmp/upload/ss_log.txt
 	else
@@ -105,6 +105,7 @@ case $2 in
 	mv $KSROOT/scripts/ss_install.sh $KSROOT/install.sh
 	cp $KSROOT/scripts/uninstall_shadowsocks.sh $KSROOT/uninstall.sh
 	tar -czv -f /jffs/koolshare/webs/files/shadowsocks.tar.gz bin/ss-* bin/rss-* bin/pdnsd bin/Pcap_DNSProxy bin/dns2socks bin/dnscrypt-proxy bin/chinadns bin/resolveip scripts/ss_* res/icon-shadowsocks* ss/ webs/Module_shadowsocks.asp ./install.sh ./uninstall.sh >> /tmp/upload/ss_log.txt
+	echo_date "打包完毕！该包可以在TOMATO软件中心离线安装哦~" >> /tmp/upload/ss_log.txt
 	http_response "$1"
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	sleep 10 
