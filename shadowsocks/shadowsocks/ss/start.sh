@@ -887,7 +887,7 @@ load_module(){
 	xt=`lsmod | grep xt_set`
 	OS=$(uname -r)
 	if [ -f /lib/modules/${OS}/kernel/net/netfilter/xt_set.ko ] && [ -z "$xt" ];then
-		echo_date "加载内核模块！"
+		echo_date "加载ipset内核模块！"
 		insmod ip_set
 		insmod ip_set_bitmap_ip
 		insmod ip_set_bitmap_ipmac
@@ -900,6 +900,10 @@ load_module(){
 		insmod ip_set_hash_netport
 		insmod ip_set_list_set
 		insmod xt_set
+	fi
+	tproxy=`lsmod | grep tproxy`
+	if [ -z "$tproxy" ];then
+		echo_date "加载TPROXY内核模块！"
 		cd $KSROOT/module
 		insmod nf_tproxy_core.ko
 		insmod xt_TPROXY.ko

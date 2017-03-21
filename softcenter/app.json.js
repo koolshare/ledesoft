@@ -22,14 +22,14 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-03-22_00:14:12", 
+            "build_date": "2017-03-22_01:28:08", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "d4b602d8448a9fc93408fb8a8e77acf7", 
+            "md5": "7e8ecfe9074206b5d98aaddde5f0f22f", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.0.5"
+            "version": "1.0.6"
         }, 
         {
             "build_date": "2017-03-21_20:46:38", 

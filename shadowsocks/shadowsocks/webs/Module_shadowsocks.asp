@@ -756,8 +756,8 @@
 			get_run_status();
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_chromecast", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode" ];
+			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -949,8 +949,7 @@
 						if(arg == 1 || arg == 2 || arg == 3){
 							setTimeout("window.location.reload()", 500);
 						}else if (arg == 5){
-							x = 4;
-							count_down_switch();
+							setTimeout("window.location.reload()", 1000);
 						}else if (arg == 4){
 							var a = document.createElement('A');
 							a.href = "/_root/files/ss_conf_backup.sh";
@@ -1016,7 +1015,7 @@
 			<div id="ss_switch_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_switch_pannel').forms([
-					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',value: dbus.ss_basic_enable == '1' }
+					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox', value: dbus.ss_basic_enable == '1'||"1" }
 				]);
 			</script>
 			<hr />
@@ -1227,7 +1226,7 @@
 			<script type="text/javascript">
 				$('#ss_addon_pannel').forms([
 					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
-					{ title: 'chromecast支持',  name:'ss_basic_chromecast',type:'checkbox',value: dbus.ss_basic_chromecast == '1' || "1" },
+					{ title: 'chromecast支持',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast == '1'||"1" },
 					//{ title: '开机延迟启动', name:'ss_basic_sleep',type:'select',options:option_sleep, value:dbus.ss_basic_sleep || "0" },
 					{ title: 'SS服务器地址解析', multi: [
 						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },

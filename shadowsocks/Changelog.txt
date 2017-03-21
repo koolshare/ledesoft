@@ -12,3 +12,8 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 
 1.0.5
    - fix	fix wrong refresh time
+
+
+1.0.6
+   - fix	fix chromecast
+   - fix	fix tproxy module load
