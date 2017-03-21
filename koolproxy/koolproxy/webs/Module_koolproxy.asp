@@ -50,18 +50,16 @@ No part of this file may be used without permission.
 		kprule.fieldValuesToData = function(row) {
 			var f = fields.getAll(row);
 			return [f[0].checked ? 1 : 0, f[1].selectedIndex, f[2].value, f[3].value ];
-		}	
-		
+		}
 		kprule.verifyFields = function( row, quiet ) {
 			var ok = 1;
-			var f;
-			f = fields.getAll( row );
+			var f = fields.getAll( row );
 			if(online_rule){
 				//console.log("online_rule", online_rule);
-				f[2].value = online_rule.rules[f[1].value][1];
+				if (online_rule.rules[f[1].value][1]){
+					f[2].value = online_rule.rules[f[1].value][1];
+				}
 			}else{
-				//console.log("online_rule", "2232");
-				
 				if(f[1].selectedIndex == 0){
 					f[2].value = "https:\/\/rules.ngrok.wang\/1.dat";
 					
@@ -72,9 +70,7 @@ No part of this file may be used without permission.
 					f[3].value = "";
 				}
 			}
-
 			s = f[2].value.trim().replace(/\s+/g, ' ');
-			//console.log("s", s);
 			if (s.length > 0) {
 				if (this.existName(s)) {
 					ferror.set(f[2], '规则重复！', quiet);
@@ -96,8 +92,6 @@ No part of this file may be used without permission.
 			f[ 2 ].value   = '';
 			f[ 3 ].value   = '';
 		}
-
-
 		kprule.setup = function(dbus) {
 			this.init( 'kprule-grid', '', 50, [
 				{ type: 'checkbox' },
@@ -112,29 +106,14 @@ No part of this file may be used without permission.
 			}else{
 				var s = dbus["koolproxy_rule_list"].split( '>' );
 			}
-
-			//if(typeof(dbus["koolproxy_rule_list"]) != "undefined" ){
-			//	var s = dbus["koolproxy_rule_list"].split( '>' );
-			//}else{
-			//	var s =""
-			//	return false;
-			//}
-
 			for ( var i = 0; i < s.length; ++i ) {
 				var t = s[ i ].split( '<' );
 				if ( t.length == 4 ) this.insertData( -1, t );
 			}
-			//kprule.recolor();
 			this.showNewEditor();
 			this.resetNewEditor();
 		}
-		
-		//$( window ).on( 'load', function() {
-		//	kprule.recolor();
-		//});
-
 		//============================================
-
 		var kpacl = new TomatoGrid();
 		
 		kpacl.exist = function( f, v ) {
@@ -144,23 +123,17 @@ No part of this file may be used without permission.
 			}
 			return false;
 		}
-
 		kpacl.dataToView = function( data ) {
-				//console.log("data11", data);
 			return [ data[0] , data[1], data[2], ['不过滤', 'http only', 'http + https'][data[3]] ];
-			
 		}
-		
 		kpacl.fieldValuesToData = function( row ) {
 			var f = fields.getAll( row );
 			return [ f[0].value, f[1].value, f[2].value, f[3].value ];
 		}
-
 		kpacl.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
 			return v_ip( f[ 0 ], quiet ) || v_mac( f[ 1 ], quiet );
 		}
-
 		kpacl.onAdd = function() {
 			var data;
 
@@ -175,7 +148,6 @@ No part of this file may be used without permission.
 			this.disableNewEditor(false);
 			this.resetNewEditor();
 		}
-		
 		kpacl.resetNewEditor = function() {
 			var f;
 			f = fields.getAll( this.newEditor );
@@ -185,7 +157,6 @@ No part of this file may be used without permission.
 			f[ 2 ].value   = '';
 			f[ 3 ].value   = '1';
 		}
-		
 		kpacl.setup = function(dbus) {
 			this.init( 'ctrl-grid', '', 50, [
 			{ type: 'text', maxlen: 50 },
@@ -196,7 +167,6 @@ No part of this file may be used without permission.
 			
 			this.headerSet( [ '主机IP地址', 'MAC地址', '主机别名', '访问控制' ] );
 			this.footerSet( [ '<small><i>其它主机</small></i>', '<small><i>缺省规则</small></i>','',('<select id="_koolproxy_acl_default" name="koolproxy_acl_default"><option value="0">不过滤</option><option value="1" selected>http only</option><option value="2">http + https</option></select>')]);
-
 			if(typeof(dbus["koolproxy_acl_list"]) != "undefined" ){
 				var s = dbus["koolproxy_acl_list"].split( '>' );
 			}else{
@@ -210,7 +180,6 @@ No part of this file may be used without permission.
 				var t = s[ i ].split( '<' );
 				if ( t.length == 4 ) this.insertData( -1, t );
 			}
-			//this.insertData( -1, ["其它主机", "缺省规则", "", "1"] );
 			this.showNewEditor();
 			this.resetNewEditor();
 		}
@@ -265,7 +234,6 @@ No part of this file may be used without permission.
 						for (var i = 0; i < res.rules.length; ++i) {
 							options_type.push([i, res.rules[i][0]]);
 							options_list[i] = res.rules[i][0];
-							//console.log("options_list", options_list);
 						}
 						kprule.setup(dbus);
 						kpacl.setup(dbus);
@@ -419,7 +387,6 @@ No part of this file may be used without permission.
 			}else{
 				dbus2["koolproxy_rule_list"] = " ";
 			}
-			
 			// collect data from acl pannel
 			var data2 = kpacl.getAllData();
 			var acllist = '';
@@ -520,7 +487,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">KoolProxy 3.3.4<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">KoolProxy 3.3.4.1<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
