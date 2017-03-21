@@ -303,6 +303,14 @@ function getSoftCenter(obj){
 					appPostScript(moduleInfo, "ks_app_install.sh");
 				});
 			}
+			// filp all software icon once and remain update style
+			if(($('.btn.btn-success'))){
+				var update_soft = $('.btn.btn-success').parent('DIV.appDesc').parent();
+				change1(update_soft);
+			}
+			var normal_soft = $('.btn.btn-danger').parent('DIV.appDesc').parent();
+			change1(normal_soft);
+			change2(normal_soft);
 			//软件中心更新 end
 		},
 		error :function(data){
