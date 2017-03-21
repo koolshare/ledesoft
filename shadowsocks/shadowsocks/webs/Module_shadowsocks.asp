@@ -369,7 +369,7 @@
 					x = 10000000;
 			});
 			auto_node_sel();
-			$('#_ss_version').html( "shadowsocks for toamto " + (dbus["ss_basic_version"]  || "") )
+			$('#_ss_version').html( '<a margin href="https://github.com/koolshare/ttsoft/blob/master/shadowsocks/Changelog.txt" target="_blank">shadowsocks for toamto  ' + (dbus["ss_basic_version"]  || "") + '</a>' );
 			setTimeout("get_run_status();", 1000);
 			setTimeout("get_dns_status();", 1100);
 		}
