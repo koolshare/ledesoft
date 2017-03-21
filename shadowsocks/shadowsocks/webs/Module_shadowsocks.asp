@@ -1226,7 +1226,7 @@
 			<div id="ss_addon_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_addon_pannel').forms([
-					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "2"},
+					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
 					{ title: 'chromecast支持',  name:'ss_basic_chromecast',type:'checkbox',value: dbus.ss_basic_chromecast == '1' || "1" },
 					//{ title: '开机延迟启动', name:'ss_basic_sleep',type:'select',options:option_sleep, value:dbus.ss_basic_sleep || "0" },
 					{ title: 'SS服务器地址解析', multi: [

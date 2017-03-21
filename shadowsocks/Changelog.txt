@@ -2,9 +2,13 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 ===========================================
 0.9.9
    - add	add shadowsocks for advanced tomato software center；
+
 1.0.4
    - fix	fix password showed in ss node tab
    - fix	fix script error when restore ss conf
    - fix	fix some pannel won't hide when ss disabled
    - fix	fix no log show when ss disabled
    - add	add ss tar download
+
+1.0.5
+   - fix	fix wrong refresh time
