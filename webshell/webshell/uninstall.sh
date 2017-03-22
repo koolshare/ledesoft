@@ -2,6 +2,7 @@
 
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export webshell`
 
 killall webshell
 dbus remove webshell_cols

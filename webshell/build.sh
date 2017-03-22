@@ -1,13 +1,14 @@
 #!/bin/sh
 
-MODULE=webshell
-VERSION=1.0.0
-TITLE=webshell
+MODULE="webshell"
+VERSION="1.0.1"
+TITLE="webshell"
 DESCRIPTION="shell on web~"
-HOME_URL=Module_webshell.asp
+HOME_URL="Module_webshell.asp"
 #!/bin/sh
 # Check and include base
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+echo $DIR
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1

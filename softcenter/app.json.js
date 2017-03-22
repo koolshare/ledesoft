@@ -32,6 +32,16 @@
             "version": "1.0.6"
         }, 
         {
+            "build_date": "2017-03-22_19:12:28", 
+            "description": "softether_vpn", 
+            "home_url": "Module_softether_vpn.asp", 
+            "md5": "4b876288763822cf39aa34592316cb13", 
+            "name": "softether_vpn", 
+            "tar_url": "softether_vpn/softether_vpn.tar.gz", 
+            "title": "softether_vpn", 
+            "version": "1.0.0"
+        }, 
+        {
             "build_date": "2017-03-21_20:46:38", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
@@ -42,14 +52,14 @@
             "version": "3.3.4.1"
         }, 
         {
-            "build_date": "2017-03-22_13:59:33", 
+            "build_date": "2017-03-22_19:14:21", 
             "description": "shell on web~", 
             "home_url": "Module_webshell.asp", 
-            "md5": "8ef2283894b4f8091d19e67df99b3d47", 
+            "md5": "3219dc0954683ef37144464d89c83637", 
             "name": "webshell", 
             "tar_url": "webshell/webshell.tar.gz", 
             "title": "webshell", 
-            "version": "1.0.0"
+            "version": "1.0.1"
         }, 
         {
             "build_date": "2017-03-21_01:42:53", 
