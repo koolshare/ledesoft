@@ -42,6 +42,16 @@
             "version": "3.3.4.1"
         }, 
         {
+            "build_date": "2017-03-22_13:59:33", 
+            "description": "shell on web~", 
+            "home_url": "Module_webshell.asp", 
+            "md5": "8ef2283894b4f8091d19e67df99b3d47", 
+            "name": "webshell", 
+            "tar_url": "webshell/webshell.tar.gz", 
+            "title": "webshell", 
+            "version": "1.0.0"
+        }, 
+        {
             "build_date": "2017-03-21_01:42:53", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
