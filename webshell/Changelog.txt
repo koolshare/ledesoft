@@ -2,3 +2,4 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 ===========================================
 1.0.0	add webshell
 1.0.1	fix uninstall script
+1.0.2	remove console in web

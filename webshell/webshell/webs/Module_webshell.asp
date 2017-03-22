@@ -2968,7 +2968,6 @@ function sendBlock() {
 	for (var i = 0; i < data.length; i++) {
 		tosend.push(data.charCodeAt(i));
 	}
-	console.log("sss", tosend);
 	ws.send(tosend);
 	tv.value = "";
 }
@@ -2979,7 +2978,6 @@ function sendcommand(arg) {
 	for (var i = 0; i < data.length; i++) {
 		tosend.push(data.charCodeAt(i));
 	}
-	console.log("sss", tosend);
 	ws.send(tosend);
 }
 
@@ -2991,7 +2989,6 @@ function get_dbus_data(){
 	  	async:false,
 	 	success: function(data){
 	 	 	dbus = data.result[0];
-	 	 	console.log("dbus",dbus);
 	 	 	w_cols = dbus["webshell_cols"];
 	 	 	w_rows = dbus["webshell_cols"];
 	  	}
@@ -3012,8 +3009,9 @@ function save(){
 		success: function(response){
 			if(response.result == id){
 				console.log("save ok", dbus)
+				window.location.reload();
 			}
-			window.location.reload();
+			
 		}
 	});
 }

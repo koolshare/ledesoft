@@ -13,7 +13,6 @@ No part of this file may be used without permission.
 		function get_local_data(){
 			$.getJSON("/_api/softether", function(res) {
 				dbus=res.result[0];
-				console.log("dbus", dbus)
 				E('_softether_enable').checked = (dbus["softether_enable"] == 1);
 				E('_softether_l2tp').checked = (dbus["softether_l2tp"] == 1);
 				E('_softether_sstp').checked = (dbus["softether_sstp"] == 1);
