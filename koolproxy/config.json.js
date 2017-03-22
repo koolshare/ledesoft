@@ -1,8 +1,8 @@
 {
-"version":"3.3.4.1",
-"md5":"a68eb25263da814671d2b9c7274f0b8e",
+"version":"3.3.4.2",
+"md5":"91f88565f489e66d23c2f23e146ffafc",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"去屑不油腻",
-"build_date":"2017-03-21_20:46:38"
+"build_date":"2017-03-22_19:27:30"
 }

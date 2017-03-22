@@ -42,14 +42,14 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-03-21_20:46:38", 
+            "build_date": "2017-03-22_19:27:30", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "a68eb25263da814671d2b9c7274f0b8e", 
+            "md5": "91f88565f489e66d23c2f23e146ffafc", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.3.4.1"
+            "version": "3.3.4.2"
         }, 
         {
             "build_date": "2017-03-22_19:23:25", 
@@ -73,7 +73,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "bece432120cf467e4512ba5fd889eb69", 
+    "md5": "86e694b3c8b1bac205effc6f20e67b64", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "0.1.0"
+    "version": "0.1.1"
 }
