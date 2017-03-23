@@ -50,8 +50,7 @@ if [ "$swapon2" == "0" ];then
 			dbus set swap_on_loaded=1
 		else
 			# 检测到有，但是挂载失败，帮忙删除
-			rm -rf "$swap_disk"/tt_swapfile
-			http_response "检测到你已有的swap文件，但是尝试挂在失败！已经为你删掉。"
+			http_response "检测到你已有的swap文件，但是尝试挂在失败！"
 			dbus set swap_on_loaded=0
 		fi
 	else

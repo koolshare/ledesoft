@@ -1,3 +1,4 @@
 Koolshare Asuswrt-Merlin shadowsocks Changelog
 ===========================================
 1.0.0	add swap
+1.0.1	fix wrong folder; fix mkswap

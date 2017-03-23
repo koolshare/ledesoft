@@ -10,12 +10,16 @@ No part of this file may be used without permission.
 <content>
 	<script type="text/javascript">
 		var dbus = [];
+		var refresh = 1;
 		function init_swap(){
 			disk.setup();
 			get_usb_status();
 		}
 		
 		function get_usb_status(){
+			if (refresh == 0){
+				return false;
+			}
 			var id = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id, "method": "swap_status.sh", "params":[], "fields": ""};
 			$.ajax({
@@ -27,10 +31,6 @@ No part of this file may be used without permission.
 					get_local_data();
 					document.getElementById("_swap_status").innerHTML = response.result;
 					setTimeout("get_usb_status();", 10000);
-				},
-				error: function(){
-					document.getElementById("_swap_status").innerHTML = "获取运行状态失败！";
-					setTimeout("get_usb_status();", 5000);
 				}
 			});
 		}
@@ -90,6 +90,7 @@ No part of this file may be used without permission.
 			$('#'+Outtype).show();
 		}
 		function creat_swap_now(o){
+			refresh = 0;
 			elem.display('_log', true);
 			setTimeout("get_log();", 500);
 			dbus
@@ -106,9 +107,6 @@ No part of this file may be used without permission.
 				data: JSON.stringify(postData),
 				success: function(response){
 					if(response.result == id){
-						//showMsg("msg_success","提交成功","<b>成功提交数据。</b>");
-						//$('#msg_warring').hide();
-						//setTimeout("$('#msg_success').hide()", 1000);
 						window.location.reload();
 					}
 				}
