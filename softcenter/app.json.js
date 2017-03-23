@@ -11,6 +11,16 @@
             "version": "0.6"
         }, 
         {
+            "build_date": "2017-03-24_01:51:24", 
+            "description": "虚拟内存~", 
+            "home_url": "Module_swap.asp", 
+            "md5": "19cdf8394ff25be0ea4a0b6450cee95d", 
+            "name": "swap", 
+            "tar_url": "swap/swap.tar.gz", 
+            "title": "swap", 
+            "version": "1.0.0"
+        }, 
+        {
             "build_date": "2016-11-25_21:35:44", 
             "description": "不可描述", 
             "home_url": "Module_kms.asp", 
