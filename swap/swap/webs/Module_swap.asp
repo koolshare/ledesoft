@@ -85,10 +85,7 @@ No part of this file may be used without permission.
 			
 			elem.display(PR('_delete_now'), b);
 		}
-		function showMsg(Outtype, title, msg){
-			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
-			$('#'+Outtype).show();
-		}
+
 		function creat_swap_now(o){
 			refresh = 0;
 			elem.display('_log', true);
@@ -99,7 +96,6 @@ No part of this file may be used without permission.
 			// post data
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": 'swap_config.sh', "params":[o], "fields": dbus};
-			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				url: "/_api/",
 				type: "POST",
@@ -165,9 +161,6 @@ No part of this file may be used without permission.
 			<table class="line-table" id="disk-grid"></table>
 		</div>
 	</div>
-	<div id="msg_warring" class="alert alert-warning icon" style="display:none;"></div>
-	<div id="msg_success" class="alert alert-success icon" style="display:none;"></div>
-	<div id="msg_error" class="alert alert-error icon" style="display:none;"></div>
 	<div class="box" style="margin-top: 0px;">
 		<div class="heading">基本设置</div>
 		<div class="content">

@@ -17,6 +17,7 @@ makekswap(){
 		chmod 600 tt_swapfile
 		swapon tt_swapfile
 		echo_date "挂载swap成功..."
+		echo_date "如果页面没有自动刷新，请手动刷新！"
 	fi
 }
 
