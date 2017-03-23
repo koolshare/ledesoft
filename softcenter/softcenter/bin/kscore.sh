@@ -4,23 +4,24 @@
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 export PERP_BASE=$KSROOT/perp
-echo start `date` > /tmp/ks_core_log.txt
 mkdir -p /tmp/upload
-STAT_S=`perpls skipd | grep ++`
-STAT_H=`perpls httpdb | grep ++`
-RUN_S=`pidof skipd`
-RUN_H=`pidof httpdb`
-perpboot=`pidof perpboot`
-tinylog=`pidof tinylog`
-perpd=`pidof perpd`
-# rstart perp
-if [ -z "$perpboot" ] || [ -z "$tinylog" ] || [ -z "$perpd" ] || [ -z "$STAT_S" ] || [ -z "$STAT_H" ];then
-	echo perp need to restart!
-	$KSROOT/perp/perp.sh stop
-	$KSROOT/perp/perp.sh start
-else
-	echo "perp working normally, do nothing."
+
+# change port for httpd if it's not 9527
+lanport=$(nvram get http_lanport)
+if [ "$lanport" != "9527" ]; then
+	nvram set http_lanport1=$lanport
+	nvram set http_lanport=9527
+	#nvram commit
+	if [ -n `pidof httpd` ];then
+		service httpd restart
+	fi
 fi
+
+
+# start perp skipd and skipd
+echo start perp skipd and httpdb
+logger start perp skipd and httpdb
+sh $KSROOT/perp/perp.sh start
 
 # set ks_nat to 1
 router_status=`date | grep -E "UTC 1970"`
@@ -36,14 +37,6 @@ fi
 mkdir -p /jffs/etc
 [ ! -L "/jffs/etc/profile" ] && ln -sf $KSROOT/scripts/base.sh /jffs/etc/profile
 
-# change port for httpd if it's not 9527
-lanport=$(nvram get http_lanport)
-if [ "$lanport" != "9527" ]; then
-	nvram set http_lanport1=$lanport
-	nvram set http_lanport=9527
-	nvram commit
-	service httpd restart
-fi
 
 # ===============================
 # define start up for wan and nat
@@ -115,27 +108,25 @@ if [ $conf_ok -ne 2 ];then
 fi
 [ ! -L "/etc/dnsmasq.custom" ] && ln -sf /jffs/etc/dnsmasq.custom /etc/dnsmasq.custom
 # ===============================
-sleep 1
-# ===============================
 # now start skipd and httpdb
 # because tomato shell can't keep them running background when shell exit
 # we have to use exec in the end of this scripts
 # the perp has been restartd at the begainning, there is no need to use arg X on perpctl
 
-if [ -n "$STAT_S" ] && [ -n "$STAT_S" ];then
-	echo skipd is working normally, do nothing.
-else
-	echo start skipd!
-	killall skipd > /dev/null 2>&1
-	perpctl A skipd
-fi
+# if [ -n "$STAT_S" ] && [ -n "$RUN_S" ];then
+# 	echo skipd is working normally, do nothing.
+# else
+# 	echo start skipd!
+# 	[ -n "$RUN_S" ] && killall skipd > /dev/null 2>&1
+# 	perpctl A skipd > /dev/null 2>&1
+# fi
+# 
+# if [ -n "$STAT_H" ] && [ -n "$RUN_H" ];then
+# 	echo skipd is working normally, do nothing.
+# else
+# 	[ -n "$RUN_H" ] killall httpdb > /dev/null 2>&1
+# 	perpctl A httpdb > /dev/null 2>&1
+# fi
+# # ===============================
 
-if [ -n "$STAT_H" ] && [ -n "$RUN_H" ];then
-	echo skipd is working normally, do nothing.
-else
-	killall httpdb > /dev/null 2>&1
-	echo finish `date` >> /tmp/ks_core_log.txt
-	exec perpctl A httpdb
-fi
-# ===============================
 

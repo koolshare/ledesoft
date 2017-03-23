@@ -162,10 +162,6 @@ install_module() {
 
 #LOGGER $BIN_NAME
 case $BIN_NAME in
-start)
-	sh $KSROOT/perp/perp.sh stop
-	sh $KSROOT/perp/perp.sh start
-	;;
 update)
 	install_module
 	;;
