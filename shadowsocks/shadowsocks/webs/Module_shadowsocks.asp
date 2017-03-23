@@ -1016,7 +1016,7 @@
 			<div id="ss_switch_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_switch_pannel').forms([
-					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox', value: dbus.ss_basic_enable == '1'||"1" }
+					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',  value: ((dbus.ss_basic_enable == '1')? 1:0) }
 				]);
 			</script>
 			<hr />
