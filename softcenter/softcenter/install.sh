@@ -6,8 +6,8 @@ export KSROOT=/jffs/koolshare
 softcenter_install() {
 	#remove useless files
 	if [ -d "$KSROOT/init.d" ]; then
-		[ -f "$KSROOT/init.d/S01Skipd.sh" ] && rm -rf $KSROOT/init.d/S01Skipd.sh
-		[ -f "$KSROOT/init.d/S10softcenter.sh" ]rm -rf $KSROOT/init.d/S10softcenter.sh
+		rm -rf $KSROOT/init.d/S01Skipd.sh >/dev/null 2>&1
+		rm -rf $KSROOT/init.d/S10softcenter.sh >/dev/null 2>&1
 	fi
 	
 	# install software center
