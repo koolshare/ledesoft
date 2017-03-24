@@ -469,7 +469,11 @@
 						//console.log("option_arp_list", option_arp_list);
 						ss_acl.setup();
 					}
-				}
+				},
+				error:function(){
+					ss_acl.setup();
+				},
+				timeout:1000
 			});
 		}
 		function auto_node_sel(){
@@ -886,7 +890,7 @@
 						tabSelect("app1");
 						return false;
 					} else {
-						setTimeout("get_log();", 100); //100 is radical but smooth!
+						setTimeout("get_log();", 500); //100 is radical but smooth!
 					}
 					retArea.value = response;
 					retArea.scrollTop = retArea.scrollHeight;
@@ -1016,7 +1020,7 @@
 			<div id="ss_switch_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_switch_pannel').forms([
-					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',  value: ((dbus.ss_basic_enable == '1')? 1:0) }
+					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',  value: dbus.ss_basic_enable == 1 }  // ==1 means default close; !=0 means default open
 				]);
 			</script>
 			<hr />
@@ -1189,9 +1193,9 @@
 					{ title: 'shadowsocks规则自动更新', multi: [
 						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_rule_update_time', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_time || "3",suffix: ' &nbsp;&nbsp;' },
-						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update == '1', suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
-						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update == '1', suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
-						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update == '1', suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
 						{ suffix: ' <button id="_update_rules_now" onclick="update_rules_now();" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
 					]}
 				]);
@@ -1227,7 +1231,7 @@
 			<script type="text/javascript">
 				$('#ss_addon_pannel').forms([
 					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
-					{ title: 'chromecast支持',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast == '1'||"1" },
+					{ title: 'chromecast支持',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0 },
 					//{ title: '开机延迟启动', name:'ss_basic_sleep',type:'select',options:option_sleep, value:dbus.ss_basic_sleep || "0" },
 					{ title: 'SS服务器地址解析', multi: [
 						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },

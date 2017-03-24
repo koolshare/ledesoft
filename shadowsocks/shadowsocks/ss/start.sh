@@ -18,8 +18,9 @@ else
 	ISP_DNS1=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p)
 	ISP_DNS2=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p)
 fi
-[ "$ss_dns_china" == "1" ] && [ ! -z "$ISP_DNS1" ] && CDN="$ISP_DNS1"
-[ "$ss_dns_china" == "1" ] && [ -z "$ISP_DNS1" ] && CDN="114.114.114.114"
+# dns for china
+[ "$ss_dns_china" == "1" ] && [ ! -z "$ISP_DNS" ] && CDN="$ISP_DNS"
+[ "$ss_dns_china" == "1" ] && [ -z "$ISP_DNS" ] && CDN="114.114.114.114"
 [ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
 [ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
 [ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
@@ -31,11 +32,42 @@ fi
 [ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
 [ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
 [ "$ss_dns_china" == "12" ] && CDN="$ss_dns_china_user"
+# dns for foreign ss-tunnel
+[ "$ss_sstunnel" == "1" ] && gs="208.67.220.220:53"
+[ "$ss_sstunnel" == "2" ] && gs="8.8.8.8:53"
+[ "$ss_sstunnel" == "3" ] && gs="8.8.4.4:53"
+[ "$ss_sstunnel" == "4" ] && gs="$ss_sstunnel_user"	
+# dns for pdnsd upstream ss-tunnel
+[ "$ss_pdnsd_udp_server_ss_tunnel" == "1" ] && dns1="208.67.220.220:53"
+[ "$ss_pdnsd_udp_server_ss_tunnel" == "2" ] && dns1="8.8.8.8:53"
+[ "$ss_pdnsd_udp_server_ss_tunnel" == "3" ] && dns1="8.8.4.4:53"
+[ "$ss_pdnsd_udp_server_ss_tunnel" == "4" ] && dns1="$ss_pdnsd_udp_server_ss_tunnel_user"
+# dns for foreign dns: chinaDNS dns for china
+[ "$ss_chinadns_china" == "1" ] && rcc="223.5.5.5"
+[ "$ss_chinadns_china" == "2" ] && rcc="223.6.6.6"
+[ "$ss_chinadns_china" == "3" ] && rcc="114.114.114.114"
+[ "$ss_chinadns_china" == "4" ] && rcc="114.114.115.115"
+[ "$ss_chinadns_china" == "5" ] && rcc="1.2.4.8"
+[ "$ss_chinadns_china" == "6" ] && rcc="210.2.4.8"
+[ "$ss_chinadns_china" == "7" ] && rcc="112.124.47.27"
+[ "$ss_chinadns_china" == "8" ] && rcc="114.215.126.16"
+[ "$ss_chinadns_china" == "9" ] && rcc="180.76.76.76"
+[ "$ss_chinadns_china" == "10" ] && rcc="119.29.29.29"
+[ "$ss_chinadns_china" == "11" ] && rcc="$ss_chinadns_china_user"
+# dns for foreign dns: chinaDNS foreign dns:dns2socks
+[ "$ss_chinadns_foreign_dns2socks" == "1" ] && rcfd="208.67.220.220:53"
+[ "$ss_chinadns_foreign_dns2socks" == "2" ] && rcfd="8.8.8.8:53"
+[ "$ss_chinadns_foreign_dns2socks" == "3" ] && rcfd="8.8.4.4:53"
+[ "$ss_chinadns_foreign_dns2socks" == "4" ] && rcfd="$ss_chinadns_foreign_dns2socks_user"
+# dns for foreign dns: chinaDNS foreign dns:ss-tunnel
+[ "$ss_chinadns_foreign_sstunnel" == "1" ] && rcfs="208.67.220.220:53"
+[ "$ss_chinadns_foreign_sstunnel" == "2" ] && rcfs="8.8.8.8:53"
+[ "$ss_chinadns_foreign_sstunnel" == "3" ] && rcfs="8.8.4.4:53"
+[ "$ss_chinadns_foreign_sstunnel" == "4" ] && rcfs="$ss_chinadns_foreign_sstunnel_user"
 # ==========================================================================================
 # stop first
 redsocks2=$(ps | grep "redsocks2" | grep -v "grep")
 dnscrypt=$(ps | grep "dnscrypt-proxy" | grep -v "grep")
-sokcs5=$(ps|grep ss-local|grep -vw rss-local|grep -v 23456|cut -d " " -f 1)
 ssredir=$(ps | grep "ss-redir" | grep -v "grep" | grep -vw "rss-redir")
 rssredir=$(ps | grep "rss-redir" | grep -v "grep" | grep -vw "ss-redir")
 sstunnel=$(ps | grep "ss-tunnel" | grep -v "grep" | grep -vw "rss-tunnel")
@@ -238,25 +270,26 @@ creat_ss_json(){
 	fi
 }
 
+start_sslocal(){
+	if [ "$ss_basic_type" == "1" ];then
+	echo_date 开启ss-local，提供socks5端口：23456
+		rss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+	elif  [ "$ss_basic_type" == "0" ];then
+		ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+	fi
+}
+
 start_dns(){
 	# Start DNS2SOCKS
 	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
 		# start ss-local on port 23456
 		echo_date 开启ss-local，提供socks5端口：23456
-		if [ "$ss_basic_type" == "1" ];then
-			rss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-		elif  [ "$ss_basic_type" == "0" ];then
-			ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-		fi
+		start_sslocal
 		echo_date 开启dns2socks，监听端口：23456
 		dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
 	fi
 
 	# Start ss-tunnel
-	[ "$ss_sstunnel" == "1" ] && gs="208.67.220.220:53"
-	[ "$ss_sstunnel" == "2" ] && gs="8.8.8.8:53"
-	[ "$ss_sstunnel" == "3" ] && gs="8.8.4.4:53"
-	[ "$ss_sstunnel" == "4" ] && gs="$ss_sstunnel_user"	
 	if [ "2" == "$ss_dns_foreign" ];then
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-tunnel...
@@ -306,21 +339,13 @@ start_dns(){
 			if [ "$ss_pdnsd_udp_server" == "1" ];then
 				# start ss-local on port 23456
 				echo_date 开启ss-local，提供socks5端口：23456
-				if [ "$ss_basic_type" == "1" ];then
-					rss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-				elif  [ "$ss_basic_type" == "0" ];then
-					ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-				fi
+				start_sslocal
 				echo_date 开启dns2socks作为pdnsd的上游服务器.
 				dns2socks 127.0.0.1:23456 "$ss_pdnsd_udp_server_dns2socks" 127.0.0.1:1099 > /dev/null 2>&1 &
 			elif [ "$ss_pdnsd_udp_server" == "2" ];then
 				echo_date 开启dnscrypt-proxy作为pdnsd的上游服务器.
 				dnscrypt-proxy --local-address=127.0.0.1:1099 --daemonize -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R "$ss_pdnsd_udp_server_dnscrypt"
 			elif [ "$ss_pdnsd_udp_server" == "3" ];then
-				[ "$ss_pdnsd_udp_server_ss_tunnel" == "1" ] && dns1="208.67.220.220:53"
-				[ "$ss_pdnsd_udp_server_ss_tunnel" == "2" ] && dns1="8.8.8.8:53"
-				[ "$ss_pdnsd_udp_server_ss_tunnel" == "3" ] && dns1="8.8.4.4:53"
-				[ "$ss_pdnsd_udp_server_ss_tunnel" == "4" ] && dns1="$ss_pdnsd_udp_server_ss_tunnel_user"
 				if [ "$ss_basic_type" == "1" ];then
 					echo_date 开启ssr-tunnel作为pdnsd的上游服务器.
 					rss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1099 -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
@@ -375,39 +400,15 @@ start_dns(){
 	# Start chinadns
 	if [ "5" == "$ss_dns_foreign" ];then
 		echo_date ┏ 你选择了chinaDNS作为解析方案！
-		[ "$ss_chinadns_china" == "1" ] && rcc="223.5.5.5"
-		[ "$ss_chinadns_china" == "2" ] && rcc="223.6.6.6"
-		[ "$ss_chinadns_china" == "3" ] && rcc="114.114.114.114"
-		[ "$ss_chinadns_china" == "4" ] && rcc="114.114.115.115"
-		[ "$ss_chinadns_china" == "5" ] && rcc="1.2.4.8"
-		[ "$ss_chinadns_china" == "6" ] && rcc="210.2.4.8"
-		[ "$ss_chinadns_china" == "7" ] && rcc="112.124.47.27"
-		[ "$ss_chinadns_china" == "8" ] && rcc="114.215.126.16"
-		[ "$ss_chinadns_china" == "9" ] && rcc="180.76.76.76"
-		[ "$ss_chinadns_china" == "10" ] && rcc="119.29.29.29"
-		[ "$ss_chinadns_china" == "11" ] && rcc="$ss_chinadns_china_user"
-
 		if [ "$ss_chinadns_foreign_method" == "1" ];then
-			[ "$ss_chinadns_foreign_dns2socks" == "1" ] && rcfd="208.67.220.220:53"
-			[ "$ss_chinadns_foreign_dns2socks" == "2" ] && rcfd="8.8.8.8:53"
-			[ "$ss_chinadns_foreign_dns2socks" == "3" ] && rcfd="8.8.4.4:53"
-			[ "$ss_chinadns_foreign_dns2socks" == "4" ] && rcfd="$ss_chinadns_foreign_dns2socks_user"
 			echo_date ┣ 开启ss-local,为dns2socks提供socks5端口：23456
-			if [ "$ss_basic_type" == "1" ];then
-				rss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-			elif  [ "$ss_basic_type" == "0" ];then
-				ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
-			fi
+			start_sslocal
 			echo_date ┣ 开启dns2socks，作为chinaDNS上游国外dns，转发dns：$rcfd
 			dns2socks 127.0.0.1:23456 "$rcfd" 127.0.0.1:1055 >/dev/null 2>&1 &
 		elif [ "$ss_chinadns_foreign_method" == "2" ];then
 			echo_date ┣ 开启 dnscrypt-proxy，作为chinaDNS上游国外dns，你选择了"$ss_chinadns_foreign_dnscrypt"节点.
 			dnscrypt-proxy --local-address=127.0.0.1:1055 --daemonize -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R $ss_chinadns_foreign_dnscrypt >/dev/null 2>&1
 		elif [ "$ss_chinadns_foreign_method" == "3" ];then
-			[ "$ss_chinadns_foreign_sstunnel" == "1" ] && rcfs="208.67.220.220:53"
-			[ "$ss_chinadns_foreign_sstunnel" == "2" ] && rcfs="8.8.8.8:53"
-			[ "$ss_chinadns_foreign_sstunnel" == "3" ] && rcfs="8.8.4.4:53"
-			[ "$ss_chinadns_foreign_sstunnel" == "4" ] && rcfs="$ss_chinadns_foreign_sstunnel_user"
 			if [ "$ss_basic_type" == "1" ];then
 				echo_date ┣ 开启ssr-tunnel，作为chinaDNS上游国外dns，转发dns：$rcfs
 				rss-tunnel -b 127.0.0.1 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
@@ -511,21 +512,22 @@ ln_conf(){
 	rm -rf /jffs/etc/dnsmasq.d/custom.conf
 	if [ -f /tmp/custom.conf ];then
 		echo_date 创建域自定义dnsmasq配置文件软链接到/jffs/etc/dnsmasq.d/custom.conf
-		ln -sf /tmp/custom.conf /jffs/etc/dnsmasq.d/custom.conf
+		mv /tmp/custom.conf /jffs/etc/dnsmasq.d/custom.conf
 	fi
 	# custom dnsmasq
 	rm -rf /jffs/etc/dnsmasq.d/wblist.conf
 	if [ -f /tmp/wblist.conf ];then
 		echo_date 创建域名黑/白名单软链接到/jffs/configs/dnsmasq.d/wblist.conf
-		ln -sf /tmp/wblist.conf /jffs/etc/dnsmasq.d/wblist.conf
+		mv /tmp/wblist.conf /jffs/etc/dnsmasq.d/wblist.conf
 	fi
 	rm -rf /jffs/etc/dnsmasq.d/cdn.conf
 	if [ -f /tmp/sscdn.conf ];then
 		echo_date 创建cdn加速列表软链接/jffs/etc/dnsmasq.d/cdn.conf
-		ln -sf /tmp/sscdn.conf /jffs/etc/dnsmasq.d/cdn.conf
+		mv /tmp/sscdn.conf /jffs/etc/dnsmasq.d/cdn.conf
 	fi
+	gfw_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 1`	
 	rm -rf /jffs/etc/dnsmasq.d/gfwlist.conf
-	if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ];then
+	if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
 		echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
 		ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
 	fi
@@ -860,7 +862,6 @@ load_nat(){
 	    i=$(($i-1))
 	    if [ "$i" -lt 1 ];then
 	        echo_date "错误：不能正确加载nat规则!"
-	        . $KSROOT/ss/stop.sh
 	        exit
 	    fi
 	    sleep 1
