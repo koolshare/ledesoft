@@ -473,7 +473,7 @@
 				error:function(){
 					ss_acl.setup();
 				},
-				timeout:1000
+				timeout:1500
 			});
 		}
 		function auto_node_sel(){

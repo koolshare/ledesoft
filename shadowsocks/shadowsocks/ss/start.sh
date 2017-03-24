@@ -282,7 +282,6 @@ start_sslocal(){
 start_dns(){
 	# Start DNS2SOCKS
 	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
-		# start ss-local on port 23456
 		echo_date 开启ss-local，提供socks5端口：23456
 		start_sslocal
 		echo_date 开启dns2socks，监听端口：23456
@@ -527,9 +526,13 @@ ln_conf(){
 	fi
 	gfw_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 1`	
 	rm -rf /jffs/etc/dnsmasq.d/gfwlist.conf
-	if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
-		echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
+	if [ "$ss_basic_mode" == "1" ];then
 		ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
+	elif [ "$ss_basic_mode" == "2" ] || [ "$ss_basic_mode" == "3" ];then
+		if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
+			echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
+			ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
+		fi
 	fi
 	
 	if [ "$ss_dns_china" == "1" ];then
