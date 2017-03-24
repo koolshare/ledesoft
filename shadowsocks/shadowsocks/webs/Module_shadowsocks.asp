@@ -346,6 +346,11 @@
 			}else{
 				E("_ss_acl_default_mode").value = dbus["ss_basic_mode"] || 2;
 			}
+			if(typeof(dbus["ss_acl_default_port"]) != "undefined" ){
+				E("_ss_acl_default_port").value = dbus["ss_acl_default_port"];
+			}else{
+				E("_ss_acl_default_port").value = "all";
+			}
 			for ( var i = 1; i <= dbus["ss_acl_node_max"]; i++){
 				var t = [dbus["ss_acl_name_" + i ] || "未命名主机 - " + i, 
 						dbus["ss_acl_ip_" + i ]  || "",
@@ -473,7 +478,7 @@
 				error:function(){
 					ss_acl.setup();
 				},
-				timeout:1500
+				timeout:1000
 			});
 		}
 		function auto_node_sel(){
@@ -762,7 +767,7 @@
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode" ];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
