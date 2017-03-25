@@ -1179,7 +1179,7 @@
 					{ title: '<b>IP/CIDR白名单</b></br></br><font color="#B2B2B2">不走SS的外网ip/cidr地址，一行一个，例如：</br>2.2.2.2</br>3.3.0.0/16</font>', name: 'ss_wan_white_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_ip)||"", style: 'width: 100%; height:150px;' },
 					{ title: '<b>域名白名单</b></br></br><font color="#B2B2B2">不走SS的域名，例如：</br>google.com</br>facebook.com</font>', name: 'ss_wan_white_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_domain)||"", style: 'width: 100%; height:150px;' },
 					{ title: '<b>IP/CIDR黑名单</b></br></br><font color="#B2B2B2">强制走SS的外网ip/cidr地址，一行一个，例如：</br>4.4.4.4</br>5.0.0.0/8</font>', name: 'ss_wan_black_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_ip)||"", style: 'width: 100%; height:150px;' },
-					{ title: '<b>域名黑名单</b></br></br><font color="#B2B2B2">强制走SS的外网ip地址,例如：</br>baidu.com</br>koolshare.cn</font>', name: 'ss_wan_black_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_domain)||"", style: 'width: 100%; height:150px;' }
+					{ title: '<b>域名黑名单</b></br></br><font color="#B2B2B2">强制走SS的域名,例如：</br>baidu.com</br>koolshare.cn</font>', name: 'ss_wan_black_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_domain)||"", style: 'width: 100%; height:150px;' }
 				]);
 			</script>
 		</div>
