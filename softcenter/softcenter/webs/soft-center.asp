@@ -189,7 +189,7 @@ function getSoftCenter(obj){
 			if(locversion != onlineversion){
 				$("#update").show();
 			}
-			$("#version").html("当前版本："+locversion+" , 线上版本："+onlineversion);
+			$("#version").html("当前版本："+locversion+" , 线上版本：" + onlineversion + '<a href="https://github.com/koolshare/ttsoft" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题反馈</a>');
 			var object = $.extend([],obj, soft);
 			var j=0;
 			var x=0;
