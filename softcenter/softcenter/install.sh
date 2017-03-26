@@ -16,7 +16,7 @@ softcenter_install() {
 	# remove database if version below 0.1.5
 	if [ -f "$KSROOT/bin/versioncmp" ] && [ -f "$KSROOT/bin/dbus" ] && [ -n `pidof skipd` ];then
 		version_installed=`$KSROOT/bin/dbus get softcenter_version`
-		version_comp=`KSROOT/bin/versioncmp "$version_installed" "0.1.5"`
+		version_comp=`$KSROOT/bin/versioncmp "$version_installed" "0.1.5"`
 		if [ "$version_comp" == "1" ];then
 			killall skipd
 			rm -rf /jffs/db
