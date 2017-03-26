@@ -362,6 +362,9 @@
 			this.recolor();
 			this.showNewEditor();
 			this.resetNewEditor();
+			if (E("_ss_acl_default_mode").value != "0"){
+				E("_ss_acl_default_mode").value = E("_ss_basic_mode").value || "1";
+			}
 		}
 		//============================================
 		function init_ss(){

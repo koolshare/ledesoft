@@ -26,3 +26,6 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
    - fix	fix ss-local
    - update	when dns type set to 2 and no gfwlist mode for any client, the gfwlist will not be include into dnsmasq
    - fix	fix use soft link for wblist, etc. this cause dnsmasq boot failed when router reboot.
+
+1.1.4
+   - fix	fix default acl mode not changing when add ss node at first time
