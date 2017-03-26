@@ -10,7 +10,21 @@ softcenter_install() {
 		rm -rf $KSROOT/init.d/S10softcenter.sh >/dev/null 2>&1
 	fi
 	
-	# install software center
+	# skipd no need to guard
+	[ -d "$KSROOT/perp/skipd" ] && rm -rf $KSROOT/perp/skipd >/dev/null 2>&1
+	
+	# remove database if version below 0.1.5
+	if [ -f "$KSROOT/bin/versioncmp" ] && [ -f "$KSROOT/bin/dbus" ] && [ -n `pidof skipd` ];then
+		version_installed=`$KSROOT/bin/dbus get softcenter_version`
+		version_comp=`KSROOT/bin/versioncmp "$version_installed" "0.1.5"`
+		if [ "$version_comp" == "1" ];then
+			killall skipd
+			rm -rf /jffs/db
+			rm -rf $KSROOT/bin/skipd
+		fi
+	fi
+
+	# install software center files
 	if [ -d "/tmp/softcenter" ]; then
 		mkdir -p $KSROOT
 		mkdir -p $KSROOT/webs/
@@ -55,8 +69,10 @@ softcenter_install() {
 		softcenter=`cat $webroot/tomato.js | grep soft-center`
 		if [ -z "$softcenter" ];then
 			nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
-			sh /$KSROOT/bin/kscore.sh
 		fi
+
+		# run kscore at last step
+		sh /$KSROOT/bin/kscore.sh
 	fi
 }
 

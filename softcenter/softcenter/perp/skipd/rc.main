@@ -1,8 +1,0 @@
-#!/bin/sh
-
-export KSROOT=/jffs/koolshare
-source $KSROOT/scripts/base.sh
-
-exec 2>&1
-exec skipd
-

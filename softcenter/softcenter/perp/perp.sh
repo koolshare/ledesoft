@@ -8,15 +8,15 @@ kill_all_process(){
 	killall tinylog
 	killall perpd
 	killall httpdb
-	killall skipd
+	#killall skipd
 }
 
 case $ACTION in
 start)
 	kill_all_process >/dev/null 2>&1
 	sleep 1
-	chmod +t $PERP_BASE/httpdb
-	chmod +t $PERP_BASE/skipd
+	chmod -t $PERP_BASE/httpdb
+	#chmod +t $PERP_BASE/skipd
 	perpboot -d
 	;;
 stop)

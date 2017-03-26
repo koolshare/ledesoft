@@ -17,11 +17,22 @@ if [ "$lanport" != "9527" ]; then
 	fi
 fi
 
-
-# start perp skipd and skipd
-echo start perp skipd and httpdb
-logger start perp skipd and httpdb
+# ===============================
+# start perp
+echo start perp
 sh $KSROOT/perp/perp.sh start
+
+# start httpdb
+echo start httpdb
+HTTPDB=`pidof httpdb`
+[ -n "$HTTPDB" ] killall httpdb > /dev/null 2>&1
+perpctl A httpdb > /dev/null 2>&1
+
+# start skipd
+echo start skipd
+SKIPD=`pidof skipd`
+[ -z "$SKIPD" ] && skipd &
+# ===============================
 
 # set ks_nat to 1
 router_status=`date | grep -E "UTC 1970"`
@@ -107,26 +118,3 @@ if [ $conf_ok -ne 2 ];then
 	EOF
 fi
 [ ! -L "/etc/dnsmasq.custom" ] && ln -sf /jffs/etc/dnsmasq.custom /etc/dnsmasq.custom
-# ===============================
-# now start skipd and httpdb
-# because tomato shell can't keep them running background when shell exit
-# we have to use exec in the end of this scripts
-# the perp has been restartd at the begainning, there is no need to use arg X on perpctl
-
-# if [ -n "$STAT_S" ] && [ -n "$RUN_S" ];then
-# 	echo skipd is working normally, do nothing.
-# else
-# 	echo start skipd!
-# 	[ -n "$RUN_S" ] && killall skipd > /dev/null 2>&1
-# 	perpctl A skipd > /dev/null 2>&1
-# fi
-# 
-# if [ -n "$STAT_H" ] && [ -n "$RUN_H" ];then
-# 	echo skipd is working normally, do nothing.
-# else
-# 	[ -n "$RUN_H" ] killall httpdb > /dev/null 2>&1
-# 	perpctl A httpdb > /dev/null 2>&1
-# fi
-# # ===============================
-
-
