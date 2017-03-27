@@ -121,6 +121,7 @@ No part of this file may be used without permission.
 					if (response.search("XU6J03M6") != -1) {
 						retArea.value = response.replace("XU6J03M6", " ");
 						retArea.scrollTop = retArea.scrollHeight;
+						window.location.reload();
 						return true;
 					}
 					if (_responseLen == response.length) {
@@ -131,7 +132,7 @@ No part of this file may be used without permission.
 					if (noChange > 10000) {
 						return false;
 					} else {
-						setTimeout("get_log();", 500); //100 is radical but smooth!
+						setTimeout("get_log();", 1000); //100 is radical but smooth!
 					}
 					retArea.value = response;
 					if (Scorll == '1'){
@@ -169,7 +170,7 @@ No part of this file may be used without permission.
 				$('#identification').forms([
 					{ title: '磁盘状态', suffix: '<font id="_swap_status" name=_swap_status color="#1bbf35">正在获取运行状态...</font>' },
 					{ title: '创建虚拟内存（swap）', hidden:true, multi: [
-						{ name: 'swap_on_disk',type: 'select', options:[], value: dbus.swap_disk || "1", suffix: ' &nbsp; &nbsp;' },
+						{ name: 'swap_on_disk',type: 'select', options:[], value: dbus.swap_on_disk || "1", suffix: ' &nbsp; &nbsp;' },
 						{ name: 'swap_on_size',type: 'select', options:[['1', '256MB'], ['2', '512MB'], ['3', '1GB']], value: dbus.swap_size || "2", suffix: '推荐512MB' },
 						{ suffix: ' <button id="_creat_now" onclick="creat_swap_now(1);" class="btn btn-danger">创建</button>' }
 					]},

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="swap"
-VERSION="1.0.2"
+VERSION="1.0.3"
 TITLE="swap"
 DESCRIPTION="虚拟内存~"
 HOME_URL="Module_swap.asp"

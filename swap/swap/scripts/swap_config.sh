@@ -8,10 +8,10 @@ makekswap(){
 	[ "$swap_on_size" == "1" ] && size=262148
 	[ "$swap_on_size" == "2" ] && size=524292
 	[ "$swap_on_size" == "3" ] && size=1024004
-	if [ ! -f "$swap_disk"/tt_swapfile ];then
-		cd "$swap_disk"
+	if [ ! -f "$swap_on_disk"/tt_swapfile ];then
+		cd "$swap_on_disk"
 		echo_date "创建swap需要较长的时间，请耐心等待..."
-		dd if=/dev/zero of="$swap_disk"/tt_swapfile bs=1024 count="$size"
+		dd if=/dev/zero of="$swap_on_disk"/tt_swapfile bs=1024 count="$size"
 		echo_date "创建完毕，挂载swap..."
 		mkswap tt_swapfile
 		chmod 600 tt_swapfile
@@ -35,10 +35,10 @@ load)
 	    fi
 	    sleep 1
 	done
-	if [ -f "$swap_disk/tt_swapfile" ];then
+	if [ -f "$swap_on_disk/tt_swapfile" ];then
 		if [ `free | grep Swap|awk '{print $2}'` == "0" ];then
 			logger [ttsoft] mounting swap...
-			swapon "$swap_disk/tt_swapfile"
+			swapon "$swap_on_disk/tt_swapfile"
 			nvram set script_usbmount="sh /jffs/koolshare/scripts/swap_config.sh load"
 			nvram commit
 		else
@@ -52,20 +52,20 @@ esac
 
 case $2 in
 1)
-	echo_date "你选择了磁盘$swap_disk，开始创建虚拟内存..." > /tmp/upload/swap_log.txt
+	echo_date "你选择了磁盘$swap_on_disk，开始创建虚拟内存..." > /tmp/upload/swap_log.txt
 	makekswap >> /tmp/upload/swap_log.txt
-	echo XU6J03M6 >> /tmp/upload/swap_log.txt
 	http_response "$1"
+	echo XU6J03M6 >> /tmp/upload/swap_log.txt
 	nvram set script_usbmount="/jffs/koolshare/scripts/swap_config.sh load"
 	nvram commit
 	;;
 2)
 	echo_date "准备删除swap..." > /tmp/upload/swap_log.txt
 	echo_date "寻找swap文件..." >> /tmp/upload/swap_log.txt
-	if [ ! -f  "$swap_disk"/tt_swapfile ];then
+	if [ ! -f  "$swap_on_disk"/tt_swapfile ];then
 		swapfile_dir=`find /tmp/mnt -name "tt_swapfile"`
 	else
-		swapfile_dir="$swap_disk"/tt_swapfile
+		swapfile_dir="$swap_on_disk"/tt_swapfile
 	fi
 	
 	if [ -f "$swapfile_dir" ];then
