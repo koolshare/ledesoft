@@ -10,9 +10,6 @@ softcenter_install() {
 		rm -rf $KSROOT/init.d/S10softcenter.sh >/dev/null 2>&1
 	fi
 	
-	# skipd no need to guard
-	[ -d "$KSROOT/perp/skipd" ] && rm -rf $KSROOT/perp/skipd >/dev/null 2>&1
-	
 	# remove database if version below 0.1.5
 	if [ -f "$KSROOT/bin/versioncmp" ] && [ -f "$KSROOT/bin/dbus" ] && [ -n `pidof skipd` ];then
 		version_installed=`$KSROOT/bin/dbus get softcenter_version`

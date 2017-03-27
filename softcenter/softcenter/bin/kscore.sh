@@ -19,19 +19,9 @@ fi
 
 # ===============================
 # start perp
-echo start perp
+echo start perp skipd and httpdb
 sh $KSROOT/perp/perp.sh start
 
-# start httpdb
-echo start httpdb
-HTTPDB=`pidof httpdb`
-[ -n "$HTTPDB" ] killall httpdb > /dev/null 2>&1
-perpctl A httpdb > /dev/null 2>&1
-
-# start skipd
-echo start skipd
-SKIPD=`pidof skipd`
-[ -z "$SKIPD" ] && skipd &
 # ===============================
 
 # set ks_nat to 1
