@@ -13,14 +13,14 @@ game_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 3`
 internet=`nvram get wan_proto`
 if [ "$internet" == "dhcp" ];then
 	ISP_DNS1=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p`
-	ISP_DNS2=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p`
+	ISP_DNS2=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
 else
 	ISP_DNS1=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p)
 	ISP_DNS2=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p)
 fi
 # dns for china
-[ "$ss_dns_china" == "1" ] && [ ! -z "$ISP_DNS" ] && CDN="$ISP_DNS"
-[ "$ss_dns_china" == "1" ] && [ -z "$ISP_DNS" ] && CDN="114.114.114.114"
+[ "$ss_dns_china" == "1" ] && [ ! -z "$ISP_DNS1" ] && CDN="$ISP_DNS1"
+[ "$ss_dns_china" == "1" ] && [ -z "$ISP_DNS1" ] && CDN="114.114.114.114"
 [ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
 [ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
 [ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
@@ -282,7 +282,6 @@ start_sslocal(){
 start_dns(){
 	# Start DNS2SOCKS
 	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
-		echo_date 开启ss-local，提供socks5端口：23456
 		start_sslocal
 		echo_date 开启dns2socks，监听端口：23456
 		dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
@@ -337,7 +336,6 @@ start_dns(){
 				EOF
 			if [ "$ss_pdnsd_udp_server" == "1" ];then
 				# start ss-local on port 23456
-				echo_date 开启ss-local，提供socks5端口：23456
 				start_sslocal
 				echo_date 开启dns2socks作为pdnsd的上游服务器.
 				dns2socks 127.0.0.1:23456 "$ss_pdnsd_udp_server_dns2socks" 127.0.0.1:1099 > /dev/null 2>&1 &

@@ -29,3 +29,6 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 
 1.1.4
    - fix	fix default acl mode not changing when add ss node at first time
+
+1.1.5
+   - fix	fix ISP dns grain
