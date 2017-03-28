@@ -525,6 +525,7 @@ ln_conf(){
 	gfw_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 1`	
 	rm -rf /jffs/etc/dnsmasq.d/gfwlist.conf
 	if [ "$ss_basic_mode" == "1" ];then
+		echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
 		ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
 	elif [ "$ss_basic_mode" == "2" ] || [ "$ss_basic_mode" == "3" ];then
 		if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
@@ -760,14 +761,14 @@ lan_acess_control(){
 			[ "$ports" == "all" ] && ports=""
 			proxy_mode=`dbus get ss_acl_mode_$acl`
 			proxy_name=`dbus get ss_acl_name_$acl`
-			proxy_mac=`dbus get ss_acl_mace_$acl`
+			mac=`dbus get ss_acl_mac_$acl`
 			
-			[ "$ports" == "" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:all模式为：$(get_mode_name $proxy_mode) || echo_date 加载ACL规则：$ipaddr:$ports模式为：$(get_mode_name $proxy_mode)
+			[ "$ports" == "" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:all模式为：$(get_mode_name $proxy_mode) || echo_date 加载ACL规则：【$ipaddr】【$mac】:$ports模式为：$(get_mode_name $proxy_mode)
 
 			iptables -t nat -A SHADOWSOCKS $(factor $ipaddr "-s") -p tcp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 
 			[ "$proxy_mode" == "3" ] || [ "$proxy_mode" == "4" ] && \
-			iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") -p udp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
+			iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p udp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		done
 		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $ss_acl_default_mode)
 	else

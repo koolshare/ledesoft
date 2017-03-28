@@ -62,8 +62,7 @@ case $2 in
 	;;
 4)
 	echo "" > /tmp/upload/ss_log.txt
-	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
-	sleep 1
+	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i\\n' | sed '1 isource /jffs/koolshare/scripts/base.sh' |sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
 	http_response "$1"
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;

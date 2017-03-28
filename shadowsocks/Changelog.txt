@@ -32,3 +32,8 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 
 1.1.5
    - fix	fix ISP dns grain
+
+1.1.6
+   - fix	fix ss_log request muli time
+   - fix	fix mac address not applied in acl control
+   - fix 	fix wong logs

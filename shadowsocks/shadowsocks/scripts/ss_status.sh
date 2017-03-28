@@ -4,16 +4,10 @@ alias echo_date1='echo $(date +%Y年%m月%d日\ %X)'
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export ss_`
+date=`echo_date1`
 LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
 
-# version=`koolproxy -v`
-# status=`ps|grep -w koolproxy | grep -cv grep`
-date=`echo_date1`
-# if [ "$status" == "2" ];then
-# 	http_response "【$date】 KoolProxy $version  进程运行正常！"
-# else
-# 	http_response "【警告】：进程未运行！"
-# fi
+
 get_china_status(){
 	wget -4 --spider --quiet --tries=2 --timeout=2 www.baidu.com
 	if [ "$?" == "0" ]; then
@@ -32,18 +26,7 @@ get_foreign_status(){
 	fi
 }
 
-#for "1" in "1"
-#do
-#{
-#get_china_status
-#get_foreign_status
-#}&
-#done
-
-
 get_china_status
 get_foreign_status
 
 http_response "$log1@@$log2"
-
-

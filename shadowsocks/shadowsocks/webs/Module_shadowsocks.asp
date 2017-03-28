@@ -460,6 +460,8 @@
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
+				async:true,
+				cache:false,
 				data: JSON.stringify(postData1),
 				dataType: "json",
 				success: function(response){
@@ -665,35 +667,35 @@
 					$('#'+tableX[i]).removeClass('active');
 					$('.'+boxX[i]).hide();
 				}
-				if(obj=='app2'){
-					E('save-button').style.display = "none";
-					E('save-node').style.display = "";
-				}else{
-					E('save-button').style.display = "";
-					E('save-node').style.display = "none";
-				}
-				if(obj=='app8'){
-					elem.display('save-button', false);
-					elem.display('save-node', false);
-					elem.display('cancel-button', false);
-					setTimeout("get_log();", 500);
-				}
-				if(obj=='fuckapp'){
-					elem.display('ss_status_pannel', false);
-					elem.display('ss_tabs', false);
-					elem.display('ss_basic_tab', false);
-					elem.display('ss_node_tab', false);
-					elem.display('ssr_node_tab', false);
-					elem.display('ss_dns_tab', false);
-					elem.display('ss_wblist_tab', false);
-					elem.display('ss_rule_tab', false);
-					elem.display('ss_acl_tab', false);
-					elem.display('ss_acl_tab_readme', false);
-					elem.display('ss_addon_tab', false);
-					elem.display('ss_log_tab', false);
-					E('save-button').style.display = "";
-					E('save-node').style.display = "none";
-				}
+			}
+			if(obj=='app2'){
+				E('save-button').style.display = "none";
+				E('save-node').style.display = "";
+			}else{
+				E('save-button').style.display = "";
+				E('save-node').style.display = "none";
+			}
+			if(obj=='app8'){
+				elem.display('save-button', false);
+				elem.display('save-node', false);
+				elem.display('cancel-button', false);
+				setTimeout("get_log();", 100);
+			}
+			if(obj=='fuckapp'){
+				elem.display('ss_status_pannel', false);
+				elem.display('ss_tabs', false);
+				elem.display('ss_basic_tab', false);
+				elem.display('ss_node_tab', false);
+				elem.display('ssr_node_tab', false);
+				elem.display('ss_dns_tab', false);
+				elem.display('ss_wblist_tab', false);
+				elem.display('ss_rule_tab', false);
+				elem.display('ss_acl_tab', false);
+				elem.display('ss_acl_tab_readme', false);
+				elem.display('ss_addon_tab', false);
+				elem.display('ss_log_tab', false);
+				E('save-button').style.display = "";
+				E('save-node').style.display = "none";
 			}
 		}
 		function showMsg(Outtype, title, msg){
@@ -748,6 +750,8 @@
 			$.ajax({
 				url: "/_api/",
 				type: "POST",
+				async:true,
+				cache:false,
 				dataType: "json",
 				data: JSON.stringify(postData3),
 				success: function(response){
@@ -843,6 +847,8 @@
 			$.ajax({
 				url: "/_api/",
 				type: "POST",
+				async:true,
+				cache:false,
 				dataType: "json",
 				data: JSON.stringify(postData3),
 				success: function(response){
@@ -881,7 +887,9 @@
 			$.ajax({
 				url: '/_temp/ss_log.txt',
 				type: 'GET',
-				dataType: 'text',
+				dataType: 'html',
+				async: true,
+				cache:false,
 				success: function(response) {
 					var retArea = E("_ss_basic_log");
 					if (response.search("XU6J03M6") != -1) {
@@ -894,11 +902,11 @@
 					} else {
 						noChange = 0;
 					}
-					if (noChange > 10000) {
+					if (noChange > 2000) {
 						tabSelect("app1");
 						return false;
 					} else {
-						setTimeout("get_log();", 500); //100 is radical but smooth!
+						setTimeout("get_log();", 100); //100 is radical but smooth!
 					}
 					retArea.value = response;
 					retArea.scrollTop = retArea.scrollHeight;
@@ -937,6 +945,8 @@
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
+				async: true,
+				cache:false,
 				data: JSON.stringify(postData),
 				dataType: "json",
 				success: function(response){
@@ -955,6 +965,8 @@
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
+				async: true,
+				cache:false,
 				data: JSON.stringify(postData),
 				dataType: "json",
 				success: function(response){
@@ -999,7 +1011,8 @@
 			$.ajax({
 				url: '/_upload',
 				type: 'POST',
-				cache: false,
+				async: true,
+				cache:false,
 				data: formData,
 				processData: false,
 				contentType: false,
