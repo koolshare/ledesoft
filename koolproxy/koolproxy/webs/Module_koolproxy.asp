@@ -9,7 +9,7 @@ No part of this file may be used without permission.
 <title>KoolProxy</title>
 <content>
 	<script type="text/javascript">
-		var params = ["koolproxy_enable", "koolproxy_mode", "koolproxy_update", "koolproxy_update_hour", "koolproxy_update_inter_hour", "koolproxy_reboot", "koolproxy_reboot_hour", "koolproxy_reboot_inter_hour", "koolproxy_acl_method", "koolproxy_acl_default"];
+		var params = ["koolproxy_enable", "koolproxy_host", "koolproxy_mode", "koolproxy_update", "koolproxy_update_hour", "koolproxy_update_inter_hour", "koolproxy_reboot", "koolproxy_reboot_hour", "koolproxy_reboot_inter_hour", "koolproxy_acl_method", "koolproxy_acl_default"];
 		var kprules = [];
 		var ruletmp = '';
 		var rule_lists = new Array();
@@ -210,6 +210,7 @@ No part of this file may be used without permission.
 					}
 				}
 			}
+			$('#_koolproxy_host_nu').html((dbus["koolproxy_host_nu"] || 0) + '条')
 			verifyFields();
 		}
 
@@ -290,6 +291,7 @@ No part of this file may be used without permission.
 			var d = (E('_koolproxy_update').value == '2');
 			var f = (E('_koolproxy_reboot').value == '1');
 			var g = (E('_koolproxy_reboot').value == '2');
+			var h = (E('_koolproxy_mode').value == '2');
 			
 			E('_koolproxy_mode').disabled = !a;
 			E('_koolproxy_update').disabled = !a;
@@ -311,6 +313,8 @@ No part of this file may be used without permission.
 			elem.display('_koolproxy_reboot_inter_hour', a && g);
 			elem.display('koolproxy_reboot_inter_hour_suf', a && g);
 			elem.display('koolproxy_reboot_inter_hour_pre', a && g);
+			
+			elem.display(PR('_koolproxy_host'), h);
 		}
 		
 		function tabSelect(obj){
@@ -346,13 +350,6 @@ No part of this file may be used without permission.
 				cache:false,
 				url: "/_api/",
 				data: JSON.stringify(postData2),
-				success: function(response){
-					showMsg("msg_success","规则更新成功","<b>成功提交数据</b>");
-					$('#msg_warring').hide();
-					x = 4;
-					count_down_switch();
-					setTimeout("$('#msg_success').hide()", 500);
-				},
 				error: function(){
 					showMsg("msg_error","规则更新失败","<b>当前系统存在异常查看系统日志！</b>");
 				},
@@ -374,7 +371,6 @@ No part of this file may be used without permission.
 				}else{
 		    		dbus2[params[i]] = E("_" + params[i]).value;
 				}
-				
 			}
 			// collect value in user rule textarea
 			dbus2["koolproxy_custom_rule"] = Base64.encode(document.getElementById("_koolproxy_custom_rule").value);
@@ -412,14 +408,6 @@ No part of this file may be used without permission.
 				type: "POST",
 				dataType: "json",
 				data: JSON.stringify(postData3),
-				success: function(response){
-					showMsg("msg_success","提交成功","<b>成功提交数据</b>");
-					$('#msg_warring').hide();
-					setTimeout("$('#msg_success').hide()", 500);
-					x = 4;
-					count_down_switch();
-					//setTimeout('tabSelect("app1");', 2000);
-				},
 				error: function(){
 					showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
 				}
@@ -440,11 +428,12 @@ No part of this file may be used without permission.
 					if (response.search("XU6J03M6") != -1) {
 						retArea.value = response.replace("XU6J03M6", " ");
 						retArea.scrollTop = retArea.scrollHeight;
+						setTimeout("window.location.reload()", 500);
 						//x = 6;
 						//count_down_switch();
-						E('save-button').disabled = false;
-						//setTimeout('tabSelect("app1");', 2000);
-						return true;
+						//E('save-button').disabled = false;
+						//$('#msg_warring').hide();
+						//return true;
 					}
 					if (_responseLen == response.length) {
 						noChange++;
@@ -525,6 +514,7 @@ No part of this file may be used without permission.
 					{ title: '开启Koolproxy', name:'koolproxy_enable',type:'checkbox',value: "0" == '1' },
 					{ title: 'Koolproxy运行状态', suffix: '<font id="_koolproxy_status" name=_koolproxy_status color="#1bbf35">正在获取运行状态...</font>' },
 					{ title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式']],value: "1" },
+					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: "0" == '1', suffix: '<lable id="_koolproxy_host_nu"></lable>' },
 					{ title: '规则自动更新', multi: [
 						{ name:'koolproxy_update',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: "0", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'koolproxy_update_hour', type: 'select', options: [], value: "", suffix: '<lable id="koolproxy_update_hour_suf">更新</lable>', prefix: '<span id="koolproxy_update_hour_pre" class="help-block"><lable>每天</lable></span>' },

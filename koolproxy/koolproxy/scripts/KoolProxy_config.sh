@@ -21,15 +21,15 @@ esac
 case $2 in
 1)
 	if [ "$koolproxy_enable" == "1" ];then
-		sh /jffs/koolshare/koolproxy/kp_config.sh restart > /tmp/upload/kp_log.txt
+		sh /jffs/koolshare/koolproxy/kp_config.sh restart > /tmp/upload/kp_log.txt 2>&1
 	else
-		sh /jffs/koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt
+		sh /jffs/koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt 2>&1
 	fi
 	echo XU6J03M6 >> /tmp/upload/kp_log.txt
 	http_response "$1"
 	;;
 3)
-	sh /jffs/koolshare/koolproxy/kp_rule_update.sh > /tmp/upload/kp_log.txt
+	sh /jffs/koolshare/koolproxy/kp_rule_update.sh > /tmp/upload/kp_log.txt 2>&1
 	echo XU6J03M6 >> /tmp/upload/kp_log.txt
 	http_response "$1"
 	;;

@@ -47,6 +47,10 @@ remove_nat_start(){
 
 add_ipset_conf(){
 	if [ "$koolproxy_mode" == "2" ];then
+		echo_date 添加Adblock Plus Host软连接...
+		ln -sf $KP_DIR/data/dnsmasq.adblock /jffs/etc/dnsmasq.d/dnsmasq.adblock
+		dbus set koolproxy_host_nu=`cat /jffs/koolshare/koolproxy/data/dnsmasq.adblock|wc -l`
+		
 		echo_date 添加黑名单软连接...
 		rm -rf /jffs/etc/dnsmasq.d/koolproxy_ipset.conf
 		ln -sf $KP_DIR/data/koolproxy_ipset.conf /jffs/etc/dnsmasq.d/koolproxy_ipset.conf
@@ -59,6 +63,11 @@ remove_ipset_conf(){
 		echo_date 移除黑名单软连接...
 		rm -rf /jffs/etc/dnsmasq.d/koolproxy_ipset.conf
 	fi
+
+	if [ -L "/jffs/configs/dnsmasq.d/dnsmasq.adblock" ];then
+		echo_date 移除Adblock Plus Host软连接...
+		rm -rf /jffs/etc/dnsmasq.d/dnsmasq.adblock
+	fi	
 }
 
 restart_dnsmasq(){

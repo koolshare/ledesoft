@@ -56,7 +56,35 @@ update_kp_rules(){
 		exit
 	fi
 	echo_date ========================================
-	
+}
+
+transform_rule(){
+	sed -i '/youku/d' /tmp/dnsmasq.adblock >/dev/null 2>&1
+	sed -i '/[1-9]\{1,3\}\.[1-9]\{1,3\}\.[1-9]\{1,3\}\.[1-9]\{1,3\}/d' /tmp/dnsmasq.adblock >/dev/null 2>&1
+	mv /tmp/dnsmasq.adblock /jffs/koolshare/koolproxy/data/
+	rm -rf /tmp/dnsmasq1.adblock
+	dbus set koolproxy_host_nu=`cat /jffs/koolshare/koolproxy/data/dnsmasq.adblock|wc -l`
+}
+
+update_host(){
+	echo_date 正在下载adblockplus规则...
+	wget --no-check-certificate --timeout=2 --tries=1 -O /tmp/dnsmasq1.adblock - https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt
+	cat /tmp/dnsmasq1.adblock | grep ^\|\|[^\*]*\^$ | sed -e 's:||:address\=\/:' -e 's:\^:/0\.0\.0\.0:' > /tmp/dnsmasq.adblock
+	if [ ! -f "/jffs/koolshare/koolproxy/data/dnsmasq.adblock" ];then
+		transform_rule
+	else
+		if [ -L "$KSROOT/bin/diff" ];then
+			diff /tmp/dnsmasq.adblock /jffs/koolshare/koolproxy/data/dnsmasq.adblock >/dev/null
+			[ $? = 0 ] && echo_date adblockplus本地规则和服务器规则相同，无需更新! && exit
+			echo_date 检测到adblockplus规则有更新，开始转换规则！
+			transform_rule
+			echo_date adblockplus规则转换完成。
+		else
+			echo_date 没有检测到diff，将不进行对比，直接覆盖刚才下载的规则！
+			transform_rule
+		fi
+	fi
 }
 
 update_kp_rules
+[ "$koolproxy_host" == "1" ] && update_host
