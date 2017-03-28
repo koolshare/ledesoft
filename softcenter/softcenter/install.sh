@@ -45,6 +45,9 @@ softcenter_install() {
 		rm -rf /tmp/softcenter*
 		mkdir -p /tmp/upload
 
+		[ ! -L $KSROOT/bin/netstat ] && ln -sf $KSROOT/bin/koolbox $KSROOT/bin/netstat
+		[ ! -L $KSROOT/bin/diff ] && ln -sf $KSROOT/bin/koolbox $KSROOT/bin/diff
+
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
 		
 		# now set the navi portal

@@ -225,6 +225,7 @@ No part of this file may be used without permission.
 		    $.ajax({
 		        url: 'https://koolshare.ngrok.wang/koolproxy/push_rule.json.js',
 		        type: 'GET',
+		        cache:false,
 		        dataType: 'jsonp',
 		        success: function(res) {
 					console.log("json:", "get web json susscess!");
@@ -259,6 +260,7 @@ No part of this file may be used without permission.
 			var postData1 = {"id": id1, "method": "KoolProxy_status.sh", "params":[2], "fields": ""};
 			$.ajax({
 				type: "POST",
+				cache:false,
 				url: "/_api/",
 				data: JSON.stringify(postData1),
 				dataType: "json",
@@ -323,9 +325,9 @@ No part of this file may be used without permission.
 					$('#'+tableX[i]).removeClass('active');
 					$('.'+boxX[i]).hide();
 				}
-				if(obj=='app5'){
-					setTimeout("get_log();", 500);
-				}
+			}
+			if(obj=='app5'){
+				setTimeout("get_log();", 500);
 			}
 		}
 
@@ -341,6 +343,7 @@ No part of this file may be used without permission.
 			showMsg("msg_warring","后台正在更新规则，请稍候！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				type: "POST",
+				cache:false,
 				url: "/_api/",
 				data: JSON.stringify(postData2),
 				success: function(response){
@@ -405,6 +408,7 @@ No part of this file may be used without permission.
 			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				url: "/_api/",
+				cache:false,
 				type: "POST",
 				dataType: "json",
 				data: JSON.stringify(postData3),
@@ -429,6 +433,7 @@ No part of this file may be used without permission.
 			$.ajax({
 				url: '/_temp/kp_log.txt',
 				type: 'GET',
+				cache:false,
 				dataType: 'text',
 				success: function(response) {
 					var retArea = E("_koolproxy_log");
@@ -446,11 +451,11 @@ No part of this file may be used without permission.
 					} else {
 						noChange = 0;
 					}
-					if (noChange > 100) {
+					if (noChange > 1000) {
 						tabSelect("app1");
 						return false;
 					} else {
-						setTimeout("get_log();", 500);
+						setTimeout("get_log();", 100);
 					}
 					retArea.value = response;
 					retArea.scrollTop = retArea.scrollHeight;
@@ -476,6 +481,7 @@ No part of this file may be used without permission.
 			$.ajax({
 				url: '/_temp/user.txt',
 				type: 'GET',
+				cache:false,
 				dataType: 'text',
 				success: function(res) {
 					$('#_koolproxy_custom_rule').val(res);
