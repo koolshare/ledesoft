@@ -17,6 +17,7 @@ No part of this file may be used without permission.
 		var options_list = [];
 		var _responseLen;
 		var noChange = 0;
+		var reload = 0;
 		tabSelect('app1');
 		if(typeof btoa == "Function") {
 		   Base64 = {encode:function(e){ return btoa(e); }, decode:function(e){ return atob(e);}};
@@ -331,7 +332,12 @@ No part of this file may be used without permission.
 				}
 			}
 			if(obj=='app5'){
-				setTimeout("get_log();", 500);
+				setTimeout("get_log();", 100);
+				elem.display('save-button', false);
+				elem.display('cancel-button', false);
+			}else{
+				elem.display('save-button', true);
+				elem.display('cancel-button', true);
 			}
 		}
 
@@ -341,6 +347,7 @@ No part of this file may be used without permission.
 		}
 
 		function update_rules_now(){
+			reload = 1;
 			tabSelect("app5");
 			var id2 = parseInt(Math.random() * 100000000);
 			var postData2 = {"id": id2, "method": "KoolProxy_config.sh", "params":[3], "fields": ""};
@@ -412,12 +419,12 @@ No part of this file may be used without permission.
 					showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
 				}
 			});
+			reload = 1;
 			tabSelect("app5");
 			//save_user_txt();
 		}
 		
 		function get_log(){
-			E('save-button').disabled = true;
 			$.ajax({
 				url: '/_temp/kp_log.txt',
 				type: 'GET',
@@ -428,12 +435,13 @@ No part of this file may be used without permission.
 					if (response.search("XU6J03M6") != -1) {
 						retArea.value = response.replace("XU6J03M6", " ");
 						retArea.scrollTop = retArea.scrollHeight;
-						setTimeout("window.location.reload()", 500);
-						//x = 6;
-						//count_down_switch();
-						//E('save-button').disabled = false;
-						//$('#msg_warring').hide();
-						//return true;
+						if (reload == 1){
+							x = 4;
+							count_down_switch();
+							//window.location.reload();
+						}else{
+							return true;
+						}
 					}
 					if (_responseLen == response.length) {
 						noChange++;
@@ -446,10 +454,9 @@ No part of this file may be used without permission.
 					} else {
 						setTimeout("get_log();", 100);
 					}
-					retArea.value = response;
+					retArea.value = response.replace("XU6J03M6", " ");
 					retArea.scrollTop = retArea.scrollHeight;
 					_responseLen = response.length;
-					//$('#_koolproxy_log').val(res);
 				}
 			});
 		}
@@ -457,7 +464,7 @@ No part of this file may be used without permission.
 		var x = 4;
 		function count_down_switch() {
 			if (x == "0") {
-				tabSelect("app1");
+				window.location.reload();
 			}
 			if (x < 0) {
 				return false;
@@ -482,7 +489,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">KoolProxy 3.3.5.2<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">KoolProxy 3.3.5.3<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
