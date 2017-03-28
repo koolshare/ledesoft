@@ -341,8 +341,8 @@ update_kp_rules(){
 	# rule_nu=`dbus list koolproxy_rule_address_|sort -n -t "=" -k 2|cut -d "=" -f 1 | cut -d "_" -f 4`
 	echo_date ================== 规则更新 =================
 	echo_date
-	rm -rf `ls -L $KP_DIR/data/*_*.dat` 
-	rm -rf `ls -L $KP_DIR/data/*_*.txt`
+	rm -rf `ls -L $KP_DIR/data/*_*.dat` >/dev/null 2>&1
+	rm -rf `ls -L $KP_DIR/data/*_*.txt` >/dev/null 2>&1
 	rule_nu=`dbus get koolproxy_rule_list|sed 's/>/\n/g'|sed '/^$/d'|sed '/^ /d'|wc -l`
 	if [ "$rule_nu" != "0" ]; then
 		min=1

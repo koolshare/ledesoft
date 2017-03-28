@@ -58,7 +58,7 @@ rm -rf /tmp/koolproxy* >/dev/null 2>&1
 
 [ -z "$koolproxy_mode" ] && dbus set koolproxy_mode="1"
 [ -z "$koolproxy_acl_default" ] && dbus set koolproxy_acl_default="1"
-[ -z "$koolproxy_rule_list" ] && dbus set koolproxy_rule_list="1<2<http://entware.mirrors.ligux.com/koolproxy/1.dat<>1<3<http://entware.mirrors.ligux.com/koolproxy/koolproxy.txt<>"
+[ -z "$koolproxy_rule_list" ] && dbus set koolproxy_rule_list="1<0<http://entware.mirrors.ligux.com/koolproxy/1.dat<>1<1<http://entware.mirrors.ligux.com/koolproxy/koolproxy.txt<>"
 
 # add icon into softerware center
 dbus set softcenter_module_koolproxy_description=koolproxy
