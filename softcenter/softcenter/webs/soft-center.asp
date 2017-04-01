@@ -78,7 +78,6 @@ $.ajax({
 	url: "https://ttsoft.ngrok.wang/softcenter/switch_server.json.js",
     type: "GET",
     dataType:'jsonp',
-    async: false,
     success: function() {
         softcenterUrl = "https://ttsoft.ngrok.wang";
         dataTypeX = "jsonp";
@@ -95,7 +94,7 @@ $.ajax({
         //启用GitHub服务器
 		notice_show();
 		softCenterInit();
-    },timeout:3000
+    },timeout:1000
 });
 //推送信息
 function notice_show(){
@@ -317,12 +316,13 @@ function getSoftCenter(obj){
 		},
 		error :function(data){
 			$("#loading").hide();
-			$("#version").html("<font color='red'>X 线上服务器超时 , 请稍后重试……</font>");
+			$('#server').html('网络异常！');
+			$("#version").html("<font color='#FF6A6A'>X 线上服务器超时 , 请稍后重试……</font>");
 			getLocalApp(obj)
 			//console.log("network error",data);
 			
 		},
-		timeout:3000
+		timeout:1000
 	});
 }
 function getLocalApp(obj){
