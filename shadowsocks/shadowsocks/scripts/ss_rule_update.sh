@@ -1,7 +1,7 @@
 #!/bin/sh
-eval `dbus export ss`
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export ss`
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
 url_main="https://koolshare.ngrok.wang/maintain_files"
 url_back="https://raw.githubusercontent.com/koolshare/koolshare.github.io/acelan_softcenter_ui/maintain_files/"
