@@ -50,25 +50,27 @@ softcenter_install() {
 
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
 		
-		# now set the navi portal
-		web_dir=`nvram get web_dir`
-		case "$web_dir" in
-			default)
-				webroot="/www"
-			;;
-			jffs)
-				webroot="/jffs/www"
-			;;
-			opt)
-				webroot="/opt/www"
-			;;
-			tmp)
-				webroot="/tmp/www"
-			;;
-		esac
-		softcenter=`cat $webroot/tomato.js | grep soft-center`
-		if [ -z "$softcenter" ];then
-			nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
+		if [ ! -f "/rom/softcenter/softcenter.tar.gz" ];then
+			# now set the navi portal
+			web_dir=`nvram get web_dir`
+			case "$web_dir" in
+				default)
+					webroot="/www"
+				;;
+				jffs)
+					webroot="/jffs/www"
+				;;
+				opt)
+					webroot="/opt/www"
+				;;
+				tmp)
+					webroot="/tmp/www"
+				;;
+			esac
+			softcenter=`cat $webroot/tomato.js | grep soft-center`
+			if [ -z "$softcenter" ];then
+				nvram set at_nav="{\"SoftCenter\":{\"App List\":\"soft-center.asp\"}}"
+			fi
 		fi
 
 		# run kscore at last step
