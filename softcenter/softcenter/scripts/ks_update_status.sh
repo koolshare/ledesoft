@@ -16,7 +16,7 @@ done
 
 sleep 3
 
-run_time=`perpls skipd|awk '{print $6}'|cut -d "s" -f1`
+run_time=`perpls httpdb|awk '{print $6}'|cut -d "s" -f1`
 
 if [ "$run_time" -lt "20" ];then
 	http_response "1"
