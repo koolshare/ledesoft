@@ -11,7 +11,8 @@ lanport=$(nvram get http_lanport)
 if [ "$lanport" != "9527" ]; then
 	nvram set http_lanport1=$lanport
 	nvram set http_lanport=9527
-	#nvram commit
+	nvram commit
+	sleep 1
 	if [ -n `pidof httpd` ];then
 		service httpd restart
 	fi

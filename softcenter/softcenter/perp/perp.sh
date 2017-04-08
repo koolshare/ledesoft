@@ -4,11 +4,13 @@ export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
 
 kill_all_process(){
-	killall perpboot
-	killall tinylog
-	killall perpd
-	killall httpdb
-	killall skipd
+	killall perpboot >/dev/null 2>&1
+	killall tinylog >/dev/null 2>&1
+	killall perpd >/dev/null 2>&1
+	killall httpdb >/dev/null 2>&1
+	killall skipd >/dev/null 2>&1
+	[ -n `pidof skipd` ] && kill -9 `pidof skipd` >/dev/null 2>&1
+	[ -n `pidof httpdb` ] && kill -9 `pidof httpdb` >/dev/null 2>&1
 }
 
 case $ACTION in
