@@ -7,9 +7,9 @@ kill_all_process(){
 	killall perpboot >/dev/null 2>&1
 	killall tinylog >/dev/null 2>&1
 	killall perpd >/dev/null 2>&1
-	killall httpdb >/dev/null 2>&1
 	killall skipd >/dev/null 2>&1
 	[ -n `pidof skipd` ] && kill -9 `pidof skipd` >/dev/null 2>&1
+	killall httpdb >/dev/null 2>&1
 	[ -n `pidof httpdb` ] && kill -9 `pidof httpdb` >/dev/null 2>&1
 }
 
