@@ -20,7 +20,6 @@ var appsInfo;
 	  	}
 	});
 }
-//<% nvram("ddnsx0,ddnsx1,ddnsx_ip,wan_dns,wan_get_dns,dns_addget,ddnsx_refresh,ddnsx_save"); %>
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
