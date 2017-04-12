@@ -1,14 +1,14 @@
 {
     "apps": [
         {
-            "build_date": "2017-03-24_02:59:40", 
+            "build_date": "2017-04-12_22:56:15", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "6d0b7aaa737d0347776bfa723106c41d", 
+            "md5": "a02e8b94dea8769e0c98188a51654928", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
-            "version": "0.7"
+            "version": "0.8"
         }, 
         {
             "build_date": "2017-03-27_09:47:47", 
