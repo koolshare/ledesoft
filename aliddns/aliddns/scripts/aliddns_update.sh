@@ -17,15 +17,28 @@ now=`date "+%Y-%m-%d %H:%M:%S"`
 
 die () {
     echo $1
-    dbus ram aliddns_last_act="$now [失败](IP:$1)"
+    dbus set aliddns_last_act="$now [失败](IP:$1)"
 }
 
-[ "$aliddns_curl" = "" ] && aliddns_curl="curl -s whatismyip.akamai.com"
+[ "$aliddns_curl" = "" ] && aliddns_curl="1"
 [ "$aliddns_dns" = "" ] && aliddns_dns="223.5.5.5"
 [ "$aliddns_ttl" = "" ] && aliddns_ttl="600"
 
-ip=`$aliddns_curl 2>&1` || die "$ip"
-
+case $aliddns_curl in
+"2")
+    ip=`nvram get wan2_ipaddr` || die "$ip"
+    ;;
+"3")
+    ip=`nvram get wan3_ipaddr` || die "$ip"
+    ;;
+"4")
+    ip=`nvram get wan4_ipaddr` || die "$ip"
+    ;;
+*)
+    ip=`nvram get wan_ipaddr` || die "$ip"
+    ;;
+esac
+echo $ip
 #support @ record nslookup
 if [ "$a_name" = "@" ]
 then
@@ -120,7 +133,7 @@ fi
 # save to file
 if [ "$aliddns_record_id" = "" ]; then
     # failed
-    dbus ram aliddns_last_act="<font color=red>$now    域名解析失败</font>"
+    dbus set aliddns_last_act="<font color=red>$now    域名解析失败</font>"
 else
-    dbus ram aliddns_last_act="<font color=green>$now    域名解析成功。当前IP：$ip</font>"
+    dbus set aliddns_last_act="<font color=green>$now    域名解析成功。当前IP：$ip</font>"
 fi
