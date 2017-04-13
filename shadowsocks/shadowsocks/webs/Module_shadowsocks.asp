@@ -939,22 +939,27 @@
 			}
 		}
 
-		function update_rules_now(){
-			var id6 = parseInt(Math.random() * 100000000);
-			var postData = {"id": id6, "method": "ss_rule_update.sh", "params":[], "fields": ""};
-			$.ajax({
-				type: "POST",
-				url: "/_api/",
-				async: true,
-				cache:false,
-				data: JSON.stringify(postData),
-				dataType: "json",
-				success: function(response){
-					x = 4;
-					count_down_switch();
-				}
-			});
-			tabSelect("app8");
+		function update_rules_now(arg){
+			if (arg == 5){
+				shellscript = 'ss_rule_update.sh';
+			}else{
+				shellscript = 'pcap_update_list.sh';
+			}
+				var id6 = parseInt(Math.random() * 100000000);
+				var postData = {"id": id6, "method": shellscript, "params":[], "fields": ""};
+				$.ajax({
+					type: "POST",
+					url: "/_api/",
+					async: true,
+					cache:false,
+					data: JSON.stringify(postData),
+					dataType: "json",
+					success: function(response){
+						x = 4;
+						count_down_switch();
+					}
+				});
+				tabSelect("app8");
 		}
 		function manipulate_conf(script, arg){
 			if(arg == 1 || arg == 2 || arg == 3 || arg == 5 || arg == 6){
@@ -1217,8 +1222,9 @@
 						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
-						{ suffix: ' <button id="_update_rules_now" onclick="update_rules_now();" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
-					]}
+						{ suffix: ' <button id="_update_rules_now" onclick="update_rules_now(5);" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
+					]},
+					{ title: 'Host和WhiteList（Pcap_DNSProxy）', suffix: ' <button id="_update_rules_now" onclick="update_rules_now(6);" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
 				]);
 				$('#gfw_number').html(dbus.ss_gfw_status || "未初始化");
 				$('#chn_number').html(dbus.ss_chn_status || "未初始化");
