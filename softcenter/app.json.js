@@ -52,14 +52,14 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-03-29_18:38:37", 
+            "build_date": "2017-04-17_18:31:18", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "7774b1e91eaa27f11230f93e6930c7f5", 
+            "md5": "3328c52712bc4332b239b1d96d5d4335", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.3.6"
+            "version": "3.3.6.1"
         }, 
         {
             "build_date": "2017-03-22_19:23:25", 
