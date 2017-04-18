@@ -41,6 +41,7 @@ chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/ss/dns/dns.sh
 chmod 755 $KSROOT/ss/start.sh
 chmod 755 $KSROOT/scripts/ss_*
+chmod 755 $KSROOT/scripts/pcap_*
 
 dbus set ss_basic_version=`cat $KSROOT/ss/version`
 
