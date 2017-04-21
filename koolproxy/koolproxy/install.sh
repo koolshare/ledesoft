@@ -24,16 +24,9 @@ rm -rf $KSROOT/koolproxy/rule_store >/dev/null 2>&1
 cd /tmp
 mkdir -p $KSROOT/koolproxy
 mkdir -p $KSROOT/koolproxy/data
-cp -rf /tmp/koolproxy/bin/* $KSROOT/bin/
 cp -rf /tmp/koolproxy/scripts/* $KSROOT/scripts/
 cp -rf /tmp/koolproxy/webs/* $KSROOT/webs/
 cp -rf /tmp/koolproxy/res/* $KSROOT/res/
-cp -rf /tmp/koolproxy/koolproxy/kp_config.sh $KSROOT/koolproxy/
-cp -rf /tmp/koolproxy/koolproxy/rule_store $KSROOT/koolproxy/
-cp -rf /tmp/koolproxy/koolproxy/data/koolproxy_ipset.conf $KSROOT/koolproxy/data/
-cp -rf /tmp/koolproxy/koolproxy/data/gen_ca.sh $KSROOT/koolproxy/data/
-cp -rf /tmp/koolproxy/koolproxy/data/openssl.cnf $KSROOT/koolproxy/data/
-cp -rf /tmp/koolproxy/koolproxy/data/version $KSROOT/koolproxy/data/
 if [ ! -f $KSROOT/koolproxy/data/user.txt ];then
 	cp -rf /tmp/koolproxy/* $KSROOT/
 else
@@ -42,28 +35,22 @@ else
 	mv /tmp/user.txt.tmp $KSROOT/koolproxy/data/user.txt
 fi
 
-[ ! -d $KSROOT/koolproxy/data/certs ] && cp -rf /tmp/koolproxy/koolproxy/data/certs $KSROOT/koolproxy/data/
-[ ! -d $KSROOT/koolproxy/data/private ] && cp -rf /tmp/koolproxy/koolproxy/data/private $KSROOT/koolproxy/data/
 [ ! -L "/tmp/upload/user.txt" ] && ln -sf $KSROOT/koolproxy/data/user.txt /tmp/upload/user.txt
 cp -f /tmp/koolproxy/uninstall.sh $KSROOT/scripts/uninstall_koolproxy.sh
 
 cd /
 
-chmod 755 $KSROOT/bin/koolproxy
+chmod 755 $KSROOT/koolproxy/koolproxy
 chmod 755 $KSROOT/koolproxy/*
 chmod 755 $KSROOT/koolproxy/data/*
 chmod 755 $KSROOT/scripts/*
+ln -sf  $KSROOT/koolproxy/koolproxy  $KSROOT/bin/koolproxy
+
 
 rm -rf /tmp/koolproxy* >/dev/null 2>&1
 
 [ -z "$koolproxy_mode" ] && dbus set koolproxy_mode="1"
 [ -z "$koolproxy_acl_default" ] && dbus set koolproxy_acl_default="1"
-if [ -z "$koolproxy_rule_list" ];then
-	dbus set koolproxy_rule_list="1<0<http://koolshare.b0.upaiyun.com/rules/1.dat<>1<1<http://koolshare.b0.upaiyun.com/rules/koolproxy.txt<>"
-else
-	ENTWARE=`echo "$koolproxy_rule_list" | grep "entware"`
-	[ -n "$ENTWARE" ] && dbus set koolproxy_rule_list="1<0<http://koolshare.b0.upaiyun.com/rules/1.dat<>1<1<http://koolshare.b0.upaiyun.com/rules/koolproxy.txt<>"
-fi
 
 
 # add icon into softerware center

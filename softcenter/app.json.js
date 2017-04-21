@@ -32,10 +32,10 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-04-17_18:33:04", 
+            "build_date": "2017-04-21_22:58:40", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "67916cc173e1211eaafaface1b77e04e", 
+            "md5": "fbe28fe8ac3abc61426e4084df01ed05", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
@@ -52,10 +52,10 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-04-17_18:31:18", 
+            "build_date": "2017-04-21_22:57:53", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "3328c52712bc4332b239b1d96d5d4335", 
+            "md5": "34540793d4d3d2aa669032e331fcd078", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
@@ -83,7 +83,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "7edd852a4923d2dadac13282a3e78ce3", 
+    "md5": "2927577655b8230a696112146cf8f065", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.2.8"
 }
