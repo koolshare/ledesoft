@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolproxy
-VERSION="3.3.7"
+VERSION="3.3.8"
 TITLE=koolproxy
 DESCRIPTION="去屑不油腻"
 HOME_URL=Module_koolproxy.asp
