@@ -216,7 +216,7 @@ No part of this file may be used without permission.
 		}
 		
 		function tabSelect(obj){
-			var tableX = ['app1-server1-jb-tab','app2-server1-gz-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-rz-tab'];
+			var tableX = ['app1-server1-jb-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-rz-tab'];
 			var boxX = ['boxr1','boxr3','boxr4','boxr5'];
 			var appX = ['app1','app3','app4','app5'];
 			for (var i = 0; i < tableX.length; i++){
