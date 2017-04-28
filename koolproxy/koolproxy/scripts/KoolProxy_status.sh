@@ -12,6 +12,7 @@ date=`echo_date1`
 rules_date_local=`cat $KSROOT/koolproxy/data/rules/koolproxy.txt  | sed -n '3p'|awk '{print $3,$4}'`
 rules_nu_local=`grep -E -v "^!" $KSROOT/koolproxy/data/rules/koolproxy.txt | wc -l`
 video_date_local=`cat $KSROOT/koolproxy/data/rules/koolproxy.txt  | sed -n '4p'|awk '{print $3,$4}'`
+daily_nu_local=`grep -E -v "^!" $KSROOT/koolproxy/data/rules/daily.txt | wc -l`
 
 if [ "$status" == "2" ];then
 	http_response "【$date】 KoolProxy $version  进程运行正常！@@静态规则：$rules_date_local / $rules_nu_local条&nbsp;&nbsp;&nbsp;&nbsp;视频规则：$video_date_local&nbsp;&nbsp;&nbsp;&nbsp;每日规则：$daily_nu_local条"
