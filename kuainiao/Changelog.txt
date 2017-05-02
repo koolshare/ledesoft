@@ -1,0 +1,5 @@
+Koolshare Asuswrt-Merlin kuainiao Changelog
+===========================================
+
+1.0.0
+   -add	add kuainiao

@@ -32,14 +32,14 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-04-21_23:00:14", 
+            "build_date": "2017-05-02_17:23:45", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "ed1b27caf43c3cf306f737e22357ad90", 
+            "md5": "8e956a6bd50373852fb2bb394a9809a3", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.1.9"
+            "version": "1.2.0"
         }, 
         {
             "build_date": "2017-03-22_19:24:37", 
@@ -52,14 +52,34 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-04-22_22:16:01", 
+            "build_date": "2017-05-02_17:29:37", 
+            "description": "", 
+            "home_url": "Module_kuainiao.asp", 
+            "md5": "63c287b525dbc6a62bef334ba4bf2421", 
+            "name": "kuainiao", 
+            "tar_url": "kuainiao/kuainiao.tar.gz", 
+            "title": "提升上下行带宽", 
+            "version": "1.0.0"
+        }, 
+        {
+            "build_date": "2017-05-02_17:32:51", 
+            "description": "", 
+            "home_url": "Module_dnspod.asp", 
+            "md5": "e7fe2c267458175624a723ab234dd278", 
+            "name": "dnspod", 
+            "tar_url": "dnspod/dnspod.tar.gz", 
+            "title": "dnspod ddns", 
+            "version": "1.0.0"
+        }, 
+        {
+            "build_date": "2017-05-02_17:24:18", 
             "description": "去屑不油腻", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "c8897dc5d03d6b4962a1d7d76fcab080", 
+            "md5": "b984e09610b20ffe95bf2c0bcef45f21", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.3.8"
+            "version": "3.3.9"
         }, 
         {
             "build_date": "2017-03-22_19:23:25", 
@@ -83,7 +103,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "e08a67903c1443ddbf9bc0807f9b33ae", 
+    "md5": "5571bcabf01082a4a8ccef7d34057f58", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.2.8"
 }

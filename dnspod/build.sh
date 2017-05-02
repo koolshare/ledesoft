@@ -1,10 +1,10 @@
 #!/bin/sh
 
-MODULE=koolproxy
-VERSION="3.3.9"
-TITLE=koolproxy
-DESCRIPTION="去屑不油腻"
-HOME_URL=Module_koolproxy.asp
+MODULE="dnspod"
+VERSION="1.0.0"
+TITLE="dnspod ddns"
+DESCRIPTION=""
+HOME_URL="Module_dnspod.asp"
 #!/bin/sh
 # Check and include base
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
