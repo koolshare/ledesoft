@@ -53,17 +53,17 @@
         }, 
         {
             "build_date": "2017-05-02_17:38:49", 
-            "description": "", 
+            "description": "上网带宽加速服务", 
             "home_url": "Module_kuainiao.asp", 
             "md5": "5a2c0627e7d55fa1a59fe1b31245c0be", 
             "name": "kuainiao", 
             "tar_url": "kuainiao/kuainiao.tar.gz", 
-            "title": "提升上下行带宽", 
+            "title": "迅雷快鸟", 
             "version": "1.0.0"
         }, 
         {
             "build_date": "2017-05-02_17:39:10", 
-            "description": "", 
+            "description": "DNSPOD动态域名解析", 
             "home_url": "Module_dnspod.asp", 
             "md5": "225f758ad9242079a6158b5111f14696", 
             "name": "dnspod", 
@@ -103,7 +103,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "8e016e1022a796184ad3b5022514c7f1", 
+    "md5": "09704206b3626eb119b8246b2a2c2469", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "0.2.8"
+    "version": "0.2.9"
 }
