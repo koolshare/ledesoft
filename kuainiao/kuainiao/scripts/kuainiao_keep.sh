@@ -9,7 +9,7 @@ ex_time=`date "+%Y-%m-%d %H:%M:%S"`
 
 keepalive_up(){
 	_ts=`date +%s`000
-	up_ret=`$kuainiao_HTTP_REQ  --header "User-Agent:android-async-http/xl-acc-sdk/version-1.0.0.1" "$kuainiao_config_upapi/keepalive?peerid=$kuainiao_config_peerid&userid=$kuainiao_config_uid&client_type=android-uplink-2.3.3.9&client_version=andrioduplink-2.3.3.9&os=android-7.0.24DUK-AL20&sessionid==$kuainiao_config_session&user_type=1&dial_account=$kuainiao_dial_upaccount"`
+	up_ret=`$kuainiao_HTTP_REQ  --header "User-Agent:android-async-http/xl-acc-sdk/version-1.0.0.1" "$kuainiao_config_upapi/keepalive?peerid=$kuainiao_config_peerid&userid=$kuainiao_config_uid&client_type=android-uplink-2.3.3.9&client_version=andrioduplink-2.3.3.9&os=android-7.0.24DUK-AL20&sessionid=$kuainiao_config_session&user_type=1&dial_account=$kuainiao_dial_upaccount"`
 	errcode=`echo $up_ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
 		#dbus set kuainiao_run_upid=0
@@ -44,18 +44,18 @@ add_kuainiao_cru(){
 	fi
 }
 
-	echo $(date "+%Y-%m-%d %H:%M:%S") >>/jffs/koolshare/kn.text
-	if [ "$kuainiao_enable" == "1" ]&&[ "$kuainiao_can_upgrade" == "1" ];then
-		keepalive_down
-		add_kuainiao_cru
-		if [ `dbus get kuainiao_run_status` == 0 ];then
-			/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
-	  	fi
-	fi
-	if [ "$kuainiao_upenable" == "1" ]&&[ "$kuainiao_can_upupgrade" == "1" ];then
-		keepalive_up
-		add_kuainiao_cru
-		if [ `dbus get kuainiao_run_upstatus` == 0 ];then
-			/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
-	  	fi
-	fi
+#echo $(date "+%Y-%m-%d %H:%M:%S") >>/jffs/koolshare/kn.text
+if [ "$kuainiao_enable" == "1" ]&&[ "$kuainiao_can_upgrade" == "1" ];then
+	keepalive_down
+	add_kuainiao_cru
+	if [ `dbus get kuainiao_run_status` == 0 ];then
+		/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
+  	fi
+fi
+if [ "$kuainiao_upenable" == "1" ]&&[ "$kuainiao_can_upupgrade" == "1" ];then
+	keepalive_up
+	add_kuainiao_cru
+	if [ `dbus get kuainiao_run_upstatus` == 0 ];then
+		/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
+  	fi
+fi
