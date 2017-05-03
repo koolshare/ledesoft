@@ -181,6 +181,8 @@ get_bandwidth(){
 			down_state="下行可以加速"
 			dbus set kuainiao_old_downstream=$(expr $old_downstream / 1024)
 			dbus set kuainiao_max_downstream=$(expr $max_downstream / 1024)
+			kuainiao_old_downstream=$(expr $old_downstream / 1024)
+			kuainiao_max_downstream=$(expr $max_downstream / 1024)
 		else
 			down_state="下行不满足加速条件"
 			#echo "T_T 不能加速啊，不满足加速条件哦~~"
@@ -208,6 +210,8 @@ get_upbandwidth(){
 			up_state="上行可以加速"
 			dbus set kuainiao_old_upstream=$(expr $old_upstream / 1024)
 			dbus set kuainiao_max_upstream=$(expr $max_upstream / 1024)
+			kuainiao_old_upstream=$(expr $old_upstream / 1024)
+			kuainiao_max_upstream=$(expr $max_upstream / 1024)
 		else
 			up_state="上行不满足加速条件"
 			#echo "T_T 不能加速啊，不满足加速条件哦~~"
