@@ -1,8 +1,10 @@
 #!/bin/sh
+#2017/05/01 by kenney
+
 eval `dbus export kuainiao_`
 KSROOT="/jffs/koolshare"
 source $KSROOT/scripts/base.sh
-version="0.3.6"
+version="0.3"
 kuainiaocru=$(cru l | grep "kuainiao")
 startkuainiao=$(ls -l $KSROOT/init.d/ | grep "S80Kuainiao")
 app_version="2.0.3.4"
@@ -122,6 +124,7 @@ get_xunlei_uid(){
 		  uid=`echo $ret|awk -F '"userID":' '{print $2}'|awk -F '[,}]' '{print $1}'`
 		  dbus set kuainiao_config_uid=$uid
 		  dbus set kuainiao_config_session=$session
+		  kuainiao_config_session=$session
 		  dbus set kuainiao_last_act="<font color=green>迅雷快鸟已登陆成功!</font>"
 	fi
 }
@@ -166,7 +169,7 @@ get_bandwidth(){
 		can_upgrade=`echo $band|awk -F '"can_upgrade":' '{print $2}'|awk -F '[,}]' '{print $1}'`
 		dbus set kuainiao_can_upgrade=$can_upgrade
 		kuainiao_can_upgrade=$can_upgrade
-		dial_account=`echo $band|awk -F '"dial_account":' '{print $2}'|awk -F '[,}]' '{print $1}'|grep -oE '[0-9]{1,20}'`
+		dial_account=`echo $band|awk -F '"dial_account":"' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 		dbus set kuainiao_dial_account=$dial_account
 		kuainiao_dial_account=$dial_account
 		#判断是否满足加速条件
@@ -229,12 +232,12 @@ query_try_upinfo(){
 
 get_upgrade_down(){
 	_ts=`date +%s`000
-	ret=`$HTTP_REQ "$api_url/upgrade?peerid=$peerid&userid=$uid&user_type=1&sessionid=$kuainiao_run_session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
+	ret=`$HTTP_REQ "$api_url/upgrade?peerid=$peerid&userid=$uid&user_type=1&sessionid=$kuainiao_config_session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
 	errcode=`echo $ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" == "0" ];then
 		down_state="$down_state （您的下行带宽已从$kuainiao_old_downstream M提升到$kuainiao_max_downstream M）"
 	else
-		down_state=$down_state "下行带宽提升失败，请检查宽带账号是否绑定正确"
+		down_state="$down_state 下行带宽提升失败，请检查宽带账号是否绑定正确"
 	fi
 	dbus set kuainiao_down_state=$down_state
 }
@@ -257,11 +260,11 @@ keepalive_up(){
 	errcode=`echo $up_ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
 		#dbus set kuainiao_run_upid=0
-		dbus set kuainiao_up_state="迅雷上行提速失效！$(date '+%Y-%m-%d %H:%M:%S')"
+		#dbus set kuainiao_up_state="迅雷上行提速失效！$(date '+%Y-%m-%d %H:%M:%S')"
 		dbus set kuainiao_run_upstatus=0
 	else
 		#dbus set kuainiao_run_upid=$(expr $kuainiao_run_upid + 1)
-		dbus set kuainiao_up_state="您的上行带宽已从$kuainiao_old_upstream M提升到$kuainiao_max_upstream M  $(date '+%Y-%m-%d %H:%M:%S')"
+		#dbus set kuainiao_up_state="您的上行带宽已从$kuainiao_old_upstream M提升到$kuainiao_max_upstream M  $(date '+%Y-%m-%d %H:%M:%S')"
 		dbus set kuainiao_run_upstatus=1
 	fi
 }
@@ -285,15 +288,15 @@ upbandwidth(){
 #迅雷快鸟加速心跳
 keepalive_down(){
 	_ts=`date +%s`000
-	ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&user_type=1&sessionid=$kuainiao_run_session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
+	ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&user_type=1&sessionid=$kuainiao_config_session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
 	errcode=`echo $ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
 		#dbus set kuainiao_run_upid=0
-		dbus set kuainiao_down_state="迅雷下行提速失效！"$(date "+%Y-%m-%d %H:%M:%S")
+		#dbus set kuainiao_down_state="迅雷下行提速失效！"$(date "+%Y-%m-%d %H:%M:%S")
 		dbus set kuainiao_run_status=0
 	else
 		#dbus set kuainiao_run_upid=$(expr $kuainiao_run_upid + 1)
-		dbus set kuainiao_down_state="您的下行带宽已从$kuainiao_old_downstream M提升到$kuainiao_max_downstream M "$(date "+%Y-%m-%d %H:%M:%S")
+		#dbus set kuainiao_down_state="您的下行带宽已从$kuainiao_old_downstream M提升到$kuainiao_max_downstream M "$(date "+%Y-%m-%d %H:%M:%S")
 		dbus set kuainiao_run_status=1
 	fi
 }
@@ -343,7 +346,7 @@ stop_kuainiao(){
 	dbus remove kuainiao_run_upid
 	dbus remove kuainiao_run_status
 	dbus remove kuainiao_run_upstatus
-	dbus remove kuainiao_run_session
+	dbus remove kuainiao_config_session
 	dbus remove kuainiao_can_upgrade
 	dbus remove kuainiao_can_upupgrade
 	dbus remove kuainiao_down_state
@@ -378,7 +381,7 @@ start)
 		if [ "$kuainiao_can_upgrade" == "1" ];then
 			get_upgrade_down
 			sleep 1
-			keepalive_down
+			#keepalive_down
 		fi
 	  fi
 	  if [ "$kuainiao_upenable" == "1" ];then
@@ -389,7 +392,7 @@ start)
 		if [ $kuainiao_can_upupgrade == 1 ];then
 			get_upgrade_up
 			sleep 1
-			keepalive_up
+			#keepalive_up
 		fi
 	  fi
 	fi
