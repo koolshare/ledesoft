@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="kuainiao"
-VERSION="1.0.0"
+VERSION="1.0.1"
 TITLE="提升上下行带宽"
 DESCRIPTION=""
 HOME_URL="Module_kuainiao.asp"
