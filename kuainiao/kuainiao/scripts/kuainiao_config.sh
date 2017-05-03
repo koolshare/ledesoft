@@ -181,6 +181,8 @@ get_bandwidth(){
 			down_state="下行可以加速"
 			dbus set kuainiao_old_downstream=$(expr $old_downstream / 1024)
 			dbus set kuainiao_max_downstream=$(expr $max_downstream / 1024)
+			kuainiao_old_downstream=$(expr $old_downstream / 1024)
+			kuainiao_max_downstream=$(expr $max_downstream / 1024)
 		else
 			down_state="下行不满足加速条件"
 			#echo "T_T 不能加速啊，不满足加速条件哦~~"
@@ -208,6 +210,8 @@ get_upbandwidth(){
 			up_state="上行可以加速"
 			dbus set kuainiao_old_upstream=$(expr $old_upstream / 1024)
 			dbus set kuainiao_max_upstream=$(expr $max_upstream / 1024)
+			kuainiao_old_upstream=$(expr $old_upstream / 1024)
+			kuainiao_max_upstream=$(expr $max_upstream / 1024)
 		else
 			up_state="上行不满足加速条件"
 			#echo "T_T 不能加速啊，不满足加速条件哦~~"
@@ -256,7 +260,7 @@ get_upgrade_up(){
 
 keepalive_up(){
 	_ts=`date +%s`000
-	up_ret=`$HTTP_REQ  --header "User-Agent:android-async-http/xl-acc-sdk/version-1.0.0.1" "$upapi_url/keepalive?peerid=$peerid&userid=$uid&client_type=android-uplink-2.3.3.9&client_version=andrioduplink-2.3.3.9&os=android-7.0.24DUK-AL20&sessionid==$session&user_type=1&dial_account=$kuainiao_dial_upaccount"`
+	up_ret=`$HTTP_REQ  --header "User-Agent:android-async-http/xl-acc-sdk/version-1.0.0.1" "$upapi_url/keepalive?peerid=$peerid&userid=$uid&client_type=android-uplink-2.3.3.9&client_version=andrioduplink-2.3.3.9&os=android-7.0.24DUK-AL20&sessionid=$session&user_type=1&dial_account=$kuainiao_dial_upaccount"`
 	errcode=`echo $up_ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
 		#dbus set kuainiao_run_upid=0
@@ -264,7 +268,7 @@ keepalive_up(){
 		dbus set kuainiao_run_upstatus=0
 	else
 		#dbus set kuainiao_run_upid=$(expr $kuainiao_run_upid + 1)
-		#dbus set kuainiao_up_state="您的上行带宽已从$kuainiao_old_upstream M提升到$kuainiao_max_upstream M  $(date '+%Y-%m-%d %H:%M:%S')"
+		dbus set kuainiao_up_state="您的上行带宽已从${kuainiao_old_upstream}M提升到${kuainiao_max_upstream}M  $(date '+%Y-%m-%d %H:%M:%S')"
 		dbus set kuainiao_run_upstatus=1
 	fi
 }
@@ -288,7 +292,7 @@ upbandwidth(){
 #迅雷快鸟加速心跳
 keepalive_down(){
 	_ts=`date +%s`000
-	ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&user_type=1&sessionid=$kuainiao_config_session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
+	ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&user_type=1&sessionid=$session&dial_account=$dial_account&client_type=android-swjsq-$app_version&client_version=androidswjsq-$app_version&os=android-5.0.1.24SmallRice&time_and=$_ts"`
 	errcode=`echo $ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
 		#dbus set kuainiao_run_upid=0
@@ -296,7 +300,7 @@ keepalive_down(){
 		dbus set kuainiao_run_status=0
 	else
 		#dbus set kuainiao_run_upid=$(expr $kuainiao_run_upid + 1)
-		#dbus set kuainiao_down_state="您的下行带宽已从$kuainiao_old_downstream M提升到$kuainiao_max_downstream M "$(date "+%Y-%m-%d %H:%M:%S")
+		dbus set kuainiao_down_state="您的下行带宽已从${kuainiao_old_downstream}M提升到${kuainiao_max_downstream}M $(date '+%Y-%m-%d %H:%M:%S')"
 		dbus set kuainiao_run_status=1
 	fi
 }
