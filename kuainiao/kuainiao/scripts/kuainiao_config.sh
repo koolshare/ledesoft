@@ -4,7 +4,7 @@
 eval `dbus export kuainiao_`
 KSROOT="/jffs/koolshare"
 source $KSROOT/scripts/base.sh
-version="0.3"
+version="0.4"
 kuainiaocru=$(cru l | grep "kuainiao")
 startkuainiao=$(ls -l $KSROOT/init.d/ | grep "S80Kuainiao")
 app_version="2.0.3.4"
