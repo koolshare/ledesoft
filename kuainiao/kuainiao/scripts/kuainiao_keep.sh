@@ -1,14 +1,14 @@
 #!/bin/sh
 #2017/05/01 by kenney
-#version 0.3
-eval `dbus export kuainiao`
+#version 0.4
+
 KSROOT="/jffs/koolshare"
 source $KSROOT/scripts/base.sh
+eval `dbus export kuainiao`
 #source ./kuainiao_config.sh
 ex_time=`date "+%Y-%m-%d %H:%M:%S"`
 
 keepalive_up(){
-	_ts=`date +%s`000
 	up_ret=`$kuainiao_HTTP_REQ  --header "User-Agent:android-async-http/xl-acc-sdk/version-1.0.0.1" "$kuainiao_config_upapi/keepalive?peerid=$kuainiao_config_peerid&userid=$kuainiao_config_uid&client_type=android-uplink-2.3.3.9&client_version=andrioduplink-2.3.3.9&os=android-7.0.24DUK-AL20&sessionid=$kuainiao_config_session&user_type=1&dial_account=$kuainiao_dial_upaccount"`
 	errcode=`echo $up_ret|awk -F '"errno":' '{print $2}'|awk -F '[,}"]' '{print $1}'`
 	if [ "$errcode" != "0" ];then
