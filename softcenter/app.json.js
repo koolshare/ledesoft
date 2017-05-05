@@ -11,14 +11,14 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2017-05-02_17:39:10", 
-            "description": "DNSPOD动态域名解析", 
-            "home_url": "Module_dnspod.asp", 
-            "md5": "225f758ad9242079a6158b5111f14696", 
-            "name": "dnspod", 
-            "tar_url": "dnspod/dnspod.tar.gz", 
-            "title": "dnspod ddns", 
-            "version": "1.0.0"
+            "build_date": "2017-03-27_09:47:47", 
+            "description": "虚拟内存~", 
+            "home_url": "Module_swap.asp", 
+            "md5": "6033a791d4368240c54946d1d27dcfed", 
+            "name": "swap", 
+            "tar_url": "swap/swap.tar.gz", 
+            "title": "swap", 
+            "version": "1.0.3"
         }, 
         {
             "build_date": "2016-11-25_21:35:44", 
@@ -32,44 +32,15 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-05-02_17:24:18", 
-            "description": "去屑不油腻", 
-            "home_url": "Module_koolproxy.asp", 
-            "md5": "b984e09610b20ffe95bf2c0bcef45f21", 
-            "name": "koolproxy", 
-            "tar_url": "koolproxy/koolproxy.tar.gz", 
-            "title": "koolproxy", 
-            "version": "3.3.9"
-        }, 
-        {
-            "build_date": "2017-05-03_09:32:43", 
-            "description": "", 
-            "home_url": "Module_kuainiao.asp", 
-            "md5": "e91c1be6a1c8aaeecf56632a82f98d09", 
-            "name": "kuainiao", 
-            "tar_url": "kuainiao/kuainiao.tar.gz", 
-            "title": "提升上下行带宽", 
-            "version": "1.0.1"
-        }, 
-        {
             "build_date": "2017-05-02_23:31:37", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "e7d58bbe5847ad93160a47af89bdedd4", 
+            "md5": "7649efa35f98cadc0bfe2896fe93466b", 
+            "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.2.1"
-        }, 
-        {
-            "build_date": "2017-03-21_01:42:53", 
-            "description": "超强的SSH网页客户端", 
-            "home_url": "Module_shellinabox.asp", 
-            "md5": "49ff206d849dfe50f72d3323bbb8af8d", 
-            "name": "shellinabox", 
-            "tar_url": "shellinabox/shellinabox.tar.gz", 
-            "title": "ShellnaBox", 
-            "version": "1.8"
+            "version": "1.2.2"
         }, 
         {
             "build_date": "2017-03-22_19:24:37", 
@@ -82,14 +53,34 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-03-27_09:47:47", 
-            "description": "虚拟内存~", 
-            "home_url": "Module_swap.asp", 
-            "md5": "6033a791d4368240c54946d1d27dcfed", 
-            "name": "swap", 
-            "tar_url": "swap/swap.tar.gz", 
-            "title": "swap", 
+            "build_date": "2017-05-04_08:47:59", 
+            "description": "", 
+            "home_url": "Module_kuainiao.asp", 
+            "md5": "8eac7d2916eb8038ff31808f31efb6e4", 
+            "name": "kuainiao", 
+            "tar_url": "kuainiao/kuainiao.tar.gz", 
+            "title": "提升上下行带宽", 
             "version": "1.0.3"
+        }, 
+        {
+            "build_date": "2017-05-02_17:39:10", 
+            "description": "DNSPOD动态域名解析", 
+            "home_url": "Module_dnspod.asp", 
+            "md5": "225f758ad9242079a6158b5111f14696", 
+            "name": "dnspod", 
+            "tar_url": "dnspod/dnspod.tar.gz", 
+            "title": "dnspod ddns", 
+            "version": "1.0.0"
+        }, 
+        {
+            "build_date": "2017-05-02_17:24:18", 
+            "description": "去屑不油腻", 
+            "home_url": "Module_koolproxy.asp", 
+            "md5": "b984e09610b20ffe95bf2c0bcef45f21", 
+            "name": "koolproxy", 
+            "tar_url": "koolproxy/koolproxy.tar.gz", 
+            "title": "koolproxy", 
+            "version": "3.3.9"
         }, 
         {
             "build_date": "2017-03-22_19:23:25", 
@@ -100,6 +91,26 @@
             "tar_url": "webshell/webshell.tar.gz", 
             "title": "webshell", 
             "version": "1.0.2"
+        }, 
+        {
+            "build_date": "2017-05-05_23:07:12", 
+            "description": "小米R1D风扇控制插件", 
+            "home_url": "Module_xiaomi.asp", 
+            "md5": "99c0073d0109fa3e7ffb009bd14959a1", 
+            "name": "xiaomi", 
+            "tar_url": "xiaomi/xiaomi.tar.gz", 
+            "title": "xiaomi fan control", 
+            "version": "1.0.0"
+        }, 
+        {
+            "build_date": "2017-03-21_01:42:53", 
+            "description": "超强的SSH网页客户端", 
+            "home_url": "Module_shellinabox.asp", 
+            "md5": "49ff206d849dfe50f72d3323bbb8af8d", 
+            "name": "shellinabox", 
+            "tar_url": "shellinabox/shellinabox.tar.gz", 
+            "title": "ShellnaBox", 
+            "version": "1.8"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
