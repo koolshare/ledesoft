@@ -93,14 +93,14 @@
             "version": "1.0.2"
         }, 
         {
-            "build_date": "2017-05-05_23:09:24", 
+            "build_date": "2017-05-05_23:12:07", 
             "description": "小米R1D风扇控制插件", 
             "home_url": "Module_xiaomi.asp", 
-            "md5": "ff683b91812dc5e307b707d0647707e2", 
+            "md5": "adc9b53d3f8b0b51a9c868f70cd326fc", 
             "name": "xiaomi", 
             "tar_url": "xiaomi/xiaomi.tar.gz", 
             "title": "xiaomi fan control", 
-            "version": "1.0.1"
+            "version": "1.0.2"
         }, 
         {
             "build_date": "2017-03-21_01:42:53", 
