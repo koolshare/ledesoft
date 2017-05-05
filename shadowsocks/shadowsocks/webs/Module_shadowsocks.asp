@@ -768,7 +768,7 @@
 			});
 		}
 		function save(){
-			tabSelect("app8");
+			setTimeout("tabSelect('app8')", 500);
 			status_time = 999999990;
 			get_run_status();
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
