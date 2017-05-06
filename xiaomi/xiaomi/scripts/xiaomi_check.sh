@@ -37,7 +37,10 @@ if [ "$xiaomi_custom_enable" == "1" ]; then
 	"4")
     		nvram set fanctrl_dutycycle=4
     	;;
-	esac	
+	"5")
+			nvram set fanctrl_dutycycle=5
+		;;
+	esac
 else
 	auto_start
 fi

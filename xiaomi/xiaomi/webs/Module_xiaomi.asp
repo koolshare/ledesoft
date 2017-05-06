@@ -80,7 +80,7 @@ function save(){
 <div class="content">
 <div id="xiaomi-fields"></div>
 <script type="text/javascript">
-var option_mode = [['1', '转速1'], ['2', '转速2'], ['3', '转速3'], ['4', '转速4']];
+var option_mode = [['1', '转速1'], ['2', '转速2'], ['3', '转速3'], ['4', '转速4'], ['5', '转速5']];
 $('#xiaomi-fields').forms([
 { title: '当前CPU温度', name: 'xiaomi_last_cpu', text: Apps.xiaomi_last_cpu ||'--°C' },
 { title: '当前风扇转速', name: 'xiaomi_last_speed', text: Apps.xiaomi_last_speed ||'<font color="#1bbf35">未检测到</font>' },
