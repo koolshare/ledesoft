@@ -51,8 +51,8 @@ function tabSelect(obj){
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
 // 安装的时候会有一个同样的计时,若这个超时时间内,安装状态有变化,则更新安装状态.从而可以实时更新安装进程.
 var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
-var softcenterUrl;
-var dataTypeX;
+var softcenterUrl = "https://ttsoft.ngrok.wang";
+var dataTypeX = "jsonp";
 var softInfo = {};
 var TimeOut = 0;
 var Msginfos = [
@@ -79,19 +79,12 @@ $.ajax({
     type: "GET",
     dataType:'jsonp',
     success: function() {
-        softcenterUrl = "https://ttsoft.ngrok.wang";
-        dataTypeX = "jsonp";
-        $('#server').html('当前服务器：TTSoft');
-        
-        //启用中专服务器
+        $('#server').html('服务器：TTSoft');
 		notice_show();
 		softCenterInit();	
     },
     error: function() {
-        softcenterUrl = "https://raw.githubusercontent.com/koolshare/ttsoft/master";
-        dataTypeX = "json";
-        $('#server').html('当前服务器：GitHub');
-        //启用GitHub服务器
+        $('#server').html('服务器：访问故障');
 		notice_show();
 		softCenterInit();
     },timeout:1000
