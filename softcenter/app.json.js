@@ -53,26 +53,6 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-05-04_08:47:59", 
-            "description": "", 
-            "home_url": "Module_kuainiao.asp", 
-            "md5": "8eac7d2916eb8038ff31808f31efb6e4", 
-            "name": "kuainiao", 
-            "tar_url": "kuainiao/kuainiao.tar.gz", 
-            "title": "提升上下行带宽", 
-            "version": "1.0.3"
-        }, 
-        {
-            "build_date": "2017-05-02_17:39:10", 
-            "description": "DNSPOD动态域名解析", 
-            "home_url": "Module_dnspod.asp", 
-            "md5": "225f758ad9242079a6158b5111f14696", 
-            "name": "dnspod", 
-            "tar_url": "dnspod/dnspod.tar.gz", 
-            "title": "dnspod ddns", 
-            "version": "1.0.0"
-        }, 
-        {
             "build_date": "2017-03-22_19:23:25", 
             "description": "shell on web~", 
             "home_url": "Module_webshell.asp", 
@@ -104,7 +84,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "74ef4f5c5d241b748aa66ffd36d10a4e", 
+    "md5": "39e0e03b92e7d3d944a046e41027dba7", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.2.9"
 }
