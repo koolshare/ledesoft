@@ -12,7 +12,7 @@ chmod a+x $KSROOT/scripts/ngrok_*
 
 # add icon into softerware center
 dbus set softcenter_module_ngrok_install=1
-dbus set softcenter_module_ngrok_version=0.4
-dbus set softcenter_module_ngrok_description="阿里云解析自动更新IP"
+dbus set softcenter_module_ngrok_version=0.1
+dbus set softcenter_module_ngrok_description="Ngrok"
 dbus set ngrok_srlist='';
 rm -rf $KSROOT/install.sh
