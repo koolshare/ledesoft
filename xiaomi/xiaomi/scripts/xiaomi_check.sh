@@ -26,9 +26,9 @@ auto_start() {
 xiaomi_sleep() {
 	if [ "$xiaomi_sleep" == "1" ]; then
 		cru d xiaomi_start
-		cru a xiaomixiaomi_start "0 $xiaomi_sleep_start_time * * * nvram set fanctrl_dutycycle=1"
+		cru a xiaomi_start "0 $xiaomi_sleep_start_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh enable"
 		cru d xiaomi_end
-		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * nvram set fanctrl_dutycycle=4"
+		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh stop"
 	else
 		cru d xiaomi_start
 		cru d xiaomi_end
@@ -36,7 +36,7 @@ xiaomi_sleep() {
 }
 
 if [ "$xiaomi_custom_enable" == "1" ]; then
-	case $xiaomi_last_speed in
+	case $xiaomi_speed in
 	"1")
     		nvram set fanctrl_dutycycle=1
     	;;
@@ -50,7 +50,7 @@ if [ "$xiaomi_custom_enable" == "1" ]; then
     		nvram set fanctrl_dutycycle=4
     	;;
 	"5")
-			nvram set fanctrl_dutycycle=5
+		nvram set fanctrl_dutycycle=5
 		;;
 	esac
 	xiaomi_sleep
