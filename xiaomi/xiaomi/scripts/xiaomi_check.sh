@@ -29,6 +29,9 @@ xiaomi_sleep() {
 		cru a xiaomixiaomi_start "0 $xiaomi_sleep_start_time * * * nvram set fanctrl_dutycycle=1"
 		cru d xiaomi_end
 		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * nvram set fanctrl_dutycycle=4"
+	else
+		cru d xiaomi_start
+		cru d xiaomi_end
 	fi
 }
 
