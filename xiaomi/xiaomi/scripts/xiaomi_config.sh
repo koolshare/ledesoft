@@ -18,6 +18,8 @@ start_xiaomi(){
 
 stop_xiaomi(){
     cru d xiaomi
+	cru d xiaomi_start
+	cru d xiaomi_end
 }
 
 case $ACTION in

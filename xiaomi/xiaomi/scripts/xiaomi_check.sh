@@ -23,8 +23,17 @@ auto_start() {
 	fi 
 }
 
+xiaomi_sleep() {
+	if [ "$xiaomi_sleep" == "1" ]; then
+		cru d xiaomi_start
+		cru a xiaomixiaomi_start "0 $xiaomi_sleep_start_time * * * nvram set fanctrl_dutycycle=1"
+		cru d xiaomi_end
+		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * nvram set fanctrl_dutycycle=4"
+	fi
+}
+
 if [ "$xiaomi_custom_enable" == "1" ]; then
-	case $xiaomi_speed in
+	case $xiaomi_last_speed in
 	"1")
     		nvram set fanctrl_dutycycle=1
     	;;
@@ -41,8 +50,10 @@ if [ "$xiaomi_custom_enable" == "1" ]; then
 			nvram set fanctrl_dutycycle=5
 		;;
 	esac
+	xiaomi_sleep
 else
 	auto_start
+	xiaomi_sleep
 fi
 
 speed=`nvram get fanctrl_dutycycle`

@@ -24,16 +24,22 @@ var appsInfo;
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
 	var dnsenable = E('_xiaomi_auto_enable').checked ? '1':'0';
+	var l  = E('_xiaomi_sleep').value == '1';
+	elem.display('_xiaomi_sleep_start_time', l);
+	elem.display('_xiaomi_sleep_end_time', l);	
 	if(dnsenable == 0){
 		$('input').prop('disabled', true);
 		$(E('_xiaomi_auto_enable')).prop('disabled', false);
 	}else{
 		$('input').prop('disabled', false);
-	}
+	}	
 	return 1;
 }
 function save(){
 	Apps.xiaomi_auto_enable = E('_xiaomi_auto_enable').checked ? '1':'0';
+	Apps.xiaomi_sleep = E('_xiaomi_sleep').value;
+	Apps.xiaomi_sleep_start_time = E('_xiaomi_sleep_start_time').value;
+	Apps.xiaomi_sleep_end_time = E('_xiaomi_sleep_end_time').value;
 	Apps.xiaomi_interval = E('_xiaomi_interval').value;
 	Apps.xiaomi_custom_enable = E('_xiaomi_custom_enable').checked ? '1':'0';
 	Apps.xiaomi_speed = E('_xiaomi_speed').value;
@@ -81,10 +87,19 @@ function save(){
 <div id="xiaomi-fields"></div>
 <script type="text/javascript">
 var option_mode = [['1', '转速1'], ['2', '转速2'], ['3', '转速3'], ['4', '转速4'], ['5', '转速5']];
+var option_hour_time = [];
+for(var i = 0; i < 24; i++){
+	option_hour_time[i] = [i, i + "时"];
+}
 $('#xiaomi-fields').forms([
 { title: '当前CPU温度', name: 'xiaomi_last_cpu', text: Apps.xiaomi_last_cpu ||'--°C' },
 { title: '当前风扇转速', name: 'xiaomi_last_speed', text: Apps.xiaomi_last_speed ||'<font color="#1bbf35">未检测到</font>' },
 { title: '自动巡航', name: 'xiaomi_auto_enable', type: 'checkbox', value: ((Apps.xiaomi_auto_enable == '1')? 1:0)},
+{ title: '休眠模式', multi: [
+{ name: 'xiaomi_sleep',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: Apps.xiaomi_sleep || "0", suffix: ' &nbsp;&nbsp;' },
+{ name: 'xiaomi_sleep_start_time', type: 'select', options:option_hour_time, value: Apps.xiaomi_sleep_start_time || "0",suffix: ' &nbsp;&nbsp;' },
+{ name: 'xiaomi_sleep_end_time', type: 'select', options:option_hour_time, value: Apps.xiaomi_sleep_end_time || "8"}
+]},
 { title: '温度检查周期', name: 'xiaomi_interval', type: 'text', maxlen: 5, size: 5, value: Apps.xiaomi_interval || '5',suffix:'分钟'},
 { title: '手动变速', name: 'xiaomi_custom_enable', type: 'checkbox', value: ((Apps.xiaomi_custom_enable == '1')? 1:0)},
 { title: '风扇转速', name: 'xiaomi_speed', type: 'select', options:option_mode,value: Apps.xiaomi_speed || '1',suffix:'<small>需要开启手动变速才会生效，默认自动调节转速</small>'},
