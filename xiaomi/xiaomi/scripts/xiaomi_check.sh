@@ -28,7 +28,7 @@ xiaomi_sleep() {
 		cru d xiaomi_start
 		cru a xiaomi_start "0 $xiaomi_sleep_start_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh enable"
 		cru d xiaomi_end
-		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh stop"
+		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh disable"
 	else
 		cru d xiaomi_start
 		cru d xiaomi_end

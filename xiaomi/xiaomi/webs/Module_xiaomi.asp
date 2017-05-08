@@ -46,7 +46,7 @@ function save(){
 	if(Apps.xiaomi_interval == ""){
 		alert("填写的信息不全，请检查后再提交！");
 		return false;
-	}
+	}	
 	//-------------- post Apps to dbus ---------------
 	var id = 1 + Math.floor(Math.random() * 6);
 	var postData = {"id": id, "method":'xiaomi_config.sh', "params":[], "fields": Apps};
@@ -55,7 +55,6 @@ function save(){
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
 		setTimeout("window.location.reload()", 3000);
-
 		//  do someting here.
 		//
 	};
