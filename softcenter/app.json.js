@@ -42,14 +42,19 @@
             "version": "1.0.3"
         }, 
         {
-            "build_date": "2017-05-06_17:58:17", 
+            "name": "ngrok", 
+            "tar_url": "ngrok/ngrok.tar.gz", 
+            "title": "ngrok"
+        }, 
+        {
+            "build_date": "2017-05-08_10:23:25", 
             "description": "小米R1D风扇控制插件", 
             "home_url": "Module_xiaomi.asp", 
-            "md5": "86569f8aa0b8e7d1547c4cbb735fbe7c", 
+            "md5": "290bea89d8619d20b9d9b300399f8eb6", 
             "name": "xiaomi", 
             "tar_url": "xiaomi/xiaomi.tar.gz", 
             "title": "xiaomi fan control", 
-            "version": "1.0.3"
+            "version": "1.0.4"
         }, 
         {
             "build_date": "2017-04-12_22:56:15", 

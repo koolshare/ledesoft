@@ -2,6 +2,8 @@ Koolshare ttsoft xiaomi fan control Changelog
 ===========================================
 
 1.0.0
-   -add xiaomi fan control for xiaomi r1d router
+   -Add xiaomi fan control for xiaomi r1d router
 1.0.3
    -Fix speed
+1.0.4
+   -Add sleep mode
