@@ -49,6 +49,7 @@ softcenter_install() {
 		[ ! -L $KSROOT/bin/diff ] && ln -sf $KSROOT/bin/koolbox $KSROOT/bin/diff
 
 		[ ! -L $KSROOT/webs/res ] && ln -sf $KSROOT/res $KSROOT/webs/res
+		[ ! -f $KSROOT/webs/tomato.js ] && cp /www/tomato.js $KSROOT/webs
 		
 		if [ ! -f "/rom/softcenter/softcenter.tar.gz" ];then
 			# now set the navi portal
