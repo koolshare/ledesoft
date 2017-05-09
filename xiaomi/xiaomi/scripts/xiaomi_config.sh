@@ -5,9 +5,9 @@ source $KSROOT/scripts/base.sh
 eval `dbus export xiaomi_`
 
 start_xiaomi(){
-    cru d xiaomi
-    cru a xiaomi "*/$xiaomi_interval * * * * /bin/sh $KSROOT/scripts/xiaomi_check.sh"
-    # run once after submit
+	cru d xiaomi
+	cru a xiaomi "*/$xiaomi_interval * * * * /bin/sh $KSROOT/scripts/xiaomi_check.sh"
+	# run once after submit
 	sh $KSROOT/scripts/xiaomi_check.sh
 	sleep 1
 	# creat start_up file
@@ -17,7 +17,7 @@ start_xiaomi(){
 }
 
 stop_xiaomi(){
-    cru d xiaomi
+	cru d xiaomi
 	cru d xiaomi_start
 	cru d xiaomi_end
 }

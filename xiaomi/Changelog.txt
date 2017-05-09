@@ -7,3 +7,5 @@ Koolshare ttsoft xiaomi fan control Changelog
    -Fix speed
 1.0.4
    -Add sleep mode
+1.0.5
+   -Fix BUG
