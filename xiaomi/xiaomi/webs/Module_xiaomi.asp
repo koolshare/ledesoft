@@ -6,6 +6,7 @@ input[disabled]:hover{
 }
 </style>
 <script type="text/javascript">
+get_temp_status();
 getAppData();
 var Apps;
 function getAppData(){
@@ -20,6 +21,31 @@ var appsInfo;
 	  	}
 	});
 }
+
+
+function get_temp_status(){
+	var id1 = parseInt(Math.random() * 100000000);
+	var postData1 = {"id": id1, "method": "xiaomi_status.sh", "params":[2], "fields": ""};
+	$.ajax({
+		type: "POST",
+		cache:false,
+		url: "/_api/",
+		data: JSON.stringify(postData1),
+		dataType: "json",
+		success: function(response){
+			document.getElementById("_xiaomi_cpu_tmp").innerHTML = response.result.split("@@")[0] + "°C";
+			document.getElementById("_xiaomi_fan_speed").innerHTML = response.result.split("@@")[1] || "未检测到！";
+			setTimeout("get_temp_status();", 2000);
+		},
+		error: function(){
+			document.getElementById("_koolproxy_status").innerHTML = "获取温度失败！";
+			document.getElementById("_xiaomi_fan_speed").innerHTML = "未检测到！";
+			setTimeout("get_temp_status();", 1000);
+		}
+	});
+}	
+
+
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
@@ -91,8 +117,8 @@ for(var i = 0; i < 24; i++){
 	option_hour_time[i] = [i, i + "时"];
 }
 $('#xiaomi-fields').forms([
-{ title: '当前CPU温度', name: 'xiaomi_last_cpu', text: Apps.xiaomi_last_cpu ||'--°C' },
-{ title: '当前风扇转速', name: 'xiaomi_last_speed', text: Apps.xiaomi_last_speed ||'<font color="#1bbf35">未检测到</font>' },
+{ title: '当前CPU温度', text: '<font id="_xiaomi_cpu_tmp" name=xiaomi_cpu_tmp color="#1bbf35">--°C</font>' },
+{ title: '当前风扇转速', text: '<font id="_xiaomi_fan_speed" name=xiaomi_fan_speed color="#1bbf35">未检测到！</font>' },
 { title: '自动巡航', name: 'xiaomi_auto_enable', type: 'checkbox', value: ((Apps.xiaomi_auto_enable == '1')? 1:0)},
 { title: '休眠模式', multi: [
 { name: 'xiaomi_sleep',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: Apps.xiaomi_sleep || "0", suffix: ' &nbsp;&nbsp;' },

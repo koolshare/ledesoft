@@ -60,5 +60,3 @@ else
 fi
 
 speed=`nvram get fanctrl_dutycycle`
-dbus set xiaomi_last_cpu="<font color=red>$temperature°C</font>"
-dbus set xiaomi_last_speed="<font color=green>$speed</font>"
