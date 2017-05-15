@@ -9,3 +9,7 @@ Koolshare ttsoft xiaomi fan control Changelog
    -Add sleep mode
 1.0.5
    -Fix BUG
+1.0.6
+   -Fix temperature display
+1.0.7
+   -Fix BUG

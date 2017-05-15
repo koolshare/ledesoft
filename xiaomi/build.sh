@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="xiaomi"
-VERSION="1.0.6"
+VERSION="1.0.7"
 TITLE="xiaomi fan control"
 DESCRIPTION="小米R1D风扇控制插件"
 HOME_URL="Module_xiaomi.asp"
