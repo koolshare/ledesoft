@@ -11,7 +11,7 @@ start_xiaomi(){
 	sh $KSROOT/scripts/xiaomi_check.sh
 	sleep 1
 	# creat start_up file
-	if [ ! -L "$KSROOT/init.d/S100Xiaomi.sh" ]; then 
+	if [ ! -f "$KSROOT/init.d/S100Xiaomi.sh" ]; then 
 		ln -sf $KSROOT/scripts/xiaomi_config.sh $KSROOT/init.d/S100Xiaomi.sh
 	fi
 }
@@ -25,7 +25,6 @@ stop_xiaomi(){
 case $ACTION in
 start)
 	if [ "$xiaomi_auto_enable" == "1" ]; then
-		logger "[小米风扇]: 启动小米风扇！"
 		start_xiaomi
 	fi
 	;;
