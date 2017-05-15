@@ -32,14 +32,14 @@
             "version": "1.2.2"
         }, 
         {
-            "build_date": "2017-03-27_09:47:47", 
+            "build_date": "2017-05-15_17:01:31", 
             "description": "虚拟内存~", 
             "home_url": "Module_swap.asp", 
-            "md5": "6033a791d4368240c54946d1d27dcfed", 
+            "md5": "41d6f6a1a101ac373f94989dae1dcb1c", 
             "name": "swap", 
             "tar_url": "swap/swap.tar.gz", 
             "title": "swap", 
-            "version": "1.0.3"
+            "version": "1.0.4"
         }, 
         {
             "name": "ngrok", 
