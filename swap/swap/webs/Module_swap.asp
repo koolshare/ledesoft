@@ -6,7 +6,7 @@ http://www.polarcloud.com/tomato/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
-<title>SoftetherVPN</title>
+<title>软件中心 - swap</title>
 <content>
 	<script type="text/javascript">
 		var dbus = [];

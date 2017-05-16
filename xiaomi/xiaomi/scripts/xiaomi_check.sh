@@ -5,6 +5,7 @@ source $KSROOT/scripts/base.sh
 
 eval `dbus export xiaomi_`
 temperature=`cat /proc/dmu/temperature | cut -f 3 -d" " | cut -c 1,2 | grep "^[0-9]\{2\}"`
+sleep_cron=`cru l | grep xiaomi_sleep | wc -l`
 
 auto_start() {
 	if [ $temperature -lt 80 ]; then
@@ -25,10 +26,12 @@ auto_start() {
 
 xiaomi_sleep() {
 	if [ "$xiaomi_sleep" == "1" ]; then
-		cru d xiaomi_start
-		cru a xiaomi_start "0 $xiaomi_sleep_start_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh enable"
-		cru d xiaomi_end
-		cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh disable"
+		if [ ! "$sleep_cron" == "2" ]; then
+			cru d xiaomi_start
+			cru a xiaomi_start "0 $xiaomi_sleep_start_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh enable"
+			cru d xiaomi_end
+			cru a xiaomi_end "0 $xiaomi_sleep_end_time * * * /bin/sh $KSROOT/scripts/xiaomi_sleep.sh disable"
+		fi
 	else
 		cru d xiaomi_start
 		cru d xiaomi_end
@@ -58,5 +61,3 @@ else
 	auto_start
 	xiaomi_sleep
 fi
-
-speed=`nvram get fanctrl_dutycycle`
