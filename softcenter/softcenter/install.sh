@@ -34,8 +34,14 @@ softcenter_install() {
 		cp -rf /tmp/softcenter/perp $KSROOT/
 		cp -rf /tmp/softcenter/scripts $KSROOT/
 		cp -rf /tmp/softcenter/module $KSROOT/
-		# copy new tomato.js to dir webs inase of tomato.js upgrade
-		[ -f "/rom/softcenter/softcenter.tar.gz" ] && cp -rf /tmp/softcenter/others/tomato.js $KSROOT/webs/
+
+		# because the difference between firmware-build-in and plugin for softcenter
+		# we need to upgrade tomato.js in /jffs/koolshare/webs for former users and not install tomato.js for later users
+		# so the plan is detect the os version and /rom/softcenter/softcenter.tar.gz file
+		# if /rom/softcenter/softcenter.tar.gz appears and the version meet the upgrade condition
+		# we can copy version specific tomato.js to firmware-build-in of softcenter.
+		AT140=`nvram get os_version | grep 140`
+		[ -n "$AT140" ] && [ -f "/rom/softcenter/softcenter.tar.gz" ] && cp -rf /tmp/softcenter/others/140/tomato.js $KSROOT/webs/
 
 		chmod 755 $KSROOT/bin/*
 		chmod 755 $KSROOT/perp/*
