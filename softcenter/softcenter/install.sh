@@ -34,6 +34,9 @@ softcenter_install() {
 		cp -rf /tmp/softcenter/perp $KSROOT/
 		cp -rf /tmp/softcenter/scripts $KSROOT/
 		cp -rf /tmp/softcenter/module $KSROOT/
+		# copy new tomato.js to dir webs inase of tomato.js upgrade
+		[ -f "/rom/softcenter/softcenter.tar.gz" ] && cp -rf /tmp/softcenter/others/tomato.js $KSROOT/webs/
+
 		chmod 755 $KSROOT/bin/*
 		chmod 755 $KSROOT/perp/*
 		chmod 755 $KSROOT/perp/.boot/*
