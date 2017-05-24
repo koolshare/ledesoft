@@ -5,7 +5,8 @@
 {"module": "kuainiao", "git_source": "https://github.com/Kenneyzh/kuainiao.git"},
 {"module": "dnspod", "git_source": "https://github.com/Kenneyzh/dnspod.git"},
 {"module": "aria2", "git_source": "https://github.com/Kenneyzh/aria2.git"},
-{"module": "gdddns", "git_source": "git@github.com:mritd/ttsoft-gdddns.git"},
+{"module": "gdddns", "git_source": "https://github.com/mritd/ttsoft-gdddns.git"},
+{"module": "frpc", "git_source": "https://github.com/Kenneyzh/frpc.git"},
 {}
 ]
 
