@@ -1,4 +1,4 @@
-<title>Webshell</title>
+<title>WebShell</title>
 <content>
 <script language="JavaScript" type="text/javascript">
 var dbus =[];
@@ -2904,7 +2904,7 @@ function init() {
 
 		term.open(document.getElementById("webshell"));
 
-		term.write('\x1b[31mWelcome to WebSell by xiaobao !\x1b[m\r\n');
+		term.write('\x1b[31mWelcome to WebShell by xiaobao !\x1b[m\r\n');
 		sendcommand("root");
 	});
 

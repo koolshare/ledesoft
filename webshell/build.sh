@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="webshell"
-VERSION="1.0.3"
+VERSION="1.0.4"
 TITLE="webshell"
 DESCRIPTION="shell on web~"
 HOME_URL="Module_webshell.asp"
