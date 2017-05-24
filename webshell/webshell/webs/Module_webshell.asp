@@ -1,4 +1,4 @@
-<title>Shellinabox</title>
+<title>Webshell</title>
 <content>
 <script language="JavaScript" type="text/javascript">
 var dbus =[];
