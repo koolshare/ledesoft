@@ -37,3 +37,7 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
    - fix	fix ss_log request muli time
    - fix	fix mac address not applied in acl control
    - fix 	fix wong logs
+
+1.2.3
+   - update	update ssr-libev to lasted, support none method and auth_chain_a protocal.
+   - update	update shadowsocks webpage layout.

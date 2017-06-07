@@ -22,8 +22,8 @@
 		var option_acl_mode_name = ['不通过SS', 'gfwlist模式', '大陆白名单模式', '游戏模式', '全局模式'];
 		var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', 'all']];
 		var option_acl_port_name = ['80,443', '22,80,443', 'all'];
-		var option_method = [['rc4', 'rc4'], ['rc4-md5', 'rc4-md5'], ['rc4-md5-6', 'rc4-md5-6'], ['aes-128-cfb', 'aes-128-cfb'], ['aes-192-cfb', 'aes-192-cfb'], ['aes-256-cfb', 'aes-256-cfb'], ['aes-128-ctr', 'aes-128-ctr'], ['aes-192-ctr', 'aes-192-ctr'], ['aes-256-ctr', 'aes-256-ctr'], ['camellia-128-cfb', 'camellia-128-cfb'], ['camellia-192-cfb', 'camellia-192-cfb'], ['camellia-256-cfb', 'camellia-256-cfb'], ['bf-cfb', 'bf-cfb'], ['cast5-cfb', 'cast5-cfb'], ['idea-cfb', 'idea-cfb'], ['rc2-cfb', 'rc2-cfb'], ['seed-cfb', 'seed-cfb'], ['salsa20', 'salsa20'], ['chacha20', 'chacha20'], ['chacha20-ietf', 'chacha20-ietf']];
-		var option_ssr_protocal = [['origin','origin'],['verify_simple','verify_simple'],['verify_sha1','verify_sha1'],['auth_sha1','auth_sha1'],['auth_sha1_v2','auth_sha1_v2'],['auth_sha1_v4','auth_sha1_v4'],['auth_aes128_md5','auth_aes128_md5'],['auth_aes128_sha1','auth_aes128_sha1']];
+		var option_method = [['none', 'none'],['rc4', 'rc4'], ['rc4-md5', 'rc4-md5'], ['rc4-md5-6', 'rc4-md5-6'], ['aes-128-cfb', 'aes-128-cfb'], ['aes-192-cfb', 'aes-192-cfb'], ['aes-256-cfb', 'aes-256-cfb'], ['aes-128-ctr', 'aes-128-ctr'], ['aes-192-ctr', 'aes-192-ctr'], ['aes-256-ctr', 'aes-256-ctr'], ['camellia-128-cfb', 'camellia-128-cfb'], ['camellia-192-cfb', 'camellia-192-cfb'], ['camellia-256-cfb', 'camellia-256-cfb'], ['bf-cfb', 'bf-cfb'], ['cast5-cfb', 'cast5-cfb'], ['idea-cfb', 'idea-cfb'], ['rc2-cfb', 'rc2-cfb'], ['seed-cfb', 'seed-cfb'], ['salsa20', 'salsa20'], ['chacha20', 'chacha20'], ['chacha20-ietf', 'chacha20-ietf']];
+		var option_ssr_protocal = [['origin','origin'],['verify_simple','verify_simple'],['verify_sha1','verify_sha1'],['auth_sha1','auth_sha1'],['auth_sha1_v2','auth_sha1_v2'],['auth_sha1_v4','auth_sha1_v4'],['auth_aes128_md5','auth_aes128_md5'],['auth_aes128_sha1','auth_aes128_sha1'],['auth_chain_a','auth_chain_a']];
 		var option_ssr_obfs = [['plain','plain'],['http_simple','http_simple'],['http_post','http_post'],['tls1.2_ticket_auth','tls1.2_ticket_auth']];
 		var option_dns_china = [['1', '运营商DNS【自动获取】'],  ['2', '阿里DNS1【223.5.5.5】'],  ['3', '阿里DNS2【223.6.6.6】'],  ['4', '114DNS1【114.114.114.114】'],  ['5', '114DNS1【114.114.115.115】'],  ['6', 'cnnic DNS【1.2.4.8】'],  ['7', 'cnnic DNS【210.2.4.8】'],  ['8', 'oneDNS1【112.124.47.27】'],  ['9', 'oneDNS2【114.215.126.16】'],  ['10', '百度DNS【180.76.76.76】'],  ['11', 'DNSpod DNS【119.29.29.29】'],  ['12', '自定义']];
 		var option_dns_foreign = [['1', 'dns2socks'], ['2', 'ss-tunnel'], ['3', 'dnscrypt-proxy'], ['4', 'pdnsd'], ['5', 'ChinaDNS'], ['6', 'Pcap_DNSProxy']];
@@ -378,7 +378,7 @@
 			});
 			auto_node_sel();
 			
-			$('#_ss_version').html( '<a margin href="https://github.com/koolshare/ttsoft/blob/master/shadowsocks/Changelog.txt" target="_blank">shadowsocks for tomato  ' + (dbus["ss_basic_version"]  || "") + '</a>' );
+			$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ttsoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for tomato  ' + (dbus["ss_basic_version"]  || "") + '</font></a>' );
 			setTimeout("get_run_status();", 1000);
 			setTimeout("get_dns_status();", 1100);
 		}
@@ -1029,24 +1029,16 @@
 			});
 		}
 	</script>
-	<div class="box">
-		<fieldset>
+	<div class="box" style="margin-top: 0px;min-width:830px;">
 		<div class="heading">
-			<span id="_ss_version">shadowsocks for toamto</span>
+			<span id="_ss_version"><font color="#1bbf35">shadowsocks for toamto</font></span>
 			<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
 		</div>
-		<div class="content">
-			<span id="msg" class="col-sm-9" style="margin-top:10px;width:800px"><b>说明：</b>请在下面的账号设置表格中填入你的shadowsocks账号信息，选择好一个模式，点击提交后就能使用代理服务。</span>
-		</div>	
-		</fieldset>
-	</div>
-	<div class="box" style="margin-top: 0px;min-width:830px;">
-		<div class="heading">开关</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_switch_pannel').forms([
-					{ title: '开启shadowsocks', name:'ss_basic_enable',type:'checkbox',  value: dbus.ss_basic_enable == 1 }  // ==1 means default close; !=0 means default open
+					{ title: 'shadowsocks开关', name:'ss_basic_enable',type:'checkbox',  value: dbus.ss_basic_enable == 1 }  // ==1 means default close; !=0 means default open
 				]);
 			</script>
 			<hr />
