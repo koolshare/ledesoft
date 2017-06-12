@@ -35,17 +35,12 @@
             "build_date": "2017-05-02_23:31:37", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "7649efa35f98cadc0bfe2896fe93466b", 
+            "md5": "540060645a7a51607fc6cc8624a10fff", 
             "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.2.2"
-        }, 
-        {
-            "name": "ngrok", 
-            "tar_url": "ngrok/ngrok.tar.gz", 
-            "title": "ngrok"
+            "version": "1.2.4"
         }, 
         {
             "build_date": "2017-03-22_19:24:37", 
@@ -89,7 +84,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "8a0d0bc4a09a981c26f5d0e2362c2fe0", 
+    "md5": "58133e62b1c582992cce95efe5a159c7", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.3.3"
 }
