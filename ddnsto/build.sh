@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=ddnsto
-VERSION=1.0
+VERSION=1.1
 TITLE=ddnsto
 DESCRIPTION=宝宝穿透
 HOME_URL=Module_ddnsto.asp

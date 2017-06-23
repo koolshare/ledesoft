@@ -137,11 +137,9 @@ $('#ddnsto-fields').forms([
 <div class="box">
 	<div class="heading">ddnsto穿透设置教程： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:none">
-			<li> 比如我路由器局域网ip是192.168.2.1，需要用 <font color="#FF3300">https://xiaobao.ddns.to/</font> 作为我的ddns域名， <br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;则设置域名前缀为 <font color="#FF3300">xiaobao</font>，目标主机地址为 <font color="#FF3300">http://192.168.2.1</font>；</li>
+			<li> 比如我路由器局域网ip是192.168.2.1，需要用 <font color="#FF3300">https://xiaobao.ddns.to/</font> 作为我的ddns域名，则设置域名前缀为 <font color="#FF3300">xiaobao</font>，目标主机地址为 <font color="#FF3300">http://192.168.2.1</font>；</li>
 			<br />
-			<li> 如果需要使用远程命令，建议安装并使用<a id="gfw_number" href="/#Module_shellinabox.asp" target="_blank"> shellinabox </a>插件，<br />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;并设置<font color="#FF3300"> xiaobao-cmd </font>为二级域名，并添加 <font color="#FF3300">http://192.168.2.1:4200</font> 目标主机地址。</li>
+			<li> 如果需要使用远程命令，建议安装并使用<a id="gfw_number" href="/#Module_shellinabox.asp" target="_blank"> shellinabox </a>插件，并设置<font color="#FF3300"> xiaobao-cmd </font>为二级域名，并添加 <font color="#FF3300">http://192.168.2.1:4200</font> 目标主机地址。</li>
 	</div>
 </div>
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>

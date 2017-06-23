@@ -20,8 +20,16 @@ chmod +x $KSROOT/bin/scripts/ddnsto_*
 # 为新安装文件赋予执行权限...
 chmod 755 $KSROOT/scripts/ddnsto*
 
+dbus set softcenter_module_ddnsto_description=宝宝穿透
+dbus set softcenter_module_ddnsto_install=1
+dbus set softcenter_module_ddnsto_name=ddnsto
+dbus set softcenter_module_ddnsto_title=ddnsto
+dbus set softcenter_module_ddnsto_version=1.0.0
+
+
 sleep 1
 rm -rf /tmp/ddnsto* >/dev/null 2>&1
+
 
 
 
