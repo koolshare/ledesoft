@@ -1,12 +1,11 @@
 #!/bin/sh
 
-
-MODULE=shellinabox
-VERSION=1.9
-TITLE=ShellnaBox
-DESCRIPTION=超强的SSH网页客户端
-HOME_URL=Module_shellinabox.asp
-
+MODULE=ddnsto
+VERSION=1.0
+TITLE=ddnsto
+DESCRIPTION=宝宝穿透
+HOME_URL=Module_ddnsto.asp
+#!/bin/sh
 # Check and include base
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ "$MODULE" == "" ]; then
@@ -28,3 +27,5 @@ cd $DIR
 # do something here
 
 do_build_result
+
+sh backup.sh

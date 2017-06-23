@@ -73,18 +73,18 @@
             "version": "1.0.7"
         }, 
         {
-            "build_date": "2017-03-21_01:42:53", 
+            "build_date": "2017-06-23_14:30:29", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "49ff206d849dfe50f72d3323bbb8af8d", 
+            "md5": "a99e1fb5b944de286ce8bec6cce31718", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
-            "version": "1.8"
+            "version": "1.9"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "58133e62b1c582992cce95efe5a159c7", 
+    "md5": "74e083a725a89e74fdf56f549455ea93", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.3.3"
 }
