@@ -637,8 +637,8 @@ remove_redundant_rule(){
 		echo_date 清除重复的ip rule规则.
 		until [ "$ip_rule_exist" = 0 ]
 		do 
-			#ip rule del fwmark 0x01/0x01 table 310
-			/usr/sbin/ip rule del fwmark 0x01/0x01 table 310 pref 789
+			#ip rule del fwmark 0x07 table 310
+			/usr/sbin/ip rule del fwmark 0x07 table 310 pref 789
 			ip_rule_exist=`expr $ip_rule_exist - 1`
 		done
 	fi
@@ -819,7 +819,7 @@ apply_nat_rules(){
 	iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
 
 	#[ "$mangle" == "1" ] && load_tproxy
-	[ "$mangle" == "1" ] && /usr/sbin/ip rule add fwmark 0x01/0x01 table 310 pref 789
+	[ "$mangle" == "1" ] && /usr/sbin/ip rule add fwmark 0x07 table 310 pref 789
 	[ "$mangle" == "1" ] && /usr/sbin/ip route add local 0.0.0.0/0 dev lo table 310
 	# 创建游戏模式udp rule
 	[ "$mangle" == "1" ] && iptables -t mangle -N SHADOWSOCKS
@@ -828,9 +828,9 @@ apply_nat_rules(){
 	# 创建游戏模式udp rule
 	[ "$mangle" == "1" ] && iptables -t mangle -N SHADOWSOCKS_GAM
 	# IP/CIDR/域名 黑名单控制（走ss）
-	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set --match-set black_list dst -j TPROXY --on-port 3333 --tproxy-mark 0x01/0x01
+	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set --match-set black_list dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
 	# cidr黑名单控制-chnroute（走ss）
-	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x01/0x01
+	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
 	#-------------------------------------------------------
 	# 局域网黑名单（不走ss）/局域网黑名单（走ss）
 	lan_acess_control
