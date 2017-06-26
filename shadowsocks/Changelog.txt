@@ -44,3 +44,6 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
    
 1.2.4
    - update	update ssr-libev to lasted, fix udp bug.
+
+1.2.5
+   - add	add OUTPUT acl rule for koolproxy
