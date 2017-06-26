@@ -11,6 +11,9 @@ CONFIG_FILE=$KSROOT/ss/ss.json
 game_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 3`
 [ -n "$game_on" ] || [ "$ss_basic_mode" == "3" ] && mangle=1
 internet=`nvram get wan_proto`
+KP_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='` || 0
+
+
 if [ "$internet" == "dhcp" ];then
 	ISP_DNS1=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p`
 	ISP_DNS2=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
@@ -115,6 +118,7 @@ restore_nat(){
 	iptables -t mangle -F SHADOWSOCKS >/dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS >/dev/null 2>&1
 	iptables -t mangle -F SHADOWSOCKS_GAM > /dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS_GAM > /dev/null 2>&1
 	iptables -t nat -D OUTPUT -p tcp -m set --match-set gfwlist dst -j REDIRECT --to-ports 3333 >/dev/null 2>&1
+	iptables -t nat -F OUTPUT > /dev/null 2>&1
 	iptables -t nat -D PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 	
 	/usr/sbin/ip route del local 0.0.0.0/0 dev lo table 310 >/dev/null 2>&1
@@ -570,12 +574,12 @@ ln_conf(){
 #--------------------------------------------------------------------------------------
 nat_auto_start(){
 	echo_date 添加nat-start触发事件...
-	[ ! -L "$KSROOT/init.d/N90shadowsocks.sh" ] && ln -sf $KSROOT/ss/start.sh "$KSROOT"/init.d/N90shadowsocks.sh
+	[ ! -L "$KSROOT/init.d/N98shadowsocks.sh" ] && ln -sf $KSROOT/ss/start.sh "$KSROOT"/init.d/N98shadowsocks.sh
 }
 #--------------------------------------------------------------------------------------
 wan_auto_start(){
 	echo_date 加入开机自动启动...
-	[ ! -L "$KSROOT/init.d/S90shadowsocks.sh" ] && ln -sf $KSROOT/scripts/ss_config.sh "$KSROOT"/init.d/S90shadowsocks.sh
+	[ ! -L "$KSROOT/init.d/N98shadowsocks.sh" ] && ln -sf $KSROOT/scripts/ss_config.sh "$KSROOT"/init.d/N98shadowsocks.sh
 }
 
 #=======================================================================================
@@ -613,6 +617,7 @@ flush_nat(){
 	iptables -t mangle -F SHADOWSOCKS >/dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS >/dev/null 2>&1
 	iptables -t mangle -F SHADOWSOCKS_GAM > /dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS_GAM > /dev/null 2>&1
 	iptables -t nat -D OUTPUT -p tcp -m set --match-set router dst -j REDIRECT --to-ports 3333 >/dev/null 2>&1
+	iptables -t nat -F OUTPUT > /dev/null 2>&1
 	iptables -t nat -D PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 }
 
@@ -757,6 +762,7 @@ lan_acess_control(){
 		for acl in $acl_nu
 		do
 			ipaddr=`dbus get ss_acl_ip_$acl`
+			ipaddr_hex=`dbus get ss_acl_ip_$acl | awk -F "." '{printf ("0x%02x", $1)} {printf ("%02x", $2)} {printf ("%02x", $3)} {printf ("%02x\n", $4)}'`
 			ports=`dbus get ss_acl_port_$acl`
 			[ "$ports" == "all" ] && ports=""
 			proxy_mode=`dbus get ss_acl_mode_$acl`
@@ -766,7 +772,8 @@ lan_acess_control(){
 			[ "$ports" == "" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:all模式为：$(get_mode_name $proxy_mode) || echo_date 加载ACL规则：【$ipaddr】【$mac】:$ports模式为：$(get_mode_name $proxy_mode)
 
 			iptables -t nat -A SHADOWSOCKS $(factor $ipaddr "-s") -p tcp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
-
+			iptables -t nat -A OUTPUT -p tcp  $(factor $ports "-m multiport --dport") -m mark --mark "$ipaddr_hex" -j $(get_action_chain $proxy_mode)
+			
 			[ "$proxy_mode" == "3" ] || [ "$proxy_mode" == "4" ] && \
 			iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p udp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		done
@@ -824,21 +831,23 @@ apply_nat_rules(){
 	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set --match-set black_list dst -j TPROXY --on-port 3333 --tproxy-mark 0x01/0x01
 	# cidr黑名单控制-chnroute（走ss）
 	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x01/0x01
-	#-----------------------FOR ROUTER---------------------
-	# router itself
-	iptables -t nat -A OUTPUT -p tcp -m set --match-set router dst -j REDIRECT --to-ports 3333
 	#-------------------------------------------------------
 	# 局域网黑名单（不走ss）/局域网黑名单（走ss）
 	lan_acess_control
+	#-----------------------FOR ROUTER---------------------
+	# router itself
+	iptables -t nat -A OUTPUT -p tcp -m set --match-set router dst -j REDIRECT --to-ports 3333
 	# 把最后剩余流量重定向到相应模式的nat表中对对应的主模式的链
 	[ "$ss_acl_default_port" == "all" ] && ss_acl_default_port=""
 	iptables -t nat -A SHADOWSOCKS -p tcp $(factor $ss_acl_default_port "-m multiport --dport") -j $(get_action_chain $ss_acl_default_mode)
+	iptables -t nat -A OUTPUT -p tcp $(factor $ss_acl_default_port "-m multiport --dport") -m ttl --ttl-eq 160 -j $(get_action_chain $ss_acl_default_mode)
 	# 如果是主模式游戏模式，则把SHADOWSOCKS链中剩余udp流量转发给SHADOWSOCKS_GAM链
 	# 如果主模式不是游戏模式，则不需要把SHADOWSOCKS链中剩余udp流量转发给SHADOWSOCKS_GAM，不然会造成其他模式主机的udp也走游戏模式
 	[ "$mangle" == "1" ] && ss_acl_default_mode=3
 	[ "$ss_basic_mode" == "3" ] && iptables -t mangle -A SHADOWSOCKS -p udp -j $(get_action_chain $ss_acl_default_mode)
 	# 重定所有流量到 SHADOWSOCKS
-	iptables -t nat -I PREROUTING 1 -p tcp -j SHADOWSOCKS
+	INSET_NU=`expr $KP_NU + 1`
+	iptables -t nat -I PREROUTING "$INSET_NU" -p tcp -j SHADOWSOCKS
 	[ "$mangle" == "1" ] && iptables -t mangle -I PREROUTING 1 -p udp -j SHADOWSOCKS
 }
 
