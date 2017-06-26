@@ -11,8 +11,8 @@ CONFIG_FILE=$KSROOT/ss/ss.json
 game_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 3`
 [ -n "$game_on" ] || [ "$ss_basic_mode" == "3" ] && mangle=1
 internet=`nvram get wan_proto`
-KP_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='` || 0
-
+KP_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='`
+[ "$KP_NU" == "" ] && KP_NU=0
 
 if [ "$internet" == "dhcp" ];then
 	ISP_DNS1=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p`

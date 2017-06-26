@@ -47,3 +47,6 @@ Koolshare Asuswrt-Merlin shadowsocks Changelog
 
 1.2.5
    - add	add OUTPUT acl rule for koolproxy
+
+1.2.6 - 1.2.7
+   - fix	fix PREROUTING rule missing when kp disabled
