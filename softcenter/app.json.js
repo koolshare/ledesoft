@@ -53,14 +53,14 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-06-23_22:58:46", 
+            "build_date": "2017-06-26_08:45:13", 
             "description": "宝宝穿透", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "a59f8cad7966f2502220e762720a05f9", 
+            "md5": "a3ac0e02c3acc603d6a609fece03e434", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "ddnsto", 
-            "version": "1.1"
+            "version": "1.2"
         }, 
         {
             "build_date": "2017-05-24_18:59:08", 
@@ -94,7 +94,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "d2d8fed425867b8eaffd235b2c7a3c0c", 
+    "md5": "f345612b1e8f1496dd9e23b1717241b0", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.3.3"
 }
