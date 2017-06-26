@@ -35,7 +35,7 @@
             "build_date": "2017-05-02_23:31:37", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "7df22d85675dd18a36e138a3ef60b3d0", 
+            "md5": "4fcb9612eddc6cef67544d3fa1550798", 
             "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
@@ -94,7 +94,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "0e6b7116b590ad5dc2db499bb587e94b", 
+    "md5": "da19a35f3582473474a99e2edf3be5da", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.3.3"
 }
