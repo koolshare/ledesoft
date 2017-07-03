@@ -1,8 +1,8 @@
 {
-"version":"1.4",
-"md5":"512d07bd5c631e14416817774019b716",
+"version":"1.5",
+"md5":"42599b3446b427af68f4f70dfb521c6a",
 "home_url":"Module_ddnsto.asp",
 "title":"ddnsto",
 "description":"支持http2协议的快速穿透",
-"build_date":"2017-07-03_10:53:48"
+"build_date":"2017-07-03_21:12:00"
 }
