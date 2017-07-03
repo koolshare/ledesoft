@@ -127,7 +127,7 @@ var option_mode = [['1', 'WAN1'], ['2', 'WAN2'], ['3', 'WAN3'], ['4', 'WAN4']];
 $('#ddnsto-fields').forms([
 { title: '开启ddnsto', name: 'ddnsto_enable', type: 'checkbox', value: ((Apps.ddnsto_enable == '1')? 1:0)},
 { title: 'ddnsto运行状态', text: '<font id="ddnsto_status" name=ddnsto_status color="#1bbf35">正在获取运行状态...</font>' },
-{ title: 'token', name: 'ddnsto_token', type: 'text', maxlen: 34, size: 34, value: Apps.ddnsto_token }
+{ title: 'token', name: 'ddnsto_token', type: 'text', maxlen: 38, size: 38, value: Apps.ddnsto_token }
 ]);
 </script>
 </div>
