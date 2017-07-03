@@ -5,7 +5,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export ddnsto_`
 
 start_ddnsto(){
-	ddnsto -u $ddnsto_name -p $ddnsto_passwd -d
+	ddnsto -u $ddnsto_token -d
 }
 
 stop_ddnsto(){

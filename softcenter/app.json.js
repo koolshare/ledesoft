@@ -35,12 +35,12 @@
             "build_date": "2017-05-02_23:31:37", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "4fcb9612eddc6cef67544d3fa1550798", 
+            "md5": "e9e2b42dbb507936080671e7fd40221f", 
             "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.2.5"
+            "version": "1.2.7"
         }, 
         {
             "build_date": "2017-03-22_19:24:37", 
@@ -53,14 +53,14 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-06-26_08:45:13", 
-            "description": "宝宝穿透", 
+            "build_date": "2017-07-03_10:39:48", 
+            "description": "支持http2协议的快速穿透", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "a3ac0e02c3acc603d6a609fece03e434", 
+            "md5": "93124ec9b09dd544218bb94cdca60a15", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "ddnsto", 
-            "version": "1.2"
+            "version": "1.3"
         }, 
         {
             "build_date": "2017-05-24_18:59:08", 

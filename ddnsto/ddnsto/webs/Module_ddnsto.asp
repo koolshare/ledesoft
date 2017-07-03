@@ -71,9 +71,8 @@ function toggleVisibility(whichone) {
 
 function save(){
 	Apps.ddnsto_enable = E('_ddnsto_enable').checked ? '1':'0';
-	Apps.ddnsto_name = E('_ddnsto_name').value;
-	Apps.ddnsto_passwd = E('_ddnsto_passwd').value;
-	if(Apps.ddnsto_name == "" || Apps.ddnsto_passwd == "" || Apps.ddnsto_domain == "home.example.com"){
+	Apps.ddnsto_token = E('_ddnsto_token').value;
+	if(Apps.ddnsto_token == ""){
 		alert("填写的信息不全，请检查后再提交！");
 		return false;
 	}
@@ -128,8 +127,7 @@ var option_mode = [['1', 'WAN1'], ['2', 'WAN2'], ['3', 'WAN3'], ['4', 'WAN4']];
 $('#ddnsto-fields').forms([
 { title: '开启ddnsto', name: 'ddnsto_enable', type: 'checkbox', value: ((Apps.ddnsto_enable == '1')? 1:0)},
 { title: 'ddnsto运行状态', text: '<font id="ddnsto_status" name=ddnsto_status color="#1bbf35">正在获取运行状态...</font>' },
-{ title: '用户名', name: 'ddnsto_name', type: 'text', maxlen: 34, size: 34, value: Apps.ddnsto_name },
-{ title: '密码', name: 'ddnsto_passwd', type: 'password', maxlen: 34, size: 34, value: Apps.ddnsto_passwd }
+{ title: 'token', name: 'ddnsto_token', type: 'text', maxlen: 34, size: 34, value: Apps.ddnsto_token }
 ]);
 </script>
 </div>

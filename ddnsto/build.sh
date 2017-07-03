@@ -1,9 +1,9 @@
 #!/bin/sh
 
 MODULE=ddnsto
-VERSION=1.2
+VERSION=1.3
 TITLE=ddnsto
-DESCRIPTION=宝宝穿透
+DESCRIPTION=支持http2协议的快速穿透
 HOME_URL=Module_ddnsto.asp
 #!/bin/sh
 # Check and include base
