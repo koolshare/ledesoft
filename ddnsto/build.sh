@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=ddnsto
-VERSION=1.5
+VERSION=1.6
 TITLE=ddnsto
 DESCRIPTION=支持http2协议的快速穿透
 HOME_URL=Module_ddnsto.asp

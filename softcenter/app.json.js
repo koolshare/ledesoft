@@ -53,14 +53,14 @@
             "version": "1.0.1"
         }, 
         {
-            "build_date": "2017-07-03_21:12:00", 
+            "build_date": "2017-07-03_21:15:32", 
             "description": "支持http2协议的快速穿透", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "42599b3446b427af68f4f70dfb521c6a", 
+            "md5": "95b2172638fe1eedfec6b2dad9926017", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "ddnsto", 
-            "version": "1.5"
+            "version": "1.6"
         }, 
         {
             "build_date": "2017-05-24_18:59:08", 
