@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z $KSROOT ]; then
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 fi
 

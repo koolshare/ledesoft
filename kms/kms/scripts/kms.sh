@@ -1,9 +1,9 @@
 #!/bin/sh
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 
 eval `dbus export kms`
-CONFIG_FILE=/jffs/etc/dnsmasq.d/kms.conf
+CONFIG_FILE=/tmp/dnsmasq.d/kms.conf
 FIREWALL_START=$KSROOT/scripts/firewall-start
 KMS_PID=0
 start_kms(){

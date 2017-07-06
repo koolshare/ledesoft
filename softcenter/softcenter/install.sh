@@ -1,7 +1,7 @@
 #!/bin/sh
 
-mkdir -p /jffs/koolshare
-export KSROOT=/jffs/koolshare
+mkdir -p /koolshare
+export KSROOT=/koolshare
 
 _quote() {
 	echo $1 | sed 's/[]\/()$*.^|[]/\\&/g'
@@ -36,10 +36,9 @@ softcenter_install() {
 		mkdir -p $KSROOT
 		mkdir -p $KSROOT/webs/
 		mkdir -p $KSROOT/init.d/
-		mkdir -p $KSROOT/res/
+		mkdir -p $KSROOT/webs/res/
 		mkdir -p $KSROOT/bin/
 		cp -rf /tmp/softcenter/webs/* $KSROOT/webs/
-		cp -rf /tmp/softcenter/res/* $KSROOT/res/
 		cp -rf /tmp/softcenter/bin/* $KSROOT/bin/
 		cp -rf /tmp/softcenter/perp $KSROOT/
 		cp -rf /tmp/softcenter/scripts $KSROOT/
@@ -64,9 +63,9 @@ softcenter_install() {
 
 		# re-make tomato.js everytime incase of fw updating
 		cp -rf /www/tomato.js /jffs/koolshare/webs
-		pc_insert "admin-upgrade.asp" "'插件市场': 'soft-center.asp'" "/jffs/koolshare/webs/tomato.js"
-		pc_insert "admin-upgrade.asp" "'软件中心': {" "/jffs/koolshare/webs/tomato.js"
-		pc_insert "admin-upgrade.asp" "}," "/jffs/koolshare/webs/tomato.js"
+		pc_insert "admin-upgrade.asp" "'插件市场': 'soft-center.asp'" "/koolshare/webs/tomato.js"
+		pc_insert "admin-upgrade.asp" "'软件中心': {" "/koolshare/webs/tomato.js"
+		pc_insert "admin-upgrade.asp" "}," "/koolshare/webs/tomato.js"
 
 		# run kscore at last step
 		sh /$KSROOT/bin/kscore.sh

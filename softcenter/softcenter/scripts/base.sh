@@ -1,13 +1,13 @@
 #!/bin/sh
 
-export KSROOT=/jffs/koolshare
-export KSURL=https://ttsoft.ngrok.wang
+export KSROOT=/koolshare
+export KSURL=https://ledesoft.ngrok.wang
 export PERP_BASE=$KSROOT/perp
 export PATH=$KSROOT/bin:$KSROOT/scripts:/usr/bin:/sbin:/bin:/usr/sbin
 
 ACTION=$1
 ID=$1
-export LANIP=$(nvram get lan_ipaddr)
+export LANIP=127.0.0.1
 
 http_response()  {
         ARG0="$@"

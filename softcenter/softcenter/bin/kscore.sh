@@ -1,7 +1,7 @@
 #!/bin/sh
 #set -x
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 export PERP_BASE=$KSROOT/perp
 mkdir -p /tmp/upload

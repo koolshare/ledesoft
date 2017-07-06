@@ -1,5 +1,5 @@
 #!/bin/sh
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 
 # stop kms first
@@ -14,7 +14,6 @@ fi
 cp -rf /tmp/kms/scripts/* $KSROOT/scripts/
 cp -rf /tmp/kms/bin/* $KSROOT/bin/
 cp -rf /tmp/kms/webs/* $KSROOT/webs/
-cp -rf /tmp/kms/res/* $KSROOT/res/
 
 # delete install tar
 rm -rf /tmp/kms* >/dev/null 2>&1
