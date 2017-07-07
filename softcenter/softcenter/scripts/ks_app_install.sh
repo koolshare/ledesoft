@@ -125,7 +125,7 @@ install_module() {
 		fi
 
 		chmod a+x /tmp/$softcenter_installing_module/install.sh
-		sh /tmp/$softcenter_installing_module/install.sh
+		sh /tmp/$softcenter_installing_module/install.sh $1
 		sleep 2
 
 		rm -f $FNAME
