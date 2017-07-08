@@ -1,14 +1,14 @@
 #! /bin/sh
 # 导入skipd数据
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export softether`
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
 
 creat_start_up(){
-	rm -rf $KSROOT/init.d/S96SoftEther.sh
-	ln -sf $KSROOT/scripts/softether_config.sh $KSROOT/init.d/S96SoftEther.sh
-	ln -sf $KSROOT/softether/softether.sh $KSROOT/init.d/N96SoftEther.sh
+	rm -rf /etc/rc.d/S96SoftEther.sh
+	ln -sf $KSROOT/scripts/softether_config.sh /etc/rc.d/S96SoftEther.sh
+	ln -sf $KSROOT/softether/softether.sh /etc/rc.d/N96SoftEther.sh
 }
 
 open_close_port(){
@@ -85,7 +85,7 @@ restart)
 	echo_date "桥接虚拟网卡..."
 	brctl addif br0 $tap
 	echo_date "设置dnsmasq..."
-	echo interface=tap_vpn > /jffs/etc/dnsmasq.d/softether.conf
+	echo interface=tap_vpn > /tmp/dnsmasq.d/softether.conf
 	echo_date "重启dnsmasq..."
 	service dnsmasq restart >/dev/null 2>&1
 	echo_date "创建开机启动..."
@@ -98,12 +98,12 @@ stop)
 	echo_date "关闭相应端口..."
 	open_close_port
 	echo_date "删除dnsmasq设置..."
-	rm -rf /jffs/etc/dnsmasq.d/softether.conf
+	rm -rf /tmp/dnsmasq.d/softether.conf
 	echo_date "重启dnsmasq..."
 	service dnsmasq restart >/dev/null 2>&1
 	echo_date "删除开机启动..."
-	rm -rf $KSROOT/init.d/S96SoftEther.sh
-	rm -rf $KSROOT/init.d/N96SoftEther.sh
+	rm -rf /etc/rc.d/S96SoftEther.sh
+	rm -rf /etc/rc.d/N96SoftEther.sh
 	echo_date "插件关闭成功！"
 	;;
 start_nat)

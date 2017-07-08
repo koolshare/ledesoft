@@ -1,6 +1,6 @@
 #!/bin/sh
 alias echo_date1='echo $(date +%Y年%m月%d日\ %X)'
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export softether_`
 
@@ -23,7 +23,6 @@ case $2 in
 	else
 		sh $KSROOT/softether/softether.sh stop > /tmp/upload/softether_log.txt
 	fi
-	echo XU6J03M6 >> /tmp/upload/softether_log.txt
 	http_response $1
 	;;
 esac

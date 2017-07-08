@@ -8,7 +8,11 @@ No part of this file may be used without permission.
 -->
 <title>SoftetherVPN</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 	<script type="text/javascript">
+		AdvancedTomato();
 		var dbus = [];
 		function get_local_data(){
 			$.getJSON("/_api/softether", function(res) {

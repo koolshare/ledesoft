@@ -11,14 +11,14 @@
             "version": "1.0.4"
         }, 
         {
-            "build_date": "2017-03-22_19:24:37", 
+            "build_date": "2017-07-08_21:08:55", 
             "description": "softether_vpn", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "ca50a5ed0db3087cc44b5d4e9fd75e4b", 
+            "md5": "f2176f1eccb2b7333807ca2af72ec861", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
-            "version": "1.0.1"
+            "version": "1.0.0"
         }, 
         {
             "build_date": "2017-07-08_18:50:28", 

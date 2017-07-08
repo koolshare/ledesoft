@@ -1,6 +1,6 @@
 #! /bin/sh
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export softether`
 
@@ -19,7 +19,6 @@ cd /tmp
 cp -rf /tmp/softether_vpn/softether $KSROOT
 cp -rf /tmp/softether_vpn/scripts/* $KSROOT/scripts/
 cp -rf /tmp/softether_vpn/webs/* $KSROOT/webs/
-cp -rf /tmp/softether_vpn/res/* $KSROOT/res/
 
 cp /tmp/webshell/uninstall.sh $KSROOT/scripts/uninstall_webshell.sh
 

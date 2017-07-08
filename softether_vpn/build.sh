@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=softether_vpn
-VERSION=1.0.1
+VERSION=1.0.0
 TITLE=softether_vpn
 DESCRIPTION=softether_vpn
 HOME_URL=Module_softether_vpn.asp
