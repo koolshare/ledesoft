@@ -11,8 +11,6 @@ start_kms(){
 	KMS_PID=`pidof "vlmcsd"`
 	dbus set kms_status="<font color=green>运行中，进程ID：$KMS_PID</font>"
 	echo "srv-host=_vlmcs._tcp.lan,`uname -n`.lan,1688,0,100" > $CONFIG_FILE
-	nvram set lan_domain=lan
-   	nvram commit
 	service dnsmasq restart
 	# creating iptables rules to firewall-start
 	mkdir -p $KSROOT/scripts

@@ -1,6 +1,10 @@
 <title>软件中心 - KMS</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
+AdvancedTomato();
 getAppData();
 function getAppData(){
 var appsInfo;
@@ -55,7 +59,7 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">KMS Office激活工具<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+<div class="heading">KMS Office激活工具<a href="/cgi-bin/luci//admin/softcenter" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 <br><hr>
 <div class="content">
 <div id="kms-fields"></div>

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=kms
-VERSION=0.4
+VERSION=0.1
 TITLE=kms
 DESCRIPTION=KMS Office激活工具
 HOME_URL=Module_kms.asp
