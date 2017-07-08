@@ -41,14 +41,14 @@
             "version": "1.0.4"
         }, 
         {
-            "build_date": "2017-06-23_14:30:29", 
+            "build_date": "2017-07-08_20:37:31", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "a99e1fb5b944de286ce8bec6cce31718", 
+            "md5": "69bb11c347ec329a35b5a49a86124dda", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
-            "version": "1.9"
+            "version": "1.0"
         }, 
         {
             "build_date": "2017-07-06_21:45:29", 
@@ -64,12 +64,12 @@
             "build_date": "2017-05-02_23:31:37", 
             "description": "fuck gfw", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "e9e2b42dbb507936080671e7fd40221f", 
+            "md5": "2a9bb0f274bdc3730b1f11299153fb69", 
             "module": "shadowsocks", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.2.7"
+            "version": "1.0.0"
         }, 
         {
             "build_date": "2017-07-08_18:33:26", 

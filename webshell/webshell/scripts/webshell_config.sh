@@ -1,5 +1,5 @@
 #!/bin/sh
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 pid=`ps|grep webshell|grep -v grep|grep -v sh|awk '{print $1}'`
 

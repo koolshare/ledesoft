@@ -11,53 +11,43 @@
 }
 
 #vt100 #scrollable {
-  font-size:		13px;
-  color:            #000;
-  background-color: #fff;
+  color:            #839496;
+  background-color: #002b35;
 }
 
 #vt100 #scrollable.inverted {
-  font-size:		13px;
-  color:            #fff;
-  background-color: #000;
+  color:            #002b35;
+  background-color: #839496;
 }
 
 #vt100 .ansiDef {
-  font-size:		13px;
-  color:            #000;
+  color:            #839496;
 }
 
 #vt100 .ansiDefR {
-  font-size:		13px;
-  color:            #fff;
+  color:            #002b35;
 }
 
 #vt100 .bgAnsiDef {
-  font-size:		13px;
-  background-color: #fff;
+  background-color: #002b35;
 }
 
 #vt100 .bgAnsiDefR {
-  font-size:		13px;
-  background-color: #000;
+  background-color: #839496;
 }
 
 #vt100 #scrollable.inverted .ansiDef {
-  font-size:		13px;
-  color:            #fff;
+  color:            #002b35;
 }
 
 #vt100 #scrollable.inverted .ansiDefR {
-  font-size:		13px;
-  color:            #000;
+  color:            #839496;
 }
 
 #vt100 #scrollable.inverted .bgAnsiDef {
-  font-size:		13px;
-  background-color: #000;
+  background-color: #839496;
 }
 
 #vt100 #scrollable.inverted .bgAnsiDefR {
-  font-size:		13px;
-  background-color: #fff;
+  background-color: #002b35;
 }

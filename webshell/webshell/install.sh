@@ -1,6 +1,6 @@
 #! /bin/sh
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export webshell`
 
@@ -10,7 +10,6 @@ cd /tmp
 cp -rf /tmp/webshell/bin/* $KSROOT/bin/
 cp -rf /tmp/webshell/scripts/* $KSROOT/scripts/
 cp -rf /tmp/webshell/webs/* $KSROOT/webs/
-cp -rf /tmp/webshell/res/* $KSROOT/res/
 
 cp /tmp/webshell/uninstall.sh $KSROOT/scripts/uninstall_webshell.sh
 

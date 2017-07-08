@@ -1,12 +1,11 @@
 #! /bin/sh
 
 if [ -z $KSROOT ]; then
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 fi
 			
 cp -rf /tmp/shellinabox/shellinabox $KSROOT/
-cp -rf /tmp/shellinabox/res/* $KSROOT/res/
 cp -rf /tmp/shellinabox/webs/* $KSROOT/webs
 chmod 755 $KSROOT/shellinabox/*	
 killall shellinaboxd
