@@ -11,7 +11,7 @@ sub_domain = current_url.split("/")[2].split(".")[0];
 if(current_url.indexOf("ddns.to") != -1){
 	$("#shell").attr("src","https://" + sub_domain + "-cmd.ddns.to/");
 }else{
-	$("#shell").attr("src","http://" + location.hostname + ":4200/");
+	$("#shell").attr("src","https://" + location.hostname + ":4200/");
 }
 </script>
 <div class="box">
