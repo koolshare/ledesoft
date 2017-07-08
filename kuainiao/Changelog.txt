@@ -1,0 +1,8 @@
+Koolshare Asuswrt-Merlin kuainiao Changelog
+===========================================
+1.0.3
+   -fix 修复心跳保持失败的bug
+1.0.1
+   -fix down_upgrade
+1.0.0
+   -add	add kuainiao

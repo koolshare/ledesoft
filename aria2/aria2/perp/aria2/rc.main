@@ -1,0 +1,11 @@
+#!/bin/sh
+Aria2_enable=`dbus get aria2_enable`
+export KSROOT=/jffs/koolshare
+exec 2>&1
+if test ${1} = 'start' ; then
+  if [ "$Aria2_enable" == "1" ];then
+   exec $KSROOT/aria2/aria2c --conf-path=$KSROOT/aria2/aria2.conf
+  fi
+fi
+  
+exit 0
