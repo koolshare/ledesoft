@@ -1,5 +1,5 @@
 #!/bin/sh
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
 
@@ -63,7 +63,7 @@ case $2 in
 4)
 	echo "" > /tmp/upload/ss_log.txt
 	mkdir -p $KSROOT/webs/files
-	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i\\n' | sed '1 isource /jffs/koolshare/scripts/base.sh' |sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
+	dbus list ss | grep -v "status" | grep -v "enable" | grep -v "version" | grep -v "success" | sed 's/=/=\"/' | sed 's/$/\"/g'|sed 's/^/dbus set /' | sed '1 i\\n' | sed '1 isource /koolshare/scripts/base.sh' |sed '1 i#!/bin/sh' > $KSROOT/webs/files/ss_conf_backup.sh
 	http_response "$1"
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	;;
@@ -100,16 +100,16 @@ case $2 in
 6)
 	echo_date "开始打包..." > /tmp/upload/ss_log.txt
 	echo_date "请等待一会儿...下载会自动开始." >> /tmp/upload/ss_log.txt
-	mkdir -p /jffs/koolshare/webs/files
+	mkdir -p /koolshare/webs/files
 	cd $KSROOT/
 	mv $KSROOT/scripts/ss_install.sh $KSROOT/install.sh
 	cp $KSROOT/scripts/uninstall_shadowsocks.sh $KSROOT/uninstall.sh
-	tar -czv -f /jffs/koolshare/webs/files/shadowsocks.tar.gz bin/ss-* bin/rss-* bin/pdnsd bin/Pcap_DNSProxy bin/dns2socks bin/dnscrypt-proxy bin/chinadns bin/resolveip scripts/ss_* res/icon-shadowsocks* ss/ webs/Module_shadowsocks.asp ./install.sh ./uninstall.sh >> /tmp/upload/ss_log.txt
+	tar -czv -f /koolshare/webs/files/shadowsocks.tar.gz bin/ss-* bin/rss-* bin/pdnsd bin/Pcap_DNSProxy bin/dns2socks bin/dnscrypt-proxy bin/chinadns bin/resolveip scripts/ss_* res/icon-shadowsocks* ss/ webs/Module_shadowsocks.asp ./install.sh ./uninstall.sh >> /tmp/upload/ss_log.txt
 	echo_date "打包完毕！该包可以在TOMATO软件中心离线安装哦~" >> /tmp/upload/ss_log.txt
 	http_response "$1"
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	sleep 10 
-	rm -rf /jffs/koolshare/webs/files/shadowsocks.tar.gz
+	rm -rf /koolshare/webs/files/shadowsocks.tar.gz
 	mv $KSROOT/install.sh $KSROOT/scripts/ss_install.sh 
 	rm -rf $KSROOT/uninstall.sh
 	;;

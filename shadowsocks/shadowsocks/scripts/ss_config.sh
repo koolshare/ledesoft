@@ -1,7 +1,7 @@
 #!/bin/sh
 
 alias echo_date1='echo $(date +%Y年%m月%d日\ %X)'
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export ss_`
 
@@ -9,10 +9,10 @@ eval `dbus export ss_`
 case $1 in
 start)
 	# the soft link should be create after boot
-	[ "$ss_basic_enable" == "1" ] && sh /jffs/koolshare/ss/start.sh start_all > /tmp/upload/ss_log.txt
+	[ "$ss_basic_enable" == "1" ] && sh /koolshare/ss/start.sh start_all > /tmp/upload/ss_log.txt
 	;;
 stop)
-	sh /jffs/koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt
+	sh /koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt
 	;;
 esac
 
@@ -20,9 +20,9 @@ esac
 case $2 in
 1)
 	if [ "$ss_basic_enable" == "1" ];then
-		sh /jffs/koolshare/ss/start.sh start_all > /tmp/upload/ss_log.txt
+		sh /koolshare/ss/start.sh start_all > /tmp/upload/ss_log.txt
 	else
-		sh /jffs/koolshare/ss/start.sh stop > /tmp/upload/ss_log.txt
+		sh /koolshare/ss/start.sh stop > /tmp/upload/ss_log.txt
 	fi
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	http_response $1

@@ -1,6 +1,6 @@
 #!/bin/sh
 PROCS=Pcap_DNSProxy
-CONFIG=/jffs/koolshare/ss/dns
+CONFIG=/koolshare/ss/dns
 while true ; do
 RUNNING=`ps|grep $PROCS|grep -v grep |wc -l`
  if [ "${RUNNING}" -ge 1  ];then
