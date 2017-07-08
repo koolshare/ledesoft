@@ -1,11 +1,15 @@
 <title>shadowsocks</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
 .box {
 	min-width:830px;
 }
 </style>
 	<script type="text/javascript">
+		AdvancedTomato();
 		var dbus;
 		get_arp_list();
 		get_dbus_data();

@@ -1,7 +1,7 @@
 #!/bin/sh
 #--------------------------------------------------------------------------------------
 # Variable definitions
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 source $KSROOT/bin/helper.sh
 eval `dbus export ss`
@@ -14,13 +14,8 @@ internet=`nvram get wan_proto`
 KP_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='`
 [ "$KP_NU" == "" ] && KP_NU=0
 
-if [ "$internet" == "dhcp" ];then
-	ISP_DNS1=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p`
-	ISP_DNS2=`nvram get wan_get_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
-else
-	ISP_DNS1=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 1p)
-	ISP_DNS2=$(nvram get wan_dns|sed 's/ /\n/g'|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p)
-fi
+ISP_DNS1=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
+ISP_DNS2=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 3p`
 # dns for china
 [ "$ss_dns_china" == "1" ] && [ ! -z "$ISP_DNS1" ] && CDN="$ISP_DNS1"
 [ "$ss_dns_china" == "1" ] && [ -z "$ISP_DNS1" ] && CDN="114.114.114.114"
@@ -79,27 +74,27 @@ pdnsd=$(ps | grep "pdnsd" | grep -v "grep")
 chinadns=$(ps | grep "chinadns" | grep -v "grep")
 DNS2SOCK=$(ps | grep "dns2socks" | grep -v "grep")
 Pcap_DNSProxy=$(ps | grep "Pcap_DNSProxy" | grep -v "grep")
-lan_ipaddr=$(nvram get lan_ipaddr)
+lan_ipaddr=$(uci get network.lan.ipaddr)
 ip_rule_exist=`/usr/sbin/ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 #--------------------------------------------------------------------------
 restore_conf(){
 	# delete server setting in dnsmasq.conf
-	pc_delete "server=" "/jffs/etc/dnsmasq.custom"
-	pc_delete "all-servers" "/jffs/etc/dnsmasq.custom"
-	pc_delete "no-resolv" "/jffs/etc/dnsmasq.custom"
-	pc_delete "no-poll" "/jffs/etc/dnsmasq.custom"
+	pc_delete "server=" "/etc/dnsmasq.conf"
+	pc_delete "all-servers" "/etc/dnsmasq.conf"
+	pc_delete "no-resolv" "/etc/dnsmasq.conf"
+	pc_delete "no-poll" "/etc/dnsmasq.conf"
 
 	# delete custom.conf
-	if [ -f /jffs/etc/dnsmasq.d/custom.conf ];then
-		echo_date 删除 /jffs/etc/dnsmasq.d/custom.conf
-		rm -rf /jffs/etc/dnsmasq.d/custom.conf
+	if [ -f /tmp/dnsmasq.d/custom.conf ];then
+		echo_date 删除 /tmp/dnsmasq.d/custom.conf
+		rm -rf /tmp/dnsmasq.d/custom.conf
 	fi
 	echo_date 删除ss相关的名单配置文件.
 	# remove conf under /jffs/etc/dnsmasq.d
-	rm -rf /jffs/etc/dnsmasq.d/gfwlist.conf
-	rm -rf /jffs/etc/dnsmasq.d/cdn.conf
-	rm -rf /jffs/etc/dnsmasq.d/custom.conf
-	rm -rf /jffs/etc/dnsmasq.d/wblist.conf
+	rm -rf /tmp/dnsmasq.d/gfwlist.conf
+	rm -rf /tmp/dnsmasq.d/cdn.conf
+	rm -rf /tmp/dnsmasq.d/custom.conf
+	rm -rf /tmp/dnsmasq.d/wblist.conf
 	rm -rf /tmp/sscdn.conf
 	rm -rf /tmp/custom.conf
 	rm -rf /tmp/wblist.conf
@@ -331,7 +326,7 @@ start_dns(){
 				}
 				
 				server {
-					label= "RT-AC68U"; 
+					label= "LEDE-X64"; 
 					ip = 127.0.0.1;
 					port = 1099;
 					root_server = on;   
@@ -510,31 +505,31 @@ append_white_black_conf(){
 
 ln_conf(){
 	# custom dnsmasq
-	rm -rf /jffs/etc/dnsmasq.d/custom.conf
+	rm -rf /tmp/dnsmasq.d/custom.conf
 	if [ -f /tmp/custom.conf ];then
-		echo_date 创建域自定义dnsmasq配置文件软链接到/jffs/etc/dnsmasq.d/custom.conf
-		mv /tmp/custom.conf /jffs/etc/dnsmasq.d/custom.conf
+		echo_date 创建域自定义dnsmasq配置文件软链接到/tmp/dnsmasq.d/custom.conf
+		mv /tmp/custom.conf /tmp/dnsmasq.d/custom.conf
 	fi
 	# custom dnsmasq
-	rm -rf /jffs/etc/dnsmasq.d/wblist.conf
+	rm -rf /tmp/dnsmasq.d/wblist.conf
 	if [ -f /tmp/wblist.conf ];then
 		echo_date 创建域名黑/白名单软链接到/jffs/configs/dnsmasq.d/wblist.conf
-		mv /tmp/wblist.conf /jffs/etc/dnsmasq.d/wblist.conf
+		mv /tmp/wblist.conf /tmp/dnsmasq.d/wblist.conf
 	fi
-	rm -rf /jffs/etc/dnsmasq.d/cdn.conf
+	rm -rf /tmp/dnsmasq.d/cdn.conf
 	if [ -f /tmp/sscdn.conf ];then
-		echo_date 创建cdn加速列表软链接/jffs/etc/dnsmasq.d/cdn.conf
-		mv /tmp/sscdn.conf /jffs/etc/dnsmasq.d/cdn.conf
+		echo_date 创建cdn加速列表软链接/tmp/dnsmasq.d/cdn.conf
+		mv /tmp/sscdn.conf /tmp/dnsmasq.d/cdn.conf
 	fi
 	gfw_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 1`	
-	rm -rf /jffs/etc/dnsmasq.d/gfwlist.conf
+	rm -rf /tmp/dnsmasq.d/gfwlist.conf
 	if [ "$ss_basic_mode" == "1" ];then
-		echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
-		ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
+		echo_date 创建gfwlist的软连接到/tmp/dnsmasq.d/文件夹.
+		ln -sf $KSROOT/ss/rules/gfwlist.conf /tmp/dnsmasq.d/gfwlist.conf
 	elif [ "$ss_basic_mode" == "2" ] || [ "$ss_basic_mode" == "3" ];then
-		if [ ! -f /jffs/etc/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
-			echo_date 创建gfwlist的软连接到/jffs/etc/dnsmasq.d/文件夹.
-			ln -sf $KSROOT/ss/rules/gfwlist.conf /jffs/etc/dnsmasq.d/gfwlist.conf
+		if [ ! -f /tmp/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
+			echo_date 创建gfwlist的软连接到/tmp/dnsmasq.d/文件夹.
+			ln -sf $KSROOT/ss/rules/gfwlist.conf /tmp/dnsmasq.d/gfwlist.conf
 		fi
 	fi
 	
@@ -557,18 +552,18 @@ ln_conf(){
 	if [ "$ss_dns_plan" == "1" ] || [ -z "$ss_dns_china" ];then
 		if [ "$ss_dns_china" == "1" ];then
 			echo_date DNS解析方案国内优先，使用运营商DNS优先解析国内DNS.
-			pc_insert "koolshare" "server=$CDN2#53" "/jffs/etc/dnsmasq.custom"
-			pc_insert "koolshare" "server=$CDN1#53" "/jffs/etc/dnsmasq.custom"
-			pc_insert "koolshare" "all-servers" "/jffs/etc/dnsmasq.custom"
+			pc_insert "koolshare" "server=$CDN2#53" "/etc/dnsmasq.conf"
+			pc_insert "koolshare" "server=$CDN1#53" "/etc/dnsmasq.conf"
+			pc_insert "koolshare" "all-servers" "/etc/dnsmasq.conf"
 		else
 			echo_date DNS解析方案国内优先，使用自定义DNS：$CDN进行解析国内DNS.
-			pc_insert "koolshare" "server=$CDN#53" "/jffs/etc/dnsmasq.custom"
+			pc_insert "koolshare" "server=$CDN#53" "/etc/dnsmasq.conf"
 		fi
 	elif [ "$ss_dns_plan" == "2" ];then
 		echo_date DNS解析方案国外优先，优先解析国外DNS.
-		pc_insert "koolshare" "server=127.0.0.1#7913" "/jffs/etc/dnsmasq.custom"
+		pc_insert "koolshare" "server=127.0.0.1#7913" "/etc/dnsmasq.conf"
 	fi
-	pc_insert "koolshare" "no-resolv" "/jffs/etc/dnsmasq.custom"
+	pc_insert "koolshare" "no-resolv" "/etc/dnsmasq.conf"
 }
 
 #--------------------------------------------------------------------------------------
@@ -895,34 +890,6 @@ restart_dnsmasq(){
 
 }
 
-load_module(){
-	xt=`lsmod | grep xt_set`
-	OS=$(uname -r)
-	if [ -f /lib/modules/${OS}/kernel/net/netfilter/xt_set.ko ] && [ -z "$xt" ];then
-		echo_date "加载ipset内核模块！"
-		insmod ip_set
-		insmod ip_set_bitmap_ip
-		insmod ip_set_bitmap_ipmac
-		insmod ip_set_bitmap_port
-		insmod ip_set_hash_ip
-		insmod ip_set_hash_ipport
-		insmod ip_set_hash_ipportip
-		insmod ip_set_hash_ipportnet
-		insmod ip_set_hash_net
-		insmod ip_set_hash_netport
-		insmod ip_set_list_set
-		insmod xt_set
-	fi
-	tproxy=`lsmod | grep tproxy`
-	if [ -z "$tproxy" ];then
-		echo_date "加载TPROXY内核模块！"
-		cd $KSROOT/module
-		insmod nf_tproxy_core.ko
-		insmod xt_TPROXY.ko
-		insmod xt_socket.ko
-	fi
-}
-
 write_numbers(){
 	ipset_numbers=`cat $KSROOT/ss/rules/gfwlist.conf | grep -c ipset`
 	chnroute_numbers=`cat $KSROOT/ss/rules/chnroute.txt | grep -c .`
@@ -937,7 +904,7 @@ write_numbers(){
 
 case $1 in
 start_all)
-	echo_date ---------------------- Advanced Tomato 固件 shadowsocks -----------------------
+	echo_date ---------------------- LEDE 固件 shadowsocks -----------------------
 	# stop first
 	restore_conf
 	restore_nat
@@ -956,7 +923,6 @@ start_all)
 	wan_auto_start
 	write_cron_job
 	start_ss_redir
-	load_module
 	load_nat
 	restart_dnsmasq
 	start_dns
@@ -974,7 +940,7 @@ start_nat)
 	chromecast
 	;;
 stop)
-	echo_date ---------------------- Advanced Tomato 固件 shadowsocks -----------------------
+	echo_date ---------------------- LEDE 固件 shadowsocks -----------------------
 	restore_conf
 	restart_dnsmasq
 	restore_nat
