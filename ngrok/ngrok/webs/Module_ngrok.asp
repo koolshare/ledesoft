@@ -5,7 +5,11 @@ input[disabled]:hover{
     cursor:not-allowed;
 }
 </style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script>
+AdvancedTomato();
 getAppData();
 var Apps;
 function getAppData(){

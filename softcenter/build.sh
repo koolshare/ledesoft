@@ -3,7 +3,7 @@ VERSION=0.1.1
 
 cat version
 rm -f softcenter.tar.gz
-mkdir -p ./softcenter/res
+mkdir -p ./softcenter/webs/res
 
 python ./gen_install.py stage1
 

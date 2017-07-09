@@ -1,7 +1,11 @@
 <title>软件中心-Aria2</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
   <script type="text/javascript">
-    getAppData();
+	AdvancedTomato();
+	getAppData();
     var Apps;
     function getAppData() {
       var appsInfo;

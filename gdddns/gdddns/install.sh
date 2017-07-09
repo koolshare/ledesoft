@@ -1,11 +1,9 @@
 #!/bin/sh
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
-cp /tmp/gdddns/res/* $KSROOT/res
 cp /tmp/gdddns/scripts/* $KSROOT/scripts
 cp /tmp/gdddns/webs/* $KSROOT/webs
-cp /tmp/gdddns/bin/* $KSROOT/bin
 
 chmod a+x $KSROOT/scripts/gdddns_*
 

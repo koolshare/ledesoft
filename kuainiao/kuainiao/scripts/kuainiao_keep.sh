@@ -2,7 +2,7 @@
 #2017/05/01 by kenney
 #version 0.4
 
-KSROOT="/jffs/koolshare"
+KSROOT="/koolshare"
 source $KSROOT/scripts/base.sh
 eval `dbus export kuainiao`
 #source ./kuainiao_config.sh
@@ -44,18 +44,18 @@ add_kuainiao_cru(){
 	fi
 }
 
-#echo $(date "+%Y-%m-%d %H:%M:%S") >>/jffs/koolshare/kn.text
+#echo $(date "+%Y-%m-%d %H:%M:%S") >>/koolshare/kn.text
 if [ "$kuainiao_enable" == "1" ]&&[ "$kuainiao_can_upgrade" == "1" ];then
 	keepalive_down
 	add_kuainiao_cru
 	if [ `dbus get kuainiao_run_status` == 0 ];then
-		/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
+		/bin/sh /koolshare/scripts/kuainiao_config.sh
   	fi
 fi
 if [ "$kuainiao_upenable" == "1" ]&&[ "$kuainiao_can_upupgrade" == "1" ];then
 	keepalive_up
 	add_kuainiao_cru
 	if [ `dbus get kuainiao_run_upstatus` == 0 ];then
-		/bin/sh /jffs/koolshare/scripts/kuainiao_config.sh
+		/bin/sh /koolshare/scripts/kuainiao_config.sh
   	fi
 fi

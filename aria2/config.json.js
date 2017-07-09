@@ -1,11 +1,8 @@
 {
-    "build_date": "2017-06-08 11:28:47", 
-    "description": "超酷的远程下载工具", 
-    "home_url": "Module_aria2.asp", 
-    "md5": "2664ffca260e056df5cd09380816b5df", 
-    "module": "aria2", 
-    "name": "aria2", 
-    "tar_url": "aria2/aria2.tar.gz", 
-    "title": "aria2", 
-    "version": "1.1.0"
+"version":"1.0",
+"md5":"2f1d43acfd880ce8d5eebc50b9dc9d6c",
+"home_url":"Module_aria2.asp",
+"title":"aria2",
+"description":"超酷的远程下载工具",
+"build_date":"2017-07-09_15:34:27"
 }

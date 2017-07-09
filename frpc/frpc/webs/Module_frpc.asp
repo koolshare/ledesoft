@@ -1,11 +1,15 @@
 <title>软件中心 - Frpc</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
 	input[disabled]:hover{
     cursor:not-allowed;
 }
 </style>
 <script type="text/javascript">
+AdvancedTomato();
 getAppData();
 var Apps;
 function getAppData(){

@@ -1,11 +1,15 @@
 <title>软件中心 - Aliddns</title>
 <content>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
 input[disabled]:hover{
     cursor:not-allowed;
 }
 </style>
 <script type="text/javascript">
+AdvancedTomato();
 getAppData();
 var Apps;
 function getAppData(){
@@ -79,7 +83,7 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">阿里云DDNS <a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+<div class="heading">阿里云DDNS <a href="/cgi-bin/luci//admin/softcenter" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 <br><hr>
 <div class="content">
 <div id="aliddns-fields"></div>

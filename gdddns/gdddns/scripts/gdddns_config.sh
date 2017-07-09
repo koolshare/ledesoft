@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export gdddns_`
 
@@ -11,8 +11,8 @@ start_gdddns(){
 	sh $KSROOT/scripts/gdddns_update.sh
 	sleep 1
 	# creat start_up file
-	if [ ! -L "$KSROOT/init.d/S98gdddns.sh" ]; then 
-		ln -sf $KSROOT/scripts/gdddns_config.sh $KSROOT/init.d/S98gdddns.sh
+	if [ ! -L "/etc/rc.d/S98gdddns.sh" ]; then 
+		ln -sf $KSROOT/scripts/gdddns_config.sh /etc/rc.d/S98gdddns.sh
 	fi
 }
 

@@ -14,7 +14,7 @@ cp /tmp/ddnsto/uninstall.sh $KSROOT/scripts/uninstall_ddnsto.sh
 chmod +x $KSROOT/bin/ddnsto
 chmod +x $KSROOT/bin/scripts/ddnsto_*
 
-[ ! -L "/koolshare/init.d/S88ddnsto.sh" ] && ln -sf /koolshare/scripts/ddnsto_config.sh /koolshare/init.d/S88ddnsto.sh
+[ ! -L "/etc/rc.d/S88ddnsto.sh" ] && ln -sf /koolshare/scripts/ddnsto_config.sh /etc/rc.d/S88ddnsto.sh
 
 # 为新安装文件赋予执行权限...
 chmod 755 $KSROOT/scripts/ddnsto*

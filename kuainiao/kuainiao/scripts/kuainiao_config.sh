@@ -2,7 +2,7 @@
 #2017/05/01 by kenney
 
 eval `dbus export kuainiao_`
-KSROOT="/jffs/koolshare"
+KSROOT="/koolshare"
 source $KSROOT/scripts/base.sh
 version="0.4"
 app_version="2.0.3.4"
@@ -327,14 +327,14 @@ add_kuainiao_cru(){
 
 #加入开机自动运行
 auto_start(){
-	if [ -L "$KSROOT/init.d/S95Kuainiao.sh" ]; then 
-		rm -rf $KSROOT/init.d/S95Kuainiao.sh
+	if [ -L "/etc/rc.d/S95Kuainiao.sh" ]; then 
+		rm -rf /etc/rc.d/S95Kuainiao.sh
 	fi
-	if [ -L "$KSROOT/init.d/S99Kuainiao.sh" ]; then 
-		rm -rf $KSROOT/init.d/S99Kuainiao.sh
+	if [ -L "/etc/rc.d/S99Kuainiao.sh" ]; then 
+		rm -rf /etc/rc.d/S99Kuainiao.sh
 	fi
 	if [ "$kuainiao_start" == "1" ]; then
-		ln -sf $KSROOT/scripts/kuainiao_keep.sh $KSROOT/init.d/S99Kuainiao.sh
+		ln -sf $KSROOT/scripts/kuainiao_keep.sh /etc/rc.d/S99Kuainiao.sh
 	fi
 }
 
@@ -343,8 +343,8 @@ stop_kuainiao(){
 	#停掉cru里的任务
 	cru d kuainiao
 	#停止自启动
-	if [ -L "$KSROOT/init.d/S95Kuainiao.sh" ]; then 
-		rm -rf $KSROOT/init.d/S95Kuainiao.sh
+	if [ -L "/etc/rc.d/S95Kuainiao.sh" ]; then 
+		rm -rf /etc/rc.d/S95Kuainiao.sh
 	fi
 	#清理运行环境临时变量
 	dbus remove kuainiao_run_id

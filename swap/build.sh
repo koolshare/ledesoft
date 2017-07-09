@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="swap"
-VERSION="1.0.4"
+VERSION="1.0"
 TITLE="swap"
 DESCRIPTION="虚拟内存~"
 HOME_URL="Module_swap.asp"
@@ -29,4 +29,4 @@ cd $DIR
 
 do_build_result
 
-sh backup.sh
+sh backup.sh $MODULE

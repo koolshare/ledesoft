@@ -1,9 +1,8 @@
 {
-    "build_date": "2017-05-02_23:31:37", 
-    "description": "fuck gfw", 
-    "home_url": "Module_shadowsocks.asp", 
-    "md5": "2a9bb0f274bdc3730b1f11299153fb69", 
-    "module": "shadowsocks", 
-    "title": "shadowsocks", 
-    "version": "1.0.0"
+"version":"1.0",
+"md5":"707f2e04a1de721afbe3f64fe604b9ef",
+"home_url":"Module_shadowsocks.asp",
+"title":"shadowsocks",
+"description":"一个轻量级安全SOCKS5代理",
+"build_date":"2017-07-09_15:37:34"
 }

@@ -2,7 +2,7 @@
 
 # define variables
 eval `dbus export aria2`
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 export PERP_BASE=$KSROOT/perp
 token=$(head -200 /dev/urandom | md5sum | cut -d " " -f 1)

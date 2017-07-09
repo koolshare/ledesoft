@@ -28,3 +28,4 @@ cd $DIR
 # do something here
 
 do_build_result
+sh backup.sh $MODULE

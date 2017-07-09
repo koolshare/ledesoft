@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export frpc_`
 

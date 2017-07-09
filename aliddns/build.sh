@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=aliddns
-VERSION=0.9
+VERSION=0.1
 TITLE=AliDDNS
 DESCRIPTION=阿里云解析自动更新IP
 HOME_URL=Module_aliddns.asp
@@ -27,3 +27,5 @@ cd $DIR
 # do something here
 
 do_build_result
+
+sh backup.sh $MODULE

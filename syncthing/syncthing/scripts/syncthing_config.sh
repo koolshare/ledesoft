@@ -2,7 +2,7 @@
 #2017/05/05 by kenney
 #version 0.2
 
-export KSROOT=/jffs/koolshare
+export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export syncthing_`
 conf_Path="$KSROOT/syncthing/config"
@@ -29,10 +29,10 @@ start_syncthing(){
     #cru d syncthing
     #cru a syncthing "*/10 * * * * sh $KSROOT/scripts/syncthing_config.sh"
     dbus set syncthing_webui=$weburl
-    if [ -L "$KSROOT/init.d/S94syncthing.sh" ];then 
-        rm -rf $KSROOT/init.d/S94syncthing.sh
+    if [ -L "/etc/rc.d/S94syncthing.sh" ];then 
+        rm -rf /etc/rc.d/S94syncthing.sh
     fi
-    ln -sf $KSROOT/scripts/syncthing_config.sh $KSROOT/init.d/S94syncthing.sh
+    ln -sf $KSROOT/scripts/syncthing_config.sh /etc/rc.d/S94syncthing.sh
 }
 stop_syncthing(){
     for i in `ps |grep syncthing|grep -v grep|grep -v "/bin/sh"|awk -F' ' '{print $1}'`;do
@@ -40,8 +40,8 @@ stop_syncthing(){
     done
     sleep 2
     #cru d syncthing
-    if [ -L "$KSROOT/init.d/S94syncthing.sh" ];then 
-        rm -rf $KSROOT/init.d/S94syncthing.sh
+    if [ -L "/etc/rc.d/S94syncthing.sh" ];then 
+        rm -rf /etc/rc.d/S94syncthing.sh
     fi
     dbus set syncthing_webui="--"
 }
