@@ -1,35 +1,40 @@
 {
     "apps": [
         {
-            "build_date": "2017-07-09_15:35:54", 
-            "description": "", 
+            "build_date": "2017-07-09_16:21:33", 
+            "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "2b68937a536eefecd8c3745db9897e5f", 
+            "md5": "0d98ffc2fd200683d2d6971676635965", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:38:36", 
-            "description": "softether_vpn", 
+            "build_date": "2017-07-09_16:22:05", 
+            "description": "VPN全家桶", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "644c6df48f9ca9245f071994c3b5d6ae", 
+            "md5": "b4470448bbe71410ed8c5ef9f4c8e3c3", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
             "version": "1.0.0"
         }, 
         {
+            "build_date": "2017-07-09_16:23:12", 
+            "description": "去头屑丝般顺滑", 
+            "home_url": "Module_koolproxy.asp", 
+            "md5": "5d2b127c20e485e4575b76496699953a", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
-            "title": "koolproxy"
+            "title": "koolproxy", 
+            "version": "3.6.1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:36:18", 
-            "description": "", 
+            "build_date": "2017-07-09_16:20:24", 
+            "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "408f2cbde461320b5e42013e0208eae8", 
+            "md5": "af88d36373fed1bd89e02d8ae5044461", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
@@ -116,10 +121,10 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:37:34", 
-            "description": "一个轻量级安全SOCKS5代理", 
+            "build_date": "2017-07-09_16:20:47", 
+            "description": "一个轻量级SOCKS5代理", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "707f2e04a1de721afbe3f64fe604b9ef", 
+            "md5": "a8093080b09d26165b286645e91b0f06", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 

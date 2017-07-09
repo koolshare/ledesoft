@@ -3,7 +3,7 @@
 MODULE=shadowsocks
 VERSION=1.0
 TITLE=shadowsocks
-DESCRIPTION=一个轻量级安全SOCKS5代理
+DESCRIPTION=一个轻量级SOCKS5代理
 HOME_URL=Module_shadowsocks.asp
 #!/bin/sh
 # Check and include base

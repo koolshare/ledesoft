@@ -1,8 +1,8 @@
 {
 "version":"1.0.0",
-"md5":"644c6df48f9ca9245f071994c3b5d6ae",
+"md5":"b4470448bbe71410ed8c5ef9f4c8e3c3",
 "home_url":"Module_softether_vpn.asp",
 "title":"softether_vpn",
-"description":"softether_vpn",
-"build_date":"2017-07-09_15:38:36"
+"description":"VPN全家桶",
+"build_date":"2017-07-09_16:22:05"
 }

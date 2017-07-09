@@ -3,7 +3,7 @@
 MODULE=gdddns
 VERSION=1.0
 TITLE=gdddns
-DESCRIPTION=Godaddy DDNS
+DESCRIPTION=Godaddy-DDNS
 HOME_URL=Module_gdddns.asp
 #!/bin/sh
 # Check and include base

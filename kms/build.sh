@@ -3,7 +3,7 @@
 MODULE=kms
 VERSION=0.1
 TITLE=kms
-DESCRIPTION=KMS Office激活工具
+DESCRIPTION=巨硬套餐激活工具
 HOME_URL=Module_kms.asp
 #!/bin/sh
 # Check and include base
