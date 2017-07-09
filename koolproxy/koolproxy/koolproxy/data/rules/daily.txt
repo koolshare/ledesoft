@@ -1,0 +1,32 @@
+!x  -----------------------------------------------------------------------------------------------------------------
+!x  -----[KoolProxy Plus 3.6.1]
+!x  -----update[rules]: 2017-6-25 18:42
+!x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
+!x  -----Thanks for help: <CJX> <yiclear> <xwhyz> 
+!x  -----Tip: Welcome to rule group,Please Send mail to <wojiaolinmu008@gmail.com>
+!x  -----------------------------------------------------------------------------------------------------------------
+
+!x  -----------------------------------------------------------------------------------------------------------------
+!||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/player_yknpsv.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
+!||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/loader.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
+!x  -----------------------------------------------------------------------------------------------------------------
+!|https://api.bilibili.com/x/web-show/res/loc?pf=0&id=160
+|https://s0.2mdn.net/ads
+|https://stats.tubemogul.com/stats
+|https://ads.exoclick.com/
+|https://adserver.juicyads.com/js/
+||https://histats.com/$script
+||https://google-analytics.com/analytics.js
+|https://pos.baidu.com^
+|https://hao.qq.com/getadv.php?
+/adimg/*
+||https://cloudfront.net/atrk.js
+||s.360.cn^
+|http://kprules.ngrok.wang^
+|http://style.bttt.la/static/$script
+||https://hxyifu.com/
+||https://cnzz.com^$third-party
+||xiaodao.la/upload/1/146486/images/20170324/20170324162395249524.gif
+!x  -----------------------------------------------------------------------------------------------------------------
+
+!x  -----------------------------------------------------------------------------------------------------------------
