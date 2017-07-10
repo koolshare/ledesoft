@@ -1,13 +1,214 @@
 <title>软件中心</title>
 <content>
-<link href="css/interface.css" rel="stylesheet">
-<!--<link href="style/form.css" rel="stylesheet">-->
-<link rel="stylesheet" href="css/animate.min.css" />
 <style type="text/css">
-::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);border-radius:10px;background-color:#F5F5F5;}::-webkit-scrollbar{width:8px;background-color:#F5F5F5;}::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);background-color:#555;}.box .content{padding:0 15px 15px;display:block;}.popover{font-size:14px;color:#63B8FF;}.apps a:link{color:#fff}.apps a:visited{color:#fff}.apps a:hover{color:#fff}.apps a:active{color:#fff}.apps{color:#fff;width:250px;height:100px;text-align:left;float:left;margin:5px;border-radius:5px;filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size:100% 100%;cursor:pointer;}.infos{width:80px;height:100px;float:left;}.appimg{width:60px;margin:20px 10px 20px 10px;pointer-events:none;}.app-name{padding:11px 0 11px 0;height:100px;width:170px;float:left;}.app-name p{text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-shadow:#444 0 1px 0;pointer-events:none;}.appDesc{margin:0 auto;width:40px;height:100px;float:left;display:none;}.appDesc button.btn{width:35px;height:100px;font-family:"Segoe UI","Roboto",sans-serif;font-weight:400!important;vertical-align:middle;outline:0;outline-style:none;font-size:14px;padding:0 3px 0 3px;border-radius:0px;}.boxr1{background: #f9fbfb;}.boxr2{display:none;background: #f9fbfb;}.boxr3{display:none;background: #f9fbfb;}.boxr4{display:none;background: #f9fbfb;}.boxr5{display:none;background: #f9fbfb;}#push_content3{display:none;}#push_content4{display:none;}.backsoftcenter{margin-right:20px;margin-top:-30px;}.soft_log{margin-top:50px;margin-left:15px;}.loader{width:65px;height:5px;margin-top:8px;float:left;border:0px solid #3498db;box-sizing:border-box;display:flex;align-items:center;justify-content:center;}@-webkit-keyframes loading-2{0%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}50%{transform:scaleY(.4);-moz-transform:scaleY(.4);-webkit-transform:scaleY(.4);}100%{transform:scaleY(1);-moz-transform:scaleY(1);-webkit-transform:scaleY(1);}}.loading-2 i{display:inline-block;width:4px;height:12px;border-radius:2px;background:#3498db;margin:0 2px;}.loading-2 i:nth-child(1){-webkit-animation:loading-2 1s ease-in .1s infinite;-moz-animation:loading-2 1s ease-in .1s infinite;animation:loading-2 1s ease-in .1s infinite;}.loading-2 i:nth-child(2){-webkit-animation:loading-2 1s ease-in .2s infinite;-moz-animation:loading-2 1s ease-in .2s infinite;animation:loading-2 1s ease-in .2s infinite;}.loading-2 i:nth-child(3){-webkit-animation:loading-2 1s ease-in .3s infinite;-moz-animation:loading-2 1s ease-in .3s infinite;animation:loading-2 1s ease-in .3s infinite;}.loading-2 i:nth-child(4){-webkit-animation:loading-2 1s ease-in .4s infinite;-moz-animation:loading-2 1s ease-in .4s infinite;animation:loading-2 1s ease-in .4s infinite;}.loading-2 i:nth-child(5){-webkit-animation:loading-2 1s ease-in .5s infinite;-moz-animation:loading-2 1s ease-in .5s infinite;animation:loading-2 1s ease-in .5s infinite;}ul{margin-left: 30px;}
+::-webkit-scrollbar-track {
+	-webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius:10px;
+	background-color:#F5F5F5;
+}
+::-webkit-scrollbar {
+	width:8px;
+	background-color:#F5F5F5;
+}
+::-webkit-scrollbar-thumb {
+	border-radius:10px;
+	-webkit-box-shadow:inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color:#555;
+}
+.box .content {
+	padding:0 15px 15px;
+	display:block;
+}
+.popover {
+	font-size:14px;
+	color:#63B8FF;
+}
+.apps a:link {
+	color:#fff
+}
+.apps a:visited {
+	color:#fff
+}
+.apps a:hover {
+	color:#fff
+}
+.apps a:active {
+	color:#fff
+}
+.apps {
+	color:#fff;
+	width:250px;
+	height:100px;
+	text-align:left;
+	float:left;
+	margin:5px;
+	border-radius:5px;
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+	-moz-background-size:100% 100%;
+	background-size:100% 100%;
+	cursor:pointer;
+}
+.infos {
+	width:80px;
+	height:100px;
+	float:left;
+}
+.appimg {
+	width:60px;
+	margin:20px 10px 20px 10px;
+	pointer-events:none;
+}
+.app-name {
+	padding:11px 0 11px 0;
+	height:100px;
+	width:170px;
+	float:left;
+}
+.app-name p {
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+	text-shadow:#444 0 1px 0;
+	pointer-events:none;
+}
+.appDesc {
+	margin:0 auto;
+	width:40px;
+	height:100px;
+	float:left;
+	display:none;
+}
+.appDesc button.btn {
+	width:35px;
+	height:100px;
+	font-family:"Segoe UI", "Roboto", sans-serif;
+	font-weight:400!important;
+	vertical-align:middle;
+	outline:0;
+	outline-style:none;
+	font-size:14px;
+	padding:0 3px 0 3px;
+	border-radius:0px;
+}
+.boxr1 {
+	background: #f9fbfb;
+}
+.boxr2 {
+	display:none;
+	background: #f9fbfb;
+}
+.boxr3 {
+	display:none;
+	background: #f9fbfb;
+}
+.boxr4 {
+	display:none;
+	background: #f9fbfb;
+}
+.boxr5 {
+	display:none;
+	background: #f9fbfb;
+}
+#push_content3 {
+	display:none;
+}
+#push_content4 {
+	display:none;
+}
+.backsoftcenter {
+	margin-right:20px;
+	margin-top:-30px;
+}
+.soft_log {
+	margin-top:50px;
+	margin-left:15px;
+}
+.loader {
+	width:65px;
+	height:5px;
+	margin-top:8px;
+	float:left;
+	border:0px solid #3498db;
+	box-sizing:border-box;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+@-webkit-keyframes loading-2 {
+	0% {
+		transform:scaleY(1);
+		-moz-transform:scaleY(1);
+		-webkit-transform:scaleY(1);
+	}
+	50% {
+		transform:scaleY(.4);
+		-moz-transform:scaleY(.4);
+		-webkit-transform:scaleY(.4);
+	}
+	100% {
+		transform:scaleY(1);
+		-moz-transform:scaleY(1);
+		-webkit-transform:scaleY(1);
+	}
+}
+.loading-2 i {
+	display:inline-block;
+	width:4px;
+	height:12px;
+	border-radius:2px;
+	background:#3498db;
+	margin:0 2px;
+}
+.loading-2 i:nth-child(1) {
+	-webkit-animation:loading-2 1s ease-in .1s infinite;
+	-moz-animation:loading-2 1s ease-in .1s infinite;
+	animation:loading-2 1s ease-in .1s infinite;
+}
+.loading-2 i:nth-child(2) {
+	-webkit-animation:loading-2 1s ease-in .2s infinite;
+	-moz-animation:loading-2 1s ease-in .2s infinite;
+	animation:loading-2 1s ease-in .2s infinite;
+}
+.loading-2 i:nth-child(3) {
+	-webkit-animation:loading-2 1s ease-in .3s infinite;
+	-moz-animation:loading-2 1s ease-in .3s infinite;
+	animation:loading-2 1s ease-in .3s infinite;
+}
+.loading-2 i:nth-child(4) {
+	-webkit-animation:loading-2 1s ease-in .4s infinite;
+	-moz-animation:loading-2 1s ease-in .4s infinite;
+	animation:loading-2 1s ease-in .4s infinite;
+}
+.loading-2 i:nth-child(5) {
+	-webkit-animation:loading-2 1s ease-in .5s infinite;
+	-moz-animation:loading-2 1s ease-in .5s infinite;
+	animation:loading-2 1s ease-in .5s infinite;
+}
+/*
+ul {
+	margin-left: 30px;
+}
+*/
+fieldset {
+    margin: 10px 0 0 0;
+    padding: 2rem;
+    border: 0;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    font-family: inherit;
+
+    min-width: inherit;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: 0 0px 0px rgba(0,0,0,.05);
+    border-radius: 4px;
+    -webkit-overflow-scrolling: touch;
+}
 </style>
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/tomato.js"></script>
 <script type="text/javascript">
 //APPS 控制模块
 var anmstatus=null;
@@ -249,10 +450,10 @@ function getSoftCenter(obj){
 						appimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
 						bgimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
 						if(!CheckImgExists(bgimg)){
-							bgimg = 'res/icon-'+appname+'-bg.png';
+							bgimg = '/res/icon-'+appname+'-bg.png';
 						}
 						if(!CheckImgExists(appimg)){
-							appimg = 'res/icon-'+appname+'.png';
+							appimg = '/res/icon-'+appname+'.png';
 						}
 						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
 						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
@@ -496,9 +697,7 @@ var _temp;
 	});
 }
 </script>
-<body style="background-color: #e5e5e5;">
-<div id="main" class="main" style="padding-left:10px;padding-right:5px;">
-<div class="box">
+	<div class="col">
 		<div class="heading">
 			<div id="loading"><br><b>正在连接服务器...</b> <div class="spinner"></div></div>
 			<div class="loader" style="display:none;">
@@ -619,13 +818,12 @@ var _temp;
 					<!--app info -->
 					<ul>
 						<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
-						<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、KoolShare开发组、以及其他人员。</font></li>
+						<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、@fw867、KoolShare开发组、以及其他人员。</font></li>
 						<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
-						<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-102-1.html" target="_blank"><font color="#FF6347">KoolShare Tomato</font></a> 版块反馈。</li>
+						<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-97-1.html" target="_blank"><font color="#FF6347">KoolShare LEDE</font></a> 版块反馈。</li>
 					</ul>
 					<!--app info -->
 				</div>
 			</div>
 		</div>
 </content>
-

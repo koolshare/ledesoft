@@ -1,0 +1,84 @@
+.top-header .logo {
+    background: #c0392b;
+}
+
+.top-header > .links > ul > li > a:hover,
+.top-header > .links > ul > li a.active {
+    /* border-color: #c0392b; */
+}
+
+/* Hover & Active States */
+.navigation li ul li.active a:after { background-color: #3498db; }
+
+.navigation .active > a > i,
+.navigation > ul > li > a:hover > i {
+    color: #c0392b;
+}
+
+/* Replace some general styles (b, h1-h6, etc...) */
+a {
+    color: #6d140b;
+}
+
+a:hover, a:active {
+    color: #c0392b;
+}
+
+/* Buttons */
+.btn.btn-primary {
+    color: #fff !important;
+    background-color: #c0392b;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
+    background: #e74c3c;
+}
+
+.progress .bar {
+    background: #c0392b;
+}
+
+ul.nav-tabs li a.active {
+    border-color: #c0392b;
+}
+
+/* Inputs */
+input:hover, select:hover, textarea:hover {
+    border-color: #f5e2e0;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #c0392b;
+}
+
+.customfile-hover .customfile-text {
+    border-color: #c0392b;
+}
+
+/* Checkboxes */
+.c-checkbox:hover span,
+.c-checkbox input:hover + span,
+.c-radio:hover span,
+.c-radio input:hover + span {
+    border-color: #c0392b;
+}
+
+input[type=checkbox]:checked + span,
+input[type=radio]:checked + span {
+    border-color: #c0392b;
+    background-color: #c0392b;
+}
+
+input[type=radio]:checked + span:before {
+    color: #c0392b;
+}
+
+/* Pure CSS preloader */
+.spinner {
+    border: solid 1px #c0392b;
+    border-color: #c0392b #c0392b transparent transparent;
+}
+
+/* Preloader */
+#nprogress .bar { background: #c0392b; }

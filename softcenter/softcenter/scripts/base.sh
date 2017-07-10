@@ -2,7 +2,6 @@
 
 export KSROOT=/koolshare
 export KSURL=https://ledesoft.ngrok.wang
-export PERP_BASE=$KSROOT/perp
 export PATH=$KSROOT/bin:$KSROOT/scripts:/usr/bin:/sbin:/bin:/usr/sbin
 
 ACTION=$1

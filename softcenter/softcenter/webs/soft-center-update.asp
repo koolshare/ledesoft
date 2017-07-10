@@ -18,7 +18,7 @@ function get_update_status(){
 		dataType: "json",
 		success: function(response){
 			if (response.result == 1){
-				location.href = "/#soft-center.asp";
+				location.href = "#soft-center.asp";
 			}else{
 				setTimeout("get_update_status();", 2000);
 			}

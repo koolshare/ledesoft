@@ -2221,7 +2221,7 @@ function reloadPage() {
 if (document.location.hash.match(/#/)) {
 loadPage(document.location.hash);
 } else {
-loadPage('#status-home.asp');
+loadPage('#soft-center.asp');
 }
 }
 function reboot() {
