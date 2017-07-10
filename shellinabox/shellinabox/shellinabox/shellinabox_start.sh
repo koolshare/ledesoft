@@ -20,7 +20,7 @@ case $ACTION in
 start)
 	killall shellinaboxd
 	fix_libssl
-	$KSROOT/shellinabox/shellinaboxd -u root -c /koolshare/shellinabox --css=/koolshare/shellinabox/white-on-black.css -b
+	$KSROOT/shellinabox/shellinaboxd -u root -c /koolshare/shellinabox --css=/koolshare/shellinabox/white-on-black.css -t -b
 	;;
 stop)
 	killall shellinaboxd
@@ -28,6 +28,6 @@ stop)
 *)
 	killall shellinaboxd
 	fix_libssl
-	$KSROOT/shellinabox/shellinaboxd -u root -c /koolshare/shellinabox --css=/koolshare/shellinabox/white-on-black.css -b
+	$KSROOT/shellinabox/shellinaboxd -u root -c /koolshare/shellinabox --css=/koolshare/shellinabox/white-on-black.css -t -b
 	;;
 esac
