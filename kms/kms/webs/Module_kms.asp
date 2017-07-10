@@ -4,7 +4,6 @@
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
-AdvancedTomato();
 getAppData();
 function getAppData(){
 var appsInfo;
@@ -59,7 +58,8 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">KMS Office激活工具<a href="/cgi-bin/luci//admin/softcenter" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+<div class="heading">KMS Office激活工具 <a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+
 <br><hr>
 <div class="content">
 <div id="kms-fields"></div>
@@ -92,6 +92,7 @@ $('#kms-fields').forms([
 </div>
 </div>
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
+<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
 <script type="text/javascript">verifyFields(null, 1);</script>
 </content>

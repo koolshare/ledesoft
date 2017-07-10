@@ -21,14 +21,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_16:20:24", 
+            "build_date": "2017-07-10_11:24:19", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "af88d36373fed1bd89e02d8ae5044461", 
+            "md5": "3ce6690edeff32b9227746d4958945e6", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-07-09_16:21:33", 
@@ -51,24 +51,24 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_16:20:47", 
+            "build_date": "2017-07-10_11:24:33", 
             "description": "一个轻量级SOCKS5代理", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "a8093080b09d26165b286645e91b0f06", 
+            "md5": "897875b0348329187839cdac6b14dd6b", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
-            "version": "1.0"
+            "version": "1.1"
         }, 
         {
-            "build_date": "2017-07-09_16:22:05", 
+            "build_date": "2017-07-10_11:24:04", 
             "description": "VPN全家桶", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "b4470448bbe71410ed8c5ef9f4c8e3c3", 
+            "md5": "edc8856bfd1436a9e385f00de2ab2133", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
-            "version": "1.0.0"
+            "version": "1.0.1"
         }, 
         {
             "build_date": "2017-07-09_15:40:23", 
@@ -91,14 +91,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:34:44", 
+            "build_date": "2017-07-10_11:24:54", 
             "description": "支持http2协议的快速穿透", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "fe07be4166e3ea2aeee7094b5aa9d9ed", 
+            "md5": "2aa32d7722caf8c6ea1445b0586770bc", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "ddnsto", 
-            "version": "1.0"
+            "version": "1.1"
         }, 
         {
             "build_date": "2017-07-09_15:34:59", 
@@ -131,14 +131,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:37:54", 
+            "build_date": "2017-07-10_11:25:46", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "e7f91a09b8a34e4b15b67bf75d524661", 
+            "md5": "dcdcaa3c523d6cd27c99f8129359d719", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
-            "version": "1.0"
+            "version": "1.1"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 

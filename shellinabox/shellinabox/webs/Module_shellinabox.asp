@@ -4,7 +4,6 @@
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script language="javascript">
-AdvancedTomato();
 var current_url = window.location.href;
 //console.log(current_url.indexOf("ddns.to"));
 sub_domain = current_url.split("/")[2].split(".")[0];
@@ -15,7 +14,7 @@ if(current_url.indexOf("ddns.to") != -1){
 }
 </script>
 <div class="box">
-	<div class="heading">Shellinabox<a href="/cgi-bin/luci//admin/softcenter" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+	<div class="heading">Shellinabox<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 	<div class="content">
 		<span class="col" style="margin-top:10px;width:700px">Shellinabox 是一个基于 Web 浏览器的远程终端模拟器，不需要开启 ssh服务，通过 Web 浏览器就可以对远程主机进行操作</span>
 	</div>	

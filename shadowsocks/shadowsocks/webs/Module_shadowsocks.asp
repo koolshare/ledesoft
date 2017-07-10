@@ -9,7 +9,6 @@
 }
 </style>
 	<script type="text/javascript">
-		AdvancedTomato();
 		var dbus;
 		get_arp_list();
 		get_dbus_data();
@@ -382,7 +381,7 @@
 			});
 			auto_node_sel();
 			
-			$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ttsoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for tomato  ' + (dbus["ss_basic_version"]  || "") + '</font></a>' );
+			$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ttsoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for LEDE  ' + (dbus["ss_basic_version"]  || "") + '</font></a>' );
 			setTimeout("get_run_status();", 1000);
 			setTimeout("get_dns_status();", 1100);
 		}
@@ -1036,7 +1035,7 @@
 	<div class="box" style="margin-top: 0px;min-width:830px;">
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35">shadowsocks for toamto</font></span>
-			<a href="/#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
 		</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section"></div>

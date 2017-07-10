@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=shadowsocks
-VERSION=1.0
+VERSION=1.1
 TITLE=shadowsocks
 DESCRIPTION=一个轻量级SOCKS5代理
 HOME_URL=Module_shadowsocks.asp
