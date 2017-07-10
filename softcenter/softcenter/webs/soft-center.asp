@@ -603,7 +603,7 @@ var appsInfo;
 		var installing  = appsInfo["softcenter_installing_status"];
 		var name = appsInfo["softcenter_installing_todo"];
 		if( name== "softcenter"){
-			window.location.href='/soft-center-update.asp';
+			window.location.href='/cgi-bin/luci//admin/softcenter/soft-center-update.asp';
 			return;
 		}
 		if(!installing || installing=="0"){
