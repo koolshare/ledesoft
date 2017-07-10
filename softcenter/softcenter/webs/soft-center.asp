@@ -184,32 +184,9 @@
 	-moz-animation:loading-2 1s ease-in .5s infinite;
 	animation:loading-2 1s ease-in .5s infinite;
 }
-/*
-ul {
-	margin-left: 30px;
-}
-*/
-fieldset {
-    margin: 10px 0 0 0;
-    padding: 2rem;
-    border: 0;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1;
-    font-family: inherit;
-
-    min-width: inherit;
-    overflow-x: hidden;
-    overflow-y: hidden;
-
-    border-radius: 0;
-    background-color: transparent;
-    box-shadow: 0 0px 0px rgba(0,0,0,.05);
-    border-radius: 4px;
-    -webkit-overflow-scrolling: touch;
-}
 </style>
 <script type="text/javascript">
+	$('.div').css("margin","");
 //APPS 控制模块
 var anmstatus=null;
 function change1(obj){
@@ -459,7 +436,7 @@ function getSoftCenter(obj){
 						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg+'"/></div>'+
-								'<div class="app-name"><p>'+title+'</p><p>'+description+'</p></div>'+
+								'<div class="app-name"><p style="margin-top:13px">'+title+'</p><p style="margin-top:13px">'+description+'</p></div>'+
 							'</a>'+
 							'<div class="appDesc">'+
 							appButton+
@@ -716,11 +693,11 @@ var _temp;
 		<br>
 		<div class="content">
 			<fieldset>
-				<div class="col-sm-2" style="width:140px;">
-					<img class="pull-left" src="/res/github.png">
+				<div class="col-sm-2" style="width:130px">
+					<img class="pull-left" style="width:110px" src="/res/github.png">
 				</div>
 				<div class="col-sm-10">
-					<ul class="pullmsg">
+					<ul class="pullmsg" style="margin-left: 30px;">
 						<li id="push_titile">
 							欢迎
 						</li>
@@ -737,7 +714,7 @@ var _temp;
 			</fieldset>
 		</div>
 	</div>
-	​<ul class="nav nav-tabs">
+	​<ul class="nav nav-tabs" style="margin-left: 30px;">
 		<li>
 			<a href="javascript:tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a>
 		</li>
@@ -774,7 +751,7 @@ var _temp;
 			<div class="heading">插件离线安装界面&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 			<div class="content">
 				<div class="tabContent3">
-					<ul>
+					<ul style="margin-left: 30px;">
 						<li>此页面功能需要在7.0及其以上的固件才能使用。</li>
 						<li>通过本页面，你可以上传插件的离线安装包来安装插件；</li>
 						<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
@@ -816,7 +793,7 @@ var _temp;
 			<div class="content">
 				<div class="tabContent4">
 					<!--app info -->
-					<ul>
+					<ul style="margin-left: 30px;">
 						<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
 						<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、@fw867、KoolShare开发组、以及其他人员。</font></li>
 						<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
