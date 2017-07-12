@@ -12,7 +12,6 @@ No part of this file may be used without permission.
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 	<script type="text/javascript">
-		AdvancedTomato();
 		var dbss;
 		$.ajax({
 		  	type: "GET",
@@ -373,7 +372,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">KoolProxy<a href="/cgi-bin/luci//admin/softcenter" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">KoolProxy<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
