@@ -30,8 +30,8 @@ function loadPage( page, is_history ) {
 	if (page.search('//') != -1){
 		page = page.replace( '//', '/' );
 	}	
-	console.log("page", page)
-    console.log("hash1", window.location.hash)
+	// console.log("page", page)
+    // console.log("hash1", window.location.hash)
     if ( page == '//soft-center.asp' || page == '/' || page == null ) { page = '/soft-center.asp'; }
     // Some things that need to be done here =)
     if ( window.ajaxLoadingState ) { return false; } else { window.ajaxLoadingState = true; }
