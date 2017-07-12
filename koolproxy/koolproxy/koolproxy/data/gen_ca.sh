@@ -17,7 +17,7 @@ else
 	echo 1000 > serial
 	openssl genrsa -aes256 -passout pass:koolshare -out private/ca.key.pem 2048
 	chmod 400 private/ca.key.pem
-	/koolshare/bin/openssl req -config openssl.cnf -passin pass:koolshare \
+	openssl req -config openssl.cnf -passin pass:koolshare \
 		-subj "/C=CN/ST=Beijing/L=KP/O=KoolProxy inc/CN=koolproxy.com" \
 		-key private/ca.key.pem \
 		-new -x509 -days 7300 -sha256 -extensions v3_ca \

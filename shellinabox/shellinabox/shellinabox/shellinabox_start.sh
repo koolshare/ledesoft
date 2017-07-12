@@ -1,6 +1,6 @@
 #! /bin/sh
 export KSROOT=/koolshare
-if [ ! -L "$KSROOT/init.d/S99Shellinabox.sh" ]; then 
+if [ ! -L "/etc/rc.d/S99Shellinabox.sh" ]; then 
 	ln -sf $KSROOT/shellinabox/shellinabox_start.sh /etc/rc.d/S99Shellinabox.sh
 fi
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolproxy
-VERSION=3.6.1.0
+VERSION=3.6.1.1
 TITLE=koolproxy
 DESCRIPTION=去头屑丝般顺滑
 HOME_URL=Module_koolproxy.asp

@@ -40,12 +40,12 @@ creat_start_up(){
 
 write_nat_start(){
 	echo_date 添加nat-start触发事件...
-	[ ! -L "/etc/rc.d/N93koolproxy.sh" ] && ln -sf $KP_DIR/kp_config.sh /etc/rc.d/N93koolproxy.sh
+	echo $KP_DIR/kp_config.sh >> /etc/firewall.user
 }
 
 remove_nat_start(){
 	echo_date 删除nat-start触发...
-	rm -rf /etc/rc.d/N93koolproxy.sh
+	sed -i '/kp_config.sh/d' /etc/firewall.user >/dev/null 2>&1
 }
 # ===============================
 
@@ -77,7 +77,7 @@ remove_ipset_conf(){
 restart_dnsmasq(){
 	if [ "$dnsmasq_restart" == "1" ];then
 		echo_date 重启dnsmasq进程...
-		service dnsmasq restart > /dev/null 2>&1
+		/etc/init.d/dnsmasq restart > /dev/null 2>&1
 	fi
 }
 
@@ -97,19 +97,19 @@ write_reboot_job(){
 	# start setvice
 	if [ "1" == "$koolproxy_reboot" ]; then
 		echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件...
-		cru a koolproxy_reboot "* $koolproxy_reboot_hour * * * /bin/sh $KP_DIR/koolproxy.sh restart"
+		echo  "* $koolproxy_reboot_hour * * * $KP_DIR/koolproxy.sh restart" >> /etc/crontabs/root 
 	elif [ "2" == "$koolproxy_reboot" ]; then
 		echo_date 开启插件间隔重启，每隔"$koolproxy_reboot_inter_hour"时，自动重启插件...
-		cru a koolproxy_reboot "* */$koolproxy_reboot_inter_hour * * * /bin/sh $KP_DIR/koolproxy.sh restart"
+		echo  "* */$koolproxy_reboot_inter_hour * * * $KP_DIR/koolproxy.sh restart" >> /etc/crontabs/root 
 	fi
 }
 
 remove_reboot_job(){
-	jobexist=`cru l|grep koolproxy_reboot`
+	jobexist=`cat /etc/crontabs/root|grep koolproxy_reboot`
 	# kill crontab job
 	if [ -n "$jobexist" ];then
 		echo_date 关闭插件定时重启...
-		sed -i '/koolproxy_reboot/d' /var/spool/cron/crontabs/* >/dev/null 2>&1
+		sed -i '/koolproxy_reboot/d' /etc/crontabs/root >/dev/null 2>&1
 	fi
 }
 
@@ -265,7 +265,7 @@ load_nat(){
 
 dns_takeover(){
 	ss_chromecast=`dbus get ss_basic_chromecast`
-	lan_ipaddr=`nvram get lan_ipaddr`
+	lan_ipaddr=`uci get network.lan.ipaddr`
 	#chromecast=`iptables -t nat -L PREROUTING -v -n|grep "dpt:53"`
 	chromecast_nu=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53"|awk '{print $1}'`
 	if [ "$koolproxy_mode" == "2" ]; then
@@ -300,7 +300,6 @@ get_rule_para(){
 
 case $1 in
 start)
-	nvram set ks_nat="1"
 	echo_date ================== koolproxy启用 =================
 	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
 	detect_cert
@@ -315,7 +314,6 @@ start)
 	write_reboot_job
 	# add_ss_event
 	echo_date =================================================
-	nvram set ks_nat="0"
 	;;
 restart)
 	# now stop
