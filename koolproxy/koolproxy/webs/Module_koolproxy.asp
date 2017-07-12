@@ -7,10 +7,10 @@ For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
 <title>KoolProxy</title>
+<content>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
-<content>
 	<script type="text/javascript">
 		AdvancedTomato();
 		var dbss;
