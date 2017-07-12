@@ -90,7 +90,7 @@ function loadPage( page, is_history ) {
             window.ajaxLoadingState = false;
             if ( ajax_retries != 1 ) $( '.body-overwrite' ).remove();
             ajax_retries = 1;
-   			 console.log("hash2", window.location.hash)
+   	    // console.log("hash2", window.location.hash)
 
         } )
         .fail( function( jqXHR, textStatus, errorThrown ) {
