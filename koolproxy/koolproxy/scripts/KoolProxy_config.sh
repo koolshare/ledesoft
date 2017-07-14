@@ -25,10 +25,12 @@ case $2 in
 	else
 		sh /koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt 2>&1
 	fi
+	echo XU6J03M6 >> /tmp/upload/kp_log.txt
 	http_response "$1"
 	;;
 3)
 	sh /koolshare/koolproxy/kp_rule_update.sh > /tmp/upload/kp_log.txt 2>&1
+	echo XU6J03M6 >> /tmp/upload/kp_log.txt
 	http_response "$1"
 	;;
 esac

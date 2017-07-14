@@ -6,7 +6,7 @@ alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
 
 remove_conf_all(){
 	echo_date 尝试关闭shadowsocks...
-	sh $KSROOT/ss/start.sh stop
+	sh $KSROOT/ss/ssstart.sh stop
 	echo_date 开始清理shadowsocks配置...
 	confs=`dbus list ss | cut -d "=" -f 1 | grep -v "version"`
 	for conf in $confs

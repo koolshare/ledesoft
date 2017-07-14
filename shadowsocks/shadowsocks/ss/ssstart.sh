@@ -10,7 +10,6 @@ DNS_PORT=7913
 CONFIG_FILE=$KSROOT/ss/ss.json
 game_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 3`
 [ -n "$game_on" ] || [ "$ss_basic_mode" == "3" ] && mangle=1
-internet=`nvram get wan_proto`
 KP_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='`
 [ "$KP_NU" == "" ] && KP_NU=0
 
@@ -95,10 +94,10 @@ restore_conf(){
 	rm -rf /tmp/dnsmasq.d/cdn.conf
 	rm -rf /tmp/dnsmasq.d/custom.conf
 	rm -rf /tmp/dnsmasq.d/wblist.conf
+	rm -rf /tmp/dnsmasq.d/ssserver.conf
 	rm -rf /tmp/sscdn.conf
 	rm -rf /tmp/custom.conf
 	rm -rf /tmp/wblist.conf
-	rm -rf /jffs/etc/dnsmasq.conf.add
 }
 
 restore_nat(){
@@ -133,8 +132,8 @@ destory_ipset(){
 
 restore_start_file(){
 	echo_date 清除nat-start, wan-start中相关的SS启动命令...
-	rm -rf $KSROOT/init.d/N90shadowsocks.sh  >/dev/null 2>&1
-	rm -rf $KSROOT/init.d/S90shadowsocks.sh  >/dev/null 2>&1
+	sed -i '/ssstart.sh/d' /etc/firewall.user >/dev/null 2>&1
+	rm -rf /etc/rc.d/S90shadowsocks.sh  >/dev/null 2>&1
 }
 
 kill_process(){
@@ -513,7 +512,7 @@ ln_conf(){
 	# custom dnsmasq
 	rm -rf /tmp/dnsmasq.d/wblist.conf
 	if [ -f /tmp/wblist.conf ];then
-		echo_date 创建域名黑/白名单软链接到/jffs/configs/dnsmasq.d/wblist.conf
+		echo_date 创建域名黑/白名单软链接到/tmp/dnsmasq.d/wblist.conf
 		mv /tmp/wblist.conf /tmp/dnsmasq.d/wblist.conf
 	fi
 	rm -rf /tmp/dnsmasq.d/cdn.conf
@@ -552,29 +551,29 @@ ln_conf(){
 	if [ "$ss_dns_plan" == "1" ] || [ -z "$ss_dns_china" ];then
 		if [ "$ss_dns_china" == "1" ];then
 			echo_date DNS解析方案国内优先，使用运营商DNS优先解析国内DNS.
-			pc_insert "koolshare" "server=$CDN2#53" "/etc/dnsmasq.conf"
-			pc_insert "koolshare" "server=$CDN1#53" "/etc/dnsmasq.conf"
-			pc_insert "koolshare" "all-servers" "/etc/dnsmasq.conf"
+			echo "server=$CDN2#53" >> /tmp/dnsmasq.d/ssserver.conf
+			echo "server=$CDN1#53" >> /tmp/dnsmasq.d/ssserver.conf
+			echo "all-servers" >> /tmp/dnsmasq.d/ssserver.conf
 		else
 			echo_date DNS解析方案国内优先，使用自定义DNS：$CDN进行解析国内DNS.
-			pc_insert "koolshare" "server=$CDN#53" "/etc/dnsmasq.conf"
+			echo "server=$CDN#53" >> /tmp/dnsmasq.d/ssserver.conf
 		fi
 	elif [ "$ss_dns_plan" == "2" ];then
 		echo_date DNS解析方案国外优先，优先解析国外DNS.
-		pc_insert "koolshare" "server=127.0.0.1#7913" "/etc/dnsmasq.conf"
+		echo "server=127.0.0.1#7913" >> /tmp/dnsmasq.d/ssserver.conf
 	fi
-	pc_insert "koolshare" "no-resolv" "/etc/dnsmasq.conf"
+	echo "no-resolv" >> /tmp/dnsmasq.d/ssserver.conf
 }
 
 #--------------------------------------------------------------------------------------
 nat_auto_start(){
 	echo_date 添加nat-start触发事件...
-	[ ! -L "$KSROOT/init.d/N98shadowsocks.sh" ] && ln -sf $KSROOT/ss/start.sh "$KSROOT"/init.d/N98shadowsocks.sh
+	sed -i '/ssstart.sh/d' /etc/firewall.user >/dev/null 2>&1
 }
 #--------------------------------------------------------------------------------------
 wan_auto_start(){
 	echo_date 加入开机自动启动...
-	[ ! -L "$KSROOT/init.d/N98shadowsocks.sh" ] && ln -sf $KSROOT/scripts/ss_config.sh "$KSROOT"/init.d/N98shadowsocks.sh
+	[ ! -L "/etc/rc.d/S90shadowsocks.sh" ] && ln -sf $KSROOT/scripts/ss_config.sh /etc/rc.d/S90shadowsocks.sh
 }
 
 #=======================================================================================
@@ -861,7 +860,7 @@ chromecast(){
 # =======================================================================================================
 #---------------------------------------------------------------------------------------------------------
 load_nat(){
-	nat_ready=$(iptables -t nat -L PREROUTING -v -n --line-numbers|grep WANPREROUTING|grep -v destination)
+	nat_ready=$(iptables -t nat -L PREROUTING -v -n --line-numbers|grep zone_wan_prerouting|grep -v destination)
 	i=120
 	until [ -n "$nat_ready" ]
 	do
@@ -886,7 +885,7 @@ load_nat(){
 restart_dnsmasq(){
 	# Restart dnsmasq
 	echo_date 重启dnsmasq服务...
-	service dnsmasq restart  >/dev/null 2>&1
+	/etc/init.d/dnsmasq restart >/dev/null 2>&1
 
 }
 
