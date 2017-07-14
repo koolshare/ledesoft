@@ -91,10 +91,10 @@
             "version": "1.1.1"
         }, 
         {
-            "build_date": "2017-07-09_15:36:45", 
+            "build_date": "2017-07-15_00:40:21", 
             "description": "上下行带宽提速", 
             "home_url": "Module_kuainiao.asp", 
-            "md5": "a9e3900000e1e431706da7249475b096", 
+            "md5": "cd48ef51acbef30dfa8faa23a74aa3e2", 
             "name": "kuainiao", 
             "tar_url": "kuainiao/kuainiao.tar.gz", 
             "title": "kuainiao", 

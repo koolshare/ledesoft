@@ -111,7 +111,7 @@
 
 	</script>
 	<div class="box">
-		<div class="heading">kuainiao <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+		<div class="heading">kuainiao <a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;">返回</a></div>
 		<br>
 		<hr>
 		<div class="content">

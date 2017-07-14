@@ -38,9 +38,9 @@ keepalive_down(){
 }
 
 add_kuainiao_cru(){
-	cru_str=`cru l|grep kuainiao`
+	cru_str=`cat /etc/crontabs/root|grep kuainiao_keep.sh`
 	if [ -z "$cru_str" ];then
-		cru a kuainiao "*/4 * * * * /bin/sh $KSROOT/scripts/kuainiao_keep.sh"
+		echo "*/4 * * * * $KSROOT/scripts/kuainiao_keep.sh" >> /etc/crontabs/root
 	fi
 }
 
@@ -49,13 +49,13 @@ if [ "$kuainiao_enable" == "1" ]&&[ "$kuainiao_can_upgrade" == "1" ];then
 	keepalive_down
 	add_kuainiao_cru
 	if [ `dbus get kuainiao_run_status` == 0 ];then
-		/bin/sh /koolshare/scripts/kuainiao_config.sh
+		/koolshare/scripts/kuainiao_config.sh
   	fi
 fi
 if [ "$kuainiao_upenable" == "1" ]&&[ "$kuainiao_can_upupgrade" == "1" ];then
 	keepalive_up
 	add_kuainiao_cru
 	if [ `dbus get kuainiao_run_upstatus` == 0 ];then
-		/bin/sh /koolshare/scripts/kuainiao_config.sh
+		/koolshare/scripts/kuainiao_config.sh
   	fi
 fi

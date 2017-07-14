@@ -13,16 +13,16 @@ sdkVersion=17550
 #wans_mode=$(nvram get wans_mode)
 case $kuainiao_config_wan in
 "1")
-    wan_selected=$(nvram get wan_ipaddr)
+    wan_selected=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 "2")
-    wan_selected=$(nvram get wan2_ipaddr)
+    wan_selected=$(ubus call network.interface.wan2 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 "3")
-    wan_selected=$(nvram get wan3_ipaddr)
+    wan_selected=$(ubus call network.interface.wan3 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 "4")
-    wan_selected=$(nvram get wan4_ipaddr)
+    wan_selected=$(ubus call network.interface.wan4 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 esac
 if [ "$wan_selected" != "0.0.0.0" ]; then
@@ -56,22 +56,22 @@ get_mac_addr(){
 	if [ -n "$bind_address" ]; then
 		case $kuainiao_config_wan in
 		"1")
-    		nic=wan_hwaddr
+    		nic=$(uci get network.wan.ifname)
     		;;
 		"2")
-    		nic=wan2_hwaddr
+    		nic=$(uci get network.wan2.ifname)
     		;;
 		"3")
-    		nic=wan3_hwaddr
+    		nic=$(uci get network.wan3.ifname)
     		;;
 		"4")
-    		nic=wan4_hwaddr
+    		nic=$(uci get network.wan4.ifname)
     		;;
 		esac
 	else
-		nic=wan_hwaddr
+		nic=$(uci get network.wan.ifname)
 	fi
-	peerid=$(nvram get $nic|awk 'gsub(/:/, "") {printf("%s", toupper($1))}')004V
+	peerid=$(ifconfig $nic|awk '/eth/{print $5}'|awk 'gsub(/:/, "") {printf("%s", toupper($1))}')004V
 	#peerid='000C29212478004V'
 }
 get_mac_addr
@@ -319,17 +319,14 @@ kuainiao_uprecover(){
 
 #将执行脚本写入crontab定时运行
 add_kuainiao_cru(){
-	cru d kuainiao
+	sed -i '/kuainiao_keep.sh/d' /etc/crontabs/root >/dev/null 2>&1
 	if [ "$kuainiao_can_upgrade" == "1" ]||[ "$kuainiao_can_upupgrade" == "1" ];then
-		cru a kuainiao "*/4 * * * * /bin/sh $KSROOT/scripts/kuainiao_keep.sh"
+		echo "*/4 * * * * $KSROOT/scripts/kuainiao_keep.sh" >> /etc/crontabs/root
 	fi
 }
 
 #加入开机自动运行
 auto_start(){
-	if [ -L "/etc/rc.d/S95Kuainiao.sh" ]; then 
-		rm -rf /etc/rc.d/S95Kuainiao.sh
-	fi
 	if [ -L "/etc/rc.d/S99Kuainiao.sh" ]; then 
 		rm -rf /etc/rc.d/S99Kuainiao.sh
 	fi
@@ -341,10 +338,10 @@ auto_start(){
 #停止快鸟服务
 stop_kuainiao(){
 	#停掉cru里的任务
-	cru d kuainiao
+	sed -i '/kuainiao_keep.sh/d' /etc/crontabs/root >/dev/null 2>&1
 	#停止自启动
-	if [ -L "/etc/rc.d/S95Kuainiao.sh" ]; then 
-		rm -rf /etc/rc.d/S95Kuainiao.sh
+	if [ -L "/etc/rc.d/S99Kuainiao.sh" ]; then 
+		rm -rf /etc/rc.d/S99Kuainiao.sh
 	fi
 	#清理运行环境临时变量
 	dbus remove kuainiao_run_id
