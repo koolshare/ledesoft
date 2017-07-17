@@ -121,16 +121,6 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-14_23:41:26", 
-            "description": "一个轻量级SOCKS5代理", 
-            "home_url": "Module_shadowsocks.asp", 
-            "md5": "29b70cca9c152ee2358f465dd06ad26c", 
-            "name": "shadowsocks", 
-            "tar_url": "shadowsocks/shadowsocks.tar.gz", 
-            "title": "shadowsocks", 
-            "version": "1.0"
-        }, 
-        {
             "build_date": "2017-07-10_11:24:54", 
             "description": "支持http2协议的快速穿透", 
             "home_url": "Module_ddnsto.asp", 
