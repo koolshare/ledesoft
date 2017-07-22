@@ -31,14 +31,14 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2017-07-09_16:21:33", 
+            "build_date": "2017-07-22_20:02:14", 
             "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "0d98ffc2fd200683d2d6971676635965", 
+            "md5": "fcd511647404c24b6a8c3a7b432b04a1", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
-            "version": "1.0"
+            "version": "1.1"
         }, 
         {
             "build_date": "2017-07-09_15:34:27", 
