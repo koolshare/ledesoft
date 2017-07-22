@@ -76,7 +76,7 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">Syncthing <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+<div class="heading">ddnsto <a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 <br><hr>
 <div class="content">
 <div id="syncthing-fields"></div>
