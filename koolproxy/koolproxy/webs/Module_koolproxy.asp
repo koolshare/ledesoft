@@ -141,40 +141,9 @@ No part of this file may be used without permission.
 			var dbus = {};
 			$.getJSON("/_api/koolproxy_", function(res) {
 				dbus=res.result[0];
-				get_remote_msg(dbus);
+				kpacl.setup(dbus);
+				conf2obj(dbus);
 			});
-		}
-
-		function get_remote_msg(dbus){
-		    $.ajax({
-		        url: 'https://koolshare.ngrok.wang/koolproxy/push_rule.json.js',
-		        type: 'GET',
-		        cache:false,
-		        dataType: 'jsonp',
-		        success: function(res) {
-					console.log("json:", "get web json susscess!");
-					$("#msg").html(res.hi1);
-					if (res.rules){
-						res.rules[res.rules.length] = ["自定义规则", "" ,"", ""];
-						for (var i = 0; i < res.rules.length; ++i) {
-							options_type.push([i, res.rules[i][0]]);
-							options_list[i] = res.rules[i][0];
-						}
-						kpacl.setup(dbus);
-						conf2obj(dbus);
-						return online_rule = res;
-					}
-		        },
-		        // incase of internet not avaliable
-				error :function(){
-					console.log("json:", "get web json fail!");
-					options_type = [['0', '视频规则'], ['1', '静态规则']];
-					options_list = ['视频规则', '静态规则'];
-					kpacl.setup(dbus);
-					conf2obj(dbus);
-					return online_rule = 0;
-				}
-		    });
 		}
 
 		function get_run_status(){
@@ -400,7 +369,7 @@ No part of this file may be used without permission.
 						{ name: 'koolproxy_reboot_hour', type: 'select', options: [], value: "", suffix: '<lable id="koolproxy_reboot_hour_suf">更新</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
 						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: [], value: "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">更新</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
 					] },
-					{ title: '访问控制匹配策略', name:'koolproxy_acl_method',type:'select',options:[['1','IP + MAC匹配'],['2','仅IP匹配'],['3','仅MAC匹配']],value: "1" },
+					{ title: '访问控制匹配策略', name:'koolproxy_acl_method',type:'select',options:[['2','仅IP匹配'],['3','仅MAC匹配'],['1','IP + MAC匹配']],value: "1" },
 					{ title: '证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>&nbsp;&nbsp;<a class="kp_btn" href="http://koolshare.cn/thread-80430-1-1.html" target="_blank">【https过滤使用教程】<a>' },
 					{ title: 'KoolProxy交流', suffix: ' <button id="_join_QQ" onclick="join_QQ();" class="btn">加入QQ群</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="join_TG();" class="btn">加入电报群</button>' }
 				]);
