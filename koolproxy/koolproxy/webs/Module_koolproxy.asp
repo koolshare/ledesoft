@@ -322,6 +322,7 @@ No part of this file may be used without permission.
 							x = 4;
 							count_down_switch();
 							//window.location.reload();
+							return true;
 						}else{
 							return true;
 						}
@@ -344,7 +345,7 @@ No part of this file may be used without permission.
 			});
 		}
 
-		var x = 4;
+		var x = 3;
 		function count_down_switch() {
 			if (x == "0") {
 				window.location.reload();

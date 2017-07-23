@@ -4,7 +4,7 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export koolproxy_`
 SOFT_DIR=/koolshare
-SOFT_DIR=$SOFT_DIR/koolproxy
+KP_DIR=$SOFT_DIR/koolproxy
 
 write_user_txt(){
 	if [ -n "$koolproxy_custom_rule" ];then
