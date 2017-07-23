@@ -14,10 +14,11 @@ done
 sleep 1
 rm -rf $KSROOT/bin/ddnsto
 rm -rf $KSROOT/scripts/ddnsto*
+rm -rf $KSROOT/init.d/S88ddnsto.sh
+rm -rf /etc/rc.d/S88ddnsto.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_ddnsto.asp
 rm -rf $KSROOT/webs/res/icon-ddnsto.png
 rm -rf $KSROOT/webs/res/icon-ddnsto-bg.png
-rm -rf /etc/rc.d/S88ddnsto.sh
 
 dbus remove softcenter_module_ddnsto_home_url
 dbus remove softcenter_module_ddnsto_install

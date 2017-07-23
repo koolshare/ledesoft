@@ -12,26 +12,25 @@ stop_ddnsto(){
 	killall ddnsto
 }
 
-case $1 in
-start)
-	if [ "$ddnsto_enable" == "1" ]; then
-		logger "[软件中心]: 启动ddnsto！"
-		start_ddnsto
-	else
-		logger "[软件中心]: ddnsto未设置开机启动，跳过！"
-	fi
-	;;
-stop)
+creat_start_up(){
+	[ ! -L "/etc/rc.d/S88ddnsto.sh" ] && ln -sf $SOFT_DIR/init.d/S88ddnsto.sh /etc/rc.d/S88ddnsto.sh
+}
+
+del_start_up(){
+	rm -rf /etc/rc.d/S88ddnsto.sh >/dev/null 2>&1
+}
+
+
+if [ "$ddnsto_enable" == "1" ]; then
+	del_start_up
 	stop_ddnsto
-	;;
-*)
-	if [ "$ddnsto_enable" == "1" ]; then
-		stop_ddnsto
-		start_ddnsto
-   		http_response '服务已开启！页面将在3秒后刷新'
-   	else
-		stop_ddnsto
-		http_response '服务已关闭！页面将在3秒后刷新'
-	fi
-	;;
-esac
+	sleep 1
+	start_ddnsto
+	creat_start_up
+   	http_response '服务已开启！页面将在3秒后刷新'
+else
+	stop_ddnsto
+	del_start_up
+	http_response '服务已关闭！页面将在3秒后刷新'
+fi
+
