@@ -40,7 +40,7 @@ creat_start_up(){
 
 del_start_up(){
 	echo_date 删除开机自动启动...
-	[ -L "/etc/rc.d/S93koolproxy.sh" ] && rm -rf /etc/rc.d/S93koolproxy.sh >/dev/null 2>&1
+	rm -rf /etc/rc.d/S93koolproxy.sh >/dev/null 2>&1
 }
 
 write_nat_start(){
@@ -330,6 +330,7 @@ restart)
 	remove_nat_start
 	flush_nat
 	stop_koolproxy
+	del_start_up
 	# now start
 	echo_date ================== koolproxy启用 =================
 	detect_cert
