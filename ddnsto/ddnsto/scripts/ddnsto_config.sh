@@ -1,7 +1,6 @@
 #!/bin/sh
 
-export KSROOT=/koolshare
-source $KSROOT/scripts/base.sh
+source /koolshare/scripts/base.sh
 eval `dbus export ddnsto_`
 
 start_ddnsto(){
@@ -13,7 +12,7 @@ stop_ddnsto(){
 }
 
 creat_start_up(){
-	[ ! -L "/etc/rc.d/S88ddnsto.sh" ] && ln -sf $SOFT_DIR/init.d/S88ddnsto.sh /etc/rc.d/S88ddnsto.sh
+	[ ! -L "/etc/rc.d/S88ddnsto.sh" ] && ln -sf /koolshare/init.d/S88ddnsto.sh /etc/rc.d/S88ddnsto.sh
 }
 
 del_start_up(){
