@@ -14,3 +14,5 @@ rm -rf $KSROOT/koolproxy/data/gen_ca.sh >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/openssl.cnf >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/serial >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/version >/dev/null 2>&1
+rm -rf $KSROOT/init.d/S93koolproxy.sh >/dev/null 2>&1
+rm -rf $KSROOT/scripts/KoolProxy_* >/dev/null 2>&1

@@ -4,7 +4,7 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export koolproxy_`
 SOFT_DIR=/koolshare
-KP_DIR=$SOFT_DIR/koolproxy
+SOFT_DIR=$SOFT_DIR/koolproxy
 
 write_user_txt(){
 	if [ -n "$koolproxy_custom_rule" ];then
@@ -35,12 +35,17 @@ stop_koolproxy(){
 # this part for start up wan/nat
 creat_start_up(){
 	echo_date 加入开机自动启动...
-	[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && ln -sf $SOFT_DIR/scripts/KoolProxy_config.sh /etc/rc.d/S93koolproxy.sh
+	[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && ln -sf $SOFT_DIR/init.d/S93koolproxy.sh /etc/rc.d/S93koolproxy.sh
+}
+
+del_start_up(){
+	echo_date 删除开机自动启动...
+	[ -L "/etc/rc.d/S93koolproxy.sh" ] && rm -rf /etc/rc.d/S93koolproxy.sh >/dev/null 2>&1
 }
 
 write_nat_start(){
 	echo_date 添加nat-start触发事件...
-	echo $KP_DIR/kp_config.sh >> /etc/firewall.user
+	echo "$KP_DIR/kp_config.sh start_nat" >> /etc/firewall.user
 }
 
 remove_nat_start(){
@@ -84,8 +89,8 @@ restart_dnsmasq(){
 add_ss_event(){
 	start=`dbus list __event__onssstart_|grep koolproxy`
 	if [ -z "$start" ];then
-	echo_date 添加ss事件触发：当ss启用或者重启，重新加载koolproxy的nat规则.
-	dbus event onssstart_koolproxy $KP_DIR/koolproxy.sh
+		echo_date 添加ss事件触发：当ss启用或者重启，重新加载koolproxy的nat规则.
+		dbus event onssstart_koolproxy $KP_DIR/koolproxy.sh
 	fi
 }
 
@@ -348,7 +353,7 @@ stop)
 	remove_nat_start
 	flush_nat
 	stop_koolproxy
-	#del_start_up
+	del_start_up
 	;;
 start_nat)
 	flush_nat

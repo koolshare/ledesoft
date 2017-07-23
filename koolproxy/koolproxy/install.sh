@@ -25,7 +25,7 @@ mkdir -p $KSROOT/koolproxy
 mkdir -p $KSROOT/koolproxy/data
 cp -rf /tmp/koolproxy/scripts/* $KSROOT/scripts/
 cp -rf /tmp/koolproxy/webs/* $KSROOT/webs/
-cp -rf /tmp/koolproxy/res/* $KSROOT/res/
+cp -rf /tmp/koolproxy/init.d/* $KSROOT/init.d/
 if [ ! -f $KSROOT/koolproxy/data/user.txt ];then
 	cp -rf /tmp/koolproxy/* $KSROOT/
 else
@@ -43,6 +43,7 @@ chmod 755 $KSROOT/koolproxy/koolproxy
 chmod 755 $KSROOT/koolproxy/*
 chmod 755 $KSROOT/koolproxy/data/*
 chmod 755 $KSROOT/scripts/*
+chmod 755 $KSROOT/init.d/*
 ln -sf  $KSROOT/koolproxy/koolproxy  $KSROOT/bin/koolproxy
 
 
