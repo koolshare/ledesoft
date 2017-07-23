@@ -25,6 +25,8 @@ dbus set softcenter_module_ddnsto_name=ddnsto
 dbus set softcenter_module_ddnsto_title=ddnsto
 dbus set softcenter_module_ddnsto_version=1.0.0
 
+# make ddnsto restart/stop to apply change
+sh /koolshare/scripts/ddnsto_config.sh
 
 sleep 1
 rm -rf /tmp/ddnsto* >/dev/null 2>&1
