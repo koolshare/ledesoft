@@ -418,7 +418,7 @@ function getSoftCenter(obj){
 					};
 					if(install=="1" || install=="2"){
 						j++;
-						aurl = "#Module_" +appname+".asp";
+						aurl = "#/Module_" +appname+".asp";
 						if(oversion!=version && oversion){
 							appButton = '<button value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success">更新</button>';
 						}else{
@@ -509,7 +509,7 @@ function getLocalApp(obj){
 			j++;
 			var appButton="";
 			name = obj[p];
-			aurl = "#Module_" + name+".asp";
+			aurl = "#/Module_" + name+".asp";
 			description = "本地版本："+obj["softcenter_module_"+name+"_version"];
 			appimg = "/res/icon-"+name+".png";
 			bgimg = "/res/icon-"+name+"-bg.png";

@@ -4,13 +4,13 @@ function AdvancedTomato() {
     /* First handle page loading, hash change events and other most important tasks
      ************************************************************************************************/
     // Initial Page load, determine what to load
-    if ( window.location.hash.match( /#/ ) ) { loadPage( window.location.hash ); } else { loadPage( '#soft-center.asp' ); }
+    if ( window.location.hash.match( /#/ ) ) { loadPage( window.location.hash ); } else { loadPage( '#/soft-center.asp' ); }
 	
     // Bind "Hash Change" - Happens when hash in the "URL" changes (http://site.com/#hash-bind)
     $( window ).bind( 'hashchange', function() {
         // Prevent Mismatch on features page
         //( (location.hash.replace( '#', '#/' ) != '' ) ? loadPage( location.hash.replace( '#', '#/' ), true ) : '' );
-        loadPage( location.hash.replace( '#', '#/' ), true )
+        loadPage( location.hash, true )
    		//console.log("1212", location.hash.replace( '#', '#/' ))
         return false;
 
