@@ -286,7 +286,7 @@ function notice_show(){
 				$("#push_content3").html(res.content3);
 			}
 			if(res.content4){
-				$("#push_content3").show();
+				$("#push_content4").show();
 				$("#push_content4").html(res.content4);
 			}
         }
