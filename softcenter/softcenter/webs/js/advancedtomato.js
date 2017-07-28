@@ -10,7 +10,7 @@ function AdvancedTomato() {
     $( window ).bind( 'hashchange', function() {
         // Prevent Mismatch on features page
         //( (location.hash.replace( '#', '#/' ) != '' ) ? loadPage( location.hash.replace( '#', '#/' ), true ) : '' );
-        loadPage( location.hash.replace( '#', '#/' ), false )
+        loadPage( location.hash.replace( '#', '#/' ), true )
    		//console.log("1212", location.hash.replace( '#', '#/' ))
         return false;
 
