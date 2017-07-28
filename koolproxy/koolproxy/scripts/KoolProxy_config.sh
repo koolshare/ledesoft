@@ -17,19 +17,16 @@ stop)
 	;;
 esac
 
+echo "" > /tmp/upload/kp_log.txt
+sleep 1
 # this part for web runing using httpdb
 case $2 in
-1)
+restart)
 	if [ "$koolproxy_enable" == "1" ];then
-		sh /koolshare/koolproxy/kp_config.sh restart > /tmp/upload/kp_log.txt 2>&1
+		sh /koolshare/koolproxy/kp_config.sh restart >> /tmp/upload/kp_log.txt 2>&1
 	else
-		sh /koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt 2>&1
+		sh /koolshare/koolproxy/kp_config.sh stop >> /tmp/upload/kp_log.txt 2>&1
 	fi
-	echo XU6J03M6 >> /tmp/upload/kp_log.txt
-	http_response "$1"
-	;;
-3)
-	sh /koolshare/koolproxy/kp_rule_update.sh > /tmp/upload/kp_log.txt 2>&1
 	echo XU6J03M6 >> /tmp/upload/kp_log.txt
 	http_response "$1"
 	;;

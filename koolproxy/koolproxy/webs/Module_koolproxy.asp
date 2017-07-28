@@ -212,7 +212,7 @@ No part of this file may be used without permission.
 				}
 			}
 			if(obj=='app5'){
-				setTimeout("get_log();", 100);
+				setTimeout("get_log();", 300);
 				elem.display('save-button', false);
 				elem.display('cancel-button', false);
 			}else{
@@ -258,7 +258,7 @@ No part of this file may be used without permission.
 			
 			// post data
 			var id3 = parseInt(Math.random() * 100000000);
-			var postData3 = {"id": id3, "method": "KoolProxy_config.sh", "params":[1], "fields": dbus2};
+			var postData3 = {"id": id3, "method": "KoolProxy_config.sh", "params":["restart"], "fields": dbus2};
 			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				url: "/_api/",
@@ -287,9 +287,7 @@ No part of this file may be used without permission.
 						retArea.value = response.replace("XU6J03M6", " ");
 						retArea.scrollTop = retArea.scrollHeight;
 						if (reload == 1){
-							x = 4;
-							count_down_switch();
-							//window.location.reload();
+							setTimeout("window.location.reload()", 1200);
 							return true;
 						}else{
 							return true;
@@ -313,18 +311,6 @@ No part of this file may be used without permission.
 			});
 		}
 
-		var x = 3;
-		function count_down_switch() {
-			if (x == "0") {
-				window.location.reload();
-			}
-			if (x < 0) {
-				return false;
-			}
-				--x;
-			setTimeout("count_down_switch();", 500);
-		}
-		
 		function get_user_txt() {
 			$.ajax({
 				url: '/_temp/user.txt',
@@ -341,7 +327,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">KoolProxy<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">KoolProxy<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
 		</div>	
@@ -350,7 +336,7 @@ No part of this file may be used without permission.
 		<li><a href="javascript:tabSelect('app1');" id="app1-server1-jb-tab" class="active"><i class="icon-system"></i> 基本设置</a></li>
 		<li><a href="javascript:tabSelect('app3');" id="app3-server1-kz-tab"><i class="icon-tools"></i> 访问控制</a></li>
 		<li><a href="javascript:tabSelect('app4');" id="app4-server1-zdy-tab"><i class="icon-hammer"></i> 自定义规则</a></li>
-		<li><a href="javascript:tabSelect('app5');" id="app5-server1-rz-tab"><i class="icon-info"></i> 状态日志</a></li>
+		<li><a href="javascript:tabSelect('app5');" id="app5-server1-rz-tab"><i class="icon-info"></i> 日志信息</a></li>
 	</ul>
 	<div class="box boxr1" style="margin-top: 0px;">
 		<div class="heading">基本设置</div>
@@ -369,7 +355,7 @@ No part of this file may be used without permission.
 						{ name: 'koolproxy_reboot_hour', type: 'select', options: [], value: "", suffix: '<lable id="koolproxy_reboot_hour_suf">更新</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
 						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: [], value: "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">更新</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
 					] },
-					{ title: '访问控制匹配策略', name:'koolproxy_acl_method',type:'select',options:[['2','仅IP匹配'],['3','仅MAC匹配'],['1','IP + MAC匹配']],value: "1" },
+					{ title: '访问控制匹配策略', name:'koolproxy_acl_method',type:'select',options:[['1','仅IP匹配'],['2','仅MAC匹配'],['3','IP + MAC匹配']],value: "1" },
 					{ title: '证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>&nbsp;&nbsp;<a class="kp_btn" href="http://koolshare.cn/thread-80430-1-1.html" target="_blank">【https过滤使用教程】<a>' },
 					{ title: 'KoolProxy交流', suffix: ' <button id="_join_QQ" onclick="join_QQ();" class="btn">加入QQ群</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="join_TG();" class="btn">加入电报群</button>' }
 				]);

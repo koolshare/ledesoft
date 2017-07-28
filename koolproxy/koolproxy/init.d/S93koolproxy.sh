@@ -14,11 +14,12 @@ STOP=15
 source /koolshare/scripts/base.sh
 eval `dbus export koolproxy_`
 
+
 start(){
 	[ ! -L "/tmp/upload/user.txt" ] && ln -sf $KSROOT/koolproxy/data/user.txt /tmp/upload/user.txt
-	[ "$koolproxy_enable" == "1" ] && sh /koolshare/koolproxy/kp_config.sh start > /tmp/upload/kp_log.txt
+	[ "$koolproxy_enable" == "1" ] && sh /koolshare/koolproxy/kp_config.sh restart >> /tmp/upload/kp_log.txt
 }
 
 stop(){
-	sh /koolshare/koolproxy/kp_config.sh stop > /tmp/upload/kp_log.txt
+	sh /koolshare/koolproxy/kp_config.sh stop >> /tmp/upload/kp_log.txt
 }

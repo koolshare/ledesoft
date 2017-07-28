@@ -6,7 +6,7 @@ if [ ! -f openssl.cnf ]; then
 	exit 1
 fi
 if [ -f /koolshare/koolproxy/data/private/ca.key.pem ]; then
-	echo_date "已经又证书了！"
+	echo_date "已经有证书了！"
 else
 	echo_date "生成证书中..."
 
