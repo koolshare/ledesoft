@@ -12,53 +12,53 @@
 
 #vt100 #scrollable {
   font-size:		13px;
-  color:            #ffffff;
-  background-color: #222222;
-}
-
-#vt100 #scrollable.inverted {
-  font-size:		13px;
   color:            #222222;
   background-color: #ffffff;
 }
 
+#vt100 #scrollable.inverted {
+  font-size:		13px;
+  color:            #ffffff;
+  background-color: #222222;
+}
+
 #vt100 .ansiDef {
   font-size:		13px;
-  color:            #ffffFf;
+  color:            #222222;
 }
 
 #vt100 .ansiDefR {
   font-size:		13px;
-  color:            #222222;
+  color:            #ffffff;
 }
 
 #vt100 .bgAnsiDef {
   font-size:		13px;
-  background-color: #222222;
+  background-color: #ffffff;
 }
 
 #vt100 .bgAnsiDefR {
   font-size:		13px;
-  background-color: #ffffFf;
+  background-color: #222222;
 }
 
 #vt100 #scrollable.inverted .ansiDef {
   font-size:		13px;
-  color:            #222222;
+  color:            #ffffff;
 }
 
 #vt100 #scrollable.inverted .ansiDefR {
   font-size:		13px;
-  color:            #ffffFf;
+  color:            #222222;
 }
 
 #vt100 #scrollable.inverted .bgAnsiDef {
   font-size:		13px;
-  background-color: #ffffFf;
+  background-color: #222222;
 }
 
 #vt100 #scrollable.inverted .bgAnsiDefR {
   font-size:		13px;
-  background-color: #222222;
+  background-color: #ffffff;
 }
 

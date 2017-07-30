@@ -1,8 +1,5 @@
 #! /bin/sh
 export KSROOT=/koolshare
-if [ ! -L "/etc/rc.d/S99Shellinabox.sh" ]; then 
-	ln -sf $KSROOT/shellinabox/shellinabox_start.sh /etc/rc.d/S99Shellinabox.sh
-fi
 
 fix_libssl() {
 	libssl=$(find /lib /usr/lib -name "libssl.so*" -type f)
