@@ -45,7 +45,7 @@ del_start_up(){
 
 write_nat_start(){
 	echo_date 添加nat-start触发事件...
-	echo "$KP_DIR/kp_config.sh start_nat" >> /etc/firewall.user
+	echo "sh $KP_DIR/kp_config.sh start_nat" >> /etc/firewall.user
 }
 
 remove_nat_start(){
