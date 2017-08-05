@@ -17,6 +17,8 @@ dbus remove softether_sstp
 sleep 1
 rm -rf $KSROOT/softether
 rm -rf $KSROOT/scripts/softether*
+rm -rf $KSROOT/init.d/S96softether.sh
+rm -rf $KSROOT/webs/Module_softether_vpn.asp
 
 dbus remove softcenter_module_softether_home_url
 dbus remove softcenter_module_softether_install

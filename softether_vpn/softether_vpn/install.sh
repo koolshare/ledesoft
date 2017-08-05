@@ -6,7 +6,7 @@ eval `dbus export softether`
 
 enable=`dbus get softether_enable`
 if [ -f "$KSROOT/softether/vpn_server.config" ];then
-	tap=`cat vpn_server.config |grep "bool TapMode true"`
+	tap=`cat $KSROOT/softether/vpn_server.config |grep "bool TapMode true"`
 else
 	tap=""
 fi
@@ -14,10 +14,11 @@ fi
 if [ "$enable" == 1 ];then
 	sh $KSROOT/softether/softether.sh stop
 fi
-
+mkdir -p $KSROOT/init.d/
 cd /tmp
 cp -rf /tmp/softether_vpn/softether $KSROOT
 cp -rf /tmp/softether_vpn/scripts/* $KSROOT/scripts/
+cp -rf /tmp/softether_vpn/init.d/* $KSROOT/init.d/
 cp -rf /tmp/softether_vpn/webs/* $KSROOT/webs/
 
 cp /tmp/webshell/uninstall.sh $KSROOT/scripts/uninstall_webshell.sh

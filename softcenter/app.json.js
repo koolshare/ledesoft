@@ -101,14 +101,14 @@
             "version": "3.6.1.10"
         }, 
         {
-            "build_date": "2017-07-10_11:24:04", 
+            "build_date": "2017-08-05_23:02:36", 
             "description": "VPN全家桶", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "edc8856bfd1436a9e385f00de2ab2133", 
+            "md5": "27565e598d69ffe597c4bc4e3ee8e17c", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
-            "version": "1.0.1"
+            "version": "1.0.2"
         }, 
         {
             "build_date": "2017-07-29_00:08:29", 
