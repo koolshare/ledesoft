@@ -1,9 +1,7 @@
 #! /bin/sh
 
-if [ -z $KSROOT ]; then
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
-fi
 			
 cp -rf /tmp/shellinabox/shellinabox $KSROOT/
 cp -rf /tmp/shellinabox/webs/* $KSROOT/webs/

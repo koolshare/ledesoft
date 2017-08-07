@@ -28,9 +28,7 @@ start_shellinabox(){
 case $2 in
 check)
 	RUN=`pidof shellinaboxd`
-	[ -z "$RUN" ] && fix_libssl && start_shellinabox && touch /koolshare/tts.txt
-	echo "$shellinabox_style" > /koolshare/tts.txt
-	echo "$2" > /koolshare/tts.txt
+	[ -z "$RUN" ] && fix_libssl && start_shellinabox
 	;;
 restart)
 	killall shellinaboxd
