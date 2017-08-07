@@ -231,20 +231,6 @@ lan_acess_control(){
 }
 
 load_nat(){
-	nat_ready=$(iptables -t nat -L PREROUTING -v -n --line-numbers|grep -v WANPREROUTING|grep -v destination)
-	i=120
-	# laod nat rules
-	until [ -n "$nat_ready" ]
-	do
-	    i=$(($i-1))
-	    if [ "$i" -lt 1 ];then
-	        echo_date "Could not load nat rules!"
-	        sh $SOFT_DIR/ss/stop.sh >/dev/null 2>&1
-	        exit
-	    fi
-	    sleep 1
-	done
-	
 	echo_date 加载nat规则！
 	#----------------------BASIC RULES---------------------
 	echo_date 写入iptables规则到nat表中...
