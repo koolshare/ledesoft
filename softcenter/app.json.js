@@ -1,10 +1,10 @@
 {
     "apps": [
         {
-            "build_date": "2017-08-07_19:20:18", 
+            "build_date": "2017-08-07_21:25:34", 
             "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "80836505c4fb9f50a49dc6b4fc64ac71", 
+            "md5": "574bb67e3c8901ff7ae5ce16d68e4212", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
@@ -51,10 +51,10 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:34:59", 
+            "build_date": "2017-08-07_21:25:11", 
             "description": "DNSPOD动态域名解析", 
             "home_url": "Module_dnspod.asp", 
-            "md5": "e391cee93de8c1fa63c9c2b34ee19b12", 
+            "md5": "3d836e3cbe5621fe90dc8478f08e560d", 
             "name": "dnspod", 
             "tar_url": "dnspod/dnspod.tar.gz", 
             "title": "dnspod", 
@@ -91,10 +91,10 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-07_19:48:01", 
+            "build_date": "2017-08-07_21:25:25", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "73b2a43a9c8c9b47dec42097b6d836e2", 
+            "md5": "695031f260d4dd3997a7b33d819d3d1c", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
