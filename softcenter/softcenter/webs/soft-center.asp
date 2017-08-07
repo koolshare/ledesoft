@@ -189,6 +189,7 @@
 	$('.div').css("margin","");
 //APPS 控制模块
 var anmstatus=null;
+var softcenter = 1;
 function change1(obj){
 	x = $(anmstatus).find('.app-name').width();
 	if(x == '170px'){
