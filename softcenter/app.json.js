@@ -91,10 +91,10 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-07-09_15:34:01", 
+            "build_date": "2017-08-07_19:09:32", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "08d0877fad8f84f364e38ad36f04f418", 
+            "md5": "8c2c87bca20f591ab7575f747ba2ff9b", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 

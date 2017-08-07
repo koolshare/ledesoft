@@ -26,16 +26,16 @@ die () {
 
 case $aliddns_curl in
 "2")
-    ip=`nvram get wan2_ipaddr` || die "$ip"
+    ip=$(ubus call network.interface.wan2 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 "3")
-    ip=`nvram get wan3_ipaddr` || die "$ip"
+    ip=$(ubus call network.interface.wan3 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 "4")
-    ip=`nvram get wan4_ipaddr` || die "$ip"
+    ip=$(ubus call network.interface.wan4 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 *)
-    ip=`nvram get wan_ipaddr` || die "$ip"
+    ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 esac
 echo $ip
