@@ -264,7 +264,11 @@ load_nat(){
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
 	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
-	[ "$PR_NU" == "" ] && PR_NU=1
+	if [ "$PR_NU" == "" ]; then
+		PR_NU=1
+	else
+		let PR_NU+=1
+	fi	
 	[ "$koolproxy_mode" == "1" ] || [ "$koolproxy_mode" == "3" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -j KOOLPROXY
 	# ipset 黑名单模式
 	[ "$koolproxy_mode" == "2" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
