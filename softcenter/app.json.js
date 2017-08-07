@@ -11,14 +11,14 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-08-07_17:20:31", 
+            "build_date": "2017-08-07_23:30:31", 
             "description": "超强的SSH网页客户端", 
             "home_url": "Module_shellinabox.asp", 
-            "md5": "582e5574069d7763633190c90002728c", 
+            "md5": "030789c4f28c34bafa3a65f16198691b", 
             "name": "shellinabox", 
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
-            "version": "1.1.4"
+            "version": "1.1.5"
         }, 
         {
             "build_date": "2017-08-07_17:12:56", 
