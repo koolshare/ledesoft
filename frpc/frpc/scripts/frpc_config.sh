@@ -21,20 +21,15 @@ write_conf(){
         use_gzip=`echo $i|cut -d'<' -f7`
         use_encryption=`echo $i|cut -d'<' -f8`
         privilege_mode=`echo $i|cut -d'<' -f9`
-        if [ $use_gzip == "开启" ];then
+        if [ $use_gzip == "1" ];then
             echo "use_gzip = true" >> $conf_file
         else
             echo "use_gzip = false" >> $conf_file
         fi
-        if [ $use_encryption == "开启" ];then
+        if [ $use_encryption == "1" ];then
             echo "use_encryption = true" >> $conf_file
         else
             echo "use_encryption = false" >> $conf_file
-        fi
-        if [ $privilege_mode == "开启" ];then
-            echo "privilege_mode = true" >> $conf_file
-        else
-            echo "privilege_mode = false" >> $conf_file
         fi
     done
     sed -i '/= $/d' $conf_file
@@ -43,53 +38,60 @@ write_conf(){
 
 start_frpc(){
     $KSROOT/frpc/frpc -c $conf_file &
-    sleep 1
-    if [ "`ps|grep frpc|grep -v grep|grep -v /bin/sh|wc -l`" != "0" ];then
-        dbus set frpc_last_act='<font color=green>服务已开启</font>'
-        logger '[syncthing]:frpc is started!'
-        /bin/sh $KSROOT/scripts/frpc_check.sh&
-    else
-        dbus set frpc_last_act='<font color=red>服务无法启动，请检查配置是否正确</font>'
-        dbus set frpc_enable=0
-        logger 'ERROR:[syncthing]:frpc is not started!'
-    fi
 }
 
 stop_frpc(){
     for i in `ps|grep frpc|grep -v grep|grep -v config|awk -F' ' '{print $1}'`;do
-        kill $i
+        kill -9 $i >/dev/null 2>&1
     done
-    dbus set frpc_last_act='<font color=red>服务已关闭</font>'
-    logger '[syncthing]:frpc is stoped!'
 }
 
-auto_start(){
-    if [ -L "$KSROOT/init.d/S96frpc.sh" ]; then
-            rm -rf $KSROOT/init.d/S96frpc.sh
-    fi
-    if [ `dbus get frpc_enable` == 1 ];then
-            ln -sf $KSROOT/scripts/frpc_check.sh $KSROOT/init.d/S96frpc.sh
-    fi
+creat_start_up(){
+	[ ! -L "/etc/rc.d/S95frpc.sh" ] && ln -sf /koolshare/init.d/S95frpc.sh /etc/rc.d/S95frpc.sh
 }
 
-case $ACTION in
+del_start_up(){
+	[ -L "/etc/rc.d/S95frpc.sh" ] && rm -rf /etc/rc.d/S95frpc.sh >/dev/null 2>&1
+}
+
+
+# used by rc.d
+case $1 in
 start)
-	start_frpc
-	;;
-stop)
-	stop_frpc
-	;;
-*)
-	if [ $frpc_enable == 1 ];then
+	if [ "$frpc_enable" == "1" ];then
         write_conf
         stop_frpc
         start_frpc
-        auto_start
+        creat_start_up
+	else
+        stop_frpc
+        del_start_up
+    fi
+	;;
+stop)
+    stop_frpc
+    del_start_up
+	;;
+esac
+
+# used by httpdb
+case $2 in
+start)
+	if [ "$frpc_enable" == "1" ];then
+        write_conf
+        stop_frpc
+        start_frpc
+        creat_start_up
         http_response '设置已保存！切勿重复提交！页面将在3秒后刷新'
 	else
         stop_frpc
-        auto_start
+        del_start_up
         http_response '设置已保存！切勿重复提交！页面将在3秒后刷新'
     fi
-    ;;
+	;;
+stop)
+    stop_frpc
+    del_start_up
+    http_response '设置已保存！切勿重复提交！页面将在3秒后刷新'
+	;;
 esac
