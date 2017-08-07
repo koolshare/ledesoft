@@ -5,6 +5,8 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export koolproxy_`
 
+echo "" > /tmp/upload/kp_log.txt
+sleep 1
 case $2 in
 restart)
 	if [ "$koolproxy_enable" == "1" ];then

@@ -91,14 +91,14 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-08-07_23:04:12", 
+            "build_date": "2017-08-08_00:06:48", 
             "description": "去头屑丝般顺滑", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "88bfb0841d8d0aad8f6fd3d70984cd44", 
+            "md5": "383fba27e977a0790c4effa7c4783d41", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.11"
+            "version": "3.6.1.12"
         }, 
         {
             "build_date": "2017-08-05_23:02:36", 

@@ -13,6 +13,7 @@ No part of this file may be used without permission.
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 	<script type="text/javascript">
 		var dbss;
+		var softcenter = 0;
 		$.ajax({
 		  	type: "GET",
 		 	url: "/_api/ss_basic_enable",
@@ -22,7 +23,6 @@ No part of this file may be used without permission.
 		 	 	dbss = data.result[0];
 		  	}
 		});
-		console.log("dbss", dbss)
 		var params = ["koolproxy_enable", "koolproxy_host", "koolproxy_mode", "koolproxy_reboot", "koolproxy_reboot_hour", "koolproxy_reboot_inter_hour", "koolproxy_acl_method", "koolproxy_acl_default"];
 		var options_type = [];
 		var options_list = [];
@@ -156,11 +156,17 @@ No part of this file may be used without permission.
 				data: JSON.stringify(postData1),
 				dataType: "json",
 				success: function(response){
+					if(softcenter == 1){
+						return false;
+					}
 					document.getElementById("_koolproxy_status").innerHTML = response.result.split("@@")[0];
 					document.getElementById("_koolproxy_rule_status").innerHTML = response.result.split("@@")[1];
 					setTimeout("get_run_status();", 10000);
 				},
 				error: function(){
+					if(softcenter == 1){
+						return false;
+					}
 					document.getElementById("_koolproxy_status").innerHTML = "获取运行状态失败！";
 					document.getElementById("_koolproxy_rule_status").innerHTML = "获取规则状态失败！";
 					setTimeout("get_run_status();", 5000);
@@ -212,7 +218,7 @@ No part of this file may be used without permission.
 				}
 			}
 			if(obj=='app5'){
-				setTimeout("get_log();", 300);
+				setTimeout("get_log();", 400);
 				elem.display('save-button', false);
 				elem.display('cancel-button', false);
 			}else{
@@ -302,7 +308,7 @@ No part of this file may be used without permission.
 						tabSelect("app1");
 						return false;
 					} else {
-						setTimeout("get_log();", 100);
+						setTimeout("get_log();", 200);
 					}
 					retArea.value = response.replace("XU6J03M6", " ");
 					retArea.scrollTop = retArea.scrollHeight;
@@ -319,7 +325,6 @@ No part of this file may be used without permission.
 				dataType: 'text',
 				success: function(res) {
 					$('#_koolproxy_custom_rule').val(res);
-					//console.log("res", res);
 				}
 			});
 		}
