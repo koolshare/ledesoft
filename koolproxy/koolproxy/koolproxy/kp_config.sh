@@ -237,7 +237,7 @@ load_nat(){
 	    i=$(($i-1))
 	    if [ "$i" -lt 1 ];then
 	        echo_date "Could not load nat rules!"
-	        sh $SOFT_DIR/ss/stop.sh
+	        sh $SOFT_DIR/ss/stop.sh >/dev/null 2>&1
 	        exit
 	    fi
 	    sleep 1
@@ -261,11 +261,11 @@ load_nat(){
 	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
-	SS_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/SHADOWSOCKS/='`
-	[ "$SS_NU" == "" ] && SS_NU=1
-	[ "$koolproxy_mode" == "1" ] || [ "$koolproxy_mode" == "3" ] && iptables -t nat -I PREROUTING "$SS_NU" -p tcp -j KOOLPROXY
+	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
+	[ "$PR_NU" == "" ] && PR_NU=1
+	[ "$koolproxy_mode" == "1" ] || [ "$koolproxy_mode" == "3" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -j KOOLPROXY
 	# ipset 黑名单模式
-	[ "$koolproxy_mode" == "2" ] && iptables -t nat -I PREROUTING "$SS_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
+	[ "$koolproxy_mode" == "2" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
 }
 
 dns_takeover(){
