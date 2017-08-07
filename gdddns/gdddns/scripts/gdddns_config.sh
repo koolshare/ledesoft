@@ -5,20 +5,21 @@ source $KSROOT/scripts/base.sh
 eval `dbus export gdddns_`
 
 start_gdddns(){
-    cru d gdddns
-    cru a gdddns "*/$gdddns_interval * * * * /bin/sh $KSROOT/scripts/gdddns_update.sh"
+    sed -i '/gdddns_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
+    cru a gdddns "*/$gdddns_interval * * * * $KSROOT/scripts/gdddns_update.sh"
     # run once after submit
 	sh $KSROOT/scripts/gdddns_update.sh
 	sleep 1
 	# creat start_up file
 	if [ ! -L "/etc/rc.d/S98gdddns.sh" ]; then 
-		ln -sf $KSROOT/scripts/gdddns_config.sh /etc/rc.d/S98gdddns.sh
+		ln -sf $KSROOT/init.d/S98gddns.sh /etc/rc.d/S98gdddns.sh
 	fi
 }
 
 stop_gdddns(){
-    cru d gdddns
+    sed -i '/gdddns_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
     dbus set gdddns_last_act="<font color=red>服务未开启</font>"
+	rm -rf /etc/rc.d/S98gdddns.sh
 }
 
 case $ACTION in
