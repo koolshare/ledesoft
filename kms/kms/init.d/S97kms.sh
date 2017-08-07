@@ -15,7 +15,7 @@ source /koolshare/scripts/base.sh
 eval `dbus export kms_`
 
 start(){
-	[ "$kms_enable" == "1" ] && sh /koolshare/scripts/kms.sh start
+	[ "$kms_enable" == "1" ] && sh /koolshare/scripts/kms_config.sh start
 }
 
 stop(){

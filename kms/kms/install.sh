@@ -1,13 +1,11 @@
 #!/bin/sh
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export kms`
 
 # stop kms first
-enable=`dbus get kms_enable`
-if [ "$enable" == "1" ];then
-	restart=1
-	dbus set kms_enable=0
-	sh $KSROOT/scripts/kms.sh
+if [ "$kms_enable" == "1" ];then
+	sh $KSROOT/scripts/kms_config.sh stop
 fi
 
 # cp files
@@ -15,15 +13,23 @@ cp -rf /tmp/kms/scripts/* $KSROOT/scripts/
 cp -rf /tmp/kms/bin/* $KSROOT/bin/
 cp -rf /tmp/kms/webs/* $KSROOT/webs/
 cp -rf /tmp/kms/init.d/* $KSROOT/init.d/
+chmod +x $KSROOT/scripts/kms*
+chmod +x $KSROOT/bin/vlmcsd
 
 # delete install tar
 rm -rf /tmp/kms* >/dev/null 2>&1
 
-chmod a+x $KSROOT/scripts/kms.sh
-chmod 0755 $KSROOT/bin/vlmcsd
+# add icon into softerware center
+dbus set softcenter_module_kms_install=1
+dbus set softcenter_module_kms_version=1.3
+dbus set softcenter_module_kms_name=kms
+dbus set softcenter_module_kms_title=kms
+dbus set softcenter_module_kms_description="巨硬套餐激活工具"
+
+# remove old files if exist
+find /etc/rc.d/ -name *kms.sh* | xargs rm -rf
+rm -rf $KSROOT/scripts/kms.sh
+rm -rf $KSROOT/scripts/firewall-start
 
 # re-enable kms
-if [ "$restart" == "1" ];then
-	dbus set kms_enable=1
-	sh $KSROOT/scripts/kms.sh
-fi
+sh $KSROOT/scripts/kms_config.sh start
