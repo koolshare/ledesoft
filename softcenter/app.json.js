@@ -31,10 +31,10 @@
             "version": "3.6.1.12"
         }, 
         {
-            "build_date": "2017-07-10_11:24:19", 
+            "build_date": "2017-08-07_18:55:09", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "3ce6690edeff32b9227746d4958945e6", 
+            "md5": "37cc5c63ae33d5cec9218c16337a3c16", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
@@ -81,10 +81,10 @@
             "version": "1.1.4"
         }, 
         {
-            "build_date": "2017-08-07_18:35:08", 
+            "build_date": "2017-08-07_18:54:45", 
             "description": "上下行带宽提速", 
             "home_url": "Module_kuainiao.asp", 
-            "md5": "8a691bc81814cfbdfb303fd07cf9a0d5", 
+            "md5": "eb9e63def992a51ec6ab2c7a56f862a3", 
             "name": "kuainiao", 
             "tar_url": "kuainiao/kuainiao.tar.gz", 
             "title": "kuainiao", 

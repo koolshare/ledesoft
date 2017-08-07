@@ -21,8 +21,8 @@ start_kms(){
 	fi
 
 	# creat start_up file
-	if [ ! -L "$KSROOT/init.d/S97Kms.sh" ]; then 
-		ln -sf $KSROOT/scripts/kms.sh $KSROOT/init.d/S97Kms.sh
+	if [ ! -L "/etc/rc.d/S97Kms.sh" ]; then 
+		ln -sf $KSROOT/init.d/S97kms.sh /etc/rc.d/S97Kms.sh
 	fi
 }
 stop_kms(){

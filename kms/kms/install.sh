@@ -14,6 +14,7 @@ fi
 cp -rf /tmp/kms/scripts/* $KSROOT/scripts/
 cp -rf /tmp/kms/bin/* $KSROOT/bin/
 cp -rf /tmp/kms/webs/* $KSROOT/webs/
+cp -rf /tmp/kms/init.d/* $KSROOT/init.d/
 
 # delete install tar
 rm -rf /tmp/kms* >/dev/null 2>&1

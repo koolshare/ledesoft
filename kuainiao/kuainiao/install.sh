@@ -7,6 +7,7 @@ cp -rf /tmp/kuainiao/init.d/* /koolshare/init.d/
 rm -rf /tmp/kuainiao* >/dev/null 2>&1
 
 chmod a+x /koolshare/scripts/kuainiao_config.sh
+chmod a+x /koolshare/init.d/S98kuainiao.sh
 
 dbus set softcenter_module_kuainiao_install=1
 dbus set softcenter_module_kuainiao_version=0.1
