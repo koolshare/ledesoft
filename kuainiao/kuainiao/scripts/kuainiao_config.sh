@@ -327,11 +327,11 @@ add_kuainiao_cru(){
 
 #加入开机自动运行
 auto_start(){
-	if [ -L "/etc/rc.d/S99Kuainiao.sh" ]; then 
-		rm -rf /etc/rc.d/S99Kuainiao.sh
+	if [ -L "/etc/rc.d/S98Kuainiao.sh" ]; then 
+		rm -rf /etc/rc.d/S98Kuainiao.sh
 	fi
 	if [ "$kuainiao_start" == "1" ]; then
-		ln -sf $KSROOT/scripts/kuainiao_keep.sh /etc/rc.d/S99Kuainiao.sh
+		ln -sf $KSROOT/init.d/S98kuainiao.sh /etc/rc.d/S98Kuainiao.sh
 	fi
 }
 
