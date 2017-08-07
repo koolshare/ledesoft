@@ -81,14 +81,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-07_21:25:25", 
+            "build_date": "2017-08-07_23:06:47", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "695031f260d4dd3997a7b33d819d3d1c", 
+            "md5": "84755f96f77d7d3a5c750b0ad935b210", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-08-07_23:04:12", 
