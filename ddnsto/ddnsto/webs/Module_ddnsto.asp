@@ -14,6 +14,7 @@ setTimeout("get_run_status();", 1000);
 toggleVisibility('notes')
 //console.log("111", document.location.hash)
 var Apps;
+var softcenter = 0;
 function getAppData(){
 var appsInfo;
 	$.ajax({
@@ -37,10 +38,16 @@ function get_run_status(){
 		data: JSON.stringify(postData1),
 		dataType: "json",
 		success: function(response){
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("ddnsto_status").innerHTML = response.result;
 			setTimeout("get_run_status();", 10000);
 		},
 		error: function(){
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("ddnsto_status").innerHTML = "获取运行状态失败！";
 			setTimeout("get_run_status();", 5000);
 		}
