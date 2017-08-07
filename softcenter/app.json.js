@@ -1,14 +1,14 @@
 {
     "apps": [
         {
-            "build_date": "2017-08-07_21:39:52", 
+            "build_date": "2017-08-08_00:21:52", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "e89c1320f0d2ec7ef58e2b603c2a2e4c", 
+            "md5": "23ce239b9048a9f5c776c3a84e4760de", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-08-07_23:30:31", 

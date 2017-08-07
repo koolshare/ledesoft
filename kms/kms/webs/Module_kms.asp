@@ -6,6 +6,8 @@
 <script type="text/javascript">
 getAppData();
 setTimeout("get_run_status();", 1000);
+var Apps;
+var softcenter = 0;
 function getAppData(){
 var appsInfo;
 	$.ajax({
@@ -29,10 +31,16 @@ function get_run_status(){
 		data: JSON.stringify(postData),
 		dataType: "json",
 		success: function(response){
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("_kms_status").innerHTML = response.result;
 			setTimeout("get_run_status();", 5000);
 		},
 		error: function(){
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("_kms_status").innerHTML = "获取运行状态失败！";
 			setTimeout("get_run_status();", 5000);
 		}
