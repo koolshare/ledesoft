@@ -14,6 +14,7 @@ setTimeout("get_run_status();", 1000);
 var Apps;
 var options_switch = [['0', '关闭'], ['1', '开启']];
 var options_switch_name = ['关闭', '开启'];
+var softcenter = 0;
 function getAppData(){
 var appsInfo;
 	$.ajax({
@@ -37,11 +38,16 @@ function get_run_status(){
 		data: JSON.stringify(postData),
 		dataType: "json",
 		success: function(response){
-			console.log(response)
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("_frp_status").innerHTML = response.result;
 			setTimeout("get_run_status();", 3000);
 		},
 		error: function(){
+			if(softcenter == 1){
+				return false;
+			}
 			document.getElementById("_frp_status").innerHTML = "获取运行状态失败！";
 			setTimeout("get_run_status();", 5000);
 		}
@@ -72,7 +78,6 @@ frpc.fieldValuesToData = function(row) {
 
 frpc.verifyFields = function( row, quiet ) {
 	var f = fields.getAll( row );
-	// fill the ip and mac when chose the name
 	if (f[1].value == "http"){
 		f[5].value = Apps.frpc_vhost_http_port||"";
 	}
@@ -120,7 +125,6 @@ frpc.setup = function() {
 	this.showNewEditor();
 	this.resetNewEditor();
 }
-
 //==========================================
 function save(){
 	var data      = frpc.getAllData();
@@ -140,7 +144,6 @@ function save(){
 	Apps.frpc_common_log_file = E('_frpc_common_log_file').value;
 	Apps.frpc_common_log_level = E('_frpc_common_log_level').value;
 	Apps.frpc_common_log_max_days = E('_frpc_common_log_max_days').value;
-	//Apps.frpc_common_auth_token = E('_frpc_common_auth_token').value;
 	Apps.frpc_common_privilege_token = E('_frpc_common_privilege_token').value;
 	Apps.frpc_srlist = frpc_srlist;
 	
@@ -148,18 +151,9 @@ function save(){
 	var id = 1 + Math.floor(Math.random() * 6);
 	var postData = {"id": id, "method":'frpc_config.sh', "params":["start"], "fields": Apps};
 	var success = function(data) {
-		//
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
 		setTimeout("window.location.reload()", 3000);
-
-		//  do someting here.
-		//
-	};
-	var error = function(data) {
-		//
-		//  do someting here.
-		//
 	};
 	$('#footer-msg').text('保存中……');
 	$('#footer-msg').show();
@@ -170,11 +164,8 @@ function save(){
 	  url: "/_api/",
 	  data: JSON.stringify(postData),
 	  success: success,
-	  error: error,
 	  dataType: "json"
 	});
-	
-	//-------------- post Apps to dbus ---------------
 }
 
 </script>
@@ -200,7 +191,6 @@ function save(){
 		var tcp_mux = [['false', 'false'], ['true', 'true']];
 		var login_fail_exit = [['false', '失败后退出程序'], ['true', '失败后重复连接']];
 		var log_file = [['/dev/null', '关闭'], ['/tmp/frpc.log', '开启']];
-		//var option_mode = [['1', 'whatismyip.akamai.com'], ['2', 'WAN'], ['3', 'WAN2'], ['4', 'WAN3'], ['5', 'WAN4'], ['6', 'ip.chinaz.com']];
 		$('#frpc-fields').forms([
 		{ title: '开启frpc', name: 'frpc_enable', type: 'checkbox', value: ((Apps.frpc_enable == '1')? 1:0)},
 		{ title: 'frpc运行状态', text: '<font id="_frp_status" name=frp_status color="#1bbf35">正在获取运行状态...</font>' },
