@@ -363,7 +363,7 @@ function getSoftCenter(obj){
 			if(locversion != onlineversion){
 				$("#update").show();
 			}
-			$("#version").html("当前版本："+locversion+" , 线上版本：" + onlineversion + '&nbsp;&nbsp;&nbsp;&nbsp;【问题反馈:<a href="https://github.com/koolshare/ledesoft" target="_blank">&nbsp;&nbsp;<u>github</u></a><a href="http://koolshare.cn/forum-97-1.html" target="_blank">&nbsp;&nbsp;&nbsp;<u>koolshare</u></a>】');
+			$("#version").html("当前版本："+locversion+" , 线上版本：" + onlineversion + '&nbsp;&nbsp;&nbsp;&nbsp;【问题反馈:<a href="https://github.com/koolshare/ledesoft" target="_blank">&nbsp;&nbsp;<u>github</u></a><a href="https://t.me/joinchat/ERO9vEMMVu1dzQ-F8nP6kA" target="_blank">&nbsp;&nbsp;<u>telegram</u></a><a href="http://koolshare.cn/forum-97-1.html" target="_blank">&nbsp;&nbsp;&nbsp;<u>koolshare</u></a>】');
 
 			
 			var object = $.extend([],obj, soft);
