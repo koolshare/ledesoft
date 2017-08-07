@@ -1,14 +1,14 @@
 {
     "apps": [
         {
-            "build_date": "2017-07-22_20:02:14", 
+            "build_date": "2017-08-07_19:20:18", 
             "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "fcd511647404c24b6a8c3a7b432b04a1", 
+            "md5": "80836505c4fb9f50a49dc6b4fc64ac71", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
-            "version": "1.1"
+            "version": "1.0"
         }, 
         {
             "build_date": "2017-08-05_23:02:36", 
@@ -101,14 +101,14 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2017-07-22_20:08:09", 
+            "build_date": "2017-08-07_19:33:18", 
             "description": "多终端同步工具", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "bfe1cf202ee71049b18a96b97e847aeb", 
+            "md5": "ef85ab5b2d8095b0e10b7d07bb7e2a24", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
-            "version": "1.1"
+            "version": "1.0"
         }, 
         {
             "build_date": "2017-07-29_00:08:29", 

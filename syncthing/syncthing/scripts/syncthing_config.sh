@@ -13,7 +13,7 @@ create_conf(){
         $KSROOT/syncthing/syncthing -generate=$conf_Path >>/tmp/syncthing.log
     fi
 }
-lan_ip=`nvram get lan_ipaddr`
+lan_ip=$(uci get network.lan.ipaddr)
 weburl="http://$lan_ip:$syncthing_port"
 get_ipaddr(){
     if [ $syncthing_wan_enable == 1 ];then
@@ -30,9 +30,9 @@ start_syncthing(){
     #cru a syncthing "*/10 * * * * sh $KSROOT/scripts/syncthing_config.sh"
     dbus set syncthing_webui=$weburl
     if [ -L "/etc/rc.d/S94syncthing.sh" ];then 
-        rm -rf /etc/rc.d/S94syncthing.sh
+        rm -rf /etc/rc.d/S97syncthing.sh
     fi
-    ln -sf $KSROOT/scripts/syncthing_config.sh /etc/rc.d/S94syncthing.sh
+    ln -sf $KSROOT/init.d/S97syncthing.sh /etc/rc.d/S97syncthing.sh
 }
 stop_syncthing(){
     for i in `ps |grep syncthing|grep -v grep|grep -v "/bin/sh"|awk -F' ' '{print $1}'`;do
@@ -41,7 +41,7 @@ stop_syncthing(){
     sleep 2
     #cru d syncthing
     if [ -L "/etc/rc.d/S94syncthing.sh" ];then 
-        rm -rf /etc/rc.d/S94syncthing.sh
+        rm -rf /etc/rc.d/S97syncthing.sh
     fi
     dbus set syncthing_webui="--"
 }
