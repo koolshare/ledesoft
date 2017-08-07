@@ -4,9 +4,8 @@
 eval `dbus export aria2`
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
-export PERP_BASE=$KSROOT/perp
 token=$(head -200 /dev/urandom | md5sum | cut -d " " -f 1)
-ddns=$(nvram get ddns_hostname_x)
+ddns=$(uci get ddns.myddns_ipv4.domain)
 
 echo ""
 echo "#############################################################"
@@ -36,8 +35,7 @@ fi
 }
 
 start_aria2(){
-	#/koolshare/aria2/aria2c --conf-path=/koolshare/aria2/aria2.conf -D >/dev/null 2>&1 &
-	perpctl A aria2
+	/koolshare/aria2/aria2c --conf-path=/koolshare/aria2/aria2.conf -D >/dev/null 2>&1 &
 }
 
 # generate token
@@ -117,7 +115,7 @@ start)
 	generate_token
 	start_aria2
 	open_port
-	add_cpulimit
+	#add_cpulimit
 	fi
 	;;
 stop | kill )
@@ -136,7 +134,7 @@ restart)
 	generate_token
 	start_aria2
 	open_port
-	add_cpulimit
+	#add_cpulimit
 	;;
 default)
 	load_default

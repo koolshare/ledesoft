@@ -41,10 +41,10 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2017-07-09_15:34:27", 
+            "build_date": "2017-08-07_19:47:51", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "2f1d43acfd880ce8d5eebc50b9dc9d6c", 
+            "md5": "f7a3d2605eb4bed2b20f443a380c0693", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "aria2", 
@@ -91,20 +91,20 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-07_19:09:32", 
+            "build_date": "2017-08-07_19:48:01", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "8c2c87bca20f591ab7575f747ba2ff9b", 
+            "md5": "73b2a43a9c8c9b47dec42097b6d836e2", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
             "version": "0.1"
         }, 
         {
-            "build_date": "2017-08-07_19:33:18", 
+            "build_date": "2017-08-07_19:48:29", 
             "description": "多终端同步工具", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "ef85ab5b2d8095b0e10b7d07bb7e2a24", 
+            "md5": "39d5d3acedf67dec9bccdcc173cf6f66", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
