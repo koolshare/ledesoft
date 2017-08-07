@@ -22,23 +22,42 @@ stop_gdddns(){
 	rm -rf /etc/rc.d/S98gdddns.sh
 }
 
+start_wanup(){
+    cat > /etc/hotplug.d/iface/98-gdddns <<-EOF
+		#!/bin/sh
+		case "$ACTION" in
+		ifup)
+		sh $KSROOT/scripts/gdddns_update.sh
+		;;
+		esac
+EOF
+}
+
+stop_wanup(){
+    rm -rf /etc/hotplug.d/iface/98-gdddns >/dev/null 2>&1
+}
+
 case $ACTION in
 start)
 	if [ "$gdddns_enable" == "1" ]; then
 		logger "[软件中心]: 启动 Godaddy DDNS！"
+		start_wanup
 		start_gdddns
 	else
 		logger "[软件中心]: Godaddy DDNS 未设置开机启动，跳过！"
 	fi
 	;;
 stop)
+	stop_wanup
 	stop_gdddns
 	;;
 *)
 	if [ "$gdddns_enable" == "1" ]; then
+		start_wanup
 		start_gdddns
    		http_response '服务已开启！页面将在3秒后刷新'
    	else
+		stop_wanup
 		stop_gdddns
 		http_response '服务已关闭！页面将在3秒后刷新'
 	fi
