@@ -34,6 +34,8 @@ else
 	mv /tmp/user.txt.tmp $KSROOT/koolproxy/data/user.txt
 fi
 
+rm -rf $KSROOT/install.sh
+
 [ ! -L "/tmp/upload/user.txt" ] && ln -sf $KSROOT/koolproxy/data/user.txt /tmp/upload/user.txt
 cp -f /tmp/koolproxy/uninstall.sh $KSROOT/scripts/uninstall_koolproxy.sh
 
