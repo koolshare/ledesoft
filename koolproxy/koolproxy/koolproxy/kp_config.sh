@@ -56,8 +56,10 @@ remove_nat_start(){
 
 add_ipset_conf(){
 	if [ "$koolproxy_mode" == "2" ];then
-		echo_date 添加Adblock Plus Host软连接...
-		ln -sf $KP_DIR/data/dnsmasq.adblock /tmp/dnsmasq.d/dnsmasq.adblock
+		if [ "$koolproxy_host" == "1" ];then
+			echo_date 添加Adblock Plus Host软连接...
+			ln -sf $KP_DIR/data/dnsmasq.adblock /tmp/dnsmasq.d/dnsmasq.adblock
+		fi
 		dbus set koolproxy_host_nu=`cat /koolshare/koolproxy/data/dnsmasq.adblock|wc -l`
 		
 		echo_date 添加黑名单软连接...
