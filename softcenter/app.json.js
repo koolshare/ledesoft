@@ -21,14 +21,14 @@
             "version": "1.1.3"
         }, 
         {
-            "build_date": "2017-08-07_17:06:55", 
+            "build_date": "2017-08-07_17:12:56", 
             "description": "FRPC内网穿透工具", 
             "home_url": "Module_frpc.asp", 
-            "md5": "fe8e84c21557642c0bae1b0d84153df7", 
+            "md5": "799432f12cbe348f0c419f3ec7ba117b", 
             "name": "frpc", 
             "tar_url": "frpc/frpc.tar.gz", 
             "title": "frpc", 
-            "version": "1.2"
+            "version": "1.3"
         }, 
         {
             "build_date": "2017-07-22_20:02:14", 
