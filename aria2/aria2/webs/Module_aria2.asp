@@ -1,10 +1,14 @@
 <title>软件中心-Aria2</title>
 <content>
+<style type="text/css">
+input[disabled]:hover{
+    cursor:not-allowed;
+}
+</style>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
-  <script type="text/javascript">
-	AdvancedTomato();
+<script type="text/javascript">
 	getAppData();
     var Apps;
     function getAppData() {
@@ -113,7 +117,7 @@
     
   </script>
   <div class="box" >
-    <div class="heading">aria2 <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+    <div class="heading">Aria2<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
     <hr>
     <br>
     <div class="content">
