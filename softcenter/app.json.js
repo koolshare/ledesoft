@@ -101,6 +101,7 @@
             "version": "0.3"
         }, 
         {
+<<<<<<< HEAD
             "build_date": "2017-08-09_22:35:50", 
             "description": "多终端同步工具", 
             "home_url": "Module_syncthing.asp", 
@@ -109,6 +110,26 @@
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
             "version": "1.3"
+=======
+            "build_date": "2017-08-09_22:24:31", 
+            "description": "去头屑丝般顺滑", 
+            "home_url": "Module_koolproxy.asp", 
+            "md5": "3737eef8fab07cacb863261ec9e92338", 
+            "name": "koolproxy", 
+            "tar_url": "koolproxy/koolproxy.tar.gz", 
+            "title": "koolproxy", 
+            "version": "3.6.1.14"
+        }, 
+        {
+            "build_date": "2017-08-05_23:02:36", 
+            "description": "VPN全家桶", 
+            "home_url": "Module_softether_vpn.asp", 
+            "md5": "27565e598d69ffe597c4bc4e3ee8e17c", 
+            "name": "softether_vpn", 
+            "tar_url": "softether_vpn/softether_vpn.tar.gz", 
+            "title": "softether_vpn", 
+            "version": "1.0.2"
+>>>>>>> cbad24b3e06e91351025850834df2460cc879948
         }, 
         {
             "build_date": "2017-08-09_16:49:35", 
