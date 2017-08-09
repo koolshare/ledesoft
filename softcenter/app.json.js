@@ -111,14 +111,14 @@
             "version": "1.0.2"
         }, 
         {
-            "build_date": "2017-08-08_00:11:43", 
+            "build_date": "2017-08-09_16:49:35", 
             "description": "支持http2协议的远程管理，仅支持远程管理路由器+NAS+Windows远程桌面", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "67a73156c4eeae2d42dc4bf7e63fd69d", 
+            "md5": "979f03bb777c1ea3fd5686125b50d790", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "DDNSTO", 
-            "version": "1.5"
+            "version": "1.6"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 

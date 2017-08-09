@@ -4,6 +4,7 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export ddnsto`
 
+mkdir -p $KSROOT/init.d
 
 cd /tmp
 cp -rf /tmp/ddnsto/bin/* $KSROOT/bin/
