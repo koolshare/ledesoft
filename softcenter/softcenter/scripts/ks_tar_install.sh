@@ -26,9 +26,11 @@ if [ -f /tmp/upload/$soft_name ];then
 	if [ -f /tmp/$name/install.sh ];then
 		echo $(date): 找到安装脚本！ >> /tmp/upload/soft_log.txt
 		echo $(date): 运行安装脚本... >> /tmp/upload/soft_log.txt
+		echo $(date): ================================================= >> /tmp/upload/soft_log.txt
 		sleep 1
 		chmod +x /tmp/$name/install.sh >/dev/null 2>&1
-		sh /tmp/$name/install.sh >/dev/null 2>&1
+		sh /tmp/$name/install.sh >> /tmp/upload/soft_log.txt 2>&1
+		echo $(date): ================================================= >> /tmp/upload/soft_log.txt
 		dbus set "softcenter_module_$name$NAME_SUFFIX=$name"
 		dbus set "softcenter_module_$name$INSTALL_SUFFIX=1"
 		dbus set "softcenter_module_$name$VER_SUFFIX=$soft_install_version"
@@ -73,6 +75,7 @@ else
 	rm -rf /tmp/upload/$soft_name
 	echo jobdown >> /tmp/upload/soft_log.txt
 fi
-	echo jobdown >> /tmp/upload/soft_log.txt
-	rm -rf /tmp/$name
-	rm -rf /tmp/upload/$soft_name
+
+echo jobdown >> /tmp/upload/soft_log.txt
+rm -rf /tmp/$name
+rm -rf /tmp/upload/$soft_name
