@@ -249,7 +249,7 @@ load_nat(){
 	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
-	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
+	PR_NU=`iptables -t nat -L PREROUTING|tail -n +3|sed -n -e '/^prerouting_rule/='`
 	if [ "$PR_NU" == "" ]; then
 		PR_NU=1
 	else

@@ -1,8 +1,8 @@
 {
-"version":"1.2",
-"md5":"d860a996fa1dc77807dd6424c2b19a01",
+"version":"1.3",
+"md5":"0a409f764fa585eb6ab8f683d6448308",
 "home_url":"Module_syncthing.asp",
 "title":"syncthing",
 "description":"多终端同步工具",
-"build_date":"2017-08-07_23:38:55"
+"build_date":"2017-08-09_22:35:50"
 }

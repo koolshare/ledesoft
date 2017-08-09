@@ -2,7 +2,10 @@
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 
+sh $KSROOT/scripts/syncthing_config.sh stop
 cp -r /tmp/syncthing/* $KSROOT/
+mkdir -p $KSROOT/init.d
+chmod a+x $KSROOT/syncthing/syncthing
 chmod a+x $KSROOT/scripts/syncthing_*
 chmod a+x $KSROOT/init.d/S97syncthing.sh
 

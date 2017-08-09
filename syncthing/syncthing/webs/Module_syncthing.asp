@@ -1,10 +1,14 @@
 <title>软件中心 - Syncthing</title>
 <content>
+<style type="text/css">
+input[disabled]:hover{
+    cursor:not-allowed;
+}
+</style>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
-AdvancedTomato();
 getAppData();
 var Apps;
 function getAppData(){
@@ -19,7 +23,7 @@ var appsInfo;
 	  	}
 	});
 }
-if (Apps.syncthing_webui == undefined||syncthing_webui == null){
+if (Apps.syncthing_webui == undefined||Apps.syncthing_webui == null){
 		Apps.syncthing_webui = '--';
 	}
 //console.log('Apps',Apps);
@@ -50,7 +54,6 @@ function save(){
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
 		setTimeout("window.location.reload()", 3000);
-
 		//  do someting here.
 		//
 	};
@@ -76,7 +79,7 @@ function save(){
 }
 </script>
 <div class="box">
-<div class="heading">ddnsto <a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+<div class="heading">Syncthing <a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 <br><hr>
 <div class="content">
 <div id="syncthing-fields"></div>
