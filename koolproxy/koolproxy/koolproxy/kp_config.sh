@@ -45,12 +45,23 @@ del_start_up(){
 
 write_nat_start(){
 	echo_date 添加nat-start触发事件...
-	echo "sh $KP_DIR/kp_config.sh start_nat" >> /etc/firewall.user
+	uci -q batch <<-EOT
+	  delete firewall.ks_koolproxy
+	  set firewall.ks_koolproxy=include
+	  set firewall.ks_koolproxy.type=script
+	  set firewall.ks_koolproxy.path=/koolshare/koolproxy/kp_config.sh
+	  set firewall.ks_koolproxy.family=any
+	  set firewall.ks_koolproxy.reload=1
+	  commit firewall
+	EOT
 }
 
 remove_nat_start(){
 	echo_date 删除nat-start触发...
-	sed -i '/kp_config.sh/d' /etc/firewall.user >/dev/null 2>&1
+	uci -q batch <<-EOT
+	  delete firewall.ks_koolproxy
+	  commit firewall
+	EOT
 }
 # ===============================
 
@@ -249,7 +260,7 @@ load_nat(){
 	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
-	PR_NU=`iptables -t nat -L PREROUTING|tail -n +3|sed -n -e '/^prerouting_rule/='`
+	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
 	if [ "$PR_NU" == "" ]; then
 		PR_NU=1
 	else
@@ -337,6 +348,7 @@ restart)
 	write_reboot_job
 	add_ss_event
 	echo_date koolproxy启用成功，请等待日志窗口自动关闭，页面会自动刷新...
+	[ ! -f "/tmp/koolprxoy.nat_lock" ] && touch /tmp/koolprxoy.nat_lock
 	echo_date =================================================
 	;;
 stop)
@@ -348,7 +360,8 @@ stop)
 	stop_koolproxy
 	del_start_up
 	;;
-start_nat)
+*)
+	[ ! -f "/tmp/koolprxoy.nat_lock" ] && exit 0
 	flush_nat
 	creat_ipset
 	add_white_black_ip
