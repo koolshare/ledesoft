@@ -480,7 +480,7 @@ function getSoftCenter(obj){
 					appPostScript(moduleInfo, "ks_app_install.sh");
 				});
 			}
-			// filp all software icon once and remain update style
+			// flip all software icon once and remain update style
 			if(($('.btn.btn-success'))){
 				var update_soft = $('.btn.btn-success').parent('DIV.appDesc').parent();
 				change1(update_soft);
@@ -716,92 +716,83 @@ var _temp;
 		</div>
 	</div>
 	​<ul class="nav nav-tabs" style="margin-left: 30px;">
-		<li>
-			<a href="javascript:tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a>
-		</li>
-		<li>
-			<a href="javascript:tabSelect('app2');" id="app2-server1-advanced-tab"><i class="icon-globe"></i> 未安装</a>
-		</li>
-		<li>
-			<a href="javascript:tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a>
-		</li>
-		<li>
-			<a href="javascript:tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 关于我们</a>
-		</li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-server1-advanced-tab"><i class="icon-globe"></i> 未安装</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 关于我们</a></li>
 	</ul>
-	
-		<div class="box boxr1">
-			<div class="heading">已安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
-			<div class="content">
-				<div class="tabContent1">
-					<!--app info -->
-					<!--app info -->
+	<div class="box boxr1">
+		<div class="heading">已安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
+		<div class="content">
+			<div class="tabContent1">
+				<!--app info -->
+				<!--app info -->
+			</div>
+		</div>
+	</div>
+	<div class="box boxr2">
+		<div class="heading">未安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
+		<div class="content">
+			<div class="tabContent2">
+				<!--app info -->
+				<!--app info -->
+			</div>
+		</div>
+	</div>
+	<div class="box boxr3">
+		<div class="heading">插件离线安装界面&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
+		<div class="content">
+			<div class="tabContent3">
+				<ul style="margin-left: 30px;">
+					<li>此页面功能需要在7.0及其以上的固件才能使用。</li>
+					<li>通过本页面，你可以上传插件的离线安装包来安装插件；</li>
+					<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
+					<li>建议开发者将插件版本号，md5等信息在install.sh文件内进行写入；</li>
+				</ul>
+				<br/>
+				<div id="identification" class="section">
+					<fieldset>
+						<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
+						<div class="col-sm-9">
+							<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
+						</div>
+					</fieldset>
+					<fieldset>
+						<label class="control-left-label col-sm-3">选择安装包</label>
+						<div class="col-sm-9">
+							
+								<input type="file" id="file" size="50">
+								<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
+							
+						</div>
+					</fieldset>
+					<fieldset>
+						<label class="control-left-label col-sm-3">安装日志</label>
+						<div class="col soft_log">
+							<script type="text/javascript">
+								s = 'height:200px;display:block';
+								$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 80%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
+							
+							</script>
+						</div>
+					</fieldset>
 				</div>
 			</div>
 		</div>
-		<div class="box boxr2">
-			<div class="heading">未安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
-			<div class="content">
-				<div class="tabContent2">
-					<!--app info -->
-					<!--app info -->
-				</div>
+	</div>
+	<div class="box boxr4">
+		<div class="heading">关于我们</div>
+		<div class="content">
+			<div class="tabContent4">
+				<!--app info -->
+				<ul style="margin-left: 30px;">
+					<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
+					<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、@fw867、KoolShare开发组、以及其他人员。</font></li>
+					<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
+					<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-97-1.html" target="_blank"><font color="#FF6347">KoolShare LEDE</font></a> 版块反馈。</li>
+				</ul>
+				<!--app info -->
 			</div>
 		</div>
-		<div class="box boxr3">
-			<div class="heading">插件离线安装界面&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
-			<div class="content">
-				<div class="tabContent3">
-					<ul style="margin-left: 30px;">
-						<li>此页面功能需要在7.0及其以上的固件才能使用。</li>
-						<li>通过本页面，你可以上传插件的离线安装包来安装插件；</li>
-						<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
-						<li>建议开发者将插件版本号，md5等信息在install.sh文件内进行写入；</li>
-					</ul>
-					<br/>
-					<div id="identification" class="section">
-						<fieldset>
-							<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
-							<div class="col-sm-9">
-								<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
-							</div>
-						</fieldset>
-						<fieldset>
-							<label class="control-left-label col-sm-3">选择安装包</label>
-							<div class="col-sm-9">
-								
-									<input type="file" id="file" size="50">
-									<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
-								
-							</div>
-						</fieldset>
-						<fieldset>
-							<label class="control-left-label col-sm-3">安装日志</label>
-							<div class="col soft_log">
-								<script type="text/javascript">
-									s = 'height:200px;display:block';
-									$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 80%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
-								
-								</script>
-							</div>
-						</fieldset>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="box boxr4">
-			<div class="heading">关于我们</div>
-			<div class="content">
-				<div class="tabContent4">
-					<!--app info -->
-					<ul style="margin-left: 30px;">
-						<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
-						<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、@fw867、KoolShare开发组、以及其他人员。</font></li>
-						<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
-						<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-97-1.html" target="_blank"><font color="#FF6347">KoolShare LEDE</font></a> 版块反馈。</li>
-					</ul>
-					<!--app info -->
-				</div>
-			</div>
-		</div>
+	</div>
 </content>
