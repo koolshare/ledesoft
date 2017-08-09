@@ -1,5 +1,7 @@
 #! /bin/sh
-
+export KSROOT=/koolshare
+source $KSROOT/scripts/base.sh
+eval `dbus export aria2`
 sh /koolshare/aria2/aria2_run.sh stop
 rm -rf /koolshare/aria2
 rm -rf /koolshare/scripts/aria2_config.sh

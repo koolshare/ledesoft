@@ -1,4 +1,8 @@
 #! /bin/sh
+export KSROOT=/koolshare
+source $KSROOT/scripts/base.sh
+eval `dbus export aria2`
+
 cd /tmp
 cp -rf /tmp/aria2/aria2 /koolshare/
 cp -rf /tmp/aria2/scripts/* /koolshare/scripts/

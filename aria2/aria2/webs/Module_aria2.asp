@@ -1,10 +1,14 @@
 <title>软件中心-Aria2</title>
 <content>
+<style type="text/css">
+input[disabled]:hover{
+    cursor:not-allowed;
+}
+</style>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
-  <script type="text/javascript">
-	AdvancedTomato();
+<script type="text/javascript">
 	getAppData();
     var Apps;
     function getAppData() {
@@ -56,8 +60,8 @@
       Apps.aria2_rpc_listen_port = E('_aria2_rpc_listen_port').value;
       Apps.aria2_sleep = E('_aria2_sleep').value;
       Apps.aria2_max_concurrent_downloads = E('_aria2_max_concurrent_downloads').value;
-      Apps.aria2_input_file = "/jffs/koolshare/aria2/aria2.session";
-      Apps.aria2_save_session = "/jffs/koolshare/aria2/aria2.session";
+      Apps.aria2_input_file = "/koolshare/aria2/aria2.session";
+      Apps.aria2_save_session = "/koolshare/aria2/aria2.session";
       Apps.aria2_enable_http_pipelining = "true";
       Apps.aria2_max_connection_per_server = "10";
       Apps.aria2_min_split_size = "10M";
@@ -113,7 +117,7 @@
     
   </script>
   <div class="box" >
-    <div class="heading">aria2 <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+    <div class="heading">Aria2<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
     <hr>
     <br>
     <div class="content">
