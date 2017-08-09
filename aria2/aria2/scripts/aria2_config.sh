@@ -6,7 +6,7 @@ source $KSROOT/scripts/base.sh
 #eval `dbus export aria2`
 get_info(){
 	version=`$KSROOT/aria2/aria2c --version|grep "aria2 version"|cut -d" " -f3`
-	dirpath=`df -h|grep /mnt/sd*`
+	dirpath=`df -h|grep /mnt/sd*|awk -F" " '{print $6"/download/\("$4"\)"}'`
 	if [ -z $dirpath ];then
 		dirpath="未挂载磁盘"
 	fi

@@ -38,3 +38,4 @@ dbus set softcenter_module_aria2_install=1
 dbus set softcenter_module_aria2_version=0.1
 dbus set softcenter_module_aria2_description="aria2下载工具"
 
+sh $KSROOT/scripts/aria2_config.sh

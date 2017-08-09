@@ -1,9 +1,9 @@
 #!/bin/sh
 
 # define variables
-eval `dbus export aria2`
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export aria2`
 token=$(head -200 /dev/urandom | md5sum | cut -d " " -f 1)
 ddns=$(uci get ddns.myddns_ipv4.domain)
 
@@ -73,7 +73,6 @@ close_port(){
 
 # kill aria2
 kill_aria2(){
-    perpctl X aria2
     killall aria2c >/dev/null 2>&1
 }
 
@@ -120,13 +119,11 @@ start)
 	;;
 stop | kill )
 	kill_aria2
-	killall cpulimit
 	close_port
 	dbus remove aria2_custom
 	;;
 restart)
-	del_process_check
-	killall cpulimit
+	#del_process_check
 	kill_aria2
 	close_port
 	sleep 1

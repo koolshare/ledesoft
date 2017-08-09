@@ -21,14 +21,14 @@
             "version": "1.0.2"
         }, 
         {
-            "build_date": "2017-08-08_00:40:59", 
+            "build_date": "2017-08-09_22:24:31", 
             "description": "去头屑丝般顺滑", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "ccffac22250ab9d059a5d75db65577e1", 
+            "md5": "3737eef8fab07cacb863261ec9e92338", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.13"
+            "version": "3.6.1.14"
         }, 
         {
             "build_date": "2017-08-08_00:21:52", 
@@ -41,14 +41,14 @@
             "version": "0.4"
         }, 
         {
-            "build_date": "2017-08-08_21:44:57", 
+            "build_date": "2017-08-09_23:24:33", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "9b2c228e560644208e706944c93dac5c", 
+            "md5": "f87972f6c280e1d2728524c2e65a5829", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "aria2", 
-            "version": "1.2"
+            "version": "1.3"
         }, 
         {
             "build_date": "2017-08-07_21:25:11", 
@@ -109,24 +109,6 @@
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
             "version": "1.3"
-            "build_date": "2017-08-09_22:24:31", 
-            "description": "去头屑丝般顺滑", 
-            "home_url": "Module_koolproxy.asp", 
-            "md5": "3737eef8fab07cacb863261ec9e92338", 
-            "name": "koolproxy", 
-            "tar_url": "koolproxy/koolproxy.tar.gz", 
-            "title": "koolproxy", 
-            "version": "3.6.1.14"
-        }, 
-        {
-            "build_date": "2017-08-05_23:02:36", 
-            "description": "VPN全家桶", 
-            "home_url": "Module_softether_vpn.asp", 
-            "md5": "27565e598d69ffe597c4bc4e3ee8e17c", 
-            "name": "softether_vpn", 
-            "tar_url": "softether_vpn/softether_vpn.tar.gz", 
-            "title": "softether_vpn", 
-            "version": "1.0.2"
         }, 
         {
             "build_date": "2017-08-09_16:49:35", 
