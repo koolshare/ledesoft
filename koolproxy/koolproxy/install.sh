@@ -1,6 +1,7 @@
 #!/bin/sh
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export koolproxy_`
 
 # stop first
 [ "$koolproxy_enable" == "1" ] && sh $KSROOT/koolproxy/kp_config.sh stop
@@ -22,6 +23,7 @@ rm -rf $KSROOT/koolproxy/rule_store >/dev/null 2>&1
 # copy new files
 cd /tmp
 mkdir -p $KSROOT/koolproxy
+mkdir -p $KSROOT/init.d
 mkdir -p $KSROOT/koolproxy/data
 cp -rf /tmp/koolproxy/scripts/* $KSROOT/scripts/
 cp -rf /tmp/koolproxy/webs/* $KSROOT/webs/
@@ -50,6 +52,9 @@ ln -sf  $KSROOT/koolproxy/koolproxy  $KSROOT/bin/koolproxy
 
 
 rm -rf /tmp/koolproxy* >/dev/null 2>&1
+
+# remove old files if exist
+find /etc/rc.d/ -name *koolproxy.sh* | xargs rm -rf
 
 [ -z "$koolproxy_mode" ] && dbus set koolproxy_mode="1"
 [ -z "$koolproxy_acl_default" ] && dbus set koolproxy_acl_default="1"
