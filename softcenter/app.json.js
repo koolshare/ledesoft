@@ -101,14 +101,14 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-08-09_22:35:50", 
+            "build_date": "2017-08-09_23:35:06", 
             "description": "多终端同步工具", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "0a409f764fa585eb6ab8f683d6448308", 
+            "md5": "bd87cafefd639b1d745de08c6617920d", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
-            "version": "1.3"
+            "version": "1.4"
         }, 
         {
             "build_date": "2017-08-09_16:49:35", 
