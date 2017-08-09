@@ -1,9 +1,9 @@
 #!/bin/sh
 
 MODULE=koolproxy
-VERSION=3.6.1.15
+VERSION=3.6.1.16
 TITLE=koolproxy
-DESCRIPTION=去头屑丝般顺滑
+DESCRIPTION=听说KP和软路由更搭哦~
 HOME_URL=Module_koolproxy.asp
 #!/bin/sh
 # Check and include base

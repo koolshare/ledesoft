@@ -334,7 +334,7 @@ No part of this file may be used without permission.
 	<div class="box">
 		<div class="heading">KoolProxy<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
-			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px"></span>
+			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">koolproxy是能识别adblock规则的代理软件，可以用于去除网页静广告和视频广告，并且支持https！</span>
 		</div>	
 	</div>
 	<ul class="nav nav-tabs">

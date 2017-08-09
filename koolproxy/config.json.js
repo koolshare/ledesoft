@@ -1,8 +1,8 @@
 {
-"version":"3.6.1.15",
-"md5":"b5611b5f7b9cbfecdfe80ad950b82e2b",
+"version":"3.6.1.16",
+"md5":"922d59907fffb4f20157b64aa99360b8",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
-"description":"去头屑丝般顺滑",
-"build_date":"2017-08-10_01:10:01"
+"description":"听说KP和软路由更搭哦~",
+"build_date":"2017-08-10_01:34:17"
 }
