@@ -9,7 +9,23 @@ input[disabled]:hover{
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
+getAppData();
 toggleVisibility('notes')
+//console.log("111", document.location.hash)
+var Apps;
+function getAppData(){
+var appsInfo;
+	$.ajax({
+	  	type: "GET",
+	 	url: "/_api/hotfix_",
+	  	dataType: "json",
+	  	async:false,
+	 	success: function(data){
+	 	 	Apps = data.result[0];
+	  	}
+	});
+}
+
 function toggleVisibility(whichone) {
 	if(E('sesdiv' + whichone).style.display=='') {
 		E('sesdiv' + whichone).style.display='none';
@@ -26,7 +42,18 @@ function toggleVisibility(whichone) {
 <div class="heading">hotfix <a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 <div class="content">
 	<span class="col" style="line-height:30px;width:700px">
-	hotfix是快速修复当前版本固件中一些小bug的插件。<br />
+	hotfix是快速修复当前版本固件中一些小bug的插件。安装后可以卸载，但为了第一时间获取后续更新建议保持安装状态。<br />
+</div>
+</div>
+<div class="box">
+<br><hr>
+<div class="content">
+<div id="hotfix-fields"></div>
+<script type="text/javascript">
+$('#hotfix-fields').forms([
+{ title: '当前插件版本', name: 'hotfix_version', text: Apps.hotfix_version || '--' }
+]);
+</script>
 </div>
 </div>
 
