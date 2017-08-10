@@ -11,14 +11,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-10_12:45:40", 
+            "build_date": "2017-08-10_13:05:42", 
             "description": "快速修复当前固件中的BUG", 
             "home_url": "Module_hotfix.asp", 
-            "md5": "28952d936d56dd276883f827bdae3c25", 
+            "md5": "4a34c2143127c8e351b1fff4eba95004", 
             "name": "hotfix", 
             "tar_url": "hotfix/hotfix.tar.gz", 
             "title": "HOTFIX", 
-            "version": "0.1"
+            "version": "0.1.1"
         }, 
         {
             "build_date": "2017-08-05_23:02:36", 
@@ -132,7 +132,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "9b0c3a9d13a7d8553a231739b64813f5", 
+    "md5": "e74006393e322b851706a7bb500bd118", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "0.1.3"
+    "version": "0.1.4"
 }

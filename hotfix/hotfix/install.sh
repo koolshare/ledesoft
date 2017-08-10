@@ -21,7 +21,9 @@ dbus set softcenter_module_hotfix_description="无疼修复当前固件中的BUG
 sed -i '/google.com.tw/d' /etc/dnsmasq.d/gfwlist.conf >/dev/null 2>&1 &
 sed -i '/google.com.tw/d' /etc/dnsmasq.d/custom.conf >/dev/null 2>&1 &
 sed -i '/google.com.tw/d' /etc/gfwlist/gfwlist >/dev/null 2>&1 &
-
+rm -rf /tmp/dnsmasq.d/custom.conf
+rm -rf /tmp/dnsmasq.d/gfwlist.conf
+/etc/init.d/shadowsocks restart
 sleep 1
 rm -rf /tmp/hotfix* >/dev/null 2>&1
 
