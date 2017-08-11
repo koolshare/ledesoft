@@ -1,10 +1,13 @@
 #!/bin/sh
 
+# get logfile ready for httpdb to read as soon as possible
+logfile="/tmp/upload/fw_log.txt"
+echo "" > $logfile
+
 alias echo_date='echo $(date +%Y年%m月%d日\ %X)'
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export fwupdate_`
-logfile="/tmp/upload/fw_log.txt"
 fwserver="http://firmware.koolshare.cn/LEDE_X64_fw867"
 fwlocal=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
 
@@ -33,70 +36,72 @@ get_keep_status(){
 	esac
 }
 
-
 update_firmware(){
-	/sbin/sysupgrade $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
+	touch /koolshare/test.txt
+	#/sbin/sysupgrade $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
+	dbus set fwupdate_enforce="0"
 }
 
 download_firmware(){
-	wget --referer=http://koolshare.cn --timeout=8 -O - $fwserver/$fwfile > /tmp/$fwfile
-	echo_date "固件下载完成，开始校验固件" >> $logfile
+	wget --referer=http://koolshare.cn --timeout=8 --tries=2 -O - $fwserver/$fwfile > /tmp/$fwfile
+	echo_date "固件下载完成，开始校验固件"
 	dlsha256=`sha256sum /tmp/$fwfile|awk '{print $1}'`
-	echo_date "原始文件校验码：$fwsha256" >> $logfile
-	echo_date "下载文件校验码：$dlsha256" >> $logfile
-	echo_date "============================================" >> $logfile
+	echo_date "原始文件校验码：$fwsha256"
+	echo_date "下载文件校验码：$dlsha256"
+	echo_date "============================================"
 	if [ "$fwsha256" == "$dlsha256" ];then
-		echo_date "下载完成，校验通过，开始升级固件，升级完成后自动重启！" >> $logfile
+		echo_date "下载完成，校验通过，开始升级固件，升级完成后自动重启！"
 		get_keep_status $fwupdate_keep
 		update_firmware
 	else
-		echo_date "下载完成，但是校验没有通过！" >> $logfile
+		echo_date "下载完成，但是校验没有通过！"
 	fi
 }
 
 get_update(){
-	echo_date "============================================" >> $logfile
-	echo_date "开始检测最新固件版本" >> $logfile
+	echo_date "============================================"
+	echo_date "开始检测最新固件版本"
 	rm -rf /tmp/fwversion
-	wget --referer=http://koolshare.cn --timeout=8 -qO - $fwserver/version.md > /tmp/fwversion
+	wget --referer=http://koolshare.cn --timeout=8 --tries=2 -qO - $fwserver/version.md > /tmp/fwversion
 	if [ -s "/tmp/fwversion" ];then
 		fwfile=$(cat /tmp/fwversion | sed -n 1p)
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)
 		fwlast=$(cat /tmp/fwversion | sed -n 3p)
-		echo_date "本地固件版本为：$fwlast" >> $logfile
-		echo_date "最新固件版本为：$fwlast" >> $logfile
-		echo_date "============================================" >> $logfile
+		echo_date "本地固件版本为：$fwlast"
+		echo_date "最新固件版本为：$fwlast"
+		echo_date "============================================"
 		if [ "$fwlocal" != "$fwlast" ];then
-			echo_date "检测到有新固件，开始下载固件..." >> $logfile
+			echo_date "检测到有新固件，开始下载固件..."
 			download_firmware
 		else
 			if [ "$fwupdate_enforce" == "1" ];then
-				echo_date "当前已经是最新固件，但你选择了强制刷新，将为你下载固件..." >> $logfile
+				echo_date "当前已经是最新固件，但你选择了强制刷新，将为你下载固件..."
 				download_firmware
 			else
-				echo_date "真棒，你已经升级到最新固件了，无需更新！" >> $logfile
-				echo_date "enforce $fwupdate_enforce" >> $logfile
+				echo_date "真棒，你已经升级到最新固件了，无需更新！"
+				echo_date "enforce $fwupdate_enforce"
 			fi
 		fi
 			
 	else
-		echo_date "获取最新固件版本号失败，请检查网络或稍后再试！" >> $logfile	
+		echo_date "获取最新固件版本号失败，请检查网络或稍后再试！"
 	fi
 }
 
-
-
 case $2 in
-*)
-	rm -rf $logfile
-	get_update
-	echo XU6J03M6 >> $logfile
-	http_response "$1"
-	;;
-restart)
-	rm -rf $logfile
-	get_update
-	echo XU6J03M6 >> $logfile
-	http_response "$1"
+update)
+	if [ -f "/tmp/fwupdate.locker" ];then
+		#前正在进行更新，点击按钮会给用户切换到日志界面继续观察日志
+		exit 0
+	else
+		touch /tmp/fwupdate.locker
+		# wait for httpdb to read
+		sleep 1
+		# begain to update
+		get_update >> $logfile 2>&1
+		echo XU6J03M6 >> $logfile
+		http_response "$1"
+		rm -rf /tmp/fwupdate.locker
+	fi
 	;;
 esac

@@ -11,6 +11,11 @@ No part of this file may be used without permission.
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
+<style type="text/css">
+input[disabled]:hover{
+    cursor:not-allowed;
+}
+</style>
 	<script type="text/javascript">
 		var dbss;
 		var softcenter = 0;
@@ -24,36 +29,32 @@ No part of this file may be used without permission.
 		
 		//============================================
 		function init_fw(){
+			E('save-button').disabled = true;
 			get_local_data();
 			$("#_fwupdate_log").click(
 				function() {
 					x = -1;
 			});
-			setTimeout("get_run_status();", 1000);
-		}
-
-		function conf2obj(dbus){
-			for (var i = 0; i < params.length; i++) {
-			if(typeof(dbus[params[i]]) != "undefined"){
-					if (document.getElementById("_" + params[i]).getAttribute("type") == "checkbox"){
-						if (dbus[params[i]] == 1){
-							E("_" + params[i]).checked = true;
-						}else{
-							E("_" + params[i]).checked = false;
-						}
-					}else{
-						E("_" + params[i]).value = dbus[params[i]];
-					}
-				}
-			}
 		}
 
 		function get_local_data(){
 			var dbus = {};
 			$.getJSON("/_api/fwupdate_", function(res) {
 				dbus=res.result[0];
-				conf2obj(dbus);
+				dbus2obj(dbus);
+				get_run_status();
 			});
+		}
+
+		function dbus2obj(dbus){
+			// only fwupdate_keep send to skipd
+			if(typeof(dbus["fwupdate_keep"]) != "undefined"){
+				if (dbus["fwupdate_keep"] == 1){
+					E("_fwupdate_keep").checked = true;
+				}else{
+					E("_fwupdate_keep").checked = false;
+				}
+			}
 		}
 
 		function get_run_status(){
@@ -71,7 +72,7 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_fwupdate_fwlocal").innerHTML = response.result.split("@@")[0];
 					document.getElementById("_fwupdate_fwlast").innerHTML = response.result.split("@@")[1];
-					setTimeout("get_run_status();", 10000);
+					verifyFields();
 				},
 				error: function(){
 					if(softcenter == 1){
@@ -79,15 +80,39 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_fwupdate_fwlocal").innerHTML = "获取本地版本信息失败！";
 					document.getElementById("_fwupdate_fwlast").innerHTML = "获取最新版本信息失败！";
-					setTimeout("get_run_status();", 5000);
+					setTimeout("get_run_status();", 2000);
 				}
 			});
-		}	
-
-		function download_cert(){
-			location.href = "http://110.110.110.110";
 		}
-		
+
+		function verifyFields(r){
+			var local_version = parseInt(E('_fwupdate_fwlocal').innerHTML);
+			var online_version = parseInt(E('_fwupdate_fwlast').innerHTML);
+
+			if(isNaN(local_version)){ //版本号不是数字
+				showMsg("msg_warring","错误！","<b>获取本地版本号错误！</b>");
+				return false;
+			}
+
+			if(isNaN(online_version)){ //版本号不是数字
+				showMsg("msg_warring","错误！","<b>获取在线版本号错误！请检查你的网络！</b>");
+				return false;
+			}
+
+			if (online_version > local_version){
+				E('save-button').disabled = false;
+			}else{
+				var a = E('_fwupdate_enforce').checked;
+				E('save-button').disabled = !a;
+				if ( $(r).attr("id") == "_fwupdate_enforce" ) {
+					E('save-button').innerHTML = '强制更新 <i class="icon-check"></i>';
+				}else{
+					E('save-button').innerHTML = '开始更新 <i class="icon-check"></i>';
+				}
+			}
+			return true;
+		}
+
 		function tabSelect(obj){
 			var tableX = ['app1-server1-jb-tab','app3-server1-rz-tab'];
 			var boxX = ['boxr1','boxr3'];
@@ -117,6 +142,8 @@ No part of this file may be used without permission.
 		}
 
 		function save(){
+			// disable update botton when in update progress
+			E('save-button').disabled = true;
 			// collect basic data
 			var dbus2 = {};
 			for (var i = 0; i < params.length; i++) {
@@ -130,10 +157,9 @@ No part of this file may be used without permission.
 		    		dbus2[params[i]] = E("_" + params[i]).value;
 				}
 			}
-						
 			// post data
 			var id3 = parseInt(Math.random() * 100000000);
-			var postData3 = {"id": id3, "method": "fwupdate_config.sh", "params":["restart"], "fields": dbus2};
+			var postData3 = {"id": id3, "method": "fwupdate_config.sh", "params":["update"], "fields": dbus2};
 			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				url: "/_api/",
@@ -147,7 +173,6 @@ No part of this file may be used without permission.
 			});
 			reload = 1;
 			tabSelect("app3");
-			//save_user_txt();
 		}
 		
 		function get_log(){
@@ -182,6 +207,10 @@ No part of this file may be used without permission.
 					retArea.value = response.replace("XU6J03M6", " ");
 					retArea.scrollTop = retArea.scrollHeight;
 					_responseLen = response.length;
+				},
+				error: function() {
+					E("_fwupdate_log").value = "获取日志失败！";
+					return false;
 				}
 			});
 		}
@@ -191,12 +220,15 @@ No part of this file may be used without permission.
 	<div class="box">
 		<div class="heading">固件更新<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
-			<span class="col" style="line-height:30px;width:700px">在线更新或者重刷你的路由器固件。</span>
+			<span class="col" style="line-height:30px;width:700px">
+				<li>在线更新或者重刷你的路由器固件；</li>
+				<li>hyper-v虚拟机用户请不要使用。</li>
+			</span>
 		</div>	
 	</div>
 	<ul class="nav nav-tabs">
-		<li><a href="javascript:tabSelect('app1');" id="app1-server1-jb-tab" class="active"><i class="icon-system"></i> 固件信息</a></li>
-		<li><a href="javascript:tabSelect('app3');" id="app3-server1-rz-tab"><i class="icon-info"></i> 更新日志</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-jb-tab" class="active"><i class="icon-system"></i> 固件信息</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-rz-tab"><i class="icon-info"></i> 更新日志</a></li>
 	</ul>
 	<div class="box boxr1" style="margin-top: 0px;">
 		<div class="heading">固件信息</div>

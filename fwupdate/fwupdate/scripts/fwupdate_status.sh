@@ -13,7 +13,6 @@ timenow=`date +%Y%m%d%H%M`
 get_last(){
 	rm -rf /tmp/fwversion
 	wget --referer=http://koolshare.cn --timeout=8 -qO - http://firmware.koolshare.cn/LEDE_X64_fw867/version.md > /tmp/fwversion
-	echo_date "正在为小主自动检测最新固件！" >> /tmp/upload/fw_log.txt
 	if [ -s "/tmp/fwversion" ];then
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)
 		fwlast=$(cat /tmp/fwversion | sed -n 3p)
@@ -29,6 +28,10 @@ if [ "$timenow" -gt "$fwupdate_lastcheck" ];then
 else
 	fwlast=$fwupdate_fwlast
 fi
+
+#remove locker file when no update progress running in the background
+UPDATE=`ps grep fwupdate_config|grep -v grep`
+[ -z "UPDATE" ] && rm -rf /tmp/fwupdate.locker >/dev/null 2>&1
 
 [ -z "$fwlocal" ] && fwlocal="<font color='#FF0000'>本地版本信息获取失败！</font>"
 [ -z "$fwlast" ] && fwlast="<font color='#FF0000'>最新版本信息获取失败！</font>"
