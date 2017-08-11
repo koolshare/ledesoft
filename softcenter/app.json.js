@@ -61,6 +61,16 @@
             "version": "1.3"
         }, 
         {
+            "build_date": "2017-08-11_14:46:43", 
+            "description": "在线更新路由器固件", 
+            "home_url": "Module_fwupdate.asp", 
+            "md5": "384d19a2e7f9ed5c2915515f4d99dd3a", 
+            "name": "fwupdate", 
+            "tar_url": "fwupdate/fwupdate.tar.gz", 
+            "title": "固件更新", 
+            "version": "0.1.0"
+        }, 
+        {
             "build_date": "2017-08-07_21:25:11", 
             "description": "DNSPOD动态域名解析", 
             "home_url": "Module_dnspod.asp", 
