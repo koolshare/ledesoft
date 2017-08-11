@@ -37,8 +37,8 @@ get_keep_status(){
 }
 
 update_firmware(){
-	touch /koolshare/test.txt
-	#/sbin/sysupgrade $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
+	#touch /koolshare/test.txt
+	/sbin/sysupgrade $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
 	dbus set fwupdate_enforce="0"
 }
 
