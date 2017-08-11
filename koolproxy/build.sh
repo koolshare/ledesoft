@@ -5,18 +5,9 @@ VERSION=3.6.1.16
 TITLE=koolproxy
 DESCRIPTION=听说KP和软路由更搭哦~
 HOME_URL=Module_koolproxy.asp
-#!/bin/sh
+
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
-if [ "$MODULE" == "" ]; then
-	echo "module not found"
-	exit 1
-fi
-
-if [ -f "$DIR/$MODULE/$MODULE/install.sh" ]; then
-	echo "install script not found"
-	exit 2
-fi
 
 # now include build_base.sh
 . $DIR/../softcenter/build_base.sh

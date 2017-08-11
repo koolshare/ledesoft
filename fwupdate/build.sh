@@ -9,7 +9,6 @@ HOME_URL=Module_fwupdate.asp
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 
-echo $DIR
 # now include build_base.sh
 . $DIR/../softcenter/build_base.sh
 
@@ -17,7 +16,7 @@ echo $DIR
 cd $DIR
 
 # do something here
+
 do_build_result
 
-# now backup
 sh backup.sh $MODULE
