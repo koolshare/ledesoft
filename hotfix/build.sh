@@ -7,7 +7,7 @@ DESCRIPTION=快速修复当前固件中的BUG
 HOME_URL=Module_hotfix.asp
 #!/bin/sh
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1

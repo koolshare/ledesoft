@@ -7,7 +7,7 @@ DESCRIPTION=巨硬套餐激活工具
 HOME_URL=Module_kms.asp
 #!/bin/sh
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1

@@ -7,7 +7,7 @@ DESCRIPTION=DNSPOD动态域名解析
 HOME_URL=Module_dnspod.asp
 #!/bin/sh
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1

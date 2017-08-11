@@ -7,7 +7,7 @@ DESCRIPTION=支持http2协议的远程管理，仅支持远程管理路由器+NA
 HOME_URL=Module_ddnsto.asp
 #!/bin/sh
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1

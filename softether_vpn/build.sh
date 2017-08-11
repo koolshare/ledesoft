@@ -7,7 +7,7 @@ DESCRIPTION=VPN全家桶
 HOME_URL=Module_softether_vpn.asp
 #!/bin/sh
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 echo $DIR
 if [ "$MODULE" == "" ]; then
 	echo "module not found"

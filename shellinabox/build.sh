@@ -8,7 +8,7 @@ DESCRIPTION=超强的SSH网页客户端
 HOME_URL=Module_shellinabox.asp
 
 # Check and include base
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 if [ "$MODULE" == "" ]; then
 	echo "module not found"
 	exit 1
