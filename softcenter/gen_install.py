@@ -64,7 +64,7 @@ def check_and_cp():
         #check_subdir(module, path, "scripts", ".sh", os.path.join(curr_path, "softcenter", "scripts"))
         #check_subdir(module, path, "webs", ".asp", os.path.join(curr_path, "softcenter", "webs"))
         #check_subdir(module, path, "scripts", ".sh", os.path.join(curr_path, "softcenter", "scripts"))
-        check_subdir(module, path, "res", "*", os.path.join(curr_path, "softcenter", "res"))
+        check_subdir(module, path, "webs/res", "*", os.path.join(curr_path, "softcenter", "webs/res"))
 
 def gen_modules(modules):
     for module, path in work_parent():
@@ -92,6 +92,7 @@ if stage == "stage1":
     check_and_cp()
     to_remove.close()
 else:
+    check_and_cp()
     gmodules = None
     with codecs.open(os.path.join(curr_path, "app.template.json.js"), "r", "utf-8") as fg:
         gmodules = json.loads(fg.read())
