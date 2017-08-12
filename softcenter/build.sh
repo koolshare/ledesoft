@@ -18,10 +18,10 @@ EOF
 cat version
 
 cat > ./config.json.js <<EOF
-
+{
 "version":"$VERSION",
 "md5":"$md5value"
-
+}
 EOF
 
 python ./gen_install.py stage2
