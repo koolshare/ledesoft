@@ -96,12 +96,6 @@ restart)
 	done
 	echo_date "打开相应端口..."
 	open_close_port
-	echo_date "将虚拟网卡$tap桥接到br-lan..."
-	brctl addif br-lan $tap
-	echo_date "设置dnsmasq..."
-	echo interface=tap_vpn > /tmp/dnsmasq.d/softether.conf
-	echo_date "重启dnsmasq..."
-	service dnsmasq restart >/dev/null 2>&1
 	echo_date "创建开机启动..."
 	creat_start_up
 	echo_date "创建防火墙启动..."
@@ -113,10 +107,6 @@ stop)
 	/usr/bin/env LANG=en_US.UTF-8 $KSROOT/softether/vpnserver stop  >/dev/null 2>&1
 	echo_date "关闭相应端口..."
 	open_close_port
-	echo_date "删除dnsmasq设置..."
-	rm -rf /tmp/dnsmasq.d/softether.conf
-	echo_date "重启dnsmasq..."
-	service dnsmasq restart >/dev/null 2>&1
 	echo_date "删除开机启动..."
 	del_start_up
 	echo_date "删除防火墙启动..."
