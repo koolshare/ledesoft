@@ -144,8 +144,8 @@ No part of this file may be used without permission.
 		}
 
 		function get_arp_list(){
-			var id5 = parseInt(Math.random() * 100000000);
-			var postData1 = {"id": id5, "method": "ss_getarp.sh", "params":[], "fields": ""};
+			var id = parseInt(Math.random() * 100000000);
+			var postData1 = {"id": id, "method": "KoolProxy_getarp.sh", "params":[], "fields": ""};
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
@@ -154,8 +154,10 @@ No part of this file may be used without permission.
 				data: JSON.stringify(postData1),
 				dataType: "json",
 				success: function(response){
-					if (response.result != "-1"){
-						var s2 = response.result.split( '>' );
+					if (response){
+						get_dbus_data();
+						//var s2 = response.result.split( '>' );
+						var s2 = dbus["koolproxy_arp"].split( '>' );
 						//console.log("s2", s2);
 						for ( var i = 0; i < s2.length; ++i ) {
 							option_arp_local[i] = [s2[ i ].split( '<' )[0],"【" + s2[ i ].split( '<' )[0] + "】",s2[ i ].split( '<' )[1],s2[ i ].split( '<' )[2]];
