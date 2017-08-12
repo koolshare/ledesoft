@@ -9,8 +9,9 @@ eval `dbus export koolproxy_`
 #now remove acl data when version below 3.6.17, because the format has changed
 COMP=`versioncmp $koolproxy_version 3.6.19`
 if [ "$COMP" == "1" ];then
-	dbus set koolproxy_acl_list=""
+	dbus set koolproxy_acl_list=" "
 fi
+[ -z "$koolproxy_acl_list" ] && dbus set koolproxy_acl_list=" "
 
 # remove old files
 rm -rf $KSROOT/bin/koolproxy >/dev/null 2>&1
