@@ -101,14 +101,14 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-08-10_01:55:59", 
+            "build_date": "2017-08-12_21:46:41", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "56c9b0e2c834d1f0d014ae9d1435a216", 
+            "md5": "e801a39bef8823967dd8de3f6806d705", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.16"
+            "version": "3.6.1.17"
         }, 
         {
             "build_date": "2017-08-05_23:02:36", 

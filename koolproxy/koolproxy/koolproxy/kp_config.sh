@@ -221,14 +221,14 @@ lan_acess_control(){
 		while [ $min -le $max ]
 		do
 			#echo_date $min $max
-			ipaddr=`get_acl_para $min 1`
-			mac=`get_acl_para $min 2`
-			proxy_name=`get_acl_para $min 3`
+			proxy_name=`get_acl_para $min 1`
+			ipaddr=`get_acl_para $min 2`
+			mac=`get_acl_para $min 3`
 			proxy_mode=`get_acl_para $min 4`
 		
-			[ "$koolproxy_acl_method" == "1" ] && mac="" && echo_date 加载ACL规则：【$ipaddr】模式为：$(get_mode_name $proxy_mode)
-			[ "$koolproxy_acl_method" == "2" ] && ipaddr="" && echo_date 加载ACL规则：【$mac】模式为：$(get_mode_name $proxy_mode)
-			[ "$koolproxy_acl_method" == "3" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】模式为：$(get_mode_name $proxy_mode)
+			[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】模式为：$(get_mode_name $proxy_mode)
+			[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】模式为：$(get_mode_name $proxy_mode)
+			[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】模式为：$(get_mode_name $proxy_mode)
 			#echo iptables -t nat -A KOOLPROXY $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 			iptables -t nat -A KOOLPROXY $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		min=`expr $min + 1`
