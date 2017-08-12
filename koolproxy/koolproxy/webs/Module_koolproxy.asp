@@ -60,12 +60,21 @@ No part of this file may be used without permission.
 			console.log(f[0].value);
 			return [ f[0].value, f[1].value, f[2].value, f[3].value ];
 		}
-		kpacl.verifyFields = function( row, quiet ) {
+
+    	kpacl.onChange = function(which, cell) {
+    	    return this.verifyFields((which == 'new') ? this.newEditor: this.editor, true, cell);
+    	}
+
+		kpacl.verifyFields = function( row, quiet, cell) {
 			var f = fields.getAll( row );
-			if (f[0].value){
-				f[1].value = option_arp_list[f[0].selectedIndex][2];
-				f[2].value = option_arp_list[f[0].selectedIndex][3];
+
+			if ( $(cell).attr("id") == "_[object HTMLTableElement]_1" ) {
+				if (f[0].value){
+					f[1].value = option_arp_list[f[0].selectedIndex][2];
+					f[2].value = option_arp_list[f[0].selectedIndex][3];
+				}
 			}
+			
 			if (f[1].value && !f[2].value){
 				return v_ip( f[1], quiet );
 			}
@@ -438,7 +447,7 @@ No part of this file may be used without permission.
 				<ul>
 					<li>过滤https站点广告需要为相应设备安装证书，并启用http + https过滤！</li>
 					<li>需要自定义列表内没有的主机时，把【主机别名】留空，填写其它的即可！</li>
-					<li>访问控制面板中【ip地址】和【mac地址】至少一个不能为空！有ip时匹配ip，有mac时匹配mac，两个都有一起匹配！</li>
+					<li>访问控制面板中【ip地址】和【mac地址】至少一个不能为空！只有ip时匹配ip，只有mac时匹配mac，两个都有一起匹配！</li>
 					<li>在路由器下的设备，不管是电脑，还是移动设备，都可以在浏览器中输入<i><b>110.110.110.110</b></i>来下载证书。</i></li>
 					<li>如果想在多台装有koolroxy的路由设备上使用一个证书，请用winscp软件备份/koolshare/koolproxy/data文件夹，并上传到另一台路由。</li>
 				</ul>
