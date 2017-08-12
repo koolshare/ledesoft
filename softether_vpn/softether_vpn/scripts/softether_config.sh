@@ -23,6 +23,7 @@ case $2 in
 	else
 		sh $KSROOT/softether/softether.sh stop > /tmp/upload/softether_log.txt
 	fi
+	echo XU6J03M6 >> /tmp/upload/softether_log.txt
 	http_response $1
 	;;
 esac

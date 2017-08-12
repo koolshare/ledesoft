@@ -96,6 +96,8 @@ restart)
 	done
 	echo_date "打开相应端口..."
 	open_close_port
+	echo_date "将虚拟网卡$tap桥接到br-lan..."
+	brctl addif br-lan $tap
 	echo_date "创建开机启动..."
 	creat_start_up
 	echo_date "创建防火墙启动..."
