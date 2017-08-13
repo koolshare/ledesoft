@@ -131,14 +131,14 @@
             "version": "1.5"
         }, 
         {
-            "build_date": "2017-08-13_21:02:19", 
+            "build_date": "2017-08-13_21:26:29", 
             "description": "小巧安全的FTP服务器", 
             "home_url": "Module_ftp.asp", 
-            "md5": "fe4ff1b10dd60f7aedc81a78c4c5f060", 
+            "md5": "fd0d44d039537471f34a1fef9590dc31", 
             "name": "ftp", 
             "tar_url": "ftp/ftp.tar.gz", 
             "title": "FTP服务器", 
-            "version": "1.0.1"
+            "version": "1.0.2"
         }, 
         {
             "build_date": "2017-08-09_16:49:35", 
