@@ -5,6 +5,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export ftp`
 
 mkdir -p $KSROOT/init.d
+mkdir -p $KSROOT/ftp
 
 cd /tmp
 cp -rf /tmp/ftp/ftp/* $KSROOT/ftp/
