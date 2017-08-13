@@ -101,6 +101,16 @@
             "version": "0.3"
         }, 
         {
+            "build_date": "2017-07-09_15:37:00", 
+            "description": "NGROK内网穿透工具", 
+            "home_url": "Module_ngrok.asp", 
+            "md5": "d74050e91d3a90bf7d3e3a91edea675b", 
+            "name": "ngrok", 
+            "tar_url": "ngrok/ngrok.tar.gz", 
+            "title": "ngrok", 
+            "version": "1.0"
+        }, 
+        {
             "build_date": "2017-08-13_00:54:14", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
@@ -142,7 +152,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "e3911e779e74b745cbdb439c41476b98", 
+    "md5": "e9812ddccd5c16209ec935faafa31987", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.1.4"
 }
