@@ -15,7 +15,7 @@ sleep 1
 rm -rf $KSROOT/ftp
 rm -rf $KSROOT/scripts/ftp*
 rm -rf $KSROOT/init.d/S94ftp.sh
-rm -rf /etc/rc.d/S88ftp.sh >/dev/null 2>&1
+rm -rf /etc/rc.d/S94ftp.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_ftp.asp
 rm -rf $KSROOT/webs/res/icon-ftp.png
 rm -rf $KSROOT/webs/res/icon-ftp-bg.png
