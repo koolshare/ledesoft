@@ -13,7 +13,7 @@ config_anonymous(){
 
 start_ftp(){
 	mkdir -p /tmp/anymous
-	mkdir -p /var/run/vsftpd
+	mkdir -m 0755 -p /var/run/vsftpd
 	chown root:nogroup /tmp/anymous
 	chmod 557 /tmp/anymous
 	$KSROOT/ftp/ftp $KSROOT/ftp/ftp.conf
