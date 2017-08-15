@@ -122,11 +122,11 @@ write_reboot_job(){
 }
 
 remove_reboot_job(){
-	jobexist=`cat /etc/crontabs/root|grep koolproxy_reboot`
+	jobexist=`cat /etc/crontabs/root|grep kp_config.sh`
 	# kill crontab job
 	if [ -n "$jobexist" ];then
 		echo_date 关闭插件定时重启...
-		sed -i '/koolproxy_reboot/d' /etc/crontabs/root >/dev/null 2>&1
+		sed -i '/kp_config/d' /etc/crontabs/root >/dev/null 2>&1
 	fi
 }
 
