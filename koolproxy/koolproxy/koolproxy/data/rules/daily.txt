@@ -1,6 +1,6 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.6.1]
-!x  -----update[rules]: 2017-7-10 10:36
+!x  -----update[rules]: 2017-8-14 16:36
 !x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
 !x  -----Thanks for help: <CJX> <yiclear> <xwhyz> 
 !x  -----Tip: Welcome to rule group,Please Send mail to <wojiaolinmu008@gmail.com>
@@ -44,6 +44,7 @@ bbs.3dmgame.com##.ad960-90,div.ad-side,.adtable,div.a_mu,div.a_h,.adsbygoogle,di
 |https://m.youtube.com/_get_ads
 |https://stats.tubemogul.com/stats/
 ||https://cnblogs.com/units/
+|https://api.47ks.com/cp1_47_ad.js
 |http://p0.ifengimg.com/a98b27eebe4deb98/2017/22/yingguang-2017-h5-imp.js
 ||g1.taijuba.com^
 ||id528.com^
