@@ -38,7 +38,14 @@ get_keep_status(){
 
 update_firmware(){
 	dbus set fwupdate_enforce="0"
-	/sbin/sysupgrade $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
+	if [ "$fwupdate_keep" == "1" ];then
+		sed -i '/fwupdate/d' /etc/sysupgrade.conf >/dev/null 2>&1 &
+		echo "/etc/fwupdate.tar.gz" >> /etc/sysupgrade.conf
+		echo "/etc/init.d/fwupdate" >> /etc/sysupgrade.conf
+		echo "/etc/rc.d/S18fwupdate" >> /etc/sysupgrade.conf
+		/sbin/sysupgrade -b /etc/fwupdate.tar.gz
+	fi
+	/sbin/sysupgrade -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
 }
 
 download_firmware(){
