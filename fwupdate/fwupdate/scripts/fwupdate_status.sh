@@ -30,7 +30,7 @@ else
 fi
 
 #remove locker file when no update progress running in the background
-UPDATE=`ps grep fwupdate_config|grep -v grep`
+UPDATE=`ps | grep fwupdate_config|grep -v grep`
 [ -z "UPDATE" ] && rm -rf /tmp/fwupdate.locker >/dev/null 2>&1
 
 [ -z "$fwlocal" ] && fwlocal="<font color='#FF0000'>本地版本信息获取失败！</font>"

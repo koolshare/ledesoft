@@ -6,7 +6,7 @@ http://www.polarcloud.com/lede/
 For use with lede Firmware only.
 No part of this file may be used without permission.
 -->
-<title>fwupdate</title>
+<title>固件更新</title>
 <content>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
@@ -37,7 +37,7 @@ input[disabled]:hover{
 			});
 		}
 
-		function get_local_data(){
+		function get_local_data1(){
 			var dbus = {};
 			$.getJSON("/_api/fwupdate_", function(res) {
 				dbus=res.result[0];
@@ -45,7 +45,21 @@ input[disabled]:hover{
 				get_run_status();
 			});
 		}
-
+		
+		function get_local_data(){
+			$.ajax({
+			  	type: "GET",
+			 	url: "/_api/koolproxy_",
+			  	dataType: "json",
+			  	async:false,
+			 	success: function(data){
+			 	 	dbus = data.result[0];
+					dbus2obj(dbus);
+					get_run_status();
+			  	}
+			});
+		}
+		
 		function dbus2obj(dbus){
 			// only fwupdate_keep send to skipd
 			if(typeof(dbus["fwupdate_keep"]) != "undefined"){
@@ -86,8 +100,8 @@ input[disabled]:hover{
 		}
 
 		function verifyFields(r){
-			var local_version = parseInt(E('_fwupdate_fwlocal').innerHTML);
-			var online_version = parseInt(E('_fwupdate_fwlast').innerHTML);
+			var local_version = parseFloat(E('_fwupdate_fwlocal').innerHTML);
+			var online_version = parseFloat(E('_fwupdate_fwlast').innerHTML);
 
 			if(isNaN(local_version)){ //版本号不是数字
 				showMsg("msg_warring","错误！","<b>获取本地版本号错误！</b>");
