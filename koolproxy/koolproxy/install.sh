@@ -12,6 +12,11 @@ if [ "$COMP" == "1" ];then
 	dbus set koolproxy_acl_list=" "
 fi
 [ -z "$koolproxy_acl_list" ] && dbus set koolproxy_acl_list=" "
+[ -z "$koolproxy_arp" ] && dbus set koolproxy_arp=" "
+
+
+mkdir /$KSROOT/init.d
+mkdir /tmp/upload
 
 # remove old files
 rm -rf $KSROOT/bin/koolproxy >/dev/null 2>&1
@@ -35,17 +40,16 @@ mkdir -p $KSROOT/koolproxy/data
 cp -rf /tmp/koolproxy/scripts/* $KSROOT/scripts/
 cp -rf /tmp/koolproxy/webs/* $KSROOT/webs/
 cp -rf /tmp/koolproxy/init.d/* $KSROOT/init.d/
-if [ ! -f $KSROOT/koolproxy/data/user.txt ];then
+if [ ! -f $KSROOT/koolproxy/data/rules/user.txt ];then
 	cp -rf /tmp/koolproxy/* $KSROOT/
 else
-	mv $KSROOT/koolproxy/data/user.txt /tmp/user.txt.tmp
+	mv $KSROOT/koolproxy/data/rules/user.txt /tmp/user.txt.tmp
 	cp -rf /tmp/koolproxy/* $KSROOT/
-	mv /tmp/user.txt.tmp $KSROOT/koolproxy/data/user.txt
+	mv /tmp/user.txt.tmp $KSROOT/koolproxy/data/rules/user.txt
 fi
-
 rm -rf $KSROOT/install.sh
 
-[ ! -L "/tmp/upload/user.txt" ] && ln -sf $KSROOT/koolproxy/data/user.txt /tmp/upload/user.txt
+[ ! -L "/tmp/upload/user.txt" ] && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
 cp -f /tmp/koolproxy/uninstall.sh $KSROOT/scripts/uninstall_koolproxy.sh
 
 cd /

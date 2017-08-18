@@ -113,6 +113,7 @@ remove_ss_event(){
 
 write_reboot_job(){
 	# start setvice
+	[ ! -f  "/etc/crontabs/root" ] && touch /etc/crontabs/root
 	CRONTAB=`cat /etc/crontabs/root|grep kp_config.sh`
 	if [ "1" == "$koolproxy_reboot" ]; then
 		[ -z "$CRONTAB" ] && echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件... && echo  "* $koolproxy_reboot_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
@@ -272,7 +273,7 @@ load_nat(){
 
 dns_takeover(){
 	ss_chromecast=`uci -q get shadowsocks.@global[0].dns_53`
-	ss_enable=`iptables -t nat -L SHADOWSOCKS 2>/dev/null |wc -l`
+	ss_enable=`iptables -t nat -L PREROUTING | grep SHADOWSOCKS 2>/dev/null |wc -l`
 	[ -z "$ss_chromecast" ] && ss_chromecast=0
 	lan_ipaddr=`uci get network.lan.ipaddr`
 	#chromecast=`iptables -t nat -L PREROUTING -v -n|grep "dpt:53"`
@@ -285,7 +286,7 @@ dns_takeover(){
 			echo_date DNS劫持规则已经添加，跳过~
 		fi
 	else
-		if [ "$ss_chromecast" != "1" ] || [ "$ss_chromecast" == "1" ] && [ "$ss_enable" -eq 0 ]; then
+		if [ "$ss_chromecast" != "1" ] || [ "$ss_enable" -eq 0 ]; then
 			if [ ! -z "$chromecast_nu" ]; then
 				echo_date 全局过滤模式下删除DNS劫持
 				iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
