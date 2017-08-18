@@ -6,6 +6,7 @@ lan_ip=$(uci get network.lan.ipaddr)
 wan_ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
 
 start_dmz(){
+	[ -z "$wan_ip" ] || [ -z "$lan_ip" ] || [ -z "$dmz_ip" ] && exit
 	iptables -t nat -A zone_lan_postrouting -s $lan_ip/24 -d $dmz_ip/32 -p tcp -m tcp --dport 1:65535 -m comment --comment "DMZ: Forward (reflection)" -j SNAT --to-source $lan_ip
 	iptables -t nat -A zone_lan_postrouting -s $lan_ip/24 -d $dmz_ip/32 -p udp -m udp --dport 1:65535 -m comment --comment "DMZ: Forward (reflection)" -j SNAT --to-source $lan_ip
 	iptables -t nat -A zone_lan_prerouting -s $lan_ip/24 -d $wan_ip/32 -p tcp -m tcp --dport 1:65535 -m comment --comment "DMZ: Forward (reflection)" -j DNAT --to-destination $dmz_ip:1-65535

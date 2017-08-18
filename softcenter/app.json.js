@@ -41,6 +41,16 @@
             "version": "3.6.1.27"
         }, 
         {
+            "build_date": "2017-08-09_16:49:35", 
+            "description": "支持http2协议的远程管理，仅支持远程管理路由器+NAS+Windows远程桌面", 
+            "home_url": "Module_ddnsto.asp", 
+            "md5": "979f03bb777c1ea3fd5686125b50d790", 
+            "name": "pppoeai", 
+            "tar_url": "pppoeai/pppoeai.tar.gz", 
+            "title": "DDNSTO", 
+            "version": "1.6"
+        }, 
+        {
             "build_date": "2017-08-08_00:21:52", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
@@ -71,10 +81,10 @@
             "version": "0.1.6"
         }, 
         {
-            "build_date": "2017-08-18_22:37:43", 
+            "build_date": "2017-08-18_22:53:00", 
             "description": "将客户端完全暴露在公网", 
             "home_url": "Module_dmz.asp", 
-            "md5": "e2d386175a5d29d16ac19d7776ba4db9", 
+            "md5": "5b731c18d3f1ca0f0243fa6e59844df4", 
             "name": "dmz", 
             "tar_url": "dmz/dmz.tar.gz", 
             "title": "DMZ", 
