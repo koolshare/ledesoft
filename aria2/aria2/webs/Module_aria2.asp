@@ -138,7 +138,7 @@ input[disabled]:hover{
           { title: '开启aria2', name: 'aria2_enable', type: 'checkbox', value: ((Apps.aria2_enable == '1')? 1:0)},
           { title: 'Aria2版本', name: 'aria2_version', text: Apps.aria2_version || '1.29' },
           //{ title: '下载存储目录', name: 'aria2_dir', type: 'text', maxlen: 34, size: 34, value: Apps.aria2_dir ||"/mnt"},
-          { title: '下载存储目录', name: 'aria2_dir',  type: 'select', options:dir_mode,value:Apps.aria2_dir},
+          { title: '下载存储目录', name: 'aria2_dir',  type: 'select', options:dir_mode,value:Apps.aria2_dir, suffix: '设置好下载盘挂载点后运行一次获取下载目录'},
           { title: 'RPC监听端口', name: 'aria2_rpc_listen_port', type: 'text', maxlen: 5, size: 5, value: Apps.aria2_rpc_listen_port || '6800' },
           { title: '启动延时', name: 'aria2_sleep', type: 'text', maxlen: 2, size: 2, value: Apps.aria2_sleep || '2', suffix: '秒钟' },
           { title: '同时进行任务数', name: 'aria2_max_concurrent_downloads', type: 'text', maxlen: 1, size: 1, value: Apps.aria2_max_concurrent_downloads || '3'},
