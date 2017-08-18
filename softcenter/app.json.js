@@ -51,10 +51,10 @@
             "version": "0.4"
         }, 
         {
-            "build_date": "2017-08-18_19:00:30", 
+            "build_date": "2017-08-18_19:04:27", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "eabdf94dbede84c3c8e2db85082d1511", 
+            "md5": "c3c2e3de460d4013ef519aafcdca0d41", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "aria2", 
@@ -69,6 +69,16 @@
             "tar_url": "fwupdate/fwupdate.tar.gz", 
             "title": "固件更新", 
             "version": "0.1.6"
+        }, 
+        {
+            "build_date": "2017-08-18_22:34:43", 
+            "description": "将客户端完全暴露在公网", 
+            "home_url": "Module_dmz.asp", 
+            "md5": "6a9eccfa679a052ae4846eb7b412c093", 
+            "name": "dmz", 
+            "tar_url": "dmz/dmz.tar.gz", 
+            "title": "DMZ", 
+            "version": "0.1"
         }, 
         {
             "build_date": "2017-08-07_21:25:11", 
