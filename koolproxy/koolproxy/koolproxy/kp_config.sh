@@ -92,6 +92,16 @@ remove_ipset_conf(){
 	fi	
 }
 
+del_dns_takeover(){
+	ss_chromecast=`uci -q get shadowsocks.@global[0].dns_53`
+	ss_enable=`iptables -t nat -L SHADOWSOCKS 2>/dev/null |wc -l`
+	[ -z "$ss_chromecast" ] && ss_chromecast=0
+	if [ "$ss_chromecast" -eq 0 ] || [ "$ss_chromecast" -eq 1 ] && [ "$ss_enable" -eq 0 ]; then
+		chromecast_nu=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53"|awk '{print $1}'`
+		[ -n "$chromecast_nu" ] && iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
+	fi
+}
+
 restart_dnsmasq(){
 	if [ "$dnsmasq_restart" == "1" ];then
 		echo_date 重启dnsmasq进程...
@@ -273,7 +283,7 @@ load_nat(){
 
 dns_takeover(){
 	ss_chromecast=`uci -q get shadowsocks.@global[0].dns_53`
-	ss_enable=`iptables -t nat -L PREROUTING | grep SHADOWSOCKS 2>/dev/null |wc -l`
+	ss_enable=`iptables -t nat -L PREROUTING | grep SHADOWSOCKS |wc -l`
 	[ -z "$ss_chromecast" ] && ss_chromecast=0
 	lan_ipaddr=`uci get network.lan.ipaddr`
 	#chromecast=`iptables -t nat -L PREROUTING -v -n|grep "dpt:53"`
@@ -287,7 +297,7 @@ dns_takeover(){
 		fi
 	else
 		if [ "$ss_chromecast" != "1" ] || [ "$ss_enable" -eq 0 ]; then
-			if [ ! -z "$chromecast_nu" ]; then
+			if [ -n "$chromecast_nu" ]; then
 				echo_date 全局过滤模式下删除DNS劫持
 				iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
 				echo_date done
@@ -331,6 +341,7 @@ restart)
 	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
 	remove_ss_event
 	remove_reboot_job
+	del_dns_takeover
 	remove_ipset_conf
 	remove_nat_start
 	flush_nat
@@ -356,6 +367,7 @@ restart)
 stop)
 	remove_ss_event
 	remove_reboot_job
+	del_dns_takeover
 	remove_ipset_conf && restart_dnsmasq
 	remove_nat_start
 	flush_nat
