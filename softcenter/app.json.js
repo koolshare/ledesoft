@@ -71,10 +71,10 @@
             "version": "0.1.6"
         }, 
         {
-            "build_date": "2017-08-18_22:34:43", 
+            "build_date": "2017-08-18_22:37:43", 
             "description": "将客户端完全暴露在公网", 
             "home_url": "Module_dmz.asp", 
-            "md5": "6a9eccfa679a052ae4846eb7b412c093", 
+            "md5": "e2d386175a5d29d16ac19d7776ba4db9", 
             "name": "dmz", 
             "tar_url": "dmz/dmz.tar.gz", 
             "title": "DMZ", 

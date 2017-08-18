@@ -18,6 +18,7 @@ chmod +x $KSROOT/init.d/S80dmz.sh
 # 为新安装文件赋予执行权限...
 chmod 755 $KSROOT/scripts/dmz*
 
+opkg remove luci-i18n-dmz-zh-cn luci-app-dmz 
 dbus set softcenter_module_dmz_description=将客户端完全暴露在公网
 dbus set softcenter_module_dmz_install=1
 dbus set softcenter_module_dmz_name=dmz
