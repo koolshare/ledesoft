@@ -17,7 +17,7 @@ input[disabled]:hover{
 }
 </style>
 	<script type="text/javascript">
-		var dbss;
+		var dbus;
 		var softcenter = 0;
 		var params = ["fwupdate_fwlocal", "fwupdate_fwlast", "fwupdate_keep", "fwupdate_enforce"];
 		var options_type = [];
@@ -37,19 +37,10 @@ input[disabled]:hover{
 			});
 		}
 
-		function get_local_data1(){
-			var dbus = {};
-			$.getJSON("/_api/fwupdate_", function(res) {
-				dbus=res.result[0];
-				dbus2obj(dbus);
-				get_run_status();
-			});
-		}
-		
 		function get_local_data(){
 			$.ajax({
 			  	type: "GET",
-			 	url: "/_api/koolproxy_",
+			 	url: "/_api/fwupdate_",
 			  	dataType: "json",
 			  	async:false,
 			 	success: function(data){
