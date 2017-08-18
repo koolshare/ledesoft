@@ -133,6 +133,7 @@ write_reboot_job(){
 }
 
 remove_reboot_job(){
+	[ ! -f  "/etc/crontabs/root" ] && touch /etc/crontabs/root
 	jobexist=`cat /etc/crontabs/root|grep kp_config.sh`
 	# kill crontab job
 	if [ -n "$jobexist" ];then
