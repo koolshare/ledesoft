@@ -57,8 +57,18 @@ No part of this file may be used without permission.
 		}
 		kpacl.fieldValuesToData = function( row ) {
 			var f = fields.getAll( row );
-			console.log(f[0].value);
-			return [ f[0].value, f[1].value, f[2].value, f[3].value ];
+			if (f[0].value){
+				return [ f[0].value, f[1].value, f[2].value, f[3].value ];
+			}else{
+				if (f[1].value){
+					return [ f[1].value, f[1].value, f[2].value, f[3].value ];
+				}else{
+					if (f[1].value){
+						return [ f[2].value, f[1].value, f[2].value, f[3].value ];
+					}
+				}
+				
+			}
 		}
 
     	kpacl.onChange = function(which, cell) {
