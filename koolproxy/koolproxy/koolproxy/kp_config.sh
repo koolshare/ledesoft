@@ -296,11 +296,11 @@ dns_takeover(){
 			iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 		else
 			if [ -z "$is_right_lanip" ]; then
-				echo_date 黑名单模式开启DNS劫持 >>$LOGFILE
+				echo_date 黑名单模式开启DNS劫持
 				iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
 				iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 			else
-				echo "$(date):  DNS劫持规则已经添加，跳过~" >>$LOGFILE
+				echo_date DNS劫持规则已经添加，跳过~
 			fi
 		fi
 	else
