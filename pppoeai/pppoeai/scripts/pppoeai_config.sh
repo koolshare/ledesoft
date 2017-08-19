@@ -5,6 +5,19 @@ eval `dbus export pppoeai_`
 alias echo_date='echo $(date +%Y年%m月%d日\ %X)'
 LOGFILE="/tmp/upload/pp_log.txt"
 
+get_count_mode(){
+	case "$1" in
+		1)
+			echo "$1"
+		;;
+		2)
+			echo "$1,$2"
+		;;
+		3)
+			echo "$1,$2,$3"
+		;;
+	esac
+}
 
 start_pppoeai(){
 	local IP
@@ -20,22 +33,26 @@ start_pppoeai(){
 			exit 0
 		fi
 		#获取IP头
-		current_ip=$(ifconfig |grep -A1 "pppoe-$pppoeai_wan" |grep "inet" |awk -F . '{print $1}'|awk -F \: '{print $2}')
-		match_ip=$(echo '$pppoeai_ip$pppoeai_count'|grep $current_ip)
+		[ "$pppoeai_count" == "1" ] && current_ip=$(ifconfig |grep -A1 "ppp" |grep "inet" |awk -F  P-t-P '{print $1}'|awk -F \: '{print $2}'|awk -vOFS="." -F . '{print $1}'|head -1)
+		[ "$pppoeai_count" == "2" ] && current_ip=$(ifconfig |grep -A1 "ppp" |grep "inet" |awk -F  P-t-P '{print $1}'|awk -F \: '{print $2}'|awk -vOFS="." -F . '{print $1,$2}'|head -1)
+		[ "$pppoeai_count" == "3" ] && current_ip=$(ifconfig |grep -A1 "ppp" |grep "inet" |awk -F  P-t-P '{print $1}'|awk -F \: '{print $2}'|awk -vOFS="." -F . '{print $1,$2,$3}'|head -1)
+		
+		match_ip="pppoeai_ip$pppoeai_count"
+		match_check=$(dbus get $match_ip|grep $current_ip)
 		#检查IP是否为空
 		if [ -n "$current_ip" ]; then
 			echo_date "当前拨号IP:$current_ip"
-			echo_date "需要匹配IP:$pppoeai_ip$pppoeai_count"
-			echo_date ""
+			echo_date "需要匹配IP:$(dbus get $match_ip)"
+			echo ""
 			#获取IP头是否正确
-			if [ -n "$match_ip" ]; then
+			if [ -n "$match_check" ]; then
 				echo_date "太棒了，匹配成功，完成本次进程!"
+				rm -rf /tmp/fwupdate.locker
+				echo XU6J03M6 >> $LOGFILE
 				exit 0
 			else
 				sleep 1
 				echo_date "运气不太好，未匹配成功，重新拨号!"
-				sleep 1
-				echo_date "关闭拨号程序"
 				ifdown $pppoeai_wan
 				sleep 2
 				echo_date "准备下次拨号!"
@@ -65,8 +82,11 @@ del_start_up(){
 
 
 if [ "$pppoeai_enable" == "1" ]; then
+	[ -f "/tmp/fwupdate.locker" ] && exit 0
+	cat /dev/null >$LOGFILE
 	del_start_up
 	creat_start_up
+	touch /tmp/fwupdate.locker
 	start_pppoeai >> $LOGFILE
  	echo XU6J03M6 >> $LOGFILE
   	http_response '服务已开启！页面将在3秒后刷新'
