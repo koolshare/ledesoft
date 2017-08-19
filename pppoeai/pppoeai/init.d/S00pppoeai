@@ -1,0 +1,6 @@
+#!/bin/sh
+case "$ACTION" in
+	ifup)
+		sh /koolshare/scripts/pppoeai_config.sh
+	;;
+esac
