@@ -1,7 +1,7 @@
 ﻿!x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.6.1]
-!x  -----update[rules]: 2017-8-13 20:00
-!x  -----update[video]: 2017-8-14 17:03
+!x  -----update[rules]: 2017-8-17 11:55
+!x  -----update[video]: 2017-8-18 21:17
 !x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
 !x  -----Thanks for help: <CJX> <yiclear> <xwhyc> <adsafe>
 !x  -----Tip: Feedback problem,Please Send mail to <wojiaolinmu008@gmail.com>
@@ -1850,6 +1850,7 @@
 |http://itv.hexun.com/lbi-html/ly/2011/allPages/hx_page_tempAd.js
 |http://itv.hexun.com/lbi-html/ly/2011/allPages/tempAd.js$script
 |http://ivy.pconline.com.cn/show
+|http://ipapi.9669.cn/ipdat/duilian/
 |http://j.bookben.com/js/pc/all.js
 |http://j.ccnovel.com
 |http://j.ebrun.com/jfile/$script
@@ -2313,6 +2314,8 @@
 |http://source.qunar.com/site/images/wns/
 |http://sp.vcimg$document
 |http://sports.spbo.com/img/rtop.js$script
+|http://script.gunmi.cn/
+|http://sh.shuqw.com
 |http://ss.shuajuzu.com/azt/pcto.js
 |http://ss2p.uuxs.net^
 |http://ssp.4hw.com.cn/4hw$script
@@ -2687,6 +2690,7 @@
 |http://www.91youyou.com/ad.asp
 |http://www.920yy.com/cdn-cgi/nexp/dok3v=*/cloudflare/rocket.js
 |http://www.999v.me/cs$script
+|http://www.9669.cn/js/jquery.flash.min.js
 |http://www.99danji.com/statics/images/img/beitou1.jpg$image
 |http://www.9ht.com/public/dist/js/pcdown.min.js
 |http://www.9ht.com/skin2012/js/tlAd.js
@@ -4202,6 +4206,7 @@
 ||cdnny.com
 ||cdqjmc.com
 ||cdyqc.com
+||ce22d.cn
 ||cg2017.com
 ||cgskqg.com
 ||chadegongxiao.com^
@@ -4500,6 +4505,7 @@
 ||fjkst.com
 ||flowcodeapp.com
 ||flunion.cn
+||flzyw.com/js/foot.js
 ||fmgoal.com
 ||fnkjj.com
 ||fnkyyrgraizy.com
@@ -5916,6 +5922,11 @@
 ||yinoo.cn^
 ||yinooo.com^
 ||yinyuehu.cn
+||yinzantouzi.com
+||youkewangluo.cn$third-party,script
+||xmcimg.com/js/m.js
+||hanqidq.com
+||78dm.net/api/dm78ad/
 ||yiqifa.com$third-party,domain=~www.liuzhuni.com|~meidebi.com
 ||yiqiwin.com
 ||yiranxian.cn
@@ -6205,6 +6216,7 @@
 47473.com##[class*="ad"]
 4ktt.com##.a_mu
 4kzw.com,quanxiong.org,dijiuzww.com##[style="width:770px;height:260px"]
+55188.com##.gg
 500.com##div.jSemFloat,div.topad,div.middle-ads,div.page-ads
 5011.net##div.ad,div.iqying,img[width="1000"][height="80"],[class^="wljs-"]
 5068.com##div[class^="gg"],div.zw_tpe,div.showG
@@ -7156,6 +7168,7 @@ huhumh.com,popomh.com###bottom_ads
 hunantv.com##div.album-gg,#player-ad
 huoche.net##img[src^="http://resource.huoche.net/Images/"],div.ad-list,div#float_right,div.box,.banner,.adsbygoogle,div[style^="height: 70px;"]
 hupu.com###hupu-stream
+hupu.com##.topPub
 hupu.com##div[class^="hp-ad"],div[class^="nba-ad"],div[class^="voice-ad"],div[class^="ad"][class$="0"],DIV[class^="ad_728 ad_728_"],DIV.ad_250.ad_250_d,div#HCFull,DIV[style="width:980px;height:200px;margin:0 auto 10px;overflow:hidden;"],DIV.rightAd260X90,DIV.clearLt.ad720-90,DIV.mrBt8.ad361-240-240,DIV.hp-w.hp-header-banner,div[id^="div-gpt-ad-"],div[id^="childBoardsDataAd"],div#J_beforelogin_tip,iframe[src*="://t1.hoopchina.com.cn/"],[class^="soccer-ad"],[class^="tennis-ad"],.tennis-ad728-90,.soccer-ad728-90,.tu-ad960-60,.bd2,.bd3,.result-adBox,#shihuo1111,.bd1,[class^="voice-ad"],.ad_reply,[class^="m-app"],.hp-curtain,[height="60"],iframe[src^="//t1.hoopchina.com.cn/topn-"]
 huxiu.com##div#app-guide-box
 hwxz.com##.g3
@@ -7179,6 +7192,7 @@ iefans.net##.mod-media-340
 ieforex.com##[class^="advert"],#indexLeftOne,#indexLeftTwo
 ifanr.com##div.ifanr-text-content,div.banner_post_bottom,.c-jiong__image
 ifeng.com##.advmark
+ifeng.com##.bomAd
 ifeng.com##.bomBox
 ifeng.com##.embedHzh
 ifeng.com##[class^="adList"],div[class^="ad200"],div[id^="padhide_"],div[id^="couplet3_"],div.ad980,DIV.ad950,div.ad300,div.topAd,div.adArea,div#smExtObj,DIV.block_ad,DIV.pic1000,DIV.recommend > DIV.picNews,DIV.eduList.cGray.lh22,DIV[class^="ad1000"],div[id^="ArpAdPro_"],DIV[id^="index_top_banner_newbanner_ad_"],div.ad300x250,DIV.games_right_side,div.col_ad,DIV.adbox,DIV.ad.bd.ss_none,UL.list022,div.an,div.ad90,div.ad600,div#ifengAehovering_small,div.ad.mt20,div.ad.mt32,div.gg298,div.col_w1000.mt38,DIV[id^="_AdSame_DIV"],div.leftpopad,img[src^="http://y1.ifengimg.com/mappa/201"],div[class^="FNewRAvt"],div.FNewLAvt,div[class^="Col"][class$="Avt"],div[class^="ad0"],div.box_08.mt08,div.adbest,div.trade,.Avt01,div.Avt02,div.js_lh_ad,div.col_pc.IphoneNone,div[class^="ad_"],div[class^="adv"],div.ad2,span#StreamMediaWrap,div.vAdImg,div.v_ad_btm,div.acAdLis,div.iggLine,div.v-adbox,.adarea2,.flashAd,#tcldivtf1_1,#tcldivtf1_2,.right_gg,.gg,[id^="ad"],#video_p,.double_l,.double_r,.ad.mt15,[id^="div-gpt-ad-"],.ad-position,.ad1,.ad8,.newAdImg,#questionDialogBox,[id^="mobile_gg_"],[class^="acAd"],[id^="cl3"].threepics,.mr_top_box,[id^="bigContent"],.yc_con_r,iframe[src^="http://p0.ifengimg.com/a/20"],iframe[src^="http://y1.ifengimg.com/a/20"],#swiper-container_bottom,.jctj,#iis_yw0,.yy_right_bottom,.yiyuan,[class^="cont_bottom_Yy"],.gg4
@@ -7578,6 +7592,7 @@ music.baidu.com##div#adMainTopLeft,div.adm ,div#adBottom,div.ad
 music.hao123.com##.adMainMiddle-box,#adBottom
 muyuge.com##.adsbygoogle,#txt_r,.kongwei
 muyuge.net##.adsbygoogle
+muzhi.baidu.com###union-qbbanner
 muzhi.baidu.com##[class^="sow"],div#ads-bottom,.EC_ads_listborder
 mwsl.org.cn##DIV.textwidget
 mxroom.com##.a_cn
@@ -8599,6 +8614,7 @@ www.xilinjie.com##div[id^="xlj-ad-right-"],div#xlj-spread
 www.xinqixi.com##div.a_pt,div.a_pb
 www.xixiwg.com##DIV.ad1,DIV.jbad2
 www.xpgod.com##div.soft-show2
+www.xs.la##.con_ad
 www.xunfs.com##img[src^="http://www.nextcps.com/pic/xunfs"]
 www.xz7.com##div#topadbox,div.zjy,div.xzs
 www.y4dg.com##div.a_mu,div.a_pb,div.a_pt,div.a_pr,div.wp.a_t
@@ -9868,6 +9884,7 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 ||henbt.com$s@<script src='http://js1151.yongkang6.com:*</script>@@
 ||henbt.com$s@window.open("http://@@
 ||hitvs.cn/*.htm$s@playlist%26url=http://mediainfo.hitvs.cn:8088/media/ViewMedia-Normal-??????-mp4.mp4|http://mediainfo.hitvs.cn:8088/media/ViewMedia-Normal@playlist%26url=http://mediainfo.hitvs.cn:8088/media/ViewMedia-Normal@
+||ifeng.com/a/*.shtml$s@<script type="text/javascript">??if(location.href.indexOf("_zbs_2345_bd")*</script>@@
 ||ifeng.com/a/*.shtml$s@var game_aurl_urlid=@@
 ||img1.cache.netease.com$s@DDD;height:241px;@DDD;height:151px;@
 ||interface.bilibili.com/player?id=cid:$s@<rgg img="http://*c="?" />@@
