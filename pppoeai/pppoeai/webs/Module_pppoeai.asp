@@ -14,6 +14,7 @@ No part of this file may be used without permission.
 	<script type="text/javascript">
 		var dbus;
 		var softcenter = 0;
+		var option_wan_list = [];
 		get_local_data();
 		var params = ["pppoeai_port", "pppoeai_count", "pppoeai_ip1", "pppoeai_ip2", "pppoeai_ip3"];
 		var _responseLen;
@@ -23,6 +24,7 @@ No part of this file may be used without permission.
 		
 		//============================================
 		function init_pp(){
+			get_wan_list();
 			verifyFields();
 			$("#_pppoeai_log").click(
 				function() {
@@ -42,7 +44,28 @@ No part of this file may be used without permission.
 			  	}
 			});
 		}
-				
+
+		function get_wan_list(){
+			var id = parseInt(Math.random() * 100000000);
+			var postData1 = {"id": id, "method": "pppoeai_getwan.sh", "params":[], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData1),
+				dataType: "json",
+				success: function(response){
+					if (response){
+						var wans = response.result.split( '>' );
+						for ( var i = 0; i < wans.length; ++i ) {
+							$("#_pppoeai_wan").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+						}
+					}
+				}
+			});
+		}
+			
 		function get_run_status(){
 			var id1 = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id1, "method": "pppoeai_status.sh", "params":[2], "fields": ""};
@@ -207,11 +230,10 @@ No part of this file may be used without permission.
 		<div class="content">
 			<div id="identification" class="section"></div>
 			<script type="text/javascript">
-
 				$('#identification').forms([
 					{ title: '开启拨号助手', name:'pppoeai_enable',type:'checkbox',value: dbus.pppoeai_enable == 1 },
 					{ title: '运行状态', text: '<font id="_pppoeai_status" name=_pppoeai_status color="#1bbf35">正在检查运行状态...</font>' },
-					{ title: '匹配的WAN口', name:'pppoeai_wan',type:'select',options:[['wan','wan'],['wan2','wan2'],['wan3','wan3']],value: dbus.pppoeai_wan || "1" },
+					{ title: '匹配的WAN口', name:'pppoeai_wan',type:'select',options:[],value: dbus.pppoeai_wan || "1" },
 					{ title: 'IP头匹配位数', name:'pppoeai_count',type:'select',options:[['1','1'],['2','2'],['3','3']],value: dbus.pppoeai_count || "1" },
 					{ title: '一位IP头设置', name:'pppoeai_ip1',type:'text', maxlen: 100, size: 100, value: dbus.pppoeai_ip1, suffix: '<lable id="_pppoeai_ip1_nu"></lable>' },
 					{ title: '两位IP头设置', name:'pppoeai_ip2',type:'text', maxlen: 100, size: 100, value: dbus.pppoeai_ip2, suffix: '<lable id="_pppoeai_ip1_nu"></lable>' },
