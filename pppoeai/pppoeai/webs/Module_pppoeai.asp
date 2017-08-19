@@ -244,9 +244,9 @@ No part of this file may be used without permission.
 	<div class="box">
 	<div class="heading">设置说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:none">
-			<li> IP头必须严格匹配你设置的位数，如一位：114 两位：114.114  三位：114.114.114</li>
+			<li> IP头必须严格匹配你设置的位数，如一位：<font color="#FF3300">114 </font>两位：<font color="#FF3300">114.114</font>  三位：<font color="#FF3300">114.114.114</font></li>
 			<br />
-			<li> 如需匹配多个IP头，用 | 分格，如一位：224|225  两位：224.224|225.115  三位：224.224.224|225.225.115</li>
+			<li> 如需匹配多个IP头，用<font color="#FF3300">逗号</font>或者<font color="#FF3300">空格</font>分隔，如一位：<font color="#FF3300">224,225  两位：<font color="#FF3300">224.224     225.115</font>  三位：<font color="#FF3300">224.224.224,225.225.115</font></li>
 	</div>
 	</div>
 </div>

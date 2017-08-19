@@ -41,14 +41,14 @@
             "version": "3.6.1.27"
         }, 
         {
-            "build_date": "2017-08-19_17:59:09", 
+            "build_date": "2017-08-19_18:09:45", 
             "description": "拨号到指定号段", 
             "home_url": "Module_pppoeai.asp", 
-            "md5": "8ce9366c9359489bc90428a04c51a44a", 
+            "md5": "a26c74c9d0da5b6dcd10cb852b146d0f", 
             "name": "pppoeai", 
             "tar_url": "pppoeai/pppoeai.tar.gz", 
             "title": "拨号助手", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-08-08_00:21:52", 
