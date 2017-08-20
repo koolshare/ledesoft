@@ -15,7 +15,7 @@ fi
 [ -z "$koolproxy_arp" ] && dbus set koolproxy_arp=" "
 
 
-mkdir /$KSROOT/init.d
+mkdir $KSROOT/init.d
 mkdir /tmp/upload
 
 # remove old files
