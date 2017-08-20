@@ -36,14 +36,24 @@ get_keep_status(){
 	esac
 }
 
+set_keep_config(){
+cat>/lib/upgrade/keep.d/fwupdate<<EOF
+/etc/fwupdate.tar.gz
+/etc/init.d/fwupdate
+/etc/rc.d/S18fwupdate
+EOF
+}
+
 update_firmware(){
 	dbus set fwupdate_enforce="0"
 	if [ "$fwupdate_keep" == "1" ];then
-		sed -i '/fwupdate/d' /etc/sysupgrade.conf >/dev/null 2>&1 &
-		echo "/etc/fwupdate.tar.gz" >> /etc/sysupgrade.conf
-		echo "/etc/init.d/fwupdate" >> /etc/sysupgrade.conf
-		echo "/etc/rc.d/S18fwupdate" >> /etc/sysupgrade.conf
+		echo_date "设置升级时保留备份的配置文件"
+		[ ! -f "/lib/upgrade/keep.d/fwupdate" ] && set_keep_config
 		/sbin/sysupgrade -b /etc/fwupdate.tar.gz
+		sleep 2 && /sbin/sysupgrade -b /etc/backup.tar.gz
+		rm -rf fwupdate.tar.gz
+		mv /etc/backup.tar.gz /etc/fwupdate.tar.gz
+		sleep 2
 	fi
 	/sbin/sysupgrade -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
 }
@@ -57,7 +67,9 @@ download_firmware(){
 	echo_date "============================================"
 	if [ "$fwsha256" == "$dlsha256" ];then
 		echo_date "下载完成，校验通过，开始升级固件，升级完成后自动重启！"
+		sleep 1
 		get_keep_status $fwupdate_keep
+		sleep 1
 		update_firmware
 	else
 		echo_date "下载完成，但是校验没有通过！"

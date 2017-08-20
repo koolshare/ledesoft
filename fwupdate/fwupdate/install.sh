@@ -8,6 +8,7 @@ mkdir -p $KSROOT/init.d
 cp -rf /tmp/fwupdate/scripts/* $KSROOT/scripts/
 cp -rf /tmp/fwupdate/webs/* $KSROOT/webs/
 cp -rf /tmp/fwupdate/init.d/* /etc/init.d/
+cp -rf /tmp/fwupdate/keep.d/* /lib/upgrade/keep.d/
 cp /tmp/fwupdate/uninstall.sh $KSROOT/scripts/uninstall_fwupdate.sh
 
 rm -rf $KSROOT/install.sh

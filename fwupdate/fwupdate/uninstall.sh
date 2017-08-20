@@ -5,6 +5,7 @@ source $KSROOT/scripts/base.sh
 /etc/init.d/fwupdate disable
 sed -i '/fwbackup/d' /etc/sysupgrade.conf >/dev/null 2>&1 &
 rm -rf /etc/init.d/fwupdate
+rm -rf /lib/upgrade/keep.d/fwupdate
 rm -rf $KSROOT/scripts/fwupdate_config.sh >/dev/null 2>&1
 rm -rf $KSROOT/scripts/fwupdate_status.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_fwupdate.asp >/dev/null 2>&1

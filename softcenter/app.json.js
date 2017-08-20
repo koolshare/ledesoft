@@ -71,14 +71,14 @@
             "version": "1.5"
         }, 
         {
-            "build_date": "2017-08-20_12:15:23", 
+            "build_date": "2017-08-20_21:47:50", 
             "description": "在线更新路由器固件", 
             "home_url": "Module_fwupdate.asp", 
-            "md5": "1349dc8db362b590970c5e5f8e47ea07", 
+            "md5": "9b31e865988e567a45bad7a6ae0ba5d8", 
             "name": "fwupdate", 
             "tar_url": "fwupdate/fwupdate.tar.gz", 
             "title": "固件更新", 
-            "version": "0.1.8"
+            "version": "0.1.9"
         }, 
         {
             "build_date": "2017-08-18_22:53:00", 

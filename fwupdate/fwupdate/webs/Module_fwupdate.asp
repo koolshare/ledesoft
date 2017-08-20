@@ -227,7 +227,7 @@ input[disabled]:hover{
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
 				<li>在线更新或者重刷你的路由器固件；</li>
-				<li>hyper-v虚拟机用户请不要使用。</li>
+				<li>虚拟机用户也可以使用。</li>
 			</span>
 		</div>	
 	</div>
