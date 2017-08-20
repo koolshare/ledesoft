@@ -69,7 +69,7 @@ get_update(){
 	echo_date "开始检测最新固件版本"
 	rm -rf /tmp/fwversion
 	wget --referer=http://koolshare.cn --timeout=8 --tries=2 -qO - $fwserver/version.md > /tmp/fwversion
-	if [ -s "/tmp/fwversion" ];then
+	if [ -f "/tmp/fwversion" ];then
 		fwfile=$(cat /tmp/fwversion | sed -n 1p)
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)
 		fwlast=$(cat /tmp/fwversion | sed -n 3p)
