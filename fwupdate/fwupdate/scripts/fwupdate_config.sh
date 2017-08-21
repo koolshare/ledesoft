@@ -20,7 +20,7 @@ get_keep_mode(){
 			echo "-n"
 		;;
 		1)
-			echo ""
+			echo "-f /tmp/koolshare.tar.gz"
 		;;
 	esac
 }
@@ -36,23 +36,13 @@ get_keep_status(){
 	esac
 }
 
-set_keep_config(){
-cat>/lib/upgrade/keep.d/fwupdate<<EOF
-/etc/fwupdate.tar.gz
-/etc/init.d/fwupdate
-/etc/rc.d/S18fwupdate
-EOF
-}
-
 update_firmware(){
 	dbus set fwupdate_enforce="0"
 	if [ "$fwupdate_keep" == "1" ];then
-		echo_date "设置升级时保留备份的配置文件"
-		[ ! -f "/lib/upgrade/keep.d/fwupdate" ] && set_keep_config
-		/sbin/sysupgrade -b /etc/fwupdate.tar.gz
-		sleep 2 && /sbin/sysupgrade -b /etc/backup.tar.gz
-		rm -rf fwupdate.tar.gz
-		mv /etc/backup.tar.gz /etc/fwupdate.tar.gz
+		echo_date "正在为你保存配置文件"
+		/sbin/sysupgrade -b /tmp/koolshare.tar.gz
+		sleep 3
+		echo_date "配置文件保存成功"
 		sleep 2
 	fi
 	/sbin/sysupgrade -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
@@ -67,12 +57,13 @@ download_firmware(){
 	echo_date "============================================"
 	if [ "$fwsha256" == "$dlsha256" ];then
 		echo_date "下载完成，校验通过，开始升级固件，升级完成后自动重启！"
-		sleep 1
+		sleep 2
 		get_keep_status $fwupdate_keep
-		sleep 1
+		sleep 2
 		update_firmware
 	else
 		echo_date "下载完成，但是校验没有通过！"
+		sleep 3
 	fi
 }
 
@@ -88,21 +79,25 @@ get_update(){
 		echo_date "本地固件版本为：$fwlast"
 		echo_date "最新固件版本为：$fwlast"
 		echo_date "============================================"
+		sleep 2
 		if [ "$fwlocal" != "$fwlast" ];then
 			echo_date "检测到有新固件，开始下载固件..."
 			download_firmware
 		else
 			if [ "$fwupdate_enforce" == "1" ];then
+				sleep 2
 				echo_date "当前已经是最新固件，但你选择了强制刷新，将为你下载固件..."
+				sleep 2
 				download_firmware
 			else
 				echo_date "真棒，你已经升级到最新固件了，无需更新！"
-				echo_date "enforce $fwupdate_enforce"
+				sleep 2
 			fi
 		fi
 			
 	else
 		echo_date "获取最新固件版本号失败，请检查网络或稍后再试！"
+		sleep 2
 	fi
 }
 
