@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=fwupdate
-VERSION=0.2.1
+VERSION=0.2.2
 TITLE=固件更新
 DESCRIPTION=在线更新路由器固件
 HOME_URL=Module_fwupdate.asp
