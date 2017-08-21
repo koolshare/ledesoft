@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=pppoeai
-VERSION=0.4
+VERSION=0.5
 TITLE=拨号助手
 DESCRIPTION=拨号到指定号段
 HOME_URL=Module_pppoeai.asp

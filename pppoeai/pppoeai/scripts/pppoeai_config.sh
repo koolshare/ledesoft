@@ -73,7 +73,16 @@ start_pppoeai(){
 }
 
 creat_start_up(){
-	[ ! -L "/etc/hotplug.d/iface/00-pppoeai" ] && ln -sf /koolshare/init.d/S00pppoeai /etc/hotplug.d/iface/00-pppoeai
+if [ ! -f "/etc/hotplug.d/iface/00-pppoeai" ]; then
+cat>/etc/hotplug.d/iface/00-pppoeai<<EOF
+#!/bin/sh
+case "$ACTION" in
+	ifup)
+		sh /koolshare/scripts/pppoeai_config.sh
+	;;
+esac
+EOF
+fi
 }
 
 del_start_up(){
