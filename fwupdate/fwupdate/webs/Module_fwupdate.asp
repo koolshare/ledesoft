@@ -35,6 +35,7 @@ input[disabled]:hover{
 				function() {
 					x = -1;
 			});
+			notice_show();
 		}
 
 		function get_local_data(){
@@ -50,7 +51,7 @@ input[disabled]:hover{
 			  	}
 			});
 		}
-		
+
 		function dbus2obj(dbus){
 			// only fwupdate_keep send to skipd
 			if(typeof(dbus["fwupdate_keep"]) != "undefined"){
@@ -219,7 +220,19 @@ input[disabled]:hover{
 				}
 			});
 		}
-
+		//推送信息
+		function notice_show() {
+			$.ajax({
+				url: 'https://ledesoft.ngrok.wang/fwupdate//push_message.json.js',
+				type: 'GET',
+				dataType: "jsonp",
+				success: function(res) {
+					$("#push_titile").html(res.title);
+					$("#push_content1").html(res.content1);
+					$("#push_content2").html(res.content2);
+				}
+			});
+		}
 	</script>
 
 	<div class="box">
@@ -250,8 +263,25 @@ input[disabled]:hover{
 			</script>
 		</div>
 	</div>
+
+	<div class="box boxr1" style="margin-top: 10px;">
+		<div class="heading">固件更新日志：</div>
+		<div class="content">
+			<fieldset>
+				<div class="col-sm-10">
+					<ul class="pullmsg" style="margin-left: 30px;">
+						<span id="push_titile">获取更新日志失败！请检查网络！</span><br />
+						<span id="push_content1"></span><br />
+						<span id="push_content2"></span><br />
+					</ul>
+				</div>
+			</fieldset>
+		</div>
+	</div>
+
+	
 	<div class="box boxr3">
-		<div class="heading">更新日志</div>
+		<div class="heading">运行日志</div>
 		<div class="content">
 			<div class="section fw_log content">
 				<script type="text/javascript">
