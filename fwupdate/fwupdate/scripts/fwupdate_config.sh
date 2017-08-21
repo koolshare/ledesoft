@@ -20,7 +20,7 @@ get_keep_mode(){
 			echo "-n"
 		;;
 		1)
-			echo "-f /tmp/koolshare.tar.gz"
+			echo ""
 		;;
 	esac
 }
@@ -38,13 +38,6 @@ get_keep_status(){
 
 update_firmware(){
 	dbus set fwupdate_enforce="0"
-	if [ "$fwupdate_keep" == "1" ];then
-		echo_date "正在为你保存配置文件"
-		/sbin/sysupgrade -b /tmp/koolshare.tar.gz
-		sleep 3
-		echo_date "配置文件保存成功"
-		sleep 2
-	fi
 	/sbin/sysupgrade -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
 }
 
@@ -57,9 +50,9 @@ download_firmware(){
 	echo_date "============================================"
 	if [ "$fwsha256" == "$dlsha256" ];then
 		echo_date "下载完成，校验通过，开始升级固件，升级完成后自动重启！"
-		sleep 2
+		echo_date ""
 		get_keep_status $fwupdate_keep
-		sleep 2
+		sleep 3
 		update_firmware
 	else
 		echo_date "下载完成，但是校验没有通过！"
