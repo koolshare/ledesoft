@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=dmz
-VERSION=0.1
+VERSION=0.2
 TITLE=DMZ
 DESCRIPTION=将客户端完全暴露在公网
 HOME_URL=Module_dmz.asp

@@ -41,14 +41,14 @@
             "version": "3.6.1.30"
         }, 
         {
-            "build_date": "2017-08-21_23:37:50", 
+            "build_date": "2017-08-21_23:48:22", 
             "description": "拨号到指定号段", 
             "home_url": "Module_pppoeai.asp", 
-            "md5": "775ac8bcf3b16f7ed74302a202a379cd", 
+            "md5": "5187b7d13bae8ce9f6ffc7cb8fb8f9ce", 
             "name": "pppoeai", 
             "tar_url": "pppoeai/pppoeai.tar.gz", 
             "title": "拨号助手", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-08-08_00:21:52", 
@@ -81,14 +81,14 @@
             "version": "0.2.2"
         }, 
         {
-            "build_date": "2017-08-18_22:53:00", 
+            "build_date": "2017-08-21_23:46:51", 
             "description": "将客户端完全暴露在公网", 
             "home_url": "Module_dmz.asp", 
-            "md5": "5b731c18d3f1ca0f0243fa6e59844df4", 
+            "md5": "fe1e8345e1a95dfa0b4aec55c7b70271", 
             "name": "dmz", 
             "tar_url": "dmz/dmz.tar.gz", 
             "title": "DMZ", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-08-07_21:25:11", 

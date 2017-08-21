@@ -5,7 +5,7 @@ source $KSROOT/scripts/base.sh
 
 cd /tmp
 cp -rf /tmp/pppoeai/scripts/* $KSROOT/scripts/
-cp -rf /tmp/pppoeai/init.d/* $KSROOT/init.d/
+rm -rf $KSROOT/init.d/S00pppoeai
 cp -rf /tmp/pppoeai/webs/* $KSROOT/webs/
 cp /tmp/pppoeai/uninstall.sh $KSROOT/scripts/uninstall_pppoeai.sh
 

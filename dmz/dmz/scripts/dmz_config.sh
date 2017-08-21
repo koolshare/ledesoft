@@ -25,11 +25,11 @@ stop_dmz(){
 }
 
 creat_start_up(){
-	[ ! -L "/etc/rc.d/S90dmz" ] && ln -sf /koolshare/init.d/S90dmz /etc/rc.d/S90dmz
+	[ ! -L "/etc/rc.d/S90dmz.sh" ] && ln -sf /koolshare/init.d/S90dmz.sh /etc/rc.d/S90dmz.sh
 }
 
 del_start_up(){
-	rm -rf /etc/rc.d/S90dmz >/dev/null 2>&1
+	rm -rf /etc/rc.d/S90dmz.sh >/dev/null 2>&1
 }
 
 write_nat_start(){
