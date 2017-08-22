@@ -1,5 +1,5 @@
 {
-"title":"<font color='#FF0033'><b>Lede X64 V2.1 r5241 更新日志：</b></font>",
+"title":"<font color='#FF0033'><b>Lede X64 V2.2 r5246 更新日志：</b></font>",
 "content1":"<font color='#3366CC'>\
 <b>1. </b>修复更新固件时软件中心无法保留配置的问题；<br/>\
 <b>2. </b>修复更新固件时系统配置有机率丢失的问题；<br/>\
