@@ -239,8 +239,8 @@ input[disabled]:hover{
 		<div class="heading">固件更新<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
-				<li>在线更新或者重刷你的路由器固件；</li>
-				<li>虚拟机用户也可以使用。</li>
+				<li>在线更新或者重刷你的路由器固件，使用前请先更新本插件到最新版本。</li>
+				<li>历史固件前往<a href='http://firmware.koolshare.cn/LEDE_X64_fw867/'  target='_blank'>Koolshare固件下载中心</a>查看。</li>
 			</span>
 		</div>	
 	</div>
