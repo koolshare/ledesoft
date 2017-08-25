@@ -161,10 +161,10 @@
             "version": "0.6"
         }, 
         {
-            "build_date": "2017-08-25_15:47:38", 
+            "build_date": "2017-08-25_15:49:14", 
             "description": "快速修复当前固件中的BUG", 
             "home_url": "Module_hotfix.asp", 
-            "md5": "95dd4f9999b0f071579cc235ffdb2c95", 
+            "md5": "78166cabc4856ca062942623ae24c09b", 
             "name": "hotfix", 
             "tar_url": "hotfix/hotfix.tar.gz", 
             "title": "HOTFIX", 
