@@ -27,6 +27,10 @@ rm -rf /tmp/dnsmasq.d/gfwlist.conf
 sleep 1
 rm -rf /tmp/hotfix* >/dev/null 2>&1
 
+# host fix for 2.2 firmware for ssr onlineconfig
+version_local=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
+[ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ] && cp -rf /tmp/hotfix/hotfix/2.2_onlineconfig /usr/share/shadowsocks/onlineconfig
+
 
 
 

@@ -64,7 +64,7 @@ $('#hotfix-fields').forms([
 	<div class="section content" id="sesdivnotes" style="display:none">
 			<li> 1.修复koolss状态检测的问题</font>；</li>
 			<br />
-			<li> 2.测试插件，哈哈哈。</li>
+			<li> 2.针对2.1, 2.2固件修复SSR节点订阅。</li>
 			<br />
 			<li> ....</li>
 	</div>
