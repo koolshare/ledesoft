@@ -161,14 +161,14 @@
             "version": "0.6"
         }, 
         {
-            "build_date": "2017-08-25_15:59:59", 
+            "build_date": "2017-08-25_16:37:16", 
             "description": "快速修复当前固件中的BUG", 
             "home_url": "Module_hotfix.asp", 
-            "md5": "0ada9bb03dcabd8760d0917e43a2cbbf", 
+            "md5": "a4d4fd3aae6af7e6d8fac79df55df0c7", 
             "name": "hotfix", 
             "tar_url": "hotfix/hotfix.tar.gz", 
             "title": "HOTFIX", 
-            "version": "0.1.4"
+            "version": "0.1.5"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 

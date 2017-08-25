@@ -64,7 +64,7 @@ $('#hotfix-fields').forms([
 	<div class="section content" id="sesdivnotes" style="display:none">
 			<li> 1.修复koolss状态检测的问题</font>；</li>
 			<br />
-			<li> 2.针对2.1, 2.2固件修复SSR节点订阅。</li>
+			<li> 2.针对2.1, 2.2固件修复SSR节点订阅脚本，2.1固件还需要运行 opkg update && opkg install coreutils-base64 coreutils-shuf 才能修复。</li>
 			<br />
 			<li> ....</li>
 	</div>

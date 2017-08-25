@@ -236,7 +236,7 @@ start() {
 	[ ! -d "/usr/share/shadowsocks/onlineurl" ] && mkdir -p /usr/share/shadowsocks/onlineurl
 	[ ! -d "/usr/share/shadowsocks/serverconfig" ] && mkdir -p /usr/share/shadowsocks/serverconfig
 	rm -f /usr/share/shadowsocks/onlineurl/*
-	wget --timeout=8 -t 2 $baseurl -P /usr/share/shadowsocks/onlineurl
+	/usr/bin/wget --timeout=8 -t 2 $baseurl -P /usr/share/shadowsocks/onlineurl
 	[ ! -d "/usr/share/shadowsocks/onlineurl" ] || [ "$(ls /usr/share/shadowsocks/onlineurl |wc -l)" -eq 0 ] && echo "$(date): 订阅链接下载失败，请重试！" >> $LOG_FILE && rm -f "$LOCK_FILE" && exit 0
 	rm -f /usr/share/shadowsocks/serverconfig/*
 	get_local_servers
