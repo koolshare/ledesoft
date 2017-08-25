@@ -24,8 +24,6 @@ sed -i '/google.com.tw/d' /etc/gfwlist/gfwlist >/dev/null 2>&1 &
 rm -rf /tmp/dnsmasq.d/custom.conf
 rm -rf /tmp/dnsmasq.d/gfwlist.conf
 /etc/init.d/shadowsocks restart
-sleep 1
-rm -rf /tmp/hotfix* >/dev/null 2>&1
 
 # host fix for 2.2 firmware for ssr onlineconfig
 version_local=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
@@ -33,6 +31,8 @@ version_local=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut
 chmod +x /usr/share/shadowsocks/onlineconfig
 
 
+sleep 1
+rm -rf /tmp/hotfix* >/dev/null 2>&1
 
 
 
