@@ -62,7 +62,7 @@ $('#hotfix-fields').forms([
 <div class="box">
 	<div class="heading">修复内容简要： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:none">
-			<li> 1.修复koolss状态检测的问题</font>；</li>
+			<li> 1.修复2.0固件中koolss状态检测的问题；</font>；</li>
 			<br />
 			<li> 2.针对2.1, 2.2固件修复SSR节点订阅脚本，2.1固件还需要运行 opkg update && opkg install coreutils-base64 coreutils-shuf 才能修复。</li>
 			<br />
