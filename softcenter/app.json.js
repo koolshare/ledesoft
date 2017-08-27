@@ -1,14 +1,14 @@
 {
     "apps": [
         {
-            "build_date": "2017-08-07_21:25:34", 
+            "build_date": "2017-08-27_19:26:31", 
             "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "574bb67e3c8901ff7ae5ce16d68e4212", 
+            "md5": "d9229ef4f4be9652e72fead822751275", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
-            "version": "1.0"
+            "version": "1.1"
         }, 
         {
             "build_date": "2017-08-25_16:43:51", 

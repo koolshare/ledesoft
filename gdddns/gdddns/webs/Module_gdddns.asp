@@ -25,6 +25,31 @@ var appsInfo;
 	});
 }
 
+function init_gdddns(){
+	get_wan_list();
+	verifyFields(null, 1);
+}
+
+function get_wan_list(){
+	var id = parseInt(Math.random() * 100000000);
+	var postData1 = {"id": id, "method": "gdddns_uigetwan.sh", "params":[], "fields": ""};
+	$.ajax({
+		type: "POST",
+		url: "/_api/",
+		async:true,
+		cache:false,
+		data: JSON.stringify(postData1),
+		dataType: "json",
+		success: function(response){
+		if (response){
+			var wans = response.result.split( '>' );
+			for ( var i = 0; i < wans.length; ++i ) {
+				$("#_gdddns_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+			}
+		}
+		}
+	});
+}
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
 	var dnsenable = E('_gdddns_enable').checked ? '1':'0';
@@ -88,7 +113,6 @@ function save(){
 <div class="content">
 <div id="gdddns-fields"></div>
 <script type="text/javascript">
-var option_mode = [['1', 'WAN1'], ['2', 'WAN2'], ['3', 'WAN3'], ['4', 'WAN4']];
 $('#gdddns-fields').forms([
 { title: '开启 Godaddy DDNS', name: 'gdddns_enable', type: 'checkbox', value: ((Apps.gdddns_enable == '1')? 1:0)},
 { title: '上次运行', name: 'gdddns_last_act', text: Apps.gdddns_last_act ||'--' },
@@ -97,7 +121,7 @@ $('#gdddns-fields').forms([
 { title: '检查周期', name: 'gdddns_interval', type: 'text', maxlen: 5, size: 5, value: Apps.gdddns_interval || '5',suffix:'分钟'},
 { title: '域名', name: 'gdddns_domain', type: 'text', maxlen: 32, size: 34, value: Apps.gdddns_domain || 'home.example.com'},
 { title: 'DNS服务器', name: 'gdddns_dns', type: 'text', maxlen: 15, size: 15, value: Apps.gdddns_dns ||'114.114.114.114',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为 114 DNS</small>'},
-{ title: '接口', name: 'gdddns_curl', type: 'select', options:option_mode,value:Apps.gdddns_curl || '1'},
+{ title: '接口', name: 'gdddns_curl', type: 'select', options:[], value:Apps.gdddns_curl || 'url', suffix:'<small>URL适用于未使用PPPOE拨号的二级路由</small>'},
 { title: 'TTL', name: 'gdddns_ttl', type: 'text', maxlen: 5, size: 5, value: Apps.gdddns_ttl || '600' ,suffix: ' <small> (范围: 1~86400; 默认: 600)</small>'},
 ]);
 </script>
@@ -106,5 +130,5 @@ $('#gdddns-fields').forms([
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 <button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
-<script type="text/javascript">verifyFields(null, 1);</script>
+<script type="text/javascript">init_gdddns();</script>
 </content>

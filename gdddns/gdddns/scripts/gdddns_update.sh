@@ -24,23 +24,17 @@ else
 fi
 
 case $gdddns_curl in
-"2")
-    ip=$(ubus call network.interface.wan2 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"3")
-    ip=$(ubus call network.interface.wan3 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"4")
-    ip=$(ubus call network.interface.wan4 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+"url")
+    ip=$(curl -s whatismyip.akamai.com 2>&1)
     ;;
 *)
-    ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+    ip=$(ubus call network.interface.$dnspod_curl status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 esac
 
 current_ip_info=`nslookup $gdddns_domain $gdddns_dns 2>&1`
 
-[ "$gdddns_curl" = "" ] && gdddns_curl="1"
+[ "$gdddns_curl" = "" ] && gdddns_curl="url"
 [ "$gdddns_dns" = "" ] && gdddns_dns="114.114.114.114"
 [ "$gdddns_ttl" = "" ] && gdddns_ttl="600"
 
