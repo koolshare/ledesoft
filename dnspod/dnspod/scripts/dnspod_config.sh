@@ -16,7 +16,7 @@ EOF
 }
 
 start_interval(){
-    sed -i '/dnspod_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
+    sed -i '/dnspod_update/d' /etc/crontabs/root >/dev/null 2>&1
     echo "*/$dnspod_interval * * * * /bin/sh $KSROOT/scripts/dnspod_update.sh" >> /etc/crontabs/root
     sh $KSROOT/scripts/dnspod_update.sh
 	sleep 1
@@ -30,7 +30,7 @@ stop_wanup(){
 }
 
 stop_interval(){
-    sed -i '/dnspod_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
+    sed -i '/dnspod_update/d' /etc/crontabs/root >/dev/null 2>&1
     dbus set dnspod_last_act="<font color=red>服务未开启</font>"
 }
 

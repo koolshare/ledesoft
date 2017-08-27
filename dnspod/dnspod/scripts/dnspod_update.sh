@@ -19,30 +19,16 @@ die () {
     dbus set dnspod_last_act="$now [失败](IP:$1)"
 }
 
-[ "$dnspod_curl" = "" ] && dnspod_curl="1"
-[ "$dnspod_dns" = "" ] && dnspod_dns="223.5.5.5"
-#[ "$dnspod_ttl" = "" ] && dnspod_ttl="600"
+[ "$dnspod_curl" = "" ] && dnspod_curl="url"
+[ "$dnspod_dns" = "" ] && dnspod_dns="119.29.29.29"
 case $dnspod_curl in
-"1")
-    ip=`curl -s whatismyip.akamai.com 2>&1` || die "$ip"
+"url")
+    ip=$(curl -s whatismyip.akamai.com 2>&1)
     ;;
-"2")
-    ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"3")
-    ip=$(ubus call network.interface.wan3 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"4")
-    ip=$(ubus call network.interface.wan4 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"5")
-    ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;; 
 *)
-    ip=`curl -s http://ip.chinaz.com/getip.aspx|cut -d"'" -f2` || die "$ip"
+    ip=$(ubus call network.interface.$dnspod_curl status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 esac
-#ip=`$dnspod_curl 2>&1` || die "$ip"
 
 #support @ record nslookup
 if [ "$a_name" = "@" ]

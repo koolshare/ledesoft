@@ -20,6 +20,31 @@ var appsInfo;
 	});
 }
 
+		function init_dnspod(){
+			get_wan_list();
+			verifyFields();
+		}
+
+		function get_wan_list(){
+			var id = parseInt(Math.random() * 100000000);
+			var postData1 = {"id": id, "method": "uigetwan.sh", "params":[], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData1),
+				dataType: "json",
+				success: function(response){
+					if (response){
+						var wans = response.result.split( '>' );
+						for ( var i = 0; i < wans.length; ++i ) {
+							$("#_dnspod_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+						}
+					}
+				}
+			});
+		}
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
@@ -85,7 +110,6 @@ function save(){
 <div id="dnspod-fields"></div>
 <script type="text/javascript">
 var upoption_mode = [['1', 'WAN UP'], ['2', '周期性检查']];
-var option_mode = [['1', 'whatismyip.akamai.com'], ['2', 'WAN'], ['3', 'WAN2'], ['4', 'WAN3'], ['5', 'WAN4'], ['6', 'ip.chinaz.com']];
 $('#dnspod-fields').forms([
 { title: '开启DNSpod', name: 'dnspod_enable', type: 'checkbox', value: ((Apps.dnspod_enable == '1')? 1:0)},
 { title: '运行状态', name: 'dnspod_last_act', text: Apps.dnspod_last_act ||'--' },
@@ -94,9 +118,8 @@ $('#dnspod-fields').forms([
 { title: '启动方式', name: 'dnspod_up', type: 'select', options:upoption_mode,value:Apps.dnspod_up || '2'},
 { title: '检查周期', name: 'dnspod_interval', type: 'text', maxlen: 5, size: 5, value: Apps.dnspod_interval || '5',suffix:'分钟(当启动方式为WAN UP时，此选项无效)'},
 { title: '域名', name: 'dnspod_domain', type: 'text', maxlen: 32, size: 34, value: Apps.dnspod_domain || 'ex.example.com'},
-{ title: 'DNS服务器', name: 'dnspod_dns', type: 'text', maxlen: 15, size: 15, value: Apps.dnspod_dns ||'223.5.5.5',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为阿里云DNS</small>'},
-{ title: '获取IP接口', name: 'dnspod_curl', type: 'select', options:option_mode,value:Apps.dnspod_curl || '1'},
-//{ title: 'TTL', name: 'dnspod_ttl', type: 'text', maxlen: 5, size: 5, value: Apps.dnspod_ttl || '600' ,suffix: ' <small> (范围: 1~86400; 默认: 600)</small>'},
+{ title: 'DNS服务器', name: 'dnspod_dns', type: 'text', maxlen: 15, size: 15, value: Apps.dnspod_dns ||'119.29.29.29',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为DNSPOD DNS</small>'},
+{ title: '获取IP接口', name: 'dnspod_curl', type: 'select', options:[], value:Apps.dnspod_curl || 'url', suffix:'<small>URL适用于未使用PPPOE拨号的二级路由</small>'},
 ]);
 </script>
 </div>
@@ -104,5 +127,5 @@ $('#dnspod-fields').forms([
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 <button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
-<script type="text/javascript">verifyFields(null, 1);</script>
+<script type="text/javascript">init_dnspod();</script>
 </content>
