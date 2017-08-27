@@ -61,6 +61,16 @@
             "version": "1.0"
         }, 
         {
+            "build_date": "2017-08-27_11:26:34", 
+            "description": "小宝开发的游戏加速V2", 
+            "home_url": "Module_koolgame.asp", 
+            "md5": "440eca4a3ef46bdb1f343abe8cdc2c23", 
+            "name": "koolgame", 
+            "tar_url": "koolgame/koolgame.tar.gz", 
+            "title": "游戏加速", 
+            "version": "1.0.0"
+        }, 
+        {
             "build_date": "2017-08-07_18:54:45", 
             "description": "上下行带宽提速", 
             "home_url": "Module_kuainiao.asp", 
