@@ -5,7 +5,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export aliddns_`
 
 start_aliddns(){
-    sed -i '/aliddns_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
+    sed -i '/aliddns_update/d' /etc/crontabs/root >/dev/null 2>&1
     echo "*/$aliddns_interval * * * * $KSROOT/scripts/aliddns_update.sh" >> /etc/crontabs/root
     # run once after submit
 	sh $KSROOT/scripts/aliddns_update.sh
@@ -17,7 +17,7 @@ start_aliddns(){
 }
 
 stop_aliddns(){
-    sed -i '/aliddns_update.sh/d' /etc/crontabs/root >/dev/null 2>&1
+    sed -i '/aliddns_update/d' /etc/crontabs/root >/dev/null 2>&1
     dbus set aliddns_last_act="<font color=red>服务未开启</font>"
 	rm -rf /etc/rc.d/S98Aliddns.sh
 }

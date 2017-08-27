@@ -3,12 +3,14 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 
 rm -rf $KSROOT/scripts/aliddns_*
+rm -rf $KSROOT/scripts/uigetwan.sh
 rm -rf $KSROOT/init.d/S98Aliddns.sh
 rm -rf $KSROOT/web/res/icon-aliddns*
 rm -rf $KSROOT/web/Module_aliddns.asp
 
 cp -r /tmp/aliddns/* $KSROOT/
 chmod a+x $KSROOT/scripts/aliddns_*
+chmod a+x $KSROOT/scripts/uigetwan.sh
 chmod a+x $KSROOT/init.d/S98aliddns.sh
 
 # add icon into softerware center

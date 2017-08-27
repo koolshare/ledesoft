@@ -25,17 +25,11 @@ die () {
 [ "$aliddns_ttl" = "" ] && aliddns_ttl="600"
 
 case $aliddns_curl in
-"2")
-    ip=$(ubus call network.interface.wan2 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"3")
-    ip=$(ubus call network.interface.wan3 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
-    ;;
-"4")
-    ip=$(ubus call network.interface.wan4 status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+"url")
+    ip=$(curl -s whatismyip.akamai.com 2>&1)
     ;;
 *)
-    ip=$(ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
+    ip=$(ubus call network.interface.$aliddns_curl status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
     ;;
 esac
 echo $ip
