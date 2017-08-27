@@ -16,7 +16,6 @@ done
 
 # remove files
 rm -rf $KSROOT/scripts/dnspod*
-rm -rf $KSROOT/scripts/uigetwan.sh
 rm -rf $KSROOT/init.d/S98dnspod.sh
 rm -rf /etc/rc.d/S98dnspod.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_dnspod.asp

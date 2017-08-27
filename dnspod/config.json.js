@@ -1,8 +1,8 @@
 {
-"version":"1.1",
-"md5":"ec10f0ecb70e49f7f2d0d1e1b3615eda",
+"version":"1.2",
+"md5":"20a033c9a7031820b379624a16859d67",
 "home_url":"Module_dnspod.asp",
 "title":"dnspod",
 "description":"DNSPOD动态域名解析",
-"build_date":"2017-08-27_19:08:19"
+"build_date":"2017-08-27_19:33:03"
 }

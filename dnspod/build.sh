@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=dnspod
-VERSION=1.1
+VERSION=1.2
 TITLE=dnspod
 DESCRIPTION=DNSPOD动态域名解析
 HOME_URL=Module_dnspod.asp

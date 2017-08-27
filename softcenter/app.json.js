@@ -91,14 +91,14 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-08-27_19:08:19", 
+            "build_date": "2017-08-27_19:33:03", 
             "description": "DNSPOD动态域名解析", 
             "home_url": "Module_dnspod.asp", 
-            "md5": "ec10f0ecb70e49f7f2d0d1e1b3615eda", 
+            "md5": "20a033c9a7031820b379624a16859d67", 
             "name": "dnspod", 
             "tar_url": "dnspod/dnspod.tar.gz", 
             "title": "dnspod", 
-            "version": "1.1"
+            "version": "1.2"
         }, 
         {
             "build_date": "2017-08-11_23:54:28", 
@@ -131,14 +131,14 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-27_18:01:10", 
+            "build_date": "2017-08-27_19:33:16", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "0e3ada0717bcbb4aa0f95f4a075b6258", 
+            "md5": "74f36ccb47823ab0cf44d864bb4b6857", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-08-27_11:26:34", 

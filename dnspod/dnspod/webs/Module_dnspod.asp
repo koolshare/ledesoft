@@ -20,31 +20,31 @@ var appsInfo;
 	});
 }
 
-		function init_dnspod(){
-			get_wan_list();
-			verifyFields();
-		}
+function init_dnspod(){
+	get_wan_list();
+	verifyFields(null, 1);
+}
 
-		function get_wan_list(){
-			var id = parseInt(Math.random() * 100000000);
-			var postData1 = {"id": id, "method": "uigetwan.sh", "params":[], "fields": ""};
-			$.ajax({
-				type: "POST",
-				url: "/_api/",
-				async:true,
-				cache:false,
-				data: JSON.stringify(postData1),
-				dataType: "json",
-				success: function(response){
-					if (response){
-						var wans = response.result.split( '>' );
-						for ( var i = 0; i < wans.length; ++i ) {
-							$("#_dnspod_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
-						}
-					}
-				}
-			});
+function get_wan_list(){
+	var id = parseInt(Math.random() * 100000000);
+	var postData1 = {"id": id, "method": "dnspod_uigetwan.sh", "params":[], "fields": ""};
+	$.ajax({
+		type: "POST",
+		url: "/_api/",
+		async:true,
+		cache:false,
+		data: JSON.stringify(postData1),
+		dataType: "json",
+		success: function(response){
+		if (response){
+			var wans = response.result.split( '>' );
+			for ( var i = 0; i < wans.length; ++i ) {
+				$("#_dnspod_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+			}
 		}
+		}
+	});
+}
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){

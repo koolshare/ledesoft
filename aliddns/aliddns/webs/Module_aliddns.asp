@@ -24,31 +24,31 @@ var appsInfo;
 	  	}
 	});
 }
-		function init_pp(){
-			get_wan_list();
-			verifyFields();
-		}
+function init_aliddns(){
+	get_wan_list();
+	verifyFields(null, 1);
+}
 
-		function get_wan_list(){
-			var id = parseInt(Math.random() * 100000000);
-			var postData1 = {"id": id, "method": "uigetwan.sh", "params":[], "fields": ""};
-			$.ajax({
-				type: "POST",
-				url: "/_api/",
-				async:true,
-				cache:false,
-				data: JSON.stringify(postData1),
-				dataType: "json",
-				success: function(response){
-					if (response){
-						var wans = response.result.split( '>' );
-						for ( var i = 0; i < wans.length; ++i ) {
-							$("#_aliddns_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
-						}
-					}
-				}
-			});
+function get_wan_list(){
+	var id = parseInt(Math.random() * 100000000);
+	var postData1 = {"id": id, "method": "aliddns_uigetwan.sh", "params":[], "fields": ""};
+	$.ajax({
+		type: "POST",
+		url: "/_api/",
+		async:true,
+		cache:false,
+		data: JSON.stringify(postData1),
+		dataType: "json",
+		success: function(response){
+		if (response){
+			var wans = response.result.split( '>' );
+			for ( var i = 0; i < wans.length; ++i ) {
+				$("#_aliddns_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+			}
 		}
+		}
+	});
+}
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
@@ -131,5 +131,5 @@ $('#aliddns-fields').forms([
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 <button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
-<script type="text/javascript">init_pp();</script>
+<script type="text/javascript">init_aliddns();</script>
 </content>
