@@ -24,9 +24,35 @@ var appsInfo;
 	  	}
 	});
 }
+		function init_pp(){
+			get_wan_list();
+			verifyFields();
+		}
+
+		function get_wan_list(){
+			var id = parseInt(Math.random() * 100000000);
+			var postData1 = {"id": id, "method": "uigetwan.sh", "params":[], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData1),
+				dataType: "json",
+				success: function(response){
+					if (response){
+						var wans = response.result.split( '>' );
+						for ( var i = 0; i < wans.length; ++i ) {
+							$("#_aliddns_curl").append("<option value='"  + wans[i] + "'>" + wans[i] + "</option>");
+						}
+					}
+				}
+			});
+		}
 //console.log('Apps',Apps);
 //数据 -  绘制界面用 - 直接 声明一个 Apps 然后 post 到 sh 然后 由 sh 执行 存到 dbus
 function verifyFields(focused, quiet){
+	get_wan_list;
 	var dnsenable = E('_aliddns_enable').checked ? '1':'0';
 	if(dnsenable == 0){
 		$('input').prop('disabled', true);
@@ -88,7 +114,6 @@ function save(){
 <div class="content">
 <div id="aliddns-fields"></div>
 <script type="text/javascript">
-var option_mode = [['1', 'WAN1'], ['2', 'WAN2'], ['3', 'WAN3'], ['4', 'WAN4']];
 $('#aliddns-fields').forms([
 { title: '开启Aliddns', name: 'aliddns_enable', type: 'checkbox', value: ((Apps.aliddns_enable == '1')? 1:0)},
 { title: '上次运行', name: 'aliddns_last_act', text: Apps.aliddns_last_act ||'--' },
@@ -97,7 +122,7 @@ $('#aliddns-fields').forms([
 { title: '检查周期', name: 'aliddns_interval', type: 'text', maxlen: 5, size: 5, value: Apps.aliddns_interval || '5',suffix:'分钟'},
 { title: '域名', name: 'aliddns_domain', type: 'text', maxlen: 32, size: 34, value: Apps.aliddns_domain || 'home.example.com'},
 { title: 'DNS服务器', name: 'aliddns_dns', type: 'text', maxlen: 15, size: 15, value: Apps.aliddns_dns ||'223.5.5.5',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为阿里云DNS</small>'},
-{ title: '接口', name: 'aliddns_curl', type: 'select', options:option_mode,value:Apps.aliddns_curl || '1'},
+{ title: '接口', name: 'aliddns_curl', type: 'select', options:[],value:Apps.aliddns_curl || 'url',suffix:'<small>URL适用于未使用PPPOE拨号的二级路由</small>'},
 { title: 'TTL', name: 'aliddns_ttl', type: 'text', maxlen: 5, size: 5, value: Apps.aliddns_ttl || '600' ,suffix: ' <small> (范围: 1~86400; 默认: 600)</small>'},
 ]);
 </script>
@@ -106,5 +131,5 @@ $('#aliddns-fields').forms([
 <button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 <button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 <span id="footer-msg" class="alert alert-warning" style="display: none;"></span>
-<script type="text/javascript">verifyFields(null, 1);</script>
+<script type="text/javascript">init_pp();</script>
 </content>
