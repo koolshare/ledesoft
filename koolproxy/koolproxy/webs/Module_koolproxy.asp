@@ -24,6 +24,14 @@ No part of this file may be used without permission.
 		var _responseLen;
 		var noChange = 0;
 		var reload = 0;
+		var option_reboot_hour = [];
+		var option_reboot_inter = [];
+		for(var i = 0; i < 24; i++){
+			option_reboot_hour[i] = [i, i + "时"];
+		}
+		for(var i = 0; i < 72; i++){
+			option_reboot_inter[i] = [i + 1, i + 1 + "时"];
+		}
 		tabSelect('app1');
 		if(typeof btoa == "Function") {
 		   Base64 = {encode:function(e){ return btoa(e); }, decode:function(e){ return atob(e);}};
@@ -419,7 +427,6 @@ No part of this file may be used without permission.
 		<div class="content">
 			<div id="identification" class="section"></div>
 			<script type="text/javascript">
-
 				$('#identification').forms([
 					{ title: '开启Koolproxy', name:'koolproxy_enable',type:'checkbox',value: dbus.koolproxy_enable == 1 },
 					{ title: 'Koolproxy运行状态', text: '<font id="_koolproxy_status" name=_koolproxy_status color="#1bbf35">正在获取运行状态...</font>' },
@@ -428,20 +435,12 @@ No part of this file may be used without permission.
 					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: dbus.koolproxy_host == 1, suffix: '<lable id="_koolproxy_host_nu"></lable>' },
 					{ title: '插件自动重启', multi: [
 						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'koolproxy_reboot_hour', type: 'select', options: [], value: dbus.koolproxy_reboot_hour || "", suffix: '<lable id="koolproxy_reboot_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
-						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: [], value: dbus.koolproxy_reboot_inter_hour || "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
+						{ name: 'koolproxy_reboot_hour', type: 'select', options: option_reboot_hour, value: dbus.koolproxy_reboot_hour || "", suffix: '<lable id="koolproxy_reboot_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
+						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: option_reboot_inter, value: dbus.koolproxy_reboot_inter_hour || "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
 					] },
 					{ title: '证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>&nbsp;&nbsp;<a class="kp_btn" href="http://koolshare.cn/thread-80430-1-1.html" target="_blank">【https过滤使用教程】<a>' },
 					{ title: 'KoolProxy交流', suffix: ' <button id="_join_QQ" onclick="join_QQ();" class="btn">加入QQ群</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="join_TG();" class="btn">加入电报群</button>' }
 				]);
-				for(var i = 0; i < 24; i++){
-					$("#_koolproxy_reboot_hour").append("<option value='"  + i + "'>" + i + "时</option>");
-					$("#_koolproxy_reboot_hour").val(3);
-				}
-				for(var i = 1; i < 73; i++){
-					$("#_koolproxy_reboot_inter_hour").append("<option value='"  + i + "'>" + i + "时</option>");
-					$("#_koolproxy_reboot_inter_hour").val(72);
-				}
 			</script>
 		</div>
 	</div>
