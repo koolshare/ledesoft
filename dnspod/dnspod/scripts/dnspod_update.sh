@@ -77,7 +77,7 @@ send_request() {
     local args="login_token=$dnspod_ak,$dnspod_sk&Format=json&$2"
     #echo $1$args>>/jffs/koolshare/dnspod.txt
     #local hash=$(echo -n "GET&%2F&$(enc "$args")" | openssl dgst -sha1 -hmac "$dnspod_sk&" -binary | openssl base64)
-    $KSROOT/bin/wget --no-check-certificate --post-data "$args" "https://dnsapi.cn/$1" -O /tmp/ddnspod
+    /usr/bin/wget --no-check-certificate --post-data "$args" "https://dnsapi.cn/$1" -O /tmp/ddnspod
     #curl -d "$args" "https://dnsapi.cn/$1"
     #&Signature=$(enc "$hash")"
 }
