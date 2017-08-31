@@ -1,10 +1,10 @@
 #!/bin/sh
 
-MODULE=pppoeai
-VERSION=0.7
-TITLE=拨号助手
-DESCRIPTION=拨号到指定号段
-HOME_URL=Module_pppoeai.asp
+MODULE=usbmount
+VERSION=1.0
+TITLE=USB自动挂载
+DESCRIPTION=将USB磁盘自动挂载到系统
+HOME_URL=Module_usbmount.asp
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

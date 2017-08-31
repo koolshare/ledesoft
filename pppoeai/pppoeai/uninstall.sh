@@ -19,6 +19,8 @@ rm -rf $KSROOT/webs/Module_pppoeai.asp
 rm -rf $KSROOT/webs/res/icon-pppoeai.png
 rm -rf $KSROOT/webs/res/icon-pppoeai-bg.png
 
+sed -i '/pppoeai/d' /lib/upgrade/keep.d/fwupdate >/dev/null 2>&1 &
+
 dbus remove softcenter_module_pppoeai_home_url
 dbus remove softcenter_module_pppoeai_install
 dbus remove softcenter_module_pppoeai_md5

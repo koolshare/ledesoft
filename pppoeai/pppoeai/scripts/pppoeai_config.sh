@@ -76,7 +76,7 @@ creat_start_up(){
 if [ ! -f "/etc/hotplug.d/iface/00-pppoeai" ]; then
 cat>/etc/hotplug.d/iface/00-pppoeai<<EOF
 #!/bin/sh
-case "$ACTION" in
+case "\$ACTION" in
 	ifup)
 		sh /koolshare/scripts/pppoeai_config.sh
 	;;

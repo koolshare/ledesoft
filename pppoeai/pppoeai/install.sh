@@ -20,18 +20,10 @@ dbus set softcenter_module_pppoeai_name=pppoeai
 dbus set softcenter_module_pppoeai_title=拨号助手
 dbus set softcenter_module_pppoeai_version=0.1
 
+sed -i '/pppoeai/d' /lib/upgrade/keep.d/fwupdate >/dev/null 2>&1 &
+echo "/etc/hotplug.d/iface/00-pppoeai" >> /lib/upgrade/keep.d/fwupdate
 # make pppoeai restart/stop to apply change
 sh /koolshare/scripts/pppoeai_getwan.sh
 
 sleep 1
 rm -rf /tmp/pppoeai* >/dev/null 2>&1
-
-
-
-
-
-
-
-
-
-
