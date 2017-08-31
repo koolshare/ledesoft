@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolproxy
-VERSION=3.6.1.31
+VERSION=3.6.1.32
 TITLE=koolproxy
 DESCRIPTION=听说KP和软路由更搭哦~
 HOME_URL=Module_koolproxy.asp

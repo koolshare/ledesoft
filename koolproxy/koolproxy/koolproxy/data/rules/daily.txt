@@ -1,6 +1,6 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.6.1]
-!x  -----update[rules]: 2017-8-14 16:36
+!x  -----update[rules]: 2017-8-29 17:59
 !x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
 !x  -----Thanks for help: <CJX> <yiclear> <xwhyz> 
 !x  -----Tip: Welcome to rule group,Please Send mail to <wojiaolinmu008@gmail.com>

@@ -126,9 +126,9 @@ write_reboot_job(){
 	[ ! -f  "/etc/crontabs/root" ] && touch /etc/crontabs/root
 	CRONTAB=`cat /etc/crontabs/root|grep kp_config.sh`
 	if [ "1" == "$koolproxy_reboot" ]; then
-		[ -z "$CRONTAB" ] && echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件... && echo  "* $koolproxy_reboot_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
+		[ -z "$CRONTAB" ] && echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件... && echo  "0 $koolproxy_reboot_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
 	elif [ "2" == "$koolproxy_reboot" ]; then
-		[ -z "$CRONTAB" ] && echo_date 开启插件间隔重启，每隔"$koolproxy_reboot_inter_hour"时，自动重启插件... && echo  "* */$koolproxy_reboot_inter_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
+		[ -z "$CRONTAB" ] && echo_date 开启插件间隔重启，每隔"$koolproxy_reboot_inter_hour"时，自动重启插件... && echo  "0 */$koolproxy_reboot_inter_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
 	fi
 }
 
