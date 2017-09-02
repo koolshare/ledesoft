@@ -141,7 +141,7 @@ $('#udp2raw-fields').forms([
 { title: '密码', name: 'udp2raw_passwd', type: 'text', maxlen: 50, size: 50, value: Apps.udp2raw_passwd },
 { title: '模式', name:'udp2raw_mode',type:'select',options:[['faketcp','faketcp'],['udp','udp'],['icmp','icmp']],value: Apps.udp2raw_mode || "faketcp", suffix: 'raw-mode 默认:faketcp' },
 { title: '加密模式', name:'udp2raw_cipher',type:'select',options:[['aes128cbc','aes128cbc'],['xor','xor'],['none','无']],value: Apps.udp2raw_cipher || "aes128cbc", suffix: 'cipher-mode 默认:aes128cbc' },
-{ title: '检验模式', name:'udp2raw_auth',type:'select',options:[['md5','md5'],['crc32','crc32'],['icmp','icmp'],['simple','simple'],['none','无']],value: Apps.udp2raw_auth || "md5" , suffix: 'auth-mode 默认:md5' },
+{ title: '校验模式', name:'udp2raw_auth',type:'select',options:[['md5','md5'],['crc32','crc32'],['icmp','icmp'],['simple','simple'],['none','无']],value: Apps.udp2raw_auth || "md5" , suffix: 'auth-mode 默认:md5' },
 { title: '程序退出保留防火墙规则', name: 'udp2raw_iptables', type: 'checkbox', value: ((Apps.udp2raw_iptables == '1')? 1:0), suffix: '开启后防火墙规则需要自己手动添加，规则不会在udp2raw退出时被删掉，可以避免停掉udp2raw后内核向对端回复RST。'},
 { title: '定期检查iptables防火墙规则', name: 'udp2raw_keep', type: 'checkbox', value: ((Apps.udp2raw_keep == '1')? 1:0), suffix: '开启后定期主动检查iptables，如果udp2raw添加的iptables规则丢了，就重新添加。'},
 { title: '绕过本地iptables', name: 'udp2raw_lower', type: 'checkbox', value: ((Apps.udp2raw_lower == '1')? 1:0), suffix: '允许绕过本地iptables，在一些iptables不好改动的情况下尤其有效'},
