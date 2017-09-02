@@ -8,16 +8,16 @@
 # See /LICENSE for more information.
 #
 
-START=88
+START=99
 STOP=15
 
 source /koolshare/scripts/base.sh
 eval `dbus export udp2raw_`
 
 start(){
-	[ "$udp2raw_enable" == "1" ] && udp2raw -u $udp2raw_token -d
+	[ "$udp2raw_enable" == "1" ] && sh /koolshare/scripts/udp2raw_config.sh
 }
 
 stop(){
-	killall udp2raw
+	sh /koolshare/scripts/udp2raw_config.sh
 }

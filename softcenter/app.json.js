@@ -171,14 +171,14 @@
             "version": "1.5"
         }, 
         {
-            "build_date": "2017-09-02_23:04:57", 
-            "description": "UDP加速", 
+            "build_date": "2017-09-02_23:12:11", 
+            "description": "UDP加速神器", 
             "home_url": "Module_udp2raw.asp", 
-            "md5": "4da8b9ad4c95cc036c1d52512b080e38", 
+            "md5": "a6b6f77901a5d19b05d1a20c7e721e1e", 
             "name": "udp2raw", 
             "tar_url": "udp2raw/udp2raw.tar.gz", 
             "title": "udp2raw", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-08-13_21:36:49", 

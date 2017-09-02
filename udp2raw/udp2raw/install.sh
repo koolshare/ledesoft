@@ -20,7 +20,7 @@ chmod +x $KSROOT/init.d/S99udp2raw.sh
 # 为新安装文件赋予执行权限...
 chmod 755 $KSROOT/scripts/udp2raw*
 
-dbus set softcenter_module_udp2raw_description=UDP加速
+dbus set softcenter_module_udp2raw_description=UDP加速神器
 dbus set softcenter_module_udp2raw_install=1
 dbus set softcenter_module_udp2raw_name=udp2raw
 dbus set softcenter_module_udp2raw_title=udp2raw

@@ -1,9 +1,9 @@
 #!/bin/sh
 
 MODULE=udp2raw
-VERSION=0.1
+VERSION=0.2
 TITLE=udp2raw
-DESCRIPTION=UDP加速
+DESCRIPTION=UDP加速神器
 HOME_URL=Module_udp2raw.asp
 
 # Check and include base
