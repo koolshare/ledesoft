@@ -4,9 +4,6 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export udpspeeder_`
 
-dbus set udpspeeder_version=$version
-
-
 start_udpspeeder(){
 	[ -n "$udpspeeder_duplicate_time" ] && t="-t $udpspeeder_duplicate_time" || t=""
 	[ -n "$udpspeeder_jitter" ] && j="-j $udpspeeder_jitter" || j=""
