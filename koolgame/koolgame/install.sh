@@ -51,6 +51,7 @@ rm -rf $KSROOT/webs/Module_koolgame.asp  >/dev/null 2>&1
 rm -rf $KSROOT/bin/koolgame  >/dev/null 2>&1
 rm -rf $KSROOT/bin/pdu  >/dev/null 2>&1
 rm -rf $KSROOT/configs/koolgame*
+[ -f "/koolshare/webs/files/koolgame.tar.gz" ] && rm -rf /koolshare/webs/files/koolgame.tar.gz
 
 # 复制文件
 cd /tmp

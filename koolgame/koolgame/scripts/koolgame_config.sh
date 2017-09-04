@@ -711,7 +711,6 @@ case $2 in
 	mkdir -p koolgame/webs
 	mkdir -p koolgame/webs/res
 	mkdir -p koolgame/configs/koolgame
-
 	cp $KSROOT/scripts/koolgame_install.sh /tmp/koolgame/install.sh
 	cp $KSROOT/scripts/uninstall_koolgame.sh /tmp/koolgame/uninstall.sh
 	cp $KSROOT/bin/koolgame /tmp/koolgame/bin/
@@ -721,17 +720,13 @@ case $2 in
 	cp $KSROOT/webs/Module_koolgame.asp /tmp/koolgame/webs/
 	cp $KSROOT/webs/res/icon-koolgame* /tmp/koolgame/webs/res/
 	cp -rf $KSROOT/configs/koolgame /tmp/koolgame/configs/
-
 	tar -czv -f /koolshare/webs/files/koolgame.tar.gz koolgame/
 	mv koolgame.tar.gz /koolshare/webs/files/
 	rm -rf /tmp/koolgame*
-	#tar --format=gnu -czv -f /koolshare/webs/files/koolgame.tar.gz bin/ss-* bin/ssr-* bin/pdnsd bin/Pcap_DNSProxy bin/dns2socks bin/dnscrypt-proxy bin/chinadns bin/resolveip scripts/ss_* webs/res/icon-koolgame* ss/ init.d/S99shadowsocks.sh webs/Module_shadowsocks.asp ./install.sh ./uninstall.sh >> $LOG_FILE
 	echo_date "打包完毕！该包可以在LEDE软件中心离线安装哦~" >> $LOG_FILE
 	http_response "$1"
 	echo XU6J03M6 >> $LOG_FILE
-	#sleep 10 
-	#rm -rf /koolshare/webs/files/koolgame.tar.gz
-	#mv $KSROOT/install.sh $KSROOT/scripts/ss_install.sh 
-	#rm -rf $KSROOT/uninstall.sh
+	sleep 10 
+	rm -rf /koolshare/webs/files/koolgame.tar.gz
 	;;
 esac
