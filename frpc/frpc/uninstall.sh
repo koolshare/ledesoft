@@ -19,8 +19,8 @@ rm -rf $KSROOT/scripts/frpc*
 rm -rf $KSROOT/init.d/S95frpc.sh
 rm -rf /etc/rc.d/S95frpc.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_frpc.asp
-rm -rf $KSROOT/webs/res/icon-ddnsto.png
-rm -rf $KSROOT/webs/res/icon-ddnsto-bg.png
+rm -rf $KSROOT/webs/res/icon-frpc.png
+rm -rf $KSROOT/webs/res/icon-frpc-bg.png
 
 # remove dbus data in frpc
 dbus remove softcenter_module_frpc_home_url
