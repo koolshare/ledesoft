@@ -4,7 +4,7 @@ source $KSROOT/scripts/base.sh
 
 #From dbus to local variable
 eval `dbus export soft`
-name=`echo "$soft_name"|cut -d "." -f1`
+name=`echo "$soft_name"|sed 's/.tar.gz//g'`
 
 cat /dev/null > /tmp/upload/soft_log.txt
 INSTALL_SUFFIX=_install
