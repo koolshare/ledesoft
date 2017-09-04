@@ -23,16 +23,6 @@ start_udpspeeder(){
 	fi
 }
 
-
-creat_start_up(){
-	[ ! -L "/etc/rc.d/S99udpspeeder.sh" ] && ln -sf /koolshare/init.d/S99udpspeeder.sh /etc/rc.d/S99udpspeeder.sh
-}
-
-del_start_up(){
-	[ -L "/etc/rc.d/S99udpspeeder.sh" ] && rm -rf /etc/rc.d/S99udpspeeder.sh >/dev/null 2>&1
-}
-
-
 # used by rc.d
 case $1 in
 start)
