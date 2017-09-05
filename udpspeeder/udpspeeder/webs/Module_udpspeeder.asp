@@ -162,7 +162,7 @@ function save(){
 		<div class="heading">UDPspeeder加速SS游戏模式udp的简要操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('UDPspeeder');"><span id="sesdivUDPspeedershowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivUDPspeeder" style="display:none">
 			<li>根据<a href="https://github.com/wangyu-/UDPspeeder/blob/master/README.md" target="_blank"><u> 官方说明文档</u></a>配置好服务器端程序；</li>
-			<li>比如你正在使用SS游戏模式，此时用命令ps -ef | grep ss-redir 可以查看到相关进程。</li>
+			<li>比如你正在使用SS游戏模式，此时用命令ps | grep ss-redir 可以查看到相关进程。</li>
 			<li>例如查看进程找到【ss-redir -b 0.0.0.0 -c /koolshare/ss/ss.json -u -f /var/run/shadowsocks.pid】此条；</li>
 			<li>该进程同时承载了ss的tcp和udp流量，需要将tcp和udp分开成两个进程，方便运行UDPspeeder单独加速udp，用命令killall ss-redir 将进程杀死，然后运行下面两个命令重新启动ss-redir；</li>
 			<li>命令1（运行ss-redir转发tcp流量，去掉原命令 -u选项）：ss-redir -b 0.0.0.0 -c /koolshare/ss/ss.json -f /var/run/shadowsocks.pid</li>

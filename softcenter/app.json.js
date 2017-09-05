@@ -151,14 +151,14 @@
             "version": "0.5"
         }, 
         {
-            "build_date": "2017-09-05_01:16:42", 
+            "build_date": "2017-09-05_10:07:57", 
             "description": "UDP双边加速工具", 
             "home_url": "Module_udpspeeder.asp", 
-            "md5": "f642757334f863f566002a622b5b2383", 
+            "md5": "55412c0731daf37424d88ea4e57198be", 
             "name": "udpspeeder", 
             "tar_url": "udpspeeder/udpspeeder.tar.gz", 
             "title": "UDPspeeder", 
-            "version": "1.0.1"
+            "version": "1.0.2"
         }, 
         {
             "build_date": "2017-08-31_09:41:24", 
