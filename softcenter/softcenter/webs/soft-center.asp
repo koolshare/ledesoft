@@ -190,6 +190,8 @@
 //APPS 控制模块
 var anmstatus=null;
 var softcenter = 1;
+var _responseLen;
+var noChange = 0;
 function change1(obj){
 	x = $(anmstatus).find('.app-name').width();
 	if(x == '170px'){
@@ -552,7 +554,7 @@ function appPostScript(moduleInfo, script) {
 		$('.popover').html('<font color=red>软件中心异常！</font>');
 	};
 	if(script =="ks_tar_install.sh"){
-		CheckZ();
+		setTimeout("get_log(1);", 200);
 	}else{
 		CheckX();
 	}
@@ -598,19 +600,16 @@ var appsInfo;
 function CheckX(){
 	$('.popover').html('请稍后……');
 	changeButton(true);
-	TimeOut = window.setInterval(checkInstallStatus, 1000); 
-}
-function CheckZ(){
-	TimeOut = window.setInterval(get_log, 1000); 
+	TimeOut = window.setInterval(checkInstallStatus, 500); 
 }
 function softCenterInit(){
 	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
-		//console.log("appsinfo",appsInfo);
 		getSoftCenter(appsInfo);
 		if(resp.softcenter_installing_status != '0' && resp.softcenter_installing_status){
 			CheckX();
 		}
+		get_log();
 	});
 }
 function uploadApp(){
@@ -619,13 +618,8 @@ function uploadApp(){
 	filename = filename[filename.length-1];
 	var filelast = filename.split('.');
 	filelast = filelast[filelast.length-1];
-	var appversion = $('#_app_version').val();
 	if(filelast !='gz'){
 		alert('插件压缩包格式不正确！');
-		return false;
-	}
-	if(appversion==""){
-		alert('版本号未填写！');
 		return false;
 	}
 	var formData = new FormData();
@@ -643,35 +637,51 @@ function uploadApp(){
 			if(res.status==200){
 				var moduleInfo = {
 						"name":filename,
-						"version": appversion
 					};
 				appPostScript(moduleInfo,'ks_tar_install.sh');
 			}
 		}
 	});
 }
-function get_log(){
-var _temp;
+
+function get_log(s){
 	$.ajax({
 		url: '/_temp/soft_log.txt',
 		type: 'GET',
-		dataType: 'text',
-		async:false,
-		success: function(result) {
-            if(result.length>0 && result.indexOf('jobdown')<0 && _temp != result) {
-                $("#soft_log").val(result);
-				_temp = result;
-            }else {
-				$('.popover').html('安装成功！页面即将跳转！');
-				clearTimeout(TimeOut);
-				setTimeout("window.location.reload()", 3000);
-            }
-        },
+		dataType: 'html',
+		async: true,
+		cache:false,
+		success: function(response) {
+			var retArea = E("soft_log");
+			if (response.search("jobdown") != -1) {
+				retArea.value = response.replace("jobdown", " ");
+				retArea.scrollTop = retArea.scrollHeight;
+				if(s){
+					$('.popover').html('安装成功！页面即将跳转！');
+					clearTimeout(TimeOut);
+					setTimeout("window.location.reload()", 3000);
+				}
+				return true;
+			}
+			if (_responseLen == response.length) {
+				noChange++;
+			} else {
+				noChange = 0;
+			}
+			if (noChange > 8000) {
+				//tabSelect("app1");
+				return false;
+			} else {
+				setTimeout("get_log(1);", 400); //100 is radical but smooth!
+			}
+			retArea.value = response;
+			retArea.scrollTop = retArea.scrollHeight;
+			_responseLen = response.length;
+		},
         error: function(xhr, status, error) {
 			$('.popover').html('服务器出错，请稍候再试！');
 			changeButton(false);
-        },
-        cache:false
+        }
 	});
 }
 </script>
@@ -752,12 +762,6 @@ var _temp;
 				<br/>
 				<div id="identification" class="section">
 					<fieldset>
-						<label class="col-sm-3 control-left-label" for="_app_version">安装版本号</label>
-						<div class="col-sm-9">
-							<input type="text" name="app_version" maxlength="32" size="34" id="_app_version" title="">
-						</div>
-					</fieldset>
-					<fieldset>
 						<label class="control-left-label col-sm-3">选择安装包</label>
 						<div class="col-sm-9">
 							
@@ -770,8 +774,8 @@ var _temp;
 						<label class="control-left-label col-sm-3">安装日志</label>
 						<div class="col soft_log">
 							<script type="text/javascript">
-								s = 'height:200px;display:block';
-								$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 80%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
+								s = 'height:300px;display:block';
+								$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 99%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
 							
 							</script>
 						</div>

@@ -95,7 +95,7 @@ function get_update_status(){
 <div class="wrap">
   <div class="bg">
     <div class="loading">
-      <span class="title">请稍后 软件中心升级中...升级大概需要20秒...</span>
+      <span class="title">请稍后 软件中心升级中...升级大概需要30秒...</span>
 	  <span class="text">升级完毕后会自动跳转...</span>
     </div>
   </div>

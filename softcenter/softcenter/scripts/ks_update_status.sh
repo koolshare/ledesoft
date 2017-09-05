@@ -25,5 +25,5 @@ source $KSROOT/scripts/base.sh
 # fi
 
 # temporary solution
-sleep 20
+sleep 25
 http_response "1"
