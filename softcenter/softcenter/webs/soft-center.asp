@@ -679,8 +679,10 @@ function get_log(s){
 			_responseLen = response.length;
 		},
         error: function(xhr, status, error) {
-			$('.popover').html('服务器出错，请稍候再试！');
-			changeButton(false);
+			if(s){
+				$('.popover').html('服务器出错，请稍候再试！');
+				changeButton(false);
+			}
         }
 	});
 }
