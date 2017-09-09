@@ -178,7 +178,6 @@
 			//data from other element
 			var para_inp = ["serverchan_sckey", "serverchan_info_title", "serverchan_status_check", "serverchan_check_time_hour", "serverchan_check_time_min", "serverchan_check_inter_hour", "serverchan_check_inter_min"];
 			for (var i = 0; i < para_inp.length; i++) {
-				console.log(E('_' + para_inp[i] ).value)
 				if (!E('_' + para_inp[i] ).value){
 					dbus[para_inp[i]] = "";
 				}else{
@@ -186,7 +185,6 @@
 				}
 			}
 			if(s == 1){
-				console.log("2333")
 				arg="manual"
 			}else{
 				arg="start"
@@ -226,7 +224,6 @@
 		function send_message(){
 			// var para_inp = [""];
 			// for (var i = 0; i < para_inp.length; i++) {
-			// 	console.log(E('_' + para_inp[i] ).value)
 			// 	if (!E('_' + para_inp[i] ).value){
 			// 		dbus[para_inp[i]] = "";
 			// 	}else{
