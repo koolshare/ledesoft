@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=aria2
-VERSION=1.5
+VERSION=1.6
 TITLE=aria2
 DESCRIPTION=超酷的远程下载工具
 HOME_URL=Module_aria2.asp

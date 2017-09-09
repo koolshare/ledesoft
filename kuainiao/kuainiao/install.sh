@@ -1,5 +1,8 @@
 #!/bin/sh
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 cp -rf /tmp/kuainiao/scripts/* /koolshare/scripts/
 cp -rf /tmp/kuainiao/webs/* /koolshare/webs/
 cp -rf /tmp/kuainiao/res/* /koolshare/res/

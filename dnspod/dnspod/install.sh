@@ -2,6 +2,9 @@
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 cp -r /tmp/dnspod/* $KSROOT/
 chmod a+x $KSROOT/scripts/dnspod_*
 chmod a+x $KSROOT/scripts/uigetwan.sh

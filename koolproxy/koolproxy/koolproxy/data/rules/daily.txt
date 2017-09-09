@@ -1,64 +1,19 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.6.1]
-!x  -----update[rules]: 2017-8-29 17:59
+!x  -----update[rules]: 2017-9-8 22:11
 !x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
 !x  -----Thanks for help: <CJX> <yiclear> <xwhyz> 
 !x  -----Tip: Welcome to rule group,Please Send mail to <wojiaolinmu008@gmail.com>
 !x  -----------------------------------------------------------------------------------------------------------------
-zdfans.com##img[src*="/wp-content/themes/D7/img/ad"]
-juqingw.com##.PAD_950_90
-|https://tieba.baidu.com##.showBar,#fixed_bar
-dd-wrt.com###ad_block
-china.com.cn##a[href*="http://newcps.yx454.com/quickR/register/"]
-||https://douban.com###dale_movie_subject_middle_right,#dale_movie_subject_top_right,#dale_movie_subject_bottom_super_banner,#dale_movie_home_top_right,#dale_movie_homepage_bottom
-||https://douyu.com##.chat-ad
-china.com.cn##.box.idx-top-ad
-||https://fc2livecn.com##.m-lbxLst-bnr
-dj97.com###J_A_B
-pgzhibo.com##[style^="width:940px; margin:0 auto;"],[width^="660"][height$="60"]
-|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
-bbs.3dmgame.com##.ad960-90,div.ad-side,.adtable,div.a_mu,div.a_h,.adsbygoogle,div.ad_pic,div#ggPar,div.wp.a_f,div.wp.a_t,div.a_p,div.a_pb,div.a_pt,div.a_pr,#preAdContent,div.a_cn,div.bm.a_c,[id^="f21ac82b21eeb7322631b6aa94e17f"],.a_cb,.a_fr,#ad_headerbanner
+!|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://live.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
 !|https://www.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
 |http://gaoqing.la$s@<div id="head" class="row">@<div id="head" style="display:none">@
-|www.imedown.info/$s@function winopen(){*</script>@</script>@
-|www.imedown.info/$s@<A HREF=*</A>@@
 !||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/player_yknpsv.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
 !||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/loader.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://api.bilibili.com/x/web-show/res/loc?pf=0&id=160
-|https://*/*=adunit&
-|https://ads.youtube.com
-|https://azabu-u.ac.jp
-||https://couchcoaster.jp
-|https://crt.comodoca.com
-|https://delivery.dmkt-sp.jp
-|https://ehg-youtube.hitbox.com
-||https://m-78.jp
-|https://nichibenren.or.jp
-|https://nicorette.co.kr
-|https://ssl-youtube.2cnt.net
-|https://youtube.112.2o7.net
-|https://youtube.2cnt.net
-|https://m.youtube.com/_get_ads
-|https://stats.tubemogul.com/stats/
-||https://cnblogs.com/units/
-|https://api.47ks.com/cp1_47_ad.js
-|http://p0.ifengimg.com/a98b27eebe4deb98/2017/22/yingguang-2017-h5-imp.js
-||g1.taijuba.com^
-||id528.com^
-||niuxgame77.com^
-||feitian001.com
-||256.cc/m/js/g256.js
-||dioguitar23.*/images/*.gif
-|http://www.viidii.info/ad.gif
-|http://wx3.sinaimg.cn/large/ed5e6a1dly1fdl3orv4u9j20r808cq6o.jpg
-||imedown.info^*.gif
-||fd173.cn^$script
-|https://img3.douban.com/js/packed_ad$script
-||https://doubanio.com^*/js/ad.
-||sogou.com/js7/forAppDown.js
 !x  -----------------------------------------------------------------------------------------------------------------
 
 !x  -----------------------------------------------------------------------------------------------------------------

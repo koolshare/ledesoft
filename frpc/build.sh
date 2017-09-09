@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=frpc
-VERSION=1.5
+VERSION=1.6
 TITLE=frpc
 DESCRIPTION=FRPC内网穿透工具
 HOME_URL=Module_frpc.asp

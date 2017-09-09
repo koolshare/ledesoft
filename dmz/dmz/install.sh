@@ -5,6 +5,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export dmz`
 
 mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
 
 cd /tmp
 cp -rf /tmp/dmz/scripts/* $KSROOT/scripts/

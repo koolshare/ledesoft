@@ -3,6 +3,9 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export udpspeeder_`
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 # stop udpspeeder if enabled
 [ -n "`pidof UDPspeeder`" ] && sh $KSROOT/scripts/udpspeeder_config.sh stop
 

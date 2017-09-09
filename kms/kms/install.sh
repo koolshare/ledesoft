@@ -3,6 +3,9 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export kms`
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 # stop kms first
 if [ "$kms_enable" == "1" ];then
 	sh $KSROOT/scripts/kms_config.sh stop

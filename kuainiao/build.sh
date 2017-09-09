@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=kuainiao
-VERSION=1.0
+VERSION=1.1
 TITLE=kuainiao
 DESCRIPTION=上下行带宽提速
 HOME_URL=Module_kuainiao.asp

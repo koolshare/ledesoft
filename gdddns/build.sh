@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=gdddns
-VERSION=1.1
+VERSION=1.2
 TITLE=gdddns
 DESCRIPTION=Godaddy-DDNS
 HOME_URL=Module_gdddns.asp

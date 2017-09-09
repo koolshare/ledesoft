@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=syncthing
-VERSION=1.5
+VERSION=1.6
 TITLE=syncthing
 DESCRIPTION=多终端同步工具
 HOME_URL=Module_syncthing.asp

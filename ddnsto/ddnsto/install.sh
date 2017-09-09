@@ -5,6 +5,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export ddnsto`
 
 mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
 
 cd /tmp
 cp -rf /tmp/ddnsto/bin/* $KSROOT/bin/

@@ -21,14 +21,14 @@
             "version": "1.0.3"
         }, 
         {
-            "build_date": "2017-08-08_00:21:52", 
+            "build_date": "2017-09-09_18:27:26", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "23ce239b9048a9f5c776c3a84e4760de", 
+            "md5": "76e25431e6d7aab3cbff39e3e1b7fd6b", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-08-07_23:30:31", 
@@ -41,24 +41,24 @@
             "version": "1.1.5"
         }, 
         {
-            "build_date": "2017-09-05_01:12:41", 
+            "build_date": "2017-09-09_18:25:54", 
             "description": "FRPC内网穿透工具", 
             "home_url": "Module_frpc.asp", 
-            "md5": "9086bc5b61927e55bf56d1b892e8fbc2", 
+            "md5": "a812e495d98bb22a7dc119dbb6e2ac68", 
             "name": "frpc", 
             "tar_url": "frpc/frpc.tar.gz", 
             "title": "frpc", 
-            "version": "1.5"
+            "version": "1.6"
         }, 
         {
-            "build_date": "2017-08-21_23:51:14", 
+            "build_date": "2017-09-09_18:23:16", 
             "description": "将客户端完全暴露在公网", 
             "home_url": "Module_dmz.asp", 
-            "md5": "6e774aec7415fc5f7ef83b4a4a5c2bbd", 
+            "md5": "a428eb4ab6054972cfa01d0e34ab5507", 
             "name": "dmz", 
             "tar_url": "dmz/dmz.tar.gz", 
             "title": "DMZ", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-08-31_14:34:01", 
@@ -71,44 +71,44 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-08-27_19:26:31", 
+            "build_date": "2017-09-09_18:27:05", 
             "description": "Godaddy-DDNS", 
             "home_url": "Module_gdddns.asp", 
-            "md5": "d9229ef4f4be9652e72fead822751275", 
+            "md5": "7b4443a6bc03bf59d09c8bab53f4b0e5", 
             "name": "gdddns", 
             "tar_url": "gdddns/gdddns.tar.gz", 
             "title": "gdddns", 
-            "version": "1.1"
+            "version": "1.2"
         }, 
         {
-            "build_date": "2017-09-05_00:04:17", 
+            "build_date": "2017-09-09_18:28:12", 
             "description": "小宝开发的游戏加速V2", 
             "home_url": "Module_koolgame.asp", 
-            "md5": "0ec3067c732a69e242479df14fa3ec56", 
+            "md5": "d01e0878e17f27934645d8c2484b1e9a", 
             "name": "koolgame", 
             "tar_url": "koolgame/koolgame.tar.gz", 
             "title": "游戏加速", 
-            "version": "1.0.1"
+            "version": "1.0.2"
         }, 
         {
-            "build_date": "2017-08-07_18:54:45", 
+            "build_date": "2017-09-09_18:30:46", 
             "description": "上下行带宽提速", 
             "home_url": "Module_kuainiao.asp", 
-            "md5": "eb9e63def992a51ec6ab2c7a56f862a3", 
+            "md5": "130068e43c0185e2b578b7dc69561e72", 
             "name": "kuainiao", 
             "tar_url": "kuainiao/kuainiao.tar.gz", 
             "title": "kuainiao", 
-            "version": "1.0"
+            "version": "1.1"
         }, 
         {
-            "build_date": "2017-08-13_21:36:49", 
+            "build_date": "2017-09-09_18:26:16", 
             "description": "小巧安全的FTP服务器", 
             "home_url": "Module_ftp.asp", 
-            "md5": "264a9a77dec2af86a1adc6988b58a69c", 
+            "md5": "0e7641f9cc6d70d2bb57efbc3ea83cf9", 
             "name": "ftp", 
             "tar_url": "ftp/ftp.tar.gz", 
             "title": "FTP服务器", 
-            "version": "1.0.2"
+            "version": "1.0.3"
         }, 
         {
             "build_date": "2017-09-02_23:21:55", 
@@ -121,64 +121,64 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2017-08-10_00:11:18", 
+            "build_date": "2017-09-09_18:32:29", 
             "description": "多终端同步工具", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "deef390fb2a025790b7053d573efa253", 
+            "md5": "ed56287e492097c0cf46696b4e045528", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
-            "version": "1.5"
+            "version": "1.6"
         }, 
         {
-            "build_date": "2017-08-28_16:31:16", 
+            "build_date": "2017-09-09_18:25:45", 
             "description": "DNSPOD动态域名解析", 
             "home_url": "Module_dnspod.asp", 
-            "md5": "6546658852ba71d78e507eaadec52890", 
+            "md5": "97477066986e4c8ad94f10129eed8881", 
             "name": "dnspod", 
             "tar_url": "dnspod/dnspod.tar.gz", 
             "title": "dnspod", 
-            "version": "1.3"
+            "version": "1.4"
         }, 
         {
-            "build_date": "2017-08-18_19:04:27", 
+            "build_date": "2017-09-09_18:22:21", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "c3c2e3de460d4013ef519aafcdca0d41", 
+            "md5": "25c55a82c6477b8649592432ad130a16", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "aria2", 
-            "version": "1.5"
+            "version": "1.6"
         }, 
         {
-            "build_date": "2017-08-27_19:33:16", 
+            "build_date": "2017-09-09_18:21:59", 
             "description": "阿里云解析自动更新IP", 
             "home_url": "Module_aliddns.asp", 
-            "md5": "74f36ccb47823ab0cf44d864bb4b6857", 
+            "md5": "e980e0c85dd809ba3f831744d08c628d", 
             "name": "aliddns", 
             "tar_url": "aliddns/aliddns.tar.gz", 
             "title": "AliDDNS", 
-            "version": "0.5"
+            "version": "0.7"
         }, 
         {
-            "build_date": "2017-09-05_10:07:57", 
+            "build_date": "2017-09-09_18:33:26", 
             "description": "UDP双边加速工具", 
             "home_url": "Module_udpspeeder.asp", 
-            "md5": "55412c0731daf37424d88ea4e57198be", 
+            "md5": "82e42df4ad6102ec4a548aae1ee71808", 
             "name": "udpspeeder", 
             "tar_url": "udpspeeder/udpspeeder.tar.gz", 
             "title": "UDPspeeder", 
-            "version": "1.0.2"
+            "version": "1.0.3"
         }, 
         {
-            "build_date": "2017-08-31_09:41:24", 
+            "build_date": "2017-09-09_18:29:47", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "0f8bb32f8569d59e58520a4f943def0a", 
+            "md5": "2e20ddf7e3c104d03fc9846df83e5eac", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.32"
+            "version": "3.6.1.33"
         }, 
         {
             "build_date": "2017-08-13_00:46:49", 
@@ -191,14 +191,14 @@
             "version": "1.0.4"
         }, 
         {
-            "build_date": "2017-08-09_16:49:35", 
+            "build_date": "2017-09-09_18:24:29", 
             "description": "支持http2协议的远程管理，仅支持远程管理路由器+NAS+Windows远程桌面", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "979f03bb777c1ea3fd5686125b50d790", 
+            "md5": "ed6317f585fbbeef041836f792be0460", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "DDNSTO", 
-            "version": "1.6"
+            "version": "1.7"
         }, 
         {
             "build_date": "2017-08-31_14:29:14", 

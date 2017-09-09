@@ -36,6 +36,7 @@ echo $(date): 创建相关文件夹...
 mkdir -p $KSROOT/configs
 mkdir -p $KSROOT/configs/koolgame
 mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
 
 # 关闭koolgame
 if [ "$koolgame_basic_enable" == "1" ];then

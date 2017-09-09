@@ -4,6 +4,9 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export softether`
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 enable=`dbus get softether_enable`
 if [ -f "$KSROOT/softether/vpn_server.config" ];then
 	tap=`cat $KSROOT/softether/vpn_server.config |grep "bool TapMode true"`
@@ -14,7 +17,6 @@ fi
 if [ "$enable" == 1 ];then
 	sh $KSROOT/softether/softether.sh stop
 fi
-mkdir -p $KSROOT/init.d/
 cd /tmp
 cp -rf /tmp/softether_vpn/softether $KSROOT
 cp -rf /tmp/softether_vpn/scripts/* $KSROOT/scripts/

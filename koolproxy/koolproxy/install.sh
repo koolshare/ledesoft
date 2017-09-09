@@ -14,9 +14,8 @@ fi
 [ -z "$koolproxy_acl_list" ] && dbus set koolproxy_acl_list=" "
 [ -z "$koolproxy_arp" ] && dbus set koolproxy_arp=" "
 
-
-mkdir $KSROOT/init.d
-mkdir /tmp/upload
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
 
 # remove old files
 rm -rf $KSROOT/bin/koolproxy >/dev/null 2>&1

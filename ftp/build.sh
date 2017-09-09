@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=ftp
-VERSION=1.0.2
+VERSION=1.0.3
 TITLE=FTP服务器
 DESCRIPTION=小巧安全的FTP服务器
 HOME_URL=Module_ftp.asp

@@ -1,8 +1,8 @@
 {
-"version":"0.5",
-"md5":"74f36ccb47823ab0cf44d864bb4b6857",
+"version":"0.7",
+"md5":"e980e0c85dd809ba3f831744d08c628d",
 "home_url":"Module_aliddns.asp",
 "title":"AliDDNS",
 "description":"阿里云解析自动更新IP",
-"build_date":"2017-08-27_19:33:16"
+"build_date":"2017-09-09_18:21:59"
 }

@@ -1,8 +1,8 @@
 #!/bin/sh
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
-mkdir $KSROOT/init.d
-mkdir /tmp/upload
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
 
 rm -rf $KSROOT/scripts/aliddns_*
 rm -rf $KSROOT/init.d/S98Aliddns.sh

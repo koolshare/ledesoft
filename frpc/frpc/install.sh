@@ -3,6 +3,9 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export frpc`
 
+mkdir -p $KSROOT/init.d
+mkdir -p /tmp/upload
+
 cp -r /tmp/frpc/* $KSROOT/
 chmod a+x $KSROOT/scripts/frpc_*
 chmod a+x $KSROOT/init.d/*
