@@ -11,6 +11,16 @@
             "version": "0.2.4"
         }, 
         {
+            "build_date": "2017-09-09_16:26:11", 
+            "description": "推送路由器信息到微信~", 
+            "home_url": "Module_serverchan.asp", 
+            "md5": "4e61c2540bf0ddfb020187d95420963b", 
+            "name": "serverchan", 
+            "tar_url": "serverchan/serverchan.tar.gz", 
+            "title": "Server酱", 
+            "version": "1.0.0"
+        }, 
+        {
             "build_date": "2017-08-08_00:21:52", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
