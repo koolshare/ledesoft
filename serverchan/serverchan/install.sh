@@ -19,6 +19,6 @@ rm -rf $KSROOT/install.sh
 [ -z "$serverchan_info_title" ] && dbus set serverchan_info_title="Lede X64 V2.2 路由状态消息："
 
 # apply frpc
-/koolshare/scripts/serverchan_config.sh ks start
+/koolshare/scripts/serverchan_config ks start
 
 return 0
