@@ -16,6 +16,8 @@ dbus set softcenter_module_serverchan_description="推送路由器信息到微�
 
 rm -rf $KSROOT/install.sh
 
+[ -z "$serverchan_info_title" ] && dbus set serverchan_info_title="Lede X64 V2.2 路由状态消息："
+
 # apply frpc
 /koolshare/scripts/serverchan_config.sh ks start
 

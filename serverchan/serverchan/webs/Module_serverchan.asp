@@ -176,7 +176,7 @@
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
 			}
 			//data from other element
-			var para_inp = ["serverchan_sckey", "serverchan_status_check", "serverchan_check_time_hour", "serverchan_check_time_min", "serverchan_check_inter_hour", "serverchan_check_inter_min"];
+			var para_inp = ["serverchan_sckey", "serverchan_info_title", "serverchan_status_check", "serverchan_check_time_hour", "serverchan_check_time_min", "serverchan_check_inter_hour", "serverchan_check_inter_min"];
 			for (var i = 0; i < para_inp.length; i++) {
 				console.log(E('_' + para_inp[i] ).value)
 				if (!E('_' + para_inp[i] ).value){
@@ -314,7 +314,7 @@
 			option_check_inter_min[i] = [i, i + "分"];
 		}
 		$('#serverchan2-fields').forms([
-		//{ title: '微信推送标题', name: 'serverchan_info_title', type: 'text', size: 66, value: dbus.serverchan_info_title ||"" },
+		{ title: '微信推送标题', name: 'serverchan_info_title', type: 'text', size: 55, value: dbus.serverchan_info_title ||"Lede X64 V2.2 路由状态消息：" },
 		{ title: '定时任务设定', multi: [
 			{ name:'serverchan_status_check',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.serverchan_status_check || "2", suffix: ' &nbsp;&nbsp;' },
 			{ name: 'serverchan_check_time_hour', type: 'select', options: option_check_time_hour, value: dbus.serverchan_check_time_hour || "11", prefix: '<span id="_serverchan_check_time_pre" class="help-block"><lable>每天</lable></span>', suffix: ' &nbsp;&nbsp;' },
@@ -347,7 +347,7 @@
 	<script type="text/javascript">
 		$('#serverchan3-fields').forms([
 		{ title: '网络重拨时', name: 'serverchan_trigger_ifup', type: 'checkbox', value: dbus.serverchan_trigger_ifup == 1 },
-		{ title: '设备上线/离线', name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 }
+		{ title: '设备上线', name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 }
 		]);
 		$('#_serverchan_trigger_ifup').parent().parent().css("margin-left","-10px");
 		$('#_serverchan_trigger_dhcp').parent().parent().css("margin-left","-10px");
