@@ -168,10 +168,10 @@
 			}
 		}
 		
-		function save(){
+		function save(s){
 			//collect data from checkbox
-			var para_chk = ["serverchan_enable", "serverchan_info_system", "serverchan_info_temp", "serverchan_info_wan", "serverchan_info_lan",
-							"serverchan_info_ss", "serverchan_info_softcenter", "serverchan_trigger_ifup", "serverchan_trigger_dhcp"];
+			var para_chk = ["serverchan_enable", "serverchan_info_system", "serverchan_info_temp", "serverchan_info_wan", "serverchan_info_lan", "serverchan_info_lan_macoff",
+							"serverchan_info_ss", "serverchan_info_softcenter", "serverchan_trigger_ifup", "serverchan_trigger_dhcp", "serverchan_trigger_dhcp_macoff"];
 			for (var i = 0; i < para_chk.length; i++) {
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
 			}
@@ -185,18 +185,35 @@
 					dbus[para_inp[i]] = E('_' + para_inp[i]).value;
 				}
 			}
+			if(s == 1){
+				console.log("2333")
+				arg="manual"
+			}else{
+				arg="start"
+			}
 			//-------------- post dbus to dbus ---------------
 			var id = parseInt(Math.random() * 100000000);
-			var postData = {"id": id, "method":'serverchan_config', "params":["start"], "fields": dbus};
+			var postData = {"id": id, "method":'serverchan_config', "params":[arg], "fields": dbus};
 			var success = function(data) {
-				$('#footer-msg').text(data.result);
-				$('#footer-msg').show();
-				setTimeout("window.location.reload()", 1000);
+				if (s == 1){
+					$('#send-msg').text(data.result);
+					$('#send-msg').show();
+					setTimeout("$('#send-msg').hide()", 2000);
+				}else{
+					$('#footer-msg').text(data.result);
+					$('#footer-msg').show();
+					setTimeout("window.location.reload()", 1000);
+				}
 			};
-			$('#footer-msg').text('保存中……');
-			$('#footer-msg').show();
-			$('button').addClass('disabled');
-			$('button').prop('disabled', true);
+			if (s == 1){
+				$('#send-msg').text('发送中……');
+				$('#send-msg').show();
+			}else{
+				$('#footer-msg').text('保存中……');
+				$('#footer-msg').show();
+				$('button').addClass('disabled');
+				$('button').prop('disabled', true);
+			}
 			$.ajax({
 			  type: "POST",
 			  url: "/_api/",
@@ -325,8 +342,12 @@
 		{ title: '系统运行情况', name: 'serverchan_info_system', type: 'checkbox', value: dbus.serverchan_info_system == 1 },
 		{ title: '设备温度', name: 'serverchan_info_temp', type: 'checkbox', value: dbus.serverchan_info_temp == 1 },
 		{ title: 'wan信息', name: 'serverchan_info_wan', type: 'checkbox', value: dbus.serverchan_info_wan == 1 },
-		{ title: '客户端列表', name: 'serverchan_info_lan', type: 'checkbox', value: dbus.serverchan_info_lan == 1 },
-		{ title: 'shadowsocks状态', name: 'serverchan_info_ss', type: 'checkbox', value: dbus.serverchan_info_ss == 1 },
+		{ title: '客户端列表', multi: [
+			{ name: 'serverchan_info_lan', type: 'checkbox', value: dbus.serverchan_info_lan == 1 },
+			{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
+			{ name: 'serverchan_info_lan_macoff', type: 'checkbox', value: dbus.serverchan_info_lan_macoff == 1 }
+		]},
+		{ title: '$$状态', name: 'serverchan_info_ss', type: 'checkbox', value: dbus.serverchan_info_ss == 1 },
 		{ title: '软件中心插件信息', name: 'serverchan_info_softcenter', type: 'checkbox', value: dbus.serverchan_info_softcenter == 1 }
 		]);
 		$('#_serverchan_info_system').parent().parent().css("margin-left","-10px");
@@ -336,6 +357,8 @@
 		$('#_serverchan_info_ss').parent().parent().css("margin-left","-10px");
 		$('#_serverchan_info_softcenter').parent().parent().css("margin-left","-10px");
 	</script>
+	<button type="button" value="Save" id="send-button" onclick="save('1')" class="btn btn-primary" style="float:right;">手动推送 <i class="icon-check"></i></button>
+	<span id="send-msg" style="display: block;height:35px;background:transparent;border: 0px solid #FFFFFF;float:right; margin-right:30px;margin-top:8px;"></span>
 	</div>
 </div>
 
@@ -347,7 +370,11 @@
 	<script type="text/javascript">
 		$('#serverchan3-fields').forms([
 		{ title: '网络重拨时', name: 'serverchan_trigger_ifup', type: 'checkbox', value: dbus.serverchan_trigger_ifup == 1 },
-		{ title: '设备上线', name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 }
+		{ title: '设备上线时', multi: [
+			{ name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 },
+			{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
+			{ name: 'serverchan_trigger_dhcp_macoff', type: 'checkbox', value: dbus.serverchan_trigger_dhcp_macoff == 1 },
+		]},
 		]);
 		$('#_serverchan_trigger_ifup').parent().parent().css("margin-left","-10px");
 		$('#_serverchan_trigger_dhcp').parent().parent().css("margin-left","-10px");
