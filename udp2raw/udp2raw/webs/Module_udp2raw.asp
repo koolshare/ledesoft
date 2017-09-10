@@ -59,9 +59,11 @@ function verifyFields(focused, quiet){
 	var dnsenable = E('_udp2raw_enable').checked ? '1':'0';
 	if(dnsenable == 0){
 		$('input').prop('disabled', true);
+		$('select').prop('disabled', true);
 		$(E('_udp2raw_enable')).prop('disabled', false);
 	}else{
 		$('input').prop('disabled', false);
+		$('select').prop('disabled', false);
 	}
 	return 1;
 }
