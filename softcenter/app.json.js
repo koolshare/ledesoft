@@ -111,14 +111,14 @@
             "version": "1.0.3"
         }, 
         {
-            "build_date": "2017-09-10_21:55:51", 
+            "build_date": "2017-09-10_23:05:06", 
             "description": "应对udp限速、屏蔽", 
             "home_url": "Module_udp2raw.asp", 
-            "md5": "edafc5bc096f957ba4f805f153ba634d", 
+            "md5": "65d478d878d7747dcb0518c2845d366a", 
             "name": "udp2raw", 
             "tar_url": "udp2raw/udp2raw.tar.gz", 
             "title": "udp2raw", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-09-09_18:32:29", 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=udp2raw
-VERSION=0.2
+VERSION=0.3
 TITLE=udp2raw
 DESCRIPTION="应对udp限速、屏蔽"
 HOME_URL=Module_udp2raw.asp
