@@ -55,8 +55,10 @@ function get_run_status(){
 function verifyFields(focused, quiet){
 	if(E('_udpspeeder_enable').checked){
 		$('input').prop('disabled', false);
+		$('select').prop('disabled', false);
 	}else{
 		$('input').prop('disabled', true);
+		$('select').prop('disabled', true);
 		$(E('_udpspeeder_enable')).prop('disabled', false);
 	}
 	return true;
