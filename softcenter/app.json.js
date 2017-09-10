@@ -111,10 +111,10 @@
             "version": "1.0.3"
         }, 
         {
-            "build_date": "2017-09-02_23:21:55", 
-            "description": "UDP加速神器", 
+            "build_date": "2017-09-10_21:55:51", 
+            "description": "应对udp限速、屏蔽", 
             "home_url": "Module_udp2raw.asp", 
-            "md5": "8ca0ebb8f347bb5c7ef3e749f0ef3725", 
+            "md5": "edafc5bc096f957ba4f805f153ba634d", 
             "name": "udp2raw", 
             "tar_url": "udp2raw/udp2raw.tar.gz", 
             "title": "udp2raw", 
@@ -222,7 +222,7 @@
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "f5fab1f82082c4e285e4977df416a870", 
+    "md5": "67ec1e05fa74cd15720350df41b9a4ec", 
     "tar_url": "softcenter/softcenter.tar.gz", 
-    "version": "0.1.9"
+    "version": "0.2.0"
 }

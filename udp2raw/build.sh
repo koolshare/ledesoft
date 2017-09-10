@@ -3,7 +3,7 @@
 MODULE=udp2raw
 VERSION=0.2
 TITLE=udp2raw
-DESCRIPTION=UDP加速神器
+DESCRIPTION="应对udp限速、屏蔽"
 HOME_URL=Module_udp2raw.asp
 
 # Check and include base

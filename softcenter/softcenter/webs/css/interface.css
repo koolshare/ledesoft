@@ -2130,7 +2130,7 @@ input, select, textarea {
 	line-height:normal;
 	font-size:10pt;
 	font-family:"Segoe UI", "Roboto", sans-serif, Helvetica, Arial, sans-serif;
-	border:1px solid #e4eaec;
+	border:1px solid #f36c21;
 	background-color:#fff;
 	transition:color 150ms ease, border-color 150ms ease, opacity 150ms ease;
 	-webkit-transition:color 150ms ease, border-color 150ms ease, opacity 150ms ease;
@@ -2184,7 +2184,7 @@ select, select option {
 	width:22px;
 	height:22px;
 	border-radius:2px;
-	border:1px solid #0099FF;
+	border:1px solid #f36c21;
 	background:#fff;
 	-webkit-transition:all 250ms ease;
 	transition:all 250ms ease;
