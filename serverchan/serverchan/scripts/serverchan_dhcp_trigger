@@ -36,9 +36,9 @@ client_lease_ip=`echo $client_lease_info | awk '{print $3}'`
 client_lease_name=`echo $client_lease_info | awk '{print $4}'`
 total_lease_client=`cat /tmp/dhcp.leases | wc -l`
 if [ "$serverchan_trigger_dhcp_macoff" == "1" ];then
-	total_lease_info=`cat /tmp/dhcp.leases | awk '{print $3"\t【"$4"】"}'|sed 's/^/###### /g'`
+	total_lease_info=`cat /tmp/dhcp.leases | awk '{print $3" %26nbsp; | "$4}'|sed 's/^/| /g'|sed 's/$/ |/g'`
 else
-	total_lease_info=`cat /tmp/dhcp.leases | awk '{print $3"\t"$2"\t【"$4"】"}'|sed 's/^/###### /g'`
+	total_lease_info=`cat /tmp/dhcp.leases | awk '{print $3" %26nbsp; | "$2" %26nbsp; | "$4}'|sed 's/^/| /g'|sed 's/$/ |/g'`
 fi
 client_join_time=`expr $client_lease_epired_time - $sys_leasetime`
 
@@ -49,23 +49,32 @@ time_diff=`expr $date_now - $client_join_time`
 client_lease_epired_time=`date -d @"$client_lease_epired_time" "+%Y-%m-%d %H:%M:%S"`
 client_join_time=`date -d @"$client_join_time" "+%Y-%m-%d %H:%M:%S"`
 
-echo "##### ** 刚刚有新的客户端加入了你的网络，信息如下： **" > $lease_text
+echo "##### ** 有新的客户端加入了你的网络，信息如下： **" > $lease_text
 echo "---" >> $lease_text
-echo "###### 客户端名：$client_lease_name" >> $lease_text
-echo "###### 客户端IP：$client_lease_ip" >> $lease_text
-echo "###### 客户端MAC: $client_lease_mac" >> $lease_text
-echo "###### 客户端上线时间: $client_join_time" >> $lease_text
-echo "###### 租约过期的时间: $client_lease_epired_time" >> $lease_text
-echo "---" >> $lease_text
-echo "###### 现在租约期内的客户端共有: $total_lease_client 个,情况如下" >> $lease_text
-echo "###### $total_lease_info" >> $lease_text
-echo "---" >> $lease_text
-
+echo "##### 客户端名：$client_lease_name" >> $lease_text
+echo "##### 客户端IP：$client_lease_ip" >> $lease_text
+echo "##### 客户端MAC: $client_lease_mac" >> $lease_text
+echo "##### 客户端上线时间: $client_join_time" >> $lease_text
+echo "##### 租约过期的时间: $client_lease_epired_time" >> $lease_text
+if [ -n "$total_lease_info" ];then
+	echo "---" >> $lease_text
+	echo "##### 现在租约期内的客户端共有: $total_lease_client 个,情况如下" >> $lease_text
+	if [ "$serverchan_trigger_dhcp_macoff" == "1" ];then
+		echo "| ip地址 %26nbsp; | 客户端名 |" >> $lease_text
+		echo "| ------------- | ------------- |" >> $lease_text
+	else
+		echo "| ip地址 %26nbsp; | mac地址 %26nbsp;| 客户端名 |" >> $lease_text
+		echo "| :------------- | :------------- | :------------- |" >> $lease_text
+	fi
+	
+	echo "$total_lease_info" >> $lease_text
+	echo "---" >> $lease_text
+fi
 
 serverchan_send_title="Lede X64 客户端上线通知："
 serverchan_send_content=`cat $lease_text`
 
 wget --post-data "text=$serverchan_send_title&desp=$serverchan_send_content" -qO- $url > /dev/null
 
-sleep 2
+sleep 1
 rm -rf $lease_text

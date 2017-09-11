@@ -125,7 +125,7 @@
 			  	async:false,
 			 	success: function(data){
 			 	 	dbus = data.result[0];
-					$('#_serverchan_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ttsoft/blob/master/serverchan/Changelog.txt" target="_blank"><font color="#0099FF">Server酱  ' + (dbus["serverchan_version"]  || "") + '</font></a>' );
+					$('#_serverchan_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/serverchan/Changelog.txt" target="_blank"><font color="#0099FF">Server酱  ' + (dbus["serverchan_version"]  || "") + '</font></a>' );
 			  	}
 			});
 		}

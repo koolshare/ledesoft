@@ -4,21 +4,21 @@ url=`echo https://sc.ftqq.com/"$serverchan_sckey".send`
 ifup_txt=/tmp/serverchan_ifup.md
 reboot_time=$(date "+%Y-%m-%d %H:%M:%S")
 sys_uptime=`ubus call system info | jq .uptime|awk '{print int($1/86400)"天 "int($1%86400/3600)"小时 "int(($1%3600)/60)"分钟 "int($1%60)"秒"}'`
-j=1
-interface_nu=`ubus call network.interface dump|jq .interface|grep interface|wc -l`
+j=0
+interface_nu=`ubus call network.interface dump|jq '.interface|length'`
 date_now=`date +%s`
 sys_up_second=`ubus call system info | jq .uptime`
 sys_boot_seconds=`expr $date_now - $sys_up_second`
 sys_boot_date=`date -d @"$sys_boot_seconds" "+%Y-%m-%d %H:%M:%S"`
 
 echo "##### ** 你的网络刚刚发生了重启，重启后WAN信息如下： **" > $ifup_txt
-echo "###### 系统开机时间：$sys_boot_date" >> $ifup_txt
-echo "###### 网络重启时间：$reboot_time" >> $ifup_txt
+echo "##### 系统开机时间：$sys_boot_date" >> $ifup_txt
+echo "##### 网络重启时间：$reboot_time" >> $ifup_txt
 echo "---" >> $ifup_txt
 
 if [ -z "$interface_nu" ];then
-	echo "##### ** wan状态：**" >> $ifup_txt
-	echo "###### 未找到wan，可能你的wan名字未识别到。" >> $ifup_txt
+	echo "#### ** wan状态：**" >> $ifup_txt
+	echo "##### 未找到wan，可能你的wan名字未识别到。" >> $ifup_txt
 else
 	until [ "$j" == "$interface_nu" ]
 	do
@@ -37,13 +37,13 @@ else
 			
 			echo "##### ** $wan_name：**" >> $ifup_txt
 			if [ -n "$wan_up" ] && [ -n "$wan_ipaddr" ];then
-				echo "###### $wan_name 公网地址: $public_ip" >> $ifup_txt
-				echo "###### $wan_name IP地址: $wan_ipaddr" >> $ifup_txt
-				echo "###### $wan_name 连接时间: $wan_uptime" >> $ifup_txt
-				echo "###### $wan_name 接收流量: $wan_rx_gb GB" >> $ifup_txt
-				echo "###### $wan_name 发送流量: $wan_tx_gb GB" >> $ifup_txt
+				echo "##### $wan_name 公网地址: $public_ip" >> $ifup_txt
+				echo "##### $wan_name IP地址: $wan_ipaddr" >> $ifup_txt
+				echo "##### $wan_name 连接时间: $wan_uptime" >> $ifup_txt
+				echo "##### $wan_name 接收流量: $wan_rx_gb GB" >> $ifup_txt
+				echo "##### $wan_name 发送流量: $wan_tx_gb GB" >> $ifup_txt
 			else
-				echo "###### $wan_name 未启用/连接！" >> $ifup_txt
+				echo "##### $wan_name 未启用/连接！" >> $ifup_txt
 			fi
 			echo "---" >> $ifup_txt
 		fi
@@ -56,5 +56,5 @@ serverchan_send_content=`cat $ifup_txt`
 
 wget --post-data "text=$serverchan_send_title&desp=$serverchan_send_content" -qO- $url > /dev/null
 
-sleep 2
+sleep 1
 rm -rf $ifup_txt

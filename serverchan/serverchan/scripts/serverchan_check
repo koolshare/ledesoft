@@ -12,10 +12,10 @@ echo "" > $info_text
 
 case $1 in
 checknow)
-	echo "###### 本次信息推送：手动推送." >> $info_text
+	echo "##### 本次信息推送：手动推送." >> $info_text
 	;;
 *)
-	echo "###### 本次信息推送：定时任务." >> $info_text
+	echo "##### 本次信息推送：定时任务." >> $info_text
 	;;
 esac
 
@@ -28,35 +28,32 @@ if [ "$serverchan_info_system" == "1" ];then
 	mem_total_gb=`expr $mem_total / 1048576`
 	mem_free_gb=`expr $mem_free / 1048576`
 	echo "##### ** 系统运行状态：**" >> $info_text
-	echo "###### 系统时间：$LOGTIME" >> $info_text
-	echo "###### 开机时长：$sys_uptime" >> $info_text
-	echo "###### 平均负载：$cpu_load_average" >> $info_text
-	echo "###### 总内存：$mem_total_gb MB；空闲数：$mem_free_gb MB" >> $info_text
+	echo "##### 系统时间：$LOGTIME" >> $info_text
+	echo "##### 开机时长：$sys_uptime" >> $info_text
+	echo "##### 平均负载：$cpu_load_average" >> $info_text
+	echo "##### 总内存：$mem_total_gb MB；空闲数：$mem_free_gb MB" >> $info_text
 fi
 
 # for tempture info
 if [ "$serverchan_info_temp" == "1" ];then
 	temp=`sensors 2>/dev/null|grep Core >/dev/null && [ $? == 0 ] && sensors|grep 'Core 0'|cut -c10- 2>/dev/null || echo "找不到或不支持当前CPU温度传感器"`
 	echo "##### ** cpu温度状况：**" >> $info_text
-	echo "###### $temp" >> $info_text
+	echo "##### $temp" >> $info_text
 fi
 
 # for wan info
-
-
 if [ "$serverchan_info_wan" == "1" ];then
-	j=1
-	interface_nu=`ubus call network.interface dump|jq .interface|grep interface|wc -l`
+	j=0
+	interface_nu=`ubus call network.interface dump|jq '.interface|length'`
 	if [ -z "$interface_nu" ];then
 		echo "##### ** wan状态：**" >> $info_text
-		echo "###### 未找到wan，可能你的wan名字未识别到。" >> $info_text
+		echo "##### 未找到wan，可能你的wan名字未识别到。" >> $info_text
 	else
 		until [ "$j" == "$interface_nu" ]
 		do
 			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop`
 			if [ -n "$WAN_EXIST" ];then
 				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
-				#wan_ifname=`uci -q get network.$wan_name.ifname`
 				wan_ifname=`ubus call network.interface dump|jq .interface[$j].device|sed 's/"//g'`
 				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 				wan_ipaddr=`ubus call network.interface.$wan_name status|jq '."ipv4-address"[0].address'|sed 's/"//g'`
@@ -65,17 +62,18 @@ if [ "$serverchan_info_wan" == "1" ];then
 				wan_uptime=`ubus call network.interface.$wan_name status|jq .uptime|awk '{print int($1/86400)"天 "int($1%86400/3600)"小时 "int(($1%3600)/60)"分钟 "int($1%60)"秒"}'`
 				wan_rx_gb=`awk 'BEGIN{printf "%.2f\n", '$wan_rx_bytes'/'1000000000'}'`
 				wan_tx_gb=`awk 'BEGIN{printf "%.2f\n", '$wan_tx_bytes'/'1000000000'}'`
-				public_ip=`curl --interface $wan_ifname -s whatismyip.akamai.com 2>&1` || "本次未获取到！"
+				#public_ip=`curl --interface $wan_ifname -s whatismyip.akamai.com 2>&1` || "本次未获取到！"
+				public_ip=`curl --interface $wan_ifname -s https://ip.ngrok.wang/ 2>&1` || "本次未获取到！"
 				
 				echo "##### ** $wan_name状态：**" >> $info_text
-				if [ -n "$wan_up" ] && [ -n "$wan_ipaddr" ];then
-					echo "###### $wan_name 公网地址: $public_ip" >> $info_text
-					echo "###### $wan_name IP地址: $wan_ipaddr" >> $info_text
-					echo "###### $wan_name 连接时间: $wan_uptime" >> $info_text
-					echo "###### $wan_name 接收流量: $wan_rx_gb GB" >> $info_text
-					echo "###### $wan_name 发送流量: $wan_tx_gb GB" >> $info_text
+				if [ "$wan_up" == "true" ] && [ "$wan_ipaddr" != "null" ];then
+					echo "##### $wan_name 公网地址: $public_ip" >> $info_text
+					echo "##### $wan_name IP地址: $wan_ipaddr" >> $info_text
+					echo "##### $wan_name 连接时间: $wan_uptime" >> $info_text
+					echo "##### $wan_name 接收流量: $wan_rx_gb GB" >> $info_text
+					echo "##### $wan_name 发送流量: $wan_tx_gb GB" >> $info_text
 				else
-					echo "###### $wan_name 未启用/连接！" >> $info_text
+					echo "##### $wan_name 未启用/连接！" >> $info_text
 				fi
 			fi
 			j=$(($j+1))
@@ -85,16 +83,24 @@ fi
 
 # for lan info
 if [ "$serverchan_info_lan" == "1" ];then
+	lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2`
 	if [ "$serverchan_info_lan_macoff" == "1" ];then
-		arplist=`arp | grep br-lan | grep -v ? |sed 's/<incomplete>/ /g'| sed 's/ (/\t/g'|sed 's/) at /\t/'|cut -d " " -f1|awk '{print $2"\t【"$1"】"}'|sed 's/.lan//g'|sed 's/^/###### /g'`
+		arplist=`arp | grep br-lan |grep -v incomplete|grep $lan_addr_prefix.|sed 's/ (/\t/g'|sed 's/) at /\t/'|cut -d " " -f1|awk '{print $2" %26nbsp; | "$1}'|sed 's/.lan//g'|sed 's/.lan//g'|sed 's/^/| /g'|sed 's/$/ |/g'|sed 's/?/未知主机/g'`
 	else
-		arplist=`arp | grep br-lan | grep -v ? |sed 's/<incomplete>/ /g'| sed 's/ (/\t/g'|sed 's/) at /\t/'|cut -d " " -f1|awk '{print $2"\t"$3"\t【"$1"】"}'|sed 's/.lan//g'|sed 's/^/###### /g'`
+		arplist=`arp | grep br-lan |grep -v incomplete|grep $lan_addr_prefix.|sed 's/<incomplete>/ /g'| sed 's/ (/\t/g'|sed 's/) at /\t/'|cut -d " " -f1|awk '{print $2" %26nbsp; | "$3" %26nbsp; | "$1}'|sed 's/.lan//g'|sed 's/.lan//g'|sed 's/^/| /g'|sed 's/$/ |/g'|sed 's/?/未知主机/g'`
 	fi
-		echo "##### ** 客户端列表：**" >> $info_text
+	echo "##### ** 客户端列表：**" >> $info_text
 	if [ -n "$arplist" ];then
+		if [ "$serverchan_info_lan_macoff" == "1" ];then
+			echo "| ip地址 %26nbsp; | 客户端名 |" >> $info_text
+			echo "| ------------- | ------------- |" >> $info_text
+		else
+			echo "| ip地址 %26nbsp; | mac地址 %26nbsp;| 客户端名 |" >> $info_text
+			echo "| :------------- | :------------- | :------------- |" >> $info_text
+		fi
 		echo "$arplist" >> $info_text
 	else
-		echo "###### 路由器下没有找到在线客户端。" >> $info_text
+		echo "##### 路由器下没有找到在线客户端。" >> $info_text
 	fi
 fi
 
@@ -103,33 +109,33 @@ if [ "$serverchan_info_ss" == "1" ];then
 	get_china_status(){
 		wget -4 --spider --quiet --tries=2 --timeout=2 www.baidu.com
 		if [ "$?" == "0" ]; then
-			echo '###### 国内链接 【'$LOGTIME'】 ✓'
+			echo '##### 国内链接 【'$LOGTIME'】 ✓'
 		else
-			echo '###### 国内链接 【'$LOGTIME'】 ×'
+			echo '##### 国内链接 【'$LOGTIME'】 ×'
 		fi
 	}
 	
 	get_foreign_status(){
 		wget -4 --spider --quiet --tries=2 --timeout=2 www.google.com.tw
 		if [ "$?" == "0" ]; then
-			echo '###### 国外链接 【'$LOGTIME'】 ✓'
+			echo '##### 国外链接 【'$LOGTIME'】 ✓'
 		else
-			echo '###### 国外链接 【'$LOGTIME'】 ×'
+			echo '##### 国外链接 【'$LOGTIME'】 ×'
 		fi
 	}
 	echo "##### ** \$\$运行状态：**" >> $info_text
 	if [ "`uci get shadowsocks.@global[0].global_server`" != "nil" ] && [ "`/koolshare/bin/dbus get ss_basic_enable`" != "1" ];then
-		echo "###### 检测到你正在使用kool\$\$：" >> $info_text
+		echo "##### 检测到你正在使用kool\$\$：" >> $info_text
 		get_china_status >> $info_text
 		get_foreign_status >> $info_text
 	elif [ "`uci get shadowsocks.@global[0].global_server`" == "nil" ] &&[ "`/koolshare/bin/dbus get ss_basic_enable`" == "1" ];then
-		echo "###### 检测到你正在使用插件\$\$：" >> $info_text
+		echo "##### 检测到你正在使用插件\$\$：" >> $info_text
 		get_china_status >> $info_text
 		get_foreign_status >> $info_text
 	elif [ "`uci get shadowsocks.@global[0].global_server`" == "nil" ] &&[ "`/koolshare/bin/dbus get ss_basic_enable`" != "1" ];then
-		echo "###### 检测到\$\$功能未开启！" >> $info_text
+		echo "##### 检测到\$\$功能未开启！" >> $info_text
 	elif [ "`uci get shadowsocks.@global[0].global_server`" != "nil" ] && [ "`/koolshare/bin/dbus get ss_basic_enable`" == "1" ];then
-		echo "###### 你丫的kool\$\$和插件\$\$都开启了，要出事啊！" >> $info_text
+		echo "##### 你丫的kool\$\$和插件\$\$都开启了，要出事啊！" >> $info_text
 		get_china_status >> $info_text
 		get_foreign_status >> $info_text
 	fi
@@ -139,19 +145,19 @@ if [ "$serverchan_info_softcenter" == "1" ];then
 	echo "##### ** 插件状态：**" >> $info_text
 	soft_lists=`dbus list softcenter |grep version|grep softcenter_module_|cut -d "_" -f3`
 	soft_lists_nu=`dbus list softcenter |grep version|grep softcenter_module_|cut -d "_" -f3| wc -l`
-	echo "###### 检测到你共安装了: $soft_lists_nu 个插件：" >> $info_text
+	echo "##### 检测到你共安装了: $soft_lists_nu 个插件：" >> $info_text
 
 	rm -rf /tmp/app.json.js
 	wget --quiet https://ledesoft.ngrok.wang/softcenter/app.json.js -P /tmp
 	if [ "$?" != "0" ];then
-		echo "###### 本次检测插件更新状态失败。" >> $info_text
+		echo "##### 本次检测插件更新状态失败。" >> $info_text
 	else
 		#check software center update
 		softcenter_local_version=`dbus get softcenter_version`
 		softcenter_online_version=`cat /tmp/app.json.js | jq .version | sed 's/"//g'`
 		COMP_SOFT=`versioncmp $softcenter_local_version $softcenter_online_version`
 		if [ "$COMP_SOFT" == "1" ];then
-			echo "###### 软件中心有新版本了，最新版本: $softcenter_online_version" >> $info_text
+			echo "##### 软件中心有新版本了，最新版本: $softcenter_online_version" >> $info_text
 			let update+=1
 		fi
 		#check software update
@@ -170,7 +176,7 @@ if [ "$serverchan_info_softcenter" == "1" ];then
 					app_title=`cat /tmp/app.json.js | jq .apps[$i].title`
 					COMP_APP=`versioncmp $app_local_version $app_oneline_version`
 					if [ "$COMP_APP" == "1" ];then
-						echo "###### 插件: $app_title 有新版本了，最新版本: $app_oneline_version" >> $info_text
+						echo "##### 插件: $app_title 有新版本了，最新版本: $app_oneline_version" >> $info_text
 						let update+=1
 					fi
 				fi
@@ -179,16 +185,15 @@ if [ "$serverchan_info_softcenter" == "1" ];then
 		done
 		#show update message	
 		if [ "$update" == "0" ];then
-			echo "###### 检测到所有插件均为最新版本！" >> $info_text
+			echo "##### 检测到所有插件均为最新版本！" >> $info_text
 		else
-			echo "###### 快登录路由器进入软件中心更新吧！" >> $info_text
+			echo "##### 快登录路由器进入软件中心更新吧！" >> $info_text
 		fi
 	fi
 fi
 
-#serverchan_send_title="Lede X64 V2.2 路由状态消息："
-serverchan_send_content=`cat $info_text`
-wget --post-data "text=$serverchan_info_title&desp=$serverchan_send_content" -qO- $url > /dev/null
+serverchan_send_content=`cat "$info_text"`
+wget --post-data="text=$serverchan_info_title&desp=$serverchan_send_content" -qO- $url > /dev/null
 
-sleep 2
+sleep 1
 rm -rf $info_text
