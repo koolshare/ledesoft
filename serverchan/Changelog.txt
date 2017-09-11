@@ -4,3 +4,8 @@ Koolshare LEDE-X64 Serverchan Changelog
    - fix	修复当wan interface名字不是小写wan时，识别不到的问题；
    - add	状态消息：增加多wan推送wan相关信息的支持；
    - add	网络重拨：增加多wan推送wan相关信息的支持。
+
+1.0.7
+   - fix	修复某些情况下，多wan用户获取wan信息不完整的情况；
+   - update	优化wan信息显示，优化在线客户端显示；
+   - update	一些排版优化。
