@@ -191,14 +191,14 @@
             "version": "1.0.4"
         }, 
         {
-            "build_date": "2017-09-09_18:24:29", 
+            "build_date": "2017-09-11_23:49:21", 
             "description": "支持http2协议的远程管理，仅支持远程管理路由器+NAS+Windows远程桌面", 
             "home_url": "Module_ddnsto.asp", 
-            "md5": "ed6317f585fbbeef041836f792be0460", 
+            "md5": "81cdb6b8185cf9ee08dcca835069e07d", 
             "name": "ddnsto", 
             "tar_url": "ddnsto/ddnsto.tar.gz", 
             "title": "DDNSTO", 
-            "version": "1.7"
+            "version": "1.8"
         }, 
         {
             "build_date": "2017-08-31_14:29:14", 
