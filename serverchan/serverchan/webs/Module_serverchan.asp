@@ -125,6 +125,7 @@
 			  	async:false,
 			 	success: function(data){
 			 	 	dbus = data.result[0];
+					$('#_serverchan_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ttsoft/blob/master/serverchan/Changelog.txt" target="_blank"><font color="#0099FF">Server酱  ' + (dbus["serverchan_version"]  || "") + '</font></a>' );
 			  	}
 			});
 		}
@@ -278,7 +279,10 @@
 		
 	</script>
 <div class="box">
-	<div class="heading">Server酱 1.0.0<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+	<div class="heading">
+		<span id="_serverchan_version"><font color="#1bbf35"></font></span>
+		<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+	</div>
 	<div class="content">
 		<span class="col" style="line-height:30px;width:700px">
 		「Server酱」，英文名「ServerChan」，是一款「程序员」和「服务器」之间的通信软件。说人话？就是从服务器推报警和日志到手机的工具。&nbsp;&nbsp;<a href="http://sc.ftqq.com/3.version" target="_blank">「Server酱官方网站」</a><br />
