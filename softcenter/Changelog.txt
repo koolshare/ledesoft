@@ -1,30 +1,8 @@
-Koolshare Asuswrt-Merlin softeware center Changelog
+Koolshare LEDE-X64 Softcenter Changelog
 ===========================================
-1.2.4
-   - fix	support https
-
-1.1.9
-   - fix	fix hightlight of submeunL2
-
-1.1.7
-   - fix	revert to 1.1.5
-
-1.1.4
-   - add	add setting page
-
-1.1.3
-   - fix	fix blank bar on top
-   - fix	fix shadowsocks appear in both install and uninstall
-
-1.1.0
-   - fix	make shadowsocks the first icon in softerware center when using local data
-
-1.0.9
-   - fix	fix shadowsocks turn to koolsocks when software center server is down
-   - add	make shadowsocks default installed in softerware center(prepare for the next fw)
-
-1.0.8
-   - fix	icon position adjustmet
-
-1.0.5
-   - fix	插件隐藏按钮移动到右侧
+0.2.1
+   - update	增加更新日志显示
+   - update 增加插件源定义, 不支持第三方源，仅支持koolshare LEDE的官方源；
+   			插件源的后缀一定是json.js格式。
+0.2.0
+   - update	更改勾选框，输入框，下拉框的边框颜色，增强对比度便于识别。更新后需要ctrl + F5 强制刷新一次页面。

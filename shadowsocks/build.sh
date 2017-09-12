@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=shadowsocks
-VERSION=1.7.1
+VERSION=`cat shadowsocks/ss/version`
 TITLE=shadowsocks
 DESCRIPTION="轻松科学上网~"
 HOME_URL=Module_shadowsocks.asp
