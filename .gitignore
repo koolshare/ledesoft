@@ -3,3 +3,4 @@ tunnel
 .lconfig.json.js
 .htaccess
 .user.ini
+/homebridge/build
