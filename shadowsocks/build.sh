@@ -16,7 +16,24 @@ DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 cd $DIR
 
 # do something here
-
 do_build_result
 
 sh backup.sh $MODULE
+
+
+# ----------------------------------------------------
+MD5=`cat config.json.js |grep md5 |awk -F "\"" '{print $4}'`
+cat > config.json.js <<-EOF
+{
+    "build_date": "2017-09-09_18:29:47", 
+    "description": "轻松科学上网~", 
+    "home_url": "Module_shadowsocks.asp", 
+    "md5": "$MD5", 
+    "name": "shadowsocks", 
+    "tar_url": "shadowsocks/shadowsocks.tar.gz", 
+    "title": "shadowsocks", 
+    "version": "$VERSION"
+}
+EOF
+# ----------------------------------------------------
+
