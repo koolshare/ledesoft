@@ -24,7 +24,7 @@ creat_cron_job(){
 	if [ "$serverchan_status_check" == "1" ]; then
 		if [ -z "$CRONTAB" ];then
 			echo 开启定时发送状态消息，每天"$serverchan_check_time_hour"时 "$serverchan_check_time_min"分，自动发送状态消息...
-			echo  "$serverchan_check_time_min $koolproxy_reboot_hour * * * $KSROOT/scripts/serverchan_check" >> /etc/crontabs/root
+			echo  "$serverchan_check_time_min $serverchan_check_time_hour * * * $KSROOT/scripts/serverchan_check" >> /etc/crontabs/root
 		fi 
 	elif [ "$serverchan_status_check" == "2" ]; then
 		if [ -z "$CRONTAB" ];then

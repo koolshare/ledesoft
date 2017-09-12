@@ -43,18 +43,20 @@ fi
 
 # for wan info
 if [ "$serverchan_info_wan" == "1" ];then
-	j=0
 	interface_nu=`ubus call network.interface dump|jq '.interface|length'`
 	if [ -z "$interface_nu" ];then
 		echo "##### ** wan状态：**" >> $info_text
 		echo "##### 未找到wan，可能你的wan名字未识别到。" >> $info_text
 	else
+		j=0
 		until [ "$j" == "$interface_nu" ]
 		do
-			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop`
+			lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2,3`
+			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop|grep -v "$lan_addr_prefix."|grep -v 127.0.0.1|sed 's/"nexthop"://g'|grep -v :`
 			if [ -n "$WAN_EXIST" ];then
 				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
-				wan_ifname=`ubus call network.interface dump|jq .interface[$j].device|sed 's/"//g'`
+				#wan_ifname=`ubus call network.interface dump|jq .interface[$j].device|sed 's/"//g'`
+				wan_ifname=`uci -q get network.wan.ifname`
 				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 				wan_ipaddr=`ubus call network.interface.$wan_name status|jq '."ipv4-address"[0].address'|sed 's/"//g'`
 				wan_rx_bytes=`ubus call network.device status|jq ."$wan_ifname".statistics.rx_bytes`
@@ -83,7 +85,7 @@ fi
 
 # for lan info
 if [ "$serverchan_info_lan" == "1" ];then
-	lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2`
+	lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2,3`
 	if [ "$serverchan_info_lan_macoff" == "1" ];then
 		arplist=`arp | grep br-lan |grep -v incomplete|grep $lan_addr_prefix.|sed 's/ (/\t/g'|sed 's/) at /\t/'|cut -d " " -f1|awk '{print $2" %26nbsp; | "$1}'|sed 's/.lan//g'|sed 's/.lan//g'|sed 's/^/| /g'|sed 's/$/ |/g'|sed 's/?/未知主机/g'`
 	else

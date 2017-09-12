@@ -22,10 +22,12 @@ if [ -z "$interface_nu" ];then
 else
 	until [ "$j" == "$interface_nu" ]
 	do
-		WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop`
+		lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2,3`
+		WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop|grep -v "$lan_addr_prefix."|grep -v 127.0.0.1|sed 's/"nexthop"://g'|grep -v :`
 		if [ -n "$WAN_EXIST" ];then
 			wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
-			wan_ifname=`ubus call network.interface dump|jq .interface[$j].device|sed 's/"//g'`
+			#wan_ifname=`ubus call network.interface dump|jq .interface[$j].device|sed 's/"//g'`
+			wan_ifname=`uci -q get network.wan.ifname`
 			wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 			wan_ipaddr=`ubus call network.interface.$wan_name status|jq '."ipv4-address"[0].address'|sed 's/"//g'`
 			wan_uptime=`ubus call network.interface.$wan_name status|jq .uptime|awk '{print int($1/86400)"天 "int($1%86400/3600)"小时 "int(($1%3600)/60)"分钟 "int($1%60)"秒"}'`
@@ -33,10 +35,11 @@ else
 			wan_tx_bytes=`ubus call network.device status|jq ."$wan_ifname".statistics.tx_bytes`
 			wan_rx_gb=`awk 'BEGIN{printf "%.2f\n", '$wan_rx_bytes'/'1000000000'}'`
 			wan_tx_gb=`awk 'BEGIN{printf "%.2f\n", '$wan_tx_bytes'/'1000000000'}'`
-			public_ip=`curl --interface $wan_ifname -s whatismyip.akamai.com 2>&1` || "本次未获取到！"
+			#public_ip=`curl --interface $wan_ifname -s whatismyip.akamai.com 2>&1` || "本次未获取到！"
+			public_ip=`curl --interface $wan_ifname -s https://ip.ngrok.wang/ 2>&1` || "本次未获取到！"
 			
 			echo "##### ** $wan_name：**" >> $ifup_txt
-			if [ -n "$wan_up" ] && [ -n "$wan_ipaddr" ];then
+			if [ "$wan_up" == "true" ] && [ "$wan_ipaddr" != "null" ];then
 				echo "##### $wan_name 公网地址: $public_ip" >> $ifup_txt
 				echo "##### $wan_name IP地址: $wan_ipaddr" >> $ifup_txt
 				echo "##### $wan_name 连接时间: $wan_uptime" >> $ifup_txt
