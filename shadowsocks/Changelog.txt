@@ -3,7 +3,7 @@ Koolshare LEDE-X64 shadowsocks Changelog
 
 1.7.2
    - add	增加更新日志；
-   - update kcptun更新到0904；
+   - update	kcptun更新到0904；
    - fix	修复一些小问题；
 
 1.7.0
@@ -15,9 +15,9 @@ Koolshare LEDE-X64 shadowsocks Changelog
 1.6.2
    - add	增加kcp加速功能（kcp版本：20170525），使用详情见对应标签页的KCP加速使用说明：
    - fix	修复当koolproxy开启，ss访问控制仅填写mac地址时，ss访问控制失效的问题（thx to stone）；
-   - update 调整并对齐web输入框宽度，治愈强迫症；
-   - update 屏蔽浏览器密码或其它密码管理软件记住SS密码；
-   - update 现在SS密码输入框的内容长度限制增加到64位；
+   - update	调整并对齐web输入框宽度，治愈强迫症；
+   - update	屏蔽浏览器密码或其它密码管理软件记住SS密码；
+   - update	现在SS密码输入框的内容长度限制增加到64位；
    - fix	修复DNS解析偏好的说明与实际使用情况相反；
    - fix	修复在某些情况下正在提交的时候运行了状态检测，导致dns污染的问题；
    - fix	修复删除所有节点或者清空ss数据后web界面可能出错的问题；
@@ -39,5 +39,5 @@ Koolshare LEDE-X64 shadowsocks Changelog
    - update	优化脚本和web，修复各种小问题bug；
 
 1.3.0
-   - update 添加shadowsocks AEAD支持
-   - fix 修复大量bug
+   - update	添加shadowsocks AEAD支持
+   - fix	修复大量bug
