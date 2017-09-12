@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=homebridge
-VERSION=0.1
+VERSION=0.2
 TITLE=Homebridge
 DESCRIPTION=智能家庭网关
 HOME_URL=Module_homebridge.asp

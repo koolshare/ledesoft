@@ -11,14 +11,14 @@
             "version": "1.2"
         }, 
         {
-            "build_date": "2017-09-13_01:08:14", 
+            "build_date": "2017-09-13_02:55:04", 
             "description": "智能家庭网关", 
             "home_url": "Module_homebridge.asp", 
-            "md5": "f4a250ab43cb6101ebb8953c9b041738", 
+            "md5": "4e682adeadcf831553b33006e298517a", 
             "name": "homebridge", 
             "tar_url": "homebridge/homebridge.tar.gz", 
             "title": "Homebridge", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-13_00:14:08", 
