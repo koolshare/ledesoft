@@ -46,7 +46,7 @@ fi
 #升级前先删除无关文件
 echo_date 清可能存在的理旧文件...
 rm -rf $KSROOT/ss/*  >/dev/null 2>&1
-rm -rf $KSROOT/init.d/*  >/dev/null 2>&1
+rm -rf $KSROOT/init.d/S99shadowsocks.sh >/dev/null 2>&1
 rm -rf $KSROOT/scripts/ss_*  >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_shadowsocks.asp  >/dev/null 2>&1
 rm -rf $KSROOT/bin/ss-tunnel  >/dev/null 2>&1
@@ -59,7 +59,7 @@ rm -rf $KSROOT/bin/dnscrypt-proxy >/dev/null 2>&1
 rm -rf $KSROOT/bin/dns2socks >/dev/null 2>&1
 rm -rf $KSROOT/bin/chinadns >/dev/null 2>&1
 rm -rf $KSROOT/bin/resolveip >/dev/null 2>&1
-[ -f "/koolshare/webs/files/koolgame.tar.gz" ] && rm -rf /koolshare/webs/files/koolgame.tar.gz
+[ -f "/koolshare/webs/files/shadowsocks.tar.gz" ] && rm -rf /koolshare/webs/files/shadowsocks.tar.gz
 
 cd /tmp
 echo_date 复制安装包内的文件到路由器...
