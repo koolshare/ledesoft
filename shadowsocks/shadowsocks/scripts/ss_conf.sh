@@ -386,8 +386,7 @@ case $2 in
 	cp $KSROOT/webs/Module_shadowsocks.asp $TARGET_FOLDER/webs/
 	cp $KSROOT/webs/res/icon-shadowsocks* $TARGET_FOLDER/webs/res/
 	cp -r $KSROOT/ss $TARGET_FOLDER/
-	rm -rf $TARGET_FOLDER/ss/ss.json
-	rm -rf $TARGET_FOLDER/ss/koolgame.json
+	rm -rf $TARGET_FOLDER/ss/*.json
 
 	tar -czv -f /koolshare/webs/files/shadowsocks.tar.gz shadowsocks/
 	rm -rf $TARGET_FOLDER

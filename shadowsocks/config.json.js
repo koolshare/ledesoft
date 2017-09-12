@@ -3,7 +3,7 @@
     "build_date": "2017-09-09_18:29:47", 
     "description": "轻松科学上网~", 
     "home_url": "Module_shadowsocks.asp", 
-    "md5": "40ba9020111d0c79953b5b8310502e57", 
+    "md5": "0d52e2dbff5d5a315a0560d9bf4be0a0", 
     "name": "shadowsocks", 
     "tar_url": "shadowsocks/shadowsocks.tar.gz", 
     "title": "shadowsocks", 
