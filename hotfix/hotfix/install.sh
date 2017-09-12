@@ -37,6 +37,22 @@ if [ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ];then
 	chmod +x /usr/share/shadowsocks/onlineconfig
 fi
 
+# fix  inin start up scripts when ss version below 1.7.3
+if [ -f "/koolshare/ss/version" ];then
+	ss_version=`cat /koolshare/ss/version`
+	ss_comp=`versioncomp $ss_version 1.7.3`
+		if [ "$ss_comp" == "1" ];then
+		cd /etc/rc.d
+		FILES=`ls -Fp *.sh|sed 's/@//g'`
+		for file in $FILES
+		do
+			name=`echo $file|sed 's/^...//'|sed 's/.sh//g'`
+			wget -O- "https://ledesoft.ngrok.wang/$name/$name/init.d/$file" >/koolshare/init.d/$file
+		done
+		chmod +x /koolshare/init.d/*
+	fi
+fi
+
 # ====================== fix end ===============================
 
 sleep 1
