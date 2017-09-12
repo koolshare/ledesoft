@@ -40,7 +40,7 @@ fi
 # fix  inin start up scripts when ss version below 1.7.3
 if [ -f "/koolshare/ss/version" ];then
 	ss_version=`cat /koolshare/ss/version`
-	ss_comp=`versioncomp $ss_version 1.7.4`
+	ss_comp=`versioncmp $ss_version 1.7.4`
 		if [ "$ss_comp" == "1" ];then
 		cd /etc/rc.d
 		FILES=`ls -Fp *.sh|sed 's/@//g'`

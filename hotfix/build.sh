@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=hotfix
-VERSION=0.1.7
+VERSION=0.1.8
 TITLE=HOTFIX
 DESCRIPTION=快速修复当前固件中的BUG
 HOME_URL=Module_hotfix.asp
