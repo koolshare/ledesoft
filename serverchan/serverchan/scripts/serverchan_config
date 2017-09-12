@@ -58,7 +58,7 @@ creat_trigger_ifup(){
 }
 
 remove_trigger_ifup(){
-	find /etc/hotplug.d/iface/ -name *serverchan | xargs rm -rf
+	find /etc/hotplug.d/iface/ -name "*serverchan" | xargs rm -rf
 }
 
 creat_trigger_dhcp(){
@@ -70,18 +70,25 @@ creat_trigger_dhcp(){
 remove_trigger_dhcp(){
 	uci delete dhcp.@dnsmasq[0].dhcpscript
 	uci commit
+	/etc/init.d/dnsmasq restart
 }
 
 # used by httpdb
 case $2 in
 start)
-	remove_trigger_ifup
-	remove_trigger_dhcp
-	remove_cron_job
-	[ "$serverchan_trigger_ifup"  == "1" ] && creat_trigger_ifup
-	[ "$serverchan_trigger_dhcp"  == "1" ] && creat_trigger_dhcp
-	creat_cron_job
-    http_response '设置已保存！切勿重复提交！页面将在1秒后刷新'
+	if [ "$serverchan_enable" == "1" ];then
+		remove_trigger_ifup
+		remove_trigger_dhcp
+		remove_cron_job
+		[ "$serverchan_trigger_ifup"  == "1" ] && creat_trigger_ifup
+		[ "$serverchan_trigger_dhcp"  == "1" ] && creat_trigger_dhcp
+		creat_cron_job
+    	http_response '设置已保存！切勿重复提交！页面将在1秒后刷新'
+    else
+		remove_trigger_ifup
+		remove_trigger_dhcp
+		remove_cron_job
+    fi
 	;;
 manual)
     /koolshare/scripts/serverchan_check checknow
