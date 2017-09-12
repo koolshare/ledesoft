@@ -1,0 +1,4 @@
+Koolshare LEDE-X64 UDPspeeder Changelog
+===========================================
+1.0.5
+   - update update UDPspeeder binary to latest
