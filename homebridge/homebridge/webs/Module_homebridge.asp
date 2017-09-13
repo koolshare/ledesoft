@@ -192,7 +192,7 @@ No part of this file may be used without permission.
 		<div class="heading">HomeBridge<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
-				Homebridge可以模拟成一个HomeKit网关。使用前请仔细阅读设置说明。
+				Homebridge可以模拟成一个HomeKit网关。使用前请仔细阅读设置说明，<a id="hk_url" href="http://koolshare.cn/thread-123706-1-1.html" target="_blank">论坛详细配置教程</a>。
 			</span>
 		</div>	
 	</div>
