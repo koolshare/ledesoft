@@ -1,0 +1,6 @@
+Koolshare LEDE homebridge Changelog
+===========================================
+0.1
+	- add add homebridge support
+0.3
+	-update allow manual configuration

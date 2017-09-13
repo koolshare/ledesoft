@@ -124,6 +124,7 @@ No part of this file may be used without permission.
 			E('save-button').disabled = true;
 			// collect basic data
 			dbus.homebridge_enable = E('_homebridge_enable').checked ? '1':'0';
+			dbus.homebridge_autoconfig = E('_homebridge_autoconfig').checked ? '1':'0';
 			dbus.homebridge_mi = E('_homebridge_mi').checked ? '1':'0';
 			dbus.homebridge_passwd = E('_homebridge_passwd').value;
 			dbus.homebridge_mi_mac = E('_homebridge_mi_mac').value;
@@ -209,6 +210,7 @@ No part of this file may be used without permission.
 					{ title: '开启Homebridge', name:'homebridge_enable',type:'checkbox',value: dbus.homebridge_enable == 1 },
 					{ title: '运行状态', text: '<font id="_homebridge_status" name=_homebridge_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '网关配对密码配置', name:'homebridge_passwd',type:'text', maxlen: 10, size: 10, value: dbus.homebridge_passwd || '123-78-456', suffix: '输入8位匹配密码，格式：123-78-456' },
+					{ title: '自动生成配置文件', name:'homebridge_autoconfig',type:'checkbox',value: dbus.homebridge_autoconfig == 1, suffix: '如果取消选择，请手动配置文件/koolshare/homebridge/config.json'},
 					{ title: '开启小米智能硬件支持', name:'homebridge_mi',type:'checkbox',value: dbus.homebridge_mi == 1 },
 					{ title: '小米智能网关MAC', name:'homebridge_mi_mac',type:'text', maxlen: 80, size: 60, value: dbus.homebridge_mi_mac || '286c0885b30f', suffix: '<lable id="_homebridge_mi_mac_nu"></lable>' },
 					{ title: '小米智能网关密码', name:'homebridge_mi_passwd',type:'text', maxlen: 80, size: 60, value: dbus.homebridge_mi_passwd || ' cb30a01c1bcc4b3c' , suffix: '<lable id="_homebridge_mi_passwd_nu"></lable>' },
