@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=udpspeeder
-VERSION=1.0.5
+VERSION=1.0.6
 TITLE=UDPspeeder
-DESCRIPTION=UDP双边加速工具
+DESCRIPTION="UDP双边加速工具"
 HOME_URL=Module_udpspeeder.asp
+CHANGELOG="↑ 更新二进制文件"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

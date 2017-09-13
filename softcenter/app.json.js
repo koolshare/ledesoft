@@ -11,11 +11,11 @@
             "version": "0.2.4"
         }, 
         {
-            "build_date": "2017-09-13_21:18:34", 
-            "changlog": "修复多wan下推送wan信息重复", 
+            "build_date": "2017-09-13_21:32:38", 
+            "changelog": "修复多wan下推送wan信息重复", 
             "description": "推送路由器信息到微信~", 
             "home_url": "Module_serverchan.asp", 
-            "md5": "0efbf8820cdb5214f413d91ddd67638d", 
+            "md5": "0daac5b5ce2da424aea9c75f8363d43b", 
             "name": "serverchan", 
             "tar_url": "serverchan/serverchan.tar.gz", 
             "title": "Server酱", 
@@ -162,14 +162,15 @@
             "version": "0.7"
         }, 
         {
-            "build_date": "2017-09-12_18:59:11", 
+            "build_date": "2017-09-13_21:32:02", 
+            "changelog": "↑ 更新二进制文件", 
             "description": "UDP双边加速工具", 
             "home_url": "Module_udpspeeder.asp", 
-            "md5": "69e4ba0dee44caa53297fb5a0df41f65", 
+            "md5": "85a543b8e36af5de86b01c0f8ed3aec5", 
             "name": "udpspeeder", 
             "tar_url": "udpspeeder/udpspeeder.tar.gz", 
             "title": "UDPspeeder", 
-            "version": "1.0.5"
+            "version": "1.0.6"
         }, 
         {
             "build_date": "2017-09-09_18:29:47", 
