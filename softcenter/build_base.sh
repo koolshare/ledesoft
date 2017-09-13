@@ -30,6 +30,7 @@ cat > ./config.json.js <<EOF
 "home_url":"$HOME_URL",
 "title":"$TITLE",
 "description":"$DESCRIPTION",
+"changlog":"$CHANGELOG",
 "build_date":"$DATE"
 }
 EOF

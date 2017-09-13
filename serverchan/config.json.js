@@ -1,8 +1,9 @@
 {
 "version":"1.0.9",
-"md5":"cfe3a8bdd5c417eb30a6928e00bcba08",
+"md5":"6fd02d824f39b3fb9ec70b19fb98983b",
 "home_url":"Module_serverchan.asp",
 "title":"Server酱",
 "description":"推送路由器信息到微信~",
-"build_date":"2017-09-12_16:19:53"
+"changlog":"修复多wan下推送wan信息重复",
+"build_date":"2017-09-13_21:21:18"
 }
