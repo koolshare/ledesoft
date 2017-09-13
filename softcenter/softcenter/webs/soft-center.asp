@@ -185,8 +185,78 @@
 	animation:loading-2 1s ease-in .5s infinite;
 }
 </style>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/tomato.js"></script>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
-	$('.div').css("margin","");
+//跨域请求支持
+/*
+    $.ajax = (function(_ajax){
+
+    var protocol = location.protocol,
+        hostname = location.hostname,
+        exRegex = RegExp(protocol + '//' + hostname),
+        YQL = 'http' + (/^https/.test(protocol)?'s':'') + '://query.yahooapis.com/v1/public/yql?callback=?',
+        query = 'select * from html where url="{URL}" and xpath="*"';
+    
+    function isExternal(url) {
+        return !exRegex.test(url) && /:\/\//.test(url);
+    }
+    
+    return function(o) {
+        
+        var url = o.url;
+        
+        if ( /get/i.test(o.type) && !/json/i.test(o.dataType) && isExternal(url) ) {
+            
+            // Manipulate options so that JSONP-x request is made to YQL
+            
+            o.url = YQL;
+            o.dataType = 'json';
+            
+            o.data = {
+                q: query.replace(
+                    '{URL}',
+                    url + (o.data ?
+                        (/\?/.test(url) ? '&' : '?') + jQuery.param(o.data)
+                    : '')
+                ),
+                format: 'xml'
+            };
+            
+            // Since it's a JSONP request
+            // complete === success
+            if (!o.success && o.complete) {
+                o.success = o.complete;
+                delete o.complete;
+            }
+            
+            o.success = (function(_success){
+                return function(data) {
+                    
+                    if (_success) {
+                        // Fake XHR callback.
+                        _success.call(this, {
+                            responseText: (data.results[0] || '')
+                                // YQL screws with <script>s
+                                // Get rid of them
+                                .replace(/<script[^>]+?\/>|<script(.|\s)*?\/script>/gi, '')
+                        }, 'success');
+                    }
+                    
+                };
+            })(o.success);
+            
+        }
+        
+        return _ajax.apply(this, arguments);
+        
+    };
+    
+})($.ajax);
+*/
+	
+$('.div').css("margin","");
 //APPS 控制模块
 var anmstatus=null;
 var softcenter = 1;
@@ -216,9 +286,9 @@ function change2(obj){
 	}
 }
 function tabSelect(obj){
-	var tableX = ['app1-server1-basic-tab','app2-server1-advanced-tab','app3-server1-keys-tab','app4-server1-status-tab'];
-	var boxX = ['boxr1','boxr2','boxr3','boxr4'];
-	var appX = ['app1','app2','app3','app4'];
+	var tableX = ['app1-server1-basic-tab','app2-server1-advanced-tab','app3-server1-keys-tab', 'app5-server1-adv-tab', 'app4-server1-status-tab'];
+	var boxX = ['boxr1','boxr2','boxr3', 'boxr5','boxr4'];
+	var appX = ['app1','app2','app3', 'app5','app4'];
 	for (var i = 0; i < tableX.length; i++){
 		if(obj == appX[i]){
 			$('#'+tableX[i]).addClass('active');
@@ -239,7 +309,9 @@ var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "
 var softcenterUrl = "https://ledesoft.ngrok.wang";
 var dataTypeX = "jsonp";
 var softInfo = {};
+var appsInfo;
 var TimeOut = 0;
+//var extra_json;
 var Msginfos = [
             "操作失败",
             "已安装",
@@ -295,6 +367,30 @@ function notice_show(){
         }
     });
 }
+/*
+function get_extra_json(url){
+	if (!url){
+		return false;
+	}
+	if (url.indexOf("github") != -1){
+		var dataTypeY = "json";
+	}else{
+		var dataTypeY = "jsonp";
+	}
+	$.ajax({
+		url:url,
+		dataType:dataTypeY,
+		type: 'GET',
+		success:function(data) {
+			extra_json = data;
+		}
+	});
+}
+*/
+
+function verifyFields (){
+	return true;
+}
 //类
 function appinstall(obj){
     var name = obj.value;
@@ -338,19 +434,19 @@ function _formatData(name,mod){
 		}
 	};
 }
-function CheckImgExists(imgurl) {  
-  var ImgObj = new Image(); //判断图片是否存在  
-  ImgObj.src = imgurl;  
-  //没有图片，则返回-1  
-  if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {  
-    return true;  
-  } else {  
+function CheckImgExists(imgurl) {
+  var ImgObj = new Image(); //判断图片是否存在
+  ImgObj.src = imgurl;
+  //没有图片，则返回-1
+  if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+    return true;
+  } else {
     return false;
-  }  
+  }
 }
 function getSoftCenter(obj){
-	$.ajax({  
-		url:softcenterUrl+"/softcenter/app.json.js",  
+	$.ajax({
+		url:softcenterUrl+"/softcenter/app.json.js",
 		dataType:dataTypeX,  
 		method: 'GET', 
 		success:function(re) {
@@ -366,10 +462,15 @@ function getSoftCenter(obj){
 			if(locversion != onlineversion){
 				$("#update").show();
 			}
-			$("#version").html("当前版本："+locversion+" , 线上版本：" + onlineversion + '&nbsp;&nbsp;&nbsp;&nbsp;【问题反馈:<a href="https://github.com/koolshare/ledesoft" target="_blank">&nbsp;&nbsp;<u>github</u></a><a href="https://t.me/joinchat/ERO9vEMMVu1dzQ-F8nP6kA" target="_blank">&nbsp;&nbsp;<u>telegram</u></a><a href="http://koolshare.cn/forum-97-1.html" target="_blank">&nbsp;&nbsp;&nbsp;<u>koolshare</u></a>】');
-
-			
+			$("#version").html("当前版本：" + locversion + " , 线上版本：" + onlineversion + '\
+								&nbsp;&nbsp;【<a href="https://github.com/koolshare/ledesoft/blob/master/softcenter/Changelog.txt" target="_blank"><u>更新日志</u></a>】\
+								&nbsp;&nbsp;【问题反馈:<a href="https://github.com/koolshare/ledesoft" target="_blank">&nbsp;&nbsp;<u>github</u></a>\
+								<a href="https://t.me/joinchat/ERO9vEMMVu1dzQ-F8nP6kA" target="_blank">&nbsp;&nbsp;<u>telegram</u></a>\
+								<a href="http://koolshare.cn/forum-97-1.html" target="_blank">&nbsp;&nbsp;&nbsp;<u>koolshare</u></a>】');
+								
 			var object = $.extend([],obj, soft);
+			//console.log("object",object);
+			
 			var j=0;
 			var x=0;
 			for(var name in object){
@@ -380,6 +481,7 @@ function getSoftCenter(obj){
 					appObject["app_"+app_name+"_home_url"] = object['softcenter_module_'+app_name+'_home_url'];
 					appObject["app_"+app_name+"_version"] = object['softcenter_module_'+app_name+'_version'];
 					appObject["app_"+app_name+"_description"] = object['softcenter_module_'+app_name+'_description'];
+					appObject["app_"+app_name+"_changelog"] = object['softcenter_module_'+app_name+'_changelog'];
 					appObject["app_"+app_name+"_install"] = object['softcenter_module_'+app_name+'_install'];
 				}
 			};
@@ -391,20 +493,43 @@ function getSoftCenter(obj){
 				o_version = object[i]["version"];	//app版本号
 				o_md5 = object[i]["md5"];			//app MD5
 				o_description = object[i]["description"];//描述
-				if(o_description==""){
-					o_description="暂无描述";
-				};
+				o_changelog = object[i]["changelog"]||"";//描述
+				o_description = object[i]["description"]||"暂无描述";//描述
+
 				appObject["app_"+o_name+"_name"] = o_name;
 				appObject["app_"+o_name+"_title"] = o_title;
 				appObject["app_"+o_name+"_home_url"] = o_home_url;
 				appObject["app_"+o_name+"_tar_url"] = o_tar_url;
 				appObject["app_"+o_name+"_oversion"] = o_version;
 				appObject["app_"+o_name+"_description"] = o_description;
+				appObject["app_"+o_name+"_changelog"] = o_changelog;
 				appObject["app_"+o_name+"_md5"] = o_md5;
 			};
+			/*
+			if (extra_json){
+				for(var i=0; i < extra_json.length; i++) {  
+					e_name = extra_json[i]["name"];
+					e_title = extra_json[i]["title"];			//显示软件名
+					e_home_url = extra_json[i]["home_url"];			//调用网页地址
+					e_tar_url = extra_json[i]["tar_url"];		//tar包相对地址  aria2/aria2.tar.gz
+					e_version = extra_json[i]["version"];	//app版本号
+					e_md5 = extra_json[i]["md5"];			//app MD5
+					e_description = extra_json[i]["description"];//描述
+					if(o_description==""){
+						o_description="暂无描述";
+					};
+					appObject["app_"+e_name+"_name"] = e_name;
+					appObject["app_"+e_name+"_title"] = e_title;
+					appObject["app_"+e_name+"_home_url"] = e_home_url;
+					appObject["app_"+e_name+"_tar_url"] = e_tar_url;
+					appObject["app_"+e_name+"_oversion"] = e_version;
+					appObject["app_"+e_name+"_description"] = e_description;
+					appObject["app_"+e_name+"_md5"] = e_md5;
+				};
+			}
+			*/
 			//console.log("All_App_Object",appObject);
 			softInfo = appObject;
-			//console.log("All_App_Object",softInfo);
 			for(var name in appObject){
 				if(name.indexOf("name") > 0 ){
 					var appname = appObject[name];
@@ -418,12 +543,13 @@ function getSoftCenter(obj){
 					}
 					if(description=="" || !description){
 						description="暂无描述";
-					};
+					}
 					if(install=="1" || install=="2"){
 						j++;
 						aurl = "#/Module_" +appname+".asp";
 						if(oversion!=version && oversion){
 							appButton = '<button value="'+appname+'" onclick="appupdata(this)" id="app-update" class="btn btn-success">更新</button>';
+							description = appObject["app_"+appname+"_changelog"] || appObject["app_"+appname+"_description"];
 						}else{
 							appButton = '<button type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
 						}
@@ -498,7 +624,6 @@ function getSoftCenter(obj){
 			$("#version").html("<font color='#FF6A6A'>X 线上服务器超时 , 请稍后重试……</font>");
 			getLocalApp(obj)
 			//console.log("network error",data);
-			
 		},
 		timeout:1000
 	});
@@ -577,7 +702,6 @@ function changeButton(obj){
 	}
 }
 function checkInstallStatus(){
-var appsInfo;
 	$.getJSON("/_api/softcenter_installing_", function(resp) {
 		appsInfo=resp.result[0];
 		var installing  = appsInfo["softcenter_installing_status"];
@@ -605,6 +729,7 @@ function CheckX(){
 function softCenterInit(){
 	$.getJSON("/_api/softcenter_", function(resp) {
 		appsInfo=resp.result[0];
+		//get_extra_json(appsInfo["softcenter_extra_url"]);
 		getSoftCenter(appsInfo);
 		if(resp.softcenter_installing_status != '0' && resp.softcenter_installing_status){
 			CheckX();
@@ -686,6 +811,27 @@ function get_log(s){
         }
 	});
 }
+
+function save_extra_now(arg){
+	var dbus2 = {};
+	dbus2["softcenter_extra_url"] = E("_softcenter_extra_url").value;
+	var id = parseInt(Math.random() * 100000000);
+	var postData = {"id": id, "method": "dummy_script.sh", "params":[], "fields": dbus2};
+	$.ajax({
+		type: "POST",
+		url: "/_api/",
+		async: true,
+		cache:false,
+		data: JSON.stringify(postData),
+		dataType: "json",
+		success: function(response){
+			if(response){
+				setTimeout("window.location.reload()", 300);
+				return true;
+			}
+		}
+	});
+}
 </script>
 	<div class="col">
 		<div class="heading">
@@ -731,13 +877,13 @@ function get_log(s){
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-server1-advanced-tab"><i class="icon-globe"></i> 未安装</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a></li>
+		<!--<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-adv-tab"><i class="icon-cmd"></i> 高级设置</a></li>-->
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 关于我们</a></li>
 	</ul>
 	<div class="box boxr1">
 		<div class="heading">已安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 		<div class="content">
 			<div class="tabContent1">
-				<!--app info -->
 				<!--app info -->
 			</div>
 		</div>
@@ -747,7 +893,6 @@ function get_log(s){
 		<div class="content">
 			<div class="tabContent2">
 				<!--app info -->
-				<!--app info -->
 			</div>
 		</div>
 	</div>
@@ -756,10 +901,8 @@ function get_log(s){
 		<div class="content">
 			<div class="tabContent3">
 				<ul style="margin-left: 30px;">
-					<li>此页面功能需要在7.0及其以上的固件才能使用。</li>
 					<li>通过本页面，你可以上传插件的离线安装包来安装插件；</li>
 					<li>离线安装会自动解压tar.gz后缀的压缩包，识别压缩包一级目录下的install.sh文件并执行；</li>
-					<li>建议开发者将插件版本号，md5等信息在install.sh文件内进行写入；</li>
 				</ul>
 				<br/>
 				<div id="identification" class="section">
@@ -778,7 +921,6 @@ function get_log(s){
 							<script type="text/javascript">
 								s = 'height:300px;display:block';
 								$('.col.soft_log').append('<textarea class="as-script" name="soft_log" id="soft_log" wrap="off" style="max-width:100%; min-width: 99%;' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" disabled></textarea>');
-							
 							</script>
 						</div>
 					</fieldset>
@@ -786,6 +928,33 @@ function get_log(s){
 			</div>
 		</div>
 	</div>
+	<!--
+	<div class="box boxr5">
+		<div class="heading">软件中心高级设置&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
+		<div class="content">
+			<div id="advanceds_settings" class="tabContent3">
+				<script type="text/javascript">
+					var dbus = {};
+					$.ajax ({
+					  	type: "GET",
+					 	url: "/_api/softcenter_extra_",
+					  	dataType: "json",
+					  	async:false,
+					 	success: function(data){
+					 	 	dbus = data.result[0];
+							$('#advanceds_settings').forms([
+								{ title: '添加额外的插件源', multi: [
+									{ name:'softcenter_extra_url',type:'text',size:65,value:dbus["softcenter_extra_url"]||"" },
+									{ suffix: ' <button id="_add_now" onclick="save_extra_now();" class="btn btn-success">保存<i class="icon-cloud"></i></button>' },
+									{ suffix: ' 除非你知道你在做什么，否则别随意添加！仅仅支持koolshare LEDE插件源！！' }
+								]}
+							]);
+					  	}
+					});
+				</script>
+			</div>
+		</div>
+	</div>-->
 	<div class="box boxr4">
 		<div class="heading">关于我们</div>
 		<div class="content">
@@ -793,7 +962,7 @@ function get_log(s){
 				<!--app info -->
 				<ul style="margin-left: 30px;">
 					<li>我们是一群致力于服务大众的个人自发的群体，来自全国各地都聚集在 <a href="http://koolshare.cn" target="_blank"><font color="#FF6347"> KoolShare </font></a>论坛。</li>
-					<li><font color="#8470FF">参与开发的人员：@小宝、@RT-AC68U-sadog、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、@JSmonkey、@fw867、KoolShare开发组、以及其他人员。</font></li>
+					<li><font color="#8470FF">参与开发的人员：@小宝、@fw867、@sadog、@JSmonkey、@HOUZI(｡◕‿&nbsp;&nbsp;◕｡)、KoolShare开发组、以及其他人员。</font></li>
 					<li><font color="#1E90FF">本软件中心属于开源项目，任何组织或个人均可自由开发。</font></li>
 					<li>软件中心目前处于测试阶段，如在使用中出现问题请至 <a href="http://koolshare.cn/forum-97-1.html" target="_blank"><font color="#FF6347">KoolShare LEDE</font></a> 版块反馈。</li>
 				</ul>
