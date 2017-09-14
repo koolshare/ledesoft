@@ -67,6 +67,8 @@ $('#hotfix-fields').forms([
 			<li> 2.针对2.1, 2.2固件修复SSR节点订阅脚本，2.1固件还需要运行 opkg update && opkg install coreutils-base64 coreutils-shuf 才能修复。</li>
 			<br />
 			<li> 3.【紧急】所有安装了插件版本ss，并且版本号低于1.7.3的，修复因为ss插件造成的其他插件丢失开机启动文件的问题。（2017年9月13日）</li>
+			<br />
+			<li> 4. 针对2.1, 2.2固件，修复路由重启后软件中心界面空白的问题。（2017年9月14日 ）</li>
 			<li> ....</li>
 	</div>
 </div>
