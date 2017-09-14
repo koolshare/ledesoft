@@ -36,6 +36,7 @@ start)
 	if [ "$kms_enable" == "1" ]; then
 		logger "[软件中心]: 启动KMS！"
 		start_kms
+		sed -i '/kms_config.sh/d' /etc/firewall.user >/dev/null 2>&1
    		[ "$kms_firewall" == "1" ] && open_port
 	else
 		logger "[软件中心]: KMS未设置开机启动，跳过！"
