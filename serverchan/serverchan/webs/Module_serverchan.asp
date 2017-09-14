@@ -302,7 +302,7 @@
 	<script type="text/javascript">
 		$('#serverchan1-fields').forms([
 		{ title: '开启serverchan', name: 'serverchan_enable', type: 'checkbox', value: dbus.serverchan_enable == 1},
-		{ title: 'SCKEY', name: 'serverchan_sckey', type: 'password', maxlen: 20, size: 65, value: dbus.serverchan_sckey,peekaboo: 1}
+		{ title: 'SCKEY', name: 'serverchan_sckey', type: 'password', maxlen: 65, size: 65, value: dbus.serverchan_sckey,peekaboo: 1}
 		]);
 		$('#_serverchan_enable').parent().parent().css("margin-left","-10px");
 	</script>

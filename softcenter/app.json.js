@@ -83,15 +83,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2017-09-13_21:32:38", 
+            "build_date": "2017-09-14_13:38:21", 
             "changelog": "修复多wan下推送wan信息重复", 
             "description": "推送路由器信息到微信~", 
             "home_url": "Module_serverchan.asp", 
-            "md5": "0daac5b5ce2da424aea9c75f8363d43b", 
+            "md5": "0272394907bdea44f8af9c4b68bfad29", 
             "name": "serverchan", 
             "tar_url": "serverchan/serverchan.tar.gz", 
             "title": "Server酱", 
-            "version": "1.0.9"
+            "version": "1.1.0"
         }, 
         {
             "build_date": "2017-08-22_12:57:34", 
