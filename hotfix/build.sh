@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=hotfix
-VERSION=0.1.8
+VERSION=0.1.9
 TITLE=HOTFIX
 DESCRIPTION=快速修复当前固件中的BUG
 HOME_URL=Module_hotfix.asp
+CHANGELOG="修复重启酷软空白"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

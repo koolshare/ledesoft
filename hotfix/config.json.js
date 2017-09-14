@@ -1,8 +1,9 @@
 {
-"version":"0.1.8",
-"md5":"7ad20cff86779297c03748182b3fd25b",
+"version":"0.1.9",
+"md5":"bf60d594b64360de2afa20baacf34ba3",
 "home_url":"Module_hotfix.asp",
 "title":"HOTFIX",
 "description":"快速修复当前固件中的BUG",
-"build_date":"2017-09-13_00:14:08"
+"changelog":"修复重启酷软空白",
+"build_date":"2017-09-14_21:11:39"
 }

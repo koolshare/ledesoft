@@ -4,13 +4,11 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export hotfix`
 
-
 cd /tmp
 cp -rf /tmp/hotfix/webs/* $KSROOT/webs/
 cp /tmp/hotfix/uninstall.sh $KSROOT/scripts/uninstall_hotfix.sh
 
 # 为新安装文件赋予执行权限...
-
 dbus set softcenter_module_hotfix_install=1
 dbus set softcenter_module_hotfix_name=hotfix
 dbus set softcenter_module_hotfix_title=HOTFIX
@@ -33,24 +31,33 @@ fi
 
 # host fix for 2.2 firmware for ssr onlineconfig (2017-8-25 16:42:18)
 if [ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ];then
-	cp -rf /tmp/hotfix/hotfix/2.2_onlineconfig /usr/share/shadowsocks/onlineconfig && \
-	chmod +x /usr/share/shadowsocks/onlineconfig
+	MD5_1=`md5sum /tmp/hotfix/hotfix/2.2_onlineconfig | awk '{print $1}'`
+	MD5_2=`md5sum /usr/share/shadowsocks/onlineconfig | awk '{print $1}'`
+	if [ "$MD5_1" != "MD5_2" ];then
+		cp -rf /tmp/hotfix/hotfix/2.2_onlineconfig /usr/share/shadowsocks/onlineconfig
+		chmod +x /usr/share/shadowsocks/onlineconfig
+	fi
 fi
 
-# fix  inin start up scripts when ss version below 1.7.3
-if [ -f "/koolshare/ss/version" ];then
-	ss_version=`cat /koolshare/ss/version`
-	ss_comp=`versioncmp $ss_version 1.7.4`
-		if [ "$ss_comp" == "1" ];then
-		cd /etc/rc.d
-		FILES=`ls -Fp *.sh|sed 's/@//g'`
-		for file in $FILES
-		do
-			name=`echo $file|sed 's/^...//'|sed 's/.sh//g'`
-			wget -O- "https://ledesoft.ngrok.wang/$name/$name/init.d/$file" >/koolshare/init.d/$file
-		done
-		chmod +x /koolshare/init.d/*
+# fix softcenter blank
+if [ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ];then
+	ERR_LEN=`cat /etc/init.d/softcenter |grep killall|wc -c`
+	if [ "$ERR_LEN" == "40" ];then
+		sed -i '34s/ &$//g' /etc/init.d/softcenter
 	fi
+fi
+
+# fix init.d start up scripts lost
+/bin/ls -L /etc/rc.d/*.sh >/dev/null 2>&1
+if [ "$?" == "1" ];then
+	cd /etc/rc.d
+	FILES=`ls -Fp *.sh|sed 's/@//g'`
+	for file in $FILES
+	do
+		name=`echo $file|sed 's/^...//'|sed 's/.sh//g'`
+		wget -O- "https://ledesoft.ngrok.wang/$name/$name/init.d/$file" >/koolshare/init.d/$file
+	done
+	chmod +x /koolshare/init.d/*
 fi
 
 # ====================== fix end ===============================
