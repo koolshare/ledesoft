@@ -1,9 +1,9 @@
 {
-"version":"0.4",
-"md5":"b1741eb81e9a4e132325ff206109a2c8",
+"version":"0.5",
+"md5":"9a13912a89d7cd0d99511cef2e05ab85",
 "home_url":"Module_homebridge.asp",
 "title":"Homebridge",
 "description":"智能家庭网关",
 "changelog":"",
-"build_date":"2017-09-14_13:18:38"
+"build_date":"2017-09-14_13:46:27"
 }
