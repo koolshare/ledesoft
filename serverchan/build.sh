@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=serverchan
-VERSION=1.1.1
+VERSION=1.1.2
 TITLE="Server酱"
 DESCRIPTION="推送路由器信息到微信~"
 HOME_URL=Module_serverchan.asp
