@@ -375,6 +375,7 @@
 			{ name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 },
 			{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
 			{ name: 'serverchan_trigger_dhcp_macoff', type: 'checkbox', value: dbus.serverchan_trigger_dhcp_macoff == 1 },
+			{ suffix: ' &nbsp;&nbsp;&nbsp;&nbsp;【提示：静态ip客户端不会提示】' }
 		]},
 		]);
 		$('#_serverchan_trigger_ifup').parent().parent().css("margin-left","-10px");
