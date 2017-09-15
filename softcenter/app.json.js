@@ -11,11 +11,11 @@
             "version": "0.2.4"
         }, 
         {
-            "build_date": "2017-09-15_11:14:40", 
+            "build_date": "2017-09-15_11:25:03", 
             "changelog": "修复多wan公网ip不显示", 
             "description": "推送路由器信息到微信~", 
             "home_url": "Module_serverchan.asp", 
-            "md5": "bb2dd9b09ae9030fbcec5f73c7bda489", 
+            "md5": "32d467e30d2bf06185427123a3be43db", 
             "name": "serverchan", 
             "tar_url": "serverchan/serverchan.tar.gz", 
             "title": "Server酱", 
