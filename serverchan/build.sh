@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=serverchan
-VERSION=1.1.2
+VERSION=1.1.3
 TITLE="Server酱"
 DESCRIPTION="推送路由器信息到微信~"
 HOME_URL=Module_serverchan.asp
-CHANGELOG="修复多wan公网ip不显示"
+CHANGELOG="修复流量不显示"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

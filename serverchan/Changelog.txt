@@ -1,6 +1,6 @@
 Koolshare LEDE-X64 Serverchan Changelog
 ===========================================
-1.1.1
+1.1.1 - 1.1.3
    - update	修复多wan不显示公网ip的bug；
 
 1.1.0

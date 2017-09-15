@@ -1,9 +1,9 @@
 {
-"version":"1.1.2",
-"md5":"09a37120936150818f35b6e25d406c6d",
+"version":"1.1.3",
+"md5":"f0d44b074cb8391c1c60ddd2512bd163",
 "home_url":"Module_serverchan.asp",
 "title":"Server酱",
 "description":"推送路由器信息到微信~",
-"changelog":"修复多wan公网ip不显示",
-"build_date":"2017-09-15_21:33:54"
+"changelog":"修复流量不显示",
+"build_date":"2017-09-15_21:48:13"
 }
