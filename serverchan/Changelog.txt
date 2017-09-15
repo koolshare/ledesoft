@@ -1,7 +1,13 @@
 Koolshare LEDE-X64 Serverchan Changelog
 ===========================================
+1.1.1
+   - update	修复多wan不显示公网ip的bug；
+
+1.1.0
+   - fix	修复key输入长度
+
 1.0.9
-   - update 公网ip检查更换为国内服务器，避免ss开启后检测到vps ip；
+   - update	公网ip检查更换为国内服务器，避免ss开启后检测到vps ip；
    - fix	修复wan信息检测，显示到了lan信息的问题；
    - fix	修复某些情况下LEDE系统作为二级路由时，wan信息不显示的问题；
    - fix	修复定时检测，计划任务不运行的问题。
