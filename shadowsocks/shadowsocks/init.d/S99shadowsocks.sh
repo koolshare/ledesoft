@@ -10,7 +10,6 @@
 
 START=99
 STOP=15
-
 source /koolshare/scripts/base.sh
 eval `dbus export ss`
 

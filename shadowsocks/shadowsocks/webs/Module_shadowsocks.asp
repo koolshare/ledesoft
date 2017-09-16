@@ -4,8 +4,57 @@
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
-.box {
-	min-width:1000px;
+	.box {
+		min-width:1000px;
+	}
+	.c-checkbox {
+		margin-left:-10px;
+	}
+	/*Switch Icon Start*/
+	.switch_field{
+		width: 65px;
+	}
+	.switch_container{
+		width: 50px;
+		height: 30px;
+		border: 1px solid transparent;
+		margin-left: 20px;
+	}
+	.switch_bar{
+		width: 43px;
+		height: 16px;
+		background-color: #717171;
+		margin:7px auto 0;
+		border-radius: 10px;
+	}
+	.switch_circle{
+		width: 26px;
+		height: 26px;
+		border-radius: 16px;
+		background-color: #FFF;
+		margin-top: -21px;
+		box-shadow: 0px 1px 4px 1px #444;
+	}
+	/*Icon*/
+	.switch_circle > div{
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		margin: 5px 0 0 5px;
+	}
+	/*background color of bar while checked*/
+	.switch:checked ~.switch_container > .switch_bar{
+		background-color: #279FD9;
+	}
+
+	/*control icon style while checked*/
+	.switch:checked ~.switch_container > .switch_bar + .switch_circle > div{
+		background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2016.9%2016.9%22%20style%3D%22enable-background%3Anew%200%200%2016.9%2016.9%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%20style%3D%22fill%3A%23279FD9%22%3E%0A%09%3Cpolygon%20points%3D%226.8%2C14.9%200%2C8.8%202.2%2C6.4%206.6%2C10.5%2014.5%2C1.9%2016.8%2C3.9%20%09%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+		background-repeat: no-repeat;
+	}
+	.switch:checked ~.switch_container > .switch_circle{
+		margin-left: 23px;
+	}
 }
 </style>
 	<script type="text/javascript">
@@ -50,6 +99,8 @@
 		var option_hour_time = [];
 		var option_node_name = [];
 		var option_node_addr = [];
+		var kcp_diff = 0;
+		var ss_node_diff = 0;
 		var softcenter = 0;
 		var select_style="min-width:182px;max-width:182px";
 		
@@ -281,14 +332,21 @@
 		}
 		ss_node.onDelete = function() {
 			this.removeEditor();
-			var del_ss_node=this.source.cells[0].innerHTML;
-			var cur_sel_node=dbus["ss_basic_node"];
-			var cur_kcp_node=dbus["ss_kcp_node"];
+			var del_ss_node = parseInt(this.source.cells[0].innerHTML);
+			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ss_node == cur_sel_node){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
+			if (del_ss_node < cur_sel_node){
+				++ss_node_diff
+			}
 			if (del_ss_node == cur_kcp_node){
 				alert("请注意，你删除的节点是KCP加速节点！\n删除后请注意设置KCP加速");
+				dbus["ss_kcp_node"] = "";
+			}
+			if (del_ss_node < cur_kcp_node){
+				++kcp_diff
 			}
 			elem.remove(this.source);
 			this.source = null;
@@ -298,14 +356,21 @@
 		}
 		ss_node.rpDel = function(e) {
 			e = PR(e);
-			var del_ss_node=e.cells[0].innerHTML
-			var cur_sel_node=dbus["ss_basic_node"];
-			var cur_kcp_node=dbus["ss_kcp_node"];
+			var del_ss_node = parseInt(e.cells[0].innerHTML);
+			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ss_node == cur_sel_node){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
+			if (del_ss_node < cur_sel_node){
+				++ss_node_diff
+			}
 			if (del_ss_node == cur_kcp_node){
 				alert("请注意，你删除的节点是KCP加速节点，删除后请注意设置KCP加速");
+				dbus["ss_kcp_node"] = "";
+			}
+			if (del_ss_node < cur_kcp_node){
+				++kcp_diff
 			}
 			TGO(e).moving = null;
 			e.parentNode.removeChild(e);
@@ -320,8 +385,7 @@
 			this.rpHide();
 			if (!this.verifyFields(this.newEditor, false)) return;
 			data = this.fieldValuesToData(this.newEditor); 
-			//始终等于最后一个加1
-			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) || 0 + 1); //addby sadog
+			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) + 1 || 0 + 1); //addby sadog
 			this.insertData(-1, data);
 			this.disableNewEditor(false);
 			this.resetNewEditor();
@@ -463,14 +527,21 @@
 		}
 		ssr_node.onDelete = function() {
 			this.removeEditor();
-			var del_ssr_node=this.source.cells[0].innerHTML;
-			var cur_sel_node=dbus["ss_basic_node"];
-			var cur_kcp_node=dbus["ss_kcp_node"];
+			var del_ssr_node = parseInt(this.source.cells[0].innerHTML);
+			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ssr_node == (cur_sel_node - node_ss)){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
+			if (del_ssr_node < (cur_sel_node - node_ss)){
+				++ss_node_diff
+			}
 			if (del_ssr_node == (cur_kcp_node - node_ss)){
 				alert("请注意，你删除的节点是KCP加速节点！\n删除后请注意设置KCP加速");
+				dbus["ss_kcp_node"] = "";
+			}
+			if (del_ssr_node < (cur_kcp_node - node_ss)){
+				++kcp_diff
 			}
 			elem.remove(this.source);
 			this.source = null;
@@ -480,14 +551,21 @@
 		}
 		ssr_node.rpDel = function(e) {
 			e = PR(e);
-			var del_ssr_node=parseInt(e.cells[0].innerHTML);
-			var cur_sel_node=parseInt(dbus["ss_basic_node"]);
-			var cur_kcp_node=parseInt(dbus["ss_kcp_node"]);
+			var del_ssr_node = parseInt(e.cells[0].innerHTML);
+			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ssr_node == (cur_sel_node - node_ss)){
 				alert("该节点正在使用！\n删除并保存节点后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
+			if (del_ssr_node < (cur_sel_node - node_ss)){
+				++ss_node_diff
+			}
 			if (del_ssr_node == (cur_kcp_node - node_ss)){
 				alert("请注意，你删除的节点是KCP加速节点，删除后请注意设置KCP加速");
+				dbus["ss_kcp_node"] = "";
+			}
+			if (del_ssr_node < (cur_kcp_node - node_ss)){
+				++kcp_diff
 			}
 			TGO(e).moving = null;
 			e.parentNode.removeChild(e);
@@ -502,8 +580,7 @@
 			this.rpHide();
 			if (!this.verifyFields(this.newEditor, false)) return;
 			data = this.fieldValuesToData(this.newEditor); 
-			//始终等于最后一个加1
-			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) || 0 + 1); //addby sadog
+			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) +1 || 0 + 1); //addby sadog
 			this.insertData(-1, data);
 			this.disableNewEditor(false);
 			this.resetNewEditor();
@@ -1299,9 +1376,14 @@
 		function calculate_max_node(){
 			var all_names_ss = [];
 			var all_names_ssr = [];
+			var all_names_sslb = [];
+			var all_names_ssrlb = [];
 			var all_nodes_of_ss = [];
 			var all_nodes_of_ssr = [];
-
+			var all_nodes_of_sslb = [];
+			var all_nodes_of_ssrlb = [];
+			//--------------------------------------
+			// count node in ss
 			for (var field in dbus) {
 				names_ss = field.split("ssconf_basic_port_");
 				all_names_ss.push(names_ss)
@@ -1317,23 +1399,25 @@
 			}else{
 				dbus["ssconf_basic_max_node"] = "";
 			}
-			
+			dbus["ssconf_basic_node_max"] = all_nodes_of_ss.length;
+			//--------------------------------------
+			// count node in ssr
 			for (var field in dbus) {
 				names_ssr = field.split("ssrconf_basic_port_");
 				all_names_ssr.push(names_ssr)
-			}
+			}	
 			
 			for ( var i = 0; i < all_names_ssr.length; i++){
 				if (all_names_ssr[i][0] == ""){
-					all_nodes_of_ssr.push(all_names_ssr[i][1])
+					all_nodes_of_ssr.push(all_names_ssr[i][1]);
 				}
 			}
-			if(all_nodes_of_ss.length > 0){
+			if(all_nodes_of_ssr.length > 0){
 				dbus["ssrconf_basic_max_node"] = Math.max.apply(null, all_nodes_of_ssr);
 			}else{
 				dbus["ssrconf_basic_max_node"] = "";
 			}
-			//dbus["ssrconf_basic_node_max"] = all_nodes_of_ssr.length;
+			dbus["ssrconf_basic_node_max"] = all_nodes_of_ssr.length;
 		}
 		function tabSelect(obj){
 			var tableX = ['app1-tab','app2-tab','app9-tab', 'app10-tab', 'app11-tab', 'app3-tab','app4-tab','app5-tab','app6-tab','app7-tab','app8-tab'];
@@ -1439,85 +1523,121 @@
 		function save_node(){
 			status_time = 999999990;
 			// ss: collect node data from ss pannel
-			var data = ss_node.getAllData();
-			if(data.length > 0){
-				for ( var i = 0; i < data.length; ++i ) {
-					for ( var j = 0; j < ssconf.length; ++j ) {
-						dbus[ssconf[j] + (i + 1)] = data[i][j + 1] || "";
+			var skipd;
+			$.ajax({
+			  	type: "GET",
+			 	url: "/_api/ss",
+			  	dataType: "json",
+			  	async:false,
+			 	success: function(data){
+			 	 	skipd = data.result[0];
+					var data = ss_node.getAllData();
+					if(data.length > 0){
+						// ss: rewrite ss node data
+						for ( var i = 0; i < data.length; ++i ) {
+							for ( var j = 0; j < ssconf.length; ++j ) {
+								dbus[ssconf[j] + (i + 1)] = data[i][j + 1] || "";
+								dbus["ssconf_basic_mode_1"] = data[0][1];
+							}
+							dbus["ssconf_basic_lb_enable_" +  (i + 1)] = dbus["ssconf_basic_lb_enable_" + data[i][0]] || "";
+							dbus["ssconf_basic_lb_policy_" +  (i + 1)] = dbus["ssconf_basic_lb_policy_" + data[i][0]] || "";
+							dbus["ssconf_basic_lb_weight_" +  (i + 1)] = dbus["ssconf_basic_lb_weight_" + data[i][0]] || "";
+							dbus["ssconf_basic_server_ip_" +  (i + 1)] = dbus["ssconf_basic_server_ip_" + data[i][0]] || "";
+						}
+						// ss: now clean data after node_max
+						for ( var i = data.length; i < parseInt(dbus["ssconf_basic_max_node"]); ++i ) {
+							for ( var j = 0; j < ssconf.length; ++j ) {
+								dbus[ssconf[j] + (i + 1)] =  "";
+							}
+							dbus["ssconf_basic_lb_enable_" +  (i + 1)] = "";
+							dbus["ssconf_basic_lb_policy_" +  (i + 1)] = "";
+							dbus["ssconf_basic_lb_weight_" +  (i + 1)] = "";
+							dbus["ssconf_basic_server_ip_" +  (i + 1)] = "";
+						}
+					}else{
+						// ss: mark all node data for delete first
+						for ( var i = 1; i <= skipd["ssconf_basic_node_max"]; i++){
+							for ( var j = 0; j < ssconf.length; ++j ) {
+								dbus[ssconf[j] + i ] = ""
+							}
+						}
+						dbus["ssconf_basic_max_node"] = "";
+						dbus["ssconf_basic_node_max"] = "";
 					}
-					dbus["ssconf_basic_lb_enable_" +  (i + 1)] = dbus["ssconf_basic_lb_enable_" + data[i][0]] || "";
-					dbus["ssconf_basic_lb_policy_" +  (i + 1)] = dbus["ssconf_basic_lb_policy_" + data[i][0]] || "";
-					dbus["ssconf_basic_lb_weight_" +  (i + 1)] = dbus["ssconf_basic_lb_weight_" + data[i][0]] || "";
-					dbus["ssconf_basic_server_ip_" +  (i + 1)] = dbus["ssconf_basic_server_ip_" + data[i][0]] || "";
-				}
-				for ( var i = data.length; i < parseInt(dbus["ssconf_basic_max_node"]); ++i ) {
-					for ( var j = 0; j < ssconf.length; ++j ) {
-						dbus[ssconf[j] + (i + 1)] =  "";
+					
+					// ssr: collect node data from ssr pannel
+					var data = ssr_node.getAllData();
+					if(data.length > 0){
+						kcp_node_nu = parseInt(skipd["ss_kcp_node"])
+						// ss: rewrite ssr node data
+						for ( var i = 0; i < data.length; ++i ) {
+							for ( var j = 0; j < ssrconf.length; ++j ) {
+								dbus[ssrconf[j] + (i + 1)] = data[i][j + 1] || "";
+							}
+							dbus["ssrconf_basic_group_" +  (i + 1)] = dbus["ssrconf_basic_group_" + data[i][0]] || "";
+							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = dbus["ssrconf_basic_lb_enable_" + data[i][0]] || "";
+							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = dbus["ssrconf_basic_lb_policy_" + data[i][0]] || "";
+							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = dbus["ssrconf_basic_lb_weight_" + data[i][0]] || "";
+							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = dbus["ssrconf_basic_server_ip_" + data[i][0]] || "";
+						}
+						// ss: now clean data after node_max
+						for ( var i = data.length; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
+							for ( var j = 0; j < ssrconf.length; ++j ) {
+								dbus[ssrconf[j] + (i + 1)] =  "";
+							}
+							dbus["ssrconf_basic_group_" +  (i + 1)] = "";
+							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
+							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
+							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
+							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
+						}
+					}else{
+						// ssr: mark all node data for delete first
+						for ( var i = 1; i <= skipd["ssrconf_basic_node_max"]; i++){
+							for ( var j = 0; j < ssrconf.length; ++j ) {
+								dbus[ssrconf[j] + i ] = ""
+							}
+						}
+						dbus["ssrconf_basic_max_node"] = "";
+						dbus["ssrconf_basic_node_max"] = "";
 					}
-					dbus["ssconf_basic_lb_enable_" +  (i + 1)] = "";
-					dbus["ssconf_basic_lb_policy_" +  (i + 1)] = "";
-					dbus["ssconf_basic_lb_weight_" +  (i + 1)] = "";
-					dbus["ssconf_basic_server_ip_" +  (i + 1)] = "";
-				}
-			}else{
-				dbus["ssconf_basic_max_node"] = "";
-				dbus["ssconf_basic_node_max"] = "";
-			}
-
-			// ssr: collect node data from ssr pannel
-			var data = ssr_node.getAllData();
-			if(data.length > 0){
-				for ( var i = 0; i < data.length; ++i ) {
-					for ( var j = 0; j < ssrconf.length; ++j ) {
-						dbus[ssrconf[j] + (i + 1)] = data[i][j + 1] || "";
+					// now change kcp node number
+					if (kcp_diff != 0){
+						dbus["ss_kcp_node"] = parseInt(dbus["ss_kcp_node"]) - kcp_diff;
 					}
-					dbus["ssrconf_basic_group_" +  (i + 1)] = dbus["ssrconf_basic_group_" + data[i][0]] || "";
-					dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = dbus["ssrconf_basic_lb_enable_" + data[i][0]] || "";
-					dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = dbus["ssrconf_basic_lb_policy_" + data[i][0]] || "";
-					dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = dbus["ssrconf_basic_lb_weight_" + data[i][0]] || "";
-					dbus["ssrconf_basic_server_ip_" +  (i + 1)] = dbus["ssrconf_basic_server_ip_" + data[i][0]] || "";
-				}
-				for ( var i = data.length; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
-					for ( var j = 0; j < ssrconf.length; ++j ) {
-						dbus[ssrconf[j] + (i + 1)] =  "";
+					// now change ss node nubmer
+					if (ss_node_diff){
+						dbus["ss_basic_node"] = parseInt(dbus["ss_basic_node"]) - ss_node_diff;
 					}
-					dbus["ssrconf_basic_group_" +  (i + 1)] = "";
-					dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
-					dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
-					dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
-					dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
-				}
-			}else{
-				dbus["ssrconf_basic_max_node"] = "";
-				dbus["ssrconf_basic_node_max"] = "";
-			}
-			// now post data
-			 var id4 = parseInt(Math.random() * 100000000);
-			 var postData3 = {"id": id4, "method": "ss_conf.sh", "params":[9], "fields": dbus};
-			 showMsg("msg_warring","保存节点信息！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
-			 $.ajax({
-			 	url: "/_api/",
-			 	type: "POST",
-			 	async:true,
-			 	cache:false,
-			 	dataType: "json",
-			 	data: JSON.stringify(postData3),
-			 	success: function(response){
-			 		if (response.result == id4){
-			 			$('#msg_warring').hide();
-			 			showMsg("msg_success","保存成功","<b>请稍候，页面将自动刷新...</b>");
-			 			x = 4;
-			 			count_down_switch();
-			 		}else{
-			 			$('#msg_warring').hide();
-			 			showMsg("msg_error","提交失败","<b>提交节点数据失败！错误代码：" + response.result + "</b>");
-			 			return false;
-			 		}
-			 	},
-			 	error: function(){
-			 		showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
-			 	}
-			 });
+					//now post data
+					var id4 = parseInt(Math.random() * 100000000);
+					var postData3 = {"id": id4, "method": "ss_conf.sh", "params":[9], "fields": dbus};
+					showMsg("msg_warring","保存节点信息！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
+					$.ajax({
+						url: "/_api/",
+						type: "POST",
+						async:true,
+						cache:false,
+						dataType: "json",
+						data: JSON.stringify(postData3),
+						success: function(response){
+							if (response.result == id4){
+								$('#msg_warring').hide();
+								showMsg("msg_success","保存成功","<b>请稍候，页面将自动刷新...</b>");
+								x = 4;
+								count_down_switch();
+							}else{
+								$('#msg_warring').hide();
+								showMsg("msg_error","提交失败","<b>提交节点数据失败！错误代码：" + response.result + "</b>");
+								return false;
+							}
+						},
+						error: function(){
+							showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
+						}
+					});
+			  	}
+			});
 		}
 		function save(){
 			status_time = 999999990;
@@ -1676,6 +1796,7 @@
 					dbus["ss_basic_type"] = 0;
 				}else{
 					dbus["ss_lb_node_max"] = "";
+					dbus["ss_lb_node_ex"] = "";
 				}
 			}else{
 				var data = lb.getAllData();
@@ -1689,6 +1810,7 @@
 					dbus["ss_basic_type"] = 1;
 				}else{
 					dbus["ss_lb_node_max"] = "";
+					dbus["ss_lb_node_ex"] = "";
 				}
 			}
 
@@ -2068,15 +2190,24 @@
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
 		</div>
 		<div class="content">
-			<div id="ss_switch_pannel" class="section"></div>
+			<div id="ss_switch_pannel" class="section">
+				<fieldset>
+					<label class="col-sm-3 control-left-label" for="_undefined">shadowsocks开关</label>
+						<div class="switch_field" style="display:table-cell;float: left;">
+							<label for="_ss_basic_enable">
+								<input type="checkbox" class="switch" name="ss_basic_enable" onclick="verifyFields(this, 1)" onchange="verifyFields(this, 1)" id="_ss_basic_enable" style="display: none;"/>
+								<div class="switch_container" >
+									<div class="switch_bar"></div>
+									<div class="switch_circle transition_style">
+										<div></div>
+									</div>
+								</div>
+							</label>
+						</div>
+				</fieldset>
+			</div>
 			<script type="text/javascript">
-				$('#ss_switch_pannel').forms([
-					{ title: 'shadowsocks开关', multi: [
-						{ name:'ss_basic_enable',type:'checkbox',  value: dbus.ss_basic_enable == 1 },  // ==1 means default close; !=0 means default open
-						{ suffix: '<font id="_ss_mode_status" color="#1bbf35"></font>' }
-					]},				
-				]);
-				$('#_ss_basic_enable').parent().parent().css("margin-left","10px");
+				E("_ss_basic_enable").checked = dbus["ss_basic_enable"] == 1 ? true : false
 			</script>
 			<hr />
 			<fieldset id="ss_status_pannel">
@@ -2190,7 +2321,7 @@
 					]);
 				}
 				var node_kcp=dbus["ss_kcp_node"];
-				if (node_kcp && (dbus["ssconf_basic_max_node"]|| dbus["ssrconf_basic_max_node"])){
+				if (node_kcp && (dbus["ssconf_basic_max_node"] || dbus["ssrconf_basic_max_node"])){
 					var node_html=$("#_ss_basic_node option[value='" + node_kcp +"']")[0].innerHTML;
 					if (dbus["ss_kcp_enable"] == 1){
 						if (node_html.indexOf("SSR") != -1){
@@ -2249,9 +2380,6 @@
 				]);
 				document.getElementById("haproxy_console1").href = "http://"+location.hostname+":1188";
 				document.getElementById("haproxy_console1").innerHTML = "<i><u>http://"+location.hostname+":1188</i></u>";
-				//$('#_ss_lb_login').parent().css("margin-top","4px");
-				$('#_ss_lb_enable').parent().parent().css("margin-left","-10px");
-				$('#_ss_lb_heartbeat').parent().parent().css("margin-left","-10px");
 				$("#_ss_lb_node option[value='0']").remove();
 				$("#_ss_lb_node").val(1);
 			</script>
@@ -2297,7 +2425,6 @@
 					{ title: 'KCP加速开关', name:'ss_kcp_enable', type:'checkbox',  value: dbus.ss_kcp_enable == 1 },  // ==1 means default close; !=0 means default open
 					{ title: '当前KCP版本', rid:'ss_kcp_version', text:'<font id="_ss_kcp_version" color="#1bbf35">20170904</font>'},
 				]);
-				$('#_ss_kcp_enable').parent().parent().css("margin-left","-6px");
 			</script>
 			</div>
 		</div>

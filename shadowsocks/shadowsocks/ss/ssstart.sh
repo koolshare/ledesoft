@@ -310,7 +310,6 @@ creat_ss_json(){
 				}
 			EOF
 		fi
-		start_kcp
 	else
 		echo_date 创建SS配置文件到$CONFIG_FILE
 		if [ "$ss_basic_type" == "0" ];then
@@ -1260,6 +1259,7 @@ restart)
 	create_dnsmasq_conf
 	auto_start
 	start_ss_redir
+	start_kcp
 	load_nat
 	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	restart_dnsmasq
@@ -1301,6 +1301,7 @@ lb_restart)
 	kill_process
 	load_nat
 	start_ss_redir
+	start_kcp
 	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	start_dns
 	create_dnsmasq_conf
