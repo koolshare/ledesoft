@@ -5,7 +5,7 @@ VERSION=1.1.4
 TITLE="Server酱"
 DESCRIPTION="推送路由器信息到微信~"
 HOME_URL=Module_serverchan.asp
-CHANGELOG="修复流量不显示"
+CHANGELOG="修复网络重启信息不全"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
