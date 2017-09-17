@@ -20,7 +20,8 @@ rm -rf $KSROOT/bin/dnscrypt-proxy
 rm -rf $KSROOT/bin/dns2socks
 rm -rf $KSROOT/bin/chinadns
 rm -rf $KSROOT/bin/resolveip
-
+rm -rf /usr/lib/lua/luci/controller/sadog.lua
+rm -rf /tmp/luci-*
 
 dbus remove softcenter_module_shadowsocks_home_url
 dbus remove softcenter_module_shadowsocks_install

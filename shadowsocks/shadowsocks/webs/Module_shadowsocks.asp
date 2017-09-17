@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
 	.box {
-		min-width:1000px;
+		min-width:1065px;
 	}
 	.c-checkbox {
 		margin-left:-10px;
@@ -105,7 +105,7 @@
 		var select_style="min-width:182px;max-width:182px";
 		
 		for(var i = 0; i < 24; i++){
-			option_hour_time[i] = [i, i + "时"];
+			option_hour_time[i] = [i, i + "点"];
 		}
 		if (typeof btoa == "Function") {
 			Base64 = {
@@ -308,11 +308,13 @@
 		//============================================
 		var ss_node = new TomatoGrid();
 		ss_node.dataToView = function(data) {
-			return [ data[0], option_mode_name[data[1]], data[2] || "节点" + data.length, data[3], data[4], "******", data[6], (data[7] == 0 ? "" : data[7]), data[8]];
+			return [ data[0], option_mode_name[data[1]], data[2] || "节点" + data.length, data[3], data[4], "******", data[6], (data[7] == 0 ? "" : data[7]), data[8], data[9]];
 		}
 		ss_node.verifyFields = function( row, quiet ) {
 			E('_ss_node-grid_1').disabled = true;
 			E('_ss_node-grid_1').style.display = "none";
+			E('_ss_node-grid_10').disabled = true;
+			E('_ss_node-grid_10').style.display = "none";
 			var f = fields.getAll( row );
 			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet );
 		}
@@ -329,6 +331,7 @@
 			f[ 6 ].selectedIndex   = '';
 			f[ 7 ].selectedIndex   = '';
 			f[ 8 ].value   = '';
+			f[ 9 ].value   = '';
 		}
 		ss_node.onDelete = function() {
 			this.removeEditor();
@@ -476,9 +479,10 @@
 				{ type: 'text', maxlen: 50 },
 				{ type: 'select', options:option_method,value:''},
 				{ type: 'select', options:option_ss_obfs,value:''},
+				{ type: 'text', maxlen: 50 },
 				{ type: 'text', maxlen: 50 }
 			] );
-			this.headerSet( [ '序号',  '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '混淆(AEAD)', '混淆主机名' ] );
+			this.headerSet( [ '序号',  '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '混淆(AEAD)', '混淆主机名', 'ping延迟' ] );
 			for ( var i = 1; i <= dbus["ssconf_basic_node_max"]; i++){
 				var t1 = [
 					String(i),
@@ -489,23 +493,28 @@
 					dbus["ssconf_basic_password_" + i ],
 					dbus["ssconf_basic_method_" + i ],
 					dbus["ssconf_basic_ss_obfs_" + i ] || "关闭",
-					dbus["ssconf_basic_ss_obfs_host_" + i ] || " "
+					dbus["ssconf_basic_ss_obfs_host_" + i ] || " ",
+					" "
 					]
-				if ( t1.length == 9 ) this.insertData( -1, t1 );
+				if ( t1.length == 10 ) this.insertData( -1, t1 );
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
 			E('_ss_node-grid_1').disabled = true;
 			E('_ss_node-grid_1').style.display = "none";
+			E('_ss_node-grid_10').disabled = true;
+			E('_ss_node-grid_10').style.display = "none";
 		}
 		//============================================
 		var ssr_node = new TomatoGrid();
 		ssr_node.dataToView = function(data) {
-			return [ data[0], option_mode_name[data[1]], data[2], data[3], data[4], "******", data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10]];
+			return [ data[0], option_mode_name[data[1]], data[2], data[3], data[4], "******", data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
 		}
 		ssr_node.verifyFields = function( row, quiet ) {
 			E('_ssr_node-grid_1').disabled = true;
 			E('_ssr_node-grid_1').style.display = "none";
+			E('_ssr_node-grid_12').disabled = true;
+			E('_ssr_node-grid_12').style.display = "none";
 			var f = fields.getAll( row );
 			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet ) && v_domain( f[10], quiet );
 		}
@@ -524,6 +533,7 @@
 			f[ 8 ].value   = '';
 			f[ 9 ].selectedIndex   = '';
 			f[ 10 ].value   = '';
+			f[ 11 ].value   = '';
 		}
 		ssr_node.onDelete = function() {
 			this.removeEditor();
@@ -673,9 +683,10 @@
 				{ type: 'select',maxlen:40,options:option_ssr_protocal,value:''},
 				{ type: 'text', maxlen: 50 },
 				{ type: 'select',maxlen:40,options:option_ssr_obfs,value:''},
+				{ type: 'text', maxlen: 50 },
 				{ type: 'text', maxlen: 50 }
 			] );
-			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数' ] );
+			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数', 'ping延迟' ] );
 
 			for ( var i = 1; i <= dbus["ssrconf_basic_node_max"]; i++){
 				var t2 = [
@@ -689,14 +700,17 @@
 						dbus["ssrconf_basic_rss_protocal_" + i ],
 						dbus["ssrconf_basic_rss_protocal_para_" + i ] || "",
 						dbus["ssrconf_basic_rss_obfs_" + i ],
-						dbus["ssrconf_basic_rss_obfs_para_" + i ] || ""]  
-				if ( t2.length == 11 ) this.insertData( -1, t2 );
+						dbus["ssrconf_basic_rss_obfs_para_" + i ] || "",
+						" "
+						]  
+				if ( t2.length == 12 ) this.insertData( -1, t2 );
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
 			E('_ssr_node-grid_1').disabled = true;
-			E('_ssr_node-grid_1').placeholder = "禁止输入";
 			E('_ssr_node-grid_1').style.display = "none";
+			E('_ssr_node-grid_12').disabled = true;
+			E('_ssr_node-grid_12').style.display = "none";
 		}
 		//============================================
 		var lb = new TomatoGrid();
@@ -994,9 +1008,75 @@
 			verifyFields();
 			auto_node_sel();
 			hook_event();
+			ping_node();
 			setTimeout("get_run_status();", 2000);
 			setTimeout("get_dns_status();", 2200);
 		}
+		function ping_node() {
+			if(softcenter == 1){
+				return false;
+			}
+			var pings = document.getElementsByClassName('co4');
+			//if (E("_ss_basic_ping_method").value == "1" ){
+				for(var i = 0; i<pings.length; i++)	{
+					if (pings[i].innerHTML.indexOf("\.") != -1){
+						XHR.get('/cgi-bin/luci/admin/services/sadog/ping', {index: i, domain: pings[i].innerHTML},
+							function(x, result){
+								if(softcenter == 1){
+									window.location.reload();
+									return false;
+								}
+								if (pings[result.index].parentNode.getElementsByClassName('co12').length == 1){
+									pings[result.index].parentNode.getElementsByClassName('co12')[0].innerHTML = result.ping? result.ping + " ms" : "failed"
+								}else{
+									pings[result.index].parentNode.getElementsByClassName('co10')[0].innerHTML = result.ping? result.ping + " ms" : "failed"
+								}
+							}
+						);
+					}
+				}
+			//}
+			/*
+			else
+			{
+				if (E("_ss_basic_ping_method").value == "2" ){
+					PING_ARG = 'ping5';
+				} else if (E("_ss_basic_ping_method").value == "3" ){
+					PING_ARG = 'ping10';
+				}
+				for(var i = 0; i<pings.length; i++)	{
+					if (pings[i].innerHTML.indexOf("\.") != -1){
+						XHR.get('/cgi-bin/luci/admin/vpn/sadog/' + PING_ARG, {index: i, domain: pings[i].innerHTML},
+							function(x, result){
+								if(softcenter == 1){
+									//stop write ping
+									window.location.reload();
+									return false;
+								}else{
+									if (pings[result.index].parentNode.getElementsByClassName('co12').length == 1){
+										p = result.ping.split(" ")[0] + " ms" || "-- ms"
+										l = result.ping.split(" ")[1] + "%" || "-- %"
+										pings[result.index].parentNode.getElementsByClassName('co12')[0].innerHTML = p + " / " + l
+									}else{
+										p = result.ping.split(" ")[0] + " ms" || "-- ms"
+										l = result.ping.split(" ")[1] + "%" || "-- %"
+										pings[result.index].parentNode.getElementsByClassName('co10')[0].innerHTML = p + " / " + l
+									}	
+								}
+							}
+						);
+					}
+				}
+			}
+			*/
+			var ping_refresh = E("_ss_basic_ping_refresh").value || 0;
+			if (ping_refresh == 0){
+				return false;
+			}else{
+				setTimeout("ping_node();", ping_refresh*1000);
+			}
+		}
+		
 		function hook_event(){
 			// when click log content, stop scrolling
 			$("#_ss_basic_log").click(
@@ -1446,16 +1526,12 @@
 				E('save-node').style.display = "";
 				E('save-lb').style.display = "none";
 				E('save-kcp').style.display = "none";
-				E('save-subscribe-node').style.display = "";
-				E('dele-subscribe-node').style.display = "";
 				elem.display('ss_kcp_tab_2', false);
 			}else if(obj=='app9'){ // 负载均衡
 				E('save-button').style.display = "none";
 				E('save-node').style.display = "none";
 				E('save-lb').style.display = "";
 				E('save-kcp').style.display = "none";
-				E('save-subscribe-node').style.display = "none";
-				E('dele-subscribe-node').style.display = "none";
 				elem.display('ss_kcp_tab_2', false);
 			}else if(obj=='app10'){ // kcp
 				var a = E('_ss_kcp_enable').checked;
@@ -1463,8 +1539,6 @@
 				E('save-node').style.display = "none";
 				E('save-lb').style.display = "none";
 				E('save-kcp').style.display = "";
-				E('save-subscribe-node').style.display = "none";
-				E('dele-subscribe-node').style.display = "none";
 				// hide kcp parameter pannel when kcp not enabled
 				elem.display('ss_kcp_tab_2', a);
 			}else if(obj=='app8'){ //日志
@@ -1473,8 +1547,6 @@
 				elem.display('save-lb', false);
 				elem.display('save-kcp', false);
 				elem.display('cancel-button', false);
-				elem.display('save-subscribe-node', false);
-				elem.display('dele-subscribe-node', false);
 				elem.display('ss_kcp_tab_2', false);
 				noChange=0;
 				setTimeout("get_log();", 200);
@@ -1502,15 +1574,11 @@
 				E('save-node').style.display = "none";
 				E('save-lb').style.display = "none";
 				E('save-kcp').style.display = "none";
-				E('save-subscribe-node').style.display = "none";
-				E('dele-subscribe-node').style.display = "none";
 			}else{
 				E('save-button').style.display = "";
 				E('save-node').style.display = "none";
 				E('save-lb').style.display = "none";
 				E('save-kcp').style.display = "none";
-				E('save-subscribe-node').style.display = "none";
-				E('dele-subscribe-node').style.display = "none";
 				elem.display('ss_kcp_tab_2', false);
 				elem.display('cancel-button', true);
 				noChange=2001;
@@ -1644,7 +1712,7 @@
 			setTimeout("tabSelect('app8')", 500);
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
+			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast", "ping_refresh"];
 			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
@@ -2040,6 +2108,9 @@
 				dbus3["ssr_subscribe_mode"] = E("_ssr_subscribe_mode").value;
 				dbus3["ssr_subscribe_obfspara"] = E("_ssr_subscribe_obfspara").value;
 				dbus3["ssr_subscribe_obfspara_val"] = E("_ssr_subscribe_obfspara_val").value;
+			}else if(arg == 9){
+				//dbus3["ss_basic_ping_method"] = E("_ss_basic_ping_method").value;
+				dbus3["ss_basic_ping_refresh"] = E("_ss_basic_ping_refresh").value;
 			}else if(arg == 8){
 				var r=0; //记录没有group信息的节点
 				var data = ssr_node.getAllData();
@@ -2129,7 +2200,7 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "ss_conf.sh"){
-						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8){
+						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8 || arg == 9){
 							setTimeout("window.location.reload()", 500);
 						}else if (arg == 5){
 							setTimeout("window.location.reload()", 1000);
@@ -2183,8 +2254,9 @@
 				}
 			});
 		}
+		
 	</script>
-	<div class="box" style="margin-top: 0px;min-width:1000px;">
+	<div class="box" style="margin-top: 0px;min-width:1065px;">
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
@@ -2221,7 +2293,7 @@
 			</fieldset>
 		</div>
 	</div>
-	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:1000px;">
+	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:1065px;">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:100px"><i class="icon-system"></i> 帐号设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:100px"><i class="icon-globe"></i> 节点管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:100px"><i class="icon-tools"></i> DNS设定</a></li>
@@ -2352,6 +2424,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="box boxr9" id="ss_lb_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content">
@@ -2572,7 +2645,7 @@
 					{ title: '国内域名数量（cdn名单）', rid:'cdn_number_1', text:'<a id="cdn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/cdn.txt" target="_blank"></a>'},
 					{ title: 'shadowsocks规则自动更新', multi: [
 						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_rule_update_time', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_time || "3",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_rule_update_time', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_time || "3",suffix: ' &nbsp;&nbsp;', prefix:'每天' },
 						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
@@ -2623,7 +2696,6 @@
 				$('#ss_addon_pannel').forms([
 					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
 					{ title: 'chromecast支持<br /><br />(DNS劫持)',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0 },
-					//{ title: '开机延迟启动', name:'ss_basic_sleep',type:'select',options:option_sleep, value:dbus.ss_basic_sleep || "0" },
 					{ title: 'SS服务器地址解析', multi: [
 						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_dnslookup_server', type: 'text', value: dbus.ss_basic_dnslookup_server || "119.29.29.29", suffix: '<lable id="_ss_basic_dnslookup_txt"></lable>' }
@@ -2663,7 +2735,24 @@
 	<button type="button" value="Save" id="save-node" onclick="save_node()" class="btn btn-primary">保存节点 <i class="icon-check"></i></button>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">提交 <i class="icon-check"></i></button>
 	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
-	
+	<div class="box boxr2" id="ssr_ping_tab" style="margin-top: 30px;">
+		<div class="heading">ping测试</div>
+		<div class="content">
+			<div id="ss_ping_panel" class="tabContent">
+				<script type="text/javascript">
+					$('#ss_ping_panel').forms([
+						{ title: '节点ping测试', multi: [
+							//{ name:'ss_basic_ping_method',type:'select',options:[["1", "显示ping单次结果"], ["2", "5次ping平均 + 丢包率"], ["3", "10次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
+							{ name:'ss_basic_ping_refresh',type:'select',options:[["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
+							{ suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 9);" class="btn btn-primary">保存ping测试设置 <i class="icon-check"></i></button>' }
+							
+						]},
+					]);
+				</script>
+			</div>
+			<br><hr>
+		</div>
+	</div>
 	<div class="box boxr2" id="ssr_node_subscribe" style="margin-top: 30px;">
 		<div class="heading">SSR节点订阅</div>
 		<div class="content">
@@ -2678,9 +2767,9 @@
 					]}
 				]);
 			</script>
+			<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">获取/更新订阅 <i class="icon-check"></i></button>
 		</div>
 	</div>
-	<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 7)" class="btn btn-primary">获取/更新订阅 <i class="icon-check"></i></button>
-	<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn">删除订阅节点 <i class="icon-cancel"></i></button>
 	<script type="text/javascript">init_ss();</script>
 </content>

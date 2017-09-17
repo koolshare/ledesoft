@@ -173,7 +173,7 @@ del_none_exist(){
 				dbus remove ssrconf_basic_rss_obfs_para_$localindex
 				dbus remove ssrconf_basic_rss_protocal_$localindex
 				dbus remove ssrconf_basic_server_$localindex
-				let delnum+=1 #删除该节点
+				let delnum+=1
 			done
 		}
 	done
@@ -367,6 +367,7 @@ case $2 in
 	mkdir shadowsocks/init.d
 	mkdir shadowsocks/webs
 	mkdir shadowsocks/webs/res
+	mkdir shadowsocks/others
 	TARGET_FOLDER=/tmp/shadowsocks
 	cp $KSROOT/scripts/ss_install.sh $TARGET_FOLDER/install.sh
 	cp $KSROOT/scripts/uninstall_shadowsocks.sh $TARGET_FOLDER/uninstall.sh
@@ -386,6 +387,7 @@ case $2 in
 	cp $KSROOT/webs/Module_shadowsocks.asp $TARGET_FOLDER/webs/
 	cp $KSROOT/webs/res/icon-shadowsocks* $TARGET_FOLDER/webs/res/
 	cp -r $KSROOT/ss $TARGET_FOLDER/
+	cp /usr/lib/lua/luci/controller/sadog.lua $TARGET_FOLDER/others/
 	rm -rf $TARGET_FOLDER/ss/*.json
 
 	tar -czv -f /koolshare/webs/files/shadowsocks.tar.gz shadowsocks/
@@ -461,10 +463,6 @@ case $2 in
 		echo_date "在线订阅列表更新完成!" >> $LOG_FILE
 		echo_date "请等待3秒，本页面将自动刷新！" >> $LOG_FILE
 		echo_date "=============================================================================================" >> $LOG_FILE
-		#rm -rf /tmp/all_localservers >/dev/null 2>&1
-		#rm -rf /tmp/all_onlineservers >/dev/null 2>&1
-		#rm -rf /tmp/ssr_subscribe_file.txt >/dev/null 2>&1
-		#rm -rf /tmp/ssr_subscribe_file_temp1.txt >/dev/null 2>&1
 		sleep 3
 		http_response "$1"
 		echo XU6J03M6 >> $LOG_FILE
@@ -478,83 +476,10 @@ case $2 in
 	fi
 	;;
 8)
-	# # ssr订阅删除
-	# echo_date "=============================================================================================" > $LOG_FILE
-	# echo_date "准备删除所有的订阅节点，本操作不会影响手动输入的节点..." >> $LOG_FILE
-	# sleep 1
-	# delconfs=`dbus list ssrconf_basic_group_ | cut -d "=" -f 1|cut -d "_" -f4`
-	# if [ -n "$delconfs" ];then
-	# 	for conf_nu in $delconfs
-	# 	do
-	# 		echo_date "删除节点：$(dbus get ssrconf_basic_name_$conf_nu)" >> $LOG_FILE
-	# 		dbus remove ssrconf_basic_name_$conf_nu
-	# 		dbus remove ssrconf_basic_mode_$conf_nu
-	# 		dbus remove ssrconf_basic_server_$conf_nu
-	# 		dbus remove ssrconf_basic_server_ip_$conf_nu
-	# 		dbus remove ssrconf_basic_port_$conf_nu
-	# 		dbus remove ssrconf_basic_rss_protocal_$conf_nu
-	# 		dbus remove ssrconf_basic_method_$conf_nu
-	# 		dbus remove ssrconf_basic_rss_obfs_$conf_nu
-	# 		dbus remove ssrconf_basic_password_$conf_nu
-	# 		dbus remove ssrconf_basic_rss_obfs_para_$conf_nu
-	# 		dbus remove ssrconf_basic_group_$conf_nu
-	# 		dbus remove ssrconf_basic_lb_enable_$conf_nu
-	# 		dbus remove ssrconf_basic_lb_policy_$conf_nu
-	# 		dbus remove ssrconf_basic_lb_weight_$conf_nu
-	# 	done
-	# 	remove_node_gap
-	# 	# check max nu
-	# 	dbus set ssrconf_basic_node_max=`dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|wc -l`	
-	# 	echo_date "所有的订阅节点已经删除，如果还有残余，请手动在节点列表进行删除操作..." >> $LOG_FILE
-	# else
-	# 	remove_node_gap
-	# 	echo_date "节点列表里没有发现订阅的节点，退出操作..." >> $LOG_FILE
-	# 	echo_date "退出操作..." >> $LOG_FILE
-	# 	echo_date "=============================================================================================" >> $LOG_FILE
-	# fi
-	# sleep 2
-	# echo XU6J03M6 >> $LOG_FILE
 	sleep 1
 	http_response "$1"
 	;;
 9)
-	#echo_date "======================================= 节点保存 ==============================================" > $LOG_FILE
-	#sleep 1
-	#使订阅节点总是在最后排
-	#rearrange_node_order >> $LOG_FILE
-
-	#echo_date 一些清理工作...
-	##清理残留的group信息
-	#confs1=`dbus list ssrconf_basic_group_ | cut -d "=" -f 1|cut -d "_" -f4`
-	#for conf in $confs1
-	#do
-	#	if [ -z "`dbus get ssrconf_basic_port_$conf`" ];then
-	#		echo_date 清理 ssrconf_basic_group_$conf
-	#		dbus remove ssrconf_basic_group_$conf
-	#	fi
-	#done
-	#
-	##清理残留的服务器ip信息信息
-	#confs2=`dbus list ssrconf_basic_server_ip_ | cut -d "=" -f 1|cut -d "_" -f5`
-	#for conf in $confs1
-	#do
-	#	if [ -z "`dbus get ssrconf_basic_port_$conf`" ];then
-	#		echo_date 清理 ssrconf_basic_server_ip_$conf
-	#		dbus remove ssrconf_basic_server_ip_$conf
-	#	fi
-	#done
-	#echo_date "======================================= 节点保存成功 =============================================" >> $LOG_FILE
-	#sleep 1
-	#echo XU6J03M6 >> $LOG_FILE
 	http_response "$1"
 	;;
 esac
-
-
-
-
-
-
-
-
-
