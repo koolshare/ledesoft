@@ -11,15 +11,15 @@
             "version": "0.2.4"
         }, 
         {
-            "build_date": "2017-09-16_11:15:18", 
+            "build_date": "2017-09-17_21:06:17", 
             "changelog": "修复流量不显示", 
             "description": "推送路由器信息到微信~", 
             "home_url": "Module_serverchan.asp", 
-            "md5": "ad22745c4e3d9f9f1d47a50d913d51bb", 
+            "md5": "1e3ab7f9cdedb96de1682a24f9d06b9c", 
             "name": "serverchan", 
             "tar_url": "serverchan/serverchan.tar.gz", 
             "title": "Server酱", 
-            "version": "1.1.3"
+            "version": "1.1.4"
         }, 
         {
             "build_date": "2017-09-14_09:44:39", 
