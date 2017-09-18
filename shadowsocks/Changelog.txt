@@ -7,6 +7,7 @@ Koolshare LEDE-X64 shadowsocks Changelog
    - fix	修复节点域名解析出错的问题；
    - update	节点订阅现在可以订阅多个商家的节点不会覆盖；
    - fix	修复当kcp启用时，订阅节点有一定几率导致界面出错；
+   - update	现在可以保存更多节点而不会提示错误（需要更新软件中心0.2.2或者更新）
 
 1.7.5
    - add	添加简单的节点ping支持；
