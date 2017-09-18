@@ -49,7 +49,7 @@ function loadPage( page, is_history ) {
 
 
     // Switch to JQUERY AJAX function call (doesn't capture errors allowing much easier debugging)
-    $.ajax( { url: page, async: true, cache: false, timeout: 2950 } )
+    $.ajax( { url: page, async: true, cache: false, timeout: 4000 } )
         .done( function( resp ) {
 
             var dom   = $( resp );
