@@ -1,6 +1,6 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
-1.7.6
+1.7.6 - 1.7.7
    - 说明	此版本主要是修复SS插件和LEDE 2.3固件的几个兼容性问题；
    			【重要】另外，凡是在安装ss插件后又更新了固件的，ping不显示的，都需要重装一次ss插件！
    - fix	修复ss-libev二进制在LEDE 2.3中不能使用的问题；
@@ -8,7 +8,7 @@ Koolshare LEDE-X64 shadowsocks Changelog
    - update	节点订阅现在可以订阅多个商家的节点不会覆盖；
    - fix	修复当kcp启用时，订阅节点有一定几率导致界面出错；
    - update	现在可以保存更多节点而不会提示错误（需要更新软件中心0.2.2或者更新）
-
+   - fix	修复ssstart.sh脚本使用ps -l命令报错
 1.7.5
    - add	添加简单的节点ping支持；
 

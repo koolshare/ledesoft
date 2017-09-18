@@ -20,6 +20,8 @@ rm -rf $KSROOT/bin/dnscrypt-proxy
 rm -rf $KSROOT/bin/dns2socks
 rm -rf $KSROOT/bin/chinadns
 rm -rf $KSROOT/bin/resolveip
+rm -rf $KSROOT/bin/busybox
+rm -rf $KSROOT/bin/ps
 rm -rf /usr/lib/lua/luci/controller/sadog.lua
 rm -rf /tmp/luci-*
 

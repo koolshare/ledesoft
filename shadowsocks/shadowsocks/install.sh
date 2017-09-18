@@ -59,6 +59,8 @@ rm -rf $KSROOT/bin/dnscrypt-proxy >/dev/null 2>&1
 rm -rf $KSROOT/bin/dns2socks >/dev/null 2>&1
 rm -rf $KSROOT/bin/chinadns >/dev/null 2>&1
 rm -rf $KSROOT/bin/resolveip >/dev/null 2>&1
+rm -rf $KSROOT/bin/busybox >/dev/null 2>&1
+rm -rf $KSROOT/bin/ps >/dev/null 2>&1
 rm -rf /usr/lib/lua/luci/controller/sadog.lua >/dev/null 2>&1
 [ -f "/koolshare/webs/files/shadowsocks.tar.gz" ] && rm -rf /koolshare/webs/files/shadowsocks.tar.gz
 
@@ -72,6 +74,7 @@ cp -rf /tmp/shadowsocks/webs/* $KSROOT/webs/
 cp /tmp/shadowsocks/install.sh $KSROOT/scripts/ss_install.sh
 cp /tmp/shadowsocks/uninstall.sh $KSROOT/scripts/uninstall_shadowsocks.sh
 cp -rf /tmp/shadowsocks/others/sadog.lua /usr/lib/lua/luci/controller/
+[ ! -L "/koolshare/bin/ps" ] && ln -sf /koolshare/bin/busybox /koolshare/bin/ps
 
 # delete luci cache
 rm -rf /tmp/luci-*
