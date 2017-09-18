@@ -1,14 +1,15 @@
 {
     "apps": [
         {
-            "build_date": "2017-08-22_12:57:34", 
+            "build_date": "2017-09-19_00:19:56", 
+            "changelog": "", 
             "description": "在线更新路由器固件", 
             "home_url": "Module_fwupdate.asp", 
-            "md5": "c6389c5a65d3266870fff934c9cab5b6", 
+            "md5": "a6335c052e1385fbe07fcc1639b2dc9c", 
             "name": "fwupdate", 
             "tar_url": "fwupdate/fwupdate.tar.gz", 
             "title": "固件更新", 
-            "version": "0.2.4"
+            "version": "0.2.5"
         }, 
         {
             "build_date": "2017-09-17_21:08:59", 

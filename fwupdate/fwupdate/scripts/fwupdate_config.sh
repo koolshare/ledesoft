@@ -69,7 +69,7 @@ get_update(){
 		fwfile=$(cat /tmp/fwversion | sed -n 1p)
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)
 		fwlast=$(cat /tmp/fwversion | sed -n 3p)
-		echo_date "本地固件版本为：$fwlast"
+		echo_date "本地固件版本为：$fwlocal"
 		echo_date "最新固件版本为：$fwlast"
 		echo_date "============================================"
 		sleep 2
