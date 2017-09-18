@@ -47,9 +47,25 @@ if [ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ];then
 	fi
 fi
 
+# fix missing sadog.lua
+if [ -f "/koolshare/ss/version" ];then
+	SS_VERSION=`/koolshare/ss/version`
+	SS_COMP=`versioncmp $SS_VERSION 1.7.5`
+	if [ "$SS_VERSION" != "1" ] && [ ! -f "/usr/lib/lua/luci/controller/sadog.lua" ];then
+		#start fix
+		wget -O- https://ledesoft.ngrok.wang/shadowsocks/shadowsocks/others/sadog.lua >/usr/lib/lua/luci/controller/sadog.lua
+		if [ "$?" != "0" ];then
+		# download failed
+			wget -O- https://raw.githubusercontent.com/koolshare/ledesoft/master/shadowsocks/shadowsocks/others/sadog.lua >/usr/lib/lua/luci/controller/sadog.lua
+		fi
+		# delete luci cache
+		rm -rf /tmp/luci-*
+	fi
+fi
+
 # fix init.d start up scripts lost
 /bin/ls -L /etc/rc.d/*.sh >/dev/null 2>&1
-if [ "$?" == "1" ];then
+if [ "$?" != "0" ];then
 	cd /etc/rc.d
 	FILES=`ls -Fp *.sh|sed 's/@//g'`
 	for file in $FILES
@@ -64,10 +80,3 @@ fi
 
 sleep 1
 rm -rf /tmp/hotfix* >/dev/null 2>&1
-
-
-
-
-
-
-
