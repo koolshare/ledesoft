@@ -394,7 +394,6 @@ case $2 in
 	cp $KSROOT/bin/resolveip $TARGET_FOLDER/bin/
 	cp $KSROOT/bin/haproxy $TARGET_FOLDER/bin/
 	cp $KSROOT/bin/kcpclient $TARGET_FOLDER/bin/
-	cp $KSROOT/bin/busybox $TARGET_FOLDER/bin/
 	cp $KSROOT/scripts/ss_* $TARGET_FOLDER/scripts/
 	cp $KSROOT/init.d/S99shadowsocks.sh $TARGET_FOLDER/init.d
 	cp $KSROOT/webs/Module_shadowsocks.asp $TARGET_FOLDER/webs/

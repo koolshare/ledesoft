@@ -1233,7 +1233,7 @@ get_status(){
 }
 
 # router is on boot
-ONSTART=`/koolshare/bin/ps -l|grep $PPID|grep -v grep|grep S99shadowsocks`
+ONSTART=`ps -l|grep $PPID|grep -v grep|grep S99shadowsocks`
 case $1 in
 restart)
 	# used by web for start/restart; or by system for startup by S99shadowsocks.sh in rc.d
