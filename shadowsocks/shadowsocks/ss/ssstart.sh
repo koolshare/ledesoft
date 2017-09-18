@@ -200,6 +200,7 @@ resolv_server_ip(){
 		echo_date 使用nslookup方式解析服务器的ip地址,解析dns：$ss_basic_dnslookup_server
 		if [ "$ss_basic_dnslookup" == "1" ];then
 			server_ip=`nslookup "$ss_basic_server" $ss_basic_dnslookup_server | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
+			#server_ip=`/usr/bin/nslookup "$ss_basic_server" $ss_basic_dnslookup_server |grep "Address 1"|awk '{print $3}'`
 		else
 			echo_date 使用resolveip方式解析服务器的ip地址.
 			server_ip=`resolveip -4 -t 2 $ss_basic_server|awk 'NR==1{print}'`
@@ -713,6 +714,8 @@ create_dnsmasq_conf(){
 	echo "ipset=/.raw.githubusercontent.com/router" >> /tmp/wblist.conf
 	echo "server=/.apnic.net/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
+	echo "server=/.onetive.com/127.0.0.1#7913" >> /tmp/wblist.conf
+	echo "ipset=/.onetive.com/router" >> /tmp/wblist.conf
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
 	if [ -n "$ss_wan_white_domain" ];then

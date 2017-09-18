@@ -104,15 +104,18 @@ get_remote_config(){
 			group=$(decode_url_link $group_temp 0)
 		fi
 	fi
+	[ -n "$group" ] && group_md5=`echo $group | md5sum | sed 's/ -//g'`
+	[ -n "$server" ] && server_md5=`echo $server | md5sum | sed 's/ -//g'`
 	
 	##把全部服务器节点写入文件 /usr/share/shadowsocks/serverconfig/all_onlineservers
-	echo $server >> /tmp/all_onlineservers
+	echo $server_md5 $group_md5 >> /tmp/all_onlineservers
 }
 
 update_config(){
 	#isadded_server=$(uci show shadowsocks | grep -c "server=\'$server\'")
-	isadded_server=$(cat /tmp/all_localservers|grep -wc $server)
+	isadded_server=$(cat /tmp/all_localservers | grep $group_md5 | awk '{print $1}' | grep -c $server_md5)
 	if [ "$isadded_server" -eq 0 ]; then
+		# 如果在本地的订阅节点中没有找到该节点，则是新节点，需要添加
 		ssindex=$(($(dbus get ssrconf_basic_node_max)+1))
 		#echo add $ssindex >> $LOG_FILE
 		echo_date 添加SSR节点：$remarks >> $LOG_FILE
@@ -131,7 +134,8 @@ update_config(){
 		[ "$ssr_subscribe_obfspara" == "2" ] && dbus set ssrconf_basic_rss_obfs_para_$ssindex=$ssr_subscribe_obfspara_val
 		let addnum+=1
 	else
-		index=$(cat /tmp/all_localservers|grep -v ssrconf_basic_server_ip_|grep -w $server|cut -d "_" -f 4 |cut -d "=" -f1)
+		# 如果在本地的订阅节点中没找到该节点，检测下配置是否更改，如果更改，则更新配置
+		index=$(cat /tmp/all_localservers| grep $group_md5 | grep $server_md5 |awk '{print $3}')
 		local_server_port=$(dbus get ssrconf_basic_port_$index)
 		local_protocol=$(dbus get ssrconf_basic_rss_protocal_$index)
 		local_encrypt_method=$(dbus get ssrconf_basic_method_$index)
@@ -157,10 +161,12 @@ update_config(){
 
 del_none_exist(){
 	#删除订阅服务器已经不存在的节点
-	for localserver in $(cat /tmp/all_localservers|cut -d "=" -f2)
+	for localserver in $(cat /tmp/all_localservers| grep $group_md5|awk '{print $1}')
 	do
-		[ "`cat /tmp/all_onlineservers | grep -wc $localserver`" -eq "0" ] && {
-			for localindex in $(dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|grep -w $localserver|cut -d "_" -f 4 |cut -d "=" -f1)
+		if [ "`cat /tmp/all_onlineservers | grep -c $localserver`" -eq "0" ];then
+			del_index=`cat /tmp/all_localservers | grep $localserver | awk '{print $3}'`
+			#for localindex in $(dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|grep -w $localserver|cut -d "_" -f 4 |cut -d "=" -f1)
+			for localindex in $del_index
 			do
 				echo_date 删除节点：`dbus get ssrconf_basic_name_$localindex` ，因为该节点在订阅服务器上已经不存在... >> $LOG_FILE
 				dbus remove ssrconf_basic_group_$localindex
@@ -175,7 +181,7 @@ del_none_exist(){
 				dbus remove ssrconf_basic_server_$localindex
 				let delnum+=1
 			done
-		}
+		fi
 	done
 }
 
@@ -187,6 +193,7 @@ remove_node_gap(){
 	SEQ=$(dbus list ssrconf_basic_port|cut -d "_" -f 4|cut -d "=" -f 1|sort -n)
 	MAX=$(dbus list ssrconf_basic_port|cut -d "_" -f 4|cut -d "=" -f 1|sort -rn|head -n1)
 	NODE_NU=$(dbus list ssrconf_basic_port|wc -l)
+	KCP_NODE=`dbus get ss_kcp_node`
 	
 	echo_date 现有节点顺序：$SEQ >> $LOG_FILE
 	echo_date 最大SSR节点序号：$MAX >> $LOG_FILE
@@ -194,30 +201,35 @@ remove_node_gap(){
 	
 	if [ "$MAX" != "$NODE_NU" ];then
 		echo_date 节点排序需要调整! >> $LOG_FILE
-		i=1
+		y=1
 		for nu in $SEQ
 		do
-			if [ "$i" == "$nu" ];then
-				echo_date 节点 $i 不需要调整 ! >> $LOG_FILE
+			if [ "$y" == "$nu" ];then
+				echo_date 节点 $y 不需要调整 ! >> $LOG_FILE
 			else
-				echo_date 调整节点 $i ! >> $LOG_FILE
-				[ -n "$(dbus get ssrconf_basic_group_$nu)" ] && dbus set ssrconf_basic_group_"$i"="$(dbus get ssrconf_basic_group_$nu)" && dbus remove ssrconf_basic_group_$nu
-				[ -n "$(dbus get ssrconf_basic_method_$nu)" ] && dbus set ssrconf_basic_method_"$i"="$(dbus get ssrconf_basic_method_$nu)" && dbus remove ssrconf_basic_method_$nu
-				[ -n "$(dbus get ssrconf_basic_mode_$nu)" ] && dbus set ssrconf_basic_mode_"$i"="$(dbus get ssrconf_basic_mode_$nu)" && dbus remove ssrconf_basic_mode_$nu
-				[ -n "$(dbus get ssrconf_basic_name_$nu)" ] && dbus set ssrconf_basic_name_"$i"="$(dbus get ssrconf_basic_name_$nu)" && dbus remove ssrconf_basic_name_$nu
-				[ -n "$(dbus get ssrconf_basic_password_$nu)" ] && dbus set ssrconf_basic_password_"$i"="$(dbus get ssrconf_basic_password_$nu)" && dbus remove ssrconf_basic_password_$nu
-				[ -n "$(dbus get ssrconf_basic_port_$nu)" ] && dbus set ssrconf_basic_port_"$i"="$(dbus get ssrconf_basic_port_$nu)" && dbus remove ssrconf_basic_port_$nu
-				[ -n "$(dbus get ssrconf_basic_rss_obfs_$nu)" ] && dbus set ssrconf_basic_rss_obfs_"$i"="$(dbus get ssrconf_basic_rss_obfs_$nu)" && dbus remove ssrconf_basic_rss_obfs_$nu
-				[ -n "$(dbus get ssrconf_basic_rss_obfs_para_$nu)" ] && dbus set ssrconf_basic_rss_obfs_para_"$i"="$(dbus get ssrconf_basic_rss_obfs_para_$nu)" && dbus remove ssrconf_basic_rss_obfs_para_$nu
-				[ -n "$(dbus get ssrconf_basic_rss_protocal_$nu)" ] && dbus set ssrconf_basic_rss_protocal_"$i"="$(dbus get ssrconf_basic_rss_protocal_$nu)" && dbus remove ssrconf_basic_rss_protocal_$nu
-				[ -n "$(dbus get ssrconf_basic_rss_protocal_para_$nu)" ] && dbus set ssrconf_basic_rss_protocal_para_"$i"="$(dbus get ssrconf_basic_rss_protocal_para_$nu)" && dbus remove ssrconf_basic_rss_protocal_para_$nu
-				[ -n "$(dbus get ssrconf_basic_server_$nu)" ] && dbus set ssrconf_basic_server_"$i"="$(dbus get ssrconf_basic_server_$nu)" && dbus remove ssrconf_basic_server_$nu
-				[ -n "$(dbus get ssrconf_basic_server_ip_$nu)" ] && dbus set ssrconf_basic_server_ip_"$i"="$(dbus get ssrconf_basic_server_ip_$nu)" && dbus remove ssrconf_basic_server_ip_$nu
-				[ -n "$(dbus get ssrconf_basic_lb_enable_$nu)" ] && dbus set ssrconf_basic_lb_enable_"$i"="$(dbus get ssrconf_basic_lb_enable_$nu)" && dbus remove ssrconf_basic_lb_enable_$nu
-				[ -n "$(dbus get ssrconf_basic_lb_policy_$nu)" ] && dbus set ssrconf_basic_lb_policy_"$i"="$(dbus get ssrconf_basic_lb_policy_$nu)" && dbus remove ssrconf_basic_lb_policy_$nu
-				[ -n "$(dbus get ssrconf_basic_lb_weight_$nu)" ] && dbus set ssrconf_basic_lb_weight_"$i"="$(dbus get ssrconf_basic_lb_weight_$nu)" && dbus remove ssrconf_basic_lb_weight_$nu
+				echo_date 调整节点 $y ! >> $LOG_FILE
+				[ -n "$(dbus get ssrconf_basic_group_$nu)" ] && dbus set ssrconf_basic_group_"$y"="$(dbus get ssrconf_basic_group_$nu)" && dbus remove ssrconf_basic_group_$nu
+				[ -n "$(dbus get ssrconf_basic_method_$nu)" ] && dbus set ssrconf_basic_method_"$y"="$(dbus get ssrconf_basic_method_$nu)" && dbus remove ssrconf_basic_method_$nu
+				[ -n "$(dbus get ssrconf_basic_mode_$nu)" ] && dbus set ssrconf_basic_mode_"$y"="$(dbus get ssrconf_basic_mode_$nu)" && dbus remove ssrconf_basic_mode_$nu
+				[ -n "$(dbus get ssrconf_basic_name_$nu)" ] && dbus set ssrconf_basic_name_"$y"="$(dbus get ssrconf_basic_name_$nu)" && dbus remove ssrconf_basic_name_$nu
+				[ -n "$(dbus get ssrconf_basic_password_$nu)" ] && dbus set ssrconf_basic_password_"$y"="$(dbus get ssrconf_basic_password_$nu)" && dbus remove ssrconf_basic_password_$nu
+				[ -n "$(dbus get ssrconf_basic_port_$nu)" ] && dbus set ssrconf_basic_port_"$y"="$(dbus get ssrconf_basic_port_$nu)" && dbus remove ssrconf_basic_port_$nu
+				[ -n "$(dbus get ssrconf_basic_rss_obfs_$nu)" ] && dbus set ssrconf_basic_rss_obfs_"$y"="$(dbus get ssrconf_basic_rss_obfs_$nu)" && dbus remove ssrconf_basic_rss_obfs_$nu
+				[ -n "$(dbus get ssrconf_basic_rss_obfs_para_$nu)" ] && dbus set ssrconf_basic_rss_obfs_para_"$y"="$(dbus get ssrconf_basic_rss_obfs_para_$nu)" && dbus remove ssrconf_basic_rss_obfs_para_$nu
+				[ -n "$(dbus get ssrconf_basic_rss_protocal_$nu)" ] && dbus set ssrconf_basic_rss_protocal_"$y"="$(dbus get ssrconf_basic_rss_protocal_$nu)" && dbus remove ssrconf_basic_rss_protocal_$nu
+				[ -n "$(dbus get ssrconf_basic_rss_protocal_para_$nu)" ] && dbus set ssrconf_basic_rss_protocal_para_"$y"="$(dbus get ssrconf_basic_rss_protocal_para_$nu)" && dbus remove ssrconf_basic_rss_protocal_para_$nu
+				[ -n "$(dbus get ssrconf_basic_server_$nu)" ] && dbus set ssrconf_basic_server_"$y"="$(dbus get ssrconf_basic_server_$nu)" && dbus remove ssrconf_basic_server_$nu
+				[ -n "$(dbus get ssrconf_basic_server_ip_$nu)" ] && dbus set ssrconf_basic_server_ip_"$y"="$(dbus get ssrconf_basic_server_ip_$nu)" && dbus remove ssrconf_basic_server_ip_$nu
+				[ -n "$(dbus get ssrconf_basic_lb_enable_$nu)" ] && dbus set ssrconf_basic_lb_enable_"$y"="$(dbus get ssrconf_basic_lb_enable_$nu)" && dbus remove ssrconf_basic_lb_enable_$nu
+				[ -n "$(dbus get ssrconf_basic_lb_policy_$nu)" ] && dbus set ssrconf_basic_lb_policy_"$y"="$(dbus get ssrconf_basic_lb_policy_$nu)" && dbus remove ssrconf_basic_lb_policy_$nu
+				[ -n "$(dbus get ssrconf_basic_lb_weight_$nu)" ] && dbus set ssrconf_basic_lb_weight_"$y"="$(dbus get ssrconf_basic_lb_weight_$nu)" && dbus remove ssrconf_basic_lb_weight_$nu
+
+				# change kcpnode nu
+				if [ "$nu" == "$KCP_NODE"];then
+					dbus set ss_kcp_node="$y"
+				fi
 			fi
-			let i+=1
+			let y+=1
 		done
 	else
 		echo_date 节点排序正确! >> $LOG_FILE
@@ -326,11 +338,11 @@ case $2 in
 	#用备份的ss_conf_backup.sh 去恢复配置
 	echo_date "开始恢复SS配置..." > $LOG_FILE
 	file_nu=`ls /tmp/upload/ss_conf_backup | wc -l`
-	i=10
+	x=10
 	until [ -n "$file_nu" ]
 	do
-	    i=$(($i-1))
-	    if [ "$i" -lt 1 ];then
+	    i=$(($x-1))
+	    if [ "$x" -lt 1 ];then
 	        echo_date "错误：没有找到恢复文件!"
 	        exit
 	    fi
@@ -429,7 +441,8 @@ case $2 in
 			if [ -n "$LOCAL_NODES" ];then
 				for LOCAL_NODE in $LOCAL_NODES
 				do
-					dbus list ssrconf_basic_server_$LOCAL_NODE >> /tmp/all_localservers
+					#echo `dbus list ssrconf_basic_server_$LOCAL_NODE` `dbus list ssrconf_basic_group_$LOCAL_NODE`>> /tmp/all_localservers
+					echo `dbus get ssrconf_basic_server_$LOCAL_NODE|md5sum|sed 's/ -//g'` `dbus get ssrconf_basic_group_$LOCAL_NODE|md5sum|sed 's/ -//g'`| eval echo `sed 's/$/ $LOCAL_NODE/g'` >> /tmp/all_localservers
 				done
 			else
 				touch /tmp/all_localservers
@@ -450,14 +463,24 @@ case $2 in
 			done
 			# 去除订阅服务器上已经删除的节点
 			del_none_exist
-			# 常事重新排序
+			# 节点重新排序
 			remove_node_gap
+
+			
+
+
+
+
+
+
+
+			
 		fi
 		sleep 1
 
 		USER_ADD=$(($(dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|wc -l) - $(dbus list ssrconf_basic_group|wc -l))) || 0
 		ONLINE_GET=$(dbus list ssrconf_basic_group|wc -l) || 0
-		echo_date "本次更新，新增服务器节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；" >> $LOG_FILE
+		echo_date "本次更新，订阅来源 【$group】， 新增服务器节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；" >> $LOG_FILE
 		echo_date "现共有自添加SSR节点：$USER_ADD 个。" >> $LOG_FILE
 		echo_date "现共有订阅SSR节点：$ONLINE_GET 个。" >> $LOG_FILE
 		echo_date "在线订阅列表更新完成!" >> $LOG_FILE

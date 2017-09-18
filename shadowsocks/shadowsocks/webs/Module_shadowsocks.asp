@@ -1008,9 +1008,9 @@
 			verifyFields();
 			auto_node_sel();
 			hook_event();
-			ping_node();
-			setTimeout("get_run_status();", 2000);
+			setTimeout("get_run_status();", 1000);
 			setTimeout("get_dns_status();", 2200);
+			setTimeout("ping_node();", 2800);
 		}
 		function ping_node() {
 			if(softcenter == 1){
@@ -1023,7 +1023,6 @@
 						XHR.get('/cgi-bin/luci/admin/services/sadog/ping', {index: i, domain: pings[i].innerHTML},
 							function(x, result){
 								if(softcenter == 1){
-									window.location.reload();
 									return false;
 								}
 								if (pings[result.index].parentNode.getElementsByClassName('co12').length == 1){
@@ -1148,6 +1147,7 @@
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
+				async: true,
 				data: JSON.stringify(postData1),
 				dataType: "json",
 				success: function(response){
@@ -1589,6 +1589,7 @@
 			$('#'+Outtype).show();
 		}
 		function save_node(){
+			XHR.halt();
 			status_time = 999999990;
 			// ss: collect node data from ss pannel
 			var skipd;
@@ -1596,7 +1597,7 @@
 			  	type: "GET",
 			 	url: "/_api/ss",
 			  	dataType: "json",
-			  	async:false,
+			  	async:true,
 			 	success: function(data){
 			 	 	skipd = data.result[0];
 					var data = ss_node.getAllData();
@@ -1677,6 +1678,7 @@
 					if (ss_node_diff){
 						dbus["ss_basic_node"] = parseInt(dbus["ss_basic_node"]) - ss_node_diff;
 					}
+
 					//now post data
 					var id4 = parseInt(Math.random() * 100000000);
 					var postData3 = {"id": id4, "method": "ss_conf.sh", "params":[9], "fields": dbus};
