@@ -1,10 +1,10 @@
 {
-"title":"<font color='#FF0033'><b>Lede X64 V2.2 r5246 更新日志：</b></font>",
-"content1":"<font color='#3366CC'>\
-<b>1. </b>修复更新固件时软件中心无法保留配置的问题；<br/>\
-<b>2. </b>修复更新固件时系统配置有机率丢失的问题；<br/>\
-<b>3. </b>修复更新固件后软件中心插件无法自启的问题；<br />\
-<b>4. </b>kool$$修复服务器订阅功能。<br/>",
+"title":"<font color='#FF0033'><b>Lede X64 V2.3 r3435 更新日志：</b></font>",
+"content1":"<font color='#00ff22'>\
+<br/>LEDE软件中心已经发布，频繁的更新固件已经没有必要，所以这次基于LEDE17.01.2重建固件。<br/>",
 "content2":"<font color='##cc338c'>\
-<b>PS. </b>虚拟机用户需要转盘的请下载使用2.0版，然后再升级到最新版<br/>",
+<b>1. </b>修复上个版本的一些BUG；<br/>\
+<b>2. </b>集成python和node环境；<br />\
+<b>3. </b>Intel ivybridge及以后的cpu将有更好的效能优化；<br />\
+<b>4. </b>精简一些kmod,有特殊需求的可以直接安装官方源（完全兼容）。<br/>",
 }
