@@ -391,7 +391,7 @@ start_haproxy(){
 		    balance roundrobin
 	EOF
 	
-	if [ "ss_lb_type" == 1 ];then
+	if [ "$ss_lb_type" == 1 ];then
 		lb_node=`dbus list ssconf_basic_lb_enable|cut -d "=" -f 1| cut -d "_" -f 5 | sort -n | sed '/^$/d'`
 	else
 		lb_node=`dbus list ssrconf_basic_lb_enable|cut -d "=" -f 1| cut -d "_" -f 5 | sort -n | sed '/^$/d'`
@@ -402,7 +402,7 @@ start_haproxy(){
 		up=`dbus get ss_lb_up`
 		down=`dbus get ss_lb_down`
 		interval=`dbus get ss_lb_interval`
-		if [ "ss_lb_type" == 1 ];then
+		if [ "$ss_lb_type" == 1 ];then
 			nick_name=`dbus get ssconf_basic_name_$node`
 			port=`dbus get ssconf_basic_port_$node`
 			name=`dbus get ssconf_basic_server_$node`:$port

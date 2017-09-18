@@ -1,8 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
-1.7.8
+1.7.8 - 1.7.9
    - update	更新ss-libev到3.1.0,更新simple-obfs到最新；
    - update	移除插件自带busybox，因为固件已经修复ps命令
+   - fix	修复使用ss节点负载均衡不能用的bug。
 
 1.7.6 - 1.7.7
    - 说明	此版本主要是修复SS插件和LEDE 2.3固件的几个兼容性问题；
