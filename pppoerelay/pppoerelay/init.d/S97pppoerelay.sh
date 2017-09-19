@@ -8,16 +8,16 @@
 # See /LICENSE for more information.
 #
 
-START=94
+START=97
 STOP=15
 
 source /koolshare/scripts/base.sh
-eval `dbus export ftp_`
+eval `dbus export pppoerelay_`
 
 start(){
-	[ "$ftp_enable" == "1" ] && sh /koolshare/scripts/ftp_config.sh
+	[ "$pppoerelay_enable" == "1" ] && sh /koolshare/scripts/pppoerelay_config.sh
 }
 
 stop(){
-	sh /koolshare/scripts/ftp_config.sh
+	sh /koolshare/scripts/pppoerelay_config.sh
 }

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-MODULE=ftp
-VERSION=1.0.4
-TITLE=FTP服务器
-DESCRIPTION=小巧安全的FTP服务器
-HOME_URL=Module_ftp.asp
+MODULE=pppoerelay
+VERSION=0.1
+TITLE="PPPoE Relay"
+DESCRIPTION=使PPPoE能够跨路由使用
+HOME_URL=Module_pppoerelay.asp
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

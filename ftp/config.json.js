@@ -1,8 +1,9 @@
 {
-"version":"1.0.3",
-"md5":"0e7641f9cc6d70d2bb57efbc3ea83cf9",
+"version":"1.0.4",
+"md5":"38a5ff500b2b87085ed25dcda559183f",
 "home_url":"Module_ftp.asp",
 "title":"FTP服务器",
 "description":"小巧安全的FTP服务器",
-"build_date":"2017-09-09_18:26:16"
+"changelog":"",
+"build_date":"2017-09-19_16:15:06"
 }
