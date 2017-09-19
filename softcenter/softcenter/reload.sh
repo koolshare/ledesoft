@@ -6,8 +6,6 @@ export KSROOT=/koolshare
 # kill softcenter first
 /etc/init.d/softcenter stop
 
-sleep 1
-
 # now make some folders
 mkdir -p $KSROOT
 mkdir -p $KSROOT/webs/
@@ -20,8 +18,14 @@ mkdir -p /tmp/upload
 cp -rf /tmp/softcenter/webs/* $KSROOT/webs/
 cp -rf /tmp/softcenter/bin/* $KSROOT/bin/
 cp -rf /tmp/softcenter/scripts $KSROOT/
+cp -rf /tmp/softcenter/init.d $KSROOT/init.d/
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
+chmod 755 $KSROOT/init.d/*
+
+# make dectec link
+sleep 1
+ln -sf /koolshare/init.d/S71softok.sh /etc/rc.d/S71softok.sh
 
 # remove install package
 rm -rf /tmp/softcenter*

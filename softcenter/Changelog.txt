@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 Softcenter Changelog
 ===========================================
+0.2.3
+   - update	修复部分插件不能开机自启的问题。
+
 0.2.2
    - update	更新软件中心httpdb二进制文件
 
