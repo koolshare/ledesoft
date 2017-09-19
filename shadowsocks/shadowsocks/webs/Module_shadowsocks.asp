@@ -55,7 +55,65 @@
 	.switch:checked ~.switch_container > .switch_circle{
 		margin-left: 23px;
 	}
-}
+	#table-row-panel a.delete-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
+		float:left;
+		font-size:10pt;
+		text-align:center;
+		padding:13px 15px;
+		padding:6px 8px;
+		margin-right:5px;
+		line-height:1;
+		color:#fff;
+		background:#585858;
+		z-index:1;
+		-webkit-transition:background-color 80ms ease;
+		transition:background-color 80ms ease
+	}
+	#table-row-panel a.delete-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
+		z-index:10;
+		background:#434343
+	}
+	#table-row-panel a.delete-row {
+		background:#F76D6A
+	}
+	#table-row-panel a.delete-row:hover {
+		background:#eb4d4a
+	}
+	#table-row-panel a.apply-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
+		float:left;
+		font-size:10pt;
+		text-align:center;
+		padding:13px 15px;
+		padding:6px 8px;
+		line-height:1;
+		color:#fff;
+		background:#585858;
+		z-index:1;
+		-webkit-transition:background-color 80ms ease;
+		transition:background-color 80ms ease
+	}
+	#table-row-panel a.apply-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
+		z-index:10;
+		background:#434343
+	}
+	#table-row-panel a.apply-row {
+		background:#99FF66
+	}
+	#table-row-panel a.apply-row:hover {
+		background:#99FF00
+	}
+
+	table.line-table tr:nth-child(even) {
+		background:rgba(0, 0, 0, 0.04)
+	}	
+	#ss_node-grid > tbody > tr.even.use,
+	#ssr_node-grid > tbody > tr.even.use {
+		background:rgba(128, 255, 255, 0.3)
+	}
+	#ss_node-grid > tbody > tr.odd.use,
+	#ssr_node-grid > tbody > tr.odd.use {
+		background:rgba(128, 255, 255, 0.3)
+	}
 </style>
 	<script type="text/javascript">
 		var dbus;
@@ -363,7 +421,8 @@
 			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
 			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ss_node == cur_sel_node){
-				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
+				alert("该节点正在使用！\n不能被删除！\n需要删除，请关闭ss或者切换到其它节点删除！");
+				return false;
 			}
 			if (del_ss_node < cur_sel_node){
 				++ss_node_diff
@@ -382,6 +441,49 @@
 			dbus["ssconf_basic_node_max"] = this.tb.rows.length - 3 //addby sadog
 			dbus["ssconf_basic_max_node"] = parseInt(this.tb.rows[this.tb.rows.length -3].cells[0].innerHTML) //addby sadog
 		}
+		ss_node.rpMouIn = function(evt) {
+			var e, x, ofs, me, s, n;
+			if ((evt = checkEvent(evt)) == null || evt.target.nodeName == 'A' || evt.target.nodeName == 'I') return;
+			me = TGO(evt.target);
+			if (me.isEditing()) return;
+			if (me.moving) return;
+			if (evt.target.id != 'table-row-panel') {
+				me.rpHide();
+			}
+			e = document.createElement('div');
+			e.tgo = me;
+			e.ref = evt.target;
+			e.setAttribute('id', 'table-row-panel');
+			n = 0;
+			s = '';
+			if (me.canDelete) {
+				s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="删除"><i class="icon-cancel"></i></a>';
+				s += '<a class="apply-row" href="#" onclick="this.parentNode.tgo.rpApply(this.parentNode.ref); return false;" title="应用"><i class="icon-check"></i></a>';
+				++n;
+			}
+			x = PR(evt.target);
+			x = x.cells[x.cells.length - 1];
+			ofs = elem.getOffset(x);
+			n *= 18;
+			e.innerHTML = s;
+			this.appendChild(e);
+		}
+		ss_node.rpApply = function(e) {
+			e = PR(e);
+			var apply_ss_node = parseInt(e.cells[0].innerHTML);
+			console.log(apply_ss_node);
+			//dbus["ss_basic_node"] = apply_ss_node //addby sadog
+			E("_ss_basic_node").value = apply_ss_node;
+			if (confirm("确定要应用此节点?")) {
+				auto_node_sel();
+				verifyFields();
+				//tabSelect('app1');
+				//setTimeout("save();", 200);
+				save();
+			} else {
+				return false;
+			}
+		}
 		ss_node.onAdd = function() {
 			var data;
 			this.moving = null;
@@ -395,12 +497,41 @@
 			dbus["ssconf_basic_node_max"] = this.tb.rows.length -3 //addby sadog
 			dbus["ssconf_basic_max_node"] = parseInt(this.tb.rows[this.tb.rows.length -3].cells[0].innerHTML) //addby sadog
 		}
+		ss_node.insert = function(at, data, cells, escCells) {
+			var e, i;
+			if ((this.footer) && (at == -1)) at = this.footer.rowIndex;
+			e = this._insert(at, cells, escCells);
+			e.className = (e.rowIndex & 1) ? 'even' : 'odd';
+			if ((parseInt(dbus["ss_basic_node"]) == parseInt(e.cells[0].innerHTML)) && dbus["ss_basic_enable"] == 1){
+				e.className = (e.rowIndex & 1) ? 'even use' : 'odd use';
+			}
+			for (i = 0; i < e.cells.length; ++i) {
+				e.cells[i].onclick = function() {
+					return TGO(this).onClick(this);
+				};
+			}
+			e._data = data;
+			e.getRowData = function() {
+				return this._data;
+			}
+			e.setRowData = function(data) {
+				this._data = data;
+			}
+			if ((this.canMove) || (this.canEdit) || (this.canDelete)) {
+				e.onmouseover = this.rpMouIn;
+				e.onmouseout = this.rpMouOut;
+				if (this.canEdit) e.title = '点击编辑';
+				$(e).css('cursor', 'text');
+			}
+			return e;
+		}
 		ss_node.createEditor = function(which, rowIndex, source) {
 			var values;
 			if (which == 'edit') values = this.dataToFieldValues(source.getRowData());
 			var row = this.tb.insertRow(rowIndex);
 			row.className = 'editor';
 			var common = ' onkeypress="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
+			var common_b = ' onclick="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
 			var vi = 0;
 			for (var i = 0; i < this.editorFields.length; ++i) {
 				var s = '';
@@ -482,7 +613,7 @@
 				{ type: 'text', maxlen: 50 },
 				{ type: 'text', maxlen: 50 }
 			] );
-			this.headerSet( [ '序号',  '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '混淆(AEAD)', '混淆主机名', 'ping延迟' ] );
+			this.headerSet( [ '序号',  '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '混淆(AEAD)', '混淆主机名', 'ping' ] );
 			for ( var i = 1; i <= dbus["ssconf_basic_node_max"]; i++){
 				var t1 = [
 					String(i),
@@ -565,7 +696,8 @@
 			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
 			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ssr_node == (cur_sel_node - node_ss)){
-				alert("该节点正在使用！\n删除并保存节点后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
+				alert("该节点正在使用！\n不能被删除！\n需要删除，请关闭ss或者切换到其它节点删除！");
+				return false;
 			}
 			if (del_ssr_node < (cur_sel_node - node_ss)){
 				++ss_node_diff
@@ -584,6 +716,49 @@
 			dbus["ssrconf_basic_node_max"] = this.tb.rows.length - 3 //addby sadog
 			dbus["ssrconf_basic_max_node"] = parseInt(this.tb.rows[this.tb.rows.length -3].cells[0].innerHTML) //addby sadog
 		}
+		ssr_node.rpMouIn = function(evt) {
+			var e, x, ofs, me, s, n;
+			if ((evt = checkEvent(evt)) == null || evt.target.nodeName == 'A' || evt.target.nodeName == 'I') return;
+			me = TGO(evt.target);
+			if (me.isEditing()) return;
+			if (me.moving) return;
+			if (evt.target.id != 'table-row-panel') {
+				me.rpHide();
+			}
+			e = document.createElement('div');
+			e.tgo = me;
+			e.ref = evt.target;
+			e.setAttribute('id', 'table-row-panel');
+			n = 0;
+			s = '';
+			if (me.canDelete) {
+				s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="删除"><i class="icon-cancel"></i></a>';
+				s += '<a class="apply-row" href="#" onclick="this.parentNode.tgo.rpApply(this.parentNode.ref); return false;" title="应用"><i class="icon-check"></i></a>';
+				++n;
+			}
+			x = PR(evt.target);
+			x = x.cells[x.cells.length - 1];
+			ofs = elem.getOffset(x);
+			n *= 18;
+			e.innerHTML = s;
+			this.appendChild(e);
+		}
+		ssr_node.rpApply = function(e) {
+			e = PR(e);
+			var apply_ss_node = parseInt(e.cells[0].innerHTML);
+			console.log(apply_ss_node);
+			//dbus["ss_basic_node"] = apply_ss_node //addby sadog
+			E("_ss_basic_node").value = apply_ss_node + node_ss;
+			if (confirm("确定要应用此节点?")) {
+				auto_node_sel();
+				verifyFields();
+				//tabSelect('app1');
+				//setTimeout("save();", 200);
+				save();
+			} else {
+				return false;
+			}
+		}
 		ssr_node.onAdd = function() {
 			var data;
 			this.moving = null;
@@ -596,6 +771,34 @@
 			this.resetNewEditor();
 			dbus["ssrconf_basic_node_max"] = this.tb.rows.length -3 //addby sadog
 			dbus["ssrconf_basic_max_node"] = parseInt(this.tb.rows[this.tb.rows.length -3].cells[0].innerHTML) //addby sadog
+		}
+		ssr_node.insert = function(at, data, cells, escCells) {
+			var e, i;
+			if ((this.footer) && (at == -1)) at = this.footer.rowIndex;
+			e = this._insert(at, cells, escCells);
+			e.className = (e.rowIndex & 1) ? 'even' : 'odd';
+			if ((parseInt(dbus["ss_basic_node"]) == parseInt(e.cells[0].innerHTML) + node_ss) && dbus["ss_basic_enable"] == 1){
+				e.className = (e.rowIndex & 1) ? 'even use' : 'odd use';
+			}
+			for (i = 0; i < e.cells.length; ++i) {
+				e.cells[i].onclick = function() {
+					return TGO(this).onClick(this);
+				};
+			}
+			e._data = data;
+			e.getRowData = function() {
+				return this._data;
+			}
+			e.setRowData = function(data) {
+				this._data = data;
+			}
+			if ((this.canMove) || (this.canEdit) || (this.canDelete)) {
+				e.onmouseover = this.rpMouIn;
+				e.onmouseout = this.rpMouOut;
+				if (this.canEdit) e.title = '点击编辑';
+				$(e).css('cursor', 'text');
+			}
+			return e;
 		}
 		ssr_node.createEditor = function(which, rowIndex, source) {
 			var values;
@@ -686,7 +889,7 @@
 				{ type: 'text', maxlen: 50 },
 				{ type: 'text', maxlen: 50 }
 			] );
-			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数', 'ping延迟' ] );
+			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数', 'ping' ] );
 
 			for ( var i = 1; i <= dbus["ssrconf_basic_node_max"]; i++){
 				var t2 = [
@@ -1008,74 +1211,94 @@
 			verifyFields();
 			auto_node_sel();
 			hook_event();
+			ping_node();
 			setTimeout("get_run_status();", 1000);
 			setTimeout("get_dns_status();", 2200);
-			setTimeout("ping_node();", 2800);
 		}
-		function ping_node() {
+   		function ping_node(){
+	   		$(window).scrollTop(25);
+	   		E("ping_botton").disabled=true;
 			if(softcenter == 1){
 				return false;
 			}
-			var pings = document.getElementsByClassName('co4');
-			//if (E("_ss_basic_ping_method").value == "1" ){
-				for(var i = 0; i<pings.length; i++)	{
-					if (pings[i].innerHTML.indexOf("\.") != -1){
-						XHR.get('/cgi-bin/luci/admin/services/sadog/ping', {index: i, domain: pings[i].innerHTML},
-							function(x, result){
-								if(softcenter == 1){
-									return false;
-								}
-								if (pings[result.index].parentNode.getElementsByClassName('co12').length == 1){
-									pings[result.index].parentNode.getElementsByClassName('co12')[0].innerHTML = result.ping? result.ping + " ms" : "failed"
-								}else{
-									pings[result.index].parentNode.getElementsByClassName('co10')[0].innerHTML = result.ping? result.ping + " ms" : "failed"
-								}
-							}
-						);
-					}
-				}
-			//}
-			/*
-			else
-			{
-				if (E("_ss_basic_ping_method").value == "2" ){
-					PING_ARG = 'ping5';
-				} else if (E("_ss_basic_ping_method").value == "3" ){
-					PING_ARG = 'ping10';
-				}
-				for(var i = 0; i<pings.length; i++)	{
-					if (pings[i].innerHTML.indexOf("\.") != -1){
-						XHR.get('/cgi-bin/luci/admin/vpn/sadog/' + PING_ARG, {index: i, domain: pings[i].innerHTML},
-							function(x, result){
-								if(softcenter == 1){
-									//stop write ping
-									window.location.reload();
-									return false;
-								}else{
-									if (pings[result.index].parentNode.getElementsByClassName('co12').length == 1){
-										p = result.ping.split(" ")[0] + " ms" || "-- ms"
-										l = result.ping.split(" ")[1] + "%" || "-- %"
-										pings[result.index].parentNode.getElementsByClassName('co12')[0].innerHTML = p + " / " + l
-									}else{
-										p = result.ping.split(" ")[0] + " ms" || "-- ms"
-										l = result.ping.split(" ")[1] + "%" || "-- %"
-										pings[result.index].parentNode.getElementsByClassName('co10')[0].innerHTML = p + " / " + l
-									}	
-								}
-							}
-						);
-					}
-				}
-			}
-			*/
-			var ping_refresh = E("_ss_basic_ping_refresh").value || 0;
-			if (ping_refresh == 0){
+			if (!dbus["ssconf_basic_node_max"] && !dbus["ssrconf_basic_node_max"]){
 				return false;
-			}else{
-				setTimeout("ping_node();", ping_refresh*1000);
 			}
+			// refill
+			var pings = document.getElementsByClassName('co4');
+			for(var i = 0; i<pings.length; i++)	{
+				if (pings[i].innerHTML.indexOf("\.") != -1){
+					if (pings[i].parentNode.getElementsByClassName('co12').length == 1){ //ssr
+						pings[i].parentNode.getElementsByClassName('co12')[0].innerHTML = "测试中..."
+					}else{ //ss
+						pings[i].parentNode.getElementsByClassName('co10')[0].innerHTML = "测试中..."
+					}
+				}
+			}
+			
+			var dbus4 = {};
+			dbus4["ss_basic_ping_method"] = E("_ss_basic_ping_method").value;
+			var id = parseInt(Math.random() * 100000000);
+			var postData = {"id": id, "method": "ss_ping.sh", "params":[], "fields": dbus4};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					var ps=eval(Base64.decode(response.result));
+					//console.log(ps);
+					//var pings = document.getElementsByClassName('co4');
+					for(var i = 0; i<ps.length; i++){
+						var nu = parseInt(ps[i][0]) + 1;
+						var type = ps[i][1];
+						var ping = parseInt(ps[i][2]);
+						var loss = ps[i][3];
+						if (!ping){
+							if(E("_ss_basic_ping_method").value == 1){
+								test_result = '<font color="#990000">failed</font>';
+							}else{
+								test_result = '<font color="#990000">failed / ' + loss + '</font>';
+							}
+						}else{
+							if(E("_ss_basic_ping_method").value == 1){
+								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10')[0].innerHTML = "ping"
+								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12')[0].innerHTML = "ping"
+								if (ping < 50){
+									test_result = '<font color="#1bbf35">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
+								}else if (ping > 50 && ping <= 100) {
+									test_result = '<font color="#3399FF">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
+								}else{
+									test_result = '<font color="#f36c21">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
+								}
+							}else{
+								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10')[0].innerHTML = "ping / 丢包"
+								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12')[0].innerHTML = "ping / 丢包"
+								if (ping <= 50){
+									test_result = '<font color="#1bbf35">' + parseFloat(ping).toPrecision(3) +'  ms / ' + loss + '</font>';
+								}else if (ping > 50 && ping <= 100) {
+									test_result = '<font color="#3399FF">' + parseFloat(ping).toPrecision(3) +'  ms / ' + loss + '</font>';
+								}else{
+									test_result = '<font color="#f36c21">' + parseFloat(ping).toPrecision(3) +'  ms / ' + loss + '</font>';
+								}
+							}
+						}
+						if (type == "ssr"){
+							$('#ssr_node-grid > tbody > tr:nth-child(' + nu + ') > td.co12')[0].innerHTML = test_result
+						}else if (type == "ss"){
+							$('#ss_node-grid > tbody > tr:nth-child(' + nu + ') > td.co10')[0].innerHTML = test_result
+						}
+					}
+	   				E("ping_botton").disabled=false;
+				},
+				error:function(){
+					console.log("23333");
+				}
+			});
 		}
-		
+
 		function hook_event(){
 			// when click log content, stop scrolling
 			$("#_ss_basic_log").click(
@@ -1714,7 +1937,7 @@
 			setTimeout("tabSelect('app8')", 500);
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast", "ping_refresh"];
+			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
 			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
@@ -2110,9 +2333,6 @@
 				dbus3["ssr_subscribe_mode"] = E("_ssr_subscribe_mode").value;
 				dbus3["ssr_subscribe_obfspara"] = E("_ssr_subscribe_obfspara").value;
 				dbus3["ssr_subscribe_obfspara_val"] = E("_ssr_subscribe_obfspara_val").value;
-			}else if(arg == 9){
-				//dbus3["ss_basic_ping_method"] = E("_ss_basic_ping_method").value;
-				dbus3["ss_basic_ping_refresh"] = E("_ss_basic_ping_refresh").value;
 			}else if(arg == 8){
 				var r=0; //记录没有group信息的节点
 				var data = ssr_node.getAllData();
@@ -2202,7 +2422,7 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "ss_conf.sh"){
-						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8 || arg == 9){
+						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8){
 							setTimeout("window.location.reload()", 500);
 						}else if (arg == 5){
 							setTimeout("window.location.reload()", 1000);
@@ -2744,10 +2964,9 @@
 				<script type="text/javascript">
 					$('#ss_ping_panel').forms([
 						{ title: '节点ping测试', multi: [
-							//{ name:'ss_basic_ping_method',type:'select',options:[["1", "显示ping单次结果"], ["2", "5次ping平均 + 丢包率"], ["3", "10次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
-							{ name:'ss_basic_ping_refresh',type:'select',options:[["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
-							{ suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 9);" class="btn btn-primary">保存ping测试设置 <i class="icon-check"></i></button>' }
-							
+							{ name:'ss_basic_ping_method',type:'select',options:[["1", "ping 1次"], ["2", "10次ping平均 + 丢包率"], ["3", "20次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
+							//{ name:'ss_basic_ping_refresh',type:'select',options:[["1", "不显示（人工测试）"], ["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
+							{ suffix: '<button id="ping_botton" onclick="ping_node();" class="btn btn-primary">手动测试ping <i class="icon-check"></i></button>' }
 						]},
 					]);
 				</script>

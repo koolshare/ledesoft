@@ -1027,7 +1027,6 @@ lan_acess_control(){
 			proxy_name=`dbus get ss_acl_name_$acl`
 			mac=`dbus get ss_acl_mac_$acl`
 
-			#[ "$ports" == "" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:all模式为：$(get_mode_name $proxy_mode) || echo_date 加载ACL规则：【$ipaddr】【$mac】:$ports模式为：$(get_mode_name $proxy_mode)
 			if [ "$ports" == "" ];then
 				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】:all模式为：$(get_mode_name $proxy_mode)
 				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】:all模式为：$(get_mode_name $proxy_mode)
@@ -1043,7 +1042,7 @@ lan_acess_control(){
 			if [ "$proxy_mode" == "3" ];then
 				iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p udp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 			else
-				iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p udp -j RETURN
+				[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p udp -j RETURN
 			fi
 			# acl in OUTPUT（used by koolproxy）
 			[ -z "$ipaddr" ] && {
@@ -1057,7 +1056,6 @@ lan_acess_control(){
 				[ -n "$ipaddr" ] && ipaddr_hex=`echo -n $ipaddr | awk -F "." '{printf ("0x%02x", $1)} {printf ("%02x", $2)} {printf ("%02x", $3)} {printf ("%02x\n", $4)}'`
 			}
 			iptables -t nat -A SHADOWSOCKS_EXT -p tcp  $(factor $ports "-m multiport --dport") -m mark --mark "$ipaddr_hex" -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
-
 		done
 		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $ss_acl_default_mode)
 	else

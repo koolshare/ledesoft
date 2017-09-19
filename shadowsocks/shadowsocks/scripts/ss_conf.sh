@@ -379,7 +379,6 @@ case $2 in
 	mkdir shadowsocks/init.d
 	mkdir shadowsocks/webs
 	mkdir shadowsocks/webs/res
-	mkdir shadowsocks/others
 	TARGET_FOLDER=/tmp/shadowsocks
 	cp $KSROOT/scripts/ss_install.sh $TARGET_FOLDER/install.sh
 	cp $KSROOT/scripts/uninstall_shadowsocks.sh $TARGET_FOLDER/uninstall.sh
@@ -399,7 +398,6 @@ case $2 in
 	cp $KSROOT/webs/Module_shadowsocks.asp $TARGET_FOLDER/webs/
 	cp $KSROOT/webs/res/icon-shadowsocks* $TARGET_FOLDER/webs/res/
 	cp -r $KSROOT/ss $TARGET_FOLDER/
-	cp /usr/lib/lua/luci/controller/sadog.lua $TARGET_FOLDER/others/
 	rm -rf $TARGET_FOLDER/ss/*.json
 
 	tar -czv -f /koolshare/webs/files/shadowsocks.tar.gz shadowsocks/

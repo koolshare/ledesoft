@@ -1,5 +1,12 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.8.0
+   - fix	更换了ping获取接口，修复当ping出现failed或者节点过多没ping完时，页面卡顿，提交无反应等问题；
+   - fix	现在重刷固件不会丢失ping测试功能了；
+   			ping测试会在每次进入ss界面时获取一次，你也可以手动获取节点最新的网络情况；
+   - add	现在在节点页面能直接应用你选择的节点。
+   - add	现在正在使使用的节点在节点列表内会高亮显示。
+   
 1.7.8 - 1.7.9
    - update	更新ss-libev到3.1.0,更新simple-obfs到最新；
    - update	移除插件自带busybox，因为固件已经修复ps命令

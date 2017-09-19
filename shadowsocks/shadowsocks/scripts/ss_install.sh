@@ -73,7 +73,6 @@ cp -rf /tmp/shadowsocks/init.d/* $KSROOT/init.d/
 cp -rf /tmp/shadowsocks/webs/* $KSROOT/webs/
 cp /tmp/shadowsocks/install.sh $KSROOT/scripts/ss_install.sh
 cp /tmp/shadowsocks/uninstall.sh $KSROOT/scripts/uninstall_shadowsocks.sh
-cp -rf /tmp/shadowsocks/others/sadog.lua /usr/lib/lua/luci/controller/
 
 # delete luci cache
 rm -rf /tmp/luci-*
