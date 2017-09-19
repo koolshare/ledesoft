@@ -19,7 +19,7 @@ start(){
 	sleep 1
 	start-stop-daemon -S -q -b -m -p /tmp/var/cloud_torrent.pid \
 	-x /koolshare/bin/cloud-torrent \
-	-- -t $cloud_torrent_title -p $cloud_torrent_port -a $cloud_torrent_usr:$cloud_torrent_passwd \
+	-- -t $cloud_torrent_title1 -p $cloud_torrent_port -a $cloud_torrent_usr:$cloud_torrent_passwd \
 	-c /koolshare/configs/cloud_torrent.json
 		
 	[ ! -L "/etc/rc.d/S77cloud_torrent.sh" ] && ln -sf /koolshare/init.d/S77cloud_torrent.sh /etc/rc.d/S77cloud_torrent.sh

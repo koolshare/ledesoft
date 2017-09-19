@@ -166,15 +166,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2017-09-20_02:14:05", 
+            "build_date": "2017-09-20_02:39:35", 
             "changelog": "", 
             "description": "小巧便携BT下载器", 
             "home_url": "Module_cloud_torrent.asp", 
-            "md5": "3540015a8e8b168df2abb62fd1dcee57", 
+            "md5": "dfee97ff601de0677d3c2c1686a0e947", 
             "name": "cloud_torrent", 
             "tar_url": "cloud_torrent/cloud_torrent.tar.gz", 
             "title": "cloud torrent", 
-            "version": "1.1"
+            "version": "1.2"
         }, 
         {
             "build_date": "2017-09-09_18:21:59", 

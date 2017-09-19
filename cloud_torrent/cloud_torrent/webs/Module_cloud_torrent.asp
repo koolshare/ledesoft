@@ -121,7 +121,7 @@ function save(){
 		$('#cloud_torrent-fields').forms([
 		{ title: '开启cloud_torrent', name: 'cloud_torrent_enable', type: 'checkbox', value: dbus.cloud_torrent_enable == 1},
 		{ title: 'cloud_torrent运行状态', text: '<font id="_cloud_torrent_status" name=cloud_torrent_status color="#1bbf35">正在获取运行状态...</font>' },
-		{ title: 'web标题',  name: 'cloud_torrent_title',type:'text', size: 12, value: dbus.cloud_torrent_title || "LEDE-X64" },
+		{ title: 'web标题',  name: 'cloud_torrent_title',type:'text', size: 12, value: dbus.cloud_torrent_title || "LEDE-X64", suffix:' &nbsp;&nbsp;不能有空格' },
 		{ title: 'web端口',  name: 'cloud_torrent_port',type:'text', size: 12, value: dbus.cloud_torrent_port , suffix: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":" + dbus.cloud_torrent_port + '/ target="_blank"><u>http://'  + location.hostname + ":" + dbus.cloud_torrent_port + '</u></a>'},
 		{ title: 'web登录帐号：密码 ', multi: [
 			{ name: 'cloud_torrent_usr',type:'text', size: 12, value: dbus.cloud_torrent_usr || "admin", suffix: ' ：' },
