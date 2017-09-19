@@ -27,13 +27,8 @@ creat_start_up(){
 	[ ! -L "/etc/rc.d/S94ftp.sh" ] && ln -sf /koolshare/init.d/S94ftp.sh /etc/rc.d/S94ftp.sh
 }
 
-del_start_up(){
-	rm -rf /etc/rc.d/S94ftp.sh >/dev/null 2>&1
-}
-
 
 if [ "$ftp_enable" == "1" ]; then
-	del_start_up
 	stop_ftp
 	sleep 1
 	config_anonymous

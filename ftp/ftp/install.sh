@@ -28,9 +28,6 @@ dbus set softcenter_module_ftp_name=ftp
 dbus set softcenter_module_ftp_title=FTP服务器
 dbus set softcenter_module_ftp_version=1.0.0
 
-# make ftp restart/stop to apply change
-sh /koolshare/scripts/ftp_config.sh
-
 sleep 1
 rm -rf /tmp/ftp* >/dev/null 2>&1
 

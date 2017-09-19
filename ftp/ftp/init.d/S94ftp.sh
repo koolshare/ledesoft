@@ -15,9 +15,9 @@ source /koolshare/scripts/base.sh
 eval `dbus export ftp_`
 
 start(){
-	[ "$ftp_enable" == "1" ] && sh /koolshare/scripts/ftp_config.sh start
+	[ "$ftp_enable" == "1" ] && sh /koolshare/scripts/ftp_config.sh
 }
 
 stop(){
-	sh /koolshare/scripts/ftp_config.sh start
+	sh /koolshare/scripts/ftp_config.sh
 }
