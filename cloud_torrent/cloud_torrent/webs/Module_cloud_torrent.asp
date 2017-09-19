@@ -117,6 +117,7 @@ function save(){
 	<script type="text/javascript">
 		var mode = [['-c', '客户端模式'], ['-s', '服务器模式']];
 		if(!dbus.cloud_torrent_port){dbus.cloud_torrent_port = "23333";};
+		if(!dbus.cloud_torrent_path){dbus.cloud_torrent_path = "/mnt/downloads";};
 		$('#cloud_torrent-fields').forms([
 		{ title: '开启cloud_torrent', name: 'cloud_torrent_enable', type: 'checkbox', value: dbus.cloud_torrent_enable == 1},
 		{ title: 'cloud_torrent运行状态', text: '<font id="_cloud_torrent_status" name=cloud_torrent_status color="#1bbf35">正在获取运行状态...</font>' },
@@ -126,9 +127,9 @@ function save(){
 			{ name: 'cloud_torrent_usr',type:'text', size: 12, value: dbus.cloud_torrent_usr || "admin", suffix: ' ：' },
 			{ name: 'cloud_torrent_passwd', type: 'password', maxlen: 10, size: 12, value: dbus.cloud_torrent_passwd||"koolshare" ,peekaboo:"1" }
 		]},
-		{ title: '文件下载路径',  name: 'cloud_torrent_path',type:'text', size: 65, value: dbus.cloud_torrent_path || "/overlay/downloads" }
+		{ title: '文件下载路径',  name: 'cloud_torrent_path',type:'text', size: 65, value: dbus.cloud_torrent_path || "/mnt/downloads" }
 		]);
-
+		
 	</script>
 	</div>
 </div>
