@@ -54,7 +54,6 @@ write_nat_start(){
 	  set firewall.ks_koolproxy.reload=1
 	  commit firewall
 	EOT
-	[ "$(uci show ucitrack.@shadowsocks[0].affects |grep -c mia)" -eq 0 ] && uci add_list ucitrack.@shadowsocks[0].affects=mia && uci commit ucitrack
 	/etc/init.d/mia restart
 	/etc/init.d/webrestriction restart
 EOF
