@@ -56,8 +56,6 @@ write_nat_start(){
 	EOT
 	/etc/init.d/mia restart
 	/etc/init.d/webrestriction restart
-EOF
-	
 }
 
 remove_nat_start(){
