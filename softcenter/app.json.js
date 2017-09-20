@@ -33,11 +33,11 @@
             "version": "0.2.0"
         }, 
         {
-            "build_date": "2017-09-20_14:06:32", 
+            "build_date": "2017-09-20_14:22:30", 
             "changelog": "", 
             "description": "VPN全家桶", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "496bc8917b20aa2f487b2d767d30b291", 
+            "md5": "1efd7a176c43fe3e942baf3108fee6a3", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
