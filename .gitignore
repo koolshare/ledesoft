@@ -4,3 +4,4 @@ tunnel
 .htaccess
 .user.ini
 /homebridge/build
+/lnmp/build
