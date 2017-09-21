@@ -1,9 +1,9 @@
 {
-"version":"1.1.4",
-"md5":"07a6d294fb4a81b8f9ebfb1cc348782e",
+"version":"1.1.5",
+"md5":"1b5698b8015bf8ee6d3b9034b5fc9a4e",
 "home_url":"Module_serverchan.asp",
 "title":"Server酱",
 "description":"推送路由器信息到微信~",
 "changelog":"修复网络重启信息不全",
-"build_date":"2017-09-17_21:08:59"
+"build_date":"2017-09-22_00:21:46"
 }
