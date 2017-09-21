@@ -230,15 +230,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2017-09-21_18:52:59", 
+            "build_date": "2017-09-21_19:37:05", 
             "changelog": "", 
             "description": "自动化部署WEB环境", 
             "home_url": "Module_lnmp.asp", 
-            "md5": "d2c1b306abdf03a2e56895e09c7fa35a", 
+            "md5": "cdefdd8460d09d1ea7489f82af60a4c4", 
             "name": "lnmp", 
             "tar_url": "lnmp/lnmp.tar.gz", 
             "title": "LNMP", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-10_23:08:06", 
