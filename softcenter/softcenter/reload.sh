@@ -18,7 +18,7 @@ mkdir -p /tmp/upload
 cp -rf /tmp/softcenter/webs/* $KSROOT/webs/
 cp -rf /tmp/softcenter/bin/* $KSROOT/bin/
 cp -rf /tmp/softcenter/scripts $KSROOT/
-cp -rf /tmp/softcenter/init.d $KSROOT/init.d/
+cp -rf /tmp/softcenter/init.d/* $KSROOT/init.d/
 chmod 755 $KSROOT/bin/*
 chmod 755 $KSROOT/scripts/*
 chmod 755 $KSROOT/init.d/*
@@ -32,7 +32,7 @@ rm -rf /tmp/softcenter*
 
 # remove luci cache
 rm -rf /tmp/luci-*
-
+[ -d "/koolshare/init.d/init.d"  ] && rm -rf /koolshare/init.d/init.d
 # bring up softcenter
 /etc/init.d/softcenter start
 
