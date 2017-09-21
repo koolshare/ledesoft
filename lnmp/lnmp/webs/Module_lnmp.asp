@@ -210,7 +210,7 @@ No part of this file may be used without permission.
 				$('#identification').forms([
 					{ title: '开启LNMP', name:'lnmp_enable',type:'checkbox',value: dbus.lnmp_enable == 1 },
 					{ title: '运行状态', text: '<font id="_lnmp_status" name=_lnmp_status color="#1bbf35">正在检查运行状态...</font>' },
-					{ title: 'WEB目录', name:'lnmp_webfolder',type:'text', maxlen: 50, size: 50, value: dbus.lnmp_webfolder || '/etc/web' },
+					{ title: 'LNMP主目录', name:'lnmp_webfolder',type:'text', maxlen: 50, size: 50, value: dbus.lnmp_webfolder || '/etc/lnmp' },
 					{ title: 'WEB端口', name:'lnmp_webport',type:'text', maxlen: 5, size: 5,value: dbus.lnmp_webport || '8080', suffix: 'WEB监听端口，不要使用和路由器管理界面相同端口' },
 					{ title: '允许外网访问', name:'lnmp_external',type:'checkbox',value: dbus.lnmp_external == 1 },
 					{ title: '查看网站', suffix: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":" + dbus.lnmp_webport + '/ target="_blank"><u>http://'  + location.hostname + ":" + dbus.lnmp_webport + '</u></a>' },	
@@ -219,16 +219,16 @@ No part of this file may be used without permission.
 		</div>
 	<div class="box"><br>
 	<div class="heading"><font color="#FF3300">运行说明：</font> <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
-	<div class="section content" id="sesdivnotes" style="display:none">
-			<li> 第一次运行将会花费很长时间来安装环境，如果你的网络环境比较差，可能无法安装成功。</font></li>
+	<div class="section content" id="sesdivnotes" style="display:">
+			<li> 第一次运行将会花费一些时间来安装环境，如果你的网络环境比较差，可能无法安装成功，请耐心等待环境部署完成。</font></li>
 			<br />
-			<li> 第一次运行时尽量不要进行其它操作，耐心等待环境部署完成。</li>
+			<li> Nginx配置文件在/etc/nginx文件夹下。</li>
 			<br />
-			<li> Mysql初始用户【root】密码【koolshare】。</li>
+			<li> Mysql初始用户【root】密码【koolshare】，数据库文件在LNMP主目录下的mysql文件夹。</li>
 			<br />
-			<li> 默认仅部署最基本的php扩展，需要更多扩展自动opkg安装。</li>
+			<li> 请将web网页文件放到LNMP主目录下的www文件夹内。</li>
 			<br />
-			<li> 请将web网页放到WEB目录下的www文件夹内。</li>
+			<li> 默认仅部署最基本的php扩展，需要更多扩展自行使用opkg安装。</li>
 	</div>
 	</div>
 </div>
