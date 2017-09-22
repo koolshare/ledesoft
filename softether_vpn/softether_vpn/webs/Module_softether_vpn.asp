@@ -23,7 +23,7 @@
 		function get_dbus_data(){
 			$.ajax({
 			  	type: "GET",
-			 	url: "/_api/koolproxy_",
+			 	url: "/_api/softether_",
 			  	dataType: "json",
 			  	async:false,
 			 	success: function(data){
