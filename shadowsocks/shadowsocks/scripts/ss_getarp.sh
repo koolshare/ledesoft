@@ -9,7 +9,3 @@ if [ -n "$arp" ];then
 fi
 
 http_response "$arp"
-
-
-
-

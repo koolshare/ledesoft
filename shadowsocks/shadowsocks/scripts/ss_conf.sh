@@ -303,6 +303,60 @@ rearrange_node_order(){
 
 	rm -rf /tmp/ssr_nodes.txt
 }
+# ===============================================================================================
+route_add(){
+	devname=$1
+	routeip=$2
+	cleanfile=/tmp/route_del
+	#if [ $wanport -ne 0	] && [ -z $(/usr/sbin/ip route show|grep $routeip) ];then
+	GW=$(/usr/sbin/ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}')
+	if [ -n $GW ] && [ -n $devname ];then
+		/usr/sbin/ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
+		echo_date "【出口设定】设置 $routeip 出口为 $devname" >> $LOG_FILE
+		if [ ! -f $cleanfile ];then
+			cat	> $cleanfile <<-EOF
+			#!/bin/sh
+			EOF
+		fi
+		chmod +x $cleanfile
+		echo "/usr/sbin/ip route del $routeip via $GW dev $devname" >>	/tmp/route_del
+	  	fi
+	#fi
+}
+
+IFIP=`echo $ss_basic_server|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+resolv_server_ip(){
+	if [ -z "$IFIP" ];then
+		# resolve first
+		if [ "$ss_basic_dnslookup" == "1" ];then
+			server_ip=`nslookup "$ss_basic_server" $ss_basic_dnslookup_server | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
+		else
+			server_ip=`resolveip -4 -t 2 $ss_basic_server|awk 'NR==1{print}'`
+		fi
+
+		if [ -n "$server_ip" ];then
+			ss_basic_server_ip="$server_ip"
+			# store resoved ip in skipd
+			if [ "$ss_basic_type"  == "1" ];then
+				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				dbus set ssrconf_basic_server_ip_$SSR_NODE="$server_ip"
+			elif [ "$ss_basic_type"  == "0" ];then
+				dbus set ssconf_basic_server_ip_$ss_basic_node="$server_ip"
+			fi
+		else
+			# get pre-resoved ip in skipd
+			echo_date 尝试获取上次储存的解析结果...
+			if [ "$ss_basic_type"  == "1" ];then
+				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				ss_basic_server_ip=`dbus get ssrconf_basic_server_ip_$SSR_NODE`
+			elif [ "$ss_basic_type"  == "0" ];then
+				ss_basic_server_ip=`dbus get ssconf_basic_server_ip_$ss_basic_node`
+			fi
+		fi
+	else
+		ss_basic_server_ip="$ss_basic_server"
+	fi
+}
 #=================================================================================================
 
 case $2 in
@@ -462,17 +516,7 @@ case $2 in
 			# 去除订阅服务器上已经删除的节点
 			del_none_exist
 			# 节点重新排序
-			remove_node_gap
-
-			
-
-
-
-
-
-
-
-			
+			remove_node_gap	
 		fi
 		sleep 1
 
@@ -501,6 +545,38 @@ case $2 in
 	http_response "$1"
 	;;
 9)
-	http_response "$1"
+	if [ "$ss_dns_china" == "1" ];then
+		IFIP_DNS1=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+		IFIP_DNS2=`echo $ISP_DNS2|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+		[ -n "$IFIP_DNS1" ] && CDN1="$ISP_DNS1" || CDN1="114.114.114.114"
+		[ -n "$IFIP_DNS2" ] && CDN2="$ISP_DNS2" || CDN2="114.114.115.115"
+	fi
+
+	ISP_DNS1=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
+	IFIP_DNS=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+	[ -n "$IFIP_DNS" ] && CDN="$ISP_DNS1" || CDN="114.114.114.114"
+	[ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
+	[ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
+	[ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
+	[ "$ss_dns_china" == "5" ] && CDN="114.114.115.115"
+	[ "$ss_dns_china" == "6" ] && CDN="1.2.4.8"
+	[ "$ss_dns_china" == "7" ] && CDN="210.2.4.8"
+	[ "$ss_dns_china" == "8" ] && CDN="112.124.47.27"
+	[ "$ss_dns_china" == "9" ] && CDN="114.215.126.16"
+	[ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
+	[ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
+	[ "$ss_dns_china" == "12" ] && CDN="$ss_dns_china_user"
+
+	if [ -f "/tmp/route_del" ];then
+		source /tmp/route_del >/dev/null 2>&1
+		rm -f /tmp/route_del >/dev/null 2>&1
+	fi
+	rm -rf $LOG_FILE
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN" ] && route_add $ss_mwan_china_dns_dst $CDN
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN1" ] && route_add $ss_mwan_china_dns_dst $CDN1
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN2" ] && route_add $ss_mwan_china_dns_dst $CDN2
+	[ "$ss_mwan_vps_ip_dst" != "0" ] && [ -n "$ss_basic_server_ip" ] && [ "$ss_basic_server_ip" != "127.0.0.1" ] && route_add $ss_mwan_vps_ip_dst $ss_basic_server_ip
+	
+	[ -z "$3" ] && http_response "$1"
 	;;
 esac

@@ -1,5 +1,14 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.0
+   - add	添加koolss和koolgame开启的判断；
+   - add	添加多wan情况下，ping，国内dns，vps ip线路选择；
+   - add	添加KCP，负载均衡状态显示（此处显示进程状态，并非它们的网络连通性状态）
+   - update	kcp加速情况下ss-tunnel走原默认线路而不是kcp流；
+   - update	SSR混淆参数为空时不在帐号设置中显示；
+   - update	优化负载均衡节点解析和配置生成
+   - update	优化脚本，日志显示等...
+
 1.8.0
    - fix	更换了ping获取接口，修复当ping出现failed或者节点过多没ping完时，页面卡顿，提交无反应等问题；
    - fix	现在重刷固件不会丢失ping测试功能了；

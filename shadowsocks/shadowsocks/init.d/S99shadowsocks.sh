@@ -14,9 +14,13 @@ source /koolshare/scripts/base.sh
 eval `dbus export ss`
 
 start(){
-	[ "$ss_basic_enable" == "1" ] && sh /koolshare/ss/ssstart.sh restart > /tmp/upload/ss_log.txt
+	if [ "$ss_basic_enable" == "1" ];then
+		sh /koolshare/ss/ssstart.sh restart > /tmp/upload/ss_log.txt
+		echo "XU6J03M6" >> /tmp/upload/ss_log.txt
+	fi
 }
 
 stop(){
 	sh /koolshare/ss/ssstart.sh stop > /tmp/upload/ss_log.txt
+	echo "XU6J03M6" >> /tmp/upload/ss_log.txt
 }

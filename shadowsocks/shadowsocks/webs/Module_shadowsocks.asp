@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
 	.box {
-		min-width:1065px;
+		min-width:1110px;
 	}
 	.c-checkbox {
 		margin-left:-10px;
@@ -117,8 +117,8 @@
 </style>
 	<script type="text/javascript">
 		var dbus;
-		get_arp_list();
 		get_dbus_data();
+		get_arp_list();
 		var _responseLen;
 		var noChange = 0;
 		var x = 4;
@@ -157,6 +157,12 @@
 		var option_hour_time = [];
 		var option_node_name = [];
 		var option_node_addr = [];
+		var wans =[];
+		var wans2 = [];
+		var ss_lb_nodes =[];
+		var ssr_lb_nodes =[];
+		var wans_value =[];
+		var wans_name =[];
 		var kcp_diff = 0;
 		var ss_node_diff = 0;
 		var softcenter = 0;
@@ -746,14 +752,11 @@
 		ssr_node.rpApply = function(e) {
 			e = PR(e);
 			var apply_ss_node = parseInt(e.cells[0].innerHTML);
-			console.log(apply_ss_node);
 			//dbus["ss_basic_node"] = apply_ss_node //addby sadog
 			E("_ss_basic_node").value = apply_ss_node + node_ss;
 			if (confirm("确定要应用此节点?")) {
 				auto_node_sel();
 				verifyFields();
-				//tabSelect('app1');
-				//setTimeout("save();", 200);
 				save();
 			} else {
 				return false;
@@ -917,8 +920,9 @@
 		}
 		//============================================
 		var lb = new TomatoGrid();
+
 		lb.dataToView = function(data) {
-			return [ data[0], data[1], data[2], data[3], data[4], data[5], option_lb_policy_name[data[6]] ];
+			return [ data[0], data[1], data[2], data[3], data[4], data[5], data[6], option_lb_policy_name[data[7]] ];
 		}
 		lb.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
@@ -977,50 +981,70 @@
 			this.sortColumn = -1;
 			//this.sortAscending = true;
 		}
+
 		lb.setup = function(lb_node, lb_type) {
 			//get_dbus_data();
 			if ($("#lb-grid > tbody > tr > td.header.co1").length == 0){
 				this.init( 'lb-grid' );
-				this.headerSet( ['节点名称', '节点序号', '服务器地址', '端口', '加密方式', '权重', '属性' ] );
+				this.headerSet( ['节点名称', '节点序号', '服务器地址', '端口', '加密方式', '多wan出口', '权重', '属性' ] );
 			}
 			//ss set up on click
 			if (lb_type == 1){
+				var html ='<select name="ssconf_basic_lb_dest_' + lb_node + '" onchange="verifyFields(this, 1)" id="_ssconf_basic_lb_dest_' + lb_node + '"></select>'
 				var t = [
 						"【SS】" + dbus["ssconf_basic_name_" + lb_node ], 
 						lb_node, 
 						dbus["ssconf_basic_server_" + lb_node ], 
 						dbus["ssconf_basic_port_" + lb_node ], 
 						dbus["ssconf_basic_method_" + lb_node ], 
+						//dbus["ssconf_basic_lb_dest_" + lb_node ] || wans[0][0],
+						html,
 						dbus["ssconf_basic_lb_weight_" + lb_node ],
 						dbus["ssconf_basic_lb_policy_" + lb_node ]
 						]
 					dbus["ss_lb_node_ex"] = lb_node;
-				if ( t.length == 7 ) this.insertData( -1, t );
+				if ( t.length == 8 ) this.insertData( -1, t );
+				for ( var j = 0; j < wans.length; ++j ) {
+					$("#_ssconf_basic_lb_dest_" + lb_node).append("<option value='"  + wans[j][0] + "'>" + wans[j][1] + "</option>");
+				}
+				E("_ssconf_basic_lb_dest_" + lb_node).value = dbus["ssconf_basic_lb_dest_" + lb_node] || 0;
 			//ssr set up on click
 			}else if (lb_type == 2){
+				var html ='<select name="ssrconf_basic_lb_dest_' + lb_node + '" onchange="verifyFields(this, 1)" id="_ssrconf_basic_lb_dest_' + lb_node + '"></select>'
 				var t = [
 						"【SSR】" + dbus["ssrconf_basic_name_" + lb_node ], 
 						lb_node, 
 						dbus["ssrconf_basic_server_" + lb_node ], 
 						dbus["ssrconf_basic_port_" + lb_node ], 
 						dbus["ssrconf_basic_method_" + lb_node ],
+						//dbus["ssrconf_basic_lb_dest_" + lb_node ] || wans[0][0],
+						html,
 						dbus["ssrconf_basic_lb_weight_" + lb_node ],
 						dbus["ssrconf_basic_lb_policy_" + lb_node ]
 						]
 					dbus["ss_lb_node_ex"] = lb_node;
-				if ( t.length == 7 ) this.insertData( -1, t );
+				if ( t.length == 8 ) this.insertData( -1, t );
+				for ( var j = 0; j < wans.length; ++j ) {
+					$("#_ssrconf_basic_lb_dest_" + lb_node).append("<option value='"  + wans[j][0] + "'>" + wans[j][1] + "</option>");
+				}
+				E("_ssrconf_basic_lb_dest_" + lb_node).value = dbus["ssrconf_basic_lb_dest_" + lb_node] || 0;
 			}else{
 				//ss set up on pageload
 				for ( var i = 1; i <= dbus["ssconf_basic_node_max"]; i++){
+					var html ='<select name="ssconf_basic_lb_dest_' + i + '" onchange="verifyFields(this, 1)" id="_ssconf_basic_lb_dest_' + i + '"></select>'
 					if (dbus["ssconf_basic_lb_enable_" + i ] == 1){
 						var t = ["【SS】" + dbus["ssconf_basic_name_" + i ], 
 								String(i),
 								dbus["ssconf_basic_server_" + i ], 
 								dbus["ssconf_basic_port_" + i ], 
 								dbus["ssconf_basic_method_" + i ],
-								dbus["ssconf_basic_lb_weight_" + i ],
-								dbus["ssconf_basic_lb_policy_" + i ]]
-						if ( t.length == 7 ) this.insertData( -1, t );
+								//dbus["ssconf_basic_lb_dest_" + i ] || wans[0][0],
+								html,
+								dbus["ssconf_basic_lb_weight_" + i ] || "50",
+								dbus["ssconf_basic_lb_policy_" + i ] || "1"
+								]
+						if ( t.length == 8 ) this.insertData( -1, t );
+						ss_lb_nodes.push(i);
 						dbus["ss_lb_node_ex"] = i;
 						dbus["ss_lb_type"] = 1;
 					}
@@ -1028,19 +1052,61 @@
 				//ssr set up on pageload
 				for ( var i = 1; i <= dbus["ssrconf_basic_node_max"]; i++){
 					if (dbus["ssrconf_basic_lb_enable_" + i ] == 1){
+						var html ='<select name="ssrconf_basic_lb_dest_' + i + '" onchange="verifyFields(this, 1)" id="_ssrconf_basic_lb_dest_' + i + '">'
+						for ( var j = 0; j < wans.length; ++j ) {
+							html +='<option value=' + wans[j][0] + '>' + wans[j][1] + '</option>'
+						}
+						html +='</select>'
 						var t = ["【SSR】" + dbus["ssrconf_basic_name_" + i ], 
 								String(i),
 								dbus["ssrconf_basic_server_" + i ], 
 								dbus["ssrconf_basic_port_" + i ], 
 								dbus["ssrconf_basic_method_" + i ],
-								dbus["ssrconf_basic_lb_weight_" + i ],
-								dbus["ssrconf_basic_lb_policy_" + i ]]
-						if ( t.length == 7 ) this.insertData( -1, t );
+								html,
+								dbus["ssrconf_basic_lb_weight_" + i ] || "50", 
+								dbus["ssrconf_basic_lb_policy_" + i ] || "1"
+								]
+						if ( t.length == 8 ) this.insertData( -1, t );
+						ssr_lb_nodes.push(i);
 						dbus["ss_lb_node_ex"] = i;
 						dbus["ss_lb_type"] = 2;
 					}
 				}
 			}
+		}
+		
+		function add_lb_node(){
+			lb_node_sel = E('_ss_lb_node').value || 1;
+			if (dbus["ssrconf_basic_rss_protocal_" + (lb_node_sel - node_ss)]){ // using ssr
+				if (!dbus["ss_lb_type"] || dbus["ss_lb_type"] == 2){
+					dbus["ssrconf_basic_lb_enable_" + (lb_node_sel - node_ss) ] = "1";
+					dbus["ssrconf_basic_lb_weight_" + (lb_node_sel - node_ss) ] = E("_ss_lb_weight").value;
+					dbus["ssrconf_basic_lb_policy_" + (lb_node_sel - node_ss) ] = E("_ss_lb_policy").value;
+					dbus["ssrconf_basic_lb_dest_" + (lb_node_sel - node_ss) ] = E("_ss_lb_dest").value;
+					dbus["ss_lb_type"] = 2;
+					lb_type=2;
+					lb_node = String(lb_node_sel - node_ss);
+				}else{
+					alert("SS节点和SSR节点之间不能负载均衡！")
+					return false;
+				}
+			}else{ //ss
+				if (!dbus["ss_lb_type"] || dbus["ss_lb_type"] == 1){
+					dbus["ssconf_basic_lb_enable_" + lb_node_sel ] = "1";
+					dbus["ssconf_basic_lb_weight_" + lb_node_sel ] = E("_ss_lb_weight").value;
+					dbus["ssconf_basic_lb_policy_" + lb_node_sel ] = E("_ss_lb_policy").value;
+					dbus["ssconf_basic_lb_dest_" + lb_node_sel ] = E("_ss_lb_dest").value;
+					dbus["ss_lb_type"] = 1;
+					lb_type=1;
+					lb_node=lb_node_sel;
+				}else{
+					alert("SS节点和SSR节点之间不能负载均衡！")
+					return false;
+				}
+			}
+			lb.setup(lb_node, lb_type);
+			//$("#_ss_lb_node option[value='" + lb_node_sel +"']").remove();
+			$("#_ss_lb_node").val(parseInt(lb_node_sel) + 1);
 		}
 
 		//============================================
@@ -1207,13 +1273,13 @@
 			tabSelect('app1');
 			ss_node.setup();
 			ssr_node.setup();
-			lb.setup();
+			get_wans_list();
+			//get_wans_list2();
 			verifyFields();
 			auto_node_sel();
 			hook_event();
 			ping_node();
 			setTimeout("get_run_status();", 1000);
-			setTimeout("get_dns_status();", 2200);
 		}
    		function ping_node(){
 	   		$(window).scrollTop(25);
@@ -1374,6 +1440,8 @@
 				data: JSON.stringify(postData1),
 				dataType: "json",
 				success: function(response){
+					var ss_status = response.result.split("@@");
+					//console.log(ss_status)
 					if(softcenter == 1){
 						return false;
 					}
@@ -1387,8 +1455,22 @@
 							E("_ss_basic_status_foreign").innerHTML = "国外链接 - 尚未提交，暂停获取状态！";
 							E("_ss_basic_status_china").innerHTML = "国内链接 - 尚未提交，暂停获取状态！";
 						}else{
-							E("_ss_basic_status_foreign").innerHTML = response.result.split("@@")[0];
-							E("_ss_basic_status_china").innerHTML = response.result.split("@@")[1];
+							E("_ss_basic_status_foreign").innerHTML = ss_status[0];
+							E("_ss_basic_status_china").innerHTML = ss_status[1];
+							if (ss_status[2]){
+								$("#_ss_basic_kcp_status").parent().show();
+								$("#_ss_basic_kcp_status").html(ss_status[2])
+								$("#ss_status_title").css("padding", "25.5px 10px");
+							}else{
+								$("#_ss_basic_kcp_status").parent().hide();
+							}
+							if (ss_status[3]){
+								$("#_ss_basic_lb_status").parent().show();
+								$("#_ss_basic_lb_status").html(ss_status[3])
+								$("#ss_status_title").css("padding", "25.5px 10px");
+							}else{
+								$("#_ss_basic_lb_status").parent().hide();
+							}
 						}
 						setTimeout("get_run_status();", (status_refresh_rate * 1000));
 					}
@@ -1403,13 +1485,133 @@
 				}
 			});
 		}
-		function get_dns_status(){
-			if(dbus["ss_basic_dns_success"] == "1"){
-				$('#_ss_basic_dnslookup_txt').html("服务器IP地址解析正常！")
+
+		function mwan_set(){
+			lb.setup();
+			for ( var i = 0; i < wans.length; ++i ) {
+				$("#_ss_mwan_ping_dst").append("<option value='"  + wans[i][0] + "'>" + wans[i][1] + "</option>");
+				$("#_ss_mwan_china_dns_dst").append("<option value='"  + wans[i][0] + "'>" + wans[i][1] + "</option>");
+				$("#_ss_mwan_vps_ip_dst").append("<option value='"  + wans[i][0] + "'>" + wans[i][1] + "</option>");
+				$("#_ss_lb_dest").append("<option value='"  + wans[i][0] + "'>" + wans[i][1] + "</option>");
+			}
+			// fill the 3 input
+			if(wans.length > 1){
+				E("_ss_mwan_ping_dst").value = dbus["ss_mwan_ping_dst"] || "0";
+				E("_ss_mwan_china_dns_dst").value = dbus["ss_mwan_china_dns_dst"] || "0";
+				E("_ss_mwan_vps_ip_dst").value = dbus["ss_mwan_vps_ip_dst"] || "0";
+				E("_ss_lb_dest").value = dbus["ss_lb_dst"] || "0";
+			}else if (wans.length == 0){
+				E("_ss_mwan_ping_dst").value = "0";
+				E("_ss_mwan_china_dns_dst").value = "0";
+				E("_ss_mwan_vps_ip_dst").value = "0";
+				E("_ss_lb_dest").value = "0";
 			}else{
-				$('#_ss_basic_dnslookup_txt').html("！！！服务器IP地址解析异常！！！")
+				E("_ss_mwan_ping_dst").value = wans[0][0];
+				E("_ss_mwan_china_dns_dst").value = wans[0][0];
+				E("_ss_mwan_vps_ip_dst").value = wans[0][0];
+				E("_ss_lb_dest").value = wans[0][0];
+			}
+			for ( var i = 0; i < wans.length; ++i ) {
+				wans_value[i] = wans[i][0];
+			}
+			// now fill the dest in lb table
+			if (dbus["ss_lb_type"] == "1"){
+				if(ss_lb_nodes.length > 0){
+					for ( var i = 0; i < ss_lb_nodes.length; ++i ) {
+						if(wans.length > 1){
+							var a = wans_value.indexOf(dbus["ssconf_basic_lb_dest_" + ss_lb_nodes[i]]);
+							if(a != -1){
+								$("#_ssconf_basic_lb_dest_" + ss_lb_nodes[i]).val(dbus["ssconf_basic_lb_dest_" + ss_lb_nodes[i]]);
+							}else{
+								// the user defined iface is offline
+								$("#_ssconf_basic_lb_dest_" + ss_lb_nodes[i]).val("0");
+							}
+						}else if (wans.length == 0){
+							$("#_ssconf_basic_lb_dest_" + ss_lb_nodes[i]).val("0");
+						}else{
+							$("#_ssconf_basic_lb_dest_" + ss_lb_nodes[i]).val(wans[0][0]);
+						}
+					}
+				}
+			}else{
+				if(ssr_lb_nodes.length > 0){
+					for ( var i = 0; i < ssr_lb_nodes.length; ++i ) {
+						if(wans.length > 1){
+							var a = wans_value.indexOf(dbus["ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]]);
+							if(a != -1){
+								$("#_ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]).val(dbus["ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]]);
+							}else{
+								// the user defined iface is offline
+								$("#_ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]).val("0");
+							}
+						}else if (wans.length == 0){
+							$("#_ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]).val("0");
+						}else{
+							$("#_ssrconf_basic_lb_dest_" + ssr_lb_nodes[i]).val(wans[0][0]);
+						}
+					}
+				}
 			}
 		}
+		function get_wans_list(){
+			var id = parseInt(Math.random() * 100000000);
+			var postData = {"id": id, "method": "ss_getwans.sh", "params":[], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					if (response.result != "-1"){
+						wans = eval(Base64.decode(response.result));
+						wans  = wans.sort();
+						if(wans.length > 1){
+							wans.unshift(["0","不指定"]);
+						}else if (wans.length == 0){
+							wans = [["0","不指定"]];
+						}
+						console.log("当前接口信息(主用)：", wans);
+						mwan_set()
+					}
+				},
+				error:function(){
+					get_wans_list2();
+				},
+				timeout:1000
+			});
+		}
+		
+		function get_wans_list2(){
+			XHR.get('/cgi-bin/luci/admin/network/mwan/overview/interface_status', null,
+				function(x, mArray){
+					if (mArray.wans){
+						for ( var i = 0; i < mArray.wans.length; i++ ){
+							if(mArray.wans[i].status == "online"){
+								var wans2_temp = [];
+								wans2_temp[0] = mArray.wans[i].ifname
+								wans2_temp[1] = mArray.wans[i].name
+								wans2.push(wans2_temp);
+							}
+						}
+						wans2 = wans2.sort();
+                        if(wans2.length > 1){
+                            wans2.unshift(["0","不指定"]);
+                        }else if (wans2.length == 0){
+                            wans2 = [["0","不指定"]];
+                        }
+                        console.log("当前接口信息(备用)：", wans2);
+                        wans = wans2;
+                        mwan_set();
+					}else{
+						statusDiv.innerHTML = '<strong>没有找到 MWAN 接口</strong>';
+						alert("没有找到任何可用的wan接口！\n 请检查你的网络接口设置！")
+					}
+				}
+			);
+		}
+		
 		function get_arp_list(){
 			var id5 = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id5, "method": "ss_getarp.sh", "params":[], "fields": ""};
@@ -1453,7 +1655,7 @@
 			node_sel = E('_ss_basic_node').value || 1;
 			if (node_sel == 0){
 				if (dbus["ss_lb_enable"] == 1 && dbus["ss_lb_node_max"]){
-					if (dbus["ss_lb_type"] == 1){
+					if (dbus["ss_lb_type"] == 1){ //ss
 						dbus["ss_basic_type"] = "0";
 						E('_ss_basic_rss_protocal').value = ""
 						E('_ss_basic_rss_protocal_para').value = ""
@@ -1476,10 +1678,8 @@
 						E('_ss_basic_server').value = "127.0.0.1";
 						E('_ss_basic_port').value = dbus["ss_lb_port"];
 						E('_ss_basic_mode').value = dbus["ss_basic_mode"];
-					}else if (dbus["ss_lb_type"] == 2 && dbus["ss_lb_node_max"]){
+					}else if (dbus["ss_lb_type"] == 2){ //ssr
 						dbus["ss_basic_type"] = "1";
-						var o1  = E('_ss_basic_rss_protocal').value == 'auth_aes128_md5'; 
-						var o2  = E('_ss_basic_rss_protocal').value == 'auth_aes128_sha1'; 
 						last_lb_node=parseInt(dbus["ss_lb_node_ex"]);
 						for (var i = 0; i < ssrbasic.length; i++) {
 							if (typeof (dbus["ssrconf_basic_" + ssrbasic[i] + "_" + last_lb_node]) == "undefined"){
@@ -1488,8 +1688,8 @@
 								E('_ss_basic_' + ssrbasic[i] ).value = dbus["ssrconf_basic_" + ssrbasic[i] + "_" + last_lb_node] || "";
 							}
 						}
-						elem.display(PR('_ss_basic_rss_protocal_para'), o1 || o2);
 						elem.display(PR('_ss_basic_rss_protocal'), true);
+						elem.display(PR('_ss_basic_rss_protocal_para'), (E('_ss_basic_rss_protocal_para').value.length > 1));
 						elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), true);
 						elem.display(PR('_ss_basic_ss_obfs'), PR('_ss_basic_ss_obfs_host'), false);
 						elem.display(PR('_ss_basic_mode'), true);
@@ -1504,7 +1704,7 @@
 					alert("未启用负载均衡");
 					return false;
 				}
-			}else{
+			}else{ //not lb
 				if (dbus["ssrconf_basic_rss_protocal_" + (node_sel - node_ss)]){ // using ssr
 					dbus["ss_basic_type"] = "1";
 					for (var i = 0; i < ssrbasic.length; i++) {
@@ -1516,7 +1716,8 @@
 					}
 					elem.display(PR('_ss_basic_rss_protocal'), true);
 					elem.display(PR('_ss_basic_rss_protocal_para'), (E('_ss_basic_rss_protocal_para').value.length > 1));
-					elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), true);
+					elem.display(PR('_ss_basic_rss_obfs_para'), (E('_ss_basic_rss_obfs_para').value.length > 1));
+					elem.display(PR('_ss_basic_rss_obfs'), true);
 					elem.display(PR('_ss_basic_ss_obfs'), PR('_ss_basic_ss_obfs_host'), false);
 					elem.display(PR('_ss_basic_mode'), true);
 				}else{ //using ss
@@ -1694,7 +1895,7 @@
 			
 			for ( var i = 0; i < all_names_ss.length; i++){
 				if (all_names_ss[i][0] == ""){
-					all_nodes_of_ss.push(all_names_ss[i][1])
+					all_nodes_of_ss.push(all_names_ss[i][1]);
 				}
 			}
 			if(all_nodes_of_ss.length > 0){
@@ -1937,8 +2138,10 @@
 			setTimeout("tabSelect('app8')", 500);
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
+			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
+			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val" ];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -2069,11 +2272,13 @@
 				dbus["ssconf_basic_lb_enable_" + i ] = ""
 				dbus["ssconf_basic_lb_policy_" + i ] = ""
 				dbus["ssconf_basic_lb_weight_" + i ] = ""
+				dbus["ssconf_basic_lb_dest_" + i ] = ""
 			}
 			for ( var i = 1; i <= dbus["ssrconf_basic_max_node"]; i++){
 				dbus["ssrconf_basic_lb_enable_" + i ] = ""
 				dbus["ssrconf_basic_lb_policy_" + i ] = ""
 				dbus["ssrconf_basic_lb_weight_" + i ] = ""
+				dbus["ssrconf_basic_lb_dest_" + i ] = ""
 			}
 
 			// now store lb value in node data
@@ -2082,8 +2287,12 @@
 				if(data.length > 0){
 					for ( var i = 0; i < data.length; ++i ) {
 						dbus["ssconf_basic_lb_enable_" + data[i][1] ] = 1;
-						dbus["ssconf_basic_lb_policy_" + data[i][1] ] = data[i][6];
-						dbus["ssconf_basic_lb_weight_" + data[i][1] ] = data[i][5];
+						dbus["ssconf_basic_lb_policy_" + data[i][1] ] = data[i][7];
+						dbus["ssconf_basic_lb_weight_" + data[i][1] ] = data[i][6];
+						//dbus["ssconf_basic_lb_dest_" + data[i][1] ] = data[i][5];
+						id = $(data[i][5]).attr("id");
+						name = $(data[i][5]).attr("name");
+						dbus[name] = $("#" + id).val();
 					}
 					dbus["ss_lb_node_max"] = data.length;
 					dbus["ss_basic_type"] = 0;
@@ -2096,8 +2305,12 @@
 				if(data.length > 0){
 					for ( var i = 0; i < data.length; ++i ) {
 						dbus["ssrconf_basic_lb_enable_" + data[i][1] ] = 1;
-						dbus["ssrconf_basic_lb_policy_" + data[i][1] ] = data[i][6];
-						dbus["ssrconf_basic_lb_weight_" + data[i][1] ] = data[i][5];
+						dbus["ssrconf_basic_lb_policy_" + data[i][1] ] = data[i][7];
+						dbus["ssrconf_basic_lb_weight_" + data[i][1] ] = data[i][6];
+						//dbus["ssrconf_basic_lb_dest_" + data[i][1] ] = data[i][5];
+						id = $(data[i][5]).attr("id");
+						name = $(data[i][5]).attr("name");
+						dbus[name] = $("#" + id).val();
 					}
 					dbus["ss_lb_node_max"] = data.length;
 					dbus["ss_basic_type"] = 1;
@@ -2106,7 +2319,6 @@
 					dbus["ss_lb_node_ex"] = "";
 				}
 			}
-
 			// now post data
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": "ss_config.sh", "params":[2], "fields": dbus};
@@ -2203,38 +2415,6 @@
 			});
 		}
 
-		function add_lb_node(){
-			lb_node_sel = E('_ss_lb_node').value || 1;
-			if (dbus["ssrconf_basic_rss_protocal_" + (lb_node_sel - node_ss)]){ // using ssr
-				if (!dbus["ss_lb_type"] || dbus["ss_lb_type"] == 2){
-					dbus["ssrconf_basic_lb_enable_" + (lb_node_sel - node_ss) ] = "1";
-					dbus["ssrconf_basic_lb_weight_" + (lb_node_sel - node_ss) ] = E("_ss_lb_weight").value;
-					dbus["ssrconf_basic_lb_policy_" + (lb_node_sel - node_ss) ] = E("_ss_lb_policy").value;
-					dbus["ss_lb_type"] = 2;
-					lb_type=2;
-					lb_node = String(lb_node_sel - node_ss);
-				}else{
-					alert("SS节点和SSR节点之间不能负载均衡！")
-					return false;
-				}
-			}else{ //ss
-				if (!dbus["ss_lb_type"] || dbus["ss_lb_type"] == 1){
-					dbus["ssconf_basic_lb_enable_" + lb_node_sel ] = "1";
-					dbus["ssconf_basic_lb_weight_" + lb_node_sel ] = E("_ss_lb_weight").value;
-					dbus["ssconf_basic_lb_policy_" + lb_node_sel ] = E("_ss_lb_policy").value;
-					dbus["ss_lb_type"] = 1;
-					lb_type=1;
-					lb_node=lb_node_sel;
-				}else{
-					alert("SS节点和SSR节点之间不能负载均衡！")
-					return false;
-				}
-			}
-			lb.setup(lb_node, lb_type);
-			//$("#_ss_lb_node option[value='" + lb_node_sel +"']").remove();
-			$("#_ss_lb_node").val(parseInt(lb_node_sel) + 1);
-		}
-		
 		function get_log(){
 			$.ajax({
 				url: '/_temp/ss_log.txt',
@@ -2333,6 +2513,10 @@
 				dbus3["ssr_subscribe_mode"] = E("_ssr_subscribe_mode").value;
 				dbus3["ssr_subscribe_obfspara"] = E("_ssr_subscribe_obfspara").value;
 				dbus3["ssr_subscribe_obfspara_val"] = E("_ssr_subscribe_obfspara_val").value;
+			}else if(arg == 9){
+				dbus3["ss_mwan_ping_dst"] = E("_ss_mwan_ping_dst").value;
+				dbus3["ss_mwan_china_dns_dst"] = E("_ss_mwan_china_dns_dst").value;
+				dbus3["ss_mwan_vps_ip_dst"] = E("_ss_mwan_vps_ip_dst").value;
 			}else if(arg == 8){
 				var r=0; //记录没有group信息的节点
 				var data = ssr_node.getAllData();
@@ -2347,6 +2531,7 @@
 						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = dbus["ssrconf_basic_lb_enable_" + data[i][0]] || "";
 						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = dbus["ssrconf_basic_lb_policy_" + data[i][0]] || "";
 						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = dbus["ssrconf_basic_lb_weight_" + data[i][0]] || "";
+						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = dbus["ssrconf_basic_lb_dest_" + data[i][0]] || "";
 						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = dbus["ssrconf_basic_server_ip_" + data[i][0]] || "";
 					}
 					// 调节顺序后把最后多余的节点删除
@@ -2358,6 +2543,7 @@
 						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
+						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
 					}
 				}else{
@@ -2371,6 +2557,7 @@
 						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
+						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
 						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
 					}
 					dbus["ssrconf_basic_max_node"] = "";
@@ -2388,6 +2575,7 @@
 							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
 							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
 							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
+							dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
 							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
 						}else{
 							++r;
@@ -2400,6 +2588,7 @@
 							dbus["ssrconf_basic_lb_enable_" + r] = dbus["ssrconf_basic_lb_enable_" + (i + 1)] || "";
 							dbus["ssrconf_basic_lb_policy_" + r] = dbus["ssrconf_basic_lb_policy_" + (i + 1)] || "";
 							dbus["ssrconf_basic_lb_weight_" + r] = dbus["ssrconf_basic_lb_weight_" + (i + 1)] || "";
+							dbus["ssrconf_basic_lb_dest_" + r] = dbus["ssrconf_basic_lb_dest_" + (i + 1)] || "";
 							dbus["ssrconf_basic_server_ip_" + r] = dbus["ssrconf_basic_server_ip_" + (i + 1)] || "";
 						}
 					}
@@ -2422,7 +2611,7 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "ss_conf.sh"){
-						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8){
+						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8 || arg == 9){
 							setTimeout("window.location.reload()", 500);
 						}else if (arg == 5){
 							setTimeout("window.location.reload()", 1000);
@@ -2478,7 +2667,7 @@
 		}
 		
 	</script>
-	<div class="box" style="margin-top: 0px;min-width:1065px;">
+	<div class="box" style="margin-top: 0px;min-width:1110px;">
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
@@ -2505,27 +2694,33 @@
 			</script>
 			<hr />
 			<fieldset id="ss_status_pannel">
-				<label class="col-sm-3 control-left-label" for="_undefined">shadowsocks运行状态</label>
+				<label class="col-sm-3 control-left-label" id="ss_status_title">shadowsocks运行状态</label>
 				<div class="col-sm-9">
 					<font id="_ss_basic_status_foreign" name="ss_basic_status_foreign" color="#1bbf35">国外链接: waiting...</font>
 				</div>
 				<div class="col-sm-9" style="margin-top:2px">
 					<font id="_ss_basic_status_china" name="ss_basic_status_china" color="#1bbf35">国内链接: waiting...</font>
 				</div>
+				<div class="col-sm-9" style="margin-top:2px;display:none;">
+					<font id="_ss_basic_kcp_status" name="ss_basic_kcp_status" color="#1bbf35">KCP状态: waiting...</font>
+				</div>
+				<div class="col-sm-9" style="margin-top:2px;display:none;">
+					<font id="_ss_basic_lb_status" name="ss_basic_lb_status" color="#1bbf35">负载均衡: waiting...</font>
+				</div>
 			</fieldset>
 		</div>
 	</div>
-	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:1065px;">
+	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:1110px;">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:100px"><i class="icon-system"></i> 帐号设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:100px"><i class="icon-globe"></i> 节点管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:100px"><i class="icon-tools"></i> DNS设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多wan设定</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:100px"><i class="icon-cloud"></i> 负载均衡</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:100px"><i class="icon-graphs"></i> KCP加速</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:100px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab" style="width:100px"><i class="icon-cmd"></i> 规则管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab" style="width:100px"><i class="icon-lock"></i> 访问控制</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab" style="width:100px"><i class="icon-wake"></i> 附加功能</a></li>
-		<!--<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab"><i class="icon-home"></i> socks5</a></li>-->
 		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab" style="width:100px"><i class="icon-hourglass"></i> 查看日志</a></li>	
 	</ul>
 	<div class="box boxr1" id="ss_basic_tab" style="margin-top: 0px;">
@@ -2667,10 +2862,11 @@
 						{ name: 'ss_lb_interval', type: 'text', size: 2, value: dbus.ss_lb_interval || "4000", suffix: '<lable>ms</lable>', prefix: '<span class="help-block"><lable>心跳间隔：</lable></span>' }
 					]},
 					{ title: '服务器添加', multi: [
-						{ name: 'ss_lb_node',type:'select',options:option_node_name, value: dbus.ss_lb_node || "", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_lb_node',type:'select',style:select_style,options:option_node_name, value: dbus.ss_lb_node || "", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_lb_weight', type: 'text', size: 1, value: dbus.ss_lb_weight || "50", suffix: ' &nbsp;&nbsp;', prefix: '<span class="help-block"><lable>权重：</lable></span>' },
 						{ name: 'ss_lb_policy', type: 'select', options:option_lb_policy, value: dbus.ss_lb_policy || "1", suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>属性：</lable></span>' },
-						{ suffix: ' <button onclick="add_lb_node();" class="btn btn-danger">添加<i class="icon-plus"></i></button>' }
+						{ name: 'ss_lb_dest', type: 'select', options:[], suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>出口：</lable></span>' },
+						{ suffix: ' <button id="add_lbnode" onclick="add_lb_node();" class="btn btn-danger">添加<i class="icon-plus"></i></button>' }
 					]}
 				]);
 				document.getElementById("haproxy_console1").href = "http://"+location.hostname+":1188";
@@ -2826,6 +3022,11 @@
 						{ name: 'ss_chinadns_foreign_sstunnel_user', type: 'text', value: dbus.ss_chinadns_foreign_sstunnel_user },
 						{ name: 'ss_chinadns_foreign_method_user', type: 'text', value: dbus.ss_chinadns_foreign_method_user, suffix: '<lable id="_ss_chinadns_foreign_method_user_txt">自定义直连的chinaDNS国外dns。</lable>' },
 					]},
+					{ title: 'SS服务器地址解析', multi: [
+						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_dnslookup_server', type: 'text', value: dbus.ss_basic_dnslookup_server || "119.29.29.29", suffix: '<lable id="_ss_basic_dnslookup_txt">当服务器地址是域名的时候会用此设定解析。</lable>' }
+					]},
+					{ title: 'chromecast支持 (接管局域网DNS解析)',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0 },
 					{ title: '<b>自定义CDN加速名单</b></br></br><font color="#B2B2B2">强制用国内DNS解析的域名，一行一个，如：</br>koolshare.cn</br>baidu.com</font>', name: 'ss_isp_website_web', type: 'textarea', value: Base64.decode(dbus.ss_isp_website_web)||"",	style: 'width: 100%; height:150px;' },
 					// dns foreign chinadns
 					{ title: '自定义需要CDN加速名单', suffix: '<lable id="_ss_cdn_chinadns_txt">ChinaDNS方案自带国内cdn加速，无需定义cdn加速名单 </lable>' },
@@ -2854,6 +3055,39 @@
 			</script>
 		</div>
 	</div>
+	<div class="box boxr11" id="ss_mwan_tab" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content" style="margin-top: -20px;">
+			<div id="ss_mwan_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#ss_mwan_pannel').forms([
+					{ title: '节点ping测试出口', name:'ss_mwan_ping_dst',type:'select',options:[], value: dbus.ss_mwan_ping_dst},
+					{ title: '国内DNS指定解析出口', name:'ss_mwan_china_dns_dst',type:'select',options:[], value: dbus.ss_mwan_china_dns_dst},
+					{ title: 'SS服务器指定出口', name:'ss_mwan_vps_ip_dst',type:'select',options:[], value: dbus.ss_mwan_china_dns_dst}
+				]);
+			</script>
+			<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 9)" class="btn btn-primary" style="float:left;">应用出口设定 <i class="icon-check"></i></button>
+		</div>
+	</div>
+	<div id="ss_mwan_readme" class="box boxr11">
+		<div class="heading">出口设定须知： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('mwan3');"><span id="sesdivmwan3showhide"><i class="icon-chevron-up"></i></span></a></div>
+		<div class="section content" id="sesdivmwan3" style="display:none">
+			<li>当你的LEDE配置了多个wan的时候，你可以通过本页面为一些ip地址设定指定的出口；</li>
+			<li>你可以选择指定出口或者不指定，不指定出口的时候，将会由路由器本身随机选择出口；</li>
+			<li>当启用了负载均衡后，SS服务器指定出口将会无效，但是你可以在负载均衡节点表格内指定每个负载均衡节点的出口；</li>
+			<li>如果你指定了某个出口，在路由器使用期间某个接口离线后，将会由路由器本身随机选择出口，接口上线后将会恢复。</li>
+		</div>
+		<script>
+			var cc;
+			if(!cookie.get('ss_mwan3_vis')){
+				cookie.set('ss_mwan3_vis', 1);
+			}
+			if (((cc = cookie.get('ss_mwan3_vis')) != null) && (cc == '1')) {
+				toggleVisibility("mwan3");
+			}
+		</script>
+	</div>	
+	
 	<div class="box boxr5" id="ss_rule_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
@@ -2917,11 +3151,6 @@
 			<script type="text/javascript">
 				$('#ss_addon_pannel').forms([
 					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
-					{ title: 'chromecast支持<br /><br />(DNS劫持)',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0 },
-					{ title: 'SS服务器地址解析', multi: [
-						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_dnslookup_server', type: 'text', value: dbus.ss_basic_dnslookup_server || "119.29.29.29", suffix: '<lable id="_ss_basic_dnslookup_txt"></lable>' }
-					]},
 					{ title: 'SS数据清除', suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 1);" class="btn btn-success">清除所有SS数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'ss_conf.sh\', 2);" class="btn btn-success">清除SS节点数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'ss_conf.sh\', 3);" class="btn btn-success">清除访问控制数据</button>' },
 					{ title: 'SS数据备份', suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 4);" class="btn btn-download">备份所有SS数据</button>' },
 					{ title: 'SS数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
@@ -2930,14 +3159,6 @@
 			</script>
 		</div>
 	</div>
-	<!--
-	<div class="box boxr11" id="ss_socks5_tab" style="margin-top: 0px;">
-		<div class="heading">这个人很懒，还没开始做这个功能...</div>
-		<div class="content" style="margin-top: -20px;">
-			<div id="ss_socks5_pannel" class="section"></div>
-		</div>
-	</div>
-	-->
 	<div class="box boxr8" id="ss_log_tab" style="margin-top: 0px;">
 		<div id="ss_log_pannel" class="content">
 			<div class="section content">

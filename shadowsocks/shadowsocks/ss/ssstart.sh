@@ -17,6 +17,17 @@ LOCK_FILE=/var/lock/shadowsocks.lock
 ISP_DNS1=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
 ISP_DNS2=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 3p`
 IFIP=`echo $ss_basic_server|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+# triggher shell
+ONSTART=`ps -l|grep $PPID|grep -v grep|grep "S99shadowsocks"`
+#ONMWAN3=`ps -l|grep $PPID|grep -v grep|grep "mwan3.user"`
+#ONFIRES=`ps -l|grep $PPID|grep -v grep|grep "firewall includes"`
+
+# define SPECIAL_ARG when kcp enabled
+if [ "$ss_kcp_enable" == "1" ] && [ "$ss_kcp_node" == "$ss_basic_node" ];then
+	SPECIAL_ARG="-s 127.0.0.1 -p 11183"
+else
+	SPECIAL_ARG=""
+fi
 
 # dns china
 IFIP_DNS=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
@@ -32,6 +43,7 @@ IFIP_DNS=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
 [ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
 [ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
 [ "$ss_dns_china" == "12" ] && CDN="$ss_dns_china_user"
+
 # dns for foreign ss-tunnel
 [ "$ss_sstunnel" == "1" ] && gs="208.67.220.220:53"
 [ "$ss_sstunnel" == "2" ] && gs="8.8.8.8:53"
@@ -79,6 +91,40 @@ Pcap_DNSProxy=$(ps | grep "Pcap_DNSProxy" | grep -v "grep")
 HAPID=`pidof haproxy`
 ip_rule_exist=`/usr/sbin/ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 #--------------------------------------------------------------------------
+
+calculate_wans_nu(){
+	interface_nu=`ubus call network.interface dump|jq '.interface|length'`
+	if [ -z "$interface_nu" ];then
+		echo_date "没有找到任何可用网络接口"
+	else
+		j=0
+		wans_nu=0
+		until [ "$j" == "$interface_nu" ]
+		do
+			lan_addr_prefix=`uci -q get network.lan.ipaddr|cut -d . -f1,2,3`
+			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop|grep -v "$lan_addr_prefix."|grep -v 127.0.0.1|sed 's/"nexthop"://g'|grep -v :`
+			if [ -n "$WAN_EXIST" ];then
+				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
+				wan_ifname_l3=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
+				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
+				
+				if [ "$wan_up" == "true" ];then
+					echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
+					wans_nu=$(($wans_nu+1))
+					if [ -z "$default_wan_if" ];then
+						default_wan_if=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
+					fi
+				fi
+			fi
+			j=$(($j+1))
+		done
+		echo_date "当前共有 $wans_nu个wan启用..."
+		if [ "$wans_nu" == "1" ];then
+			echo_date "默认wan出口: $default_wan_if"
+		fi
+	fi
+}
+
 restore_dnsmasq_conf(){
 	# delete server setting in dnsmasq.conf
 	pc_delete "server=" "/etc/dnsmasq.conf"
@@ -103,6 +149,11 @@ restore_dnsmasq_conf(){
 	rm -rf /tmp/sscdn.conf
 	rm -rf /tmp/custom.conf
 	rm -rf /tmp/wblist.conf
+
+	if [ -f "/tmp/route_del" ];then
+		source /tmp/route_del >/dev/null 2>&1
+		rm -f /tmp/route_del >/dev/null 2>&1
+	fi
 }
 
 restore_start_file(){
@@ -194,13 +245,40 @@ kill_cron_job(){
 }
 
 # ==========================================================================================
+route_add(){
+	devname="$1"
+	routeip="$2"
+	cleanfile=/tmp/route_del
+	if [ "$devname" == "0" ];then
+		echo_date "【出口设定】 不指定 $routeip 的出口"、
+	elif [ "$devname" == "1" ];then
+		echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"、
+	else
+		GW=`/usr/sbin/ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
+		l3_name=`uci show network|grep $devname|grep -v orig|grep ifname|cut -d "." -f2`
+		if [ -n "$GW" ];then
+			/usr/sbin/ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
+			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
+			if [ ! -f $cleanfile ];then
+				cat	> $cleanfile <<-EOF
+				#!/bin/sh
+				EOF
+			fi
+			chmod +x $cleanfile
+			echo "/usr/sbin/ip route del $routeip via $GW dev $devname 【$l3_name】" >>	/tmp/route_del
+		else
+			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】失败, 因为$devname 【$l3_name】已经离线!!! $routeip将会自动选择出口！"
+		fi
+	fi
+}
+
 # try to resolv the ss server ip if it is domain...
 resolv_server_ip(){
 	if [ -z "$IFIP" ];then
-		echo_date 使用nslookup方式解析服务器的ip地址,解析dns：$ss_basic_dnslookup_server
+		# resolve first
 		if [ "$ss_basic_dnslookup" == "1" ];then
+			echo_date 使用nslookup方式解析服务器的ip地址,解析dns：$ss_basic_dnslookup_server
 			server_ip=`nslookup "$ss_basic_server" $ss_basic_dnslookup_server | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
-			#server_ip=`/usr/bin/nslookup "$ss_basic_server" $ss_basic_dnslookup_server |grep "Address 1"|awk '{print $3}'`
 		else
 			echo_date 使用resolveip方式解析服务器的ip地址.
 			server_ip=`resolveip -4 -t 2 $ss_basic_server|awk 'NR==1{print}'`
@@ -209,13 +287,13 @@ resolv_server_ip(){
 		if [ -n "$server_ip" ];then
 			echo_date 服务器的ip地址解析成功：$server_ip.
 			ss_basic_server="$server_ip"
-			dbus set ss_basic_server_ip="$server_ip"
 			ss_basic_server_ip="$server_ip"
-			dbus set ss_basic_dns_success="1"
+			dbus set ss_basic_server_ip="$server_ip"
 			# store resoved ip in skipd
 			echo_date 将解析结果储存到skipd数据库...
 			if [ "$ss_basic_type"  == "1" ];then
-				dbus set ssrconf_basic_server_ip_$ss_basic_node="$server_ip"
+				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				dbus set ssrconf_basic_server_ip_$SSR_NODE="$server_ip"
 			elif [ "$ss_basic_type"  == "0" ];then
 				dbus set ssconf_basic_server_ip_$ss_basic_node="$server_ip"
 			fi
@@ -223,18 +301,25 @@ resolv_server_ip(){
 			# get pre-resoved ip in skipd
 			echo_date 尝试获取上次储存的解析结果...
 			if [ "$ss_basic_type"  == "1" ];then
-				ss_basic_server=`dbus get ssrconf_basic_server_ip_$ss_basic_node`
+				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				ss_basic_server=`dbus get ssrconf_basic_server_ip_$SSR_NODE`
 			elif [ "$ss_basic_type"  == "0" ];then
 				ss_basic_server=`dbus get ssconf_basic_server_ip_$ss_basic_node`
 			fi
-			[ -n "$ss_basic_server" ] && echo_date 成功获取到上次储存的解析结果：$ss_basic_server && dbus set ss_basic_dns_success="1"
-			[ -z "$ss_basic_server" ] && ss_basic_server=`dbus get ss_basic_server` && echo_date SS服务器的ip地址解析失败，将由ss-redir自己解析. && dbus set ss_basic_dns_success="0"
+			ss_basic_server_ip="$ss_basic_server"
+			[ -n "$ss_basic_server" ] && echo_date 成功获取到上次储存的解析结果：$ss_basic_server
+			[ -z "$ss_basic_server" ] && ss_basic_server=`dbus get ss_basic_server` && echo_date SS服务器的ip地址解析失败，将由ss-redir自己解析.
 		fi
 	else
 		echo_date 检测到你的SS服务器已经是IP格式：$ss_basic_server,跳过解析... 
 		dbus set ss_basic_server_ip="$ss_basic_server"
 		ss_basic_server_ip="$ss_basic_server"
-		dbus set ss_basic_dns_success="1"
+	fi
+
+	if [ "$ss_mwan_vps_ip_dst" != "0" ] && [ -n "$ss_basic_server_ip" ];then
+		if [ "$ss_basic_server_ip" == "127.0.0.1" ];then
+			[ "$ss_basic_server_ip" != "127.0.0.1" ] && route_add $ss_mwan_vps_ip_dst $ss_basic_server_ip
+		fi
 	fi
 }
 
@@ -282,65 +367,50 @@ creat_ss_json(){
 			ARG_OBFS=""
 		fi
 	fi
-	if [ "$ss_kcp_enable" == "1" ] && [ "$ss_kcp_node" == "$ss_basic_node" ];then
-		echo_date 创建SS配置文件到$CONFIG_FILE
-		if [ "$ss_basic_type" == "0" ];then
-			cat > $CONFIG_FILE <<-EOF
-				{
-				    "server":"127.0.0.1",
-				    "server_port":11183,
-				    "local_port":3333,
-				    "password":"$ss_basic_password",
-				    "timeout":600,
-				    "method":"$ss_basic_method"
-				}
-			EOF
-		elif [ "$ss_basic_type" == "1" ];then
-			cat > $CONFIG_FILE <<-EOF
-				{
-				    "server":"127.0.0.1",
-				    "server_port":11183,
-				    "local_port":3333,
-				    "password":"$ss_basic_password",
-				    "timeout":600,
-				    "protocol":"$ss_basic_rss_protocal",
-				    "protocol_param":"$ss_basic_rss_protocal_para",
-				    "obfs":"$ss_basic_rss_obfs",
-				    "obfs_para":"$ss_basic_rss_obfs_para",
-				    "method":"$ss_basic_method"
-				}
-			EOF
-		fi
-	else
-		echo_date 创建SS配置文件到$CONFIG_FILE
-		if [ "$ss_basic_type" == "0" ];then
-			cat > $CONFIG_FILE <<-EOF
-				{
-				    "server":"$ss_basic_server",
-				    "server_port":$ss_basic_port,
-				    "local_port":3333,
-				    "password":"$ss_basic_password",
-				    "timeout":600,
-				    "method":"$ss_basic_method"
-				}
-			EOF
-		elif [ "$ss_basic_type" == "1" ];then
-			cat > $CONFIG_FILE <<-EOF
-				{
-				    "server":"$ss_basic_server",
-				    "server_port":$ss_basic_port,
-				    "local_port":3333,
-				    "password":"$ss_basic_password",
-				    "timeout":600,
-				    "protocol":"$ss_basic_rss_protocal",
-				    "protocol_param":"$ss_basic_rss_protocal_para",
-				    "obfs":"$ss_basic_rss_obfs",
-				    "obfs_para":"$ss_basic_rss_obfs_para",
-				    "method":"$ss_basic_method"
-				}
-			EOF
-		fi
+	# creat normal ss json
+	echo_date 创建SS配置文件到$CONFIG_FILE
+	if [ "$ss_basic_type" == "0" ];then
+		cat > $CONFIG_FILE <<-EOF
+			{
+			    "server":"$ss_basic_server",
+			    "server_port":$ss_basic_port,
+			    "local_port":3333,
+			    "password":"$ss_basic_password",
+			    "timeout":600,
+			    "method":"$ss_basic_method"
+			}
+		EOF
+	elif [ "$ss_basic_type" == "1" ];then
+		cat > $CONFIG_FILE <<-EOF
+			{
+			    "server":"$ss_basic_server",
+			    "server_port":$ss_basic_port,
+			    "local_port":3333,
+			    "password":"$ss_basic_password",
+			    "timeout":600,
+			    "protocol":"$ss_basic_rss_protocal",
+			    "protocol_param":"$ss_basic_rss_protocal_para",
+			    "obfs":"$ss_basic_rss_obfs",
+			    "obfs_para":"$ss_basic_rss_obfs_para",
+			    "method":"$ss_basic_method"
+			}
+		EOF
 	fi
+}
+
+ha_resolved_action(){
+	dest_if="$1"
+	# store in skipd
+	if [ "$ss_lb_type" == 1 ];then
+		dbus set ssconf_basic_server_ip_$node="$lb_server_ip"
+	else
+		dbus set ssrconf_basic_server_ip_$node="$lb_server_ip"
+	fi
+	# add to return list
+	ipset -! add white_list $lb_server_ip >/dev/null 2>&1
+	# add route
+	[ -z "$dest_if" ] && dest_if="1"
+	[ -n "$dest_if" ] && route_add $dest_if $lb_server_ip
 }
 
 start_haproxy(){
@@ -406,43 +476,61 @@ start_haproxy(){
 			nick_name=`dbus get ssconf_basic_name_$node`
 			port=`dbus get ssconf_basic_port_$node`
 			name=`dbus get ssconf_basic_server_$node`:$port
-			server=`dbus get ssconf_basic_server_$node`
+			lb_server=`dbus get ssconf_basic_server_$node`
 			weight=`dbus get ssconf_basic_lb_weight_$node`
 			mode=`dbus get ssconf_basic_lb_policy_$node`
+			lb_dest=`dbus get ssconf_basic_lb_dest_$node`
 		else
 			nick_name=`dbus get ssrconf_basic_name_$node`
 			port=`dbus get ssrconf_basic_port_$node`
 			name=`dbus get ssrconf_basic_server_$node`:$port
-			server=`dbus get ssrconf_basic_server_$node`
+			lb_server=`dbus get ssrconf_basic_server_$node`
 			weight=`dbus get ssrconf_basic_lb_weight_$node`
 			mode=`dbus get ssrconf_basic_lb_policy_$node`
+			lb_dest=`dbus get ssrconf_basic_lb_dest_$node`
 		fi
 		
-		IFIP=`echo $server|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
-		if [ -z "$IFIP" ];then
+		IFIP2=`echo $lb_server|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+		if [ -z "$IFIP2" ];then
 			echo_date 检测到【"$nick_name"】节点域名格式，将尝试进行解析...
-			echo_date 尝试解析解析SS服务器的ip地址...
-			server=`resolveip -4 -t 2 "$server"|awk 'NR==1{print}'`
-			if [ -z "$server" ];then
+			lb_server_ip=`resolveip -4 -t 2 "$lb_server"|awk 'NR==1{print}'`
+			if [ -z "$lb_server_ip" ];then
 				echo_date 解析失败，更换方案再次尝试！
-				server=`nslookup "$server" localhost | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
-				if [ -n "$server" ];then
-					echo_date 【"$nick_name"】节点ip地址解析成功：$server
-					ipset -! add white_list $server >/dev/null 2>&1
+				lb_server_ip=`nslookup "$lb_server" localhost | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
+				if [ -n "$lb_server_ip" ];then
+					echo_date 【"$nick_name"】节点ip地址解析成功：$lb_server_ip
+					lb_server="$lb_server_ip"
+					ha_resolved_action $lb_dest
 				else
-					echo_date 【"$nick_name"】节点ip解析失败，将由haproxy自己尝试解析.
+					echo_date 【"$nick_name"】节点ip解析失败，尝试获取以前储存的ip.
 					if [ "ss_lb_type" == 1 ];then
-						server=`dbus get ssconf_basic_server_$node`
+						lb_server_ip=`dbus get ssconf_basic_server_ip_$node`
 					else
-						server=`dbus get ssrconf_basic_server_$node`
+						lb_server_ip=`dbus get ssrconf_basic_server_ip_$node`
+					fi
+					if [ -z "$lb_server_ip" ];then
+						echo_date 【"$nick_name"】没有获取到以前储存的ip，将由haproxy自己尝试解析.
+						if [ "ss_lb_type" == 1 ];then
+							lb_server=`dbus get ssconf_basic_server_$node`
+						else
+							lb_server=`dbus get ssrconf_basic_server_$node`
+						fi
+					else
+						echo_date 【"$nick_name"】成功获取到以前储存的ip.
+						lb_server="$lb_server_ip"
+						ha_resolved_action $lb_dest
 					fi
 				fi
 			else
-				echo_date 【"$nick_name"】节点ip地址解析成功：$server
+				echo_date 【"$nick_name"】节点ip地址解析成功：$lb_server_ip
+				lb_server="$lb_server_ip"
+				ha_resolved_action $lb_dest
 			fi
 		else
-			ipset -! add white_list $server >/dev/null 2>&1
+			ipset -! add white_list $lb_server >/dev/null 2>&1
 			echo_date 检测到【"$nick_name"】节点已经是IP格式，跳过解析... 
+			lb_server_ip="$lb_server"
+			ha_resolved_action $lb_dest
 		fi
 
 		if [ "$mode" == "3" ];then
@@ -450,12 +538,12 @@ start_haproxy(){
 			if [ "$ss_lb_heartbeat" == "1" ];then
 				echo_date 启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight rise $up fall $down check inter $interval resolvers mydns backup
+				    server $name $lb_server:$port weight $weight rise $up fall $down check inter $interval resolvers mydns backup
 				EOF
 			else
 				echo_date 不启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight resolvers mydns backup
+				    server $name $lb_server:$port weight $weight resolvers mydns backup
 				EOF
 			fi
 		elif [ "$mode" == "2" ];then
@@ -463,12 +551,12 @@ start_haproxy(){
 			if [ "$ss_lb_heartbeat" == "1" ];then
 				echo_date 启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight check inter $interval rise $up fall $down resolvers mydns 
+				    server $name $lb_server:$port weight $weight check inter $interval rise $up fall $down resolvers mydns 
 				EOF
 			else
 				echo_date 不启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight resolvers mydns 
+				    server $name $lb_server:$port weight $weight resolvers mydns 
 				EOF
 			fi
 		else
@@ -476,12 +564,12 @@ start_haproxy(){
 			if [ "$ss_lb_heartbeat" == "1" ];then
 				echo_date 启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight check inter $interval rise $up fall $down resolvers mydns 
+				    server $name $lb_server:$port weight $weight check inter $interval rise $up fall $down resolvers mydns 
 				EOF
 			else
 				echo_date 不启用故障转移心跳...
 				cat >> /koolshare/configs/haproxy.cfg <<-EOF
-				    server $name $server:$port weight $weight resolvers mydns 
+				    server $name $lb_server:$port weight $weight resolvers mydns 
 				EOF
 			fi
 		fi
@@ -498,12 +586,12 @@ start_haproxy(){
 
 start_sslocal(){
 	if [ "$ss_basic_type" == "1" ];then
-		ssr-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+		ssr-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 	elif  [ "$ss_basic_type" == "0" ];then
 		if [ "$ss_basic_ss_obfs" == "0" ];then
-			ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+			ss-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 		else
-			ss-local -b 0.0.0.0 -l 23456 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sslocal1.pid >/dev/null 2>&1
+			ss-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sslocal1.pid >/dev/null 2>&1
 		fi
 	fi
 }
@@ -809,6 +897,9 @@ create_dnsmasq_conf(){
 		echo_date DNS解析方案国外优先，优先解析国外DNS.
 		echo "server=127.0.0.1#7913" >> /tmp/dnsmasq.d/ssserver.conf
 	fi
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN" ] && route_add $ss_mwan_china_dns_dst $CDN
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN1" ] && route_add $ss_mwan_china_dns_dst $CDN1
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN2" ] && route_add $ss_mwan_china_dns_dst $CDN2
 }
 
 #--------------------------------------------------------------------------------------
@@ -844,13 +935,13 @@ start_ss_redir(){
 	# Start ss-redir
 	if [ "$ss_basic_type" == "1" ];then
 		echo_date 开启ssr-redir进程，用于透明代理.
-		ssr-redir -b 0.0.0.0 -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+		ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
 	elif  [ "$ss_basic_type" == "0" ];then
 		echo_date 开启ss-redir进程，用于透明代理.
 		if [ "$ss_basic_ss_obfs" == "0" ];then
-			ss-redir -b 0.0.0.0 -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
 		else
-			ss-redir -b 0.0.0.0 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
 		fi
 	fi
 }
@@ -1209,6 +1300,37 @@ write_numbers(){
 	dbus set ss_cdn_status="$cdn_numbers 条，最后更新版本： $update_cdn "
 }
 
+detect_koolss(){
+	[ -f "/etc/config/shadowsocks" ] && koolss_enable=`uci get shadowsocks.@global[0].global_server`
+	SS_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/SHADOWSOCKS/='` 2>/dev/null
+	if [ -n "$SS_NU" ] && [ "$koolss_enable" != "nil" ];then
+		echo_date 检测到你开启了koolss！！！
+		echo_date 插件版本ss不能和koolss混用，如需使用插件ss，请关闭koolss！！
+
+	else
+		start_ok=1
+	fi
+
+	KOOLGAME_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLGAME/='` 2>/dev/null
+	if [ -n "$KOOLGAME_NU" ];then
+		echo_date 检测到你开启了KOOLGAME！！！
+		echo_date shadowsocks不能和KOOLGAME混用，请关闭KOOLGAME后启用本插件！！
+	else
+		start_ok=1
+	fi
+
+	if [ "$start_ok" == "1" ];then
+		echo_date shadowsocks插件符合启动条件！~
+	else
+		echo_date 退出插件启动...
+		dbus set ss_basic_enable=0
+		echo_date ---------------------- 退出启动 LEDE shadowsocks -----------------------
+		sleep 5
+		echo XU6J03M6
+		exit 1
+	fi
+}
+
 # for debug
 get_status(){
 	echo =========================================================
@@ -1221,7 +1343,7 @@ get_status(){
 	ps -l|grep $PPID|grep -v grep
 	echo ------------------------------------
 	
-	iptables -nvL PREROUTING -t nat
+	#iptables -nvL PREROUTING -t nat
 	#iptables -nvL SHADOWSOCKS -t nat
 	#iptables -nvL SHADOWSOCKS_EXT -t nat
 	#iptables -nvL SHADOWSOCKS_GFW -t nat
@@ -1230,15 +1352,43 @@ get_status(){
 	#iptables -nvL SHADOWSOCKS_GLO -t nat
 }
 
-# router is on boot
-ONSTART=`ps -l|grep $PPID|grep -v grep|grep S99shadowsocks`
+restart_by_fw(){
+	# get_status >> /tmp/ss_start.txt
+	# for nat
+	[ ! -f "/tmp/shadowsocks.nat_lock" ] && exit 0
+	while [ -f "$LOCK_FILE" ]; do
+		sleep 1
+	done
+	echo_date ----------------------------- LEDE 固件 shadowsocks -------------------------------------
+	#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发shadowsocks重启！ 
+	echo_date 防火墙重启触发shadowsocks重启！
+	echo_date ---------------------------------------------------------------------------------------
+	detect_koolss
+	calculate_wans_nu
+	restore_dnsmasq_conf
+	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+	kill_process
+	load_nat
+	start_ss_redir
+	start_kcp
+	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	start_dns
+	create_dnsmasq_conf
+	restart_dnsmasq
+	echo_date ------------------------- shadowsocks 重启完毕 -------------------------
+	echo XU6J03M6
+}
+
 case $1 in
 restart)
+	# get_status >> /tmp/ss_start.txt
 	# used by web for start/restart; or by system for startup by S99shadowsocks.sh in rc.d
 	while [ -f "$LOCK_FILE" ]; do
 		sleep 1
 	done
-	echo_date ---------------------- LEDE 固件 shadowsocks -----------------------
+	echo_date ----------------------------- LEDE 固件 shadowsocks -------------------------------------
+	[ -n "$ONSTART" ] && echo_date 路由器开机触发shadowsocks启动！ || echo_date web提交操作触发shadowsocks启动！
+	echo_date ---------------------------------------------------------------------------------------
 	# stop first
 	restore_dnsmasq_conf
 	if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
@@ -1254,6 +1404,8 @@ restart)
 	[ -f "$LOCK_FILE" ] && return 1
 	touch "$LOCK_FILE"
 	# start
+	detect_koolss
+	calculate_wans_nu
 	resolv_server_ip
 	[ -z "$ONSTART" ] && creat_ss_json
 	create_dnsmasq_conf
@@ -1266,7 +1418,6 @@ restart)
 	start_dns
 	write_numbers
 	echo_date ------------------------- shadowsocks 启动完毕 -------------------------
-	# get_status >> /tmp/ss_start.txt
 	# do not start by nat when start up
 	[ ! -f "/tmp/shadowsocks.nat_lock" ] && touch /tmp/shadowsocks.nat_lock
 	rm -f "$LOCK_FILE"
@@ -1291,20 +1442,6 @@ lb_restart)
 	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	;;
 *)
-	# for nat
-	[ ! -f "/tmp/shadowsocks.nat_lock" ] && exit 0
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	restore_dnsmasq_conf
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-	kill_process
-	load_nat
-	start_ss_redir
-	start_kcp
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-	start_dns
-	create_dnsmasq_conf
-	restart_dnsmasq
+	restart_by_fw >/tmp/upload/ss_log.txt
 	;;
 esac
