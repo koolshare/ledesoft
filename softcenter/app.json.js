@@ -34,15 +34,15 @@
             "version": "1.1.5"
         }, 
         {
-            "build_date": "2017-09-14_09:44:39", 
+            "build_date": "2017-09-22_10:05:19", 
             "changelog": "√修复重启导致防火墙规则重复", 
             "description": "巨硬套餐激活工具", 
             "home_url": "Module_kms.asp", 
-            "md5": "fc906b3bab35dc2d59a35904acc4cdde", 
+            "md5": "60cd6402cd54468dff24e6804464ca2e", 
             "name": "kms", 
             "tar_url": "kms/kms.tar.gz", 
             "title": "kms", 
-            "version": "0.6"
+            "version": "0.7"
         }, 
         {
             "build_date": "2017-08-07_23:30:31", 
