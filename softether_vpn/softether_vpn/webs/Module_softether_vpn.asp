@@ -1,11 +1,3 @@
-<!--
-Tomato GUI
-Copyright (C) 2006-2010 Jonathan Zarate
-http://www.polarcloud.com/tomato/
-
-For use with Tomato Firmware only.
-No part of this file may be used without permission.
--->
 <title>SoftetherVPN</title>
 <content>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
@@ -88,17 +80,24 @@ No part of this file may be used without permission.
 					}
 				},
 				error: function() {
-					E("_log").value = "获取日志失败！";
+					E("_log").value = "当前没有日志可以获取。";
 				}
 			});
 		}
 		function Scroll(s){
 			Scorll = s;
 		}
+
+
+
+
 		
 	</script>
 	<div class="box">
-		<div class="heading">SoftetherVPN 1.0.0<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">
+			<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/softether_vpn/Changelog.txt" target="_blank"><font color="#0099FF">SoftetherVPN 1.0.6</font></a>
+			<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+		</div>
 		<div class="content">
 			<span id="msg" class="col-sm-9" style="margin-top:10px;width:800px">SoftEther VPN是由筑波大学研究生Daiyuu Nobori因硕士论文开发的开源，跨平台，多重协定的虚拟私人网路方案。
 			<br/>使用控制台可以轻松在路由器上搭建OpenVPN, IPsec, L2TP, MS-SSTP, L2TPv3 和 EtherIP服务器。</span>

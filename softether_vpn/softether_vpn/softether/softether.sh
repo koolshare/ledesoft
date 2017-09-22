@@ -11,17 +11,25 @@ creat_start_up(){
 	[ ! -L "/etc/rc.d/S96softether.sh" ] && ln -sf $KSROOT/init.d/S96softether.sh /etc/rc.d/S96softether.sh
 }
 
-del_start_up(){
-	rm -rf /etc/rc.d/S96softether.sh
-}
-
 write_nat_start(){
-	firewall_rule=`cat /etc/firewall.user|grep "softether.sh"`
-	[ -z "$firewall_rule" ] && echo "sh $KSROOT/softether/softether.sh start_nat" >> /etc/firewall.user
+	echo_date 添加nat-start触发事件...
+	uci -q batch <<-EOT
+	  delete firewall.ks_softether
+	  set firewall.ks_softether=include
+	  set firewall.ks_softether.type=script
+	  set firewall.ks_softether.path=/koolshare/softether/softether.sh
+	  set firewall.ks_softether.family=any
+	  set firewall.ks_softether.reload=1
+	  commit firewall
+	EOT
 }
 
 remove_nat_start(){
-	sed -i '/softether.sh/d' /etc/firewall.user >/dev/null 2>&1	
+	echo_date 删除nat-start触发...
+	uci -q batch <<-EOT
+	  delete firewall.ks_softether
+	  commit firewall
+	EOT
 }
 
 open_close_port(){
@@ -62,7 +70,6 @@ open_close_port(){
 case $1 in
 restart)
 	/usr/bin/env LANG=en_US.UTF-8 $KSROOT/softether/vpnserver stop >/dev/null 2>&1
-	del_start_up
 	remove_nat_start
 	pid=`pidof vpnserver`
 	if [ ! -z "$pid" ];then
@@ -98,7 +105,6 @@ restart)
 	open_close_port
 	echo_date "将虚拟网卡$tap桥接到br-lan..."
 	brctl addif br-lan $tap
-	echo_date "创建开机启动..."
 	creat_start_up
 	echo_date "创建防火墙启动..."
 	write_nat_start
@@ -109,13 +115,11 @@ stop)
 	/usr/bin/env LANG=en_US.UTF-8 $KSROOT/softether/vpnserver stop  >/dev/null 2>&1
 	echo_date "关闭相应端口..."
 	open_close_port
-	echo_date "删除开机启动..."
-	del_start_up
 	echo_date "删除防火墙启动..."
 	remove_nat_start
 	echo_date "插件关闭成功！"
 	;;
-start_nat)
+*)
 	open_close_port
 	;;
 esac
