@@ -898,7 +898,7 @@ create_dnsmasq_conf(){
 		echo "server=127.0.0.1#7913" >> /tmp/dnsmasq.d/ssserver.conf
 	fi
 	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN" ] && route_add $ss_mwan_china_dns_dst $CDN
-	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN1" ] && route_add $ss_mwan_china_dns_dst $CDN1
+	[ "$CDN" != "$CDN1" ] && [ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN1" ] && route_add $ss_mwan_china_dns_dst $CDN1
 	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN2" ] && route_add $ss_mwan_china_dns_dst $CDN2
 }
 
