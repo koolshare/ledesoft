@@ -1,29 +1,78 @@
 <title>SoftetherVPN</title>
 <content>
+<style type="text/css">
+	.c-checkbox {
+		margin-left:-10px;
+	}
+</style>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 	<script type="text/javascript">
 		var dbus = [];
-		function get_local_data(){
-			$.getJSON("/_api/softether", function(res) {
-				dbus=res.result[0];
-				E('_softether_enable').checked = (dbus["softether_enable"] == 1);
-				E('_softether_l2tp').checked = (dbus["softether_l2tp"] == 1);
-				E('_softether_sstp').checked = (dbus["softether_sstp"] == 1);
-				E('_softether_openvpn').checked = (dbus["softether_openvpn"] == 1);
+		var softcenter = 0;
+		var _responseLen;
+		var noChange = 0;
+		var Scorll = 1;
 
-				setTimeout("get_log();", 500);
+		function init(){
+			get_dbus_data();
+			get_run_status();
+		}
+
+		function get_dbus_data(){
+			$.ajax({
+			  	type: "GET",
+			 	url: "/_api/koolproxy_",
+			  	dataType: "json",
+			  	async:false,
+			 	success: function(data){
+			 	 	dbus = data.result[0];
+					E('_softether_enable').checked = (dbus["softether_enable"] == 1);
+					E('_softether_l2tp').checked = (dbus["softether_l2tp"] == 1);
+					E('_softether_sstp').checked = (dbus["softether_sstp"] == 1);
+					E('_softether_openvpn').checked = (dbus["softether_openvpn"] == 1);
+					setTimeout("get_log();", 500);
+			  	}
+			});
+		}
+
+		function get_run_status(){
+			var id1 = parseInt(Math.random() * 100000000);
+			var postData1 = {"id": id1, "method": "softether_status.sh", "params":[2], "fields": ""};
+			$.ajax({
+				type: "POST",
+				cache:false,
+				url: "/_api/",
+				data: JSON.stringify(postData1),
+				dataType: "json",
+				success: function(response){
+					console.log(response)
+					if(softcenter == 1){
+						return false;
+					}
+					document.getElementById("_softether_status").innerHTML = response.result;
+					setTimeout("get_run_status();", 10000);
+				},
+				error: function(){
+					if(softcenter == 1){
+						return false;
+					}
+					document.getElementById("_softether_status").innerHTML = "获取运行状态失败！";
+					setTimeout("get_run_status();", 5000);
+				}
 			});
 		}
 
 		function verifyFields(){
 			return true;
 		}
+		
 		function showMsg(Outtype, title, msg){
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 			$('#'+Outtype).show();
 		}
+		
 		function save(){
 			setTimeout("get_log();", 500);
 			dbus["softether_enable"] = E('_softether_enable').checked ? '1':'0';
@@ -48,9 +97,7 @@
 				}
 			});
 		}
-		var _responseLen;
-		var noChange = 0;
-		var Scorll = 1;
+
 		function get_log(){
 			$.ajax({
 				url: '/_temp/softether_log.txt',
@@ -84,14 +131,11 @@
 				}
 			});
 		}
+		
 		function Scroll(s){
 			Scorll = s;
 		}
-
-
-
-
-		
+	
 	</script>
 	<div class="box">
 		<div class="heading">
@@ -110,6 +154,7 @@
 			<script type="text/javascript">
 				$('#identification').forms([
 					{ title: '开启SoftetherVPN', name:'softether_enable',type:'checkbox', value: dbus.softether_enable == '1' },
+					{ title: 'SoftetherVPN运行状态', text: '<font id="_softether_status" name=softether_status color="#1bbf35">正在获取运行状态...</font>' },
 					{ title: '防火墙设置', multi: [
 						{ name:'softether_l2tp',type:'checkbox',value: dbus.softether_l2tp == '1', suffix: '<lable id="_ss_basic_gfwlist_update_txt">开启L2TP/IPSEC防火墙</lable>&nbsp;&nbsp;&nbsp;&nbsp;' },
 						{ name:'softether_sstp',type:'checkbox',value: dbus.softether_sstp == '1', suffix: '<lable id="_ss_basic_chnroute_update_txt">开启MS-SSTP防火墙</lable>&nbsp;&nbsp;&nbsp;&nbsp;' },
@@ -141,5 +186,5 @@
 	</div>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
 	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
-	<script type="text/javascript">get_local_data();</script>
+	<script type="text/javascript">init();</script>
 </content>
