@@ -7,6 +7,7 @@ Koolshare LEDE-X64 shadowsocks Changelog
    - update	kcp加速情况下ss-tunnel走原默认线路而不是kcp流；
    - update	SSR混淆参数为空时不在帐号设置中显示；
    - update	优化负载均衡节点解析和配置生成
+   - update	ss服务器解析选项和chromecast选项移动到DNS设定标签下
    - update	优化脚本，日志显示等...
 
 1.8.0
