@@ -1,9 +1,9 @@
 {
-"version":"0.3",
-"md5":"0a74d7b08635f51b65774f4f65f0756b",
+"version":"0.4",
+"md5":"9371ce7308b143b9c8135baf316bed21",
 "home_url":"Module_lnmp.asp",
 "title":"LNMP",
 "description":"自动化部署WEB环境",
 "changelog":"",
-"build_date":"2017-09-22_00:22:56"
+"build_date":"2017-09-23_10:43:19"
 }
