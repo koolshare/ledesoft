@@ -2714,7 +2714,7 @@
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:100px"><i class="icon-system"></i> 帐号设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:100px"><i class="icon-globe"></i> 节点管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:100px"><i class="icon-tools"></i> DNS设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多wan设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多WAN设定</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:100px"><i class="icon-cloud"></i> 负载均衡</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:100px"><i class="icon-graphs"></i> KCP加速</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:100px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
