@@ -10,9 +10,9 @@ echo "" > /tmp/upload/ss_log.txt
 case $2 in
 1)
 	if [ "$ss_basic_enable" == "1" ];then
-		sh /koolshare/ss/ssstart.sh restart >> /tmp/upload/ss_log.txt
+		/koolshare/ss/ssstart.sh restart >> /tmp/upload/ss_log.txt
 	else
-		sh /koolshare/ss/ssstart.sh stop >> /tmp/upload/ss_log.txt
+		/koolshare/ss/ssstart.sh stop >> /tmp/upload/ss_log.txt
 	fi
 	echo XU6J03M6 >> /tmp/upload/ss_log.txt
 	http_response $1

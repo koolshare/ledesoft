@@ -114,6 +114,12 @@
 	#ssr_node-grid > tbody > tr.odd.use {
 		background:rgba(128, 255, 255, 0.3)
 	}
+	table.line-table tr:hover {
+		background:#D7D7D7
+	}
+	table.line-table tr:hover .progress {
+		background:#D7D7D7
+	}
 </style>
 	<script type="text/javascript">
 		var dbus;
@@ -163,8 +169,6 @@
 		var ssr_lb_nodes =[];
 		var wans_value =[];
 		var wans_name =[];
-		var kcp_diff = 0;
-		var ss_node_diff = 0;
 		var softcenter = 0;
 		var select_style="min-width:182px;max-width:182px";
 		
@@ -397,6 +401,29 @@
 			f[ 8 ].value   = '';
 			f[ 9 ].value   = '';
 		}
+		ss_node.sortCompare = function(a, b) {
+			var obj = TGO(a);
+			var col = obj.sortColumn;
+			if(col == 0 || col == 4){ //add by sasdog
+				var r = cmpText(parseInt(a.cells[col].innerHTML), parseInt(b.cells[col].innerHTML));
+			}else{
+				var r = cmpText(a.cells[col].innerHTML, b.cells[col].innerHTML);
+			}
+			return obj.sortAscending ? r : -r;
+		}
+
+		ss_node.rpMo = function(img, e) {
+			var me;
+			e = PR(e);
+			me = TGO(e);
+			if (me.moving == e) {
+				me.moving = null;
+				this.rpHide();
+				return;
+			}
+			me.moving = e;
+			img.style.border = "3px solid red";
+		}
 		ss_node.onDelete = function() {
 			this.removeEditor();
 			var del_ss_node = parseInt(this.source.cells[0].innerHTML);
@@ -405,15 +432,9 @@
 			if (del_ss_node == cur_sel_node){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
-			if (del_ss_node < cur_sel_node){
-				++ss_node_diff
-			}
 			if (del_ss_node == cur_kcp_node){
 				alert("请注意，你删除的节点是KCP加速节点！\n删除后请注意设置KCP加速");
 				dbus["ss_kcp_node"] = "";
-			}
-			if (del_ss_node < cur_kcp_node){
-				++kcp_diff
 			}
 			elem.remove(this.source);
 			this.source = null;
@@ -430,15 +451,9 @@
 				alert("该节点正在使用！\n不能被删除！\n需要删除，请关闭ss或者切换到其它节点删除！");
 				return false;
 			}
-			if (del_ss_node < cur_sel_node){
-				++ss_node_diff
-			}
 			if (del_ss_node == cur_kcp_node){
 				alert("请注意，你删除的节点是KCP加速节点，删除后请注意设置KCP加速");
 				dbus["ss_kcp_node"] = "";
-			}
-			if (del_ss_node < cur_kcp_node){
-				++kcp_diff
 			}
 			TGO(e).moving = null;
 			e.parentNode.removeChild(e);
@@ -462,6 +477,12 @@
 			e.setAttribute('id', 'table-row-panel');
 			n = 0;
 			s = '';
+			if (me.canMove) {
+				s = '<a class="move-up-row" href="#" onclick="this.parentNode.tgo.rpUp(this.parentNode.ref); return false;" title="上移"><i class="icon-chevron-up"></i></a> \
+				<a class="move-down-row" href="#" onclick="this.parentNode.tgo.rpDn(this.parentNode.ref); return false;" title="下移"><i class="icon-chevron-down"></i></a> \
+				<a class="move-row" href="#" onclick="this.parentNode.tgo.rpMo(this,this.parentNode.ref); return false;" title="移动"><i class="icon-move"></i></a> ';
+				n += 3;
+			}
 			if (me.canDelete) {
 				s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="删除"><i class="icon-cancel"></i></a>';
 				s += '<a class="apply-row" href="#" onclick="this.parentNode.tgo.rpApply(this.parentNode.ref); return false;" title="应用"><i class="icon-check"></i></a>';
@@ -530,6 +551,18 @@
 				$(e).css('cursor', 'text');
 			}
 			return e;
+		}
+		ss_node.recolor = function() {
+			var i, e, o;
+			i = this.header ? this.header.rowIndex + 1 : 0;
+			e = this.footer ? this.footer.rowIndex : this.tb.rows.length;
+			for (; i < e; ++i) {
+				o = this.tb.rows[i];
+				o.className = (o.rowIndex & 1) ? 'even' : 'odd';
+				if ((parseInt(dbus["ss_basic_node"]) == parseInt(o.cells[0].innerHTML)) && dbus["ss_basic_enable"] == 1){
+					o.className = (o.rowIndex & 1) ? 'even use' : 'odd use';
+				}
+			}
 		}
 		ss_node.createEditor = function(which, rowIndex, source) {
 			var values;
@@ -607,12 +640,12 @@
 			return row;
 		}
 		ss_node.setup = function() {
-			this.init( 'ss_node-grid', '', 500, [
+			this.init( 'ss_node-grid', 'move, sort', 500, [
 				{ type: 'text', maxlen: 5 },
 				{ type: 'select', options:option_mode,value:'' },
 				{ type: 'text', maxlen: 50 },
 				{ type: 'text', maxlen: 50 },
-				{ type: 'text', maxlen: 50 },
+				{ type: 'text', maxlen: 50, size:4 },
 				{ type: 'text', maxlen: 50 },
 				{ type: 'select', options:option_method,value:''},
 				{ type: 'select', options:option_ss_obfs,value:''},
@@ -672,23 +705,39 @@
 			f[ 10 ].value   = '';
 			f[ 11 ].value   = '';
 		}
+		ssr_node.sortCompare = function(a, b) {
+			var obj = TGO(a);
+			var col = obj.sortColumn;
+			if(col == 0 || col == 4){ //add by sasdog
+				var r = cmpText(parseInt(a.cells[col].innerHTML), parseInt(b.cells[col].innerHTML));
+			}else{
+				var r = cmpText(a.cells[col].innerHTML, b.cells[col].innerHTML);
+			}
+			return obj.sortAscending ? r : -r;
+		}
+		ssr_node.rpMo = function(img, e) {
+			var me;
+			e = PR(e);
+			me = TGO(e);
+			if (me.moving == e) {
+				me.moving = null;
+				this.rpHide();
+				return;
+			}
+			me.moving = e;
+			img.style.border = "3px solid red";
+		}
 		ssr_node.onDelete = function() {
 			this.removeEditor();
 			var del_ssr_node = parseInt(this.source.cells[0].innerHTML);
 			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
-			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
+			c
 			if (del_ssr_node == (cur_sel_node - node_ss)){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
-			}
-			if (del_ssr_node < (cur_sel_node - node_ss)){
-				++ss_node_diff
 			}
 			if (del_ssr_node == (cur_kcp_node - node_ss)){
 				alert("请注意，你删除的节点是KCP加速节点！\n删除后请注意设置KCP加速");
 				dbus["ss_kcp_node"] = "";
-			}
-			if (del_ssr_node < (cur_kcp_node - node_ss)){
-				++kcp_diff
 			}
 			elem.remove(this.source);
 			this.source = null;
@@ -705,15 +754,9 @@
 				alert("该节点正在使用！\n不能被删除！\n需要删除，请关闭ss或者切换到其它节点删除！");
 				return false;
 			}
-			if (del_ssr_node < (cur_sel_node - node_ss)){
-				++ss_node_diff
-			}
 			if (del_ssr_node == (cur_kcp_node - node_ss)){
 				alert("请注意，你删除的节点是KCP加速节点，删除后请注意设置KCP加速");
 				dbus["ss_kcp_node"] = "";
-			}
-			if (del_ssr_node < (cur_kcp_node - node_ss)){
-				++kcp_diff
 			}
 			TGO(e).moving = null;
 			e.parentNode.removeChild(e);
@@ -737,6 +780,12 @@
 			e.setAttribute('id', 'table-row-panel');
 			n = 0;
 			s = '';
+			if (me.canMove) {
+				s = '<a class="move-up-row" href="#" onclick="this.parentNode.tgo.rpUp(this.parentNode.ref); return false;" title="上移"><i class="icon-chevron-up"></i></a> \
+				<a class="move-down-row" href="#" onclick="this.parentNode.tgo.rpDn(this.parentNode.ref); return false;" title="下移"><i class="icon-chevron-down"></i></a> \
+				<a class="move-row" href="#" onclick="this.parentNode.tgo.rpMo(this,this.parentNode.ref); return false;" title="移动"><i class="icon-move"></i></a> ';
+				n += 3;
+			}
 			if (me.canDelete) {
 				s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="删除"><i class="icon-cancel"></i></a>';
 				s += '<a class="apply-row" href="#" onclick="this.parentNode.tgo.rpApply(this.parentNode.ref); return false;" title="应用"><i class="icon-check"></i></a>';
@@ -802,6 +851,18 @@
 				$(e).css('cursor', 'text');
 			}
 			return e;
+		}
+		ssr_node.recolor = function() {
+			var i, e, o;
+			i = this.header ? this.header.rowIndex + 1 : 0;
+			e = this.footer ? this.footer.rowIndex : this.tb.rows.length;
+			for (; i < e; ++i) {
+				o = this.tb.rows[i];
+				o.className = (o.rowIndex & 1) ? 'even' : 'odd';
+				if ((parseInt(dbus["ss_basic_node"]) == parseInt(o.cells[0].innerHTML) + node_ss) && dbus["ss_basic_enable"] == 1){
+					o.className = (o.rowIndex & 1) ? 'even use' : 'odd use';
+				}
+			}
 		}
 		ssr_node.createEditor = function(which, rowIndex, source) {
 			var values;
@@ -878,7 +939,7 @@
 			return row;
 		}
 		ssr_node.setup = function() {
-			this.init( 'ssr_node-grid', '', 500, [
+			this.init( 'ssr_node-grid', 'sort, move', 500, [
 				{ type: 'text', maxlen: 5 },
 				{ type: 'select',maxlen:20,options:option_mode,value:'' },
 				{ type: 'text', maxlen: 50 },
@@ -1002,7 +1063,6 @@
 						dbus["ssconf_basic_lb_weight_" + lb_node ],
 						dbus["ssconf_basic_lb_policy_" + lb_node ]
 						]
-					dbus["ss_lb_node_ex"] = lb_node;
 				if ( t.length == 8 ) this.insertData( -1, t );
 				for ( var j = 0; j < wans.length; ++j ) {
 					$("#_ssconf_basic_lb_dest_" + lb_node).append("<option value='"  + wans[j][0] + "'>" + wans[j][1] + "</option>");
@@ -1022,7 +1082,6 @@
 						dbus["ssrconf_basic_lb_weight_" + lb_node ],
 						dbus["ssrconf_basic_lb_policy_" + lb_node ]
 						]
-					dbus["ss_lb_node_ex"] = lb_node;
 				if ( t.length == 8 ) this.insertData( -1, t );
 				for ( var j = 0; j < wans.length; ++j ) {
 					$("#_ssrconf_basic_lb_dest_" + lb_node).append("<option value='"  + wans[j][0] + "'>" + wans[j][1] + "</option>");
@@ -1045,7 +1104,6 @@
 								]
 						if ( t.length == 8 ) this.insertData( -1, t );
 						ss_lb_nodes.push(i);
-						dbus["ss_lb_node_ex"] = i;
 						dbus["ss_lb_type"] = 1;
 					}
 				}
@@ -1068,7 +1126,6 @@
 								]
 						if ( t.length == 8 ) this.insertData( -1, t );
 						ssr_lb_nodes.push(i);
-						dbus["ss_lb_node_ex"] = i;
 						dbus["ss_lb_type"] = 2;
 					}
 				}
@@ -1330,8 +1387,8 @@
 							}
 						}else{
 							if(E("_ss_basic_ping_method").value == 1){
-								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10')[0].innerHTML = "ping"
-								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12')[0].innerHTML = "ping"
+								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10').html("ping");
+								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12').html("ping");
 								if (ping < 50){
 									test_result = '<font color="#1bbf35">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
 								}else if (ping > 50 && ping <= 100) {
@@ -1340,8 +1397,8 @@
 									test_result = '<font color="#f36c21">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
 								}
 							}else{
-								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10')[0].innerHTML = "ping / 丢包"
-								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12')[0].innerHTML = "ping / 丢包"
+								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10').html("ping / 丢包");
+								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12').html("ping / 丢包");
 								if (ping <= 50){
 									test_result = '<font color="#1bbf35">' + parseFloat(ping).toPrecision(3) +'  ms / ' + loss + '</font>';
 								}else if (ping > 50 && ping <= 100) {
@@ -1352,9 +1409,9 @@
 							}
 						}
 						if (type == "ssr"){
-							$('#ssr_node-grid > tbody > tr:nth-child(' + nu + ') > td.co12')[0].innerHTML = test_result
+							$('#ssr_node-grid > tbody > tr:nth-child(' + nu + ') > td.co12').html(test_result);
 						}else if (type == "ss"){
-							$('#ss_node-grid > tbody > tr:nth-child(' + nu + ') > td.co10')[0].innerHTML = test_result
+							$('#ss_node-grid > tbody > tr:nth-child(' + nu + ') > td.co10').html(test_result);
 						}
 					}
 	   				E("ping_botton").disabled=false;
@@ -1654,15 +1711,30 @@
 		function auto_node_sel(){
 			node_sel = E('_ss_basic_node').value || 1;
 			if (node_sel == 0){
-				if (dbus["ss_lb_enable"] == 1 && dbus["ss_lb_node_max"]){
+				// calculate lb node max and lastlb nu
+				var node_line = [];
+				var all_kcp_node = [];
+				for (var field in dbus) {
+					node_line = field.split("_");
+					if (node_line[2]  == "lb" && node_line[3]  == "enable"){
+						all_kcp_node.push(node_line[4]);
+					}
+				}
+				if(all_kcp_node.length > 0){
+					var last_lb_node = Math.max.apply(null, all_kcp_node);
+					var ss_lb_node_max = all_kcp_node.length
+				}else{
+					var last_lb_node = "";
+					var ss_lb_node_max = "";
+				}
+				//now apply value to main pannel
+				if (dbus["ss_lb_enable"] == 1 && last_lb_node){
 					if (dbus["ss_lb_type"] == 1){ //ss
 						dbus["ss_basic_type"] = "0";
 						E('_ss_basic_rss_protocal').value = ""
 						E('_ss_basic_rss_protocal_para').value = ""
 						E('_ss_basic_rss_obfs').value = ""
 						E('_ss_basic_rss_obfs_para').value = ""
-
-						last_lb_node=parseInt(dbus["ss_lb_node_ex"]);
 						for (var i = 0; i < ssbasic.length; i++) {
 							if (typeof (dbus["ssconf_basic_" + ssbasic[i] + "_" + last_lb_node]) == "undefined"){
 								E('_ss_basic_' + ssbasic[i] ).value = ""
@@ -1678,9 +1750,8 @@
 						E('_ss_basic_server').value = "127.0.0.1";
 						E('_ss_basic_port').value = dbus["ss_lb_port"];
 						E('_ss_basic_mode').value = dbus["ss_basic_mode"];
-					}else if (dbus["ss_lb_type"] == 2){ //ssr
+					}else if (dbus["ss_lb_type"] == 2){ //ssr					
 						dbus["ss_basic_type"] = "1";
-						last_lb_node=parseInt(dbus["ss_lb_node_ex"]);
 						for (var i = 0; i < ssrbasic.length; i++) {
 							if (typeof (dbus["ssrconf_basic_" + ssrbasic[i] + "_" + last_lb_node]) == "undefined"){
 								E('_ss_basic_' + ssrbasic[i] ).value = ""
@@ -1697,11 +1768,19 @@
 						E('_ss_basic_port').value = dbus["ss_lb_port"];
 						E('_ss_basic_mode').value = dbus["ss_basic_mode"];
 					}else{
+						elem.display(PR('_ss_basic_rss_protocal'), PR('_ss_basic_rss_protocal_para'), false);
+						elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), false);
+						elem.display(PR('_ss_basic_ss_obfs'), PR('_ss_basic_ss_obfs_host'), false);
+						elem.display(PR('_ss_basic_mode'), false);
 						alert("尚未定义需要负载均衡的节点！");
 						return false;
 					}
 				}else{
-					alert("未启用负载均衡");
+					elem.display(PR('_ss_basic_rss_protocal'), PR('_ss_basic_rss_protocal_para'), false);
+					elem.display(PR('_ss_basic_rss_obfs'), PR('_ss_basic_rss_obfs_para'), false);
+					elem.display(PR('_ss_basic_ss_obfs'), PR('_ss_basic_ss_obfs_host'), false);
+					elem.display(PR('_ss_basic_mode'), false);
+					alert("尚未定义需要负载均衡的节点！");
 					return false;
 				}
 			}else{ //not lb
@@ -2012,100 +2091,196 @@
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 			$('#'+Outtype).show();
 		}
-		function save_node(){
-			XHR.halt();
-			status_time = 999999990;
+		function delete_online_node(){
 			// ss: collect node data from ss pannel
-			var skipd;
 			$.ajax({
-			  	type: "GET",
-			 	url: "/_api/ss",
-			  	dataType: "json",
-			  	async:true,
-			 	success: function(data){
-			 	 	skipd = data.result[0];
-					var data = ss_node.getAllData();
-					if(data.length > 0){
-						// ss: rewrite ss node data
-						for ( var i = 0; i < data.length; ++i ) {
-							for ( var j = 0; j < ssconf.length; ++j ) {
-								dbus[ssconf[j] + (i + 1)] = data[i][j + 1] || "";
-								dbus["ssconf_basic_mode_1"] = data[0][1];
-							}
-							dbus["ssconf_basic_lb_enable_" +  (i + 1)] = dbus["ssconf_basic_lb_enable_" + data[i][0]] || "";
-							dbus["ssconf_basic_lb_policy_" +  (i + 1)] = dbus["ssconf_basic_lb_policy_" + data[i][0]] || "";
-							dbus["ssconf_basic_lb_weight_" +  (i + 1)] = dbus["ssconf_basic_lb_weight_" + data[i][0]] || "";
-							dbus["ssconf_basic_server_ip_" +  (i + 1)] = dbus["ssconf_basic_server_ip_" + data[i][0]] || "";
-						}
-						// ss: now clean data after node_max
-						for ( var i = data.length; i < parseInt(dbus["ssconf_basic_max_node"]); ++i ) {
-							for ( var j = 0; j < ssconf.length; ++j ) {
-								dbus[ssconf[j] + (i + 1)] =  "";
-							}
-							dbus["ssconf_basic_lb_enable_" +  (i + 1)] = "";
-							dbus["ssconf_basic_lb_policy_" +  (i + 1)] = "";
-							dbus["ssconf_basic_lb_weight_" +  (i + 1)] = "";
-							dbus["ssconf_basic_server_ip_" +  (i + 1)] = "";
-						}
+				type: "GET",
+				url: "/_api/ssrconf",
+				dataType: "json",
+				async:true,
+				success: function(data){
+					var skipd_ssr = data.result[0];
+					var all_ssrconf = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_", "ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
+					var skipd_temp = {};
+					//== get current using ss/ssr node number==
+					var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+					var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
+					if (cur_sel_node <= node_ss){
+						var ss_orig_nu = cur_sel_node
 					}else{
-						// ss: mark all node data for delete first
-						for ( var i = 1; i <= skipd["ssconf_basic_node_max"]; i++){
-							for ( var j = 0; j < ssconf.length; ++j ) {
-								dbus[ssconf[j] + i ] = ""
-							}
-						}
-						dbus["ssconf_basic_max_node"] = "";
-						dbus["ssconf_basic_node_max"] = "";
+						var ssr_orig_nu = cur_sel_node - node_ss
 					}
-					
-					// ssr: collect node data from ssr pannel
+					// flush all element
+					var skipd_temp_ssr = jQuery.extend({}, skipd_ssr);
+					for (var field in skipd_temp_ssr) {
+						skipd_temp_ssr[field] = "";
+					}
+					//start
 					var data = ssr_node.getAllData();
 					if(data.length > 0){
-						kcp_node_nu = parseInt(skipd["ss_kcp_node"])
-						// ss: rewrite ssr node data
+						var j = 0
 						for ( var i = 0; i < data.length; ++i ) {
-							for ( var j = 0; j < ssrconf.length; ++j ) {
-								dbus[ssrconf[j] + (i + 1)] = data[i][j + 1] || "";
+							// write node
+							var data_nu = data[i][0];
+							if(!skipd_ssr["ssrconf_basic_group_" + data_nu] || ssr_orig_nu && ssr_orig_nu == data_nu){
+								++j
+								// write ss/kcp node
+								if (parseInt(data_nu) == ssr_orig_nu){
+									skipd_temp_ssr["ss_basic_node"] = j + node_ss;
+								}
+								if (parseInt(data_nu) == cur_kcp_node){
+									skipd_temp_ssr["ss_kcp_node"] = j + node_ss;
+								}
+								// now delete node data with group info
+								for ( var k = 0; k < all_ssrconf.length; ++k ) {
+									var temp_val = skipd_ssr[all_ssrconf[k] + data_nu];
+									if (temp_val){
+										skipd_temp_ssr[all_ssrconf[k] + j] = temp_val;
+									}
+								}
+								if (skipd_ssr["ssrconf_basic_group_" + data_nu] && ssr_orig_nu && ssr_orig_nu == data_nu){
+									alert("正在使用的订阅节点不会删除,但其它的会删除！");
+								}
 							}
-							dbus["ssrconf_basic_group_" +  (i + 1)] = dbus["ssrconf_basic_group_" + data[i][0]] || "";
-							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = dbus["ssrconf_basic_lb_enable_" + data[i][0]] || "";
-							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = dbus["ssrconf_basic_lb_policy_" + data[i][0]] || "";
-							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = dbus["ssrconf_basic_lb_weight_" + data[i][0]] || "";
-							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = dbus["ssrconf_basic_server_ip_" + data[i][0]] || "";
 						}
-						// ss: now clean data after node_max
-						for ( var i = data.length; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
-							for ( var j = 0; j < ssrconf.length; ++j ) {
-								dbus[ssrconf[j] + (i + 1)] =  "";
-							}
-							dbus["ssrconf_basic_group_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
-						}
+						console.log(skipd_temp_ssr)
+						skipd_temp_ssr["ssrconf_basic_node_max"] = j;
+						skipd_temp_ssr["ssrconf_basic_max_node"] = j;
 					}else{
-						// ssr: mark all node data for delete first
-						for ( var i = 1; i <= skipd["ssrconf_basic_node_max"]; i++){
-							for ( var j = 0; j < ssrconf.length; ++j ) {
-								dbus[ssrconf[j] + i ] = ""
+						skipd_temp_ssr["ssrconf_basic_node_max"] = "";
+						skipd_temp_ssr["ssrconf_basic_max_node"] = "";
+					}
+					//==now post data==
+					var id = parseInt(Math.random() * 100000000);
+					var postData = {"id": id, "method": "ss_conf.sh", "params":["8"], "fields": skipd_temp_ssr };
+					$.ajax({
+						type: "POST",
+						url: "/_api/",
+						async: true,
+						cache:false,
+						data: JSON.stringify(postData),
+						dataType: "json",
+						success: function(response){
+							if (response.result == id){
+								setTimeout("window.location.reload()", 100);
+							}else{
+								showMsg("msg_error","删除失败","<b>删除节点数据失败！错误代码：" + response.result + "</b>");
+								return false;
 							}
 						}
-						dbus["ssrconf_basic_max_node"] = "";
-						dbus["ssrconf_basic_node_max"] = "";
+					});
+				}
+			});
+		}
+		
+		function save_node(){
+			status_time = 999999990;
+			// ss: collect node data from ss pannel
+			$.ajax({
+				type: "GET",
+				url: "/_api/ssconf,ssrconf",
+				dataType: "json",
+				async:true,
+				success: function(data){
+					var all_ssconf_table = ["ssconf_basic_mode_", "ssconf_basic_name_", "ssconf_basic_server_", "ssconf_basic_port_", "ssconf_basic_password_", "ssconf_basic_method_", "ssconf_basic_ss_obfs_", "ssconf_basic_ss_obfs_host_" ];
+					var all_ssconf_dbus = ["ssconf_basic_server_ip_", "ssconf_basic_lb_enable_", "ssconf_basic_lb_policy_", "ssconf_basic_lb_weight_", "ssconf_basic_lb_dest_" ];
+					var all_ssrconf_table = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_"];
+					var all_ssrconf_dbus = ["ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
+					var skipd_ss = data.result[0];
+					var skipd_ssr = data.result[1];
+					//== get current using ss/ssr node number==
+					var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+					var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
+					if (cur_sel_node <= node_ss){
+						var ss_orig_nu = cur_sel_node
+					}else{
+						var ssr_orig_nu = cur_sel_node - node_ss
 					}
-					// now change kcp node number
-					if (kcp_diff != 0){
-						dbus["ss_kcp_node"] = parseInt(dbus["ss_kcp_node"]) - kcp_diff;
+					//==ss: write all keeped node to tmp object==
+					// flush all element
+					var skipd_temp_ss = jQuery.extend({}, skipd_ss);
+					for (var field in skipd_temp_ss) {
+						skipd_temp_ss[field] = "";
 					}
-					// now change ss node nubmer
-					if (ss_node_diff){
-						dbus["ss_basic_node"] = parseInt(dbus["ss_basic_node"]) - ss_node_diff;
+					// write element
+					var data = ss_node.getAllData();
+					if(data.length > 0){
+						var j = 0
+						for ( var i = 0; i < data.length; ++i ) {
+							var keep_nu = data[i][0];
+							++j;
+							// write ss/kcp node
+							if (parseInt(keep_nu) == ss_orig_nu){
+								skipd_temp_ss["ss_basic_node"] = j;
+							}
+							if (parseInt(keep_nu) == cur_kcp_node){
+								skipd_temp_ss["ss_kcp_node"] = j;
+							}
+							// write node
+							for ( var k = 0; k < all_ssconf_table.length; ++k ) {
+								var temp_val = data[i][k + 1];
+								if (temp_val){
+									skipd_temp_ss[all_ssconf_table[k] + j] = temp_val;
+								}
+							}
+							for ( var o = 0; o < all_ssconf_dbus.length; ++o ) {
+								var temp_val = skipd_ss[all_ssconf_dbus[o] + keep_nu];
+								if (temp_val){
+									skipd_temp_ss[all_ssconf_dbus[o] + j] = temp_val;
+								}
+							}
+						}
+						skipd_temp_ss["ssconf_basic_node_max"] = data.length;
+						skipd_temp_ss["ssconf_basic_max_node"] = j;
+					}else{
+						skipd_temp_ss["ssconf_basic_node_max"] = "";
+						skipd_temp_ss["ssconf_basic_max_node"] = "";
 					}
 
-					//now post data
-					var id4 = parseInt(Math.random() * 100000000);
-					var postData3 = {"id": id4, "method": "ss_conf.sh", "params":[9], "fields": dbus};
+					//==ssr: write all keeped node to tmp object==
+					// flush all element
+					var skipd_temp_ssr = jQuery.extend({}, skipd_ssr);
+					for (var field in skipd_temp_ssr) {
+						skipd_temp_ssr[field] = "";
+					}
+					// write element
+					var data = ssr_node.getAllData();
+					if(data.length > 0){
+						var j = 0
+						for ( var i = 0; i < data.length; ++i ) {
+							var keep_nu = data[i][0];
+							++j;
+							// write ssr/kcp node
+							if (parseInt(keep_nu) == ssr_orig_nu){
+								skipd_temp_ssr["ss_basic_node"] = j + node_ss;
+							}
+							if (parseInt(keep_nu) == cur_kcp_node){
+								skipd_temp_ssr["ss_kcp_node"] = j + node_ss;
+							}
+							for ( var k = 0; k < all_ssrconf_table.length; ++k ) {
+								var temp_val = data[i][k + 1];
+								if (temp_val){
+									skipd_temp_ssr[all_ssrconf_table[k] + j] = temp_val
+								}
+							}
+							for ( var o = 0; o < all_ssrconf_dbus.length; ++o ) {
+								var temp_val = skipd_ssr[all_ssrconf_dbus[k] + keep_nu]
+								if (temp_val){
+									skipd_temp_ssr[all_ssrconf_dbus[o] + j] = temp_val
+								}
+							}
+						}
+						skipd_temp_ssr["ssrconf_basic_node_max"] = data.length;
+						skipd_temp_ssr["ssrconf_basic_max_node"] = j;
+					}else{
+						skipd_temp_ssr["ssrconf_basic_node_max"] = "";
+						skipd_temp_ssr["ssrconf_basic_max_node"] = "";
+					}
+					//==now post data==
+					var skipd_temp = $.extend({}, skipd_temp_ss, skipd_temp_ssr);
+					console.log(skipd_temp);
+					var id = parseInt(Math.random() * 100000000);
+					var postData = {"id": id, "method": "ss_conf.sh", "params":[9], "fields": skipd_temp};
 					showMsg("msg_warring","保存节点信息！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 					$.ajax({
 						url: "/_api/",
@@ -2113,13 +2288,14 @@
 						async:true,
 						cache:false,
 						dataType: "json",
-						data: JSON.stringify(postData3),
+						data: JSON.stringify(postData),
 						success: function(response){
-							if (response.result == id4){
+							if (response.result == id){
 								$('#msg_warring').hide();
 								showMsg("msg_success","保存成功","<b>请稍候，页面将自动刷新...</b>");
-								x = 4;
-								count_down_switch();
+								setTimeout("window.location.reload()", 100);
+								//x = 4;
+								//count_down_switch();
 							}else{
 								$('#msg_warring').hide();
 								showMsg("msg_error","提交失败","<b>提交节点数据失败！错误代码：" + response.result + "</b>");
@@ -2130,9 +2306,10 @@
 							showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
 						}
 					});
-			  	}
+				}
 			});
 		}
+		
 		function save(){
 			status_time = 999999990;
 			setTimeout("tabSelect('app8')", 500);
@@ -2141,7 +2318,7 @@
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst" ];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -2298,7 +2475,6 @@
 					dbus["ss_basic_type"] = 0;
 				}else{
 					dbus["ss_lb_node_max"] = "";
-					dbus["ss_lb_node_ex"] = "";
 				}
 			}else{
 				var data = lb.getAllData();
@@ -2316,7 +2492,6 @@
 					dbus["ss_basic_type"] = 1;
 				}else{
 					dbus["ss_lb_node_max"] = "";
-					dbus["ss_lb_node_ex"] = "";
 				}
 			}
 			// now post data
@@ -2438,7 +2613,7 @@
 						//tabSelect("app1");
 						return false;
 					} else {
-						setTimeout("get_log();", 200); //100 is radical but smooth!
+						setTimeout("get_log();", 100); //100 is radical but smooth!
 					}
 					retArea.value = response;
 					retArea.scrollTop = retArea.scrollHeight;
@@ -2517,88 +2692,6 @@
 				dbus3["ss_mwan_ping_dst"] = E("_ss_mwan_ping_dst").value;
 				dbus3["ss_mwan_china_dns_dst"] = E("_ss_mwan_china_dns_dst").value;
 				dbus3["ss_mwan_vps_ip_dst"] = E("_ss_mwan_vps_ip_dst").value;
-			}else if(arg == 8){
-				var r=0; //记录没有group信息的节点
-				var data = ssr_node.getAllData();
-				//先根据节点列表整理下dbus里的节点信息
-				if(data.length > 0){
-					// 如果用户已经手动删除或者增加过节点还没有保存，可能会出现gap，那么先储一次，调节节点的顺序
-					for ( var i = 0; i < data.length; ++i ) {
-						for ( var j = 0; j < ssrconf.length; ++j ) {
-							dbus[ssrconf[j] + (i + 1)] = data[i][j + 1] || "";
-						}
-						dbus["ssrconf_basic_group_" +  (i + 1)] = dbus["ssrconf_basic_group_" + data[i][0]] || "";
-						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = dbus["ssrconf_basic_lb_enable_" + data[i][0]] || "";
-						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = dbus["ssrconf_basic_lb_policy_" + data[i][0]] || "";
-						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = dbus["ssrconf_basic_lb_weight_" + data[i][0]] || "";
-						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = dbus["ssrconf_basic_lb_dest_" + data[i][0]] || "";
-						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = dbus["ssrconf_basic_server_ip_" + data[i][0]] || "";
-					}
-					// 调节顺序后把最后多余的节点删除
-					for ( var i = data.length; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
-						for ( var j = 0; j < ssrconf.length; ++j ) {
-							dbus[ssrconf[j] + (i + 1)] =  "";
-						}
-						dbus["ssrconf_basic_group_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
-					}
-				}else{
-					//用户已经在web里吧节点删完了...虽然不是存储节点按钮，还是帮忙储存下
-					// 因为节点列表节点数量为0，从第一个节点到最大节点每个都标记为删除
-					for ( var i = 0; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
-						for ( var j = 0; j < ssrconf.length; ++j ) {
-							dbus[ssrconf[j] + (i + 1)] =  "";
-						}
-						dbus["ssrconf_basic_group_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
-						dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
-					}
-					dbus["ssrconf_basic_max_node"] = "";
-					dbus["ssrconf_basic_node_max"] = "";
-				}
-				////现在开始删除订阅节点
-				if(data.length > 0){
-					// 不从web拿信息，而是从dbus里拿信息，从第一个节点到最大节点开始扫描，凡是有group信息的节点都给删掉
-					for ( var i = 0; i < parseInt(dbus["ssrconf_basic_max_node"]); ++i ) {
-						if (dbus["ssrconf_basic_group_" +  (i + 1)]){
-							for ( var j = 0; j < ssrconf.length; ++j ) {
-								dbus[ssrconf[j] + (i + 1)] =  "";
-							}
-							dbus["ssrconf_basic_group_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_enable_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_policy_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_weight_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_lb_dest_" +  (i + 1)] = "";
-							dbus["ssrconf_basic_server_ip_" +  (i + 1)] = "";
-						}else{
-							++r;
-							//剩下没有group信息的节点，重新排序并储存
-							for ( var j = 0; j < ssrconf.length; ++j ) {
-								//dbus[ssrconf[j] + r] = data[i][j + 1] || "";
-								dbus[ssrconf[j] + r] = dbus[ssrconf[j] + (i + 1)] || "";
-							}
-							dbus["ssrconf_basic_group_" + r] = dbus["ssrconf_basic_group_" + (i + 1)] || "";
-							dbus["ssrconf_basic_lb_enable_" + r] = dbus["ssrconf_basic_lb_enable_" + (i + 1)] || "";
-							dbus["ssrconf_basic_lb_policy_" + r] = dbus["ssrconf_basic_lb_policy_" + (i + 1)] || "";
-							dbus["ssrconf_basic_lb_weight_" + r] = dbus["ssrconf_basic_lb_weight_" + (i + 1)] || "";
-							dbus["ssrconf_basic_lb_dest_" + r] = dbus["ssrconf_basic_lb_dest_" + (i + 1)] || "";
-							dbus["ssrconf_basic_server_ip_" + r] = dbus["ssrconf_basic_server_ip_" + (i + 1)] || "";
-						}
-					}
-					dbus["ssrconf_basic_max_node"] = r;
-					dbus["ssrconf_basic_node_max"] = r;
-				}else{
-					alert("当前节点列表没有节点！");
-					return false;
-				}
-				dbus3=dbus;
 			}
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": dbus3 };
@@ -2611,7 +2704,7 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "ss_conf.sh"){
-						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8 || arg == 9){
+						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 9){
 							setTimeout("window.location.reload()", 500);
 						}else if (arg == 5){
 							setTimeout("window.location.reload()", 1000);
@@ -2714,7 +2807,7 @@
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:100px"><i class="icon-system"></i> 帐号设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:100px"><i class="icon-globe"></i> 节点管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:100px"><i class="icon-tools"></i> DNS设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多wan设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多WAN设定</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:100px"><i class="icon-cloud"></i> 负载均衡</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:100px"><i class="icon-graphs"></i> KCP加速</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:100px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
@@ -3001,7 +3094,7 @@
 					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd上游服务器（TCP）</font>', multi: [
 						{ name: 'ss_pdnsd_server_ip', type: 'text', value: dbus.ss_pdnsd_server_ip },
 						{ suffix: ' ：' },
-						{ name: 'ss_pdnsd_server_port', type: 'text', value: dbus.ss_pdnsd_server_ip }
+						{ name: 'ss_pdnsd_server_port', type: 'text', value: dbus.ss_pdnsd_server_port }
 					]},
 					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd缓存设置</font>', multi: [
 						{ name: 'ss_pdnsd_server_cache_min', type: 'text', size: '1', value: dbus.ss_pdnsd_server_cache_min || "24h" },
@@ -3151,6 +3244,7 @@
 			<script type="text/javascript">
 				$('#ss_addon_pannel').forms([
 					{ title: '状态更新间隔', name:'ss_basic_refreshrate',type:'select',options:option_status_inter, value: dbus.ss_basic_refreshrate || "5"},
+					{ title: '大陆白名单和游戏模式分流方式', name:'ss_basic_bypass',type:'select',options:[["1", "chnroute"],["2", "geoip"]], value: dbus.ss_basic_bypass || "5"},
 					{ title: 'SS数据清除', suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 1);" class="btn btn-success">清除所有SS数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'ss_conf.sh\', 2);" class="btn btn-success">清除SS节点数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'ss_conf.sh\', 3);" class="btn btn-success">清除访问控制数据</button>' },
 					{ title: 'SS数据备份', suffix: '<button onclick="manipulate_conf(\'ss_conf.sh\', 4);" class="btn btn-download">备份所有SS数据</button>' },
 					{ title: 'SS数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
@@ -3209,7 +3303,7 @@
 					]}
 				]);
 			</script>
-			<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>
+			<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>
 			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">获取/更新订阅 <i class="icon-check"></i></button>
 		</div>
 	</div>

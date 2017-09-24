@@ -1156,6 +1156,12 @@ lan_acess_control(){
 }
 
 apply_nat_rules(){
+	# DEFINE bypass ARG_OBFS
+	if [ "$ss_basic_bypass" == "2" ];then
+		echo_date 使用geoip分流...
+	else
+		echo_date 使用chnroute分流...
+	fi
 	#----------------------BASIC RULES---------------------
 	echo_date 写入iptables规则到nat表中...
 	# 创建SHADOWSOCKS nat rule
@@ -1184,15 +1190,23 @@ apply_nat_rules(){
 	# IP/CIDR/域名 黑名单控制（走ss）
 	iptables -t nat -A SHADOWSOCKS_CHN -p tcp -m set --match-set black_list dst -j REDIRECT --to-ports 3333
 	# cidr黑名单控制-chnroute（走ss）
-	iptables -t nat -A SHADOWSOCKS_CHN -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
+	if [ "$ss_basic_bypass" == "2" ];then
+		iptables -t nat -A SHADOWSOCKS_CHN -p tcp -m geoip ! --destination-country CN -j REDIRECT --to-ports 3333
+	else
+		iptables -t nat -A SHADOWSOCKS_CHN -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
+	fi
+	
 	#-----------------------FOR GAMEMODE---------------------
 	# 创建大陆白名单模式nat rule
 	iptables -t nat -N SHADOWSOCKS_GAM
 	# IP/CIDR/域名 黑名单控制（走ss）
 	iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m set --match-set black_list dst -j REDIRECT --to-ports 3333
 	# cidr黑名单控制-chnroute（走ss）
-	iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
-
+	if [ "$ss_basic_bypass" == "2" ];then
+		iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m geoip ! --destination-country CN -j REDIRECT --to-ports 3333
+	else
+		iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
+	fi
 	#[ "$mangle" == "1" ] && load_tproxy
 	[ "$mangle" == "1" ] && /usr/sbin/ip rule add fwmark 0x07 table 310 pref 789
 	[ "$mangle" == "1" ] && /usr/sbin/ip route add local 0.0.0.0/0 dev lo table 310
@@ -1205,7 +1219,13 @@ apply_nat_rules(){
 	# IP/CIDR/域名 黑名单控制（走ss）
 	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set --match-set black_list dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
 	# cidr黑名单控制-chnroute（走ss）
-	[ "$mangle" == "1" ] && iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
+	if [ "$mangle" == "1" ];then
+		if [ "$ss_basic_bypass" == "2" ];then
+			iptables -t nat -A SHADOWSOCKS_GAM -p udp -m geoip ! --destination-country CN -j REDIRECT --to-ports 3333
+		else
+			iptables -t nat -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
+		fi
+	fi
 	#-------------------------------------------------------
 	# 局域网黑名单（不走ss）/局域网黑名单（走ss）
 	lan_acess_control

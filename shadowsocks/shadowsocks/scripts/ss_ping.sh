@@ -29,7 +29,6 @@ do
 	[ "$ss_basic_ping_method" == "1" ] && ping_text=`/bin/ping -4 $ARG $node_doamin -c 1 -w 1 -q`
 	[ "$ss_basic_ping_method" == "2" ] && ping_text=`/bin/ping -4 $ARG $node_doamin -c 10 -w 10 -q`
 	[ "$ss_basic_ping_method" == "3" ] && ping_text=`/bin/ping -4 $ARG $node_doamin -c 20 -w 20 -q`
-	echo $ping_text >> /tmp/ping1.txt
 	ping_time=`echo $ping_text | awk -F '/' '{print $4}'`
 	[ -z "$ping_time" ] && ping_time="failed"
 	ping_loss=`echo $ping_text | awk -F ', ' '{print $3}' | awk '{print $1}'`
