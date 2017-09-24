@@ -1,9 +1,9 @@
 #!/bin/sh
 
 MODULE=syncthing
-VERSION=1.6
+VERSION=1.7
 TITLE=syncthing
-DESCRIPTION=多终端同步工具
+DESCRIPTION=轻松搭建私有云
 HOME_URL=Module_syncthing.asp
 
 # Check and include base

@@ -1,8 +1,9 @@
 {
-"version":"1.6",
-"md5":"ed56287e492097c0cf46696b4e045528",
+"version":"1.7",
+"md5":"b148b3dfe49559a6f3b9629c9d38ddad",
 "home_url":"Module_syncthing.asp",
 "title":"syncthing",
-"description":"多终端同步工具",
-"build_date":"2017-09-09_18:32:29"
+"description":"轻松搭建私有云",
+"changelog":"",
+"build_date":"2017-09-24_14:25:02"
 }

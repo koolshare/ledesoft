@@ -220,14 +220,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2017-09-09_18:32:29", 
-            "description": "多终端同步工具", 
+            "build_date": "2017-09-24_14:25:02", 
+            "changelog": "", 
+            "description": "轻松搭建私有云", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "ed56287e492097c0cf46696b4e045528", 
+            "md5": "b148b3dfe49559a6f3b9629c9d38ddad", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
-            "version": "1.6"
+            "version": "1.7"
         }, 
         {
             "build_date": "2017-09-23_10:43:19", 
