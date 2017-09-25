@@ -1221,9 +1221,10 @@ apply_nat_rules(){
 	# cidr黑名单控制-chnroute（走ss）
 	if [ "$mangle" == "1" ];then
 		if [ "$ss_basic_bypass" == "2" ];then
-			iptables -t nat -A SHADOWSOCKS_GAM -p udp -m geoip ! --destination-country CN -j REDIRECT --to-ports 3333
+			iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m geoip ! --destination-country CN -j TPROXY --on-port 3333 --tproxy-mark 0x07
+			
 		else
-			iptables -t nat -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
+			iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
 		fi
 	fi
 	#-------------------------------------------------------
