@@ -252,15 +252,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-09-26_22:01:13", 
+            "build_date": "2017-09-26_22:34:37", 
             "changelog": "", 
             "description": "稳定高效的共享磁盘", 
             "home_url": "Module_iscsi.asp", 
-            "md5": "e06ded5002206268920f4d105265ffdb", 
+            "md5": "69474f721c8009cdb159b9b9ed8b38f6", 
             "name": "iscsi", 
             "tar_url": "iscsi/iscsi.tar.gz", 
             "title": "iSCSI服务器", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-09-19_16:15:06", 

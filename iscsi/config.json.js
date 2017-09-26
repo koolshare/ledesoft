@@ -1,9 +1,9 @@
 {
-"version":"0.2",
-"md5":"e06ded5002206268920f4d105265ffdb",
+"version":"0.3",
+"md5":"69474f721c8009cdb159b9b9ed8b38f6",
 "home_url":"Module_iscsi.asp",
 "title":"iSCSI服务器",
 "description":"稳定高效的共享磁盘",
 "changelog":"",
-"build_date":"2017-09-26_22:01:13"
+"build_date":"2017-09-26_22:34:37"
 }

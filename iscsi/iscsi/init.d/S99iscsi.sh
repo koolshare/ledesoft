@@ -14,9 +14,9 @@ source /koolshare/scripts/base.sh
 eval `dbus export iscsi_`
 
 start(){
-	[ "$iscsi_enable" == "1" ] && sh /koolshare/scripts/iscsi_config.sh
+	[ "$iscsi_enable" == "1" ] && /koolshare/scripts/iscsi_config.sh
 }
 
 stop(){
-	sh /koolshare/scripts/iscsi_config.sh
+	/koolshare/scripts/iscsi_config.sh
 }
