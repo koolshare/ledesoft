@@ -15,8 +15,10 @@ source /koolshare/scripts/base.sh
 eval `dbus export cloud_torrent_`
 
 start(){
-	logger "[软件中心]: 启动cloud_torrent"
-	[ "$cloud_torrent_enable" == "1" ] && sh /koolshare/scripts/cloud_torrent_config.sh start
+	if [ "$cloud_torrent_enable" == "1" ];then
+		logger "[软件中心]: 启动cloud_torrent"
+		sh /koolshare/scripts/cloud_torrent_config.sh start
+	fi
 }
 
 stop(){

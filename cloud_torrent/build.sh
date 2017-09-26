@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=cloud_torrent
-VERSION=1.3
+VERSION=1.4
 TITLE="cloud torrent"
 DESCRIPTION="小巧便携BT下载器"
 HOME_URL=Module_cloud_torrent.asp
