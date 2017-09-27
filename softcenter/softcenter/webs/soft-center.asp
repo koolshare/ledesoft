@@ -746,24 +746,24 @@ function init_softcenter_layout(){
 		$(".box, .nav, .col").css("max-width", "1332px")
 		$(".box, .nav, .col").css("min-width", "1072px")
 		$("#softcenter_layout_switch").attr("class", "btn narrow");
-		$("#softcenterlayout_switch").html("宽版");
+		$("#softcenterlayout_switch").html("适应");
 	}else{
 		$(".box, .nav, .col").css("max-width", "100%");
 		$("#softcenter_layout_switch").attr("class", "btn wide");
-		$("#softcenter_layout_switch").html("窄版");
+		$("#softcenter_layout_switch").html("固定");
 	}
 }
 function switch_layout() {
 	if($("#softcenter_layout_switch").hasClass("narrow")) {
 		$("#softcenter_layout_switch").attr("class", "btn wide");
 		$(".box, .nav, .col").css("max-width", "100%");
-		$("#softcenter_layout_switch").html("窄版");
+		$("#softcenter_layout_switch").html("固定");
 		cookie.set('softcenterlayout', 0);
 	} else {
 		$("#softcenter_layout_switch").attr("class", "btn narrow");
 		$(".box, .nav, .col").css("max-width", "1332px");
 		$(".box, .nav, .col").css("min-width", "1072px")
-		$("#softcenter_layout_switch").html("宽版");
+		$("#softcenter_layout_switch").html("适应");
 		cookie.set('softcenterlayout', 1);
 	}
 }
@@ -785,7 +785,7 @@ function switch_layout() {
 			<span id="server" style="color:#FF6A6A;font-size:13px;margin-right:10px;"></span>
 			<span id="version" style="color:#FF6A6A;font-size:13px;"></span>
 			<button id="update" style="display:none;float:right;margin-top:-10px" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
-			<a id="softcenter_layout_switch" class="btn narrow" onclick="switch_layout();" style="float:right;border-radius:3px;margin-right:5px;margin-top:-10px;">宽版</a>
+			<a id="softcenter_layout_switch" class="btn narrow" onclick="switch_layout();" style="float:right;border-radius:3px;margin-right:5px;margin-top:-10px;">适应</a>
 		</div>
 		<br>
 		<div class="content">
