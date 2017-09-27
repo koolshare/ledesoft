@@ -19,7 +19,7 @@
 		width: 50px;
 		height: 30px;
 		border: 1px solid transparent;
-		margin-left: 20px;
+		margin-left: 35px;
 	}
 	.switch_bar{
 		width: 43px;
