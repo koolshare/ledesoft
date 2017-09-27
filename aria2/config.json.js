@@ -1,8 +1,9 @@
 {
-"version":"1.6",
-"md5":"25c55a82c6477b8649592432ad130a16",
+"version":"1.7",
+"md5":"11d2d6faa96241c902f77d7971999412",
 "home_url":"Module_aria2.asp",
-"title":"aria2",
+"title":"Aria2",
 "description":"超酷的远程下载工具",
-"build_date":"2017-09-09_18:22:21"
+"changelog":"",
+"build_date":"2017-09-27_22:44:45"
 }
