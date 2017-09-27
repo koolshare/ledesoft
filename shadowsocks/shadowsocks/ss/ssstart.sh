@@ -803,6 +803,9 @@ create_dnsmasq_conf(){
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
 	echo "server=/.onetive.com/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.onetive.com/router" >> /tmp/wblist.conf
+	#echo "server=/cccat.co/127.0.0.1#7913" >> /tmp/wblist.conf
+	#echo "ipset=/cccat.co/router" >> /tmp/wblist.conf
+	
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
 	if [ -n "$ss_wan_white_domain" ];then

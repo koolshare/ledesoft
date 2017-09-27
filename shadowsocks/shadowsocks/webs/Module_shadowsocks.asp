@@ -133,6 +133,9 @@
 	    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
 	    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
 	}
+	select:hover, input:hover{
+		border: 1px solid #0099FF
+	}
 </style>
 	<script type="text/javascript">
 		var dbus;
@@ -743,12 +746,7 @@
 		}
 		//============================================
 		var ssr_node = new TomatoGrid();
-		ssr_node.dataToView = function(data) {
-			return [ data[0], option_mode_name[data[1]], data[2], data[3], data[4], data[5], data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
-		}
 		ssr_node.verifyFields = function( row, quiet ) {
-			//E('_ssr_node-grid_1').style.display = "none";
-			//E('_ssr_node-grid_12').style.display = "none";
 			var f = fields.getAll( row );
 			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet ) && v_domain( f[10], quiet );
 		}
@@ -1039,6 +1037,14 @@
 			$("#ssr_node-grid > tbody > tr > td:nth-child(11)").hide();
 			$("#ssr_node-grid > tbody > tr > td:nth-child(12)").show();
 		}
+		ssr_node.insertData = function(at, data, i) {
+			return this.insert(at, data, this.dataToView(data, i), false);
+		}
+		ssr_node.dataToView = function(data, i) {
+			return [ data[0], option_mode_name[data[1]], 
+					dbus["ssrconf_basic_group_" + i ] ? "【" + dbus["ssrconf_basic_group_" + i ] + "】" + dbus["ssrconf_basic_name_" + i ] : dbus["ssrconf_basic_name_" + i ]||data[2],
+					data[3], data[4], data[5], data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
+		}
 		ssr_node.setup = function() {
 			this.init( 'ssr_node-grid', 'sort, move', 500, [
 				{ type: 'text', maxlen: 5 },
@@ -1060,6 +1066,7 @@
 				var t2 = [
 						String(i),
 						dbus["ssrconf_basic_mode_" + i ], 
+						//dbus["ssrconf_basic_group_" + i ] ? "【" + dbus["ssrconf_basic_group_" + i ] + "】" + dbus["ssrconf_basic_name_" + i ] : dbus["ssrconf_basic_name_" + i ], 
 						dbus["ssrconf_basic_name_" + i ], 
 						dbus["ssrconf_basic_server_" + i ], 
 						dbus["ssrconf_basic_port_" + i ], 
@@ -1071,7 +1078,7 @@
 						dbus["ssrconf_basic_rss_obfs_para_" + i ] || "",
 						" "
 						]  
-				if ( t2.length == 12 ) this.insertData( -1, t2 );
+				if ( t2.length == 12 ) this.insertData( -1, t2, i );
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
@@ -3054,23 +3061,23 @@
 			if (cookie.get('ss_layout') == '1') {
 				$(".box, #ss_tabs").css("max-width", "1122px")
 				$("#ss_layout_switch").attr("class", "btn narrow");
-				$("#ss_layout_switch").html("宽版");
+				$("#ss_layout_switch").html("适应");
 			}else{
 				$(".box, #ss_tabs").css("max-width", "100%");
 				$("#ss_layout_switch").attr("class", "btn wide");
-				$("#ss_layout_switch").html("窄版");
+				$("#ss_layout_switch").html("固定");
 			}
 		}
-		function switch_Width(whichone) {
+		function switch_Width() {
 			if($("#ss_layout_switch").hasClass("narrow")) {
 				$("#ss_layout_switch").attr("class", "btn wide");
 				$(".box, #ss_tabs").css("max-width", "100%");
-				$("#ss_layout_switch").html("窄版");
+				$("#ss_layout_switch").html("固定");
 				cookie.set('ss_layout', 0);
 			} else {
 				$("#ss_layout_switch").attr("class", "btn narrow");
 				$(".box, #ss_tabs").css("max-width", "1122px");
-				$("#ss_layout_switch").html("宽版");
+				$("#ss_layout_switch").html("适应");
 				cookie.set('ss_layout', 1);
 			}
 		}
@@ -3237,7 +3244,7 @@
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
-			<a id="ss_layout_switch" class="btn narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">宽版</a>
+			<a id="ss_layout_switch" class="btn narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">适应</a>
 		</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section">
@@ -3496,15 +3503,15 @@
 			<script type="text/javascript">
 				$('#ss_kcp_panel_2').forms([
 					{ title: 'KCP加速的服务器地址', name: 'ss_kcp_node', type:'select', style:select_style, options:option_node_name, value: dbus.ss_kcp_node || "1" },
-					{ title: '服务器端口', name:'ss_kcp_port',type:'text',size: 22, maxlen:5, value:dbus.ss_kcp_port||"1099" },
-					{ title: '服务器密码 (--key)', name:'ss_kcp_password',type:'password', maxlen:64, size: 22,value:dbus.ss_kcp_password, peekaboo:1 },
+					{ title: '服务器端口', name:'ss_kcp_port',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_port||"1099" },
+					{ title: '服务器密码 (--key)', name:'ss_kcp_password',type:'password', maxlen:64, style:input_style,value:dbus.ss_kcp_password, peekaboo:1 },
 					{ title: '速度模式 (--mode)', name:'ss_kcp_mode',type:'select', style:select_style, options:option_kcp_mode,value:dbus.ss_kcp_mode||"fast" },
 					{ title: '加密方式 (--crypt)', name:'ss_kcp_crypt',type:'select', style:select_style, options:option_kcp_crypt,value:dbus.ss_kcp_crypt||"aes" },
-					{ title: 'MTU (--mtu)', name:'ss_kcp_mtu',type:'text',size: 22, maxlen:4, value:dbus.ss_kcp_mtu||"1350" },
-					{ title: '发送窗口 (--sndwnd)', name:'ss_kcp_sndwnd',type:'text',size: 22, maxlen:5, value:dbus.ss_kcp_sndwnd||"128" },
-					{ title: '接收窗口 (--rcvwnd)', name:'ss_kcp_rcvwnd',type:'text',size: 22, maxlen:5, value:dbus.ss_kcp_rcvwnd||"1024" },
-					{ title: '链接数 (--conn)', name:'ss_kcp_conn',type:'text',size: 22, maxlen:4, value:dbus.ss_kcp_conn||"1" },
-					{ title: '关闭数据压缩 (--nocomp)', name:'ss_kcp_compon',type:'checkbox',size: 22, maxlen:4, value:dbus.ss_kcp_compon == 1 },
+					{ title: 'MTU (--mtu)', name:'ss_kcp_mtu',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_mtu||"1350" },
+					{ title: '发送窗口 (--sndwnd)', name:'ss_kcp_sndwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_sndwnd||"128" },
+					{ title: '接收窗口 (--rcvwnd)', name:'ss_kcp_rcvwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_rcvwnd||"1024" },
+					{ title: '链接数 (--conn)', name:'ss_kcp_conn',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_conn||"1" },
+					{ title: '关闭数据压缩 (--nocomp)', name:'ss_kcp_compon',type:'checkbox',style:input_style, maxlen:4, value:dbus.ss_kcp_compon == 1 },
 					{ title: '其它配置项', name:'ss_kcp_config',type:'text',style:"width:85%", value:dbus.ss_kcp_config }
 				]);
 				

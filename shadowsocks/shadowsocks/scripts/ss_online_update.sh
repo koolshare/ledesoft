@@ -22,8 +22,6 @@ decode_url_link(){
 
 add_ssr_servers(){
 	ssrindex=$(($(dbus get ssrconf_basic_node_max)+1))
-	
-	echo_date 添加SSR节点：$remarks >> $LOG_FILE
 	dbus set ssrconf_basic_name_$ssrindex=$remarks
 	[ -z "$1" ] && dbus set ssrconf_basic_group_$ssrindex=$group
 	dbus set ssrconf_basic_mode_$ssrindex=$ssr_subscribe_mode
@@ -40,7 +38,6 @@ add_ssr_servers(){
 
 add_ss_servers(){
 	ssindex=$(($(dbus get ssconf_basic_node_max)+1))
-	
 	echo_date 添加SS节点：$remarks >> $LOG_FILE
 	dbus set ssrconf_basic_name_$ssindex=$remarks
 	dbus set ssconf_basic_mode_$ssindex="1"
@@ -60,48 +57,15 @@ get_remote_config(){
 	encrypt_method=$(echo "$decode_link" |awk -F':' '{print $4}')
 	obfs=$(echo "$decode_link" |awk -F':' '{print $5}'|sed 's/_compatible//g')
 	password=$(decode_url_link $(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'/' '{print $1}') 0)
+	obfsparam=$(decode_url_link $(echo "$decode_link" |awk -F':' '{print $6}'|grep -Eo "obfsparam.+"|sed 's/obfsparam=//g'|awk -F'&' '{print $1}') 0)
+	protoparam=$(decode_url_link $(echo "$decode_link" |awk -F':' '{print $6}'|grep -Eo "protoparam.+"|sed 's/protoparam=//g'|awk -F'&' '{print $1}') 0)
+	remarks_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|grep -Eo "remarks.+"|sed 's/remarks=//g'|awk -F'&' '{print $1}')
+	[ -n "$remarks_temp" ] && remarks=$(decode_url_link $remarks_temp 0) || remarks='AutoSuB'
+	group_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|grep -Eo "group.+"|sed 's/group=//g'|awk -F'&' '{print $1}')
+	[ -n "$group_temp" ] && group=$(decode_url_link $group_temp 0) || group='AutoSuBGroup'
 	
-	if [ "$(echo "$decode_link" |grep -c "obfsparam=")" -eq 1 ]; then
-		obfsparm_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $1}'|awk -F'=' '{print $2}')
-		if [ -n "$obfsparm_temp" ]; then
-			obfsparam=$(decode_url_link $obfsparm_temp 0)
-		else
-			obfsparam=''
-		fi
-		if [ "$(echo "$decode_link" | grep -c protoparam)" -eq 1 ]; then
-			protoparam_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $2}'|awk -F'=' '{print $2}')
-			[ -n "$protoparam_temp" ] && protoparam=$(decode_url_link $protoparam_temp 0) || protoparam=''
-			remarks_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $3}'|awk -F'=' '{print $2}')
-			[ -n "$remarks_temp" ] && remarks=$(decode_url_link $remarks_temp 0) || remarks='AutoSuB'
-			group_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $4}'|awk -F'=' '{print $2}')
-			[ -n "$group_temp" ] && group=$(decode_url_link $group_temp 0) || group='AutoSuBGroup'
-		else
-			protoparam=''
-			remarks_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $2}'|awk -F'=' '{print $2}')
-			[ -n "$remarks_temp" ] && remarks=$(decode_url_link $remarks_temp 0) || remarks='AutoSuB'
-			group_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $3}'|awk -F'=' '{print $2}')
-			[ -n "$group_temp" ] && group=$(decode_url_link $group_temp 0) || group='AutoSuBGroup'
-		fi
-	else
-		obfsparam=''
-		if [ "$(echo "$decode_link" | grep -c protoparam)" -eq 1 ]; then
-			protoparam_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $1}'|awk -F'=' '{print $2}')
-			[ -n "$protoparam_temp" ] && protoparam=$(decode_url_link $protoparam_temp 0) || protoparam=''
-			remarks_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $2}'|awk -F'=' '{print $2}')
-			[ -n "$remarks_temp" ] && remarks=$(decode_url_link $remarks_temp 0) || remarks='AutoSuB'
-			group_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $3}'|awk -F'=' '{print $2}')
-			[ -n "$group_temp" ] && group=$(decode_url_link $group_temp 0) || group='AutoSuBGroup'
-		else
-			protoparam=''
-			remarks_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $1}'|awk -F'=' '{print $2}')
-			[ -n "$remarks_temp" ] && remarks=$(decode_url_link $remarks_temp 0) || remarks='AutoSuB'
-			group_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'&' '{print $2}'|awk -F'=' '{print $2}')
-			[ -n "$group_temp" ] && group=$(decode_url_link $group_temp 0) || group='AutoSuBGroup'
-		fi
-	fi
 	[ -n "$group" ] && group_md5=`echo $group | md5sum | sed 's/ -//g'`
 	[ -n "$server" ] && server_md5=`echo $server | md5sum | sed 's/ -//g'`
-	
 	##把全部服务器节点写入文件 /usr/share/shadowsocks/serverconfig/all_onlineservers
 	[ -n "$group" ] && [ -n "$server" ] && echo $server_md5 $group_md5 >> /tmp/all_onlineservers
 }
@@ -111,9 +75,9 @@ update_config(){
 	isadded_server=$(cat /tmp/all_localservers | grep $group_md5 | awk '{print $1}' | grep -c $server_md5)
 	if [ "$isadded_server" -eq 0 ]; then
 		add_ssr_servers
-		[ "$ssr_subscribe_obfspara" == "0" ] && dbus set ssrconf_basic_rss_obfs_para_$ssindex=""
-		[ "$ssr_subscribe_obfspara" == "1" ] && dbus set ssrconf_basic_rss_obfs_para_$ssindex=$obfsparam
-		[ "$ssr_subscribe_obfspara" == "2" ] && dbus set ssrconf_basic_rss_obfs_para_$ssindex=$ssr_subscribe_obfspara_val
+		[ "$ssr_subscribe_obfspara" == "0" ] && dbus set ssrconf_basic_rss_obfs_para_$ssrindex=""
+		[ "$ssr_subscribe_obfspara" == "1" ] && dbus set ssrconf_basic_rss_obfs_para_$ssrindex="$obfsparam"
+		[ "$ssr_subscribe_obfspara" == "2" ] && dbus set ssrconf_basic_rss_obfs_para_$ssrindex="$ssr_subscribe_obfspara_val"
 		let addnum+=1
 	else
 		# 如果在本地的订阅节点中没找到该节点，检测下配置是否更改，如果更改，则更新配置
@@ -128,8 +92,8 @@ update_config(){
 		#echo update $index >> $LOG_FILE
 		local i=0
 		[ "$ssr_subscribe_obfspara" == "0" ] && dbus set ssrconf_basic_rss_obfs_para_$index=""
-		[ "$ssr_subscribe_obfspara" == "1" ] && dbus set ssrconf_basic_rss_obfs_para_$index=$obfsparam
-		[ "$ssr_subscribe_obfspara" == "2" ] && dbus set ssrconf_basic_rss_obfs_para_$index=$ssr_subscribe_obfspara_val
+		[ "$ssr_subscribe_obfspara" == "1" ] && dbus set ssrconf_basic_rss_obfs_para_$index="$obfsparam"
+		[ "$ssr_subscribe_obfspara" == "2" ] && dbus set ssrconf_basic_rss_obfs_para_$index="$ssr_subscribe_obfspara_val"
 		dbus set ssrconf_basic_mode_$index=$ssr_subscribe_mode
 		[ "$local_remarks" != "$remarks" ] dbus set ssrconf_basic_name_$index=$remarks
 		[ "$local_server_port" != "$server_port" ] && dbus set ssrconf_basic_port_$index=$server_port && let i+=1
@@ -264,7 +228,7 @@ get_oneline_rule_now(){
 			[ -z "$urllinks" ] && continue
 			for link in $urllinks
 			do
-				decode_link=$(decode_url_link $link 1)
+				decode_link=$(decode_url_link $link 0)
 				get_remote_config $decode_link
 				update_config
 			done
@@ -287,6 +251,7 @@ get_oneline_rule_now(){
 	else
 		echo_date 下载订阅失败...请检查你的网络... >> $LOG_FILE
 		rm -rf /tmp/ssr_subscribe_file.txt >/dev/null 2>&1 &
+		NO_DEL=1
 		sleep 2
 		echo_date 退出订阅程序... >> $LOG_FILE
 	fi
@@ -318,41 +283,45 @@ start_update(){
 		delnum=0
 		get_oneline_rule_now "$url"
 	done
-	# 删除去掉的订阅链接对应的节点
-	local_groups=`dbus list ss|grep group|cut -d "=" -f2|sort -u`
-	for local_group in $local_groups
-	do
-		MATCH=`cat /tmp/group_info.txt | grep $local_group`
-		if [ -z "$MATCH" ];then
-			echo_date $local_group 节点已经不再订阅，将进行删除...  >> $LOG_FILE
-			confs_nu=`dbus list ssrconf |grep "$local_group"| cut -d "=" -f 1|cut -d "_" -f 4`
-			for conf_nu in $confs_nu
-			do
-				dbus remove ssrconf_basic_group_$conf_nu
-				dbus remove ssrconf_basic_method_$conf_nu
-				dbus remove ssrconf_basic_mode_$conf_nu
-				dbus remove ssrconf_basic_name_$conf_nu
-				dbus remove ssrconf_basic_password_$conf_nu
-				dbus remove ssrconf_basic_port_$conf_nu
-				dbus remove ssrconf_basic_rss_obfs_$conf_nu
-				dbus remove ssrconf_basic_rss_obfs_para_$conf_nu
-				dbus remove ssrconf_basic_rss_protocal_$conf_nu
-				dbus remove ssrconf_basic_server_$conf_nu
-				dbus remove ssrconf_basic_server_ip_$conf_nu
-				dbus remove ssrconf_basic_lb_enable_$conf_nu
-				dbus remove ssrconf_basic_lb_policy_$conf_nu
-				dbus remove ssrconf_basic_lb_weight_$conf_nu
-				dbus remove ssrconf_basic_lb_dest_$conf_nu
-			done
-			echo_date 删除完成完成！ >> $LOG_FILE
-			need_adjust=1
+	if [ -z "$NO_DEL" ];then
+		# 删除去掉的订阅链接对应的节点
+		local_groups=`dbus list ss|grep group|cut -d "=" -f2|sort -u`
+		for local_group in $local_groups
+		do
+			MATCH=`cat /tmp/group_info.txt | grep $local_group`
+			if [ -z "$MATCH" ];then
+				echo_date $local_group 节点已经不再订阅，将进行删除...  >> $LOG_FILE
+				confs_nu=`dbus list ssrconf |grep "$local_group"| cut -d "=" -f 1|cut -d "_" -f 4`
+				for conf_nu in $confs_nu
+				do
+					dbus remove ssrconf_basic_group_$conf_nu
+					dbus remove ssrconf_basic_method_$conf_nu
+					dbus remove ssrconf_basic_mode_$conf_nu
+					dbus remove ssrconf_basic_name_$conf_nu
+					dbus remove ssrconf_basic_password_$conf_nu
+					dbus remove ssrconf_basic_port_$conf_nu
+					dbus remove ssrconf_basic_rss_obfs_$conf_nu
+					dbus remove ssrconf_basic_rss_obfs_para_$conf_nu
+					dbus remove ssrconf_basic_rss_protocal_$conf_nu
+					dbus remove ssrconf_basic_server_$conf_nu
+					dbus remove ssrconf_basic_server_ip_$conf_nu
+					dbus remove ssrconf_basic_lb_enable_$conf_nu
+					dbus remove ssrconf_basic_lb_policy_$conf_nu
+					dbus remove ssrconf_basic_lb_weight_$conf_nu
+					dbus remove ssrconf_basic_lb_dest_$conf_nu
+				done
+				echo_date 删除完成完成！ >> $LOG_FILE
+				need_adjust=1
+			fi
+		done
+		sleep 1
+		# 再次排序
+		if [ "$need_adjust" == "1" ];then
+			echo_date 因为进行了删除订阅节点操作，需要对节点顺序进行检查！ >> $LOG_FILE
+			remove_node_gap
 		fi
-	done
-	sleep 1
-	# 再次排序
-	if [ "$need_adjust" == "1" ];then
-		echo_date 因为进行了删除订阅节点操作，需要对节点顺序进行检查！ >> $LOG_FILE
-		remove_node_gap
+	else
+		echo_date "由于订阅过程有失败，本次不检测需要删除的订阅，以免误伤；下次所有成功订阅后再进行检测。" >> $LOG_FILE
 	fi
 	# 结束
 	echo_date "请等待3秒，本页面将自动刷新！" >> $LOG_FILE
