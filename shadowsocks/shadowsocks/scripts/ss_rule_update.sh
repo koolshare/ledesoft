@@ -42,7 +42,7 @@ update_rule(){
 	md5sum_cdn2=$(echo $git_line4 | sed 's/ /\n/g'| tail -n 2 | head -n 1)
 	
 	# update gfwlist
-	if [ "$ss_basic_gfwlist_update" == "1" ];then
+	if [ "$ss_basic_gfwlist_update" == "1" ] || [ -n "$1" ];then
 		if [ ! -z "$version_gfwlist2" ];then
 			if [ "$version_gfwlist1" != "$version_gfwlist2" ];then
 				echo_date 检测到新版本gfwlist，开始更新...
@@ -70,7 +70,7 @@ update_rule(){
 	
 	
 	# update chnroute
-	if [ "$ss_basic_chnroute_update" == "1" ];then
+	if [ "$ss_basic_chnroute_update" == "1" ] || [ -n "$1" ];then
 		if [ ! -z "$version_chnroute2" ];then
 			if [ "$version_chnroute1" != "$version_chnroute2" ];then
 				echo_date 检测到新版本chnroute，开始更新...
@@ -99,7 +99,7 @@ update_rule(){
 	# update cdn file		
 	if [ "$ss_basic_cdn_update" == "1" ];then		
 		if [ ! -z "$version_cdn2" ];then		
-			if [ "$version_cdn1" != "$version_cdn2" ];then		
+			if [ "$version_cdn1" != "$version_cdn2" ] || [ -n "$1" ];then		
 				echo_date 检测到新版本cdn名单，开始更新...		
 				echo_date 下载cdn名单到临时文件...		
 				wget --no-check-certificate --timeout=8 -qO - $url_main/cdn.txt > /tmp/cdn.txt		
@@ -148,7 +148,11 @@ update_rule(){
 	fi
 	echo =======================================================================================================
 }
-
-update_rule > /tmp/upload/ss_log.txt
-echo XU6J03M6 >> /tmp/upload/ss_log.txt
-http_response "$1"
+if [ -n "$1" ];then
+	update_rule "$1" > /tmp/upload/ss_log.txt
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
+	http_response "$1"
+else
+	update_rule > /tmp/upload/ss_log.txt
+	echo XU6J03M6 >> /tmp/upload/ss_log.txt
+fi

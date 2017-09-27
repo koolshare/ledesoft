@@ -107,7 +107,6 @@ calculate_wans_nu(){
 				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
 				wan_ifname_l3=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
 				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
-				
 				if [ "$wan_up" == "true" ];then
 					echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
 					wans_nu=$(($wans_nu+1))
@@ -255,7 +254,7 @@ route_add(){
 		echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"、
 	else
 		GW=`/usr/sbin/ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
-		l3_name=`uci show network|grep $devname|grep -v orig|grep ifname|cut -d "." -f2`
+		l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
 		if [ -n "$GW" ];then
 			/usr/sbin/ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
@@ -1027,9 +1026,9 @@ add_white_black_ip(){
 	
 	# white ip/cidr
 	#ip1=$(nvram get wan0_ipaddr | cut -d"." -f1,2)
-	ip1=`cat /etc/config/pppoe|grep localip | awk '{print $4}'| cut -d"." -f1,2`
+	#ip1=`cat /etc/config/pppoe|grep localip | awk '{print $4}'| cut -d"." -f1,2`
 	[ ! -z "$ss_basic_server_ip" ] && SERVER_IP=$ss_basic_server_ip || SERVER_IP=""
-	ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 $ip1.0.0/16 $SERVER_IP 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 112.124.47.27 114.215.126.16 180.76.76.76 119.29.29.29 $ISP_DNS1 $ISP_DNS2"
+	ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 $SERVER_IP 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 112.124.47.27 114.215.126.16 180.76.76.76 119.29.29.29 $ISP_DNS1 $ISP_DNS2"
 	for ip in $ip_lan
 	do
 		ipset -! add white_list $ip >/dev/null 2>&1

@@ -4,8 +4,9 @@
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <style type="text/css">
-	.box {
-		min-width:1110px;
+	.box, #ss_tabs {
+		min-width:1122px;
+		max-width:1122px;
 	}
 	.c-checkbox {
 		margin-left:-10px;
@@ -120,9 +121,23 @@
 	table.line-table tr:hover .progress {
 		background:#D7D7D7
 	}
+	#ss_link-grid,
+	#online_link-grid{
+	    table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+	}
+	#ss_link-grid td,
+	#online_link-grid td{
+	    width:100%;
+	    word-break:keep-all;/* 不换行 */
+	    white-space:nowrap;/* 不换行 */
+	    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+	    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+	}
 </style>
 	<script type="text/javascript">
 		var dbus;
+		var layout;
+		init_layout();
 		get_dbus_data();
 		get_arp_list();
 		var _responseLen;
@@ -160,7 +175,6 @@
 		var option_arp_list = [];
 		var option_arp_local = [];
 		var option_arp_web = [];
-		var option_hour_time = [];
 		var option_node_name = [];
 		var option_node_addr = [];
 		var wans =[];
@@ -170,11 +184,13 @@
 		var wans_value =[];
 		var wans_name =[];
 		var softcenter = 0;
-		var select_style="min-width:182px;max-width:182px";
-		
+		var option_day_time = [["7", "每天"], ["1", "周一"], ["2", "周二"], ["3", "周三"], ["4", "周四"], ["5", "周五"], ["6", "周六"], ["0", "周日"]];
+		var option_hour_time = [];
 		for(var i = 0; i < 24; i++){
 			option_hour_time[i] = [i, i + "点"];
 		}
+		var select_style="min-width:182px;max-width:182px";
+		var input_style="min-width:182px;max-width:182px";
 		if (typeof btoa == "Function") {
 			Base64 = {
 				encode: function(e) {
@@ -376,13 +392,11 @@
 		//============================================
 		var ss_node = new TomatoGrid();
 		ss_node.dataToView = function(data) {
-			return [ data[0], option_mode_name[data[1]], data[2] || "节点" + data.length, data[3], data[4], "******", data[6], (data[7] == 0 ? "" : data[7]), data[8], data[9]];
+			return [ data[0], option_mode_name[data[1]], data[2] || "节点" + data.length, data[3], data[4], data[5], data[6], (data[7] == 0 ? "" : data[7]), data[8], data[9]];
 		}
 		ss_node.verifyFields = function( row, quiet ) {
-			E('_ss_node-grid_1').disabled = true;
-			E('_ss_node-grid_1').style.display = "none";
-			E('_ss_node-grid_10').disabled = true;
-			E('_ss_node-grid_10').style.display = "none";
+			//E('_ss_node-grid_1').style.display = "none";
+			//E('_ss_node-grid_10').style.display = "none";
 			var f = fields.getAll( row );
 			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet );
 		}
@@ -423,6 +437,32 @@
 			}
 			me.moving = e;
 			img.style.border = "3px solid red";
+		}
+		ss_node.onClick = function(cell) {
+			if (this.canEdit) {
+				if (this.moving) {
+					var p = this.moving.parentNode;
+					var q = PR(cell);
+					if (this.moving != q) {
+						var v = this.moving.rowIndex > q.rowIndex;
+						p.removeChild(this.moving);
+						if (v) p.insertBefore(this.moving, q);
+						else p.insertBefore(this.moving, q.nextSibling);
+						this.recolor();
+					}
+					this.moving = null;
+					this.rpHide();
+					return;
+				}
+				this.edit(cell);
+				$("#ss_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ss_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(10)").hide();
+			}
 		}
 		ss_node.onDelete = function() {
 			this.removeEditor();
@@ -498,14 +538,10 @@
 		ss_node.rpApply = function(e) {
 			e = PR(e);
 			var apply_ss_node = parseInt(e.cells[0].innerHTML);
-			console.log(apply_ss_node);
-			//dbus["ss_basic_node"] = apply_ss_node //addby sadog
 			E("_ss_basic_node").value = apply_ss_node;
 			if (confirm("确定要应用此节点?")) {
 				auto_node_sel();
 				verifyFields();
-				//tabSelect('app1');
-				//setTimeout("save();", 200);
 				save();
 			} else {
 				return false;
@@ -639,6 +675,15 @@
 			}
 			return row;
 		}
+		ss_node.disableNewEditor = function(disable) {
+			if (this.getDataCount() >= this.maxAdd) disable = true;
+			if (this.newEditor) fields.disableAll(this.newEditor, disable);
+			if (this.newControls) fields.disableAll(this.newControls, disable);
+			$("#ss_node-grid > tbody > tr > td:nth-child(1)").show();
+			$("#ss_node-grid > tbody > tr > td:nth-child(6)").hide();
+			$("#ss_node-grid > tbody > tr > td:nth-child(9)").hide();
+			$("#ss_node-grid > tbody > tr > td:nth-child(10)").show();
+		}
 		ss_node.setup = function() {
 			this.init( 'ss_node-grid', 'move, sort', 500, [
 				{ type: 'text', maxlen: 5 },
@@ -670,21 +715,40 @@
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
-			E('_ss_node-grid_1').disabled = true;
+			// hide edit td 1 12
 			E('_ss_node-grid_1').style.display = "none";
-			E('_ss_node-grid_10').disabled = true;
 			E('_ss_node-grid_10').style.display = "none";
+			// add placeholder for input
+			$("#ss_node-grid #_ssr_node-grid_3").attr("placeholder", "节点名")
+			$("#ss_node-grid #_ssr_node-grid_4").attr("placeholder", "地址")
+			$("#ss_node-grid #_ssr_node-grid_5").attr("placeholder", "端口")
+			$("#ss_node-grid #_ssr_node-grid_6").attr("placeholder", "密码")
+			$("#ss_node-grid #_ssr_node-grid_9").attr("placeholder", "混淆主机")
+			// adjust width
+			$("#ss_node-grid > tbody > tr > td:nth-child(5)").css("width", "100px");
+			// hide some info less column
+			$("#ss_node-grid > tbody > tr > td:nth-child(6)").hide();
+			$("#ss_node-grid > tbody > tr > td:nth-child(9)").hide();
+			// when adding node, make all usedfull colum visible
+			$("#ss_node-grid > tbody > tr.editor").click(
+				function() {
+				$("#ss_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ss_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(10)").hide();
+			});
 		}
 		//============================================
 		var ssr_node = new TomatoGrid();
 		ssr_node.dataToView = function(data) {
-			return [ data[0], option_mode_name[data[1]], data[2], data[3], data[4], "******", data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
+			return [ data[0], option_mode_name[data[1]], data[2], data[3], data[4], data[5], data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
 		}
 		ssr_node.verifyFields = function( row, quiet ) {
-			E('_ssr_node-grid_1').disabled = true;
-			E('_ssr_node-grid_1').style.display = "none";
-			E('_ssr_node-grid_12').disabled = true;
-			E('_ssr_node-grid_12').style.display = "none";
+			//E('_ssr_node-grid_1').style.display = "none";
+			//E('_ssr_node-grid_12').style.display = "none";
 			var f = fields.getAll( row );
 			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet ) && v_domain( f[10], quiet );
 		}
@@ -727,11 +791,38 @@
 			me.moving = e;
 			img.style.border = "3px solid red";
 		}
+		ssr_node.onClick = function(cell) {
+			if (this.canEdit) {
+				if (this.moving) {
+					var p = this.moving.parentNode;
+					var q = PR(cell);
+					if (this.moving != q) {
+						var v = this.moving.rowIndex > q.rowIndex;
+						p.removeChild(this.moving);
+						if (v) p.insertBefore(this.moving, q);
+						else p.insertBefore(this.moving, q.nextSibling);
+						this.recolor();
+					}
+					this.moving = null;
+					this.rpHide();
+					return;
+				}
+				this.edit(cell);
+				$("#ssr_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(11)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(12)").hide();
+			}
+		}
 		ssr_node.onDelete = function() {
 			this.removeEditor();
 			var del_ssr_node = parseInt(this.source.cells[0].innerHTML);
 			var cur_sel_node = parseInt(dbus["ss_basic_node"]);
-			c
+			var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
 			if (del_ssr_node == (cur_sel_node - node_ss)){
 				alert("该节点正在使用！\n删除节点保存后帐号设置界面显示的节点会显示成下一个！\n删除后除非重新提交，之前的节点仍然在后台使用！");
 			}
@@ -745,6 +836,7 @@
 			dbus["ssrconf_basic_node_max"] = this.tb.rows.length - 3 //addby sadog
 			dbus["ssrconf_basic_max_node"] = parseInt(this.tb.rows[this.tb.rows.length -3].cells[0].innerHTML) //addby sadog
 		}
+
 		ssr_node.rpDel = function(e) {
 			e = PR(e);
 			var del_ssr_node = parseInt(e.cells[0].innerHTML);
@@ -801,7 +893,6 @@
 		ssr_node.rpApply = function(e) {
 			e = PR(e);
 			var apply_ss_node = parseInt(e.cells[0].innerHTML);
-			//dbus["ss_basic_node"] = apply_ss_node //addby sadog
 			E("_ss_basic_node").value = apply_ss_node + node_ss;
 			if (confirm("确定要应用此节点?")) {
 				auto_node_sel();
@@ -817,7 +908,7 @@
 			this.rpHide();
 			if (!this.verifyFields(this.newEditor, false)) return;
 			data = this.fieldValuesToData(this.newEditor); 
-			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) +1 || 0 + 1); //addby sadog
+			data[0] = String(parseInt(this.tb.rows[this.tb.rows.length - 3].cells[0].innerHTML) + 1 || 0 + 1); //addby sadog
 			this.insertData(-1, data);
 			this.disableNewEditor(false);
 			this.resetNewEditor();
@@ -938,6 +1029,16 @@
 			}
 			return row;
 		}
+		ssr_node.disableNewEditor = function(disable) {
+			if (this.getDataCount() >= this.maxAdd) disable = true;
+			if (this.newEditor) fields.disableAll(this.newEditor, disable);
+			if (this.newControls) fields.disableAll(this.newControls, disable);
+			$("#ssr_node-grid > tbody > tr > td:nth-child(1)").show();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(6)").hide();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(9)").hide();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(11)").hide();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(12)").show();
+		}
 		ssr_node.setup = function() {
 			this.init( 'ssr_node-grid', 'sort, move', 500, [
 				{ type: 'text', maxlen: 5 },
@@ -974,10 +1075,35 @@
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
-			E('_ssr_node-grid_1').disabled = true;
+			// hide edit td 1 12
 			E('_ssr_node-grid_1').style.display = "none";
-			E('_ssr_node-grid_12').disabled = true;
 			E('_ssr_node-grid_12').style.display = "none";
+			// add placeholder for input
+			$("#ssr_node-grid #_ssr_node-grid_3").attr("placeholder", "节点名")
+			$("#ssr_node-grid #_ssr_node-grid_4").attr("placeholder", "地址")
+			$("#ssr_node-grid #_ssr_node-grid_5").attr("placeholder", "端口")
+			$("#ssr_node-grid #_ssr_node-grid_6").attr("placeholder", "密码")
+			$("#ssr_node-grid #_ssr_node-grid_9").attr("placeholder", "协议参数")
+			$("#ssr_node-grid #_ssr_node-grid_11").attr("placeholder", "混淆参数")
+			// adjust width
+			$("#ssr_node-grid > tbody > tr > td:nth-child(5)").css("width", "100px");
+			// hide some info less column
+			$("#ssr_node-grid > tbody > tr > td:nth-child(6)").hide();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(9)").hide();
+			$("#ssr_node-grid > tbody > tr > td:nth-child(11)").hide();
+			// when adding node, make all usedfull colum visible
+			$("#ssr_node-grid > tbody > tr.editor").click(
+				function() {
+				$("#ssr_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(11)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(12)").hide();
+			});
+
 		}
 		//============================================
 		var lb = new TomatoGrid();
@@ -985,6 +1111,7 @@
 		lb.dataToView = function(data) {
 			return [ data[0], data[1], data[2], data[3], data[4], data[5], data[6], option_lb_policy_name[data[7]] ];
 		}
+	
 		lb.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
 			return v_iptaddr( f[2], quiet ) && v_port( f[3], quiet );
@@ -1325,11 +1452,280 @@
 				E("_ss_acl_default_mode").value = E("_ss_basic_mode").value || "1";
 			}
 		}
+		// ===========================================
+		var online_link = new TomatoGrid();
+		online_link.dataToView = function(data) {
+			return [ data[0]];
+		}
+		online_link.createEditor = function(which, rowIndex, source) {
+			var values;
+			if (which == 'edit') values = this.dataToFieldValues(source.getRowData());
+			var row = this.tb.insertRow(rowIndex);
+			row.className = 'editor';
+			var common = ' onkeypress="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
+			var vi = 0;
+			for (var i = 0; i < this.editorFields.length; ++i) {
+				var s = '';
+				var ef = this.editorFields[i].multi;
+				if (!ef) ef = [this.editorFields[i]];
+				for (var j = 0; j < ef.length; ++j) {
+					var f = ef[j];
+					if (f.prefix) s += f.prefix;
+					var attrib = ' class="fi' + (vi + 1) + ' ' + (f['class'] ? f['class'] : '') + '" ' + (f.attrib || '');
+					var id = (this.tb ? ('_' + this.tb.id + '_' + (vi + 1)) : null);
+					if (id) attrib += ' id="' + id + '"';
+					switch (f.type) {
+						case 'password':
+							if (f.peekaboo) {
+								switch (get_config('web_pb', '1')) {
+									case '0':
+										f.type = 'text';
+									case '2':
+										f.peekaboo = 0;
+										break;
+								}
+							}
+							attrib += ' autocomplete="off"';
+							if (f.peekaboo && id) attrib += ' onfocus=\'peekaboo("' + id + '",1)\'';
+							// drop
+						case 'text':
+							s += '<input style="max-width:89%" type="' + f.type + '" maxlength=' + f.maxlen + common + attrib;
+							if (which == 'edit') s += ' value="' + escapeHTML('' + values[vi]) + '">';
+							else s += '>';
+							break;
+						case 'select':
+							s += '<select' + common + attrib + '>';
+							for (var k = 0; k < f.options.length; ++k) {
+								a = f.options[k];
+								if (which == 'edit') {
+									s += '<option value="' + a[0] + '"' + ((a[0] == values[vi]) ? ' selected>' : '>') + a[1] + '</option>';
+								} else {
+									s += '<option value="' + a[0] + '">' + a[1] + '</option>';
+								}
+							}
+							s += '</select>';
+							break;
+						case 'checkbox':
+							s += '<div class="checkbox c-checkbox"><label><input type="checkbox"' + common + attrib;
+							if ((which == 'edit') && (values[vi])) s += ' checked';
+							s += '><span></span> </label></div>';
+							break;
+						case 'textarea':
+							if (which == 'edit') {
+								document.getElementById(f.proxy).value = values[vi];
+							}
+							break;
+						default:
+							s += f.custom.replace(/\$which\$/g, which);
+					}
+					if (f.suffix) s += f.suffix;
+					++vi;
+				}
+				var c = row.insertCell(i);
+				c.innerHTML = s;
+				// Added verticalAlignment, this fixes the incorrect vertical positioning of inputs in the editorRow
+				if (this.editorFields[i].vtop) {
+					c.vAlign = 'top';
+					c.style.verticalAlign = "top";
+				}
+			}
+			return row;
+		}
+		online_link.verifyFields = function( row, quiet ) {
+			var f = fields.getAll( row );
+			var f = fields.getAll( row );
+			if(!f[0].value){
+				alert("不能为空！");
+				return false;
+			}else{
+				if(f[0].value.indexOf("http://") != -1 || f[0].value.indexOf("https://") != -1){
+					return true;
+				}else{
+					alert("格式错误！请添加 http:// 或者 https:// 开头的订阅链接！");
+					return false;
+				}
+			}
+		}
+		online_link.resetNewEditor = function() {
+			var f;
+			f = fields.getAll( this.newEditor );
+			ferror.clearAll( f );
+			f[ 0 ].value   = '';
+		}
+		online_link.createControls = function(which, rowIndex) {
+			var r, c;
+			r = this.tb.insertRow(rowIndex);
+			r.className = 'controls';
+			c = r.insertCell(0);
+			c.colSpan = this.header.cells.length;
+			if (which == 'edit') {
+				c.innerHTML = '<button type="button" class="btn btn-danger" value="Delete" onclick="TGO(this).onDelete()">删除 <i class="icon-cancel"></i></button> ' + '<button type="button" class="btn" value="Cancel" onclick="TGO(this).onCancel()">取消 <i class="icon-disable"></i></button> ' + '<button type="button" class="btn btn-primary" value="OK" onclick="TGO(this).onOK()">确定 <i class="icon-check"></i></button>';
+			} else {
+				c.innerHTML = '<button type="button" class="btn btn-danger" value="Add" onclick="TGO(this).onAdd()">添加 <i class="icon-plus"></i></button>';
+			}
+			return r;
+		}
+		online_link.setup = function() {
+			this.init( 'online_link-grid', '', 10, [
+				{ type: 'text', maxlen: 200 }
+			] );
+			this.headerSet( [ '订阅地址'] );
+			for ( var i = 1; i <= 10; i++){
+				var t1 = [dbus["ss_online_link_" + i ]];
+				if ( t1[0] && t1.length == 1 ) this.insertData( -1, t1 );
+			}
+			this.showNewEditor();
+			this.resetNewEditor();
+			$("#online_link-grid > tbody > tr:nth-child(1)").hide();
+			$("#online_link-grid > tbody > tr.controls").hide();
+			$("#_online_link-grid_1").after('&nbsp;&nbsp;<button type="button" class="btn btn-danger" style="margin-top:-5px" value="Add" onclick="TGO(this).onAdd()">添加 <i class="icon-plus"></i></button>')
+		}
+		// ===========================================
+		var ss_link = new TomatoGrid();
+		ss_link.dataToView = function(data) {
+			return [ data[0]];
+		}
+		ss_link.createEditor = function(which, rowIndex, source) {
+			var values;
+			if (which == 'edit') values = this.dataToFieldValues(source.getRowData());
+			var row = this.tb.insertRow(rowIndex);
+			row.className = 'editor';
+			var common = ' onkeypress="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
+			var vi = 0;
+			for (var i = 0; i < this.editorFields.length; ++i) {
+				var s = '';
+				var ef = this.editorFields[i].multi;
+				if (!ef) ef = [this.editorFields[i]];
+				for (var j = 0; j < ef.length; ++j) {
+					var f = ef[j];
+					if (f.prefix) s += f.prefix;
+					var attrib = ' class="fi' + (vi + 1) + ' ' + (f['class'] ? f['class'] : '') + '" ' + (f.attrib || '');
+					var id = (this.tb ? ('_' + this.tb.id + '_' + (vi + 1)) : null);
+					if (id) attrib += ' id="' + id + '"';
+					switch (f.type) {
+						case 'password':
+							if (f.peekaboo) {
+								switch (get_config('web_pb', '1')) {
+									case '0':
+										f.type = 'text';
+									case '2':
+										f.peekaboo = 0;
+										break;
+								}
+							}
+							attrib += ' autocomplete="off"';
+							if (f.peekaboo && id) attrib += ' onfocus=\'peekaboo("' + id + '",1)\'';
+							// drop
+						case 'text':
+							s += '<input style="max-width:89%" type="' + f.type + '" maxlength=' + f.maxlen + common + attrib;
+							if (which == 'edit') s += ' value="' + escapeHTML('' + values[vi]) + '">';
+							else s += '>';
+							break;
+						case 'select':
+							s += '<select' + common + attrib + '>';
+							for (var k = 0; k < f.options.length; ++k) {
+								a = f.options[k];
+								if (which == 'edit') {
+									s += '<option value="' + a[0] + '"' + ((a[0] == values[vi]) ? ' selected>' : '>') + a[1] + '</option>';
+								} else {
+									s += '<option value="' + a[0] + '">' + a[1] + '</option>';
+								}
+							}
+							s += '</select>';
+							break;
+						case 'checkbox':
+							s += '<div class="checkbox c-checkbox"><label><input type="checkbox"' + common + attrib;
+							if ((which == 'edit') && (values[vi])) s += ' checked';
+							s += '><span></span> </label></div>';
+							break;
+						case 'textarea':
+							if (which == 'edit') {
+								document.getElementById(f.proxy).value = values[vi];
+							}
+							break;
+						default:
+							s += f.custom.replace(/\$which\$/g, which);
+					}
+					if (f.suffix) s += f.suffix;
+					++vi;
+				}
+				var c = row.insertCell(i);
+				c.innerHTML = s;
+				// Added verticalAlignment, this fixes the incorrect vertical positioning of inputs in the editorRow
+				if (this.editorFields[i].vtop) {
+					c.vAlign = 'top';
+					c.style.verticalAlign = "top";
+				}
+			}
+			return row;
+		}
+		ss_link.verifyFields = function( row, quiet ) {
+			var f = fields.getAll( row );
+			if(!f[0].value){
+				alert("不能为空！");
+				return false;
+			}else{
+				if(f[0].value.indexOf("ssr://") != -1 || f[0].value.indexOf("ss://") != -1){
+					return true;
+				}else{
+					alert("格式错误！请添加ssr:// 或者 ss:// 开头的链接！");
+					return false;
+				}
+			}
+		}
+		ss_link.onAdd = function() {
+			var data;
+			this.moving = null;
+			this.rpHide();
+			if (!this.verifyFields(this.newEditor, false)) return;
+			data = this.fieldValuesToData(this.newEditor);
+			this.insertData(-1, data);
+			this.disableNewEditor(false);
+			this.resetNewEditor();
+			E("save-add-link").disabled=false;
+		}
+		ss_link.resetNewEditor = function() {
+			var f;
+			f = fields.getAll( this.newEditor );
+			ferror.clearAll( f );
+			f[ 0 ].value   = '';
+		}
+		ss_link.createControls = function(which, rowIndex) {
+			var r, c;
+			r = this.tb.insertRow(rowIndex);
+			r.className = 'controls';
+			c = r.insertCell(0);
+			c.colSpan = this.header.cells.length;
+			if (which == 'edit') {
+				c.innerHTML = '<button type="button" class="btn btn-danger" value="Delete" onclick="TGO(this).onDelete()">删除 <i class="icon-cancel"></i></button> ' + '<button type="button" class="btn" value="Cancel" onclick="TGO(this).onCancel()">取消 <i class="icon-disable"></i></button> ' + '<button type="button" class="btn btn-primary" value="OK" onclick="TGO(this).onOK()">确定 <i class="icon-check"></i></button>';
+			} else {
+				c.innerHTML = '<button type="button" class="btn btn-danger" value="Add" onclick="TGO(this).onAdd()">添加 <i class="icon-plus"></i></button>';
+			}
+			return r;
+		}
+		ss_link.setup = function() {
+			this.init( 'ss_link-grid', '', 20, [
+				{ type: 'text' }
+			] );
+			this.headerSet( [ '订阅地址'] );
+			for ( var i = 1; i <= 20; i++){
+				var t1 = [dbus["ss_base64_link_" + i ]];
+				if ( t1[0] && t1.length == 1 ) this.insertData( -1, t1 );
+			}
+			this.showNewEditor();
+			this.resetNewEditor();
+			E("save-add-link").disabled=true;
+			$("#ss_link-grid > tbody > tr:nth-child(1)").hide();
+			$("#ss_link-grid > tbody > tr.controls").hide();
+			$("#_ss_link-grid_1").after('&nbsp;&nbsp;<button type="button" class="btn btn-danger" style="margin-top:-5px" value="Add" onclick="TGO(this).onAdd()">添加 <i class="icon-plus"></i></button>')
+		}
 		//============================================
 		function init_ss(){
 			tabSelect('app1');
 			ss_node.setup();
 			ssr_node.setup();
+			online_link.setup();
+			ss_link.setup();
 			get_wans_list();
 			//get_wans_list2();
 			verifyFields();
@@ -1389,7 +1785,7 @@
 							if(E("_ss_basic_ping_method").value == 1){
 								$('#ss_node-grid > tbody > tr:nth-child(1) > td.header.co10').html("ping");
 								$('#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co12').html("ping");
-								if (ping < 50){
+								if (ping <= 50){
 									test_result = '<font color="#1bbf35">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
 								}else if (ping > 50 && ping <= 100) {
 									test_result = '<font color="#3399FF">' + parseFloat(ping).toPrecision(3) +'  ms</font>';
@@ -1937,15 +2333,25 @@
 			elem.display('_ss_chinadns_foreign_sstunnel_user', d5 && j3 && k);
 			elem.display('_ss_chinadns_foreign_method_user', d5 && j4);
 			elem.display('_ss_chinadns_foreign_method_user_txt', d5 && j4);
-			var l  = E('_ss_basic_rule_update').value == '1'; // ChinaDNS user
-			elem.display('_ss_basic_rule_update_time', l);
-			elem.display(elem.parentElem('_ss_basic_gfwlist_update', 'DIV'), l);
-			elem.display('_ss_basic_gfwlist_update_txt', l);
-			elem.display(elem.parentElem('_ss_basic_chnroute_update', 'DIV'), l);
-			elem.display('_ss_basic_chnroute_update_txt', l);
-			elem.display(elem.parentElem('_ss_basic_cdn_update', 'DIV'), l);
-			elem.display('_ss_basic_cdn_update_txt', l);
-			elem.display('_update_rules_now', l);
+			var l1  = E('_ss_basic_rule_update').value == '1'; 
+			elem.display('_ss_basic_rule_update_day', l1);
+			elem.display('_ss_basic_rule_update_hr', l1);
+			var l2  = E('_ss_basic_pcap_update').value == '1';
+			elem.display('_ss_basic_pcap_update_day', l2);
+			elem.display('_ss_basic_pcap_update_hr', l2);
+			var l3  = E('_ss_basic_node_update').value == '1';
+			elem.display('_ss_basic_node_update_day', l3);
+			elem.display('_ss_basic_node_update_hr', l3);
+			
+			elem.display(elem.parentElem('_ss_basic_gfwlist_update', 'DIV'), l1);
+			elem.display('_ss_basic_gfwlist_update_txt', l1);
+			elem.display(elem.parentElem('_ss_basic_chnroute_update', 'DIV'), l1);
+			elem.display('_ss_basic_chnroute_update_txt', l1);
+			elem.display(elem.parentElem('_ss_basic_cdn_update', 'DIV'), l1);
+			elem.display('_ss_basic_cdn_update_txt', l1);
+			//elem.display('_update_rules_now', l1);
+			//elem.display('_update_pcap_now', l2);
+			
 			var m  = E('_ss_basic_dnslookup').value == '1';
 			elem.display('_ss_basic_dnslookup_server', m);
 			elem.display('_ss_basic_dnslookup_txt', m);
@@ -1954,6 +2360,7 @@
 			elem.display('_ssr_subscribe_obfspara_text', p1);
 			elem.display('_ssr_subscribe_obfspara_val', p2);
 
+			
 			calculate_max_node();
 		}
 		function calculate_max_node(){
@@ -2029,6 +2436,13 @@
 				E('save-node').style.display = "";
 				E('save-lb').style.display = "none";
 				E('save-kcp').style.display = "none";
+				elem.display('ss_kcp_tab_2', false);
+			}else if(obj=='app5' || obj=='app11'){ // 负载均衡
+				E('save-button').style.display = "none";
+				E('save-node').style.display = "none";
+				E('save-lb').style.display = "none";
+				E('save-kcp').style.display = "none";
+				E('cancel-button').style.display = "none";
 				elem.display('ss_kcp_tab_2', false);
 			}else if(obj=='app9'){ // 负载均衡
 				E('save-button').style.display = "none";
@@ -2181,13 +2595,13 @@
 				url: "/_api/ssconf,ssrconf",
 				dataType: "json",
 				async:true,
-				success: function(data){
+				success: function(datas){
 					var all_ssconf_table = ["ssconf_basic_mode_", "ssconf_basic_name_", "ssconf_basic_server_", "ssconf_basic_port_", "ssconf_basic_password_", "ssconf_basic_method_", "ssconf_basic_ss_obfs_", "ssconf_basic_ss_obfs_host_" ];
 					var all_ssconf_dbus = ["ssconf_basic_server_ip_", "ssconf_basic_lb_enable_", "ssconf_basic_lb_policy_", "ssconf_basic_lb_weight_", "ssconf_basic_lb_dest_" ];
 					var all_ssrconf_table = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_"];
 					var all_ssrconf_dbus = ["ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
-					var skipd_ss = data.result[0];
-					var skipd_ssr = data.result[1];
+					var skipd_ss = datas.result[0];
+					var skipd_ssr = datas.result[1];
 					//== get current using ss/ssr node number==
 					var cur_sel_node = parseInt(dbus["ss_basic_node"]);
 					var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
@@ -2211,10 +2625,10 @@
 							++j;
 							// write ss/kcp node
 							if (parseInt(keep_nu) == ss_orig_nu){
-								skipd_temp_ss["ss_basic_node"] = j;
+								skipd_temp_ss["ss_basic_node"] = String(j);
 							}
 							if (parseInt(keep_nu) == cur_kcp_node){
-								skipd_temp_ss["ss_kcp_node"] = j;
+								skipd_temp_ss["ss_kcp_node"] = String(j);
 							}
 							// write node
 							for ( var k = 0; k < all_ssconf_table.length; ++k ) {
@@ -2230,16 +2644,17 @@
 								}
 							}
 						}
-						skipd_temp_ss["ssconf_basic_node_max"] = data.length;
-						skipd_temp_ss["ssconf_basic_max_node"] = j;
+						skipd_temp_ss["ssconf_basic_node_max"] = String(data.length);
+						skipd_temp_ss["ssconf_basic_max_node"] = String(j);
 					}else{
 						skipd_temp_ss["ssconf_basic_node_max"] = "";
 						skipd_temp_ss["ssconf_basic_max_node"] = "";
 					}
 
 					//==ssr: write all keeped node to tmp object==
-					// flush all element
+					// flush all element in temp object
 					var skipd_temp_ssr = jQuery.extend({}, skipd_ssr);
+					
 					for (var field in skipd_temp_ssr) {
 						skipd_temp_ssr[field] = "";
 					}
@@ -2252,10 +2667,10 @@
 							++j;
 							// write ssr/kcp node
 							if (parseInt(keep_nu) == ssr_orig_nu){
-								skipd_temp_ssr["ss_basic_node"] = j + node_ss;
+								skipd_temp_ssr["ss_basic_node"] = String(j + node_ss);
 							}
 							if (parseInt(keep_nu) == cur_kcp_node){
-								skipd_temp_ssr["ss_kcp_node"] = j + node_ss;
+								skipd_temp_ssr["ss_kcp_node"] = String(j + node_ss);
 							}
 							for ( var k = 0; k < all_ssrconf_table.length; ++k ) {
 								var temp_val = data[i][k + 1];
@@ -2264,21 +2679,21 @@
 								}
 							}
 							for ( var o = 0; o < all_ssrconf_dbus.length; ++o ) {
-								var temp_val = skipd_ssr[all_ssrconf_dbus[k] + keep_nu]
+								var temp_val = skipd_ssr[all_ssrconf_dbus[o] + keep_nu]
 								if (temp_val){
 									skipd_temp_ssr[all_ssrconf_dbus[o] + j] = temp_val
 								}
 							}
 						}
-						skipd_temp_ssr["ssrconf_basic_node_max"] = data.length;
-						skipd_temp_ssr["ssrconf_basic_max_node"] = j;
+						skipd_temp_ssr["ssrconf_basic_node_max"] = String(data.length);
+						skipd_temp_ssr["ssrconf_basic_max_node"] = String(j);
 					}else{
 						skipd_temp_ssr["ssrconf_basic_node_max"] = "";
 						skipd_temp_ssr["ssrconf_basic_max_node"] = "";
 					}
 					//==now post data==
 					var skipd_temp = $.extend({}, skipd_temp_ss, skipd_temp_ssr);
-					console.log(skipd_temp);
+					
 					var id = parseInt(Math.random() * 100000000);
 					var postData = {"id": id, "method": "ss_conf.sh", "params":[9], "fields": skipd_temp};
 					showMsg("msg_warring","保存节点信息！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
@@ -2318,7 +2733,7 @@
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_time", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_link", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst" ];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr", "ss_basic_pcap_update", "ss_basic_pcap_update_day", "ss_basic_pcap_update_hr" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -2443,7 +2858,6 @@
 					dbus[lb_inp[i]] = E('_' + lb_inp[i]).value;
 				}
 			}
-
 			// mark all lb value in node date for delete first
 			for ( var i = 1; i <= dbus["ssconf_basic_max_node"]; i++){
 				dbus["ssconf_basic_lb_enable_" + i ] = ""
@@ -2457,7 +2871,6 @@
 				dbus["ssrconf_basic_lb_weight_" + i ] = ""
 				dbus["ssrconf_basic_lb_dest_" + i ] = ""
 			}
-
 			// now store lb value in node data
 			if (dbus["ss_lb_type"] == "1"){
 				var data = lb.getAllData();
@@ -2522,7 +2935,6 @@
 				}
 			});
 		}
-
 		function save_kcp(){
 			if(!E('_ss_kcp_node').value){
 				alert("请选择KCP服务器");
@@ -2635,6 +3047,33 @@
 				--x;
 			setTimeout("count_down_switch();", 500);
 		}
+		function init_layout(){
+			if(!cookie.get('ss_layout')){
+				cookie.set('ss_layout', 1);
+			}
+			if (cookie.get('ss_layout') == '1') {
+				$(".box, #ss_tabs").css("max-width", "1122px")
+				$("#ss_layout_switch").attr("class", "btn narrow");
+				$("#ss_layout_switch").html("宽版");
+			}else{
+				$(".box, #ss_tabs").css("max-width", "100%");
+				$("#ss_layout_switch").attr("class", "btn wide");
+				$("#ss_layout_switch").html("窄版");
+			}
+		}
+		function switch_Width(whichone) {
+			if($("#ss_layout_switch").hasClass("narrow")) {
+				$("#ss_layout_switch").attr("class", "btn wide");
+				$(".box, #ss_tabs").css("max-width", "100%");
+				$("#ss_layout_switch").html("窄版");
+				cookie.set('ss_layout', 0);
+			} else {
+				$("#ss_layout_switch").attr("class", "btn narrow");
+				$(".box, #ss_tabs").css("max-width", "1122px");
+				$("#ss_layout_switch").html("宽版");
+				cookie.set('ss_layout', 1);
+			}
+		}
 		function toggleVisibility(whichone) {
 			if(E('sesdiv' + whichone).style.display=='') {
 				E('sesdiv' + whichone).style.display='none';
@@ -2682,16 +3121,48 @@
 				dbus3["ss_lb_enable"] = "0";
 			}else if(arg == 4){
 				dbus3 = [];
-			}else if(arg == 7){
+			}else if(arg == 'add'){
 				tabSelect("app8");
-				dbus3["ssr_subscribe_link"] = E("_ssr_subscribe_link").value;
+				var data = ss_link.getAllData();
+				if(data.length > 0){
+					for ( var i = 0; i < 20; ++i ){
+						if(data[i]){
+							dbus3["ss_base64_link_" + (i + 1) ] = data[i][0];
+						}else{
+							dbus3["ss_base64_link_" + (i + 1) ] = "";
+						}
+					}
+				}
+				console.log(dbus3);
+			}else if(arg == 7 || arg == 8){
+				tabSelect("app8");
+				var data = online_link.getAllData();
+				if(data.length > 0){
+					for ( var i = 0; i < 10; ++i ){
+						if(data[i]){
+							dbus3["ss_online_link_" + (i + 1) ] = data[i][0];
+						}else{
+							dbus3["ss_online_link_" + (i + 1) ] = "";
+						}
+					}
+				}
 				dbus3["ssr_subscribe_mode"] = E("_ssr_subscribe_mode").value;
 				dbus3["ssr_subscribe_obfspara"] = E("_ssr_subscribe_obfspara").value;
 				dbus3["ssr_subscribe_obfspara_val"] = E("_ssr_subscribe_obfspara_val").value;
+				dbus3["ss_basic_node_update"] = E("_ss_basic_node_update").value;
+				dbus3["ss_basic_node_update_day"] = E("_ss_basic_node_update_day").value;
+				dbus3["ss_basic_node_update_hr"] = E("_ss_basic_node_update_hr").value;
 			}else if(arg == 9){
 				dbus3["ss_mwan_ping_dst"] = E("_ss_mwan_ping_dst").value;
 				dbus3["ss_mwan_china_dns_dst"] = E("_ss_mwan_china_dns_dst").value;
 				dbus3["ss_mwan_vps_ip_dst"] = E("_ss_mwan_vps_ip_dst").value;
+			}else if(arg == 10){
+				dbus3["ss_basic_rule_update"] = E("_ss_basic_rule_update").value;
+				dbus3["ss_basic_rule_update_day"] = E("_ss_basic_rule_update_day").value;
+				dbus3["ss_basic_rule_update_hr"] = E("_ss_basic_rule_update_hr").value;
+				dbus3["ss_basic_pcap_update"] = E("_ss_basic_pcap_update").value;
+				dbus3["ss_basic_pcap_update_day"] = E("_ss_basic_pcap_update_day").value;
+				dbus3["ss_basic_pcap_update_hr"] = E("_ss_basic_pcap_update_hr").value;
 			}
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": dbus3 };
@@ -2704,8 +3175,8 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "ss_conf.sh"){
-						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 9){
-							setTimeout("window.location.reload()", 500);
+						if(arg == 1 || arg == 2 || arg == 3 || arg == 7 || arg == 8 || arg == 9 || arg == 10 || arg == 'add'){
+							setTimeout("window.location.reload()", 200);
 						}else if (arg == 5){
 							setTimeout("window.location.reload()", 1000);
 						}else if (arg == 4){
@@ -2725,6 +3196,8 @@
 							x=10;
 							count_down_switch();
 						}
+					}else if(script == "ss_online_update.sh"){
+						window.location.reload();
 					}
 				}
 			});
@@ -2760,10 +3233,11 @@
 		}
 		
 	</script>
-	<div class="box" style="margin-top: 0px;min-width:1110px;">
+	<div class="box" style="margin-top: 0px">
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+			<a id="ss_layout_switch" class="btn narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">宽版</a>
 		</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section">
@@ -2803,18 +3277,18 @@
 			</fieldset>
 		</div>
 	</div>
-	<ul id="ss_tabs" class="nav nav-tabs" style="min-width:1110px;">
-		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:100px"><i class="icon-system"></i> 帐号设置</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:100px"><i class="icon-globe"></i> 节点管理</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:100px"><i class="icon-tools"></i> DNS设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:100px"><i class="icon-hammer" style="margin-left:-5px"></i> 多WAN设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:100px"><i class="icon-cloud"></i> 负载均衡</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:100px"><i class="icon-graphs"></i> KCP加速</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:100px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab" style="width:100px"><i class="icon-cmd"></i> 规则管理</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab" style="width:100px"><i class="icon-lock"></i> 访问控制</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab" style="width:100px"><i class="icon-wake"></i> 附加功能</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab" style="width:100px"><i class="icon-hourglass"></i> 查看日志</a></li>	
+	<ul id="ss_tabs" class="nav nav-tabs">
+		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:102px"><i class="icon-system"></i> 帐号设置</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:102px"><i class="icon-globe"></i> 节点管理</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:102px"><i class="icon-tools"></i> DNS设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:102px"><i class="icon-hammer" style="margin-left:-6px"></i> 多WAN设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:102px"><i class="icon-cloud"></i> 负载均衡</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:102px"><i class="icon-graphs"></i> KCP加速</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:102px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab" style="width:102px"><i class="icon-lock"></i> 访问控制</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab" style="width:102px"><i class="icon-cmd"></i> 规则管理</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab" style="width:102px"><i class="icon-wake"></i> 附加功能</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab" style="width:102px"><i class="icon-hourglass"></i> 查看日志</a></li>	
 	</ul>
 	<div class="box boxr1" id="ss_basic_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
@@ -2843,16 +3317,16 @@
 				if (dbus["ss_basic_double"] != 1){
 					$('#ss_basic_pannel').forms([
 						{ title: '模式',  name:'ss_basic_mode',type:'select',style:select_style,options:option_mode,value: "" || "1" },
-						{ title: '服务器地址', name:'ss_basic_server',type:'text',size:22,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。' },
-						{ title: '服务器端口', name:'ss_basic_port',type:'text',size:22,maxlen:5,value:"" },
-						{ title: '密码', name:'ss_basic_password',type:'password',size:22,maxlen:64,value:"",help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1  },
+						{ title: '服务器地址', name:'ss_basic_server',type:'text',style:input_style,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。' },
+						{ title: '服务器端口', name:'ss_basic_port',type:'text',style:input_style,maxlen:5,value:"" },
+						{ title: '密码', name:'ss_basic_password',type:'password',style:input_style,maxlen:64,value:"",help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1  },
 						{ title: '加密方式', name:'ss_basic_method',type:'select',style:select_style,options:option_method,value: dbus.ss_basic_method || "aes-256-cfb" },
 						{ title: '混淆(AEAD)', name:'ss_basic_ss_obfs',type:'select',style:select_style,options:option_ss_obfs,value: dbus.ss_basic_ss_obfs || "0" },
-						{ title: '混淆主机名', name:'ss_basic_ss_obfs_host',type:'text',size:22,value:dbus.ss_basic_ss_obfs_host || "" },
+						{ title: '混淆主机名', name:'ss_basic_ss_obfs_host',type:'text',style:input_style,value:dbus.ss_basic_ss_obfs_host || "" },
 						{ title: '协议 (protocal)', name:'ss_basic_rss_protocal',type:'select',style:select_style,options:option_ssr_protocal,value: dbus.ss_basic_rss_protocal || "auth_sha1_v4" },
-						{ title: '协议参数 (SSR特性)', name:'ss_basic_rss_protocal_para',type:'text',size:22,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。' },
+						{ title: '协议参数 (SSR特性)', name:'ss_basic_rss_protocal_para',type:'text',style:input_style,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。' },
 						{ title: '混淆方式 (obfs)', name:'ss_basic_rss_obfs',type:'select',style:select_style,options:option_ssr_obfs,value:dbus.ss_basic_rss_obfs || "tls1.2_ticket_auth" },
-						{ title: '混淆参数 (SSR特性)', name:'ss_basic_rss_obfs_para',type:'text',size:22,value: dbus.ss_basic_rss_obfs_para }
+						{ title: '混淆参数 (SSR特性)', name:'ss_basic_rss_obfs_para',type:'text',style:input_style,value: dbus.ss_basic_rss_obfs_para }
 					]);
 				}else{
 					$('#ss_basic_pannel').forms([
@@ -2861,16 +3335,16 @@
 							{ name:'ss_basic_mode_1',type:'select',style:select_style,options:option_mode,value: "" || "1" }
 						]},
 						{ title: '服务器地址', multi: [
-							{ name:'ss_basic_server',type:'text',size:22,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。', suffix: ' &nbsp;&nbsp;' },
-							{ name:'ss_basic_server_1',type:'text',size:22,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。' }
+							{ name:'ss_basic_server',type:'text',style:input_style,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。', suffix: ' &nbsp;&nbsp;' },
+							{ name:'ss_basic_server_1',type:'text',style:input_style,value:dbus.ss_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。' }
 						]},
 						{ title: '服务器端口', multi: [
-							{ name:'ss_basic_port',type:'text',size:22,maxlen:5,value:"", suffix: ' &nbsp;&nbsp;' },
-							{ name:'ss_basic_port_1',type:'text',size:22,maxlen:5,value:dbus.ss_basic_port }
+							{ name:'ss_basic_port',type:'text',style:input_style,maxlen:5,value:"", suffix: ' &nbsp;&nbsp;' },
+							{ name:'ss_basic_port_1',type:'text',style:input_style,maxlen:5,value:dbus.ss_basic_port }
 						]},
 						{ title: '密码', multi: [
-							{ name:'ss_basic_password',type:'password',size:22,maxlen:64,value:"",help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1, suffix: ' &nbsp;&nbsp;'  },
-							{ name:'ss_basic_password_1',type:'password',size:22,maxlen:64,value:dbus.ss_basic_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1  }
+							{ name:'ss_basic_password',type:'password',style:input_style,maxlen:64,value:"",help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1, suffix: ' &nbsp;&nbsp;'  },
+							{ name:'ss_basic_password_1',type:'password',style:input_style,maxlen:64,value:dbus.ss_basic_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1  }
 						]},
 						{ title: '加密方式', multi: [
 							{ name:'ss_basic_method',type:'select',style:select_style,options:option_method,value: dbus.ss_basic_method || "aes-256-cfb", suffix: ' &nbsp;&nbsp;' },
@@ -2881,38 +3355,40 @@
 							{ name:'ss_basic_ss_obfs_1',type:'select',style:select_style,options:option_ss_obfs,value: dbus.ss_basic_ss_obfs || "0" }
 						]},
 						{ title: '混淆主机名', multi: [
-							{ name:'ss_basic_ss_obfs_host',type:'text',size:22,value:dbus.ss_basic_ss_obfs_host || "", suffix: ' &nbsp;&nbsp;' },
-							{ name:'ss_basic_ss_obfs_host_1',type:'text',size:22,value:dbus.ss_basic_ss_obfs_host || "" }
+							{ name:'ss_basic_ss_obfs_host',type:'text',style:input_style,value:dbus.ss_basic_ss_obfs_host || "", suffix: ' &nbsp;&nbsp;' },
+							{ name:'ss_basic_ss_obfs_host_1',type:'text',style:input_style,value:dbus.ss_basic_ss_obfs_host || "" }
 						]},
 						{ title: '协议 (protocal)', multi: [
 							{ name:'ss_basic_rss_protocal',type:'select',style:select_style,options:option_ssr_protocal,value: dbus.ss_basic_rss_protocal || "auth_sha1_v4", suffix: ' &nbsp;&nbsp;' },
 							{ name:'ss_basic_rss_protocal_1',type:'select',style:select_style,options:option_ssr_protocal,value: dbus.ss_basic_rss_protocal || "auth_sha1_v4" }
 						]},
 						{ title: '协议参数 (SSR特性)', multi: [
-							{ name:'ss_basic_rss_protocal_para',type:'text',size:22,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。', suffix: ' &nbsp;&nbsp;' },
-							{ name:'ss_basic_rss_protocal_para_1',type:'text',size:22,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。' }
+							{ name:'ss_basic_rss_protocal_para',type:'text',style:input_style,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。', suffix: ' &nbsp;&nbsp;' },
+							{ name:'ss_basic_rss_protocal_para_1',type:'text',style:input_style,value:dbus.ss_basic_rss_protocal_para, help: '协议参数是SSR单端口多用户（端口复用）配置的必选项，如果你的SSR帐号没有启用端口复用，可以将此处留空。' }
 						]},
 						{ title: '混淆方式 (obfs)', multi: [
 							{ name:'ss_basic_rss_obfs',type:'select',style:select_style,options:option_ssr_obfs,value:dbus.ss_basic_rss_obfs || "tls1.2_ticket_auth", suffix: ' &nbsp;&nbsp;' },
 							{ name:'ss_basic_rss_obfs_1',type:'select',style:select_style,options:option_ssr_obfs,value:dbus.ss_basic_rss_obfs || "tls1.2_ticket_auth" }
 						]},
 						{ title: '混淆参数 (SSR特性)', multi: [
-							{ name:'ss_basic_rss_obfs_para',type:'text',size:22,value: dbus.ss_basic_rss_obfs_para, suffix: ' &nbsp;&nbsp;' },
-							{ name:'ss_basic_rss_obfs_para_1',type:'text',size:22,value: dbus.ss_basic_rss_obfs_para }
+							{ name:'ss_basic_rss_obfs_para',type:'text',style:input_style,value: dbus.ss_basic_rss_obfs_para, suffix: ' &nbsp;&nbsp;' },
+							{ name:'ss_basic_rss_obfs_para_1',type:'text',style:input_style,value: dbus.ss_basic_rss_obfs_para }
 						]},
 					]);
 				}
-				var node_kcp=dbus["ss_kcp_node"];
+				var node_kcp=parseInt(dbus["ss_kcp_node"]);
 				if (node_kcp && (dbus["ssconf_basic_max_node"] || dbus["ssrconf_basic_max_node"])){
+					if (node_kcp <= node_ss + node_ssr){
 					var node_html=$("#_ss_basic_node option[value='" + node_kcp +"']")[0].innerHTML;
-					if (dbus["ss_kcp_enable"] == 1){
-						if (node_html.indexOf("SSR") != -1){
-							$("#_ss_basic_node option[value='" + node_kcp + "']").html(node_html.replace(/SSR/g, "KCP+SSR"));
-						}else{
-							$("#_ss_basic_node option[value='" + node_kcp + "']").html(node_html.replace(/SS/g, "KCP+SS"));
+						if (dbus["ss_kcp_enable"] == 1){
+							if (node_html.indexOf("SSR") != -1){
+								$("#_ss_basic_node option[value='" + node_kcp + "']").html(node_html.replace(/SSR/g, "KCP+SSR"));
+							}else{
+								$("#_ss_basic_node option[value='" + node_kcp + "']").html(node_html.replace(/SS/g, "KCP+SS"));
+							}
 						}
 					}
-				}
+ 				}
 			</script>
 		</div>
 	</div>
@@ -3044,8 +3520,8 @@
 		<div class="heading">KCP加速使用说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('kcp');"><span id="sesdivkcpshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivkcp" style="display:none">
 			<li>正确填写kcp参数后，点击保存KCP设置，如果kcp节点和ss节点一致，会自动重启ss；如果不一致，仅仅保存配置，待在主面板选在kcp加速的节点后才能生效；</li>
-			<li>kcp加速仅针对你再kcp加速页面选择的节点，如果在主面板切换到了其它节点，虽然此时kcp开关是启用状态，但是并不会启动kcp加速；</li>
-			<li>因为kcp协议仅支持tcp，所以在使用kcp加速的时候请勿在国外DNS选项中的任何一个选项里使用ss-tunnel作为DNS解析方案；</li>
+			<li>kcp加速仅针对你在kcp加速页面选择的节点，如果在主面板切换到了其它节点，虽然此时kcp开关是启用状态，但是并不会启动kcp加速；</li>
+			<li>因为kcp协议仅支持tcp转kcp，所以在使用ss-tunnel作为DNS解析的时候，ss-tunnel并不会走kcp协议，而是走正常udp直连；</li>
 			<li>因为kcp加速只针对单个节点，所以kcp不能和负载均衡混用！kcp启用后负载均衡标签页会暂时隐藏，负载均衡启用后，kcp标签页会暂时隐藏;</li>
 		</div>
 		<script>
@@ -3159,10 +3635,9 @@
 					{ title: 'SS服务器指定出口', name:'ss_mwan_vps_ip_dst',type:'select',options:[], value: dbus.ss_mwan_china_dns_dst}
 				]);
 			</script>
-			<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 9)" class="btn btn-primary" style="float:left;">应用出口设定 <i class="icon-check"></i></button>
 		</div>
 	</div>
-	<div id="ss_mwan_readme" class="box boxr11">
+	<div id="ss_mwan_readme" class="box boxr11" style="margin-top: 0px;">
 		<div class="heading">出口设定须知： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('mwan3');"><span id="sesdivmwan3showhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivmwan3" style="display:none">
 			<li>当你的LEDE配置了多个wan的时候，你可以通过本页面为一些ip地址设定指定的出口；</li>
@@ -3180,6 +3655,7 @@
 			}
 		</script>
 	</div>	
+	<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 9)" class="btn btn-primary boxr11">应用出口设定 <i class="icon-check"></i></button>
 	
 	<div class="box boxr5" id="ss_rule_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
@@ -3194,13 +3670,19 @@
 					{ title: '国内域名数量（cdn名单）', rid:'cdn_number_1', text:'<a id="cdn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/cdn.txt" target="_blank"></a>'},
 					{ title: 'shadowsocks规则自动更新', multi: [
 						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_rule_update_time', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_time || "3",suffix: ' &nbsp;&nbsp;', prefix:'每天' },
+						{ name: 'ss_basic_rule_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_rule_update_day || "7",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_rule_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
 						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
 						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
-						{ suffix: ' <button id="_update_rules_now" onclick="update_rules_now(5);" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
+						{ suffix: '<button id="_update_rules_now" onclick="update_rules_now(5);" class="btn btn-success">手动更新 <i class="icon-cloud"></i></button>' }
 					]},
-					{ title: 'Host和WhiteList（Pcap_DNSProxy）', suffix: ' <button id="_update_rules_now" onclick="update_rules_now(6);" class="btn btn-success">手动更新<i class="icon-cloud"></i></button>' }
+					{ title: 'Host和WhiteList（Pcap_DNSProxy）', multi: [
+						{ name: 'ss_basic_pcap_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_pcap_update || "0", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_pcap_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_pcap_update_day || "7",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_pcap_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_pcap_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
+						{ suffix: '<button id="_update_pcap_now" onclick="update_rules_now(6);" class="btn btn-success">手动更新 <i class="icon-cloud"></i></button>' }
+					]}
 				]);
 				$('#gfw_number').html(dbus.ss_gfw_status || "未初始化");
 				$('#chn_number').html(dbus.ss_chn_status || "未初始化");
@@ -3208,6 +3690,8 @@
 			</script>
 		</div>
 	</div>
+	<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 10)" class="btn btn-primary boxr5">保存本页设置 <i class="icon-check"></i></button>
+
 	<div class="box boxr6" id="ss_acl_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content">
@@ -3292,20 +3776,49 @@
 	<div class="box boxr2" id="ssr_node_subscribe" style="margin-top: 30px;">
 		<div class="heading">SSR节点订阅</div>
 		<div class="content">
-			<div id="ssr_node_subscribe_pannel" class="section"></div>
+			<div id="ssr_node_subscribe_pannel" class="section">
+				<fieldset>
+					<label class="col-sm-3 control-left-label">SSR节点订阅地址</label>
+					<div class="col-sm-9">
+						<table class="line-table" cellspacing=1 id="online_link-grid">
+						</table>
+					</div>
+				</fieldset>
+			</div>
 			<script type="text/javascript">
 				$('#ssr_node_subscribe_pannel').forms([
-					{ title: 'SSR节点订阅地址', name:'ssr_subscribe_link',type:'text',size: 70, value:dbus.ssr_subscribe_link },
 					{ title: '订阅节点模式设定',  name:'ssr_subscribe_mode',type:'select',options:option_mode,value:dbus.ssr_subscribe_mode || "2", suffix: '<lable id="_ssr_subscribe_mode_text">订阅后的服务器默认使用该模式。</lable>' },
 					{ title: '订阅节点混淆参数设定', multi: [
 						{ name: 'ssr_subscribe_obfspara',type:'select',options:[['0', '留空'], ['1', '使用订阅设定'], ['2', '自定义']], value: dbus.ssr_subscribe_obfspara || "2", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ssr_subscribe_obfspara_val', type: 'text', value: dbus.ssr_subscribe_obfspara_val || "www.baidu.com", suffix: '<lable id="_ssr_subscribe_obfspara_text">有的订阅服务器不包含混淆参数，你可以在此处统一设定。</lable>' }
+					]},
+					{ title: '节点订阅计划任务', multi: [
+						{ name: 'ss_basic_node_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_node_update || "1", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_node_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_node_update_day || "7",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_node_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_node_update_hr || "4",suffix: ' &nbsp;&nbsp;'}
 					]}
 				]);
 			</script>
 			<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>
-			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">获取/更新订阅 <i class="icon-check"></i></button>
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_online_update.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">手动更新订阅 <i class="icon-check"></i></button>
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn btn-primary" style="float:right;margin-right:20px;">保存订阅设置 <i class="icon-check"></i></button>
 		</div>
 	</div>
+	<div class="box boxr2" id="ss_link_add" style="margin-top: 30px;">
+		<div class="heading">通过SS/SSR链接添加服务器</div>
+		<div class="content">
+			<div id="ss_link_pannel" class="section">
+				<fieldset>
+					<label class="col-sm-3 control-left-label">SS/SSR链接</label>
+					<div class="col-sm-9">
+						<table class="line-table" cellspacing=1 id="ss_link-grid">
+						</table>
+					</div>
+				</fieldset>
+			</div>
+			<button type="button" value="Save" id="save-add-link" onclick="manipulate_conf('ss_online_update.sh', 'add')" class="btn btn-primary" style="float:right;margin-right:0px;">解析并保存为节点 <i class="icon-check"></i></button>
+		</div>
+	</div>
+
 	<script type="text/javascript">init_ss();</script>
 </content>
