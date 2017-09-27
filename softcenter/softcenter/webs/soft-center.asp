@@ -19,6 +19,7 @@
 	padding:0 15px 15px;
 	display:block;
 }
+
 .popover {
 	font-size:14px;
 	color:#63B8FF;
@@ -184,78 +185,22 @@
 	-moz-animation:loading-2 1s ease-in .5s infinite;
 	animation:loading-2 1s ease-in .5s infinite;
 }
+ul > li{
+	line-height: 180%;
+}
+#version > a {
+    color: #6d140b;
+    padding: 0px 0px;
+}
+
+#version > a:hover, a:active {
+    color: #f36c21;
+}
 </style>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
-//跨域请求支持
-/*
-    $.ajax = (function(_ajax){
-
-    var protocol = location.protocol,
-        hostname = location.hostname,
-        exRegex = RegExp(protocol + '//' + hostname),
-        YQL = 'http' + (/^https/.test(protocol)?'s':'') + '://query.yahooapis.com/v1/public/yql?callback=?',
-        query = 'select * from html where url="{URL}" and xpath="*"';
-    
-    function isExternal(url) {
-        return !exRegex.test(url) && /:\/\//.test(url);
-    }
-    
-    return function(o) {
-        
-        var url = o.url;
-        
-        if ( /get/i.test(o.type) && !/json/i.test(o.dataType) && isExternal(url) ) {
-            
-            // Manipulate options so that JSONP-x request is made to YQL
-            
-            o.url = YQL;
-            o.dataType = 'json';
-            
-            o.data = {
-                q: query.replace(
-                    '{URL}',
-                    url + (o.data ?
-                        (/\?/.test(url) ? '&' : '?') + jQuery.param(o.data)
-                    : '')
-                ),
-                format: 'xml'
-            };
-            
-            // Since it's a JSONP request
-            // complete === success
-            if (!o.success && o.complete) {
-                o.success = o.complete;
-                delete o.complete;
-            }
-            
-            o.success = (function(_success){
-                return function(data) {
-                    
-                    if (_success) {
-                        // Fake XHR callback.
-                        _success.call(this, {
-                            responseText: (data.results[0] || '')
-                                // YQL screws with <script>s
-                                // Get rid of them
-                                .replace(/<script[^>]+?\/>|<script(.|\s)*?\/script>/gi, '')
-                        }, 'success');
-                    }
-                    
-                };
-            })(o.success);
-            
-        }
-        
-        return _ajax.apply(this, arguments);
-        
-    };
-    
-})($.ajax);
-*/
-	
 $('.div').css("margin","");
 //APPS 控制模块
 var anmstatus=null;
@@ -299,8 +244,7 @@ function tabSelect(obj){
 		}
 	}
 }
-</script>
-<script type="text/javascript">
+
 // 安装信息更新策略:
 // 当软件安装的时候,安装进程内部会有超时时间. 超过超时时间 没安装成功,则认为失败.
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
@@ -367,26 +311,6 @@ function notice_show(){
         }
     });
 }
-/*
-function get_extra_json(url){
-	if (!url){
-		return false;
-	}
-	if (url.indexOf("github") != -1){
-		var dataTypeY = "json";
-	}else{
-		var dataTypeY = "jsonp";
-	}
-	$.ajax({
-		url:url,
-		dataType:dataTypeY,
-		type: 'GET',
-		success:function(data) {
-			extra_json = data;
-		}
-	});
-}
-*/
 
 function verifyFields (){
 	return true;
@@ -505,30 +429,6 @@ function getSoftCenter(obj){
 				appObject["app_"+o_name+"_changelog"] = o_changelog;
 				appObject["app_"+o_name+"_md5"] = o_md5;
 			};
-			/*
-			if (extra_json){
-				for(var i=0; i < extra_json.length; i++) {  
-					e_name = extra_json[i]["name"];
-					e_title = extra_json[i]["title"];			//显示软件名
-					e_home_url = extra_json[i]["home_url"];			//调用网页地址
-					e_tar_url = extra_json[i]["tar_url"];		//tar包相对地址  aria2/aria2.tar.gz
-					e_version = extra_json[i]["version"];	//app版本号
-					e_md5 = extra_json[i]["md5"];			//app MD5
-					e_description = extra_json[i]["description"];//描述
-					if(o_description==""){
-						o_description="暂无描述";
-					};
-					appObject["app_"+e_name+"_name"] = e_name;
-					appObject["app_"+e_name+"_title"] = e_title;
-					appObject["app_"+e_name+"_home_url"] = e_home_url;
-					appObject["app_"+e_name+"_tar_url"] = e_tar_url;
-					appObject["app_"+e_name+"_oversion"] = e_version;
-					appObject["app_"+e_name+"_description"] = e_description;
-					appObject["app_"+e_name+"_md5"] = e_md5;
-				};
-			}
-			*/
-			//console.log("All_App_Object",appObject);
 			softInfo = appObject;
 			for(var name in appObject){
 				if(name.indexOf("name") > 0 ){
@@ -832,8 +732,45 @@ function save_extra_now(arg){
 		}
 	});
 }
+
+$(document).ready(function(){
+	init_softcenter_layout();
+
+});
+
+function init_softcenter_layout(){
+	if(!cookie.get('softcenterlayout')){
+		cookie.set('softcenterlayout', 1);
+	}
+	if (cookie.get('softcenterlayout') == '1') {
+		$(".box, .nav, .col").css("max-width", "1332px")
+		$(".box, .nav, .col").css("min-width", "1072px")
+		$("#softcenter_layout_switch").attr("class", "btn narrow");
+		$("#softcenterlayout_switch").html("宽版");
+	}else{
+		$(".box, .nav, .col").css("max-width", "100%");
+		$("#softcenter_layout_switch").attr("class", "btn wide");
+		$("#softcenter_layout_switch").html("窄版");
+	}
+}
+function switch_layout() {
+	if($("#softcenter_layout_switch").hasClass("narrow")) {
+		$("#softcenter_layout_switch").attr("class", "btn wide");
+		$(".box, .nav, .col").css("max-width", "100%");
+		$("#softcenter_layout_switch").html("窄版");
+		cookie.set('softcenterlayout', 0);
+	} else {
+		$("#softcenter_layout_switch").attr("class", "btn narrow");
+		$(".box, .nav, .col").css("max-width", "1332px");
+		$(".box, .nav, .col").css("min-width", "1072px")
+		$("#softcenter_layout_switch").html("宽版");
+		cookie.set('softcenterlayout', 1);
+	}
+}
+
+
 </script>
-	<div class="col">
+	<div class="box">
 		<div class="heading">
 			<div id="loading"><br><b>正在连接服务器...</b> <div class="spinner"></div></div>
 			<div class="loader" style="display:none;">
@@ -847,7 +784,8 @@ function save_extra_now(arg){
 			</div>
 			<span id="server" style="color:#FF6A6A;font-size:13px;margin-right:10px;"></span>
 			<span id="version" style="color:#FF6A6A;font-size:13px;"></span>
-			<button id="update" style="display:none;float:right;" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
+			<button id="update" style="display:none;float:right;margin-top:-10px" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
+			<a id="softcenter_layout_switch" class="btn narrow" onclick="switch_layout();" style="float:right;border-radius:3px;margin-right:5px;margin-top:-10px;">宽版</a>
 		</div>
 		<br>
 		<div class="content">
@@ -856,7 +794,7 @@ function save_extra_now(arg){
 					<img class="pull-left" style="width:110px" src="/res/github.png">
 				</div>
 				<div class="col-sm-10">
-					<ul class="pullmsg" style="margin-left: 30px;">
+					<ul class="pullmsg" style="margin-left: 35px;">
 						<li id="push_titile">
 							欢迎
 						</li>
@@ -873,18 +811,16 @@ function save_extra_now(arg){
 			</fieldset>
 		</div>
 	</div>
-	​<ul class="nav nav-tabs" style="margin-left: 30px;">
+	​<ul class="nav nav-tabs">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-basic-tab" class="active"><i class="icon-system"></i> 已安装</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-server1-advanced-tab"><i class="icon-globe"></i> 未安装</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-keys-tab"><i class="icon-tools"></i> 离线安装</a></li>
-		<!--<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-adv-tab"><i class="icon-cmd"></i> 高级设置</a></li>-->
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-server1-status-tab"><i class="icon-info"></i> 关于我们</a></li>
 	</ul>
 	<div class="box boxr1">
 		<div class="heading">已安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 		<div class="content">
 			<div class="tabContent1">
-				<!--app info -->
 			</div>
 		</div>
 	</div>
@@ -892,7 +828,6 @@ function save_extra_now(arg){
 		<div class="heading">未安装软件列表&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
 		<div class="content">
 			<div class="tabContent2">
-				<!--app info -->
 			</div>
 		</div>
 	</div>
@@ -909,10 +844,8 @@ function save_extra_now(arg){
 					<fieldset>
 						<label class="control-left-label col-sm-3">选择安装包</label>
 						<div class="col-sm-9">
-							
-								<input type="file" id="file" size="50">
-								<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
-							
+							<input type="file" id="file" size="50">
+							<button id="upload" type="button"  onclick="uploadApp();" class="btn btn-danger">上传并安装 <i class="icon-cloud"></i></button>
 						</div>
 					</fieldset>
 					<fieldset>
@@ -928,33 +861,6 @@ function save_extra_now(arg){
 			</div>
 		</div>
 	</div>
-	<!--
-	<div class="box boxr5">
-		<div class="heading">软件中心高级设置&nbsp;&nbsp;&nbsp;<span class="popover"></span></div>
-		<div class="content">
-			<div id="advanceds_settings" class="tabContent3">
-				<script type="text/javascript">
-					var dbus = {};
-					$.ajax ({
-					  	type: "GET",
-					 	url: "/_api/softcenter_extra_",
-					  	dataType: "json",
-					  	async:false,
-					 	success: function(data){
-					 	 	dbus = data.result[0];
-							$('#advanceds_settings').forms([
-								{ title: '添加额外的插件源', multi: [
-									{ name:'softcenter_extra_url',type:'text',size:65,value:dbus["softcenter_extra_url"]||"" },
-									{ suffix: ' <button id="_add_now" onclick="save_extra_now();" class="btn btn-success">保存<i class="icon-cloud"></i></button>' },
-									{ suffix: ' 除非你知道你在做什么，否则别随意添加！仅仅支持koolshare LEDE插件源！！' }
-								]}
-							]);
-					  	}
-					});
-				</script>
-			</div>
-		</div>
-	</div>-->
 	<div class="box boxr4">
 		<div class="heading">关于我们</div>
 		<div class="content">
