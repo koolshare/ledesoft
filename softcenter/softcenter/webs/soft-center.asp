@@ -91,7 +91,7 @@
 	padding:0 3px 0 3px;
 	border-radius:0px;
 }
-.boxr1 {
+.box, .boxr1 {
 	background: #f9fbfb;
 }
 .boxr2 {
@@ -185,8 +185,75 @@
 	-moz-animation:loading-2 1s ease-in .5s infinite;
 	animation:loading-2 1s ease-in .5s infinite;
 }
-ul > li{
+ul.nav-tabs {
+	display:block;
+	height:40px;
+	list-style:none;
+	margin:0 0 15px!important;
+	white-space:nowrap;
+	border-bottom:2px solid rgba(0, 0, 0, 0.08);
+	background:#f9fbfb;
+	float: none;
+	padding: 0
+}
+ul.nav-tabs li {
+	display:inline-block;
+	float:left;
+	height:40px;
+	line-height:40px;
+	margin:0!important
+}
+ul.nav-tabs li a {
+	display:block;
+	padding:0 15px;
+	height:40px;
+	font-weight:normal;
+	line-height:40px;
+	color:#808080;
+	text-shadow:0 1px 0 rgba(255, 255, 255, 0.2);
+	transition:all 100ms ease;
+	-webkit-transition:all 100ms ease;
+	border-bottom:1px solid transparent
+}
+ul.nav-tabs li a.active, ul.nav-tabs li a:focus, ul.nav-tabs li a:hover {
+	z-index:999;
+	color:#777777;
+	background:rgba(0, 0, 0, 0.05);
+	border-bottom:2px solid rgba(0, 0, 0, 0.05)
+}
+ul.nav-tabs li a.active {
+	border-bottom:2px solid #3498DB;
+	background:transparent
+	outline:none;
+}
+ul.nav-tabs li a i {
+	margin-right:2px
+}
+ul.pullmsg > li{
 	line-height: 180%;
+}
+.box .heading {
+	display:block;
+	font-size:16px;
+	font-weight:500;
+	line-height:normal;
+	color:#656565;
+	padding:15px 10px 15px 20px;
+	vertical-align:middle
+}
+.box .heading small {
+	margin-left:5px
+}
+.box .heading a {
+	color:#838c91;
+	margin:-8px 0 0 0;
+	padding:8px 12px;
+	border-radius:50%;
+	-webkit-transition:color 150ms ease-out;
+	transition:color 150ms ease-out
+}
+.box .heading a:hover {
+	color:#3498db
 }
 #version > a {
     color: #6d140b;
@@ -201,7 +268,7 @@ ul > li{
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript">
-$('.div').css("margin","");
+//$("pull-right").remove();
 //APPS 控制模块
 var anmstatus=null;
 var softcenter = 1;
@@ -733,41 +800,6 @@ function save_extra_now(arg){
 	});
 }
 
-$(document).ready(function(){
-	init_softcenter_layout();
-
-});
-
-function init_softcenter_layout(){
-	if(!cookie.get('softcenterlayout')){
-		cookie.set('softcenterlayout', 1);
-	}
-	if (cookie.get('softcenterlayout') == '1') {
-		$(".box, .nav, .col").css("max-width", "1332px")
-		$(".box, .nav, .col").css("min-width", "1072px")
-		$("#softcenter_layout_switch").attr("class", "btn narrow");
-		$("#softcenterlayout_switch").html("适应");
-	}else{
-		$(".box, .nav, .col").css("max-width", "100%");
-		$("#softcenter_layout_switch").attr("class", "btn wide");
-		$("#softcenter_layout_switch").html("固定");
-	}
-}
-function switch_layout() {
-	if($("#softcenter_layout_switch").hasClass("narrow")) {
-		$("#softcenter_layout_switch").attr("class", "btn wide");
-		$(".box, .nav, .col").css("max-width", "100%");
-		$("#softcenter_layout_switch").html("固定");
-		cookie.set('softcenterlayout', 0);
-	} else {
-		$("#softcenter_layout_switch").attr("class", "btn narrow");
-		$(".box, .nav, .col").css("max-width", "1332px");
-		$(".box, .nav, .col").css("min-width", "1072px")
-		$("#softcenter_layout_switch").html("适应");
-		cookie.set('softcenterlayout', 1);
-	}
-}
-
 
 </script>
 	<div class="box">
@@ -785,7 +817,6 @@ function switch_layout() {
 			<span id="server" style="color:#FF6A6A;font-size:13px;margin-right:10px;"></span>
 			<span id="version" style="color:#FF6A6A;font-size:13px;"></span>
 			<button id="update" style="display:none;float:right;margin-top:-10px" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
-			<a id="softcenter_layout_switch" class="btn narrow" onclick="switch_layout();" style="float:right;border-radius:3px;margin-right:5px;margin-top:-10px;">适应</a>
 		</div>
 		<br>
 		<div class="content">
