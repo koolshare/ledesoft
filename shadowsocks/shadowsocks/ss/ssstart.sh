@@ -803,8 +803,6 @@ create_dnsmasq_conf(){
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
 	echo "server=/.onetive.com/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.onetive.com/router" >> /tmp/wblist.conf
-	#echo "server=/cccat.co/127.0.0.1#7913" >> /tmp/wblist.conf
-	#echo "ipset=/cccat.co/router" >> /tmp/wblist.conf
 	
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
@@ -923,12 +921,39 @@ auto_start(){
 	[ ! -L "/etc/rc.d/S99shadowsocks.sh" ] && ln -sf $KSROOT/init.d/S99shadowsocks.sh /etc/rc.d/S99shadowsocks.sh
 
 	# cron job
-	if [ "1" == "$ss_basic_rule_update" ]; then
-		echo_date 添加ss规则定时更新任务，每天"$ss_basic_rule_update_time"自动检测更新规则.
-		# cru a ssupdate "0 $ss_basic_rule_update_time * * * /bin/sh $KSROOT/scripts/ss_rule_update.sh"
-		echo "0 $ss_basic_rule_update_time * * * /bin/sh $KSROOT/scripts/ss_rule_update.sh #ssupdate#" >>/etc/crontabs/root
+	sed -i '/ssruleupdate/d' /etc/crontabs/root >/dev/null 2>&1
+	if [ "$ss_basic_rule_update" = "1" ];then
+		if [ "$ss_basic_rule_update_day" = "7" ];then
+			echo "0 $ss_basic_rule_update_hr * * * /koolshare/scripts/ss_rule_update.sh #ssupdate#" >> /etc/crontabs/root
+			echo_date "设置SS规则自动更在每天 $ss_basic_rule_update_hr 点。"
+		else
+			echo "0 $ss_basic_rule_update_hr * * $ss_basic_rule_update_day /koolshare/scripts/ss_rule_update.sh #ssupdate#" >> /etc/crontabs/root
+			echo_date "设置SS规则自动更新在星期 $ss_basic_rule_update_day 的 $ss_basic_rule_update_hr 点。"
+		fi
 	else
-		echo_date ss规则定时更新任务未启用！
+		echo_date "关闭SS规则自动更新."
+	fi
+	sed -i '/sspcapupdate/d' /etc/crontabs/root >/dev/null 2>&1
+	if [ "$ss_basic_pcap_update" = "1" ];then
+		if [ "$ss_basic_pcap_update_day" = "7" ];then
+			echo "0 $ss_basic_pcap_update_hr * * * /koolshare/scripts/ss_pcap_update.sh #sspcapupdate#" >> /etc/crontabs/root
+			echo_date "设置PcapDNSproxy规则自动更新在每天 $ss_basic_pcap_update_hr 点。"
+		else
+			echo "0 $ss_basic_pcap_update_hr * * $ss_basic_pcap_update_day /koolshare/scripts/ss_pcap_update.sh #sspcapupdate#" >> /etc/crontabs/root
+			echo_date "设置PcapDNSproxy规则自动更新在星期 $ss_basic_pcap_update_day 的 $ss_basic_pcap_update_hr 点。"
+		fi
+	else
+		echo_date "关闭PcapDNSproxy规则自动更新."
+	fi
+	sed -i '/ssnodeupdate/d' /etc/crontabs/root >/dev/null 2>&1
+	if [ "$ss_basic_node_update" = "1" ];then
+		if [ "$ss_basic_node_update_day" = "7" ];then
+			echo "0 $ss_basic_node_update_hr * * * /koolshare/scripts/ss_online_update.sh #ssnodeupdate#" >> /etc/crontabs/root
+			echo_date "设置订阅服务器自动更新订阅服务器在每天 $ss_basic_node_update_hr 点。"
+		else
+			echo "0 $ss_basic_node_update_hr * * $ss_basic_node_update_day /koolshare/scripts/ss_online_update.sh #ssnodeupdate#" >> /etc/crontabs/root
+			echo_date "设置订阅服务器自动更新订阅服务器在星期 $ss_basic_node_update_day 的 $ss_basic_node_update_hr 点。"
+		fi
 	fi
 }
 
@@ -1114,20 +1139,25 @@ lan_acess_control(){
 		do
 			ipaddr=`dbus get ss_acl_ip_$acl`
 			ipaddr_hex=`dbus get ss_acl_ip_$acl | awk -F "." '{printf ("0x%02x", $1)} {printf ("%02x", $2)} {printf ("%02x", $3)} {printf ("%02x\n", $4)}'`
-			ports=`dbus get ss_acl_port_$acl`
-			[ "$ports" == "all" ] && ports=""
 			proxy_mode=`dbus get ss_acl_mode_$acl`
 			proxy_name=`dbus get ss_acl_name_$acl`
 			mac=`dbus get ss_acl_mac_$acl`
-
-			if [ "$ports" == "" ];then
-				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】:all模式为：$(get_mode_name $proxy_mode)
-				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】:all模式为：$(get_mode_name $proxy_mode)
-				[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:all模式为：$(get_mode_name $proxy_mode)
+			ports=`dbus get ss_acl_port_$acl`
+			ports_user=`dbus get ss_acl_port_user_$acl`
+			if [ "$ports" == "all" ];then
+				ports=""
+				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【全部端口】模式为：$(get_mode_name $proxy_mode)
+				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】【全部端口】模式为：$(get_mode_name $proxy_mode)
+				[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】【全部端口】模式为：$(get_mode_name $proxy_mode)
+			elif [ "$ports" == "0" ];then
+				ports=$ports_user
+				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$ports】模式为：$(get_mode_name $proxy_mode)
+				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】【$ports】模式为：$(get_mode_name $proxy_mode)
+				[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】【$ports】模式为：$(get_mode_name $proxy_mode)
 			else
-				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】:$ports模式为：$(get_mode_name $proxy_mode)
-				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】:$ports模式为：$(get_mode_name $proxy_mode)
-				[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】:$ports模式为：$(get_mode_name $proxy_mode)
+				[ -n "$ipaddr" ] && [ -z "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$ports】模式为：$(get_mode_name $proxy_mode)
+				[ -z "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$mac】【$ports】模式为：$(get_mode_name $proxy_mode)
+				[ -n "$ipaddr" ] && [ -n "$mac" ] && echo_date 加载ACL规则：【$ipaddr】【$mac】【$ports】模式为：$(get_mode_name $proxy_mode)
 			fi
 			# acl in SHADOWSOCKS for nat
 			iptables -t nat -A SHADOWSOCKS $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(factor $ports "-m multiport --dport") -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
@@ -1150,10 +1180,18 @@ lan_acess_control(){
 			}
 			iptables -t nat -A SHADOWSOCKS_EXT -p tcp  $(factor $ports "-m multiport --dport") -m mark --mark "$ipaddr_hex" -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		done
-		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $ss_acl_default_mode)
+		echo_date 加载ACL规则：【剩余主机】模式为：$(get_mode_name $ss_acl_default_mode)
 	else
 		ss_acl_default_mode="$ss_basic_mode"
-		echo_date 加载ACL规则：所有模式为：$(get_mode_name $ss_basic_mode)
+		if [ "$ss_acl_default_port" == "all" ];then
+			ss_acl_default_port="" 
+			echo_date 加载ACL规则：【全部主机】【全部端口】模式为：$(get_mode_name $ss_acl_default_mode)
+		elif [ "$ss_acl_default_port" == "0" ];then
+			ss_acl_default_port=$ss_acl_default_port_user 
+			echo_date 加载ACL规则：【全部主机】【$ss_acl_default_port_user】模式为：$(get_mode_name $ss_acl_default_mode)
+		else
+			echo_date 加载ACL规则：【全部主机】【$ss_acl_default_port】模式为：$(get_mode_name $ss_acl_default_mode)
+		fi
 	fi
 }
 
@@ -1239,7 +1277,7 @@ apply_nat_rules(){
 	#[ "$ss_basic_mode" != "4" ] && iptables -t nat -A OUTPUT -p tcp -m ttl --ttl-eq 160 -j SHADOWSOCKS_EXT
 	
 	# 把最后剩余流量重定向到相应模式的nat表中对对应的主模式的链
-	[ "$ss_acl_default_port" == "all" ] && ss_acl_default_port=""
+	
 	iptables -t nat -A SHADOWSOCKS -p tcp $(factor $ss_acl_default_port "-m multiport --dport") -j $(get_action_chain $ss_acl_default_mode)
 	# iptables -t nat -A OUTPUT -p tcp $(factor $ss_acl_default_port "-m multiport --dport") -m ttl --ttl-eq 160 -j $(get_action_chain $ss_acl_default_mode)
 	iptables -t nat -A SHADOWSOCKS_EXT -p tcp $(factor $ss_acl_default_port "-m multiport --dport") -j $(get_action_chain $ss_acl_default_mode)

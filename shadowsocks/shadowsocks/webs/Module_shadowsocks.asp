@@ -1,142 +1,142 @@
 <title>shadowsocks</title>
 <content>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/tomato.js"></script>
-<script type="text/javascript" src="/js/advancedtomato.js"></script>
-<style type="text/css">
-	.box, #ss_tabs {
-		min-width:1122px;
-		max-width:1122px;
-	}
-	.c-checkbox {
-		margin-left:-10px;
-	}
-	/*Switch Icon Start*/
-	.switch_field{
-		width: 65px;
-	}
-	.switch_container{
-		width: 50px;
-		height: 30px;
-		border: 1px solid transparent;
-		margin-left: 35px;
-	}
-	.switch_bar{
-		width: 43px;
-		height: 16px;
-		background-color: #717171;
-		margin:7px auto 0;
-		border-radius: 10px;
-	}
-	.switch_circle{
-		width: 26px;
-		height: 26px;
-		border-radius: 16px;
-		background-color: #FFF;
-		margin-top: -21px;
-		box-shadow: 0px 1px 4px 1px #444;
-	}
-	/*Icon*/
-	.switch_circle > div{
-		width: 16px;
-		height: 16px;
-		position: absolute;
-		margin: 5px 0 0 5px;
-	}
-	/*background color of bar while checked*/
-	.switch:checked ~.switch_container > .switch_bar{
-		background-color: #279FD9;
-	}
-
-	/*control icon style while checked*/
-	.switch:checked ~.switch_container > .switch_bar + .switch_circle > div{
-		background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2016.9%2016.9%22%20style%3D%22enable-background%3Anew%200%200%2016.9%2016.9%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%20style%3D%22fill%3A%23279FD9%22%3E%0A%09%3Cpolygon%20points%3D%226.8%2C14.9%200%2C8.8%202.2%2C6.4%206.6%2C10.5%2014.5%2C1.9%2016.8%2C3.9%20%09%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
-		background-repeat: no-repeat;
-	}
-	.switch:checked ~.switch_container > .switch_circle{
-		margin-left: 23px;
-	}
-	#table-row-panel a.delete-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
-		float:left;
-		font-size:10pt;
-		text-align:center;
-		padding:13px 15px;
-		padding:6px 8px;
-		margin-right:5px;
-		line-height:1;
-		color:#fff;
-		background:#585858;
-		z-index:1;
-		-webkit-transition:background-color 80ms ease;
-		transition:background-color 80ms ease
-	}
-	#table-row-panel a.delete-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
-		z-index:10;
-		background:#434343
-	}
-	#table-row-panel a.delete-row {
-		background:#F76D6A
-	}
-	#table-row-panel a.delete-row:hover {
-		background:#eb4d4a
-	}
-	#table-row-panel a.apply-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
-		float:left;
-		font-size:10pt;
-		text-align:center;
-		padding:13px 15px;
-		padding:6px 8px;
-		line-height:1;
-		color:#fff;
-		background:#585858;
-		z-index:1;
-		-webkit-transition:background-color 80ms ease;
-		transition:background-color 80ms ease
-	}
-	#table-row-panel a.apply-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
-		z-index:10;
-		background:#434343
-	}
-	#table-row-panel a.apply-row {
-		background:#99FF66
-	}
-	#table-row-panel a.apply-row:hover {
-		background:#99FF00
-	}
-
-	table.line-table tr:nth-child(even) {
-		background:rgba(0, 0, 0, 0.04)
-	}	
-	#ss_node-grid > tbody > tr.even.use,
-	#ssr_node-grid > tbody > tr.even.use {
-		background:rgba(128, 255, 255, 0.3)
-	}
-	#ss_node-grid > tbody > tr.odd.use,
-	#ssr_node-grid > tbody > tr.odd.use {
-		background:rgba(128, 255, 255, 0.3)
-	}
-	table.line-table tr:hover {
-		background:#D7D7D7
-	}
-	table.line-table tr:hover .progress {
-		background:#D7D7D7
-	}
-	#ss_link-grid,
-	#online_link-grid{
-	    table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
-	}
-	#ss_link-grid td,
-	#online_link-grid td{
-	    width:100%;
-	    word-break:keep-all;/* 不换行 */
-	    white-space:nowrap;/* 不换行 */
-	    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-	    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
-	}
-	select:hover, input:hover{
-		border: 1px solid #0099FF
-	}
-</style>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/tomato.js"></script>
+	<script type="text/javascript" src="/js/advancedtomato.js"></script>
+	<style type="text/css">
+		.box, #ss_tabs {
+			min-width:1122px;
+			max-width:1122px;
+		}
+		.c-checkbox {
+			margin-left:-10px;
+		}
+		/*Switch Icon Start*/
+		.switch_field{
+			width: 65px;
+		}
+		.switch_container{
+			width: 50px;
+			height: 30px;
+			border: 1px solid transparent;
+			margin-left: 35px;
+		}
+		.switch_bar{
+			width: 43px;
+			height: 16px;
+			background-color: #717171;
+			margin:7px auto 0;
+			border-radius: 10px;
+		}
+		.switch_circle{
+			width: 26px;
+			height: 26px;
+			border-radius: 16px;
+			background-color: #FFF;
+			margin-top: -21px;
+			box-shadow: 0px 1px 4px 1px #444;
+		}
+		/*Icon*/
+		.switch_circle > div{
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			margin: 5px 0 0 5px;
+		}
+		/*background color of bar while checked*/
+		.switch:checked ~.switch_container > .switch_bar{
+			background-color: #279FD9;
+		}
+	
+		/*control icon style while checked*/
+		.switch:checked ~.switch_container > .switch_bar + .switch_circle > div{
+			background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2016.9%2016.9%22%20style%3D%22enable-background%3Anew%200%200%2016.9%2016.9%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cg%20style%3D%22fill%3A%23279FD9%22%3E%0A%09%3Cpolygon%20points%3D%226.8%2C14.9%200%2C8.8%202.2%2C6.4%206.6%2C10.5%2014.5%2C1.9%2016.8%2C3.9%20%09%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A");
+			background-repeat: no-repeat;
+		}
+		.switch:checked ~.switch_container > .switch_circle{
+			margin-left: 23px;
+		}
+		#table-row-panel a.delete-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
+			float:left;
+			font-size:10pt;
+			text-align:center;
+			padding:13px 15px;
+			padding:6px 8px;
+			margin-right:5px;
+			line-height:1;
+			color:#fff;
+			background:#585858;
+			z-index:1;
+			-webkit-transition:background-color 80ms ease;
+			transition:background-color 80ms ease
+		}
+		#table-row-panel a.delete-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
+			z-index:10;
+			background:#434343
+		}
+		#table-row-panel a.delete-row {
+			background:#F76D6A
+		}
+		#table-row-panel a.delete-row:hover {
+			background:#eb4d4a
+		}
+		#table-row-panel a.apply-row, #table-row-panel a.move-down-row, #table-row-panel a.move-row, #table-row-panel a.move-up-row {
+			float:left;
+			font-size:10pt;
+			text-align:center;
+			padding:13px 15px;
+			padding:6px 8px;
+			line-height:1;
+			color:#fff;
+			background:#585858;
+			z-index:1;
+			-webkit-transition:background-color 80ms ease;
+			transition:background-color 80ms ease
+		}
+		#table-row-panel a.apply-row:hover, #table-row-panel a.move-down-row:hover, #table-row-panel a.move-row:hover, #table-row-panel a.move-up-row:hover {
+			z-index:10;
+			background:#434343
+		}
+		#table-row-panel a.apply-row {
+			background:#99FF66
+		}
+		#table-row-panel a.apply-row:hover {
+			background:#99FF00
+		}
+	
+		table.line-table tr:nth-child(even) {
+			background:rgba(0, 0, 0, 0.04)
+		}	
+		#ss_node-grid > tbody > tr.even.use,
+		#ssr_node-grid > tbody > tr.even.use {
+			background:rgba(128, 255, 255, 0.3)
+		}
+		#ss_node-grid > tbody > tr.odd.use,
+		#ssr_node-grid > tbody > tr.odd.use {
+			background:rgba(128, 255, 255, 0.3)
+		}
+		table.line-table tr:hover {
+			background:#D7D7D7
+		}
+		table.line-table tr:hover .progress {
+			background:#D7D7D7
+		}
+		#ss_link-grid,
+		#online_link-grid{
+		    table-layout:fixed;/* 只有定义了表格的布局算法为fixed，下面td的定义才能起作用。 */
+		}
+		#ss_link-grid td,
+		#online_link-grid td{
+		    width:100%;
+		    word-break:keep-all;/* 不换行 */
+		    white-space:nowrap;/* 不换行 */
+		    overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+		    text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+		}
+		select:hover, input:hover{
+			border: 1px solid #0099FF
+		}
+	</style>
 	<script type="text/javascript">
 		var dbus;
 		var layout;
@@ -154,8 +154,8 @@
 		var option_mode_name = ['', 'gfwlist模式', '大陆白名单模式', '游戏模式', '全局模式'];
 		var option_acl_mode = [['0', '不通过SS'], ['1', 'gfwlist模式'], ['2', '大陆白名单模式'], ['3', '游戏模式'], ['4', '全局模式']];
 		var option_acl_mode_name = ['不通过SS', 'gfwlist模式', '大陆白名单模式', '游戏模式', '全局模式'];
-		var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', 'all']];
-		var option_acl_port_name = ['80,443', '22,80,443', 'all'];
+		var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', '所有端口'],['0', '自定义']];
+		var option_acl_port_name = ['80,443', '22,80,443', '所有端口', '自定义'];
 		var option_method = [['none', 'none'],['rc4', 'rc4'], ['rc4-md5', 'rc4-md5'], ['rc4-md5-6', 'rc4-md5-6'], ['aes-128-gcm', 'aes-128-gcm'], ['aes-192-gcm', 'aes-192-gcm'], ['aes-256-gcm', 'aes-256-gcm'], ['aes-128-cfb', 'aes-128-cfb'], ['aes-192-cfb', 'aes-192-cfb'], ['aes-256-cfb', 'aes-256-cfb'], ['aes-128-ctr', 'aes-128-ctr'], ['aes-192-ctr', 'aes-192-ctr'], ['aes-256-ctr', 'aes-256-ctr'], ['camellia-128-cfb', 'camellia-128-cfb'], ['camellia-192-cfb', 'camellia-192-cfb'], ['camellia-256-cfb', 'camellia-256-cfb'], ['bf-cfb', 'bf-cfb'], ['cast5-cfb', 'cast5-cfb'], ['idea-cfb', 'idea-cfb'], ['rc2-cfb', 'rc2-cfb'], ['seed-cfb', 'seed-cfb'], ['salsa20', 'salsa20'], ['chacha20', 'chacha20'], ['chacha20-ietf', 'chacha20-ietf'], ['chacha20-ietf-poly1305', 'chacha20-ietf-poly1305']];
 		var option_ssr_protocal = [['origin','origin'],['verify_simple','verify_simple'],['verify_sha1','verify_sha1'],['auth_sha1','auth_sha1'],['auth_sha1_v2','auth_sha1_v2'],['auth_sha1_v4','auth_sha1_v4'],['auth_aes128_md5','auth_aes128_md5'],['auth_aes128_sha1','auth_aes128_sha1'],['auth_chain_a','auth_chain_a'],['auth_chain_b','auth_chain_b'],['auth_chain_c','auth_chain_c'],['auth_chain_d','auth_chain_d']];
 		var option_ssr_obfs = [['plain','plain'],['http_simple','http_simple'],['http_post','http_post'],['tls1.2_ticket_auth','tls1.2_ticket_auth']];
@@ -730,8 +730,19 @@
 			// adjust width
 			$("#ss_node-grid > tbody > tr > td:nth-child(5)").css("width", "100px");
 			// hide some info less column
-			$("#ss_node-grid > tbody > tr > td:nth-child(6)").hide();
-			$("#ss_node-grid > tbody > tr > td:nth-child(9)").hide();
+			if(dbus["ssconf_basic_node_max"]){
+				$("#ss_node-grid > tbody > tr > td:nth-child(6)").hide();
+				$("#ss_node-grid > tbody > tr > td:nth-child(9)").hide();
+			}else{
+				$("#ss_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ss_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ss_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ss_node-grid > tbody > tr > td:nth-child(10)").hide();
+			}
+
 			// when adding node, make all usedfull colum visible
 			$("#ss_node-grid > tbody > tr.editor").click(
 				function() {
@@ -1061,12 +1072,10 @@
 				{ type: 'text', maxlen: 50 }
 			] );
 			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数', 'ping' ] );
-
 			for ( var i = 1; i <= dbus["ssrconf_basic_node_max"]; i++){
 				var t2 = [
 						String(i),
 						dbus["ssrconf_basic_mode_" + i ], 
-						//dbus["ssrconf_basic_group_" + i ] ? "【" + dbus["ssrconf_basic_group_" + i ] + "】" + dbus["ssrconf_basic_name_" + i ] : dbus["ssrconf_basic_name_" + i ], 
 						dbus["ssrconf_basic_name_" + i ], 
 						dbus["ssrconf_basic_server_" + i ], 
 						dbus["ssrconf_basic_port_" + i ], 
@@ -1095,9 +1104,20 @@
 			// adjust width
 			$("#ssr_node-grid > tbody > tr > td:nth-child(5)").css("width", "100px");
 			// hide some info less column
-			$("#ssr_node-grid > tbody > tr > td:nth-child(6)").hide();
-			$("#ssr_node-grid > tbody > tr > td:nth-child(9)").hide();
-			$("#ssr_node-grid > tbody > tr > td:nth-child(11)").hide();
+			if(dbus["ssrconf_basic_node_max"]){
+				$("#ssr_node-grid > tbody > tr > td:nth-child(6)").hide();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(9)").hide();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(11)").hide();
+			}else{
+				$("#ssr_node-grid > tbody > tr.odd > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.even > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr.editor > td:nth-child(1)").hide();
+				$("#ssr_node-grid > tbody > tr:nth-child(1) > td.header.co1").hide();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(6)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(9)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(11)").show();
+				$("#ssr_node-grid > tbody > tr > td:nth-child(12)").hide();
+			}
 			// when adding node, make all usedfull colum visible
 			$("#ssr_node-grid > tbody > tr.editor").click(
 				function() {
@@ -1110,7 +1130,6 @@
 				$("#ssr_node-grid > tbody > tr > td:nth-child(11)").show();
 				$("#ssr_node-grid > tbody > tr > td:nth-child(12)").hide();
 			});
-
 		}
 		//============================================
 		var lb = new TomatoGrid();
@@ -1176,7 +1195,6 @@
 			this.sortColumn = -1;
 			//this.sortAscending = true;
 		}
-
 		lb.setup = function(lb_node, lb_type) {
 			//get_dbus_data();
 			if ($("#lb-grid > tbody > tr > td.header.co1").length == 0){
@@ -1302,15 +1320,24 @@
 
 		//============================================
 		var ss_acl = new TomatoGrid();
-		ss_acl.dataToView = function( data ) {
+			ss_acl.dataToView = function( data ) {
+			var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', 'all'], ['0', '自定义']];
+			var option_acl_port_value = ['80,443', '22,80,443', 'all', '0'];
+			var option_acl_port_name = ['80,443', '22,80,443', 'all', '自定义'];
+			var a = option_acl_port_value.indexOf(data[4]);
+			var b = option_acl_port_name[a]
+			if (data[4] == 0){
+				b = data[5]
+			}
+		
 			if (data[0]){
-				return [ "【" + data[0] + "】", data[1], data[2], option_acl_mode_name[data[3]], data[4] ];
+				return [ "【" + data[0] + "】", data[1], data[2], option_acl_mode_name[data[3]], b, data[5] ];
 			}else{
 				if (data[1]){
-					return [ "【" + data[1] + "】", data[1], data[2], option_acl_mode_name[data[3]], data[4] ];
+					return [ "【" + data[1] + "】", data[1], data[2], option_acl_mode_name[data[3]], b, data[5] ];
 				}else{
 					if (data[2]){
-						return [ "【" + data[2] + "】", data[1], data[2], option_acl_mode_name[data[3]], data[4] ];
+						return [ "【" + data[2] + "】", data[1], data[2], option_acl_mode_name[data[3]], b, data[5] ];
 					}
 				}
 			}
@@ -1318,61 +1345,32 @@
 		ss_acl.fieldValuesToData = function( row ) {
 			var f = fields.getAll( row );
 			if (f[0].value){
-				return [ f[0].value, f[1].value, f[2].value, f[3].value, f[4].value ];
+				return [ f[0].value, f[1].value, f[2].value, f[3].value, f[4].value, f[5].value ];
 			}else{
 				if (f[1].value){
-					return [ f[1].value, f[1].value, f[2].value, f[3].value, f[4].value ];
+					return [ f[1].value, f[1].value, f[2].value, f[3].value, f[4].value, f[5].value ];
 				}else{
 					if (f[2].value){
-						return [ f[2].value, f[1].value, f[2].value, f[3].value, f[4].value ];
+						return [ f[2].value, f[1].value, f[2].value, f[3].value, f[4].value, f[5].value ];
 					}
 				}
 			}
 		}
+		ss_acl.dataToFieldValues = function (data) {
+			return [data[0], data[1], data[2], data[3], data[4], data[5]];
+		}
     	ss_acl.onChange = function(which, cell) {
     	    return this.verifyFields((which == 'new') ? this.newEditor: this.editor, true, cell);
     	}
-		ss_acl.verifyFields = function( row, quiet,cell ) {
-			var f = fields.getAll( row );
-			// fill the ip and mac when chose the name
-			if ( $(cell).attr("id") == "_[object HTMLTableElement]_1" ) {
-				if (f[0].value){
-					f[1].value = option_arp_list[f[0].selectedIndex][2];
-					f[2].value = option_arp_list[f[0].selectedIndex][3];
-				}
-			}
-			// fill the port when chose the mode
-			if ( $(cell).attr("id") == "_[object HTMLTableElement]_4" ) {
-				if (f[3].selectedIndex == 0){
-					f[4].selectedIndex = 2;
-				}else if(f[3].selectedIndex == 1){
-					f[4].selectedIndex = 0;
-				}else if(f[3].selectedIndex == 2){
-					f[4].selectedIndex = 1;
-				}else if(f[3].selectedIndex == 3){
-					f[4].selectedIndex = 2;
-				}else if(f[3].selectedIndex == 4){
-					f[4].selectedIndex = 0;
-				}
-			}
-			//check if ip and mac column correct
-			if (f[1].value && !f[2].value){
-				return v_ip( f[1], quiet );
-			}
-			if (!f[1].value && f[2].value){
-				return v_mac( f[2], quiet );
-			}
-			if (f[1].value && f[2].value){
-				return v_ip( f[1], quiet ) || v_mac( f[2], quiet );
-			}
-		}
 		ss_acl.alter_txt = function() {
-			if (this.tb.rows.length == "4"){
-				$('#footer_ip').html("<i>全部主机 - ip</i>")
-				$('#footer_mac').html("<i>全部主机 - mac</i>")
+			if (this.tb.rows.length == "3"){
+				$('#ss_acl_default_pannel > fieldset:nth-child(3) > div > span').html('除了设置的访问控制主机，其它剩余主机都将走此处设定的模式和端口。');
+				$("#ss_acl_default_pannel > fieldset:nth-child(1) > label").html('默认模式 (全部主机)');
+				$("#ss_acl_default_pannel > fieldset:nth-child(2) > label").html('目标端口 (全部主机)');
 			}else{
-				$('#footer_ip').html("<i>其它主机 - ip</i>")
-				$('#footer_mac').html("<i>其它主机 - mac</i>")
+				$('#ss_acl_default_pannel > fieldset:nth-child(3) > div > span').html('当前未设置访问控制主机，所有路由器下的主机都将走此处设定的模式和端口。');
+				$("#ss_acl_default_pannel > fieldset:nth-child(1) > label").html('默认模式 (其余主机)');
+				$("#ss_acl_default_pannel > fieldset:nth-child(2) > label").html('目标端口 (其余主机)');
 			}
 		}
 		ss_acl.onAdd = function() {
@@ -1403,61 +1401,195 @@
 			f[ 2 ].value   = '';
 			f[ 3 ].value   = '1';
 			f[ 4 ].value   = '80,443';
+			f[ 5 ].value   = '';
 		}
-		ss_acl.footerSet = function(c, b) {
-			var f, d;
-			elem.remove(this.footer);
-			this.footer = f = this._insert(-1, c, b);
-			//f.className = "alert alert-info";
-			for (d = 0; d < f.cells.length; ++d) {
-				f.cells[d].cellN = d;
-				f.cells[d].onclick = function() {
-					TGO(this).footerClick(this)
+
+		ss_acl.createEditor = function(which, rowIndex, source) {
+			var values;
+			if (which == 'edit') values = this.dataToFieldValues(source.getRowData());
+			var row = this.tb.insertRow(rowIndex);
+			row.className = 'editor';
+			var common = ' onkeypress="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
+			var common_b = ' onclick="return TGO(this).onKey(\'' + which + '\', event)" onchange="TGO(this).onChange(\'' + which + '\', this)"';
+			var vi = 0;
+			for (var i = 0; i < this.editorFields.length; ++i) {
+				var s = '';
+				var ef = this.editorFields[i].multi;
+				if (!ef) ef = [this.editorFields[i]];
+				for (var j = 0; j < ef.length; ++j) {
+					var f = ef[j];
+					if (f.prefix) s += f.prefix;
+					var attrib = ' class="fi' + (vi + 1) + ' ' + (f['class'] ? f['class'] : '') + '" ' + (f.attrib || '');
+					var id = (this.tb ? ('_' + this.tb.id + '_' + (vi + 1)) : null);
+					if (id) attrib += ' id="' + id + '"';
+					switch (f.type) {
+						case 'password':
+							if (f.peekaboo) {
+								switch (get_config('web_pb', '1')) {
+									case '0':
+										f.type = 'text';
+									case '2':
+										f.peekaboo = 0;
+										break;
+								}
+							}
+							attrib += ' autocomplete="off"';
+							if (f.peekaboo && id) attrib += ' onfocus=\'peekaboo("' + id + '",1)\'';
+							// drop
+						case 'text':
+							s += '<input type="' + f.type + '" maxlength=' + f.maxlen + common + attrib;
+							if (which == 'edit') s += ' value="' + escapeHTML('' + values[vi]) + '">';
+							else s += '>';
+							break;
+						case 'select':
+							s += '<select' + common + attrib + '>';
+							for (var k = 0; k < f.options.length; ++k) {
+								a = f.options[k];
+								if (which == 'edit') {
+									s += '<option value="' + a[0] + '"' + ((a[0] == values[vi]) ? ' selected>' : '>') + a[1] + '</option>';
+								} else {
+									s += '<option value="' + a[0] + '">' + a[1] + '</option>';
+								}
+							}
+							s += '</select>';
+							break;
+						case 'checkbox':
+							s += '<div class="checkbox c-checkbox"><label><input type="checkbox"' + common + attrib;
+							if ((which == 'edit') && (values[vi])) s += ' checked';
+							s += '><span></span> </label></div>';
+							break;
+						case 'textarea':
+							if (which == 'edit') {
+								document.getElementById(f.proxy).value = values[vi];
+							}
+							break;
+						default:
+							s += f.custom.replace(/\$which\$/g, which);
+					}
+					if (f.suffix) s += f.suffix;
+					++vi;
+				}
+				var c = row.insertCell(i);
+				c.innerHTML = s;
+				// Added verticalAlignment, this fixes the incorrect vertical positioning of inputs in the editorRow
+				if (this.editorFields[i].vtop) {
+					c.vAlign = 'top';
+					c.style.verticalAlign = "top";
 				}
 			}
-			return f
+			return row;
 		}
-		ss_acl.dataToFieldValues = function (data) {
-			return [data[0], data[1], data[2], data[3], data[4]];
+		ss_acl.verifyFields = function( row, quiet,cell ) {
+			var f = fields.getAll( row );
+			// fill the ip and mac when chose the name
+			if ( $(cell).attr("id") == "_ss_acl_pannel_1" ) {
+				if (f[0].value){
+					f[1].value = option_arp_list[f[0].selectedIndex][2];
+					f[2].value = option_arp_list[f[0].selectedIndex][3];
+				}
+			}
+			// fill the port when chose the mode
+			if ( $(cell).attr("id") == "_ss_acl_pannel_4" ) {
+				if (f[3].selectedIndex == 0){
+					f[4].selectedIndex = 2;
+				}else if(f[3].selectedIndex == 1){
+					f[4].selectedIndex = 0;
+				}else if(f[3].selectedIndex == 2){
+					f[4].selectedIndex = 1;
+				}else if(f[3].selectedIndex == 3){
+					f[4].selectedIndex = 2;
+				}else if(f[3].selectedIndex == 4){
+					f[4].selectedIndex = 0;
+				}
+			}
+			// user port
+			if (f[4].selectedIndex == 3){
+				$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").show();
+				$("#_ss_acl_pannel_6").show();
+			}else{
+				$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").hide();
+				$("#_ss_acl_pannel_6").hide();
+			}
+			//check if ip and mac column correct
+			if (f[1].value && !f[2].value){
+				return v_ip( f[1], quiet );
+			}
+			if (!f[1].value && f[2].value){
+				return v_mac( f[2], quiet );
+			}
+			if (f[1].value && f[2].value){
+				return v_ip( f[1], quiet ) || v_mac( f[2], quiet );
+			}
 		}
+
 		ss_acl.setup = function() {
 			this.init( 'ss_acl_pannel', '', 254, [
-			{ type: 'select',maxlen:20,options:option_arp_list},	//name
-			{ type: 'text',maxlen:20},	//name
-			{ type: 'text',maxlen:20},	//name
-			{ type: 'select',maxlen:20,options:option_acl_mode},	//control
-			{ type: 'select',maxlen:20,options:option_acl_port}	//port
+			{ type: 'select',maxlen:20,options:option_arp_list},
+			{ type: 'text',maxlen:20},
+			{ type: 'text',maxlen:20},
+			{ type: 'select',maxlen:20,options:option_acl_mode},
+			{ type: 'select',maxlen:20,options:option_acl_port},
+			{ type: 'text',maxlen:20}
 			] );
-			this.headerSet( [ '主机别名', '主机IP地址', 'MAC地址', '访问控制' , '目标端口' ] );
-			if (typeof(dbus["ss_acl_node_max"]) == "undefined"){
-				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>全部主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>全部主机 - mac</small></i>','<select id="_ss_acl_default_mode" name="ss_acl_default_mode" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="0">不通过SS</option><option value="1">gfwlist模式</option><option value="2">大陆白名单模式</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>','<select id="_ss_acl_default_port" name="ss_acl_default_port" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="80,443">80,443</option><option value="22,80,443">22,80,443</option><option value="all">all</option></select>']);
+			this.headerSet( [ '主机别名', '主机IP地址', 'MAC地址', '访问控制' , '目标端口', '自定义端口' ] );
+			if(dbus["ss_acl_node_max"]){
+				for ( var i = 1; i <= dbus["ss_acl_node_max"]; i++){
+					var t = [dbus["ss_acl_name_" + i ], 
+							dbus["ss_acl_ip_" + i ]  || "",
+							dbus["ss_acl_mac_" + i ]  || "",
+							dbus["ss_acl_mode_" + i ],
+							dbus["ss_acl_port_" + i ],
+							dbus["ss_acl_port_user_" + i ]||""
+							]
+					if ( t.length == 6 ) this.insertData( -1, t );
+				}
+				$('#ss_acl_default_pannel > fieldset:nth-child(3) > div > span').html('除了设置的访问控制主机，其它剩余主机都将走此处设定的模式和端口。');
+				$("#ss_acl_default_pannel > fieldset:nth-child(1) > label").html('默认模式 (其余主机)');
+				$("#ss_acl_default_pannel > fieldset:nth-child(2) > label").html('目标端口 (其余主机)');
 			}else{
-				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>其它主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>其它主机 - mac</small></i>','<select id="_ss_acl_default_mode" name="ss_acl_default_mode" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="0">不通过SS</option><option value="1">gfwlist模式</option><option value="2">大陆白名单模式</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>','<select id="_ss_acl_default_port" name="ss_acl_default_port" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="80,443">80,443</option><option value="22,80,443">22,80,443</option><option value="all">all</option></select>']);
+				$('#ss_acl_default_pannel > fieldset:nth-child(3) > div > span').html('当前未设置访问控制主机，所有路由器下的主机都将走此处设定的模式和端口。');
+				$("#ss_acl_default_pannel > fieldset:nth-child(1) > label").html('默认模式 (全部主机)');
+				$("#ss_acl_default_pannel > fieldset:nth-child(2) > label").html('目标端口 (全部主机)');
 			}
-			if(typeof(dbus["ss_acl_default_mode"]) != "undefined" ){
-				E("_ss_acl_default_mode").value = dbus["ss_acl_default_mode"];
-			}else{
-				E("_ss_acl_default_mode").value = dbus["ss_basic_mode"] || 2;
-			}
-			if(typeof(dbus["ss_acl_default_port"]) != "undefined" ){
-				E("_ss_acl_default_port").value = dbus["ss_acl_default_port"];
-			}else{
-				E("_ss_acl_default_port").value = "all";
-			}
-			for ( var i = 1; i <= dbus["ss_acl_node_max"]; i++){
-				var t = [dbus["ss_acl_name_" + i ], 
-						dbus["ss_acl_ip_" + i ]  || "",
-						dbus["ss_acl_mac_" + i ]  || "",
-						dbus["ss_acl_mode_" + i ],
-						dbus["ss_acl_port_" + i ]]
-				if ( t.length == 5 ) this.insertData( -1, t );
-			}
+			
 			this.recolor();
 			this.showNewEditor();
 			this.resetNewEditor();
-			if (E("_ss_acl_default_mode").value != "0"){
-				E("_ss_acl_default_mode").value = E("_ss_basic_mode").value || "1";
+			$("#_ss_acl_pannel_6").hide();
+			$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").hide();
+		}
+		ss_acl.disableNewEditor = function(disable) {
+			if (this.getDataCount() >= this.maxAdd) disable = true;
+			if (this.newEditor) fields.disableAll(this.newEditor, disable);
+			if (this.newControls) fields.disableAll(this.newControls, disable);
+			$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").hide();
+		}
+		ss_acl.onClick = function(cell) {
+			if (this.canEdit) {
+				this.edit(cell);
 			}
+		}
+		ss_acl.edit = function(cell) {
+			var sr, er, e, c;
+			if (this.isEditing()) return;
+			sr = PR(cell);
+			sr.style.display = 'none';
+			elem.removeClass(sr, 'hover');
+			this.source = sr;
+			er = this.createEditor('edit', sr.rowIndex, sr);
+			er.className = 'editor';
+			this.editor = er;
+			c = er.cells[cell.cellIndex || 0];
+			e = c.getElementsByTagName('input');
+			if ((e) && (e.length > 0)) {
+				try { // IE quirk
+					e[0].focus();
+				} catch (ex) {}
+			}
+			this.controls = this.createControls('edit', sr.rowIndex);
+			this.disableNewEditor(true);
+			this.rpHide();
+			this.verifyFields(this.editor, true);
 		}
 		// ===========================================
 		var online_link = new TomatoGrid();
@@ -1735,8 +1867,8 @@
 			ss_link.setup();
 			get_wans_list();
 			//get_wans_list2();
-			verifyFields();
 			auto_node_sel();
+			verifyFields();
 			hook_event();
 			ping_node();
 			setTimeout("get_run_status();", 1000);
@@ -1775,8 +1907,6 @@
 				dataType: "json",
 				success: function(response){
 					var ps=eval(Base64.decode(response.result));
-					//console.log(ps);
-					//var pings = document.getElementsByClassName('co4');
 					for(var i = 0; i<ps.length; i++){
 						var nu = parseInt(ps[i][0]) + 1;
 						var type = ps[i][1];
@@ -1820,7 +1950,6 @@
 	   				E("ping_botton").disabled=false;
 				},
 				error:function(){
-					console.log("23333");
 				}
 			});
 		}
@@ -1901,7 +2030,6 @@
 				dataType: "json",
 				success: function(response){
 					var ss_status = response.result.split("@@");
-					//console.log(ss_status)
 					if(softcenter == 1){
 						return false;
 					}
@@ -2245,12 +2373,7 @@
 					tabSelect('fuckapp');
 				}
 			}
-			// pannel1: when change mode, the default acl mode should be also changed
-			if ( $(r).attr("id") == "_ss_basic_mode" ) {
-				if (E("_ss_acl_default_mode").value != "0"){
-					E("_ss_acl_default_mode").value = E("_ss_basic_mode").value;
-				}
-			}
+
 			// pannel kcp: hide kcp panel when kcp not enable
 			var t  = E('_ss_kcp_enable').checked;
 			elem.display('app9-tab', !t);
@@ -2266,6 +2389,17 @@
 				$('#_ss_dns_plan_txt').html("国外dns解析gfwlist名单内的国外域名，剩下的所有域名用国内dns解析。")
 			}else{
 				$('#_ss_dns_plan_txt').html("国内dns解析cdn名单内的国内域名用，剩下的所有域名用国外dns解析。")
+			}
+			// pannel1: when change mode, the default acl mode should be also changed
+			//if ( $(r).attr("id") == "_ss_basic_mode" ) {
+				if (E("_ss_acl_default_mode").value != "0"){
+					E("_ss_acl_default_mode").value = E("_ss_basic_mode").value;
+				}
+			//}
+			if ( $(r).attr("id") == "_ss_acl_default_mode" ) {
+				if (E("_ss_acl_default_mode").value != "0"){
+					E("_ss_basic_mode").value = E("_ss_acl_default_mode").value;
+				}
 			}
 			// pannel dns:
 			if (E("_ss_dns_foreign").value == "5"){
@@ -2356,8 +2490,6 @@
 			elem.display('_ss_basic_chnroute_update_txt', l1);
 			elem.display(elem.parentElem('_ss_basic_cdn_update', 'DIV'), l1);
 			elem.display('_ss_basic_cdn_update_txt', l1);
-			//elem.display('_update_rules_now', l1);
-			//elem.display('_update_pcap_now', l2);
 			
 			var m  = E('_ss_basic_dnslookup').value == '1';
 			elem.display('_ss_basic_dnslookup_server', m);
@@ -2366,7 +2498,8 @@
 			var p2 = E('_ssr_subscribe_obfspara').value == '2';
 			elem.display('_ssr_subscribe_obfspara_text', p1);
 			elem.display('_ssr_subscribe_obfspara_val', p2);
-
+			var q = E('_ss_acl_default_port').value == '0';
+			elem.display('_ss_acl_default_port_user', q);
 			
 			calculate_max_node();
 		}
@@ -2520,6 +2653,7 @@
 				dataType: "json",
 				async:true,
 				success: function(data){
+					tabSelect('app8');
 					var skipd_ssr = data.result[0];
 					var all_ssrconf = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_", "ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
 					var skipd_temp = {};
@@ -2564,7 +2698,6 @@
 								}
 							}
 						}
-						console.log(skipd_temp_ssr)
 						skipd_temp_ssr["ssrconf_basic_node_max"] = j;
 						skipd_temp_ssr["ssrconf_basic_max_node"] = j;
 					}else{
@@ -2573,7 +2706,7 @@
 					}
 					//==now post data==
 					var id = parseInt(Math.random() * 100000000);
-					var postData = {"id": id, "method": "ss_conf.sh", "params":["8"], "fields": skipd_temp_ssr };
+					var postData = {"id": id, "method": "ss_conf.sh", "params":["7"], "fields": skipd_temp_ssr };
 					$.ajax({
 						type: "POST",
 						url: "/_api/",
@@ -2789,7 +2922,7 @@
 				}
 			}
 			// collect acl data from acl pannel
-			var ss_acl_conf = ["ss_acl_name_", "ss_acl_ip_", "ss_acl_mac_", "ss_acl_mode_", "ss_acl_port_" ];
+			var ss_acl_conf = ["ss_acl_name_", "ss_acl_ip_", "ss_acl_mac_", "ss_acl_mode_", "ss_acl_port_", "ss_acl_port_user_" ];
 			// mark all acl data for delete first
 			for ( var i = 1; i <= dbus["ss_acl_node_max"]; i++){
 				for ( var j = 0; j < ss_acl_conf.length; ++j ) {
@@ -3060,24 +3193,24 @@
 			}
 			if (cookie.get('ss_layout') == '1') {
 				$(".box, #ss_tabs").css("max-width", "1122px")
-				$("#ss_layout_switch").attr("class", "btn narrow");
-				$("#ss_layout_switch").html("适应");
+				$("#ss_layout_switch").attr("class", "narrow");
+				$("#ss_layout_switch").html('<i class="icon-chevron-left"></i><i class="icon-chevron-right"></i>');
 			}else{
 				$(".box, #ss_tabs").css("max-width", "100%");
-				$("#ss_layout_switch").attr("class", "btn wide");
-				$("#ss_layout_switch").html("固定");
+				$("#ss_layout_switch").attr("class", "wide");
+				$("#ss_layout_switch").html('<i class="icon-chevron-right"></i><i class="icon-chevron-left"></i>');
 			}
 		}
 		function switch_Width() {
 			if($("#ss_layout_switch").hasClass("narrow")) {
-				$("#ss_layout_switch").attr("class", "btn wide");
+				$("#ss_layout_switch").attr("class", "wide");
 				$(".box, #ss_tabs").css("max-width", "100%");
-				$("#ss_layout_switch").html("固定");
+				$("#ss_layout_switch").html('<i class="icon-chevron-right"></i><i class="icon-chevron-left"></i>');
 				cookie.set('ss_layout', 0);
 			} else {
-				$("#ss_layout_switch").attr("class", "btn narrow");
+				$("#ss_layout_switch").attr("class", "narrow");
 				$(".box, #ss_tabs").css("max-width", "1122px");
-				$("#ss_layout_switch").html("适应");
+				$("#ss_layout_switch").html('<i class="icon-chevron-left"></i><i class="icon-chevron-right"></i>');
 				cookie.set('ss_layout', 1);
 			}
 		}
@@ -3140,7 +3273,6 @@
 						}
 					}
 				}
-				console.log(dbus3);
 			}else if(arg == 7 || arg == 8){
 				tabSelect("app8");
 				var data = online_link.getAllData();
@@ -3244,7 +3376,7 @@
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
 			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
-			<a id="ss_layout_switch" class="btn narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">适应</a>
+			<a id="ss_layout_switch" class="narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;"><i class="icon-chevron-right"></i><i class="icon-chevron-left"></i></a>
 		</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section">
@@ -3667,9 +3799,7 @@
 	<div class="box boxr5" id="ss_rule_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
-			<div id="ss_rule_pannel" class="section">
-				
-			</div>
+			<div id="ss_rule_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_rule_pannel').forms([
 					{ title: 'gfwlist域名数量', rid:'gfw_number_1', text:'<a id="gfw_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/gfwlist.conf" target="_blank"></a>'},
@@ -3700,7 +3830,7 @@
 	<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 10)" class="btn btn-primary boxr5">保存本页设置 <i class="icon-check"></i></button>
 
 	<div class="box boxr6" id="ss_acl_tab" style="margin-top: 0px;">
-		<div class="heading"></div>
+		<div class="heading">访问控制主机</div>
 		<div class="content">
 			<div class="tabContent">
 				<table class="line-table" cellspacing=1 id="ss_acl_pannel"></table>
@@ -3708,15 +3838,33 @@
 			<br><hr>
 		</div>
 	</div>
+	<div class="box boxr6" id="ss_acl_default_tab" style="margin-top: 0px;">
+		<div class="heading">默认主机设置</div>
+		<div class="content">
+			<div id="ss_acl_default_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#ss_acl_default_pannel').forms([
+					{ title: '默认模式 (全部主机)', name: 'ss_acl_default_mode', type:'select', style:select_style, options:option_acl_mode, value: dbus.ss_acl_default_mode || "1"},
+					{ title: '目标端口 (全部主机)', multi: [
+						{ name:'ss_acl_default_port',type:'select',style:select_style, options:option_acl_port, maxlen:5, value:dbus.ss_acl_default_port||"all", suffix: ' &nbsp;&nbsp;' },
+						{ name:'ss_acl_default_port_user',type:'text',style:input_style, maxlen:5, value:dbus.ss_acl_default_port_user }
+					]},
+					{ title: '', name: 'ss_acl_default_readme', suffix: ' 当前未设置访问控制主机，所有路由器下的主机都将走此处设定的模式和端口。'},
+				]);
+			</script>
+		</div>
+	</div>
+
 	<div id="ss_acl_tab_readme" class="box boxr6">
 		<div class="heading">访问控制操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('acl');"><span id="sesdivaclshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivacl" style="display:none">
-				<li><b>1：</b> 你可以在这里轻松的定义你需要的主机走SS的模式，或者你可以什么都不做，使用缺省规则，代表全部主机都默认走【帐号设置】内的模式；</li>
-				<li><b>2：</b> 主机别名、主机IP地址、MAC地址已经在系统的arp列表里获取了，在LEDE路由下的设备均能被选择，选择后相应设备的ip和mac地址会自动填写；</li>
-				<li><b>3：</b> 如果你需要的设备在列表里不能选择，可以不选择主机别名列表，然后填选好其他地方，添加后保存，插件会自动为你的这个设备分配一个名字；</li>
-				<li><b>4：</b> 请按照格式填写ip和mac地址，ip和mac地址至少一个不能为空！</li>
-				<li><b>5：</b> 插件为每个模式推荐了相应的端口，当你选择相应访问控制模式的时候，端口会自动变化，你也可以不用推荐的设置，自己选择想要的端口；</li>
-				<li><b>6：</b> 当访问控制模式不为：不通过ss的时候，在【帐号设置】面板里更改模式，这里的缺省规则模式会自动发生变化，否则不发生变化。</li>
+			<li><b>1：</b> 你可以在这里定义你需要的主机走SS的模式和端口，或者你可以什么都不做，使用默认规则，代表全部主机都默认走【默认主机设置】内的模式和端口；</li>
+			<li><b>1：</b> 除非你的【默认主机设置】里设置了默认模式为【不通过ss】，其余情况下更改【帐号设置】面板内的模式，此处也会随之更改；</li>
+			<li><b>2：</b> 主机别名、主机IP地址、MAC地址已经在系统的arp列表里获取了，在LEDE路由下的设备均能被选择，选择后相应设备的ip和mac地址会自动填写；</li>
+			<li><b>3：</b> 如果你需要的设备在列表里不能选择，可以不选择主机别名列表，然后填选好其他地方，添加后保存，插件会自动为你的这个设备分配一个名字；</li>
+			<li><b>4：</b> 请按照格式填写ip和mac地址，ip和mac地址至少一个不能为空！</li>
+			<li><b>5：</b> 插件为每个模式推荐了相应的端口，当你选择相应访问控制模式的时候，端口会自动变化，你也可以设定自定义端口，例如：22,80,443,222,333:555，错误的格式将导致问题！；</li>
+			<li><b>6：</b> 当访问控制模式不为：不通过ss的时候，在【帐号设置】面板里更改模式，这里的默认规则模式会自动发生变化，否则不发生变化。</li>
 		</div>
 		<script>
 			var cc;
@@ -3826,6 +3974,5 @@
 			<button type="button" value="Save" id="save-add-link" onclick="manipulate_conf('ss_online_update.sh', 'add')" class="btn btn-primary" style="float:right;margin-right:0px;">解析并保存为节点 <i class="icon-check"></i></button>
 		</div>
 	</div>
-
 	<script type="text/javascript">init_ss();</script>
 </content>

@@ -205,7 +205,9 @@ case $2 in
 	rm -rf /koolshare/webs/files/shadowsocks*
 	;;
 7)
-	sleep 1
+	echo_date "正在删除节点，请不要做其它操作..." > $LOG_FILE
+	sleep 2
+	echo_date "订阅节点清除完毕！" > $LOG_FILE
 	http_response "$1"
 	;;
 8)
@@ -269,10 +271,10 @@ case $2 in
 	sed -i '/ssruleupdate/d' /etc/crontabs/root >/dev/null 2>&1
 	if [ "$ss_basic_rule_update" = "1" ];then
 		if [ "$ss_basic_rule_update_day" = "7" ];then
-			echo "0 $ss_basic_rule_update_hr * * * /koolshare/scripts/ss_rule_update.sh #ssruleupdate#" >> /etc/crontabs/root
+			echo "0 $ss_basic_rule_update_hr * * * /koolshare/scripts/ss_rule_update.sh #ssupdate#" >> /etc/crontabs/root
 			echo_date "设置SS规则自动更在每天 $ss_basic_rule_update_hr 点。" >> $LOG_FILE
 		else
-			echo "0 $ss_basic_rule_update_hr * * $ss_basic_rule_update_day /koolshare/scripts/ss_rule_update.sh #ssruleupdate#" >> /etc/crontabs/root
+			echo "0 $ss_basic_rule_update_hr * * $ss_basic_rule_update_day /koolshare/scripts/ss_rule_update.sh #ssupdate#" >> /etc/crontabs/root
 			echo_date "设置SS规则自动更新在星期 $ss_basic_rule_update_day 的 $ss_basic_rule_update_hr 点。" >> $LOG_FILE
 		fi
 	else

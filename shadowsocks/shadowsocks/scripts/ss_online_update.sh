@@ -199,11 +199,12 @@ get_oneline_rule_now(){
 		echo_date 开始解析节点信息... >> $LOG_FILE
 		cat /tmp/ssr_subscribe_file.txt | base64_decode > /tmp/ssr_subscribe_file_temp1.txt
 		# 检测ss ssr
-		NODE_FORMAT=`cat /tmp/ssr_subscribe_file_temp1.txt | grep -E "^ss://"`
-		if [ -n "$NODE_FORMAT" ];then
+		NODE_FORMAT1=`cat /tmp/ssr_subscribe_file_temp1.txt | grep -E "^ss://"`
+		NODE_FORMAT2=`cat /tmp/ssr_subscribe_file_temp1.txt | grep -E "^ssr://"`
+		if [ -n "$NODE_FORMAT1" ];then
 			echo_date 暂时不支持ss节点订阅... >> $LOG_FILE
 			echo_date 退出订阅程序... >> $LOG_FILE
-		else
+		elif [ -n "$NODE_FORMAT2" ];then
 			NODE_NU=`cat /tmp/ssr_subscribe_file_temp1.txt | grep -c "ssr://"`
 			echo_date 检测到ssr节点格式，共计$NODE_NU个节点... >> $LOG_FILE
 			
@@ -235,19 +236,23 @@ get_oneline_rule_now(){
 			# 去除订阅服务器上已经删除的节点
 			del_none_exist
 			# 节点重新排序
-			remove_node_gap	
+			remove_node_gap
+		else
+			echo_date 该订阅链接不包含任何节点信息！ >> $LOG_FILE
+			HIDE_DETIAL=1
 		fi
 		sleep 1
-
-		USER_ADD=$(($(dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|wc -l) - $(dbus list ssrconf_basic_group|wc -l))) || 0
-		ONLINE_GET=$(dbus list ssrconf_basic_group|wc -l) || 0
-		echo $group >> /tmp/group_info.txt
-		echo_date "本次更新，订阅来源 【$group】， 新增服务器节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；" >> $LOG_FILE
-		echo_date "现共有自添加SSR节点：$USER_ADD 个。" >> $LOG_FILE
-		echo_date "现共有订阅SSR节点：$ONLINE_GET 个。" >> $LOG_FILE
-		echo_date "在线订阅列表更新完成!" >> $LOG_FILE
-		echo_date "=============================================================================================" >> $LOG_FILE
-		echo_date "" >> $LOG_FILE
+		if [ -z "$HIDE_DETIAL" ];then
+			USER_ADD=$(($(dbus list ssrconf_basic_server|grep -v ssrconf_basic_server_ip_|wc -l) - $(dbus list ssrconf_basic_group|wc -l))) || 0
+			ONLINE_GET=$(dbus list ssrconf_basic_group|wc -l) || 0
+			echo $group >> /tmp/group_info.txt
+			echo_date "本次更新，订阅来源 【$group】， 新增服务器节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；" >> $LOG_FILE
+			echo_date "现共有自添加SSR节点：$USER_ADD 个。" >> $LOG_FILE
+			echo_date "现共有订阅SSR节点：$ONLINE_GET 个。" >> $LOG_FILE
+			echo_date "在线订阅列表更新完成!" >> $LOG_FILE
+			echo_date "=============================================================================================" >> $LOG_FILE
+			echo_date "" >> $LOG_FILE
+		fi
 	else
 		echo_date 下载订阅失败...请检查你的网络... >> $LOG_FILE
 		rm -rf /tmp/ssr_subscribe_file.txt >/dev/null 2>&1 &

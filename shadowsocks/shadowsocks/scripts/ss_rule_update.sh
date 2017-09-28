@@ -98,8 +98,8 @@ update_rule(){
 	
 	# update cdn file		
 	if [ "$ss_basic_cdn_update" == "1" ];then		
-		if [ ! -z "$version_cdn2" ];then		
-			if [ "$version_cdn1" != "$version_cdn2" ] || [ -n "$1" ];then		
+		if [ ! -z "$version_cdn2" ] || [ -n "$1" ];then		
+			if [ "$version_cdn1" != "$version_cdn2" ];then		
 				echo_date 检测到新版本cdn名单，开始更新...		
 				echo_date 下载cdn名单到临时文件...		
 				wget --no-check-certificate --timeout=8 -qO - $url_main/cdn.txt > /tmp/cdn.txt		
