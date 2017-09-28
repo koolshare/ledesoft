@@ -1180,6 +1180,11 @@ lan_acess_control(){
 			}
 			iptables -t nat -A SHADOWSOCKS_EXT -p tcp  $(factor $ports "-m multiport --dport") -m mark --mark "$ipaddr_hex" -$(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		done
+		if [ "$ss_acl_default_port" == "all" ];then
+			ss_acl_default_port="" 
+		elif [ "$ss_acl_default_port" == "0" ];then
+			ss_acl_default_port=$ss_acl_default_port_user 
+		fi
 		echo_date 加载ACL规则：【剩余主机】模式为：$(get_mode_name $ss_acl_default_mode)
 	else
 		ss_acl_default_mode="$ss_basic_mode"

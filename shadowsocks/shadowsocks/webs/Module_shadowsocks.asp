@@ -1323,7 +1323,7 @@
 			ss_acl.dataToView = function( data ) {
 			var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', 'all'], ['0', '自定义']];
 			var option_acl_port_value = ['80,443', '22,80,443', 'all', '0'];
-			var option_acl_port_name = ['80,443', '22,80,443', 'all', '自定义'];
+			var option_acl_port_name = ['80,443', '22,80,443', '全部端口', '自定义'];
 			var a = option_acl_port_value.indexOf(data[4]);
 			var b = option_acl_port_name[a]
 			if (data[4] == 0){
