@@ -34,36 +34,37 @@ remove_nat_start(){
 
 open_close_port(){
 	# flush first
-	iptables -D INPUT -p udp --dport 500 -j ACCEPT
-	iptables -D INPUT -p udp --dport 1701 -j ACCEPT
-	iptables -D INPUT -p udp --dport 4500 -j ACCEPT
-	iptables -D INPUT -p tcp --dport $openvpn_port -j ACCEPT
-	iptables -D INPUT -p udp --dport $openvpn_port -j ACCEPT
-	iptables -D INPUT -p tcp --dport 443 -j ACCEPT
-	iptables -D INPUT -p tcp --dport 5555 -j ACCEPT
-	iptables -D INPUT -p tcp --dport 8888 -j ACCEPT
-	iptables -D INPUT -p tcp --dport 992 -j ACCEPT
+	iptables -D INPUT -p udp --dport 500 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p udp --dport 1701 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p udp --dport 4500 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p tcp --dport $openvpn_port -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p udp --dport $openvpn_port -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p tcp --dport 443 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p tcp --dport 5555 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p tcp --dport 8888 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p tcp --dport 992 -j ACCEPT > /dev/null 2>&1
+	sleep 2
 	# add	
 	if [ "$softether_enable" == "1" ] && [ "$softether_l2tp" == "1" ];then
 		# l2tp
-		iptables -I INPUT -p udp --dport 500 -j ACCEPT
-		iptables -I INPUT -p udp --dport 1701 -j ACCEPT
-		iptables -I INPUT -p udp --dport 4500 -j ACCEPT
+		iptables -I INPUT -p udp --dport 500 -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p udp --dport 1701 -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p udp --dport 4500 -j ACCEPT > /dev/null 2>&1
 	fi
 	if [ "$softether_enable" == "1" ] && [ "$softether_openvpn" == "1" ];then
 		# openvpn
-		iptables -I INPUT -p tcp --dport "$openvpn_port" -j ACCEPT
-		iptables -I INPUT -p udp --dport "$openvpn_port" -j ACCEPT
+		iptables -I INPUT -p tcp --dport "$openvpn_port" -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p udp --dport "$openvpn_port" -j ACCEPT > /dev/null 2>&1
 	fi
 	if [ "$softether_enable" == "1" ] && [ "$softether_sstp" == "1" ];then
 		# sstp
-		iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+		iptables -I INPUT -p tcp --dport 443 -j ACCEPT > /dev/null 2>&1
 	fi
 	if [ "$softether_enable" == "1" ];then
 		# other
-		iptables -I INPUT -p tcp --dport 5555 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 8888 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 992 -j ACCEPT
+		iptables -I INPUT -p tcp --dport 5555 -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p tcp --dport 8888 -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p tcp --dport 992 -j ACCEPT > /dev/null 2>&1
 	fi
 }
 
