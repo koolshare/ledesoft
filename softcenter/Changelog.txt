@@ -1,7 +1,7 @@
 Koolshare LEDE-X64 Softcenter Changelog
 ===========================================
 0.2.6
-   - fix	修复bootstrap主题显示，移除界面切换等
+   - fix	修复bootstrap主题显示
 
 0.2.5
    - update	布局修改, 增加宽窄界面切换。

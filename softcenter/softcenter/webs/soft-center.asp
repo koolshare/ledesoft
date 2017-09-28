@@ -800,6 +800,47 @@ function save_extra_now(arg){
 	});
 }
 
+function init_soft(){
+    init_softcenter_layout();
+}
+
+function init_softcenter_layout(){
+    var SCREEN_WIDTH = $(document).width();
+    if(!cookie.get('softcenterlayout')){
+        cookie.set('softcenterlayout', 1);
+    }
+    if (cookie.get('softcenterlayout') == '1') {
+        $("#softcenter_layout_switch").attr("class", "narrow");
+        //$(".box, ul.nav.nav-tabs, .col").css("width", "1332px")
+        $(".box, ul.nav.nav-tabs, .col").css("max-width", "1332px")
+        $(".box, ul.nav.nav-tabs, .col").css("min-width", "1072px")
+        $("#softcenterlayout_switch").html('<i class="icon-chevron-left"></i><i class="icon-chevron-right"></i>');
+    }else{
+        $("#softcenter_layout_switch").attr("class", "wide");
+        //$(".box, ul.nav.nav-tabs, .col").css("width", "auto");
+        $(".box, ul.nav.nav-tabs, .col").css("max-width", "100%");
+        $(".box, ul.nav.nav-tabs, .col").css("min-width", "20%");
+        $("#softcenter_layout_switch").html('<i class="icon-chevron-right"></i><i class="icon-chevron-left"></i>');
+    }
+}
+function switch_layout() {
+    var SCREEN_WIDTH = $(document).width();
+    if($("#softcenter_layout_switch").hasClass("narrow")) {
+        $("#softcenter_layout_switch").attr("class", "wide");
+        //$(".box, ul.nav.nav-tabs, .col").css("width", "auto");
+        $(".box, ul.nav.nav-tabs, .col").css("max-width", "100%");
+        $(".box, ul.nav.nav-tabs, .col").css("min-width", "20%");
+        $("#softcenter_layout_switch").html('<i class="icon-chevron-right"></i><i class="icon-chevron-left"></i>');
+        cookie.set('softcenterlayout', 0);
+    } else {
+        $("#softcenter_layout_switch").attr("class", "narrow");
+        //$(".box, ul.nav.nav-tabs, .col").css("width", "1332px")
+        $(".box, ul.nav.nav-tabs, .col").css("max-width", "1332px");
+        $(".box, ul.nav.nav-tabs, .col").css("min-width", "1072px")
+        $("#softcenter_layout_switch").html('<i class="icon-chevron-left"></i><i class="icon-chevron-right"></i>');
+        cookie.set('softcenterlayout', 1);
+    }
+}
 
 </script>
 	<div class="box">
@@ -817,6 +858,7 @@ function save_extra_now(arg){
 			<span id="server" style="color:#FF6A6A;font-size:13px;margin-right:10px;"></span>
 			<span id="version" style="color:#FF6A6A;font-size:13px;"></span>
 			<button id="update" style="display:none;float:right;margin-top:-10px" class="btn btn-success pull-right">有新的版本可用 <i class="icon-system"></i></button>
+			<a id="softcenter_layout_switch" class="narrow" onclick="switch_layout();" style="float:right;border-radius:3px;margin-right:5px;margin-top:-10px;font-size: 13px;cursor: pointer"><i class="icon-chevron-right"></i><i class="icon-chevron-left"></i></a>
 		</div>
 		<br>
 		<div class="content">
@@ -907,4 +949,5 @@ function save_extra_now(arg){
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">init_soft();</script>
 </content>
