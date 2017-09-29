@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=kms
-VERSION=0.7
+VERSION=0.8
 TITLE=kms
 DESCRIPTION=巨硬套餐激活工具
 HOME_URL=Module_kms.asp

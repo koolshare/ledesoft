@@ -10,7 +10,7 @@ start_kms(){
 	echo "srv-host=_vlmcs._tcp.lan,`uname -n`.lan,1688,0,100" > $CONFIG_FILE
 	/etc/init.d/dnsmasq restart
 	[ ! -L "/etc/rc.d/S97kms.sh" ] && ln -sf $KSROOT/init.d/S97kms.sh /etc/rc.d/S97kms.sh
-	[ "$kms_firewall" == "1" ] && echo "sh $KSROOT/scripts/kms_config.sh start_nat" >> /etc/firewall.user
+	#[ "$kms_firewall" == "1" ] && echo "sh $KSROOT/scripts/kms_config.sh start_nat" >> /etc/firewall.user
 }
 
 stop_kms(){
@@ -18,7 +18,7 @@ stop_kms(){
 	rm $CONFIG_FILE
 	/etc/init.d/dnsmasq restart
 	rm -rf /etc/rc.d/S97kms.sh
-	sed -i '/kms_config.sh/d' /etc/firewall.user >/dev/null 2>&1
+	#sed -i '/kms_config.sh/d' /etc/firewall.user >/dev/null 2>&1
 }
 
 open_port(){

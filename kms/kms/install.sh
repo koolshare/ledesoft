@@ -11,7 +11,7 @@ if [ "$kms_enable" == "1" ];then
 	sh $KSROOT/scripts/kms_config.sh stop
 fi
 
-sed -i '/kms_config.sh/d' /etc/firewall.user
+sed -i '/kms_config.sh/d' /etc/firewall.user >/dev/null 2>&1
 
 # cp files
 cp -rf /tmp/kms/scripts/* $KSROOT/scripts/
