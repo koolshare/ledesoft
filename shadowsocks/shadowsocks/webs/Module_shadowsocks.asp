@@ -898,7 +898,13 @@
 			n *= 18;
 			e.innerHTML = s;
 			this.appendChild(e);
+			//setTimeout('$("#table-row-panel").remove();', 2000);
+			//$("#table-row-panel").remove();
+			//setTimeout('TGO(this).rpHide()', 2000);
 		}
+		//ssr_node.rpMouOut = function(e) {
+		//	setTimeout('$("#table-row-panel").remove();', 2000);
+		//}
 		ssr_node.rpApply = function(e) {
 			e = PR(e);
 			var apply_ss_node = parseInt(e.cells[0].innerHTML);
@@ -1052,6 +1058,7 @@
 			return this.insert(at, data, this.dataToView(data, i), false);
 		}
 		ssr_node.dataToView = function(data, i) {
+			//var option_mode_name = ['', 'GFW', 'CHN', 'GAME', 'GLOABLE'];
 			return [ data[0], option_mode_name[data[1]], 
 					dbus["ssrconf_basic_group_" + i ] ? "【" + dbus["ssrconf_basic_group_" + i ] + "】" + dbus["ssrconf_basic_name_" + i ] : dbus["ssrconf_basic_name_" + i ]||data[2],
 					data[3], data[4], data[5], data[6], data[7], (data[8].length > 1 ? "******" : ""), data[9], data[10], data[11]];
@@ -1510,6 +1517,14 @@
 				$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").hide();
 				$("#_ss_acl_pannel_6").hide();
 			}
+			// 当负载均衡开启，并且选择了负载均衡节点，禁用游戏模式和，隐藏kcp加速面板
+			var s1 = E('_ss_lb_enable').checked;
+			var s2 = E('_ss_basic_node').value == "0";
+			if(s1 && s2){
+				$("#_ss_acl_pannel_4 option[value=3]").hide();
+			}else{
+				$("#_ss_acl_pannel_4 option[value=3]").show();
+			}
 			//check if ip and mac column correct
 			if (f[1].value && !f[2].value){
 				return v_ip( f[1], quiet );
@@ -1557,6 +1572,14 @@
 			this.resetNewEditor();
 			$("#_ss_acl_pannel_6").hide();
 			$("#ss_acl_pannel > tbody > tr > td:nth-child(6)").hide();
+			// 当负载均衡开启，并且选择了负载均衡节点，禁用游戏模式和，隐藏kcp加速面板
+			var s1 = E('_ss_lb_enable').checked;
+			var s2 = E('_ss_basic_node').value == "0";
+			if(s1 && s2){
+				$("#_ss_acl_pannel_4 option[value=3]").hide();
+			}else{
+				$("#_ss_acl_pannel_4 option[value=3]").show();
+			}
 		}
 		ss_acl.disableNewEditor = function(disable) {
 			if (this.getDataCount() >= this.maxAdd) disable = true;
@@ -2373,34 +2396,62 @@
 					tabSelect('fuckapp');
 				}
 			}
-
+			
+			// ------------------------
 			// pannel kcp: hide kcp panel when kcp not enable
-			var t  = E('_ss_kcp_enable').checked;
-			elem.display('app9-tab', !t);
+			// hide load banlacing pannel when game mode enabled
+			var t1 = E('_ss_kcp_enable').checked;
+			var t2 = E("_ss_basic_mode").value == "3"
+			// kcp开启或者游戏模式开启的时候，不显示负载均衡面板
+			// 为了避免用户提前开好了负载均衡，再去切换游戏模式，再去选择负载均衡节点，同时需要把负载均衡节点给隐藏
+			if(t1 || t2){
+				$("#app9-tab").hide();
+				$("#_ss_basic_node option[value=0]").hide()
+			}else{
+				$("#app9-tab").show();
+				$("#_ss_basic_node option[value=0]").show()
+			}
 			// pannel kcp: hide kcp parameter panel when kcp not enable
 			if ( $(r).attr("id") == "_ss_kcp_enable" ) {
-				elem.display('ss_kcp_tab_2', t);
+				elem.display('ss_kcp_tab_2', t1);
 			}
-			// pannel lb: hide kcp pannel when lb enabled
-			var s = E('_ss_lb_enable').checked;
-			elem.display('app10-tab', !s);
+			// pannel lb: hide kcp pannel and game mode when lb enabled
+			var s1 = E('_ss_lb_enable').checked;
+			var s2 = E('_ss_basic_node').value == "0";
+			// 当负载均衡开启，并且选择了负载均衡节点，禁用游戏模式和，隐藏kcp加速面板
+			if(s1 && s2){
+				$("#app10-tab").hide();
+				$("#_ss_basic_mode option[value=3]").hide();
+				$("#_ss_acl_default_mode option[value=3]").hide();
+				$("#_ss_acl_pannel_4 option[value=3]").hide();
+			}else{
+				$("#app10-tab").show();
+				$("#_ss_basic_mode option[value=3]").show();
+				$("#_ss_acl_default_mode option[value=3]").show();
+				$("#_ss_acl_pannel_4 option[value=3]").show();
+			}
+			// ------------------------
+			
 			// pannel dns: display the description for ss dns plan
 			if (E("_ss_dns_plan").value == "1"){
 				$('#_ss_dns_plan_txt').html("国外dns解析gfwlist名单内的国外域名，剩下的所有域名用国内dns解析。")
 			}else{
 				$('#_ss_dns_plan_txt').html("国内dns解析cdn名单内的国内域名用，剩下的所有域名用国外dns解析。")
 			}
-			// pannel1: when change mode, the default acl mode should be also changed
-			//if ( $(r).attr("id") == "_ss_basic_mode" ) {
-				if (E("_ss_acl_default_mode").value != "0"){
-					E("_ss_acl_default_mode").value = E("_ss_basic_mode").value;
-				}
-			//}
+			
+			// ------------------------
+			// when change mode in acl tab, mode in pannel1 should also be changed
 			if ( $(r).attr("id") == "_ss_acl_default_mode" ) {
 				if (E("_ss_acl_default_mode").value != "0"){
 					E("_ss_basic_mode").value = E("_ss_acl_default_mode").value;
 				}
 			}
+			// pannel1: when change mode, the default acl mode should be also changed
+			if (E("_ss_acl_default_mode").value != "0"){
+				E("_ss_acl_default_mode").value = E("_ss_basic_mode").value;
+
+			}
+			// ------------------------
 			// pannel dns:
 			if (E("_ss_dns_foreign").value == "5"){
 				elem.display(PR('_ss_dns_china'), false);
@@ -2647,6 +2698,7 @@
 		}
 		function delete_online_node(){
 			// ss: collect node data from ss pannel
+			if (!confirm("确定要删除这些订阅?")) { return false; }
 			$.ajax({
 				type: "GET",
 				url: "/_api/ssrconf",
@@ -2656,7 +2708,6 @@
 					tabSelect('app8');
 					var skipd_ssr = data.result[0];
 					var all_ssrconf = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_", "ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
-					var skipd_temp = {};
 					//== get current using ss/ssr node number==
 					var cur_sel_node = parseInt(dbus["ss_basic_node"]);
 					var cur_kcp_node = parseInt(dbus["ss_kcp_node"]);
@@ -2670,14 +2721,16 @@
 					for (var field in skipd_temp_ssr) {
 						skipd_temp_ssr[field] = "";
 					}
-					//start
+					// start
 					var data = ssr_node.getAllData();
 					if(data.length > 0){
 						var j = 0
 						for ( var i = 0; i < data.length; ++i ) {
 							// write node
 							var data_nu = data[i][0];
-							if(!skipd_ssr["ssrconf_basic_group_" + data_nu] || ssr_orig_nu && ssr_orig_nu == data_nu){
+							// 所有不带group信息的 + 正在使用的 + 不需要删除的 保留
+							if(!skipd_ssr["ssrconf_basic_group_" + data_nu] || ssr_orig_nu && ssr_orig_nu == data_nu || E('_ss_basic_online_node_del').value != "0" && skipd_ssr["ssrconf_basic_group_" + data_nu] != E('_ss_basic_online_node_del').value){
+								console.log(data_nu);
 								++j
 								// write ss/kcp node
 								if (parseInt(data_nu) == ssr_orig_nu){
@@ -2686,24 +2739,66 @@
 								if (parseInt(data_nu) == cur_kcp_node){
 									skipd_temp_ssr["ss_kcp_node"] = j + node_ss;
 								}
-								// now delete node data with group info
+								// now write node data with no group info
 								for ( var k = 0; k < all_ssrconf.length; ++k ) {
 									var temp_val = skipd_ssr[all_ssrconf[k] + data_nu];
 									if (temp_val){
 										skipd_temp_ssr[all_ssrconf[k] + j] = temp_val;
 									}
 								}
-								if (skipd_ssr["ssrconf_basic_group_" + data_nu] && ssr_orig_nu && ssr_orig_nu == data_nu){
-									alert("正在使用的订阅节点不会删除,但其它的会删除！");
+								// alert when deleting node is under use
+								// 删除全部订阅节点的时候，当删除的节点是正在使用的节点，需要提醒一下
+								if (ssr_orig_nu == data_nu && E('_ss_basic_online_node_del').value == "0"){
+									alert("正在使用的订阅节点不会删除,但其它的订阅节点会删除！");
+								// 另外，如果删除的节点不是全部订阅节点，而是用户指定要删除的节点的时候，同样需要提醒
+								}else if(ssr_orig_nu == data_nu && E('_ss_basic_online_node_del').value != "0" && skipd_ssr["ssrconf_basic_group_" + data_nu] == E('_ss_basic_online_node_del').value){
+									alert("正在使用的订阅节点不会删除,但其它的订阅节点会删除！");
 								}
 							}
 						}
-						skipd_temp_ssr["ssrconf_basic_node_max"] = j;
-						skipd_temp_ssr["ssrconf_basic_max_node"] = j;
+						skipd_temp_ssr["ssrconf_basic_node_max"] = String(j);
+						skipd_temp_ssr["ssrconf_basic_max_node"] = String(j);
 					}else{
 						skipd_temp_ssr["ssrconf_basic_node_max"] = "";
 						skipd_temp_ssr["ssrconf_basic_max_node"] = "";
 					}
+					// 需要先把所有的(ss_online_link_1 - 10)和 (ss_online_group_1 - 10)全部转移到临时对象，且清空，以便数量变少，dbus可以删除对应数据
+					// 所以当删除所有订阅节点的时候(E('_ss_basic_online_node_del').value != "0"),就只需要判断不删除所有订阅节点的情况了，因为这里已经清空一次
+					var o = 1;
+					for ( var n = 1; n <= 10; ++n ) {
+						if(dbus["ss_online_group_" + n]){
+							console.log("999")
+							skipd_temp_ssr["ss_online_group_" + o] = "";
+							skipd_temp_ssr["ss_online_link_" + o] = "";
+							++o;
+						}
+					}
+					console.log(skipd_temp_ssr);
+					// 神保佑我下次不会改到这里
+					var m = 1;
+					for ( var l = 1; l <= 10; ++l ) {
+						// 因为判断太多，所以分开写成两条 if 和 else if
+						// dbus["ss_online_group_" + l] :首先，在dbus数据中，储存订阅链接(ss_online_link_1 - 10)的对应的group信息的值 (ss_online_group_1 - 10)里 dbus["ss_online_group_" + l]不为空的时候
+						// E('_ss_basic_online_node_del').value != "0" :且要删除的节点不是全部订阅节点
+						// dbus["ss_online_group_" + l] != E('_ss_basic_online_node_del').value :且这个dbus["ss_online_group_" + l]值不等于要删除的节点的时候，进行一次储存，储存到另外一个对象（skipd_temp_ssr）中
+						if(dbus["ss_online_group_" + l] && E('_ss_basic_online_node_del').value && dbus["ss_online_group_" + l] != E('_ss_basic_online_node_del').value ){
+							skipd_temp_ssr["ss_online_group_" + m] = dbus["ss_online_group_" + l];
+							skipd_temp_ssr["ss_online_link_" + m] = dbus["ss_online_link_" + l];
+							++m;
+						// 但是这特么还不够，因为如果要删除的订阅节点是用户正在使用的节点是订阅节点的时候，这个时候对应的ss_online_group_和ss_online_link_不能删除
+						// 所以，同样dbus["ss_online_group_" + l] 和 E('_ss_basic_online_node_del').value 都是true的情况下
+						// 同时如果这个正在使用的ssr节点的group值不为空，且这个值还特么等于我要删除的订阅group信息，这个时候当然是不删除了
+						// 直接把原来dbus里的值给搞过来，写到临时的对象里
+						// 因为还有else的情况不需要定义，所以++m在前两个里进行
+						// 我特么都不知道我下次是不是还能看得懂
+						}else if(dbus["ss_online_group_" + l] && E('_ss_basic_online_node_del').value && skipd_ssr["ssrconf_basic_group_" + ssr_orig_nu] && skipd_ssr["ssrconf_basic_group_" + ssr_orig_nu] == E('_ss_basic_online_node_del').value){
+							skipd_temp_ssr["ss_online_group_" + m] = dbus["ss_online_group_" + l];
+							skipd_temp_ssr["ss_online_link_" + m] = dbus["ss_online_link_" + l];
+							++m;
+						}
+					}
+					
+					console.log(skipd_temp_ssr);
 					//==now post data==
 					var id = parseInt(Math.random() * 100000000);
 					var postData = {"id": id, "method": "ss_conf.sh", "params":["7"], "fields": skipd_temp_ssr };
@@ -2872,7 +2967,7 @@
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast"];
+			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast", "online_links_goss"];
 			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr", "ss_basic_pcap_update", "ss_basic_pcap_update_day", "ss_basic_pcap_update_hr" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
@@ -3282,6 +3377,7 @@
 							dbus3["ss_online_link_" + (i + 1) ] = data[i][0];
 						}else{
 							dbus3["ss_online_link_" + (i + 1) ] = "";
+							dbus3["ss_online_group_" + (i + 1) ] = "";
 						}
 					}
 				}
@@ -3291,6 +3387,8 @@
 				dbus3["ss_basic_node_update"] = E("_ss_basic_node_update").value;
 				dbus3["ss_basic_node_update_day"] = E("_ss_basic_node_update_day").value;
 				dbus3["ss_basic_node_update_hr"] = E("_ss_basic_node_update_hr").value;
+				dbus3["ss_basic_online_links_goss"] = E("_ss_basic_online_links_goss").checked ? '1':'0';
+				
 			}else if(arg == 9){
 				dbus3["ss_mwan_ping_dst"] = E("_ss_mwan_ping_dst").value;
 				dbus3["ss_mwan_china_dns_dst"] = E("_ss_mwan_china_dns_dst").value;
@@ -3375,8 +3473,8 @@
 	<div class="box" style="margin-top: 0px">
 		<div class="heading">
 			<span id="_ss_version"><font color="#1bbf35"></font></span>
-			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
-			<a id="ss_layout_switch" class="narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;"><i class="icon-chevron-right"></i><i class="icon-chevron-left"></i></a>
+			<a href="#soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;cursor: pointer">返回</a>
+			<a id="ss_layout_switch" class="narrow" onclick="switch_Width();" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;cursor: pointer;"><i class="icon-chevron-right"></i><i class="icon-chevron-left"></i></a>
 		</div>
 		<div class="content">
 			<div id="ss_switch_pannel" class="section">
@@ -3859,11 +3957,10 @@
 		<div class="heading">访问控制操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('acl');"><span id="sesdivaclshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivacl" style="display:none">
 			<li><b>1：</b> 你可以在这里定义你需要的主机走SS的模式和端口，或者你可以什么都不做，使用默认规则，代表全部主机都默认走【默认主机设置】内的模式和端口；</li>
-			<li><b>1：</b> 除非你的【默认主机设置】里设置了默认模式为【不通过ss】，其余情况下更改【帐号设置】面板内的模式，此处也会随之更改；</li>
 			<li><b>2：</b> 主机别名、主机IP地址、MAC地址已经在系统的arp列表里获取了，在LEDE路由下的设备均能被选择，选择后相应设备的ip和mac地址会自动填写；</li>
 			<li><b>3：</b> 如果你需要的设备在列表里不能选择，可以不选择主机别名列表，然后填选好其他地方，添加后保存，插件会自动为你的这个设备分配一个名字；</li>
 			<li><b>4：</b> 请按照格式填写ip和mac地址，ip和mac地址至少一个不能为空！</li>
-			<li><b>5：</b> 插件为每个模式推荐了相应的端口，当你选择相应访问控制模式的时候，端口会自动变化，你也可以设定自定义端口，例如：22,80,443,222,333:555，错误的格式将导致问题！；</li>
+			<li><b>5：</b> 插件为每个模式推荐了相应的端口，当你选择相应访问控制模式后，端口会自动变化，你也可以设定自定义端口，例如：22,80,443,222,333:555，错误的格式将导致问题！；</li>
 			<li><b>6：</b> 当访问控制模式不为：不通过ss的时候，在【帐号设置】面板里更改模式，这里的默认规则模式会自动发生变化，否则不发生变化。</li>
 		</div>
 		<script>
@@ -3920,7 +4017,7 @@
 						{ title: '节点ping测试', multi: [
 							{ name:'ss_basic_ping_method',type:'select',options:[["1", "ping 1次"], ["2", "10次ping平均 + 丢包率"], ["3", "20次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
 							//{ name:'ss_basic_ping_refresh',type:'select',options:[["1", "不显示（人工测试）"], ["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
-							{ suffix: '<button id="ping_botton" onclick="ping_node();" class="btn btn-primary">手动测试ping <i class="icon-check"></i></button>' }
+							{ suffix: '<button id="ping_botton" onclick="ping_node();" class="btn btn-primary">手动测试ping <i class="icon-traffic"></i></button>' }
 						]},
 					]);
 				</script>
@@ -3941,22 +4038,34 @@
 				</fieldset>
 			</div>
 			<script type="text/javascript">
+				var group_del = [];
+				group_del[0] = ["0", "删除全部订阅节点"]
+				for ( var i = 1; i <= 10; i++){
+					if(dbus["ss_online_group_" + i]){
+						group_del[i] = [dbus["ss_online_group_" + i], dbus["ss_online_group_" + i]];
+					}
+				}
 				$('#ssr_node_subscribe_pannel').forms([
 					{ title: '订阅节点模式设定',  name:'ssr_subscribe_mode',type:'select',options:option_mode,value:dbus.ssr_subscribe_mode || "2", suffix: '<lable id="_ssr_subscribe_mode_text">订阅后的服务器默认使用该模式。</lable>' },
 					{ title: '订阅节点混淆参数设定', multi: [
 						{ name: 'ssr_subscribe_obfspara',type:'select',options:[['0', '留空'], ['1', '使用订阅设定'], ['2', '自定义']], value: dbus.ssr_subscribe_obfspara || "2", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ssr_subscribe_obfspara_val', type: 'text', value: dbus.ssr_subscribe_obfspara_val || "www.baidu.com", suffix: '<lable id="_ssr_subscribe_obfspara_text">有的订阅服务器不包含混淆参数，你可以在此处统一设定。</lable>' }
 					]},
+					{ title: '订阅时走SS网络', name:'ss_basic_online_links_goss',type:'checkbox',value: dbus.ss_basic_online_links_goss == 1, suffix: ' 保存后需要重启SS才能生效' },  // ==1 means default close; !=0 means default open
 					{ title: '节点订阅计划任务', multi: [
 						{ name: 'ss_basic_node_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_node_update || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_node_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_node_update_day || "7",suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_node_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_node_update_hr || "4",suffix: ' &nbsp;&nbsp;'}
+					]},
+					{ title: '删除订阅节点', multi: [
+						{ name: 'ss_basic_online_node_del',type: 'select', options:group_del, value: dbus.ss_basic_online_node_del || "0", suffix: ' &nbsp;&nbsp;' },
+						{ suffix: '<button id="_delete_online_node" onclick="delete_online_node(5);" class="btn">删除 <i class="icon-cancel"></i></button>' }
 					]}
 				]);
 			</script>
-			<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>
+			<!--<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>-->
 			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_online_update.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">手动更新订阅 <i class="icon-check"></i></button>
-			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn btn-primary" style="float:right;margin-right:20px;">保存订阅设置 <i class="icon-check"></i></button>
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn btn-primary" style="float:right;margin-right:20px;">保存订阅设置 <i class="icon-wrench"></i></button>
 		</div>
 	</div>
 	<div class="box boxr2" id="ss_link_add" style="margin-top: 30px;">

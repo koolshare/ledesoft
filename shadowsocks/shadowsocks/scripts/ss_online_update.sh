@@ -237,6 +237,8 @@ get_oneline_rule_now(){
 			del_none_exist
 			# 节点重新排序
 			remove_node_gap
+			# 储存对应订阅链接的group信息
+			dbus set ss_online_group_$z=$group
 		else
 			echo_date 该订阅链接不包含任何节点信息！ >> $LOG_FILE
 			HIDE_DETIAL=1
@@ -315,6 +317,15 @@ start_update(){
 					dbus remove ssrconf_basic_lb_weight_$conf_nu
 					dbus remove ssrconf_basic_lb_dest_$conf_nu
 				done
+				# 删除不再鼎业节点的group信息
+				confs_nu_2=`dbus list ss_online_group_|grep "$local_group"| cut -d "=" -f 1|cut -d "_" -f 4`
+				if [ -n "$confs_nu_2" ];then
+					for conf_nu_2 in $confs_nu_2
+					do
+						dbus remove ss_online_group_$conf_nu_2
+					done
+				fi
+				
 				echo_date 删除完成完成！ >> $LOG_FILE
 				need_adjust=1
 			fi

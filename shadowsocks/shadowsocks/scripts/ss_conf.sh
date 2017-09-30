@@ -205,9 +205,12 @@ case $2 in
 	rm -rf /koolshare/webs/files/shadowsocks*
 	;;
 7)
-	echo_date "正在删除节点，请不要做其它操作..." > $LOG_FILE
+	# 老实说，我是一个假的日志，其实订阅节点删除操作全部在web里和httpdb配合完成，完全没有脚本的事
+	# 但是删除过程中不显示点什么的话，貌似不是特别和谐，于是显示个假的日志好了
+	# 顺便让路由器休息2秒
+	echo_date "正在删除你选择的订阅节点，请不要做其它操作..." > $LOG_FILE
 	sleep 2
-	echo_date "订阅节点清除完毕！" > $LOG_FILE
+	echo_date "清除成功！" >> $LOG_FILE
 	http_response "$1"
 	;;
 8)
@@ -228,7 +231,7 @@ case $2 in
 			echo_date "设置订阅服务器自动更新订阅服务器在星期 $ss_basic_node_update_day 的 $ss_basic_node_update_hr 点。" >> $LOG_FILE
 		fi
 	fi
-	sleep 3
+	sleep 1
 	http_response "$1"
 	;;
 9)

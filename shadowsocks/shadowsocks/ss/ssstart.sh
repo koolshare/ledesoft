@@ -789,7 +789,7 @@ create_dnsmasq_conf(){
 
 	# append white domain list, bypass ss
 	rm -rf /tmp/wblist.conf
-	# github need to go ss
+	# github and some other site need to go ss
 	echo "#for router itself" >> /tmp/wblist.conf
 	echo "server=/.google.com.tw/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.google.com.tw/router" >> /tmp/wblist.conf
@@ -801,9 +801,18 @@ create_dnsmasq_conf(){
 	echo "ipset=/.raw.githubusercontent.com/router" >> /tmp/wblist.conf
 	echo "server=/.apnic.net/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
-	echo "server=/.onetive.com/127.0.0.1#7913" >> /tmp/wblist.conf
-	echo "ipset=/.onetive.com/router" >> /tmp/wblist.conf
-	
+	if [ "$ss_basic_online_links_goss" == "1" ];then
+		online_links=`dbus list ss_online_link_|cut -d "=" -f2 |awk -F'/' '{print $3}'|grep .`
+		if [ -n "$online_links" ];then
+			echo_date 应用订阅地址走SS
+			echo "#for online_links" >> //tmp/wblist.conf
+			for online_link in $online_links
+			do 
+				echo "$online_link" | sed "s/^/server=&\/./g" | sed "s/$/\/127.0.0.1#7913/g" >> /tmp/wblist.conf
+				echo "$online_link" | sed "s/^/ipset=&\/./g" | sed "s/$/\/router/g" >> /tmp/wblist.conf
+			done
+		fi
+	fi
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
 	if [ -n "$ss_wan_white_domain" ];then
@@ -959,16 +968,44 @@ auto_start(){
 
 #=======================================================================================
 start_ss_redir(){
-	# Start ss-redir
-	if [ "$ss_basic_type" == "1" ];then
-		echo_date 开启ssr-redir进程，用于透明代理.
-		ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
-	elif  [ "$ss_basic_type" == "0" ];then
-		echo_date 开启ss-redir进程，用于透明代理.
-		if [ "$ss_basic_ss_obfs" == "0" ];then
-			ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
-		else
-			ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+	# start another ss-redir for udp when game mode under kcp enable
+	if [ "$ss_kcp_enable" == "1" ] && [ "$ss_kcp_node" == "$ss_basic_node" ] && [ "$mangle" == "1" ];then
+		# ONLY TCP
+		if [ "$ss_basic_type" == "1" ];then
+			echo_date 开启ssr-redir进程，用于透明代理.
+			ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
+		elif  [ "$ss_basic_type" == "0" ];then
+			echo_date 开启ss-redir进程，用于透明代理.
+			if [ "$ss_basic_ss_obfs" == "0" ];then
+				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			else
+				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			fi
+		fi
+		# ONLY UDP
+		if [ "$ss_basic_type" == "1" ];then
+			echo_date 开启ssr-redir第二进程，用于kcp模式下udp的透明代理.
+			ssr-redir -b 0.0.0.0 -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
+		elif  [ "$ss_basic_type" == "0" ];then
+			echo_date 开启ss-redir第二进程，用于kcp模式下udp的透明代理.
+			if [ "$ss_basic_ss_obfs" == "0" ];then
+				ss-redir -b 0.0.0.0 -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			else
+				ss-redir -b 0.0.0.0 -c $CONFIG_FILE -U --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			fi
+		fi
+	else
+		# Start ss-redir for nornal use
+		if [ "$ss_basic_type" == "1" ];then
+			echo_date 开启ssr-redir进程，用于透明代理.
+			ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+		elif  [ "$ss_basic_type" == "0" ];then
+			echo_date 开启ss-redir进程，用于透明代理.
+			if [ "$ss_basic_ss_obfs" == "0" ];then
+				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			else
+				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			fi
 		fi
 	fi
 }
@@ -1278,7 +1315,7 @@ apply_nat_rules(){
 	#-----------------------FOR ROUTER---------------------
 	# router itself
 	iptables -t nat -A OUTPUT -p tcp -m set --match-set router dst -j REDIRECT --to-ports 3333
-	[ "$ss_basic_mode" != "4" ] && iptables -t nat -A OUTPUT -p tcp -m mark --mark $ip_prefix_hex -j SHADOWSOCKS_EXT
+	iptables -t nat -A OUTPUT -p tcp -m mark --mark $ip_prefix_hex -j SHADOWSOCKS_EXT
 	#[ "$ss_basic_mode" != "4" ] && iptables -t nat -A OUTPUT -p tcp -m ttl --ttl-eq 160 -j SHADOWSOCKS_EXT
 	
 	# 把最后剩余流量重定向到相应模式的nat表中对对应的主模式的链
@@ -1432,12 +1469,12 @@ restart_by_fw(){
 	detect_koolss
 	calculate_wans_nu
 	restore_dnsmasq_conf
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
 	kill_process
 	load_nat
 	start_ss_redir
 	start_kcp
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	start_dns
 	create_dnsmasq_conf
 	restart_dnsmasq
@@ -1460,7 +1497,7 @@ restart)
 	if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
 		restart_dnsmasq
 	else
-		[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
 	fi
 	flush_nat
 	restore_start_file
@@ -1479,7 +1516,7 @@ restart)
 	start_ss_redir
 	start_kcp
 	load_nat
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	restart_dnsmasq
 	start_dns
 	write_numbers
@@ -1505,7 +1542,7 @@ stop)
 	;;
 lb_restart)
 	[ -n "`pidof haproxy`" ] && echo_date 关闭haproxy进程... && killall haproxy
-	[ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	;;
 *)
 	restart_by_fw >/tmp/upload/ss_log.txt
