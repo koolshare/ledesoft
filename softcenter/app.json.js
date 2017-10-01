@@ -191,15 +191,15 @@
             "version": "1.1"
         }, 
         {
-            "build_date": "2017-09-29_21:59:49", 
+            "build_date": "2017-10-01_16:30:07", 
             "changelog": "", 
             "description": "内存管理小助手", 
             "home_url": "Module_memory.asp", 
-            "md5": "db582fed41765240b7d0735d6a38eca2", 
+            "md5": "5c32304458a48423e79d042cdef50c84", 
             "name": "memory", 
             "tar_url": "memory/memory.tar.gz", 
             "title": "内存管理", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-09_18:21:59", 

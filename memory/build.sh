@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=memory
-VERSION=0.1
+VERSION=0.2
 TITLE=内存管理
 DESCRIPTION=内存管理小助手
 HOME_URL=Module_memory.asp

@@ -49,7 +49,7 @@ if [ "$memoryon2" == "0" ];then
 			memory_mount_size=`awk 'BEGIN{printf "%0.2f",'$memoryon2'/1024}'`
 			memory_used_size=`awk 'BEGIN{printf "%0.2f",'$memoryused'/1024}'`
 			dbus set memory_on_loaded=1
-			dbus set memory memory_on_disk=`find /mnt -name "swap_memoryfile"|cut -d "/" -f1,2,3,4`
+			dbus set memory_on_disk=`find /mnt -name "swap_memoryfile"|cut -d "/" -f1,2,3,4`
 			http_response "成功挂载了虚拟内存！</br>大小：$memory_mount_size MB &nbsp;&nbsp;&nbsp; 已使用：$memory_used_size MB"
 		else
 			# 检测到没有memory，那么获取下磁盘信息
