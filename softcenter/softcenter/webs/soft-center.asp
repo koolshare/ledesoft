@@ -69,7 +69,8 @@
 	text-overflow:ellipsis;
 	overflow:hidden;
 	white-space:nowrap;
-	text-shadow:#444 0 1px 0;
+	text-shadow:1px 1px 3px #000000, 0 0 3px #030303;
+	padding-left:2px;
 	pointer-events:none;
 }
 .appDesc {

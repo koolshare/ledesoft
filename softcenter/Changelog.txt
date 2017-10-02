@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 Softcenter Changelog
 ===========================================
+0.2.7
+   - update	增强浅色背景下，插件标题和说明的辨识度
+
 0.2.6
    - fix	修复bootstrap主题显示
 
