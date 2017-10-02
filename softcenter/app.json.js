@@ -159,15 +159,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-09-24_14:25:02", 
+            "build_date": "2017-10-03_00:53:49", 
             "changelog": "", 
             "description": "轻松搭建私有云", 
             "home_url": "Module_syncthing.asp", 
-            "md5": "b148b3dfe49559a6f3b9629c9d38ddad", 
+            "md5": "933176300150bc2926ba00daf6299b61", 
             "name": "syncthing", 
             "tar_url": "syncthing/syncthing.tar.gz", 
             "title": "syncthing", 
-            "version": "1.7"
+            "version": "1.8"
         }, 
         {
             "build_date": "2017-09-26_23:02:22", 

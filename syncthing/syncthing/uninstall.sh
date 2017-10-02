@@ -15,6 +15,7 @@ do
 done
 
 # remove files
+rm -rf $KSROOT/syncthing
 rm -rf $KSROOT/scripts/syncthing*
 rm -rf $KSROOT/init.d/S97syncthing.sh
 rm -rf /etc/rc.d/S97syncthing.sh >/dev/null 2>&1

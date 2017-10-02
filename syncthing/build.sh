@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=syncthing
-VERSION=1.7
+VERSION=1.8
 TITLE=syncthing
 DESCRIPTION=轻松搭建私有云
 HOME_URL=Module_syncthing.asp
