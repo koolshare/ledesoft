@@ -265,11 +265,12 @@ ul.pullmsg > li{
     color: #f36c21;
 }
 </style>
+<script type="text/javascript" src="/js/advancedtomato.js"></script>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
-<script type="text/javascript" src="/js/advancedtomato.js"></script>
+<script type="text/javascript" src="/layer/layer.js"></script>
 <script type="text/javascript">
-//$("pull-right").remove();
+
 //APPS 控制模块
 var anmstatus=null;
 var softcenter = 1;
@@ -401,10 +402,28 @@ function appInstallModule(moduleInfo){
     appPostScript(moduleInfo, "ks_app_install.sh");
 }
 function appUninstallModule(moduleInfo){
-    if (!window.confirm('确定卸载吗')){
-        return false;
-    };
-    appPostScript(moduleInfo, "ks_app_remove.sh");
+	//询问框
+	layer.confirm('确定卸载吗？', {
+		shade: 0.8,
+		btn: ['确定', '不确定'] //按钮
+	}, function() {
+		layer.msg('开始卸载！', {
+			shade: 0.8,
+			icon: 5
+		});
+    	appPostScript(moduleInfo, "ks_app_remove.sh");
+	}, function() {
+		layer.msg('我知道你还是爱我的~', {
+			shade: 0.8,
+			icon: 6,
+    		time: 20000, //20s后自动关闭
+    		btn: ['爱你', '知道了']
+		});
+	});
+    //if (!window.confirm('确定卸载吗')){
+    //    return false;
+    //};
+    //appPostScript(moduleInfo, "ks_app_remove.sh");
 }
 function _formatData(name,mod){
 	$('button').addClass('disabled');
@@ -451,8 +470,40 @@ function getSoftCenter(obj){
 			locversion = obj["softcenter_version"];
 			$("#loading").hide();
 			$(".loader").show();
-			if(locversion != onlineversion){
+			if (locversion != onlineversion) {
 				$("#update").show();
+				
+					layer.open({
+						type: 1,
+						title: false,
+						closeBtn: false,
+						area: '500px;',
+						shade: 0.8,
+						scrollbar: false,
+						id: 'LAY_layuipro',
+						btn: ['火速更新', '更新个毛'],
+						btnAlign: 'c',
+						moveType: 1,
+						content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
+								<b>欢迎来到koolshare软件中心！</b><br><br><br>\
+								如你所见,LEDE-X64软件中心又双叒叕更新了！<br>\
+								软件中心更新至0.2.8~<br><br>\
+								此次更新修复了版本号过低的bug，同时引入了一些新的bug。<br>\
+								赶快更新吧，少年！<br><br>\
+								我们的征途是星辰大海 ^_^</div>',
+						success: function(layero) {
+							var btn = layero.find('.layui-layer-btn');
+							$(".layui-layer-btn0").click(function () {
+								var moduleInfo = {
+									"name":"softcenter",
+									"md5": re.md5,
+									"tar_url": re.tar_url,
+									"version": re.version
+								};
+								appPostScript(moduleInfo, "ks_app_install.sh");
+							});
+						}
+					});
 			}
 			$("#version").html("当前版本：" + locversion + " , 线上版本：" + onlineversion + '\
 								&nbsp;&nbsp;【<a href="https://github.com/koolshare/ledesoft/blob/master/softcenter/Changelog.txt" target="_blank"><u>更新日志</u></a>】\
@@ -521,14 +572,14 @@ function getSoftCenter(obj){
 						}else{
 							appButton = '<button type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
 						}
-						appimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
-						bgimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
-						if(!CheckImgExists(bgimg)){
-							bgimg = '/res/icon-'+appname+'-bg.png';
-						}
-						if(!CheckImgExists(appimg)){
-							appimg = '/res/icon-'+appname+'.png';
-						}
+						//appimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
+						//bgimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
+						//if(!CheckImgExists(bgimg)){
+						bgimg = '/res/icon-'+appname+'-bg.png';
+						//}
+						//if(!CheckImgExists(appimg)){
+						appimg = '/res/icon-'+appname+'.png';
+						//}
 						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
 						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
@@ -685,14 +736,22 @@ function checkInstallStatus(){
 		}else{
 			currState.installing = true;
 			changeButton(true);
-		$('.popover').html(Msginfos[installing]);
+			$('#23333').html(Msginfos[installing]);
 		}
 	});
 }
-function CheckX(){
-	$('.popover').html('请稍后……');
+function CheckX() {
+	//$('.popover').html('请稍后……');
 	changeButton(true);
-	TimeOut = window.setInterval(checkInstallStatus, 500); 
+	$(window).scrollTop(0);
+	layer.msg('\<\div style="padding: 7px;font-weight: 500;" id="23333">\<\/div>', {
+		shade: 0.8,
+		scrollbar: false,
+		offset: '400px',
+		area: '420px', //宽高
+		time: 0
+	});
+	TimeOut = window.setInterval(checkInstallStatus, 200);
 }
 function softCenterInit(){
 	$.getJSON("/_api/softcenter_", function(resp) {
@@ -803,6 +862,24 @@ function save_extra_now(arg){
 
 function init_soft(){
     init_softcenter_layout();
+	layer_show();
+}
+
+function layer_show(){
+		//layer.msg('欢迎来到koolshare LEDE-X64 软件中心！');
+			
+		//layer.alert('内容', {
+		//	icon: 1,
+		//	skin: 'layer-ext-moon'
+		//})
+		$('#github_png').on('click', function() {
+			layer.open({
+				type: 1,
+				area: ['600px', '360px'],
+				shadeClose: true, //点击遮罩关闭
+				content: '\<\div style="padding:20px;">点我干嘛？\<\/div>'
+			});
+		});
 }
 
 function init_softcenter_layout(){
@@ -842,7 +919,7 @@ function switch_layout() {
         cookie.set('softcenterlayout', 1);
     }
 }
-
+	
 </script>
 	<div class="box">
 		<div class="heading">
@@ -865,7 +942,7 @@ function switch_layout() {
 		<div class="content">
 			<fieldset>
 				<div class="col-sm-2" style="width:130px">
-					<img class="pull-left" style="width:110px" src="/res/github.png">
+					<img class="pull-left" id="github_png" style="width:110px" src="/res/github.png">
 				</div>
 				<div class="col-sm-10">
 					<ul class="pullmsg" style="margin-left: 35px;">
