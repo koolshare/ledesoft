@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"1f1b92ed0793699d28cb02e2ea76c1f3",
+"home_url":"Module_cos.asp",
+"title":"腾讯云存储",
+"description":"软件中心自动云备份和恢复",
+"changelog":"",
+"build_date":"2017-10-02_21:28:04"
+}
