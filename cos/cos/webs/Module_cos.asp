@@ -176,7 +176,7 @@ function restore_now(o){
 <div class="content">
 <div id="cos-fields"></div>
 <script type="text/javascript">
-var option_local = [['cn-south', '广州（华南）'], ['cn-north', '天津（华北）'], ['cn-east', '上海（华东）'], ['cn-southwest', '成都（西南）']];
+var option_local = [['ap-shanghai', '上海（华东）'],['ap-guangzhou', '广州（华南）'],['ap-chengdu', '成都（西南）'], ['ap-beijing-1', '北京一区（华北）'], ['ap-beijing', '北京'], ['ap-singapore', '新加坡'], ['ap-hongkong', '香港'], ['na-toronto', '多伦多'], ['eu-frankfurt', '法兰克福']];
 var option_backup_all = [['0', '仅备份软件中心数据'], ['1', '备份固件所有配置']];
 if(!dbus.cos_restore){dbus.cos_restore = "没有备份文件或者同步还没有完成";};
 $('#cos-fields').forms([

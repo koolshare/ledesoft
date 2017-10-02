@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=cos
-VERSION=0.1
+VERSION=0.2
 TITLE=腾讯云存储
 DESCRIPTION=软件中心自动云备份和恢复
 HOME_URL=Module_cos.asp
