@@ -1,8 +1,9 @@
 {
-"version":"1.2",
-"md5":"7b4443a6bc03bf59d09c8bab53f4b0e5",
+"version":"1.3",
+"md5":"a5305f32514fe3758638b703a19273e7",
 "home_url":"Module_gdddns.asp",
 "title":"gdddns",
 "description":"Godaddy-DDNS",
-"build_date":"2017-09-09_18:27:05"
+"changelog":"",
+"build_date":"2017-10-02_22:27:11"
 }

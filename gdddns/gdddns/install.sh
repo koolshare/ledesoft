@@ -6,9 +6,9 @@ source $KSROOT/scripts/base.sh
 mkdir -p $KSROOT/init.d
 mkdir -p /tmp/upload
 
-cp /tmp/gdddns/scripts/* $KSROOT/scripts
-cp /tmp/gdddns/webs/* $KSROOT/webs
-cp /tmp/gdddns/init.d/* $KSROOT/init.d
+cp -rf /tmp/gdddns/scripts/* $KSROOT/scripts/
+cp -rf /tmp/gdddns/webs/* $KSROOT/webs/
+cp -rf /tmp/gdddns/init.d/* $KSROOT/init.d/
 
 chmod a+x $KSROOT/scripts/gdddns_*
 chmod a+x $KSROOT/init.d/S98gddns.sh
