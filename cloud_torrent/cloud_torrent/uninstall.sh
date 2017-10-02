@@ -15,6 +15,7 @@ do
 done
 
 # remove files
+rm -rf $KSROOT/bin/cloud-torrent
 rm -rf $KSROOT/scripts/cloud_torrent_*
 rm -rf $KSROOT/init.d/S77cloud_torrent.sh
 rm -rf /etc/rc.d/S77cloud_torrent.sh >/dev/null 2>&1
