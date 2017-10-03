@@ -469,7 +469,7 @@ function getSoftCenter(obj){
 						type: 1,
 						title: false,
 						closeBtn: false,
-						area: '550px;',
+						area: '500px;',
 						shade: 0.8,
 						scrollbar: false,
 						id: 'LAY_layuipro',
@@ -479,9 +479,8 @@ function getSoftCenter(obj){
 						content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
 									<b>欢迎来到koolshare软件中心！</b><br><br><br>\
 									如你所见，LEDE-X64软件中心又双叒叕更新了！<br>\
-									软件中心更新至0.3.0~<br><br>\
-									● 此次更新优化了软件中心插件图标和背景图片加载。<br>\
-									● 更新后建议需要ctrl + F5强制清除一次浏览器缓存~<br>\
+									软件中心更新至' + re.version + '~<br><br>\
+									● 更新日志详情<a style="color:#33CCCC" target="_blank" href="https://github.com/koolshare/ledesoft/blob/master/softcenter/Changelog.txt">请戳我了解~</a><br>\
 									● 赶快更新吧，少年！<br><br>\
 									我们的征途是星辰大海 ^_^</div>',
 						success: function(layero) {
