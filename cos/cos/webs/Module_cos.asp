@@ -191,7 +191,7 @@ $('#cos-fields').forms([
 { title: '● 本地设置' },
 { title: '本地同步目录', name:'cos_file', type: 'text', maxlen: 50, size: 50, value: dbus.cos_file || "/tmp/cosdir" },
 { title: '自动备份软件中心', multi: [ 
-	{ name:'cos_backup',type: 'checkbox', value: dbus.cos_backup , suffix: ' &nbsp;&nbsp;' },
+	{ name:'cos_backup',type: 'checkbox', value: ((dbus.cos_backup == '1')? 1:0), suffix: ' &nbsp;&nbsp;' },
 	{ name: 'cos_hour', type: 'select', options: option_backup_hour, value: dbus.cos_hour, suffix: '<lable id="cos_hour_suf">自动备份</lable>', prefix: '<span id="cos_hour_pre" class="help-block"><lable>每天</lable></span>' },
 	{ name: 'cos_backupall', type: 'select', options: option_backup_all, value: dbus.cos_backupall },
 	{ suffix: ' <button id="backup_now" onclick="restore_now(1);" class="btn btn-primary">立即备份</button>' }

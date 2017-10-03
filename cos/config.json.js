@@ -1,9 +1,9 @@
 {
-"version":"0.2",
-"md5":"d7d8eaad6b570b0c0c15fe41daf0163b",
+"version":"0.3",
+"md5":"5047e07b86231230904fe37e5580ad44",
 "home_url":"Module_cos.asp",
 "title":"腾讯云存储",
 "description":"软件中心自动云备份和恢复",
-"changelog":"增加更多地域选择",
-"build_date":"2017-10-02_23:34:07"
+"changelog":"",
+"build_date":"2017-10-03_09:33:19"
 }
