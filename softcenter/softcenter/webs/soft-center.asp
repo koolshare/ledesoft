@@ -445,21 +445,14 @@ function _formatData(name,mod){
 		}
 	};
 }
-function CheckImgExists(imgurl) {
-  var ImgObj = new Image(); //判断图片是否存在
-  ImgObj.src = imgurl;
-  //没有图片，则返回-1
-  if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
-    return true;
-  } else {
-    return false;
-  }
-}
+
 function getSoftCenter(obj){
 	$.ajax({
 		url:softcenterUrl+"/softcenter/app.json.js",
 		dataType:dataTypeX,  
-		method: 'GET', 
+		method: 'GET',
+		async: true,
+		cache: false,
 		success:function(re) {
 			var appObject={};
 			var vhtml1 = "";
@@ -472,12 +465,11 @@ function getSoftCenter(obj){
 			$(".loader").show();
 			if (locversion != onlineversion) {
 				$("#update").show();
-				
 					layer.open({
 						type: 1,
 						title: false,
 						closeBtn: false,
-						area: '500px;',
+						area: '550px;',
 						shade: 0.8,
 						scrollbar: false,
 						id: 'LAY_layuipro',
@@ -485,12 +477,13 @@ function getSoftCenter(obj){
 						btnAlign: 'c',
 						moveType: 1,
 						content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
-								<b>欢迎来到koolshare软件中心！</b><br><br><br>\
-								如你所见,LEDE-X64软件中心又双叒叕更新了！<br>\
-								软件中心更新至0.2.8~<br><br>\
-								此次更新修复了版本号过低的bug，同时引入了一些新的bug。<br>\
-								赶快更新吧，少年！<br><br>\
-								我们的征途是星辰大海 ^_^</div>',
+									<b>欢迎来到koolshare软件中心！</b><br><br><br>\
+									如你所见，LEDE-X64软件中心又双叒叕更新了！<br>\
+									软件中心更新至0.3.0~<br><br>\
+									● 此次更新优化了软件中心插件图标和背景图片加载。<br>\
+									● 更新后建议需要ctrl + F5强制清除一次浏览器缓存~<br>\
+									● 赶快更新吧，少年！<br><br>\
+									我们的征途是星辰大海 ^_^</div>',
 						success: function(layero) {
 							var btn = layero.find('.layui-layer-btn');
 							$(".layui-layer-btn0").click(function () {
@@ -572,18 +565,14 @@ function getSoftCenter(obj){
 						}else{
 							appButton = '<button type="button" value="'+appname+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
 						}
-						//appimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
-						//bgimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
-						//if(!CheckImgExists(bgimg)){
+						appimg1 = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
+						bgimg1 = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
 						bgimg = '/res/icon-'+appname+'-bg.png';
-						//}
-						//if(!CheckImgExists(appimg)){
 						appimg = '/res/icon-'+appname+'.png';
-						//}
-						vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
+						vhtml1 += '<div class="apps" style="background:url('+bgimg1+'), url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
 						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
-								'<img class="appimg" src="'+appimg+'"/></div>'+
+								'<img class="appimg" src="'+appimg1+'" onerror="this.onerror=null;this.src=\'' + appimg + '\';"/></div>'+
 								'<div class="app-name"><p style="margin-top:13px">'+title+'</p><p style="margin-top:13px">'+description+'</p></div>'+
 							'</a>'+
 							'<div class="appDesc">'+
@@ -866,18 +855,20 @@ function init_soft(){
 }
 
 function layer_show(){
-		//layer.msg('欢迎来到koolshare LEDE-X64 软件中心！');
+		// layer.msg('欢迎来到koolshare LEDE-X64 软件中心！');
 			
 		//layer.alert('内容', {
 		//	icon: 1,
 		//	skin: 'layer-ext-moon'
 		//})
 		$('#github_png').on('click', function() {
+			//iframe层-父子操作
 			layer.open({
-				type: 1,
-				area: ['600px', '360px'],
-				shadeClose: true, //点击遮罩关闭
-				content: '\<\div style="padding:20px;">点我干嘛？\<\/div>'
+			  type: 2,
+			  area: ['750px', '550px'],
+			  fixed: false, //不固定
+			  maxmin: true,
+			  content: 'http://ip111.cn/'
 			});
 		});
 }
