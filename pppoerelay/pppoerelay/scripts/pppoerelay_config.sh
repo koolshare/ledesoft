@@ -12,7 +12,7 @@ start_pppoerelay(){
 		else
 			landev=$(uci get network.lan.ifname)
 		fi
-		pppoe-relay -S $pppoerelay_dev -C $landev
+		pppoe-relay -F -S $pppoerelay_dev -C $landev -n $pppoerelay_sesssions -i $pppoerelay_time&
 	fi
 }
 

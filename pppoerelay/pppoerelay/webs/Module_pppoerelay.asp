@@ -69,6 +69,8 @@ function verifyFields(focused, quiet){
 function save(){
 	Apps.pppoerelay_enable = E('_pppoerelay_enable').checked ? '1':'0';
 	Apps.pppoerelay_dev = E('_pppoerelay_dev').value;
+	Apps.pppoerelay_sesssions = E('_pppoerelay_sesssions').value;
+	Apps.pppoerelay_time = E('_pppoerelay_time').value;
 	if(Apps.pppoerelay_dev == ""){
 		alert("填写的信息不全，请检查后再提交！");
 		return false;
@@ -124,7 +126,9 @@ function save(){
 $('#pppoerelay-fields').forms([
 { title: '开启PPPoE Relay', name: 'pppoerelay_enable', type: 'checkbox', value: ((Apps.pppoerelay_enable == '1')? 1:0)},
 { title: 'PPPoE Relay运行状态', text: '<font id="pppoerelay_status" name=pppoerelay_status color="#1bbf35">正在获取运行状态...</font>' },
-{ title: '要穿透的连接光猫的网卡名称', name: 'pppoerelay_dev', type: 'text', maxlen: 15, size: 15, value: Apps.pppoerelay_dev || 'eth0', suffix: '如：eth0，每次只能穿透一个设备。' }
+{ title: '要穿透的连接光猫的网卡名称', name: 'pppoerelay_dev', type: 'text', maxlen: 15, size: 15, value: Apps.pppoerelay_dev || 'eth0', suffix: '如：eth0，每次只能穿透一个设备。' },
+{ title: '最大连接数', name: 'pppoerelay_sesssions', type: 'text', maxlen: 5, size: 5, value: Apps.pppoerelay_sesssions || '64' },
+{ title: '连接超时', name: 'pppoerelay_time', type: 'text', maxlen: 5, size: 5, value: Apps.pppoerelay_time || '60' }
 ]);
 </script>
 </div>
