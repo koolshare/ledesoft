@@ -56,15 +56,15 @@
             "version": "1.0.7"
         }, 
         {
-            "build_date": "2017-10-08_21:20:41", 
+            "build_date": "2017-10-09_22:23:58", 
             "changelog": "", 
             "description": "增强路由NAT能力", 
             "home_url": "Module_sfe.asp", 
-            "md5": "29db4467b00a218d4a7599e87e6ed524", 
+            "md5": "e2b8501f3b232ccd1a9ea0e83537d6a2", 
             "name": "sfe", 
             "tar_url": "sfe/sfe.tar.gz", 
-            "title": "Fast Classifier", 
-            "version": "0.1"
+            "title": "SFE快速转发引擎", 
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-09_18:29:47", 

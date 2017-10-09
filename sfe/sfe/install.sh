@@ -22,7 +22,7 @@ chmod 755 $KSROOT/scripts/sfe*
 dbus set softcenter_module_sfe_description=增强路由NAT能力
 dbus set softcenter_module_sfe_install=1
 dbus set softcenter_module_sfe_name=sfe
-dbus set softcenter_module_sfe_title="Fast Classifier"
+dbus set softcenter_module_sfe_title="SFE快速转发引擎"
 dbus set softcenter_module_sfe_version=0.1
 
 sleep 1

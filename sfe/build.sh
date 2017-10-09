@@ -1,8 +1,8 @@
 #!/bin/sh
 
 MODULE=sfe
-VERSION=0.1
-TITLE="Fast Classifier"
+VERSION=0.2
+TITLE="SFE快速转发引擎"
 DESCRIPTION=增强路由NAT能力
 HOME_URL=Module_sfe.asp
 
