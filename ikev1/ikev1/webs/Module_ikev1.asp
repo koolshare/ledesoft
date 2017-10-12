@@ -222,8 +222,6 @@ No part of this file may be used without permission.
 					{ title: '开启IPSEC服务器', name:'ikev1_enable',type:'checkbox',value: dbus.ikev1_enable == 1 },
 					{ title: '运行状态', text: '<font id="_ikev1_status" name=_ikev1_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '预共享密钥PSK', name:'ikev1_psk',type:'text', maxlen: 20, size: 20, value: dbus.ikev1_psk || 'koolShare867' },
-					{ title: '客户端分配IP段', name:'ikev1_ip',type:'text', maxlen: 20, size: 20, value: dbus.ikev1_ip || '192.168.167.0/24' },
-					{ title: '客户端DNS', name:'ikev1_dns',type:'text', maxlen: 40, size: 40, value: dbus.ikev1_dns || '223.5.5.5,8.8.8.8' },
 					{ title: '用户名', name:'ikev1_user',type:'text', maxlen: 20, size: 20,value: dbus.ikev1_user },
 					{ title: '密码', name:'ikev1_passwd',type:'password', maxlen: 20, size: 20, value: dbus.ikev1_passwd, suffix: '<SPAN id=psclick><A href="javascript:ps()">显示密码</A></SPAN>' },
 					]);

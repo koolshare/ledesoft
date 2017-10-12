@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=ikev1
-VERSION=0.2
+VERSION=0.3
 TITLE=IPsec服务器
 DESCRIPTION=高安全的企业VPN服务器
 HOME_URL=Module_ikev1.asp
