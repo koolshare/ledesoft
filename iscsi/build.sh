@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=iscsi
-VERSION=0.4
+VERSION=0.5
 TITLE=iSCSI服务器
 DESCRIPTION=稳定高效的共享磁盘
 HOME_URL=Module_iscsi.asp

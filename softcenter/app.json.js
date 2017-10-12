@@ -120,15 +120,15 @@
             "version": "1.7"
         }, 
         {
-            "build_date": "2017-10-01_16:23:02", 
+            "build_date": "2017-10-12_10:57:33", 
             "changelog": "", 
             "description": "Debian系统和Unifi控制器", 
             "home_url": "Module_unifi.asp", 
-            "md5": "267b20ae2fb551610d281f0939f0dece", 
+            "md5": "2ef8c281664d666a0d4744a0f6d1ebbf", 
             "name": "unifi", 
             "tar_url": "unifi/unifi.tar.gz", 
             "title": "Unifi Controller", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-22_00:21:46", 
@@ -245,15 +245,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-11_21:11:11", 
+            "build_date": "2017-10-12_11:01:32", 
             "changelog": "", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "e07dc660600f97c9742d8b7cd0c85f79", 
+            "md5": "8931655a65b8592511387cf22c003421", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 
@@ -288,15 +288,15 @@
             "version": "1.8"
         }, 
         {
-            "build_date": "2017-09-23_10:43:19", 
+            "build_date": "2017-10-12_11:01:40", 
             "changelog": "", 
             "description": "自动化部署WEB环境", 
             "home_url": "Module_lnmp.asp", 
-            "md5": "9371ce7308b143b9c8135baf316bed21", 
+            "md5": "c11f11e5c7389d64b0a445149d79ce60", 
             "name": "lnmp", 
             "tar_url": "lnmp/lnmp.tar.gz", 
             "title": "LNMP", 
-            "version": "0.4"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-09-10_23:08:06", 
@@ -309,15 +309,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-09-26_23:02:22", 
+            "build_date": "2017-10-12_11:02:55", 
             "changelog": "", 
             "description": "稳定高效的共享磁盘", 
             "home_url": "Module_iscsi.asp", 
-            "md5": "eb49d7f3c8c925103dd81f945d83929c", 
+            "md5": "bce7398c37f6797ca4fcf6c874490df6", 
             "name": "iscsi", 
             "tar_url": "iscsi/iscsi.tar.gz", 
             "title": "iSCSI服务器", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-09-19_16:15:06", 

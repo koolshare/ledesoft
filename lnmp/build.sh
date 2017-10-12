@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=lnmp
-VERSION=0.4
+VERSION=0.6
 TITLE=LNMP
 DESCRIPTION=自动化部署WEB环境
 HOME_URL=Module_lnmp.asp
