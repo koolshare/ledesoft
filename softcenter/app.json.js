@@ -1,15 +1,15 @@
 {
     "apps": [
         {
-            "build_date": "2017-10-03_09:33:19", 
+            "build_date": "2017-10-12_15:16:43", 
             "changelog": "", 
             "description": "软件中心自动云备份和恢复", 
             "home_url": "Module_cos.asp", 
-            "md5": "5047e07b86231230904fe37e5580ad44", 
+            "md5": "1af7f760d2a33089f2c543213ec8af8b", 
             "name": "cos", 
             "tar_url": "cos/cos.tar.gz", 
             "title": "腾讯云存储", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-10-02_22:27:11", 
@@ -320,11 +320,11 @@
             "version": "0.5"
         }, 
         {
-            "build_date": "2017-09-19_16:15:06", 
+            "build_date": "2017-10-12_15:18:30", 
             "changelog": "", 
             "description": "小巧安全的FTP服务器", 
             "home_url": "Module_ftp.asp", 
-            "md5": "38a5ff500b2b87085ed25dcda559183f", 
+            "md5": "4dcc993dd617ed88a3db1938aad0aa06", 
             "name": "ftp", 
             "tar_url": "ftp/ftp.tar.gz", 
             "title": "FTP服务器", 
