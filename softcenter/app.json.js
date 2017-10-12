@@ -245,15 +245,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-12_15:14:33", 
+            "build_date": "2017-10-12_15:37:04", 
             "changelog": "", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "51304e3329019a3d4e2c2cddf7da78aa", 
+            "md5": "7d04380304c4f6852848b6611af538dd", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 
