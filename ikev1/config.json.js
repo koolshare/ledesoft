@@ -1,9 +1,9 @@
 {
-"version":"0.4",
-"md5":"7d04380304c4f6852848b6611af538dd",
+"version":"0.5",
+"md5":"de0ad8a0578b30322fc448a815d19535",
 "home_url":"Module_ikev1.asp",
 "title":"IPsec服务器",
 "description":"高安全的企业VPN服务器",
 "changelog":"",
-"build_date":"2017-10-12_15:37:04"
+"build_date":"2017-10-12_15:38:55"
 }

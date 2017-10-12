@@ -136,8 +136,6 @@ No part of this file may be used without permission.
 			E('save-button').disabled = true;
 			// collect basic data
 			dbus.ikev1_enable = E('_ikev1_enable').checked ? '1':'0';
-			dbus.ikev1_dns = E('_ikev1_dns').value;
-			dbus.ikev1_ip = E('_ikev1_ip').value;
 			dbus.ikev1_passwd = E('_ikev1_passwd').value;
 			dbus.ikev1_psk = E('_ikev1_psk').value;
 			dbus.ikev1_user = E('_ikev1_user').value;
