@@ -120,15 +120,15 @@
             "version": "1.7"
         }, 
         {
-            "build_date": "2017-10-12_10:57:33", 
+            "build_date": "2017-10-13_10:50:08", 
             "changelog": "", 
             "description": "Debian系统和Unifi控制器", 
             "home_url": "Module_unifi.asp", 
-            "md5": "2ef8c281664d666a0d4744a0f6d1ebbf", 
+            "md5": "815f9c6c7aad452a4a24f6686b2bef3c", 
             "name": "unifi", 
             "tar_url": "unifi/unifi.tar.gz", 
             "title": "Unifi Controller", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-09-22_00:21:46", 

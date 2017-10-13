@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=unifi
-VERSION=0.2
+VERSION=0.3
 TITLE="Unifi Controller"
 DESCRIPTION=Debian系统和Unifi控制器
 HOME_URL=Module_unifi.asp
