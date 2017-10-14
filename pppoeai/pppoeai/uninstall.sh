@@ -13,7 +13,8 @@ done
 
 sleep 1
 rm -rf $KSROOT/scripts/pppoeai*
-rm -rf $KSROOT/init.d/S00pppoeai
+rm -rf $KSROOT/init.d/S18pppoeai.sh
+rm -rf /etc/rc.d/S18pppoeai.sh
 rm -rf /etc/hotplug.d/iface/00-pppoeai >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_pppoeai.asp
 rm -rf $KSROOT/webs/res/icon-pppoeai.png

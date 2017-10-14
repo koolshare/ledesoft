@@ -34,6 +34,17 @@
             "version": "0.5"
         }, 
         {
+            "build_date": "2017-10-14_15:22:41", 
+            "changelog": "", 
+            "description": "仪表式查看路由详细状态", 
+            "home_url": "Module_netdata.asp", 
+            "md5": "3e5c0915964b29af4cd31cffe145c71a", 
+            "name": "netdata", 
+            "tar_url": "netdata/netdata.tar.gz", 
+            "title": "路由监控", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-14_21:15:10", 
             "changelog": "修复重启酷软空白", 
             "description": "快速修复当前固件中的BUG", 
@@ -88,14 +99,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2017-08-31_14:29:14", 
+            "build_date": "2017-10-14_15:22:19", 
+            "changelog": "", 
             "description": "拨号到指定号段", 
             "home_url": "Module_pppoeai.asp", 
-            "md5": "400b6626c7f979bfdb5a92e6548ed2a0", 
+            "md5": "5598fc0b73a1d195c4e4fce3e12a7761", 
             "name": "pppoeai", 
             "tar_url": "pppoeai/pppoeai.tar.gz", 
             "title": "拨号助手", 
-            "version": "0.7"
+            "version": "0.8"
         }, 
         {
             "build_date": "2017-09-29_18:06:01", 

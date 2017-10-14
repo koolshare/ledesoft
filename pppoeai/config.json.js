@@ -1,8 +1,9 @@
 {
-"version":"0.7",
-"md5":"400b6626c7f979bfdb5a92e6548ed2a0",
+"version":"0.8",
+"md5":"5598fc0b73a1d195c4e4fce3e12a7761",
 "home_url":"Module_pppoeai.asp",
 "title":"拨号助手",
 "description":"拨号到指定号段",
-"build_date":"2017-08-31_14:29:14"
+"changelog":"",
+"build_date":"2017-10-14_15:22:19"
 }
