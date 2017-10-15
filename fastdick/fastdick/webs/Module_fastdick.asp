@@ -14,10 +14,6 @@ setTimeout("get_run_status();", 1000);
 toggleVisibility('notes')
 var dbus;
 var softcenter = 0;
-var option_backup_hour = [];
-for(var i = 0; i < 24; i++){
-	option_backup_hour[i] = [i, i + "时"];
-}
 function init_fastdick(){
 	getAppData();
 	verifyFields(null, 1);
@@ -38,7 +34,7 @@ var dbusInfo;
 
 function get_run_status(){
 	var id1 = parseInt(Math.random() * 100000000);
-	var postData1 = {"id": id1, "method": "fastdick_status.sh", "params":[2], "fields": ""};
+	var postData1 = {"id": id1, "method": "fastdick_status.sh", "params":[], "fields": ""};
 	$.ajax({
 		type: "POST",
 		cache:false,
@@ -95,7 +91,7 @@ function save(){
 		return false;
 	}
 	var id = 1 + Math.floor(Math.random() * 6);
-	var postData = {"id": id, "method":'fastdick_config.sh', "params":["start"], "fields": dbus};
+	var postData = {"id": id, "method":'fastdick_config.sh', "params":[], "fields": dbus};
 	var success = function(data) {
 		$('#footer-msg').text(data.result);
 		$('#footer-msg').show();
