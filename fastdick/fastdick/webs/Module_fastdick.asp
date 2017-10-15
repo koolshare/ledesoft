@@ -89,6 +89,7 @@ function save(){
 	dbus.fastdick_enable = E('_fastdick_enable').checked ? '1':'0';
 	dbus.fastdick_user = E('_fastdick_user').value;
 	dbus.fastdick_passwd = E('_fastdick_passwd').value;
+	dbus.fastdick_sleep = E('_fastdick_sleep').value;
 	if(dbus.fastdick_user == "" || dbus.fastdick_passwd == "" ){
 		alert("填写的信息不全，请检查后再提交！");
 		return false;
