@@ -54,6 +54,8 @@ write_nat_start(){
 	  set firewall.ks_koolproxy.reload=1
 	  commit firewall
 	EOT
+	/etc/init.d/mia restart
+	/etc/init.d/webrestriction restart
 }
 
 remove_nat_start(){
