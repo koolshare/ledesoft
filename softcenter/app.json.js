@@ -322,6 +322,17 @@
             "version": "0.6"
         }, 
         {
+            "build_date": "2017-10-16_14:51:31", 
+            "changelog": "", 
+            "description": "锐捷等802.1x认证客户端", 
+            "home_url": "Module_minieap.asp", 
+            "md5": "5e30958696b145b68aee1920e37fa55b", 
+            "name": "minieap", 
+            "tar_url": "minieap/minieap.tar.gz", 
+            "title": "校园认证", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-10_23:08:06", 
             "description": "应对udp限速、屏蔽", 
             "home_url": "Module_udp2raw.asp", 
