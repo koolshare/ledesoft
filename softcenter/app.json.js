@@ -99,11 +99,11 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2017-10-17_17:20:32", 
-            "changelog": "修复密码不能使用特殊字符的问题", 
+            "build_date": "2017-10-17_17:26:35", 
+            "changelog": "修复密码不能使用特殊字符的BUG", 
             "description": "宽带上下行提速", 
             "home_url": "Module_fastdick.asp", 
-            "md5": "921a7ddbef299a3e7b97ef3bf51d4653", 
+            "md5": "2f90f11ce9387bc7b74da7f409648272", 
             "name": "fastdick", 
             "tar_url": "fastdick/fastdick.tar.gz", 
             "title": "迅雷快鸟", 

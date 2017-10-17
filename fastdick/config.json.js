@@ -1,9 +1,9 @@
 {
 "version":"0.4",
-"md5":"921a7ddbef299a3e7b97ef3bf51d4653",
+"md5":"2f90f11ce9387bc7b74da7f409648272",
 "home_url":"Module_fastdick.asp",
 "title":"迅雷快鸟",
 "description":"宽带上下行提速",
-"changelog":"修复密码不能使用特殊字符的bug",
-"build_date":"2017-10-17_17:20:32"
+"changelog":"",
+"build_date":"2017-10-17_17:26:35"
 }
