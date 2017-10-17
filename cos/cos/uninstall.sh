@@ -20,7 +20,6 @@ rm -rf /etc/rc.d/S99cos.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_cos.asp
 rm -rf $KSROOT/webs/res/icon-cos.png
 rm -rf $KSROOT/webs/res/icon-cos-bg.png
-rm -rf $KSROOT/scripts/uninstall_cos.sh
 
 dbus remove softcenter_module_cos_home_url
 dbus remove softcenter_module_cos_install
@@ -28,3 +27,5 @@ dbus remove softcenter_module_cos_md5
 dbus remove softcenter_module_cos_version
 dbus remove softcenter_module_cos_name
 dbus remove softcenter_module_cos_description
+
+rm -rf $KSROOT/scripts/uninstall_cos.sh

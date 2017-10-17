@@ -13,10 +13,17 @@ STOP=15
 source /koolshare/scripts/base.sh
 eval `dbus export aria2_`
 
+boot(){
+	[ "$aria2_enable" == "1" ] && {
+		sleep $aria2_sleep
+		/koolshare/scripts/aria2_config.sh
+	}
+}
+
 start(){
-	[ "$aria2_enable" == "1" ] && sh /koolshare/scripts/aria2_config.sh start
+	[ "$aria2_enable" == "1" ] && sh /koolshare/scripts/aria2_config.sh
 }
 
 stop(){
-	sh /koolshare/scripts/aria2_config.sh stop
+	sh /koolshare/scripts/aria2_config.sh
 }

@@ -3,7 +3,6 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export aria2`
 
-sh /koolshare/aria2/aria2_run.sh stop
 rm -rf /koolshare/aria2
 rm -rf /koolshare/scripts/aria2_config.sh
 rm -rf /koolshare/webs/Module_aria2.asp
@@ -13,3 +12,12 @@ for r in `dbus list aria2|cut -d"=" -f 1`
 do
 	dbus remove $r
 done
+
+dbus remove softcenter_module_aria2_home_url
+dbus remove softcenter_module_aria2_install
+dbus remove softcenter_module_aria2_md5
+dbus remove softcenter_module_aria2_version
+dbus remove softcenter_module_aria2_name
+dbus remove softcenter_module_aria2_description
+
+rm -rf $KSROOT/scripts/uninstall_aria2.sh

@@ -100,7 +100,7 @@
         }, 
         {
             "build_date": "2017-10-17_17:26:35", 
-            "changelog": "修复密码不能使用特殊字符的BUG", 
+            "changelog": "", 
             "description": "宽带上下行提速", 
             "home_url": "Module_fastdick.asp", 
             "md5": "2f90f11ce9387bc7b74da7f409648272", 
@@ -143,15 +143,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2017-09-27_22:44:45", 
+            "build_date": "2017-10-17_23:47:13", 
             "changelog": "", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "11d2d6faa96241c902f77d7971999412", 
+            "md5": "275b0c04e786caea325cb24e74520ae5", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "Aria2", 
-            "version": "1.7"
+            "version": "1.8"
         }, 
         {
             "build_date": "2017-10-13_10:50:08", 
