@@ -4,7 +4,7 @@ source $KSROOT/scripts/base.sh
 eval `dbus export aria2`
 
 rm -rf /koolshare/aria2
-rm -rf /koolshare/scripts/aria2_config.sh
+rm -rf /koolshare/scripts/aria2*
 rm -rf /koolshare/webs/Module_aria2.asp
 rm -rf /etc/rc.d/S96aria2.sh
 

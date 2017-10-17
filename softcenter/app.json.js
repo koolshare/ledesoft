@@ -143,11 +143,11 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2017-10-17_23:47:13", 
+            "build_date": "2017-10-17_23:55:47", 
             "changelog": "", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "275b0c04e786caea325cb24e74520ae5", 
+            "md5": "6d33d47de544959d9964769772c31536", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "Aria2", 
