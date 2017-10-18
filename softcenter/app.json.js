@@ -354,15 +354,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-10-17_11:34:19", 
+            "build_date": "2017-10-18_11:08:01", 
             "changelog": "", 
             "description": "修复迅雷不能下载的BUG", 
             "home_url": "Module_xldoc.asp", 
-            "md5": "79941ecd576ab083f721260b998e7cf8", 
+            "md5": "f364044d13f0917398079b05e472f90a", 
             "name": "xldoc", 
             "tar_url": "xldoc/xldoc.tar.gz", 
             "title": "救救迅雷", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-10-12_11:02:55", 

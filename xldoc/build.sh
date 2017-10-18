@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=xldoc
-VERSION=0.1
+VERSION=0.2
 TITLE=救救迅雷
 DESCRIPTION=修复迅雷不能下载的BUG
 HOME_URL=Module_xldoc.asp
