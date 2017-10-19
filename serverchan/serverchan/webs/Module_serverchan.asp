@@ -7,6 +7,9 @@
 	input[disabled]:hover{
     cursor:not-allowed;
 }
+.c-checkbox {
+	margin-left:-10px;
+}
 </style>
 	<script type="text/javascript">
 		var dbus;
@@ -139,21 +142,32 @@
 			}
 			var a = E('_serverchan_enable').checked;
 			E('_serverchan_status_check').disabled = !a;
-			
+			//---------------------------------------------
+			var e = (E('_serverchan_status_check').value == '0');
 			var f = (E('_serverchan_status_check').value == '1');
 			var g = (E('_serverchan_status_check').value == '2');
-			
+			var h = (E('_serverchan_status_check').value == '3');
+			//关闭
+			elem.display(elem.parentElem('gap4', 'span'), a && !e);
+			//定时
 			elem.display('_serverchan_check_time_pre', a && f);
 			elem.display('_serverchan_check_time_hour', a && f);
 			elem.display('_serverchan_check_time_min', a && f);
-			elem.display('_serverchan_check_time_suf', a && f);
-			
+			elem.display(elem.parentElem('gap1', 'span'), a && f);
+			//间隔
 			elem.display('_serverchan_check_inter_pre', a && g);
 			elem.display('_serverchan_check_inter_hour', a && g);
-			elem.display('_serverchan_check_inter_min', a && g);
-			elem.display('_serverchan_check_inter_suf', a && g);
-
-			
+			//自定义
+			elem.display('_serverchan_check_user_hour', a && h);
+			elem.display('_serverchan_check_user_min', a && h);
+			elem.display(elem.parentElem('gap2', 'span'), a && h);
+			elem.display(elem.parentElem('gap3', 'span'), a && h);
+			//---------------------------------------------
+			var i1 = (E('_serverchan_trigger_wb_switch').value == '1');
+			var i2 = (E('_serverchan_trigger_wb_switch').value == '2');
+			elem.display(PR('_serverchan_trigger_blacklist'), i1);
+			elem.display(PR('_serverchan_trigger_whitelist'), i2);
+			//---------------------------------------------
 			return true;
 		}
 		
@@ -177,7 +191,8 @@
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
 			}
 			//data from other element
-			var para_inp = ["serverchan_sckey", "serverchan_info_title", "serverchan_status_check", "serverchan_check_time_hour", "serverchan_check_time_min", "serverchan_check_inter_hour", "serverchan_check_inter_min"];
+			var para_inp = ["serverchan_sckey", "serverchan_info_title", "serverchan_status_check", "serverchan_check_time_hour", "serverchan_check_time_min", "serverchan_check_inter_hour", "serverchan_check_user_hour", "serverchan_check_user_min",
+							"serverchan_trigger_wb_switch"];
 			for (var i = 0; i < para_inp.length; i++) {
 				if (!E('_' + para_inp[i] ).value){
 					dbus[para_inp[i]] = "";
@@ -185,6 +200,16 @@
 					dbus[para_inp[i]] = E('_' + para_inp[i]).value;
 				}
 			}
+			// data need base64 encode
+			var paras_base64 = ["serverchan_trigger_blacklist", "serverchan_trigger_whitelist"];
+			for (var i = 0; i < paras_base64.length; i++) {
+				if (typeof(E('_' + paras_base64[i] ).value) == "undefined"){
+					dbus[paras_base64[i]] = "";
+				}else{
+					dbus[paras_base64[i]] = Base64.encode(E('_' + paras_base64[i]).value);
+				}
+			}
+			
 			if(s == 1){
 				arg="manual"
 			}else{
@@ -304,7 +329,6 @@
 		{ title: '开启serverchan', name: 'serverchan_enable', type: 'checkbox', value: dbus.serverchan_enable == 1},
 		{ title: 'SCKEY', name: 'serverchan_sckey', type: 'password', maxlen: 65, size: 65, value: dbus.serverchan_sckey,peekaboo: 1}
 		]);
-		$('#_serverchan_enable').parent().parent().css("margin-left","-10px");
 	</script>
 	</div>
 </div>
@@ -318,45 +342,50 @@
 		var option_check_time_hour = [];
 		var option_check_time_min = [];
 		var option_check_inter_hour = [];
-		var option_check_inter_min = [];
 		for(var i = 0; i < 24; i++){
 			option_check_time_hour[i] = [i, i + "时"];
 		}
 		for(var i = 0; i < 60; i++){
 			option_check_time_min[i] = [i, i + "分"];
 		}
-		for(var i = 0; i <= 72; i++){
+		for(var i = 0; i <= 12; i++){
 			option_check_inter_hour[i] = [i, i + "时"];
 		}
-		for(var i = 0; i < 60; i++){
-			option_check_inter_min[i] = [i, i + "分"];
-		}
+
 		$('#serverchan2-fields').forms([
-		{ title: '微信推送标题', name: 'serverchan_info_title', type: 'text', size: 55, value: dbus.serverchan_info_title ||"Lede X64 V2.2 路由状态消息：" },
-		{ title: '定时任务设定', multi: [
-			{ name:'serverchan_status_check',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.serverchan_status_check || "2", suffix: ' &nbsp;&nbsp;' },
-			{ name: 'serverchan_check_time_hour', type: 'select', options: option_check_time_hour, value: dbus.serverchan_check_time_hour || "11", prefix: '<span id="_serverchan_check_time_pre" class="help-block"><lable>每天</lable></span>', suffix: ' &nbsp;&nbsp;' },
-			{ name: 'serverchan_check_time_min', type: 'select', options: option_check_time_min, value: dbus.serverchan_check_time_min || "30", suffix: '<lable id="_serverchan_check_time_suf">发送</lable>' },
-			{ name: 'serverchan_check_inter_hour', type: 'select', options: option_check_inter_hour, value: dbus.serverchan_check_inter_hour || "6", prefix: '<span id="_serverchan_check_inter_pre" class="help-block"><lable>每隔</lable></span>', suffix: ' &nbsp;&nbsp;' },
-			{ name: 'serverchan_check_inter_min', type: 'select', options: option_check_inter_min, value: dbus.serverchan_check_inter_min || "0", suffix: '<lable id="_serverchan_check_inter_suf">发送</lable>' }
-		]},
-		{ title: '系统运行情况', name: 'serverchan_info_system', type: 'checkbox', value: dbus.serverchan_info_system == 1 },
-		{ title: '设备温度', name: 'serverchan_info_temp', type: 'checkbox', value: dbus.serverchan_info_temp == 1 },
-		{ title: 'wan信息', name: 'serverchan_info_wan', type: 'checkbox', value: dbus.serverchan_info_wan == 1 },
-		{ title: '客户端列表', multi: [
-			{ name: 'serverchan_info_lan', type: 'checkbox', value: dbus.serverchan_info_lan == 1 },
-			{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
-			{ name: 'serverchan_info_lan_macoff', type: 'checkbox', value: dbus.serverchan_info_lan_macoff == 1 }
-		]},
-		{ title: '$$状态', name: 'serverchan_info_ss', type: 'checkbox', value: dbus.serverchan_info_ss == 1 },
-		{ title: '软件中心插件信息', name: 'serverchan_info_softcenter', type: 'checkbox', value: dbus.serverchan_info_softcenter == 1 }
+			{ title: '微信推送标题', name: 'serverchan_info_title', type: 'text', size: 55, value: dbus.serverchan_info_title ||"Lede X64 V2.2 路由状态消息：" },
+			{ title: '定时任务设定', multi: [
+				{ name:'serverchan_status_check',type:'select',options:[['0','关闭'],['1','定时'],['2','间隔'],['3','自定义']],value: dbus.serverchan_status_check || "2", suffix: ' &nbsp;&nbsp;'},
+				//定时
+				{ name: 'serverchan_check_time_hour', type: 'select', options: option_check_time_hour, value: dbus.serverchan_check_time_hour || "11", prefix: '<span id="_serverchan_check_time_pre" class="help-block"><lable>每天</lable></span>'},
+				{ suffix: ' <lable id="gap1">&nbsp;&nbsp;</lable>' },
+				{ name: 'serverchan_check_time_min', type: 'select', options: option_check_time_min, value: dbus.serverchan_check_time_min || "30"},
+				//间隔
+				{ name: 'serverchan_check_inter_hour', type: 'select', options: option_check_inter_hour, value: dbus.serverchan_check_inter_hour || "6", prefix: '<span id="_serverchan_check_inter_pre" class="help-block"><lable>每隔</lable></span>' },
+				//自定义
+				{ name: 'serverchan_check_user_hour', type: 'text', size: 8, value: dbus.serverchan_check_user_hour||"8,17,22"},
+				{ suffix: ' <lable id="gap2">小时</lable>' },
+				{ name: 'serverchan_check_user_min', type: 'select', options: option_check_time_min, value: dbus.serverchan_check_user_min || "30"},
+				{ suffix: ' <lable id="gap3">分&nbsp;&nbsp;</lable>' },
+				//suffix
+				{ suffix: ' <lable id="gap4">发送</lable>' }
+			]},
+			{ title: '系统运行情况', name: 'serverchan_info_system', type: 'checkbox', value: dbus.serverchan_info_system == 1 },
+			{ title: '设备温度', name: 'serverchan_info_temp', type: 'checkbox', value: dbus.serverchan_info_temp == 1 },
+			{ title: 'wan信息', name: 'serverchan_info_wan', type: 'checkbox', value: dbus.serverchan_info_wan == 1 },
+			{ title: '客户端列表', multi: [
+				{ name: 'serverchan_info_lan', type: 'checkbox', value: dbus.serverchan_info_lan == 1 },
+				{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
+				{ name: 'serverchan_info_lan_macoff', type: 'checkbox', value: dbus.serverchan_info_lan_macoff == 1 }
+			]},
+			{ title: '$$状态', name: 'serverchan_info_ss', type: 'checkbox', value: dbus.serverchan_info_ss == 1 },
+			{ title: '软件中心插件信息', name: 'serverchan_info_softcenter', type: 'checkbox', value: dbus.serverchan_info_softcenter == 1 },
 		]);
-		$('#_serverchan_info_system').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_info_temp').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_info_wan').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_info_lan').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_info_ss').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_info_softcenter').parent().parent().css("margin-left","-10px");
+
+		E('_serverchan_check_user_hour').placeholder = "1,3,5,22";
+		E('_serverchan_check_user_hour').title = "填写说明:\n此处填写1-23之间任意小时\n用英文逗号间隔\n如：当天的8点、10点、15点则填入：8,10,15";
+
+		
 	</script>
 	<button type="button" value="Save" id="send-button" onclick="save('1')" class="btn btn-primary" style="float:right;">手动推送 <i class="icon-check"></i></button>
 	<span id="send-msg" style="display: block;height:35px;background:transparent;border: 0px solid #FFFFFF;float:right; margin-right:30px;margin-top:8px;"></span>
@@ -370,16 +399,20 @@
 	<div id="serverchan3-fields"></div>
 	<script type="text/javascript">
 		$('#serverchan3-fields').forms([
-		{ title: '网络重拨时', name: 'serverchan_trigger_ifup', type: 'checkbox', value: dbus.serverchan_trigger_ifup == 1 },
-		{ title: '设备上线时', multi: [
-			{ name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 },
-			{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
-			{ name: 'serverchan_trigger_dhcp_macoff', type: 'checkbox', value: dbus.serverchan_trigger_dhcp_macoff == 1 },
-			{ suffix: ' &nbsp;&nbsp;&nbsp;&nbsp;【提示：静态ip客户端不会提示】' }
-		]},
+			{ title: '网络重拨时', name: 'serverchan_trigger_ifup', type: 'checkbox', value: dbus.serverchan_trigger_ifup == 1 },
+			{ title: '设备上线时', multi: [
+				{ name: 'serverchan_trigger_dhcp', type: 'checkbox', value: dbus.serverchan_trigger_dhcp == 1 },
+				{ suffix: ' &nbsp;&nbsp;关闭mac地址显示' },
+				{ name: 'serverchan_trigger_dhcp_macoff', type: 'checkbox', value: dbus.serverchan_trigger_dhcp_macoff == 1 },
+				{ suffix: ' &nbsp;&nbsp;&nbsp;&nbsp;【提示：静态ip客户端不会提示】' }
+			]},
+			{ title: '黑白名单（设备上线）', name:'serverchan_trigger_wb_switch',type:'select',options:[['0','关闭'],['1','黑名单'],['2','白名单']],value: dbus.serverchan_trigger_wb_switch || "2"},
+			{ title: '<b>黑名单（设备上线）</b></br></br><font color="#B2B2B2">仅推送黑名单内的</br>一行一个，例如：</br>9C:B6:D0:18:56:13 #my-Pc</br>90:C7:D8:99:52:B6 #iPhone</font>', name: 'serverchan_trigger_blacklist', type: 'textarea', value: Base64.decode(dbus.serverchan_trigger_blacklist)||"", style: 'width: 100%; height:150px;' },
+			{ title: '<b>白名单（设备上线）</b></br></br><font color="#B2B2B2">白名单内的不推送</br>一行一个，例如：</br>9C:B6:D0:18:56:13 #my-Pc</br>90:C7:D8:99:52:B6 #iPhone</font>', name: 'serverchan_trigger_whitelist', type: 'textarea', value: Base64.decode(dbus.serverchan_trigger_whitelist)||"", style: 'width: 100%; height:150px;' }
+				
 		]);
-		$('#_serverchan_trigger_ifup').parent().parent().css("margin-left","-10px");
-		$('#_serverchan_trigger_dhcp').parent().parent().css("margin-left","-10px");
+		$("#_serverchan_trigger_blacklist").attr("spellcheck", "false");
+		$("#_serverchan_trigger_whitelist").attr("spellcheck", "false");
 	</script>
 	</div>
 </div>
