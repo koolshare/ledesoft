@@ -68,6 +68,10 @@ function verifyFields(focused, quiet){
 		elem.display(PR('kdisk_now2'), false);
 		elem.display(PR('kdisk_now3'), false);
 	}
+	if (!dbus.kdisk_step){
+		elem.display(PR('kdisk_now2'), false);
+		elem.display(PR('kdisk_now3'), false);
+	}
 	if (dbus.kdisk_step == 1){
 		elem.display(PR('kdisk_now1'), false);
 		elem.display(PR('kdisk_now3'), false);

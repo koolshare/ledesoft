@@ -208,11 +208,11 @@
             "version": "1.0.6"
         }, 
         {
-            "build_date": "2017-10-19_19:08:18", 
+            "build_date": "2017-10-19_19:17:34", 
             "changelog": "", 
             "description": "安装盘剩余空间挂载", 
             "home_url": "Module_kdisk.asp", 
-            "md5": "51fa00f4fac950bc5277aeeb88d4555b", 
+            "md5": "3432be91c2edd6ff241e4cea7020567a", 
             "name": "kdisk", 
             "tar_url": "kdisk/kdisk.tar.gz", 
             "title": "硬盘助手", 
