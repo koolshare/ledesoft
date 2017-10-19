@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=kdisk
-VERSION=0.1
+VERSION=0.2
 TITLE=硬盘助手
 DESCRIPTION=安装盘剩余空间挂载
 HOME_URL=Module_kdisk.asp
