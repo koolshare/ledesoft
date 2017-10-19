@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"51fa00f4fac950bc5277aeeb88d4555b",
+"home_url":"Module_kdisk.asp",
+"title":"硬盘助手",
+"description":"安装盘剩余空间挂载",
+"changelog":"",
+"build_date":"2017-10-19_19:08:18"
+}
