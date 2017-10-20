@@ -290,15 +290,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-12_15:38:55", 
-            "changelog": "", 
+            "build_date": "2017-10-20_17:50:53", 
+            "changelog": "√修复重启防火墙导致端口关闭", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "de0ad8a0578b30322fc448a815d19535", 
+            "md5": "e1e939aea6ff4087585686bdaba21065", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 

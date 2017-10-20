@@ -1,9 +1,9 @@
 {
-"version":"0.5",
-"md5":"de0ad8a0578b30322fc448a815d19535",
+"version":"0.6",
+"md5":"e1e939aea6ff4087585686bdaba21065",
 "home_url":"Module_ikev1.asp",
 "title":"IPsec服务器",
 "description":"高安全的企业VPN服务器",
-"changelog":"",
-"build_date":"2017-10-12_15:38:55"
+"changelog":"√修复重启防火墙导致端口关闭",
+"build_date":"2017-10-20_17:50:53"
 }

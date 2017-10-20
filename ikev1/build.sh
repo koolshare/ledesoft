@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=ikev1
-VERSION=0.5
+VERSION=0.6
 TITLE=IPsec服务器
 DESCRIPTION=高安全的企业VPN服务器
 HOME_URL=Module_ikev1.asp
+CHANGELOG="√修复重启防火墙导致端口关闭"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
@@ -13,7 +14,7 @@ DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 . $DIR/../softcenter/build_base.sh
 
 # build bin
-sh $DIR/build/build
+sh $DIR/build/build ikev1
 
 # change to module directory
 cd $DIR
