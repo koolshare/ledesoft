@@ -249,6 +249,17 @@
             "version": "1.1.5"
         }, 
         {
+            "build_date": "2017-10-21_20:56:20", 
+            "changelog": "", 
+            "description": "高效的BT、PT下载工具", 
+            "home_url": "Module_transmission.asp", 
+            "md5": "1dc3bf1cb10ba57fd61cd325f2a052db", 
+            "name": "transmission", 
+            "tar_url": "transmission/transmission.tar.gz", 
+            "title": "Transmission", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-09_18:30:46", 
             "description": "上下行带宽提速", 
             "home_url": "Module_kuainiao.asp", 
