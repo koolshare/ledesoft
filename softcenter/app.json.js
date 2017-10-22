@@ -208,6 +208,11 @@
             "version": "1.0.6"
         }, 
         {
+            "name": "node_modules", 
+            "tar_url": "node_modules/node_modules.tar.gz", 
+            "title": "node_modules"
+        }, 
+        {
             "build_date": "2017-10-19_20:43:20", 
             "changelog": "", 
             "description": "安装盘剩余空间挂载", 
@@ -301,15 +306,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-20_17:50:53", 
-            "changelog": "√修复重启防火墙导致端口关闭", 
+            "build_date": "2017-10-22_19:32:26", 
+            "changelog": "√允许多终端同一账号登入", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "e1e939aea6ff4087585686bdaba21065", 
+            "md5": "0fd4f40ea8a7561ead69a6337b020fd7", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.6"
+            "version": "0.7"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 

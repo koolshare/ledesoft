@@ -1,9 +1,9 @@
 {
-"version":"0.6",
-"md5":"e1e939aea6ff4087585686bdaba21065",
+"version":"0.7",
+"md5":"0fd4f40ea8a7561ead69a6337b020fd7",
 "home_url":"Module_ikev1.asp",
 "title":"IPsec服务器",
 "description":"高安全的企业VPN服务器",
-"changelog":"√修复重启防火墙导致端口关闭",
-"build_date":"2017-10-20_17:50:53"
+"changelog":"√允许多终端同一账号登入",
+"build_date":"2017-10-22_19:32:26"
 }
