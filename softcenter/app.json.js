@@ -254,15 +254,15 @@
             "version": "1.1.5"
         }, 
         {
-            "build_date": "2017-10-21_20:56:20", 
-            "changelog": "", 
+            "build_date": "2017-10-23_17:07:53", 
+            "changelog": "√修复重启防火墙规则可能丢失的BUG", 
             "description": "高效的BT、PT下载工具", 
             "home_url": "Module_transmission.asp", 
-            "md5": "1dc3bf1cb10ba57fd61cd325f2a052db", 
+            "md5": "f4624eeae3ff1472629150d0976a1403", 
             "name": "transmission", 
             "tar_url": "transmission/transmission.tar.gz", 
             "title": "Transmission", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-09_18:30:46", 
@@ -306,15 +306,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-22_19:32:26", 
-            "changelog": "√允许多终端同一账号登入", 
+            "build_date": "2017-10-23_17:06:31", 
+            "changelog": "√修复重启防火墙规则可能丢失的BUG", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "0fd4f40ea8a7561ead69a6337b020fd7", 
+            "md5": "49176e2e458365a1af7baf6ae2d91fa4", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.7"
+            "version": "0.8"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 

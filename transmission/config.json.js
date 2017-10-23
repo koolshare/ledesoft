@@ -1,9 +1,9 @@
 {
-"version":"0.1",
-"md5":"1dc3bf1cb10ba57fd61cd325f2a052db",
+"version":"0.2",
+"md5":"f4624eeae3ff1472629150d0976a1403",
 "home_url":"Module_transmission.asp",
 "title":"Transmission",
 "description":"高效的BT、PT下载工具",
-"changelog":"",
-"build_date":"2017-10-21_20:56:20"
+"changelog":"√修复重启防火墙规则可能丢失的BUG",
+"build_date":"2017-10-23_17:07:53"
 }

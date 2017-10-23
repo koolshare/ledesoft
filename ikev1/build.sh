@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=ikev1
-VERSION=0.7
+VERSION=0.8
 TITLE=IPsec服务器
 DESCRIPTION=高安全的企业VPN服务器
 HOME_URL=Module_ikev1.asp
-CHANGELOG="√允许多终端同一账号登入"
+CHANGELOG="√修复重启防火墙规则可能丢失的BUG"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
