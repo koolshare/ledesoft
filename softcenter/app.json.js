@@ -121,15 +121,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2017-10-14_15:22:19", 
-            "changelog": "", 
+            "build_date": "2017-10-24_10:45:52", 
+            "changelog": "√修复启动时导致插件锁定的BUG", 
             "description": "拨号到指定号段", 
             "home_url": "Module_pppoeai.asp", 
-            "md5": "5598fc0b73a1d195c4e4fce3e12a7761", 
+            "md5": "c518f2e044148006d147cbde20af7c4e", 
             "name": "pppoeai", 
             "tar_url": "pppoeai/pppoeai.tar.gz", 
             "title": "拨号助手", 
-            "version": "0.8"
+            "version": "0.9"
         }, 
         {
             "build_date": "2017-09-29_18:06:01", 
@@ -206,11 +206,6 @@
             "tar_url": "udpspeeder/udpspeeder.tar.gz", 
             "title": "UDPspeeder", 
             "version": "1.0.6"
-        }, 
-        {
-            "name": "node_modules", 
-            "tar_url": "node_modules/node_modules.tar.gz", 
-            "title": "node_modules"
         }, 
         {
             "build_date": "2017-10-19_20:43:20", 

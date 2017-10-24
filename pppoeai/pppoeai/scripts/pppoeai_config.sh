@@ -21,17 +21,17 @@ get_count_mode(){
 
 start_pppoeai(){
 	local IP
-	local pppdcheck
 	#循环开始
+	local pppdcheck=`ps |grep pppd|grep -v grep|wc -l`
+	if [ "$pppdcheck" == "0" ]; then
+		cat /dev/null >$LOGFILE
+		echo_date "未检测到拨号程序，请先设置好wan口并拨号成功再运行拨号助手！"
+		rm -rf /tmp/pppoeai.locker
+		echo XU6J03M6 >> $LOGFILE
+		exit 0
+	fi
 	while :
 		do
-		pppdcheck=$(ps |grep pppd|grep -v grep |wc -l)
-		if [ "$pppdcheck" == "0" ]; then
-			cat /dev/null >$LOGFILE
-			echo_date "未检测到拨号程序，请先设置好wan口并拨号成功再运行拨号助手！"
-			echo XU6J03M6 >> $LOGFILE
-			exit 0
-		fi
 		#获取IP头
 		[ "$pppoeai_count" == "1" ] && current_ip=$(ifconfig |grep -A1 "ppp" |grep "inet" |awk -F  P-t-P '{print $1}'|awk -F \: '{print $2}'|awk -vOFS="." -F . '{print $1}'|head -1)
 		[ "$pppoeai_count" == "2" ] && current_ip=$(ifconfig |grep -A1 "ppp" |grep "inet" |awk -F  P-t-P '{print $1}'|awk -F \: '{print $2}'|awk -vOFS="." -F . '{print $1,$2}'|head -1)
@@ -47,7 +47,7 @@ start_pppoeai(){
 			#获取IP头是否正确
 			if [ -n "$match_check" ]; then
 				echo_date "太棒了，匹配成功，完成本次进程!"
-				rm -rf /tmp/fwupdate.locker
+				rm -rf /tmp/pppoeai.locker
 				echo XU6J03M6 >> $LOGFILE
 				exit 0
 			else
@@ -92,11 +92,11 @@ del_start_up(){
 
 
 if [ "$pppoeai_enable" == "1" ]; then
-	[ -f "/tmp/fwupdate.locker" ] && exit 0
+	[ -f "/tmp/pppoeai.locker" ] && exit 0
 	cat /dev/null >$LOGFILE
 	del_start_up
 	creat_start_up
-	touch /tmp/fwupdate.locker
+	touch /tmp/pppoeai.locker
 	start_pppoeai >> $LOGFILE
  	echo XU6J03M6 >> $LOGFILE
   	http_response '服务已开启！页面将在3秒后刷新'

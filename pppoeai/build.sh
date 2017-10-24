@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=pppoeai
-VERSION=0.8
+VERSION=0.9
 TITLE=拨号助手
 DESCRIPTION=拨号到指定号段
 HOME_URL=Module_pppoeai.asp
+CHANGELOG="√修复启动时导致插件锁定的BUG"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
