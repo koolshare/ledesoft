@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=transmission
-VERSION=0.2
+VERSION=0.3
 TITLE=Transmission
 DESCRIPTION="高效的BT、PT下载工具"
 HOME_URL=Module_transmission.asp

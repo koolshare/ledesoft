@@ -12,7 +12,7 @@ do
 done
 
 sleep 1
-rm -rf $KSROOT/scripts/transmission*
+rm -rf $KSROOT/scripts/transmission_*
 rm -rf $KSROOT/webs/Module_transmission.asp
 rm -rf $KSROOT/webs/res/icon-transmission.png
 rm -rf $KSROOT/webs/res/icon-transmission-bg.png
