@@ -301,15 +301,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-10-23_17:06:31", 
+            "build_date": "2017-10-25_10:49:24", 
             "changelog": "√修复重启防火墙规则可能丢失的BUG", 
             "description": "高安全的企业VPN服务器", 
             "home_url": "Module_ikev1.asp", 
-            "md5": "49176e2e458365a1af7baf6ae2d91fa4", 
+            "md5": "b94276026e7bb06b14729997be280a48", 
             "name": "ikev1", 
             "tar_url": "ikev1/ikev1.tar.gz", 
             "title": "IPsec服务器", 
-            "version": "0.8"
+            "version": "0.9"
         }, 
         {
             "build_date": "2017-09-09_18:28:12", 
