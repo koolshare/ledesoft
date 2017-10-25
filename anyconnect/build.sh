@@ -3,7 +3,7 @@
 MODULE=anyconnect
 VERSION=0.1
 TITLE="AnyConnect Server"
-DESCRIPTION="方便在任何设备上安全地办公"
+DESCRIPTION="与你的网络无缝并行"
 HOME_URL=Module_anyconnect.asp
 CHANGELOG=""
 

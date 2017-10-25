@@ -11,7 +11,7 @@ cp /tmp/anyconnect/uninstall.sh $KSROOT/scripts/uninstall_anyconnect.sh
 
 chmod +x $KSROOT/scripts/anyconnect_*
 
-dbus set softcenter_module_anyconnect_description="方便在任何设备上办公"
+dbus set softcenter_module_anyconnect_description="与你的网络无缝并行"
 dbus set softcenter_module_anyconnect_install=1
 dbus set softcenter_module_anyconnect_name=anyconnect
 dbus set softcenter_module_anyconnect_title="AnyConnect Server"

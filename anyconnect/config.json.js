@@ -1,9 +1,9 @@
 {
 "version":"0.1",
-"md5":"e7f552abe91a3053ae4c9f7a7748ee4f",
+"md5":"3c90364574fdadd57c76743974640ead",
 "home_url":"Module_anyconnect.asp",
 "title":"AnyConnect Server",
-"description":"方便在任何设备上安全地办公",
+"description":"与你的网络无缝并行",
 "changelog":"",
-"build_date":"2017-10-26_00:20:52"
+"build_date":"2017-10-26_00:27:56"
 }

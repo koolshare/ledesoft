@@ -246,7 +246,7 @@ No part of this file may be used without permission.
 		<div class="heading">AnyConnect Server<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
-				AnyConnect为思科推出的VPN客户端，目前已有Windows、Android、iOS、OS X、Ubuntu、WebOS等操作系统的客户端。
+				AnyConnect为思科推出的企业VPN解决方案，目前已有Windows、Android、iOS、OS X、Ubuntu、WebOS等操作系统的客户端。
 			</span>
 		</div>	
 	</div>
