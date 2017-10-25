@@ -344,6 +344,17 @@
             "version": "1.8"
         }, 
         {
+            "build_date": "2017-10-26_00:20:52", 
+            "changelog": "", 
+            "description": "方便在任何设备上安全地办公", 
+            "home_url": "Module_anyconnect.asp", 
+            "md5": "e7f552abe91a3053ae4c9f7a7748ee4f", 
+            "name": "anyconnect", 
+            "tar_url": "anyconnect/anyconnect.tar.gz", 
+            "title": "AnyConnect Server", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-12_11:01:40", 
             "changelog": "", 
             "description": "自动化部署WEB环境", 
