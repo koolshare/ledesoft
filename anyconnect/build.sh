@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=anyconnect
-VERSION=0.2
+VERSION=0.3
 TITLE="AnyConnect Server"
 DESCRIPTION="与你的网络无缝并行"
 HOME_URL=Module_anyconnect.asp
-CHANGELOG="优化web显示"
+CHANGELOG="修复初始安装后配置没有生效的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
