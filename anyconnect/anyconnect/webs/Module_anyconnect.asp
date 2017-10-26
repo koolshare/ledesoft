@@ -19,16 +19,36 @@ No part of this file may be used without permission.
 		var noChange = 0;
 		var reload = 0;
 		tabSelect('app1');
-		
+		//============================================
+		var user = new TomatoGrid();
+		user.populate = function(){
+			for ( var i = 1; i <= dbus["anyconnect_user_nu"]; ++i ) {
+				this.insertData( -1, [
+				dbus["anyconnect_user_id_" + i] || "", 
+				dbus["anyconnect_user_wip_" + i] || "", 
+				dbus["anyconnect_user_vip_" + i] || "", 
+				dbus["anyconnect_user_time_" + i] || "", 
+				dbus["anyconnect_user_cipher_" + i] || "", 
+				dbus["anyconnect_user_status_" + i] || ""
+				] );
+			}
+		}
+		user.setup = function() {
+			this.init( 'user-grid', 'sort' );
+			this.populate();
+			this.headerSet( [ 'ID', '远程IP地址', '内部IP地址', '连接时间', '加密', '状态' ] );
+			this.sort( 1 );
+		}
 		//============================================
 		function init_anyconnect(){
 			verifyFields();
 			user.setup();
+			setTimeout("get_run_status();", 1000);
+			setInterval("refresh_table();", 5000);
 			$("#_anyconnect_log").click(
 				function() {
 					x = -1;
 			});
-			setTimeout("get_run_status();", 1000);
 		}
 
 		function get_local_data(){
@@ -38,15 +58,30 @@ No part of this file may be used without permission.
 			  	dataType: "json",
 			  	async:false,
 			 	success: function(data){
-			 	dbus = data.result[0];
-				user.removeAllData();
-				user.populate();
-				user.resort();
+			 		dbus = data.result[0];
 			  	}
 			});
 		}
 
-			
+		function refresh_table(){
+			$.ajax({
+			  	type: "GET",
+			 	url: "/_api/anyconnect_",
+			  	dataType: "json",
+			  	async:false,
+			 	success: function(data){
+			 	dbus = data.result[0];
+				var data = user.getAllData();
+				if(data.length > 0){
+					user.removeAllData();
+				}
+				user.populate();
+				user.resort();
+				get_run_status();
+			  	}
+			});
+		}
+
 		function get_run_status(){
 			var id1 = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id1, "method": "anyconnect_status.sh", "params":[], "fields": ""};
@@ -68,7 +103,7 @@ No part of this file may be used without permission.
 						return false;
 					}
 					document.getElementById("_anyconnect_status").innerHTML = "获取运行信息失败！";
-					setTimeout("get_run_status();", 2000);
+					//setTimeout("get_run_status();", 2000);
 				}
 			});
 		}
@@ -77,7 +112,6 @@ No part of this file may be used without permission.
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 			$('#'+Outtype).show();
 		}
-
 
 		function toggleVisibility(whichone) {
 			if(E('sesdiv' + whichone).style.display=='') {
@@ -92,9 +126,12 @@ No part of this file may be used without permission.
 		}
 
 		function verifyFields(){
-			if (dbus.anyconnect_enable == 1){
-				//elem.display(PR('kdisk_now1'), false);
+			if (E("_anyconnect_enable").checked){
+				$("#save-button").html("开始运行")
+			}else{
+				$("#save-button").html("停止运行")
 			}
+			return true;
 		}
 
 		function tabSelect(obj){
@@ -119,23 +156,11 @@ No part of this file may be used without permission.
 				elem.display('cancel-button', true);
 			}
 			if( obj=='app2' ){
-				setTimeout("get_run_status();", 400);
-				setTimeout("get_local_data();", 400);
+				//setTimeout("get_run_status();", 400);
+				//setTimeout("refresh_table();", 400);
 				elem.display('save-button', false);
 				elem.display('cancel-button', false);
 			}
-		}
-		
-		function ps(){
-			if (E('_anyconnect_passwd').type="password")
-				E('_anyconnect_passwd').type="txt";
-				psclick.innerHTML="<a href=\"javascript:txt()\">隐藏密码</a>"
-		}
-		
-		function txt(){
-			if (E('_anyconnect_passwd').type="text")
-			E('_anyconnect_passwd').type="password";
-			psclick.innerHTML="<a href=\"javascript:ps()\">显示密码</a>"
 		}
 
 		function save(){
@@ -176,30 +201,24 @@ No part of this file may be used without permission.
 		}
 
 		function download_cert(){
-			location.href = "http://" + location.hostname + "/_temp/ca.crt.txt";
+			var postData = {"id": parseInt(Math.random() * 100000000), "method": "dummy_script.sh", "params":[], "fields": "" };
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					var a = document.createElement('A');
+					a.href = "/files/ca.crt";
+					a.download = 'ca.crt';
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+				}
+			});
 		}
-
-		var user = new TomatoGrid();
-		
-		user.populate = function(){
-			for ( var i = 1; i <= dbus["anyconnect_user_nu"]; ++i ) {
-				this.insertData( -1, [
-				dbus["anyconnect_user_id_" + i] || "", 
-				dbus["anyconnect_user_wip_" + i] || "", 
-				dbus["anyconnect_user_vip_" + i] || "", 
-				dbus["anyconnect_user_time_" + i] || "", 
-				dbus["anyconnect_user_cipher_" + i] || "", 
-				dbus["anyconnect_user_status_" + i] || ""
-				] );
-			}
-		}
-		user.setup = function() {
-			this.init( 'user-grid', 'sort' );
-			this.populate();
-			this.headerSet( [ 'ID', '内部IP地址', '分配IP地址', '连接时间', '加密', '状态' ] );
-			this.sort( 1 );
-		};
-		
 		function get_log(){
 			$.ajax({
 				url: '/_temp/anyconnect_log.txt',
@@ -239,7 +258,6 @@ No part of this file may be used without permission.
 				}
 			});
 		}
-
 	</script>
 
 	<div class="box">
@@ -265,12 +283,13 @@ No part of this file may be used without permission.
 					{ title: '运行状态', text: '<font id="_anyconnect_status" name=_anyconnect_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '端口',name:'anyconnect_port',type:'text', maxlen: 5, size: 5,value: dbus.anyconnect_port || "4443" },
 					{ title: '用户名', name:'anyconnect_user',type:'text', maxlen: 20, size: 20, value: dbus.anyconnect_user || 'koolshare' },
-					{ title: '密码', name:'anyconnect_passwd',type:'password', maxlen: 20, size: 20, value: dbus.anyconnect_passwd, suffix: '<SPAN id=psclick><A href="javascript:ps()">显示密码</A></SPAN>' },
-					{ title: 'CA证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>&nbsp;&nbsp;<a class="kp_btn" href="http://koolshare.cn/thread-80430-1-1.html" target="_blank">【下载后去掉文件后缀.txt，根证书安装教程请参考KP】<a>' },
+					{ title: '密码', name:'anyconnect_passwd',type:'password', maxlen: 20, size: 20, value: dbus.anyconnect_passwd, peekaboo: 1 },
+					{ title: 'CA证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>' },
 					]);
 			</script>
 		</div>
-	<div class="box"><br>
+	</div>
+	<div class="box boxr1"><br>
 	<div class="heading"><font color="#FF3300">设置说明：</font> <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:">
 			<li> 手机可前往App Store下载客户端：<a href="https://itunes.apple.com/cn/app/cisco-anyconnect/id1135064690?mt=8" target="_blank">IOS</a>&nbsp;&nbsp;<a href="https://play.google.com/store/apps/details?id=com.cisco.anyconnect.vpn.android.avf&hl=zh_TW" target="_blank">Android</a></font></li>
@@ -281,7 +300,6 @@ No part of this file may be used without permission.
 			<br />
 	</div>
 	</div>
-</div>
 	<div class="box boxr2">
 		<div class="heading">已连接用户</div>
 		<div class="content">
@@ -303,12 +321,9 @@ No part of this file may be used without permission.
 			</div>
 		</div>
 	</div>
-	<div id="msg_warring" class="alert alert-warning icon" style="display:none;">
-	</div>
-	<div id="msg_success" class="alert alert-success icon" style="display:none;">
-	</div>
-	<div id="msg_error" class="alert alert-error icon" style="display:none;">
-	</div>
+	<div id="msg_warring" class="alert alert-warning icon" style="display:none;"></div>
+	<div id="msg_success" class="alert alert-success icon" style="display:none;"></div>
+	<div id="msg_error" class="alert alert-error icon" style="display:none;"></div>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">开始运行 <i class="icon-check"></i></button>
 	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">刷新页面 <i class="icon-cancel"></i></button>
 	<script type="text/javascript">init_anyconnect();</script>

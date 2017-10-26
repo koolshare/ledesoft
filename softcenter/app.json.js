@@ -344,15 +344,15 @@
             "version": "1.8"
         }, 
         {
-            "build_date": "2017-10-26_00:27:56", 
-            "changelog": "", 
+            "build_date": "2017-10-26_12:20:04", 
+            "changelog": "优化web显示", 
             "description": "与你的网络无缝并行", 
             "home_url": "Module_anyconnect.asp", 
-            "md5": "3c90364574fdadd57c76743974640ead", 
+            "md5": "03c9ffcca39367d56e0310b7f7bdcdbe", 
             "name": "anyconnect", 
             "tar_url": "anyconnect/anyconnect.tar.gz", 
             "title": "AnyConnect Server", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-10-12_11:01:40", 
