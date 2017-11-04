@@ -25,5 +25,7 @@ dbus remove softcenter_module_anyconnect_name
 dbus remove softcenter_module_anyconnect_description
 
 opkg remove ocserv
+[ -f $KSROOT/webs/files/ca.crt ] && rm -rf $KSROOT/webs/files/ca.crt
+[ -f $KSROOT/webs/files/anyconnect.p12 ] && rm -rf $KSROOT/webs/files/anyconnect.p12
 
 rm -rf $KSROOT/scripts/uninstall_anyconnect.sh

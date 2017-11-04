@@ -344,15 +344,15 @@
             "version": "1.8"
         }, 
         {
-            "build_date": "2017-10-26_17:14:22", 
-            "changelog": "修复初始安装后配置没有生效的问题", 
+            "build_date": "2017-11-04_23:03:00", 
+            "changelog": "增加使用证书登陆", 
             "description": "与你的网络无缝并行", 
             "home_url": "Module_anyconnect.asp", 
-            "md5": "11a2c5bf6a2141df5046e3c1894cc233", 
+            "md5": "9c4de631031211bacb269bb6400fd375", 
             "name": "anyconnect", 
             "tar_url": "anyconnect/anyconnect.tar.gz", 
             "title": "AnyConnect Server", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-10-12_11:01:40", 

@@ -131,6 +131,10 @@ No part of this file may be used without permission.
 			}else{
 				$("#save-button").html("停止运行")
 			}
+			var h1 = (E('_anyconnect_auth').value == '1');
+			elem.display(PR('_anyconnect_user'), h1);
+			elem.display(PR('_anyconnect_passwd'), h1);
+			E('_download_cert').disabled = h1;			
 			return true;
 		}
 
@@ -169,7 +173,7 @@ No part of this file may be used without permission.
 			E('save-button').disabled = true;
 			// collect basic data
 			var para_chk = ["anyconnect_enable"];
-			var para_inp = ["anyconnect_port", "anyconnect_user", "anyconnect_passwd"];
+			var para_inp = ["anyconnect_port", "anyconnect_user", "anyconnect_passwd", "anyconnect_auth", "anyconnect_host"];
 			// collect data from checkbox
 			for (var i = 0; i < para_chk.length; i++) {
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
@@ -211,8 +215,8 @@ No part of this file may be used without permission.
 				dataType: "json",
 				success: function(response){
 					var a = document.createElement('A');
-					a.href = "/files/ca.crt";
-					a.download = 'ca.crt';
+					a.href = "/files/anyconnect.p12";
+					a.download = 'anyconnect.p12';
 					document.body.appendChild(a);
 					a.click();
 					document.body.removeChild(a);
@@ -278,13 +282,19 @@ No part of this file may be used without permission.
 		<div class="content">
 			<div id="identification" class="section"></div>
 			<script type="text/javascript">
+				var option_auth = [['1', '使用用户名和密码登陆'],['2', '使用证书登陆']];
+				if(!dbus.anyconnect_host){dbus.anyconnect_host = "any.koolshare.cn";};
+				if(!dbus.anyconnect_port){dbus.anyconnect_port = "4443";};				
 				$('#identification').forms([
 					{ title: '开启AnyConnect', name:'anyconnect_enable',type:'checkbox',value: dbus.anyconnect_enable == 1 },
 					{ title: '运行状态', text: '<font id="_anyconnect_status" name=_anyconnect_status color="#1bbf35">正在检查运行状态...</font>' },
+					{ title: '外网连接使用的域名',name:'anyconnect_host',type:'text', maxlen: 30, size: 30,value: dbus.anyconnect_host || "any.koolshare.cn" },
 					{ title: '端口',name:'anyconnect_port',type:'text', maxlen: 5, size: 5,value: dbus.anyconnect_port || "4443" },
+					{ title: '客户端应该设置的服务器地址', name:'anyconnect_url' ,text: dbus.anyconnect_host + ":" + dbus.anyconnect_port },
+					{ title: '登陆方式', name: 'anyconnect_auth', type: 'select', options: option_auth, value: dbus.anyconnect_auth },
 					{ title: '用户名', name:'anyconnect_user',type:'text', maxlen: 20, size: 20, value: dbus.anyconnect_user || 'koolshare' },
 					{ title: '密码', name:'anyconnect_passwd',type:'password', maxlen: 20, size: 20, value: dbus.anyconnect_passwd, peekaboo: 1 },
-					{ title: 'CA证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>' },
+					{ title: '用户证书下载', name:'anyconnect_cert',text:' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载（p12）<i class="icon-download"></i></button>' },
 					]);
 			</script>
 		</div>
@@ -294,8 +304,8 @@ No part of this file may be used without permission.
 	<div class="section content" id="sesdivnotes" style="display:">
 			<li> 手机可前往App Store下载客户端：<a href="https://itunes.apple.com/cn/app/cisco-anyconnect/id1135064690?mt=8" target="_blank">IOS</a>&nbsp;&nbsp;<a href="https://play.google.com/store/apps/details?id=com.cisco.anyconnect.vpn.android.avf&hl=zh_TW" target="_blank">Android</a></font></li>
 			<li> PC用户可前往思科官网下载：<a href="https://software.cisco.com/download/release.html?mdfid=286281283&softwareid=282364313&os=&release=4.5.02033&relind=AVAILABLE&rellifecycle=&reltype=latest&i=!pp" target="_blank">MAC Windows Liunx</a></li>
-			<li> 客户端连接时先在设置里关闭设置项--阻止不信任的服务器</li>
-			<li> CA证书可以选择不安装，只会在每次连接的时候弹出不信任警告</li>
+			<li> 客户端初次连接时先在设置里关闭设置项--阻止不信任的服务器</li>
+			<li> 使用用户名密码登陆时无需导入用户证书，证书导入密码<font color="#FF3300">koolshare</font></li>
 			<li> 当前配置可以使用同一账号登入64个终端</li>
 			<br />
 	</div>

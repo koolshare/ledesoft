@@ -18,4 +18,7 @@ dbus set softcenter_module_anyconnect_title="AnyConnect Server"
 dbus set softcenter_module_anyconnect_version=0.1
 
 sleep 1
+[ -f $KSROOT/webs/files/ca.crt ] && rm -rf $KSROOT/webs/files/ca.crt
+[ -f $KSROOT/webs/files/anyconnect.p12 ] && rm -rf $KSROOT/webs/files/anyconnect.p12
+
 rm -rf /tmp/anyconnect* >/dev/null 2>&1
