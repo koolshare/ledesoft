@@ -141,7 +141,7 @@ No part of this file may be used without permission.
 			E('save-button').disabled = true;
 			// collect basic data
 			var para_chk = ["transmission_enable", "transmission_subtitle_enable", "transmission_rpc_enable", "transmission_watch_enable", "transmission_dht_enable", "transmission_ldp_enable", "transmission_queue_enabled"];
-			var para_inp = ["transmission_dir", "transmission_rpc_port", "transmission_rpc_user", "transmission_rpc_passwd","transmission_cache", "transmission_limit_per", "transmission_watch_dir", "transmission_queue_size"];
+			var para_inp = ["transmission_dir", "transmission_rpc_port", "transmission_rpc_user", "transmission_rpc_passwd","transmission_cache", "transmission_limit_global" ,"transmission_limit_per", "transmission_watch_dir", "transmission_queue_size"];
 			// collect data from checkbox
 			for (var i = 0; i < para_chk.length; i++) {
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';

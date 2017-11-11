@@ -249,15 +249,15 @@
             "version": "1.1.5"
         }, 
         {
-            "build_date": "2017-10-25_10:52:28", 
-            "changelog": "√修复重启防火墙规则可能丢失的BUG", 
+            "build_date": "2017-11-11_15:56:45", 
+            "changelog": "√修复全局连接数无法修改的问题", 
             "description": "高效的BT、PT下载工具", 
             "home_url": "Module_transmission.asp", 
-            "md5": "8caf5d061ae261fe4933662a866d87d5", 
+            "md5": "a3ff4cd0ed9af1c68e05f9274dcc47d0", 
             "name": "transmission", 
             "tar_url": "transmission/transmission.tar.gz", 
             "title": "Transmission", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-09-09_18:30:46", 
@@ -353,6 +353,11 @@
             "tar_url": "anyconnect/anyconnect.tar.gz", 
             "title": "AnyConnect Server", 
             "version": "0.4"
+        }, 
+        {
+            "name": "policyrouting", 
+            "tar_url": "policyrouting/policyrouting.tar.gz", 
+            "title": "policyrouting"
         }, 
         {
             "build_date": "2017-10-12_11:01:40", 

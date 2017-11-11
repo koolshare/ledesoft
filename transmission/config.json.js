@@ -1,9 +1,9 @@
 {
-"version":"0.3",
-"md5":"8caf5d061ae261fe4933662a866d87d5",
+"version":"0.4",
+"md5":"a3ff4cd0ed9af1c68e05f9274dcc47d0",
 "home_url":"Module_transmission.asp",
 "title":"Transmission",
 "description":"高效的BT、PT下载工具",
-"changelog":"√修复重启防火墙规则可能丢失的BUG",
-"build_date":"2017-10-25_10:52:28"
+"changelog":"√修复全局连接数无法修改的问题",
+"build_date":"2017-11-11_15:56:45"
 }

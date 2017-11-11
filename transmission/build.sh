@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=transmission
-VERSION=0.3
+VERSION=0.4
 TITLE=Transmission
 DESCRIPTION="高效的BT、PT下载工具"
 HOME_URL=Module_transmission.asp
-CHANGELOG="√修复重启防火墙规则可能丢失的BUG"
+CHANGELOG="√修复全局连接数无法修改的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
