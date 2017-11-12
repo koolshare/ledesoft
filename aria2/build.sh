@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=aria2
-VERSION=1.8
+VERSION=1.9
 TITLE=Aria2
 DESCRIPTION=超酷的远程下载工具
 HOME_URL=Module_aria2.asp
+CHANGELOG="修复RPC密钥随机更改的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

@@ -143,15 +143,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2017-10-17_23:55:47", 
-            "changelog": "", 
+            "build_date": "2017-11-12_17:56:59", 
+            "changelog": "修复RPC密钥随机更改的问题", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "6d33d47de544959d9964769772c31536", 
+            "md5": "ec0c4595a3c90531f29d259aeb785bf8", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "Aria2", 
-            "version": "1.8"
+            "version": "1.9"
         }, 
         {
             "build_date": "2017-10-13_10:50:08", 

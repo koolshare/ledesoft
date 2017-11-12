@@ -3,6 +3,7 @@
 alias echo_date1='echo $(date +%Y年%m月%d日\ %X)'
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export aria2`
 
 status=`pidof aria2c`
 version=`$KSROOT/aria2/aria2c --version|grep "aria2 version"|cut -d" " -f3`
