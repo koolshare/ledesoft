@@ -374,6 +374,7 @@ creat_ss_json(){
 			    "server":"$ss_basic_server",
 			    "server_port":$ss_basic_port,
 			    "local_port":3333,
+			    "local_address": "0.0.0.0",
 			    "password":"$ss_basic_password",
 			    "timeout":600,
 			    "method":"$ss_basic_method"
@@ -385,12 +386,13 @@ creat_ss_json(){
 			    "server":"$ss_basic_server",
 			    "server_port":$ss_basic_port,
 			    "local_port":3333,
+			    "local_address": "0.0.0.0",
 			    "password":"$ss_basic_password",
 			    "timeout":600,
 			    "protocol":"$ss_basic_rss_protocal",
 			    "protocol_param":"$ss_basic_rss_protocal_para",
 			    "obfs":"$ss_basic_rss_obfs",
-			    "obfs_para":"$ss_basic_rss_obfs_para",
+			    "obfs_param":"$ss_basic_rss_obfs_para",
 			    "method":"$ss_basic_method"
 			}
 		EOF
@@ -585,38 +587,38 @@ start_haproxy(){
 
 start_sslocal(){
 	if [ "$ss_basic_type" == "1" ];then
-		ssr-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+		ssr-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 	elif  [ "$ss_basic_type" == "0" ];then
 		if [ "$ss_basic_ss_obfs" == "0" ];then
-			ss-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
+			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 		else
-			ss-local -b 0.0.0.0 $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sslocal1.pid >/dev/null 2>&1
+			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sslocal1.pid >/dev/null 2>&1
 		fi
 	fi
 }
 
 start_dns(){
 	# Start DNS2SOCKS
-	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
+	# if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
 		echo_date 开启ss-local，提供socks5端口：23456
 		start_sslocal
 		sleep 1
 		echo_date 开启dns2socks，监听端口：23456
 		dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
-	fi
+	# fi
 
 	# Start ss-tunnel
 	if [ "2" == "$ss_dns_foreign" ];then
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-tunnel...
-			ssr-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+			ssr-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 		elif  [ "$ss_basic_type" == "0" ];then
 			echo_date 开启ss-tunnel...
-			ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+			ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			if [ "$ss_basic_ss_obfs" == "0" ];then
-				ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			else
-				ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
 			fi
 		fi
 	fi
@@ -668,13 +670,13 @@ start_dns(){
 			elif [ "$ss_pdnsd_udp_server" == "3" ];then
 				if [ "$ss_basic_type" == "1" ];then
 					echo_date 开启ssr-tunnel作为pdnsd的上游服务器.
-					ssr-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1099 -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+					ssr-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1099 -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 				elif  [ "$ss_basic_type" == "0" ];then
 					echo_date 开启ss-tunnel作为pdnsd的上游服务器.
 					if [ "$ss_basic_ss_obfs" == "0" ];then
-						ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 					else
-						ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
 					fi
 				fi
 			fi
@@ -738,11 +740,11 @@ start_dns(){
 				ssr-tunnel -b 127.0.0.1 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			elif  [ "$ss_basic_type" == "0" ];then
 				echo_date ┣ 开启ss-tunnel，作为chinaDNS上游国外dns，转发dns：$rcfs
-				ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid
 				if [ "$ss_basic_ss_obfs" == "0" ];then
-					ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 				else
-					ss-tunnel -b 0.0.0.0 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
 				fi
 			fi
 		elif [ "$ss_chinadns_foreign_method" == "4" ];then
@@ -793,6 +795,8 @@ create_dnsmasq_conf(){
 	echo "#for router itself" >> /tmp/wblist.conf
 	echo "server=/.google.com.tw/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.google.com.tw/router" >> /tmp/wblist.conf
+	echo "server=/.google.com.ncr/127.0.0.1#7913" >> /tmp/wblist.conf
+	echo "ipset=/.google.com.ncr/router" >> /tmp/wblist.conf
 	echo "server=/.github.com/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.github.com/router" >> /tmp/wblist.conf
 	echo "server=/.github.io/127.0.0.1#7913" >> /tmp/wblist.conf
@@ -801,18 +805,18 @@ create_dnsmasq_conf(){
 	echo "ipset=/.raw.githubusercontent.com/router" >> /tmp/wblist.conf
 	echo "server=/.apnic.net/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
-	if [ "$ss_basic_online_links_goss" == "1" ];then
-		online_links=`dbus list ss_online_link_|cut -d "=" -f2 |awk -F'/' '{print $3}'|grep .`
-		if [ -n "$online_links" ];then
-			echo_date 应用订阅地址走SS
-			echo "#for online_links" >> //tmp/wblist.conf
-			for online_link in $online_links
-			do 
-				echo "$online_link" | sed "s/^/server=&\/./g" | sed "s/$/\/127.0.0.1#7913/g" >> /tmp/wblist.conf
-				echo "$online_link" | sed "s/^/ipset=&\/./g" | sed "s/$/\/router/g" >> /tmp/wblist.conf
-			done
-		fi
-	fi
+	# if [ "$ss_basic_online_links_goss" == "1" ];then
+	# 	online_links=`dbus list ss_online_link_|cut -d "=" -f2 |awk -F'/' '{print $3}'|grep .`
+	# 	if [ -n "$online_links" ];then
+	# 		echo_date 应用订阅地址走SS
+	# 		echo "#for online_links" >> //tmp/wblist.conf
+	# 		for online_link in $online_links
+	# 		do 
+	# 			echo "$online_link" | sed "s/^/server=&\/./g" | sed "s/$/\/127.0.0.1#7913/g" >> /tmp/wblist.conf
+	# 			echo "$online_link" | sed "s/^/ipset=&\/./g" | sed "s/$/\/router/g" >> /tmp/wblist.conf
+	# 		done
+	# 	fi
+	# fi
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
 	if [ -n "$ss_wan_white_domain" ];then
@@ -942,18 +946,6 @@ auto_start(){
 	else
 		echo_date "关闭SS规则自动更新."
 	fi
-	sed -i '/sspcapupdate/d' /etc/crontabs/root >/dev/null 2>&1
-	if [ "$ss_basic_pcap_update" = "1" ];then
-		if [ "$ss_basic_pcap_update_day" = "7" ];then
-			echo "0 $ss_basic_pcap_update_hr * * * /koolshare/scripts/ss_pcap_update.sh #sspcapupdate#" >> /etc/crontabs/root
-			echo_date "设置PcapDNSproxy规则自动更新在每天 $ss_basic_pcap_update_hr 点。"
-		else
-			echo "0 $ss_basic_pcap_update_hr * * $ss_basic_pcap_update_day /koolshare/scripts/ss_pcap_update.sh #sspcapupdate#" >> /etc/crontabs/root
-			echo_date "设置PcapDNSproxy规则自动更新在星期 $ss_basic_pcap_update_day 的 $ss_basic_pcap_update_hr 点。"
-		fi
-	else
-		echo_date "关闭PcapDNSproxy规则自动更新."
-	fi
 	sed -i '/ssnodeupdate/d' /etc/crontabs/root >/dev/null 2>&1
 	if [ "$ss_basic_node_update" = "1" ];then
 		if [ "$ss_basic_node_update_day" = "7" ];then
@@ -973,38 +965,38 @@ start_ss_redir(){
 		# ONLY TCP
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-redir进程，用于透明代理.
-			ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			ssr-redir $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
 		elif  [ "$ss_basic_type" == "0" ];then
 			echo_date 开启ss-redir进程，用于透明代理.
 			if [ "$ss_basic_ss_obfs" == "0" ];then
-				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			else
-				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			fi
 		fi
 		# ONLY UDP
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-redir第二进程，用于kcp模式下udp的透明代理.
-			ssr-redir -b 0.0.0.0 -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			ssr-redir -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
 		elif  [ "$ss_basic_type" == "0" ];then
 			echo_date 开启ss-redir第二进程，用于kcp模式下udp的透明代理.
 			if [ "$ss_basic_ss_obfs" == "0" ];then
-				ss-redir -b 0.0.0.0 -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir -c $CONFIG_FILE -U -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			else
-				ss-redir -b 0.0.0.0 -c $CONFIG_FILE -U --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir -c $CONFIG_FILE -U --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			fi
 		fi
 	else
 		# Start ss-redir for nornal use
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-redir进程，用于透明代理.
-			ssr-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+			ssr-redir $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
 		elif  [ "$ss_basic_type" == "0" ];then
 			echo_date 开启ss-redir进程，用于透明代理.
 			if [ "$ss_basic_ss_obfs" == "0" ];then
-				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			else
-				ss-redir -b 0.0.0.0 $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/shadowsocks.pid >/dev/null 2>&1
 			fi
 		fi
 	fi
@@ -1390,17 +1382,25 @@ restart_dnsmasq(){
 }
 
 write_numbers(){
-	dbus set ss_basic_version=`cat /koolshare/ss/version`
+	dbus set ss_version=`cat /koolshare/ss/version`
 	
 	ipset_numbers=`cat $KSROOT/ss/rules/gfwlist.conf | grep -c ipset`
 	chnroute_numbers=`cat $KSROOT/ss/rules/chnroute.txt | grep -c .`
 	cdn_numbers=`cat $KSROOT/ss/rules/cdn.txt | grep -c .`
+	update_pcap_routing=`cat $KSROOT/ss/dns/Routing.txt |grep -c /`
+	update_pcap_white=`cat $KSROOT/ss/dns/WhiteList.txt |grep -Ec "^\.\*"`
+	
 	update_ipset=`cat $KSROOT/ss/rules/version | sed -n 1p | sed 's/#/\n/g'| sed -n 1p`
 	update_chnroute=`cat $KSROOT/ss/rules/version | sed -n 2p | sed 's/#/\n/g'| sed -n 1p`
 	update_cdn=`cat $KSROOT/ss/rules/version | sed -n 4p | sed 's/#/\n/g'| sed -n 1p`
+	update_pcap_routing=`cat $KSROOT/ss/rules/version | sed -n 5p | sed 's/#/\n/g'| sed -n 1p`
+	update_pcap_white=`cat $KSROOT/ss/rules/version | sed -n 6p | sed 's/#/\n/g'| sed -n 1p`
+
 	dbus set ss_gfw_status="$ipset_numbers 条，最后更新版本： $update_ipset "
 	dbus set ss_chn_status="$chnroute_numbers 条，最后更新版本： $update_chnroute "
 	dbus set ss_cdn_status="$cdn_numbers 条，最后更新版本： $update_cdn "
+	dbus set ss_pcap_routing="$update_pcap_routing 条，最后更新版本： $update_pcap_routing "
+	dbus set ss_pcap_whitelist="$update_pcap_white 条，最后更新版本： $update_pcap_white "
 }
 
 detect_koolss(){

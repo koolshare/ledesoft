@@ -9,17 +9,37 @@ LOGTIME=$(date "+%Y-%m-%d %H:%M:%S")
 
 
 get_china_status(){
-	wget -4 --spider --quiet --tries=2 --timeout=2 www.baidu.com
+	wget -4 --spider --quiet --tries=2 --timeout=3 www.baidu.com
 	if [ "$?" == "0" ]; then
 		log2='国内链接 【'$LOGTIME'】 ✓'
 	else
 		log2='国内链接 【'$LOGTIME'】 <font color='#FF0000'>X</font>'
 	fi
+	#http_code1=`curl -o /dev/null -s -m 10 --connect-timeout 3 -w %{http_code} 'http://www.baidu.com'`
+	#if [ "$http_code1" == "200" ]; then
+	#	log2='国内链接 【'$LOGTIME'】 ✓'
+	#else
+	#	log2='国内链接 【'$LOGTIME'】 <font color='#FF0000'>X</font>'
+	#fi
 }
 
 get_foreign_status(){
-	wget -4 --spider --quiet --tries=2 --timeout=2 www.google.com.tw
-	if [ "$?" == "0" ]; then
+	#wget -4 --spider --quiet --tries=2 --timeout=3 www.google.com.tw
+	#if [ "$?" == "0" ]; then
+	#	log1='国外链接 【'$LOGTIME'】 ✓'
+	#else
+	#	log1='国外链接 【'$LOGTIME'】 <font color='#FF0000'>X</font>'
+	#fi
+	#------------------------------------------------------------------
+	#http_code2=`curl -o /dev/null -s -m 10 --socks5-hostname 127.0.0.1:23456 --connect-timeout 5 -w %{http_code} 'https://www.google.com.tw'`
+	#if [ "$http_code2" == "200" ]; then
+	#	log1='国外链接 【'$LOGTIME'】 ✓'
+	#else
+	#	log1='国外链接 【'$LOGTIME'】 <font color='#FF0000'>X</font>'
+	#fi
+	#------------------------------------------------------------------
+	http_code2=`curl -o /dev/null -s -m 10 --connect-timeout 5 -w %{http_code} 'https://www.google.com.tw'`
+	if [ "$http_code2" == "200" ]; then
 		log1='国外链接 【'$LOGTIME'】 ✓'
 	else
 		log1='国外链接 【'$LOGTIME'】 <font color='#FF0000'>X</font>'

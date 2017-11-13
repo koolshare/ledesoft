@@ -5,6 +5,7 @@ VERSION=`cat shadowsocks/ss/version`
 TITLE=shadowsocks
 DESCRIPTION="轻松科学上网~"
 HOME_URL=Module_shadowsocks.asp
+CHANGELOG="1.9.8"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

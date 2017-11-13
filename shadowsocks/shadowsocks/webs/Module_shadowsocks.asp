@@ -3,6 +3,7 @@
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/tomato.js"></script>
 	<script type="text/javascript" src="/js/advancedtomato.js"></script>
+	<script type="text/javascript" src="/layer/layer.js"></script>
 	<style type="text/css">
 		.box, #ss_tabs {
 			min-width:1122px;
@@ -135,6 +136,22 @@
 		}
 		select:hover, input:hover{
 			border: 1px solid #0099FF
+		}
+		.btn.sub-btn-tab {
+			/*border-radius: 3px;*/
+			color:#777777!important;
+			background:#FAFAFA;
+			box-shadow:none;
+			-webkit-box-shadow:none;
+			line-height:1.2;
+			border:1px solid rgba(119, 119, 119, 0.41);;
+			border-width:0px 0 2px 0px
+		}
+
+		.btn.sub-btn-tab.active, .btn.btn-tab:focus {
+			/*background:rgba(44, 196, 68, 0.47);*/
+			border:1px solid #f36c21;
+			border-width:0px 0 2px 0px
 		}
 	</style>
 	<script type="text/javascript">
@@ -1733,8 +1750,8 @@
 			] );
 			this.headerSet( [ '订阅地址'] );
 			for ( var i = 1; i <= 10; i++){
-				var t1 = [dbus["ss_online_link_" + i ]];
-				if ( t1[0] && t1.length == 1 ) this.insertData( -1, t1 );
+					var t1 = [dbus["ss_online_link_" + i ]];
+					if ( t1[0] && t1.length == 1 ) this.insertData( -1, t1 );
 			}
 			this.showNewEditor();
 			this.resetNewEditor();
@@ -1982,8 +1999,28 @@
 			$("#_ss_basic_log").click(
 				function() {
 				x = 10000000;
+				});
+			$('#ss_status_pannel').on('click', function() {
+				open111();
 			});
 		}
+
+		function open111(){
+			layer.open({
+				type: 2,
+				shade: .7,
+				scrollbar: 0,
+				title: '国内外分流信息:ip111.cn',
+				area: ['750px', '490px'],
+				fixed: false, //不固定
+				maxmin: true,
+				shadeClose: 1,
+				id: 'LAY_layuipro',
+				btnAlign: 'c',
+				content: ['http://ip111.cn/', 'no'],
+			});
+		}
+
 		function join_node(){
 			if (typeof(dbus["ssconf_basic_node_max"]) == "undefined" && typeof(dbus["ssrconf_basic_node_max"]) == "undefined"){
 				node_ss = 1;
@@ -2034,7 +2071,7 @@
 			  	async:false,
 			 	success: function(data){
 			 	 	dbus = data.result[0];
-					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for LEDE  ' + (dbus["ss_basic_version"]  || "") + '</font></a>' );
+					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for LEDE  ' + (dbus["ss_version"]  || "") + '</font></a>' );
 			  	}
 			});
 		}
@@ -2405,10 +2442,10 @@
 			// kcp开启或者游戏模式开启的时候，不显示负载均衡面板
 			// 为了避免用户提前开好了负载均衡，再去切换游戏模式，再去选择负载均衡节点，同时需要把负载均衡节点给隐藏
 			if(t1 || t2){
-				$("#app9-tab").hide();
+				$("#app5-tab").hide();
 				$("#_ss_basic_node option[value=0]").hide()
 			}else{
-				$("#app9-tab").show();
+				$("#app5-tab").show();
 				$("#_ss_basic_node option[value=0]").show()
 			}
 			// pannel kcp: hide kcp parameter panel when kcp not enable
@@ -2420,12 +2457,12 @@
 			var s2 = E('_ss_basic_node').value == "0";
 			// 当负载均衡开启，并且选择了负载均衡节点，禁用游戏模式和，隐藏kcp加速面板
 			if(s1 && s2){
-				$("#app10-tab").hide();
+				$("#app6-tab").hide();
 				$("#_ss_basic_mode option[value=3]").hide();
 				$("#_ss_acl_default_mode option[value=3]").hide();
 				$("#_ss_acl_pannel_4 option[value=3]").hide();
 			}else{
-				$("#app10-tab").show();
+				$("#app6-tab").show();
 				$("#_ss_basic_mode option[value=3]").show();
 				$("#_ss_acl_default_mode option[value=3]").show();
 				$("#_ss_acl_pannel_4 option[value=3]").show();
@@ -2528,9 +2565,6 @@
 			var l1  = E('_ss_basic_rule_update').value == '1'; 
 			elem.display('_ss_basic_rule_update_day', l1);
 			elem.display('_ss_basic_rule_update_hr', l1);
-			var l2  = E('_ss_basic_pcap_update').value == '1';
-			elem.display('_ss_basic_pcap_update_day', l2);
-			elem.display('_ss_basic_pcap_update_hr', l2);
 			var l3  = E('_ss_basic_node_update').value == '1';
 			elem.display('_ss_basic_node_update_day', l3);
 			elem.display('_ss_basic_node_update_hr', l3);
@@ -2541,13 +2575,15 @@
 			elem.display('_ss_basic_chnroute_update_txt', l1);
 			elem.display(elem.parentElem('_ss_basic_cdn_update', 'DIV'), l1);
 			elem.display('_ss_basic_cdn_update_txt', l1);
+			elem.display(elem.parentElem('_ss_basic_pcap_update', 'DIV'), l1);
+			elem.display('_ss_basic_pcap_update_txt', l1);
 			
 			var m  = E('_ss_basic_dnslookup').value == '1';
 			elem.display('_ss_basic_dnslookup_server', m);
 			elem.display('_ss_basic_dnslookup_txt', m);
 			var p1 = E('_ssr_subscribe_obfspara').value == '1';
 			var p2 = E('_ssr_subscribe_obfspara').value == '2';
-			elem.display('_ssr_subscribe_obfspara_text', p1);
+			elem.display('_ssr_subscribe_obfspara_text', p2);
 			elem.display('_ssr_subscribe_obfspara_val', p2);
 			var q = E('_ss_acl_default_port').value == '0';
 			elem.display('_ss_acl_default_port_user', q);
@@ -2600,10 +2636,48 @@
 			}
 			dbus["ssrconf_basic_node_max"] = all_nodes_of_ssr.length;
 		}
+		
+		function NodetabSelect(obj){
+			if(obj == "ss"){
+				$("#SubTabSS").addClass('active');
+				$("#SubTabSSR").removeClass('active');
+				$("#SubTabMange").removeClass('active');
+				$("#ss_node_tab").show();
+				$("#ssr_node_tab").hide();
+				$("#ssr_ping_tab").hide();
+				$("#ssr_node_subscribe").hide();
+				$("#ss_link_add").hide();
+				$("#save-node").show();
+				$("#cancel-button").show();
+			}else if(obj == "ssr"){
+				$("#SubTabSS").removeClass('active');
+				$("#SubTabSSR").addClass('active');
+				$("#SubTabMange").removeClass('active');
+				$("#ss_node_tab").hide();
+				$("#ssr_node_tab").show();
+				$("#ssr_ping_tab").hide();
+				$("#ssr_node_subscribe").hide();
+				$("#ss_link_add").hide();
+				$("#save-node").show();
+				$("#cancel-button").show();
+			}else if(obj == "manage"){
+				$("#SubTabSS").removeClass('active');
+				$("#SubTabSSR").removeClass('active');
+				$("#SubTabMange").addClass('active');
+				$("#ss_node_tab").hide();
+				$("#ssr_node_tab").hide();
+				$("#ssr_ping_tab").show();
+				$("#ssr_node_subscribe").show();
+				$("#ss_link_add").show();
+				$("#save-node").hide();
+				$("#cancel-button").hide();
+			}
+		}
+
 		function tabSelect(obj){
-			var tableX = ['app1-tab','app2-tab','app9-tab', 'app10-tab', 'app11-tab', 'app3-tab','app4-tab','app5-tab','app6-tab','app7-tab','app8-tab'];
-			var boxX = ['boxr1','boxr2','boxr9','boxr10', 'boxr11', 'boxr3','boxr4', 'boxr5', 'boxr6', 'boxr7', 'boxr8'];
-			var appX = ['app1','app2','app9','app10', 'app11', 'app3','app4','app5','app6','app7','app8'];
+			var tableX = ['app1-tab', 'app2-tab', 'app3-tab', 'app4-tab', 'app5-tab', 'app6-tab','app7-tab','app8-tab','app9-tab','app10-tab','app11-tab'];
+			var boxX = ['boxr1', 'boxr2', 'boxr3', 'boxr4', 'boxr5', 'boxr6', 'boxr7', 'boxr8', 'boxr9', 'boxr10', 'boxr11'];
+			var appX = ['app1', 'app2', 'app3', 'app4', 'app5', 'app6', 'app7', 'app8', 'app9', 'app10', 'app11'];
 			for (var i = 0; i < tableX.length; i++){
 				if(obj == appX[i]){
 					$('#'+tableX[i]).addClass('active');
@@ -2623,37 +2697,31 @@
 			}
 			// show hide some button and pannel when cliec tab
 			if(obj =='app2'){ // 节点
-				E('save-button').style.display = "none";
-				E('save-node').style.display = "";
-				E('save-lb').style.display = "none";
-				E('save-kcp').style.display = "none";
-				elem.display('ss_kcp_tab_2', false);
-			}else if(obj=='app5' || obj=='app11'){ // 负载均衡
-				E('save-button').style.display = "none";
-				E('save-node').style.display = "none";
-				E('save-lb').style.display = "none";
-				E('save-kcp').style.display = "none";
-				E('cancel-button').style.display = "none";
-				elem.display('ss_kcp_tab_2', false);
-			}else if(obj=='app9'){ // 负载均衡
-				E('save-button').style.display = "none";
-				E('save-node').style.display = "none";
-				E('save-lb').style.display = "";
-				E('save-kcp').style.display = "none";
-				elem.display('ss_kcp_tab_2', false);
-			}else if(obj=='app10'){ // kcp
-				var a = E('_ss_kcp_enable').checked;
-				E('save-button').style.display = "none";
-				E('save-node').style.display = "none";
-				E('save-lb').style.display = "none";
-				E('save-kcp').style.display = "";
-				// hide kcp parameter pannel when kcp not enabled
-				elem.display('ss_kcp_tab_2', a);
-			}else if(obj=='app8'){ //日志
 				elem.display('save-button', false);
-				elem.display('save-node', false);
-				elem.display('save-lb', false);
-				elem.display('save-kcp', false);
+				elem.display('cancel-button', true);
+				elem.display('ss_kcp_tab_2', false);
+				var cur_sel_node = parseInt(dbus["ss_basic_node"]);
+				if(cur_sel_node >= node_ss){
+					NodetabSelect('ssr');
+				}else{
+					NodetabSelect('ss');
+				}
+			}else if(obj=='app9' || obj=='app4'){ // 负载均衡
+				elem.display('save-button', false);
+				elem.display('cancel-button', false);
+				elem.display('ss_kcp_tab_2', false);
+			}else if(obj=='app5'){ // 负载均衡
+				elem.display('save-button', false);
+				elem.display('cancel-button', true);
+				elem.display('ss_kcp_tab_2', false);
+			}else if(obj=='app6'){ // kcp
+				elem.display('save-button', false);
+				elem.display('cancel-button', true);
+				elem.display('ss_kcp_tab_2', false);
+				var a = E('_ss_kcp_enable').checked;
+				elem.display('ss_kcp_tab_2', a);
+			}else if(obj=='app11'){ //日志
+				elem.display('save-button', false);
 				elem.display('cancel-button', false);
 				elem.display('ss_kcp_tab_2', false);
 				noChange=0;
@@ -2677,16 +2745,12 @@
 				elem.display('ss_kcp_tab_readme', false);
 				elem.display('ss_kcp_tab_1', false);
 				elem.display('ss_kcp_tab_2', false);
-				//elem.display('ss_socks5_tab', false);
-				E('save-button').style.display = "";
-				E('save-node').style.display = "none";
-				E('save-lb').style.display = "none";
-				E('save-kcp').style.display = "none";
+				elem.display('save-button', true);
+				elem.display('save-node', false);
+				elem.display('save-lb', false);
+				elem.display('save-kcp', false);
 			}else{
-				E('save-button').style.display = "";
-				E('save-node').style.display = "none";
-				E('save-lb').style.display = "none";
-				E('save-kcp').style.display = "none";
+				elem.display('save-button', true);
 				elem.display('ss_kcp_tab_2', false);
 				elem.display('cancel-button', true);
 				noChange=2001;
@@ -2705,7 +2769,7 @@
 				dataType: "json",
 				async:true,
 				success: function(data){
-					tabSelect('app8');
+					tabSelect('app11');
 					var skipd_ssr = data.result[0];
 					var all_ssrconf = ["ssrconf_basic_mode_", "ssrconf_basic_name_", "ssrconf_basic_server_", "ssrconf_basic_port_", "ssrconf_basic_password_", "ssrconf_basic_method_", "ssrconf_basic_rss_protocal_", "ssrconf_basic_rss_protocal_para_", "ssrconf_basic_rss_obfs_", "ssrconf_basic_rss_obfs_para_", "ssrconf_basic_server_ip_", "ssrconf_basic_lb_enable_", "ssrconf_basic_lb_policy_", "ssrconf_basic_lb_weight_", "ssrconf_basic_lb_dest_", "ssrconf_basic_group_"];
 					//== get current using ss/ssr node number==
@@ -2962,13 +3026,13 @@
 		
 		function save(){
 			status_time = 999999990;
-			setTimeout("tabSelect('app8')", 500);
+			setTimeout("tabSelect('app11')", 500);
 			E("_ss_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "chromecast", "online_links_goss"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr", "ss_basic_pcap_update", "ss_basic_pcap_update_day", "ss_basic_pcap_update_hr" ];
+			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "pcap_update", "chromecast", "online_links_goss"];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr"];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -3078,7 +3142,7 @@
 
 		function save_lb(){
 			status_time = 999999990;
-			setTimeout("tabSelect('app8')", 500);
+			setTimeout("tabSelect('app11')", 500);
 			var lb_chk = ["ss_lb_enable", "ss_lb_heartbeat"];
 			var lb_inp = ["ss_lb_account", "ss_lb_password", "ss_lb_port", "ss_lb_up", "ss_lb_down", "ss_lb_interval" ];
 			// collect data from checkbox
@@ -3176,7 +3240,7 @@
 				return false;
 			}
 			status_time = 999999990;
-			setTimeout("tabSelect('app8')", 500);
+			setTimeout("tabSelect('app11')", 500);
 			var kcp_chk = ["ss_kcp_enable", "ss_kcp_compon"];
 			var kcp_inp = ["ss_kcp_node", "ss_kcp_port", "ss_kcp_password", "ss_kcp_mode", "ss_kcp_crypt", "ss_kcp_mtu", "ss_kcp_sndwnd", "ss_kcp_rcvwnd", "ss_kcp_conn", "ss_kcp_config" ];
 			// collect data from checkbox
@@ -3323,41 +3387,39 @@
 		function update_rules_now(arg){
 			if (arg == 5){
 				shellscript = 'ss_rule_update.sh';
-			}else if (arg == 6){
-				shellscript = 'ss_pcap_update.sh';
 			}
-				var id6 = parseInt(Math.random() * 100000000);
-				var postData = {"id": id6, "method": shellscript, "params":[], "fields": ""};
-				$.ajax({
-					type: "POST",
-					url: "/_api/",
-					async: true,
-					cache:false,
-					data: JSON.stringify(postData),
-					dataType: "json",
-					success: function(response){
-						if(response){
-							setTimeout("window.location.reload()", 500);
-							return true;
-						}
+			var id6 = parseInt(Math.random() * 100000000);
+			var postData = {"id": id6, "method": shellscript, "params":[], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					if(response){
+						setTimeout("window.location.reload()", 500);
+						return true;
 					}
-				});
-				tabSelect("app8");
+				}
+			});
+			tabSelect("app11");
 		}
 
 		function manipulate_conf(script, arg){
 			var dbus3 = {};
 			if(arg == 1 || arg == 3 || arg == 5 || arg == 6 ){
-				tabSelect("app8");
+				tabSelect("app11");
 				dbus3 = [];
 			}else if(arg == 2){
-				tabSelect("app8");
+				tabSelect("app11");
 				dbus3["ss_kcp_enable"] = "0";
 				dbus3["ss_lb_enable"] = "0";
 			}else if(arg == 4){
 				dbus3 = [];
 			}else if(arg == 'add'){
-				tabSelect("app8");
+				tabSelect("app11");
 				var data = ss_link.getAllData();
 				if(data.length > 0){
 					for ( var i = 0; i < 20; ++i ){
@@ -3369,7 +3431,7 @@
 					}
 				}
 			}else if(arg == 7 || arg == 8){
-				tabSelect("app8");
+				tabSelect("app11");
 				var data = online_link.getAllData();
 				if(data.length > 0){
 					for ( var i = 0; i < 10; ++i ){
@@ -3397,9 +3459,10 @@
 				dbus3["ss_basic_rule_update"] = E("_ss_basic_rule_update").value;
 				dbus3["ss_basic_rule_update_day"] = E("_ss_basic_rule_update_day").value;
 				dbus3["ss_basic_rule_update_hr"] = E("_ss_basic_rule_update_hr").value;
-				dbus3["ss_basic_pcap_update"] = E("_ss_basic_pcap_update").value;
-				dbus3["ss_basic_pcap_update_day"] = E("_ss_basic_pcap_update_day").value;
-				dbus3["ss_basic_pcap_update_hr"] = E("_ss_basic_pcap_update_hr").value;
+				dbus3["ss_basic_gfwlist_update"] = E("_ss_basic_gfwlist_update").checked ? '1':'0';
+				dbus3["ss_basic_chnroute_update"] = E("_ss_basic_chnroute_update").checked ? '1':'0';
+				dbus3["ss_basic_cdn_update"] = E("_ss_basic_cdn_update").checked ? '1':'0';
+				dbus3["ss_basic_pcap_update"] = E("_ss_basic_pcap_update").checked ? '1':'0';
 			}
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": dbus3 };
@@ -3426,7 +3489,7 @@
 						}else if (arg == 6){
 							var b = document.createElement('A')
 							b.href = "/files/shadowsocks.tar.gz"
-							b.download = 'shadowsocks_' + dbus["ss_basic_version"] + '.tar.gz'
+							b.download = 'shadowsocks_' + dbus["ss_version"] + '.tar.gz'
 							document.body.appendChild(b);
 							b.click();
 							document.body.removeChild(b);
@@ -3497,7 +3560,7 @@
 				E("_ss_basic_enable").checked = dbus["ss_basic_enable"] == 1 ? true : false
 			</script>
 			<hr />
-			<fieldset id="ss_status_pannel">
+			<fieldset id="ss_status_pannel" style="cursor: pointer;" title="查询ip分流情况">
 				<label class="col-sm-3 control-left-label" id="ss_status_title">shadowsocks运行状态</label>
 				<div class="col-sm-9">
 					<font id="_ss_basic_status_foreign" name="ss_basic_status_foreign" color="#1bbf35">国外链接: waiting...</font>
@@ -3518,15 +3581,16 @@
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" style="width:102px"><i class="icon-system"></i> 帐号设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" style="width:102px"><i class="icon-globe"></i> 节点管理</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" style="width:102px"><i class="icon-tools"></i> DNS设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:102px"><i class="icon-hammer" style="margin-left:-6px"></i> 多WAN设定</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:102px"><i class="icon-cloud"></i> 负载均衡</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:102px"><i class="icon-graphs"></i> KCP加速</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:102px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab" style="width:102px"><i class="icon-lock"></i> 访问控制</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab" style="width:102px"><i class="icon-cmd"></i> 规则管理</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab" style="width:102px"><i class="icon-wake"></i> 附加功能</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab" style="width:102px"><i class="icon-hourglass"></i> 查看日志</a></li>	
+		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" style="width:102px"><i class="icon-hammer" style="margin-left:-6px"></i> 多WAN设定</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab" style="width:102px"><i class="icon-cloud"></i> 负载均衡</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab" style="width:102px"><i class="icon-graphs"></i> KCP加速</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab" style="width:102px"><i class="icon-toggle-nav"></i> 黑白名单</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab" style="width:102px"><i class="icon-lock"></i> 访问控制</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app9');" id="app9-tab" style="width:102px"><i class="icon-cmd"></i> 规则管理</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app10');" id="app10-tab" style="width:102px"><i class="icon-wake"></i> 附加功能</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app11');" id="app11-tab" style="width:102px"><i class="icon-hourglass"></i> 查看日志</a></li>	
 	</ul>
+	<!-- ------------------ 账号设置 --------------------- -->
 	<div class="box boxr1" id="ss_basic_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
@@ -3629,7 +3693,13 @@
 			</script>
 		</div>
 	</div>
-	<div class="box boxr2" id="ss_node_tab" style="margin-top: 0px;">
+	<!-- ------------------ 节点管理 --------------------- -->
+	<div id="tabs" class="btn-group boxr2">
+		<a class="btn sub-btn-tab" style="width:102px;height:36px" href="javascript:void(0);" onclick="NodetabSelect('ss');" id="SubTabSS">SS节点 <i class="icon-tools"></i></a>
+		<a class="btn sub-btn-tab" style="width:102px;height:36px" href="javascript:void(0);" onclick="NodetabSelect('ssr');" id="SubTabSSR">SSR节点 <i class="icon-tools"></i></a>
+		<a class="btn sub-btn-tab" style="width:102px;height:36px" href="javascript:void(0);" onclick="NodetabSelect('manage');" id="SubTabMange">节点管理 <i class="icon-tools"></i></a>
+	</div>
+	<div class="box boxr2" id="ss_node_tab" style="margin-top: 15px;">
 		<div class="heading">节点管理-SS节点</div>
 		<div class="content">
 			<div class="tabContent">
@@ -3638,7 +3708,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="box boxr2" id="ssr_node_tab" style="margin-top: 0px;">
+	<div class="box boxr2" id="ssr_node_tab" style="margin-top: 15px;">
 		<div class="heading">节点管理-SSR节点</div>
 		<div class="content">
 			<div class="tabContent">
@@ -3647,130 +3717,85 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="box boxr9" id="ss_lb_tab" style="margin-top: 0px;">
-		<div class="heading"></div>
+	<div class="box boxr2" id="ssr_ping_tab" style="margin-top: 15px;">
+		<div class="heading">ping测试</div>
 		<div class="content">
-			<div id="ss_lb_panel" class="tabContent">
+			<div id="ss_ping_panel" class="tabContent">
+				<script type="text/javascript">
+					$('#ss_ping_panel').forms([
+						{ title: '节点ping测试', multi: [
+							{ name:'ss_basic_ping_method',type:'select',options:[["1", "ping 1次"], ["2", "10次ping平均 + 丢包率"], ["3", "20次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
+							//{ name:'ss_basic_ping_refresh',type:'select',options:[["1", "不显示（人工测试）"], ["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
+							{ suffix: '<button id="ping_botton" onclick="ping_node();" class="btn btn-primary">手动测试ping <i class="icon-traffic"></i></button>' }
+						]},
+					]);
+				</script>
+			</div>
+			<br><hr>
+		</div>
+	</div>
+	<div class="box boxr2" id="ssr_node_subscribe" style="margin-top: 15px;">
+		<div class="heading">SSR节点订阅</div>
+		<div class="content">
+			<div id="ssr_node_subscribe_pannel" class="section">
+				<fieldset>
+					<label class="col-sm-3 control-left-label">SSR节点订阅地址</label>
+					<div class="col-sm-9">
+						<table class="line-table" cellspacing=1 id="online_link-grid">
+						</table>
+					</div>
+				</fieldset>
+			</div>
 			<script type="text/javascript">
-				$('#ss_lb_panel').forms([
-					{ title: '负载均衡开关', name:'ss_lb_enable',type:'checkbox',  value: dbus.ss_lb_enable == 1 },  // ==1 means default close; !=0 means default open
-					{ title: 'haproxy控制台', rid:'haproxy_console', text:'<a id="haproxy_console1" href="" target="_blank"></a>'},
-					{ title: 'haproxy登录', multi: [
-						{ name: 'ss_lb_account',type:'text', size: 4, value: dbus.ss_lb_account || "admin", prefix: '登录帐号：', suffix: ' &nbsp;&nbsp;' },
-						{ name:'ss_lb_password',type:'password',size: 4,value:dbus.ss_lb_password, peekaboo: 1, prefix: '登录密码：',  }
+				var group_del = [];
+				group_del[0] = ["0", "删除全部订阅节点"]
+				var j = 1;
+				for ( var i = 1; i <= 10; i++){
+					if(dbus["ss_online_group_" + i]){
+						group_del[j] = [dbus["ss_online_group_" + i], dbus["ss_online_group_" + i]];
+						j++;
+					}
+				}
+				$('#ssr_node_subscribe_pannel').forms([
+					{ title: '订阅节点模式设定',  name:'ssr_subscribe_mode',type:'select',options:option_mode,value:dbus.ssr_subscribe_mode || "2", suffix: '<lable id="_ssr_subscribe_mode_text">订阅后的服务器默认使用该模式。</lable>' },
+					{ title: '订阅节点混淆参数设定', multi: [
+						{ name: 'ssr_subscribe_obfspara',type:'select',options:[['0', '留空'], ['1', '使用订阅设定'], ['2', '自定义']], value: dbus.ssr_subscribe_obfspara || "2", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ssr_subscribe_obfspara_val', type: 'text', value: dbus.ssr_subscribe_obfspara_val || "www.baidu.com", suffix: '<lable id="_ssr_subscribe_obfspara_text">有的订阅服务器不包含混淆参数，你可以在此处统一设定。</lable>' }
 					]},
-					{ title: 'haproxy端口(用于ss监听)', name:'ss_lb_port',type:'text', maxlen:5, size: 2,value:dbus.ss_lb_port||"8118" },
-					{ title: 'Haproxy故障检测心跳', multi: [
-						{ name: 'ss_lb_heartbeat',type:'checkbox', value: dbus.ss_lb_heartbeat == 1, suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_lb_up', type: 'text', size: 1, value: dbus.ss_lb_up || "2", suffix: '<lable>次</lable>&nbsp;&nbsp;&nbsp;&nbsp;', prefix: '<span class="help-block"><lable>成功：</lable></span>' },
-						{ name: 'ss_lb_down', type: 'text', size: 1, value: dbus.ss_lb_down || "3", suffix: '<lable>次</lable>&nbsp;&nbsp;&nbsp;&nbsp;', prefix: '<span class="help-block"><lable>失败：</lable></span>' },
-						{ name: 'ss_lb_interval', type: 'text', size: 2, value: dbus.ss_lb_interval || "4000", suffix: '<lable>ms</lable>', prefix: '<span class="help-block"><lable>心跳间隔：</lable></span>' }
+					{ title: '订阅时走SS网络', name:'ss_basic_online_links_goss',type:'checkbox',value: dbus.ss_basic_online_links_goss == 1 },  // ==1 means default close; !=0 means default open
+					{ title: '节点订阅计划任务', multi: [
+						{ name: 'ss_basic_node_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_node_update || "1", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_node_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_node_update_day || "7",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_node_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_node_update_hr || "4",suffix: ' &nbsp;&nbsp;'}
 					]},
-					{ title: '服务器添加', multi: [
-						{ name: 'ss_lb_node',type:'select',style:select_style,options:option_node_name, value: dbus.ss_lb_node || "", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_lb_weight', type: 'text', size: 1, value: dbus.ss_lb_weight || "50", suffix: ' &nbsp;&nbsp;', prefix: '<span class="help-block"><lable>权重：</lable></span>' },
-						{ name: 'ss_lb_policy', type: 'select', options:option_lb_policy, value: dbus.ss_lb_policy || "1", suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>属性：</lable></span>' },
-						{ name: 'ss_lb_dest', type: 'select', options:[], suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>出口：</lable></span>' },
-						{ suffix: ' <button id="add_lbnode" onclick="add_lb_node();" class="btn btn-danger">添加<i class="icon-plus"></i></button>' }
+					{ title: '删除订阅节点', multi: [
+						{ name: 'ss_basic_online_node_del',type: 'select', options:group_del, value: dbus.ss_basic_online_node_del || "0", suffix: ' &nbsp;&nbsp;' },
+						{ suffix: '<button id="_delete_online_node" onclick="delete_online_node(5);" class="btn">删除 <i class="icon-cancel"></i></button>' }
 					]}
 				]);
-				document.getElementById("haproxy_console1").href = "http://"+location.hostname+":1188";
-				document.getElementById("haproxy_console1").innerHTML = "<i><u>http://"+location.hostname+":1188</i></u>";
-				$("#_ss_lb_node option[value='0']").remove();
-				$("#_ss_lb_node").val(1);
 			</script>
-			</div>
-			<br><hr>
+			<!--<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>-->
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_online_update.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">手动更新订阅 <i class="icon-check"></i></button>
+			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn btn-primary" style="float:right;margin-right:20px;">保存订阅设置 <i class="icon-wrench"></i></button>
 		</div>
 	</div>
-	<div class="box boxr9" id="lb_list" style="margin-top: 0px;">
-		<div class="heading">负载均衡服务器列表</div>
+	<div class="box boxr2" id="ss_link_add" style="margin-top: 15px;">
+		<div class="heading">通过SS/SSR链接添加服务器</div>
 		<div class="content">
-			<div class="tabContent">
-				<table class="line-table" cellspacing=1 id="lb-grid">
-				</table>
+			<div id="ss_link_pannel" class="section">
+				<fieldset>
+					<label class="col-sm-3 control-left-label">SS/SSR链接</label>
+					<div class="col-sm-9">
+						<table class="line-table" cellspacing=1 id="ss_link-grid">
+						</table>
+					</div>
+				</fieldset>
 			</div>
-			<br><hr>
+			<button type="button" value="Save" id="save-add-link" onclick="manipulate_conf('ss_online_update.sh', 'add')" class="btn btn-primary" style="float:right;margin-right:0px;">解析并保存为节点 <i class="icon-check"></i></button>
 		</div>
 	</div>
-	<div id="ss_lb_tab_readme" class="box boxr9">
-		<div class="heading">负载均衡操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('lb');"><span id="sesdivlbshowhide"><i class="icon-chevron-up"></i></span></a></div>
-		<div class="section content" id="sesdivlb" style="display:none">
-			<li>在此页面可以设置多个shadowsocks或者shadowsocksR帐号负载均衡，同时具有故障转移、自动恢复的功能；</li>
-			<li>注意：设置负载均衡的节点需要加密方式、密码、混淆等需要完全一致！SS、SSR之间不支持设置负载均衡；</li>
-			<li>提交设置后会开启haproxy，并在ss节点配置中增加一个服务器IP为127.0.0.1，端口为负载均衡服务器端口的帐号；</li>
-			<li>负载均衡模式下不支持udp转发：不能使用游戏模式，不能使用ss-tunnel作为国外dns方案;</li>
-			<li>强烈建议需要负载均衡的ss节点使用ip格式，使用域名会使haproxy进程加载过慢！</li>
-		</div>
-		<script>
-			var cc;
-			if(!cookie.get('ss_lb_vis')){
-				cookie.set('ss_lb_vis', 1);
-			}
-			if (((cc = cookie.get('ss_lb_vis')) != null) && (cc == '1')) {
-				toggleVisibility("lb");
-			}
-		</script>
-	</div>
-	<div class="box boxr10" id="ss_kcp_tab_1" style="margin-top: 0px;">
-		<div class="heading"></div>
-		<div class="content">
-			<div id="ss_kcp_panel_1" class="tabContent">
-			<script type="text/javascript">
-				$('#ss_kcp_panel_1').forms([
-					{ title: 'KCP加速开关', name:'ss_kcp_enable', type:'checkbox',  value: dbus.ss_kcp_enable == 1 },  // ==1 means default close; !=0 means default open
-					{ title: '当前KCP版本', rid:'ss_kcp_version', text:'<font id="_ss_kcp_version" color="#1bbf35">20170904</font>'},
-				]);
-			</script>
-			</div>
-		</div>
-	</div>
-	<div class="box boxr10" id="ss_kcp_tab_2" style="margin-top: 0px;">
-		<div class="heading">KCP服务器设置</div>
-		<div class="content">
-			<div id="ss_kcp_panel_2" class="tabContent">
-			<script type="text/javascript">
-				$('#ss_kcp_panel_2').forms([
-					{ title: 'KCP加速的服务器地址', name: 'ss_kcp_node', type:'select', style:select_style, options:option_node_name, value: dbus.ss_kcp_node || "1" },
-					{ title: '服务器端口', name:'ss_kcp_port',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_port||"1099" },
-					{ title: '服务器密码 (--key)', name:'ss_kcp_password',type:'password', maxlen:64, style:input_style,value:dbus.ss_kcp_password, peekaboo:1 },
-					{ title: '速度模式 (--mode)', name:'ss_kcp_mode',type:'select', style:select_style, options:option_kcp_mode,value:dbus.ss_kcp_mode||"fast" },
-					{ title: '加密方式 (--crypt)', name:'ss_kcp_crypt',type:'select', style:select_style, options:option_kcp_crypt,value:dbus.ss_kcp_crypt||"aes" },
-					{ title: 'MTU (--mtu)', name:'ss_kcp_mtu',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_mtu||"1350" },
-					{ title: '发送窗口 (--sndwnd)', name:'ss_kcp_sndwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_sndwnd||"128" },
-					{ title: '接收窗口 (--rcvwnd)', name:'ss_kcp_rcvwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_rcvwnd||"1024" },
-					{ title: '链接数 (--conn)', name:'ss_kcp_conn',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_conn||"1" },
-					{ title: '关闭数据压缩 (--nocomp)', name:'ss_kcp_compon',type:'checkbox',style:input_style, maxlen:4, value:dbus.ss_kcp_compon == 1 },
-					{ title: '其它配置项', name:'ss_kcp_config',type:'text',style:"width:85%", value:dbus.ss_kcp_config }
-				]);
-				
-				E('_ss_kcp_config').placeholder = "请将速度模式为manual的参数和其它参数依次填写进来";
-				document.getElementById("_ss_kcp_version").innerHTML = dbus["ss_kcp_version"] || "20170904";
-				$("#_ss_kcp_node option[value='0']").remove();
-			</script>
-			</div>
-			<br><hr>
-		</div>
-	</div>
-	<div id="ss_kcp_tab_readme" class="box boxr10">
-		<div class="heading">KCP加速使用说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('kcp');"><span id="sesdivkcpshowhide"><i class="icon-chevron-up"></i></span></a></div>
-		<div class="section content" id="sesdivkcp" style="display:none">
-			<li>正确填写kcp参数后，点击保存KCP设置，如果kcp节点和ss节点一致，会自动重启ss；如果不一致，仅仅保存配置，待在主面板选在kcp加速的节点后才能生效；</li>
-			<li>kcp加速仅针对你在kcp加速页面选择的节点，如果在主面板切换到了其它节点，虽然此时kcp开关是启用状态，但是并不会启动kcp加速；</li>
-			<li>因为kcp协议仅支持tcp转kcp，所以在使用ss-tunnel作为DNS解析的时候，ss-tunnel并不会走kcp协议，而是走正常udp直连；</li>
-			<li>因为kcp加速只针对单个节点，所以kcp不能和负载均衡混用！kcp启用后负载均衡标签页会暂时隐藏，负载均衡启用后，kcp标签页会暂时隐藏;</li>
-		</div>
-		<script>
-			var cc;
-			if(!cookie.get('ss_kcp_vis')){
-				cookie.set('ss_kcp_vis', 1);
-			}
-			if (((cc = cookie.get('ss_kcp_vis')) != null) && (cc == '1')) {
-				toggleVisibility("kcp");
-			}
-		</script>
-	</div>
+	<button type="button" value="Save" id="save-node" onclick="save_node()" class="btn btn-primary boxr2">保存节点 <i class="icon-check"></i></button>
+	<!-- ------------------ DNS设定 --------------------- -->
 	<div class="box boxr3" id="ss_dns_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
@@ -3847,21 +3872,8 @@
 			</script>
 		</div>
 	</div>
-	<div class="box boxr4" id="ss_wblist_tab" style="margin-top: 0px;">
-		<div class="heading"></div>
-		<div class="content" style="margin-top: -20px;">
-			<div id="ss_wblist_pannel" class="section"></div>
-			<script type="text/javascript">
-				$('#ss_wblist_pannel').forms([
-					{ title: '<b>IP/CIDR白名单</b></br></br><font color="#B2B2B2">不走SS的外网ip/cidr地址，一行一个，例如：</br>2.2.2.2</br>3.3.0.0/16</font>', name: 'ss_wan_white_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_ip)||"", style: 'width: 100%; height:150px;' },
-					{ title: '<b>域名白名单</b></br></br><font color="#B2B2B2">不走SS的域名，例如：</br>google.com</br>facebook.com</font>', name: 'ss_wan_white_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_domain)||"", style: 'width: 100%; height:150px;' },
-					{ title: '<b>IP/CIDR黑名单</b></br></br><font color="#B2B2B2">强制走SS的外网ip/cidr地址，一行一个，例如：</br>4.4.4.4</br>5.0.0.0/8</font>', name: 'ss_wan_black_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_ip)||"", style: 'width: 100%; height:150px;' },
-					{ title: '<b>域名黑名单</b></br></br><font color="#B2B2B2">强制走SS的域名,例如：</br>baidu.com</br>koolshare.cn</font>', name: 'ss_wan_black_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_domain)||"", style: 'width: 100%; height:150px;' }
-				]);
-			</script>
-		</div>
-	</div>
-	<div class="box boxr11" id="ss_mwan_tab" style="margin-top: 0px;">
+	<!-- ------------------ 多WAN设定 --------------------- -->
+	<div class="box boxr4" id="ss_mwan_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
 			<div id="ss_mwan_pannel" class="section"></div>
@@ -3874,7 +3886,7 @@
 			</script>
 		</div>
 	</div>
-	<div id="ss_mwan_readme" class="box boxr11" style="margin-top: 0px;">
+	<div id="ss_mwan_readme" class="box boxr4" style="margin-top: 0px;">
 		<div class="heading">出口设定须知： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('mwan3');"><span id="sesdivmwan3showhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivmwan3" style="display:none">
 			<li>当你的LEDE配置了多个wan的时候，你可以通过本页面为一些ip地址设定指定的出口；</li>
@@ -3892,42 +3904,151 @@
 			}
 		</script>
 	</div>	
-	<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 9)" class="btn btn-primary boxr11">应用出口设定 <i class="icon-check"></i></button>
-	
-	<div class="box boxr5" id="ss_rule_tab" style="margin-top: 0px;">
+	<button type="button" value="Save" id="dele-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 9)" class="btn btn-primary boxr4">应用出口设定 <i class="icon-check"></i></button>
+	<!-- ------------------ 负载均衡 --------------------- -->
+	<div class="box boxr5" id="ss_lb_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
-		<div class="content" style="margin-top: -20px;">
-			<div id="ss_rule_pannel" class="section"></div>
+		<div class="content">
+			<div id="ss_lb_panel" class="tabContent">
 			<script type="text/javascript">
-				$('#ss_rule_pannel').forms([
-					{ title: 'gfwlist域名数量', rid:'gfw_number_1', text:'<a id="gfw_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/gfwlist.conf" target="_blank"></a>'},
-					{ title: '大陆白名单IP段数量', rid:'chn_number_1', text:'<a id="chn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/chnroute.txt" target="_blank"></a>'},
-					{ title: '国内域名数量（cdn名单）', rid:'cdn_number_1', text:'<a id="cdn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/cdn.txt" target="_blank"></a>'},
-					{ title: 'shadowsocks规则自动更新', multi: [
-						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_rule_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_rule_update_day || "7",suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_rule_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
-						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
-						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
-						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
-						{ suffix: '<button id="_update_rules_now" onclick="update_rules_now(5);" class="btn btn-success">手动更新 <i class="icon-cloud"></i></button>' }
+				$('#ss_lb_panel').forms([
+					{ title: '负载均衡开关', name:'ss_lb_enable',type:'checkbox',  value: dbus.ss_lb_enable == 1 },  // ==1 means default close; !=0 means default open
+					{ title: 'haproxy控制台', rid:'haproxy_console', text:'<a id="haproxy_console1" href="" target="_blank"></a>'},
+					{ title: 'haproxy登录', multi: [
+						{ name: 'ss_lb_account',type:'text', size: 4, value: dbus.ss_lb_account || "admin", prefix: '登录帐号：', suffix: ' &nbsp;&nbsp;' },
+						{ name:'ss_lb_password',type:'password',size: 4,value:dbus.ss_lb_password, peekaboo: 1, prefix: '登录密码：',  }
 					]},
-					{ title: 'Host和WhiteList（Pcap_DNSProxy）', multi: [
-						{ name: 'ss_basic_pcap_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_pcap_update || "0", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_pcap_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_pcap_update_day || "7",suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_pcap_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_pcap_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
-						{ suffix: '<button id="_update_pcap_now" onclick="update_rules_now(6);" class="btn btn-success">手动更新 <i class="icon-cloud"></i></button>' }
+					{ title: 'haproxy端口(用于ss监听)', name:'ss_lb_port',type:'text', maxlen:5, size: 2,value:dbus.ss_lb_port||"8118" },
+					{ title: 'Haproxy故障检测心跳', multi: [
+						{ name: 'ss_lb_heartbeat',type:'checkbox', value: dbus.ss_lb_heartbeat == 1, suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_lb_up', type: 'text', size: 1, value: dbus.ss_lb_up || "2", suffix: '<lable>次</lable>&nbsp;&nbsp;&nbsp;&nbsp;', prefix: '<span class="help-block"><lable>成功：</lable></span>' },
+						{ name: 'ss_lb_down', type: 'text', size: 1, value: dbus.ss_lb_down || "3", suffix: '<lable>次</lable>&nbsp;&nbsp;&nbsp;&nbsp;', prefix: '<span class="help-block"><lable>失败：</lable></span>' },
+						{ name: 'ss_lb_interval', type: 'text', size: 2, value: dbus.ss_lb_interval || "4000", suffix: '<lable>ms</lable>', prefix: '<span class="help-block"><lable>心跳间隔：</lable></span>' }
+					]},
+					{ title: '服务器添加', multi: [
+						{ name: 'ss_lb_node',type:'select',style:select_style,options:option_node_name, value: dbus.ss_lb_node || "", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_lb_weight', type: 'text', size: 1, value: dbus.ss_lb_weight || "50", suffix: ' &nbsp;&nbsp;', prefix: '<span class="help-block"><lable>权重：</lable></span>' },
+						{ name: 'ss_lb_policy', type: 'select', options:option_lb_policy, value: dbus.ss_lb_policy || "1", suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>属性：</lable></span>' },
+						{ name: 'ss_lb_dest', type: 'select', options:[], suffix: ' &nbsp;&nbsp;',prefix: '<span class="help-block"><lable>出口：</lable></span>' },
+						{ suffix: ' <button id="add_lbnode" onclick="add_lb_node();" class="btn btn-danger">添加<i class="icon-plus"></i></button>' }
 					]}
 				]);
-				$('#gfw_number').html(dbus.ss_gfw_status || "未初始化");
-				$('#chn_number').html(dbus.ss_chn_status || "未初始化");
-				$('#cdn_number').html(dbus.ss_cdn_status || "未初始化");
+				document.getElementById("haproxy_console1").href = "http://"+location.hostname+":1188";
+				document.getElementById("haproxy_console1").innerHTML = "<i><u>http://"+location.hostname+":1188</i></u>";
+				$("#_ss_lb_node option[value='0']").remove();
+				$("#_ss_lb_node").val(1);
+			</script>
+			</div>
+			<br><hr>
+		</div>
+	</div>
+	<div class="box boxr5" id="lb_list" style="margin-top: 0px;">
+		<div class="heading">负载均衡服务器列表</div>
+		<div class="content">
+			<div class="tabContent">
+				<table class="line-table" cellspacing=1 id="lb-grid">
+				</table>
+			</div>
+			<br><hr>
+		</div>
+	</div>
+	<div id="ss_lb_tab_readme" class="box boxr5">
+		<div class="heading">负载均衡操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('lb');"><span id="sesdivlbshowhide"><i class="icon-chevron-up"></i></span></a></div>
+		<div class="section content" id="sesdivlb" style="display:none">
+			<li>在此页面可以设置多个shadowsocks或者shadowsocksR帐号负载均衡，同时具有故障转移、自动恢复的功能；</li>
+			<li>注意：设置负载均衡的节点需要加密方式、密码、混淆等需要完全一致！SS、SSR之间不支持设置负载均衡；</li>
+			<li>提交设置后会开启haproxy，并在ss节点配置中增加一个服务器IP为127.0.0.1，端口为负载均衡服务器端口的帐号；</li>
+			<li>负载均衡模式下不支持udp转发：不能使用游戏模式，不能使用ss-tunnel作为国外dns方案;</li>
+			<li>强烈建议需要负载均衡的ss节点使用ip格式，使用域名会使haproxy进程加载过慢！</li>
+		</div>
+		<script>
+			var cc;
+			if(!cookie.get('ss_lb_vis')){
+				cookie.set('ss_lb_vis', 1);
+			}
+			if (((cc = cookie.get('ss_lb_vis')) != null) && (cc == '1')) {
+				toggleVisibility("lb");
+			}
+		</script>
+	</div>
+	<button type="button" value="Save" id="save-lb" onclick="save_lb()" class="btn btn-primary boxr5">保存负载均衡设置 <i class="icon-check"></i></button>
+	<!-- ------------------ KCP加速 --------------------- -->
+	<div class="box boxr6" id="ss_kcp_tab_1" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content">
+			<div id="ss_kcp_panel_1" class="tabContent">
+			<script type="text/javascript">
+				$('#ss_kcp_panel_1').forms([
+					{ title: 'KCP加速开关', name:'ss_kcp_enable', type:'checkbox',  value: dbus.ss_kcp_enable == 1 },  // ==1 means default close; !=0 means default open
+					{ title: '当前KCP版本', rid:'ss_kcp_version', text:'<font id="_ss_kcp_version" color="#1bbf35">20170904</font>'},
+				]);
+			</script>
+			</div>
+		</div>
+	</div>
+	<div class="box boxr6" id="ss_kcp_tab_2" style="margin-top: 0px;">
+		<div class="heading">KCP服务器设置</div>
+		<div class="content">
+			<div id="ss_kcp_panel_2" class="tabContent">
+			<script type="text/javascript">
+				$('#ss_kcp_panel_2').forms([
+					{ title: 'KCP加速的服务器地址', name: 'ss_kcp_node', type:'select', style:select_style, options:option_node_name, value: dbus.ss_kcp_node || "1" },
+					{ title: '服务器端口', name:'ss_kcp_port',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_port||"1099" },
+					{ title: '服务器密码 (--key)', name:'ss_kcp_password',type:'password', maxlen:64, style:input_style,value:dbus.ss_kcp_password, peekaboo:1 },
+					{ title: '速度模式 (--mode)', name:'ss_kcp_mode',type:'select', style:select_style, options:option_kcp_mode,value:dbus.ss_kcp_mode||"fast" },
+					{ title: '加密方式 (--crypt)', name:'ss_kcp_crypt',type:'select', style:select_style, options:option_kcp_crypt,value:dbus.ss_kcp_crypt||"aes" },
+					{ title: 'MTU (--mtu)', name:'ss_kcp_mtu',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_mtu||"1350" },
+					{ title: '发送窗口 (--sndwnd)', name:'ss_kcp_sndwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_sndwnd||"128" },
+					{ title: '接收窗口 (--rcvwnd)', name:'ss_kcp_rcvwnd',type:'text',style:input_style, maxlen:5, value:dbus.ss_kcp_rcvwnd||"1024" },
+					{ title: '链接数 (--conn)', name:'ss_kcp_conn',type:'text',style:input_style, maxlen:4, value:dbus.ss_kcp_conn||"1" },
+					{ title: '关闭数据压缩 (--nocomp)', name:'ss_kcp_compon',type:'checkbox',style:input_style, maxlen:4, value:dbus.ss_kcp_compon == 1 },
+					{ title: '其它配置项', name:'ss_kcp_config',type:'text',style:"width:85%", value:dbus.ss_kcp_config }
+				]);
+				
+				E('_ss_kcp_config').placeholder = "请将速度模式为manual的参数和其它参数依次填写进来";
+				document.getElementById("_ss_kcp_version").innerHTML = dbus["ss_kcp_version"] || "20170904";
+				$("#_ss_kcp_node option[value='0']").remove();
+			</script>
+			</div>
+			<br><hr>
+		</div>
+	</div>
+	<div id="ss_kcp_tab_readme" class="box boxr6">
+		<div class="heading">KCP加速使用说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('kcp');"><span id="sesdivkcpshowhide"><i class="icon-chevron-up"></i></span></a></div>
+		<div class="section content" id="sesdivkcp" style="display:none">
+			<li>正确填写kcp参数后，点击保存KCP设置，如果kcp节点和ss节点一致，会自动重启ss；如果不一致，仅仅保存配置，待在主面板选在kcp加速的节点后才能生效；</li>
+			<li>kcp加速仅针对你在kcp加速页面选择的节点，如果在主面板切换到了其它节点，虽然此时kcp开关是启用状态，但是并不会启动kcp加速；</li>
+			<li>因为kcp协议仅支持tcp转kcp，所以在使用ss-tunnel作为DNS解析的时候，ss-tunnel并不会走kcp协议，而是走正常udp直连；</li>
+			<li>因为kcp加速只针对单个节点，所以kcp不能和负载均衡混用！kcp启用后负载均衡标签页会暂时隐藏，负载均衡启用后，kcp标签页会暂时隐藏;</li>
+		</div>
+		<script>
+			var cc;
+			if(!cookie.get('ss_kcp_vis')){
+				cookie.set('ss_kcp_vis', 1);
+			}
+			if (((cc = cookie.get('ss_kcp_vis')) != null) && (cc == '1')) {
+				toggleVisibility("kcp");
+			}
+		</script>
+	</div>
+	<button type="button" value="Save" id="save-kcp" onclick="save_kcp()" class="btn btn-primary boxr6">保存kcp设置 <i class="icon-check"></i></button>
+	<!-- ------------------ 黑白名单--------------------- -->
+	<div class="box boxr7" id="ss_wblist_tab" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content" style="margin-top: -20px;">
+			<div id="ss_wblist_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#ss_wblist_pannel').forms([
+					{ title: '<b>IP/CIDR白名单</b></br></br><font color="#B2B2B2">不走SS的外网ip/cidr地址，一行一个，例如：</br>2.2.2.2</br>3.3.0.0/16</font>', name: 'ss_wan_white_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_ip)||"", style: 'width: 100%; height:150px;' },
+					{ title: '<b>域名白名单</b></br></br><font color="#B2B2B2">不走SS的域名，例如：</br>google.com</br>facebook.com</font>', name: 'ss_wan_white_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_white_domain)||"", style: 'width: 100%; height:150px;' },
+					{ title: '<b>IP/CIDR黑名单</b></br></br><font color="#B2B2B2">强制走SS的外网ip/cidr地址，一行一个，例如：</br>4.4.4.4</br>5.0.0.0/8</font>', name: 'ss_wan_black_ip', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_ip)||"", style: 'width: 100%; height:150px;' },
+					{ title: '<b>域名黑名单</b></br></br><font color="#B2B2B2">强制走SS的域名,例如：</br>baidu.com</br>koolshare.cn</font>', name: 'ss_wan_black_domain', type: 'textarea', value: Base64.decode(dbus.ss_wan_black_domain)||"", style: 'width: 100%; height:150px;' }
+				]);
 			</script>
 		</div>
 	</div>
-	<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 10)" class="btn btn-primary boxr5">保存本页设置 <i class="icon-check"></i></button>
-
-	<div class="box boxr6" id="ss_acl_tab" style="margin-top: 0px;">
+	<!-- ------------------ 访问控制 --------------------- -->
+	<div class="box boxr8" id="ss_acl_tab" style="margin-top: 0px;">
 		<div class="heading">访问控制主机</div>
 		<div class="content">
 			<div class="tabContent">
@@ -3936,7 +4057,7 @@
 			<br><hr>
 		</div>
 	</div>
-	<div class="box boxr6" id="ss_acl_default_tab" style="margin-top: 0px;">
+	<div class="box boxr8" id="ss_acl_default_tab" style="margin-top: 0px;">
 		<div class="heading">默认主机设置</div>
 		<div class="content">
 			<div id="ss_acl_default_pannel" class="section"></div>
@@ -3952,8 +4073,7 @@
 			</script>
 		</div>
 	</div>
-
-	<div id="ss_acl_tab_readme" class="box boxr6">
+	<div id="ss_acl_tab_readme" class="box boxr8">
 		<div class="heading">访问控制操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('acl');"><span id="sesdivaclshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivacl" style="display:none">
 			<li><b>1：</b> 你可以在这里定义你需要的主机走SS的模式和端口，或者你可以什么都不做，使用默认规则，代表全部主机都默认走【默认主机设置】内的模式和端口；</li>
@@ -3973,7 +4093,40 @@
 			}
 		</script>
 	</div>
-	<div class="box boxr7" id="ss_addon_tab" style="margin-top: 0px;">
+	<!-- ------------------ 规则管理 --------------------- -->
+	<div class="box boxr9" id="ss_rule_tab" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content" style="margin-top: -20px;">
+			<div id="ss_rule_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#ss_rule_pannel').forms([
+					{ title: 'gfwlist域名数量', rid:'gfw_number_1', text:'<a id="gfw_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/gfwlist.conf" target="_blank"></a>'},
+					{ title: '大陆白名单IP段数量', rid:'chn_number_1', text:'<a id="chn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/chnroute.txt" target="_blank"></a>'},
+					{ title: '国内域名数量（cdn名单）', rid:'cdn_number_1', text:'<a id="cdn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/cdn.txt" target="_blank"></a>'},
+					{ title: 'Routing.txt（Pcap规则）', rid:'Routing_number_1', text:'<a id="Routing_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/Routing.txt" target="_blank"></a>'},
+					{ title: 'WhiteList.txt（Pcap规则）', rid:'WhiteList_number_1', text:'<a id="WhiteList_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/WhiteList.txt" target="_blank"></a>'},
+					{ title: 'shadowsocks规则自动更新', multi: [
+						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_rule_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_rule_update_day || "7",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_basic_rule_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
+						{ name:'ss_basic_gfwlist_update',type:'checkbox',value: dbus.ss_basic_gfwlist_update != 0, suffix: '<lable id="_ss_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_chnroute_update',type:'checkbox',value: dbus.ss_basic_chnroute_update != 0, suffix: '<lable id="_ss_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_cdn_update',type:'checkbox',value: dbus.ss_basic_cdn_update != 0, suffix: '<lable id="_ss_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
+						{ name:'ss_basic_pcap_update',type:'checkbox',value: dbus.ss_basic_pcap_update != 0, suffix: '<lable id="_ss_basic_pcap_update_txt">pcap_list</lable>&nbsp;&nbsp;' },
+						{ suffix: '<button id="_update_rules_now" onclick="update_rules_now(5);" class="btn btn-success">手动更新 <i class="icon-cloud"></i></button>' }
+					]}
+				]);
+				$('#gfw_number').html(dbus.ss_gfw_status || "未初始化");
+				$('#chn_number').html(dbus.ss_chn_status || "未初始化");
+				$('#cdn_number').html(dbus.ss_cdn_status || "未初始化");
+				$('#Routing_number').html(dbus.ss_Routing_status || "未初始化");
+				$('#WhiteList_number').html(dbus.ss_WhiteList_status || "未初始化");
+			</script>
+		</div>
+	</div>
+	<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 10)" class="btn btn-primary boxr9">保存本页设置 <i class="icon-check"></i></button>
+	<!-- ------------------ 附加功能 --------------------- -->
+	<div class="box boxr10" id="ss_addon_tab" style="margin-top: 0px;">
 		<div class="heading"></div>
 		<div class="content" style="margin-top: -20px;">
 			<div id="ss_addon_pannel" class="section"></div>
@@ -3989,7 +4142,8 @@
 			</script>
 		</div>
 	</div>
-	<div class="box boxr8" id="ss_log_tab" style="margin-top: 0px;">
+	<!-- ------------------ 查看日志 --------------------- -->
+	<div class="box boxr11" id="ss_log_tab" style="margin-top: 0px;">
 		<div id="ss_log_pannel" class="content">
 			<div class="section content">
 				<script type="text/javascript">
@@ -4000,88 +4154,11 @@
 			</div>
 		</div>
 	</div>
+	<!-- ------------------ 其它 --------------------- -->
 	<div id="msg_warring" class="alert alert-warning icon" style="display:none;"></div>
 	<div id="msg_success" class="alert alert-success icon" style="display:none;"></div>
 	<div id="msg_error" class="alert alert-error icon" style="display:none;"></div>
-	<button type="button" value="Save" id="save-lb" onclick="save_lb()" class="btn btn-primary">保存负载均衡设置 <i class="icon-check"></i></button>
-	<button type="button" value="Save" id="save-kcp" onclick="save_kcp()" class="btn btn-primary">保存kcp设置 <i class="icon-check"></i></button>
-	<button type="button" value="Save" id="save-node" onclick="save_node()" class="btn btn-primary">保存节点 <i class="icon-check"></i></button>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">提交 <i class="icon-check"></i></button>
 	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
-	<div class="box boxr2" id="ssr_ping_tab" style="margin-top: 30px;">
-		<div class="heading">ping测试</div>
-		<div class="content">
-			<div id="ss_ping_panel" class="tabContent">
-				<script type="text/javascript">
-					$('#ss_ping_panel').forms([
-						{ title: '节点ping测试', multi: [
-							{ name:'ss_basic_ping_method',type:'select',options:[["1", "ping 1次"], ["2", "10次ping平均 + 丢包率"], ["3", "20次ping平均 + 丢包率"] ], value: dbus.ss_basic_ping_method || "1", prefix:'ping测试方式：', suffix: ' &nbsp;&nbsp;'},
-							//{ name:'ss_basic_ping_refresh',type:'select',options:[["1", "不显示（人工测试）"], ["0", "仅显示一次（不刷新）"], ["5", "5秒刷新一次"], ["15", "15秒刷新一次"], ["30", "30秒刷新一次"] ], value: dbus.ss_basic_ping_refresh || "0", prefix:'ping刷新间隔：', suffix: ' &nbsp;&nbsp;'},
-							{ suffix: '<button id="ping_botton" onclick="ping_node();" class="btn btn-primary">手动测试ping <i class="icon-traffic"></i></button>' }
-						]},
-					]);
-				</script>
-			</div>
-			<br><hr>
-		</div>
-	</div>
-	<div class="box boxr2" id="ssr_node_subscribe" style="margin-top: 30px;">
-		<div class="heading">SSR节点订阅</div>
-		<div class="content">
-			<div id="ssr_node_subscribe_pannel" class="section">
-				<fieldset>
-					<label class="col-sm-3 control-left-label">SSR节点订阅地址</label>
-					<div class="col-sm-9">
-						<table class="line-table" cellspacing=1 id="online_link-grid">
-						</table>
-					</div>
-				</fieldset>
-			</div>
-			<script type="text/javascript">
-				var group_del = [];
-				group_del[0] = ["0", "删除全部订阅节点"]
-				for ( var i = 1; i <= 10; i++){
-					if(dbus["ss_online_group_" + i]){
-						group_del[i] = [dbus["ss_online_group_" + i], dbus["ss_online_group_" + i]];
-					}
-				}
-				$('#ssr_node_subscribe_pannel').forms([
-					{ title: '订阅节点模式设定',  name:'ssr_subscribe_mode',type:'select',options:option_mode,value:dbus.ssr_subscribe_mode || "2", suffix: '<lable id="_ssr_subscribe_mode_text">订阅后的服务器默认使用该模式。</lable>' },
-					{ title: '订阅节点混淆参数设定', multi: [
-						{ name: 'ssr_subscribe_obfspara',type:'select',options:[['0', '留空'], ['1', '使用订阅设定'], ['2', '自定义']], value: dbus.ssr_subscribe_obfspara || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ssr_subscribe_obfspara_val', type: 'text', value: dbus.ssr_subscribe_obfspara_val || "www.baidu.com", suffix: '<lable id="_ssr_subscribe_obfspara_text">有的订阅服务器不包含混淆参数，你可以在此处统一设定。</lable>' }
-					]},
-					{ title: '订阅时走SS网络', name:'ss_basic_online_links_goss',type:'checkbox',value: dbus.ss_basic_online_links_goss == 1, suffix: ' 保存后需要重启SS才能生效' },  // ==1 means default close; !=0 means default open
-					{ title: '节点订阅计划任务', multi: [
-						{ name: 'ss_basic_node_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_node_update || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_node_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_node_update_day || "7",suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_node_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_node_update_hr || "4",suffix: ' &nbsp;&nbsp;'}
-					]},
-					{ title: '删除订阅节点', multi: [
-						{ name: 'ss_basic_online_node_del',type: 'select', options:group_del, value: dbus.ss_basic_online_node_del || "0", suffix: ' &nbsp;&nbsp;' },
-						{ suffix: '<button id="_delete_online_node" onclick="delete_online_node(5);" class="btn">删除 <i class="icon-cancel"></i></button>' }
-					]}
-				]);
-			</script>
-			<!--<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>-->
-			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_online_update.sh', 7)" class="btn btn-primary" style="float:right;margin-right:20px;">手动更新订阅 <i class="icon-check"></i></button>
-			<button type="button" value="Save" id="save-subscribe-node" onclick="manipulate_conf('ss_conf.sh', 8)" class="btn btn-primary" style="float:right;margin-right:20px;">保存订阅设置 <i class="icon-wrench"></i></button>
-		</div>
-	</div>
-	<div class="box boxr2" id="ss_link_add" style="margin-top: 30px;">
-		<div class="heading">通过SS/SSR链接添加服务器</div>
-		<div class="content">
-			<div id="ss_link_pannel" class="section">
-				<fieldset>
-					<label class="col-sm-3 control-left-label">SS/SSR链接</label>
-					<div class="col-sm-9">
-						<table class="line-table" cellspacing=1 id="ss_link-grid">
-						</table>
-					</div>
-				</fieldset>
-			</div>
-			<button type="button" value="Save" id="save-add-link" onclick="manipulate_conf('ss_online_update.sh', 'add')" class="btn btn-primary" style="float:right;margin-right:0px;">解析并保存为节点 <i class="icon-check"></i></button>
-		</div>
-	</div>
 	<script type="text/javascript">init_ss();</script>
 </content>

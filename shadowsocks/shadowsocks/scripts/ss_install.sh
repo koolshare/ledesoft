@@ -64,6 +64,10 @@ rm -rf $KSROOT/bin/ps >/dev/null 2>&1
 rm -rf /usr/lib/lua/luci/controller/sadog.lua >/dev/null 2>&1
 [ -f "/koolshare/webs/files/shadowsocks.tar.gz" ] && rm -rf /koolshare/webs/files/shadowsocks.tar.gz
 
+# 清理一些不用的设置
+sed -i '/sspcapupdate/d' /etc/crontabs/root >/dev/null 2>&1
+
+# 复制文件
 cd /tmp
 echo_date 复制安装包内的文件到路由器...
 cp -rf /tmp/shadowsocks/bin/* $KSROOT/bin/
@@ -87,7 +91,7 @@ chmod 755 $KSROOT/init.d/S99shadowsocks.sh
 
 local_version=`cat $KSROOT/ss/version`
 echo_date 设置版本号为$local_version...
-dbus set ss_basic_version=$local_version
+dbus set ss_version=$local_version
 
 sleep 1
 echo_date 删除相关安装包...

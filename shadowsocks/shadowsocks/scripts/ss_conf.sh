@@ -18,7 +18,7 @@ remove_conf_all(){
 	done
 	echo_date 设置一些默认参数...
 	dbus set ss_basic_enable="0"
-	dbus set ss_basic_version=`cat $KSROOT/ss/version` 
+	dbus set ss_version=`cat $KSROOT/ss/version` 
 	echo_date 完成！
 }
 
@@ -153,7 +153,7 @@ case $2 in
 		sh ss_conf_backup.sh
 		sleep 1
 		rm -rf /tmp/upload/ss_conf_backup.sh
-		dbus set ss_basic_version=`cat $KSROOT/ss/version`
+		dbus set ss_version=`cat $KSROOT/ss/version`
 		echo_date "恢复完毕！" >> $LOG_FILE
 	else
 		echo_date "配置文件格式错误！" >> $LOG_FILE

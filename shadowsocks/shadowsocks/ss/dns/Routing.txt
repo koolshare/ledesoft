@@ -1,12 +1,11 @@
 [Local Routing]
 ## China mainland routing blocks
-## Last update: 2017-09-29 18:00:56
+## Last update: 2017-10-01 05:00:00
 
 
 ## IPv4
 1.0.1.0/24
 1.0.2.0/23
-1.0.8.0/21
 1.0.32.0/19
 1.1.0.0/24
 1.1.2.0/23
