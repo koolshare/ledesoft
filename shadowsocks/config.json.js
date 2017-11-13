@@ -1,12 +1,9 @@
-[
 {
-    "build_date": "2017-09-09_18:29:47", 
-    "description": "轻松科学上网~", 
-    "home_url": "Module_shadowsocks.asp", 
-    "md5": "f3596171e78f95a652169726663bb3b2", 
-    "name": "shadowsocks", 
-    "tar_url": "shadowsocks/shadowsocks.tar.gz", 
-    "title": "shadowsocks", 
-    "version": "1.9.7"
+"version":"1.9.7",
+"md5":"b3fadf3a355c8125c9cf77023c572ce2",
+"home_url":"Module_shadowsocks.asp",
+"title":"shadowsocks",
+"description":"轻松科学上网~",
+"changelog":"",
+"build_date":"2017-11-14_00:28:17"
 }
-]
