@@ -59,7 +59,7 @@ get_remote_config(){
 	#password=$(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'/' '{print $1}')
 	
 	password=$(decode_url_link $(echo "$decode_link" |awk -F':' '{print $6}'|awk -F'/' '{print $1}') 0)
-	password=`echo $password|base64_encode`
+	password=`echo $password`
 	
 	obfsparam_temp=$(echo "$decode_link" |awk -F':' '{print $6}'|grep -Eo "obfsparam.+"|sed 's/obfsparam=//g'|awk -F'&' '{print $1}')
 	[ -n "$obfsparam_temp" ] && obfsparam=$(decode_url_link $obfsparam_temp 0) || obfsparam=''
@@ -279,22 +279,17 @@ get_oneline_rule_now(){
 			# 节点重新排序
 			remove_node_gap
 			# 储存对应订阅链接的group信息
+			echo $group >> /tmp/group_info.txt
 			dbus set ss_online_group_$z=$group
-			HIDE_DETIAL=0
-		else
-			echo_date 该订阅链接不包含任何节点信息！请检查你的服务商是否更换了订阅链接！ >> $LOG_FILE
-			HIDE_DETIAL=1
-		fi
-		NO_DEL=0
-		sleep 1
-		echo $group >> /tmp/group_info.txt
-		if [ "$HIDE_DETIAL" == "0" ];then
 			USER_ADD=$(($(dbus list ssconf_basic_server|grep -v ssconf_basic_server_ip_|wc -l) - $(dbus list ssconf_basic_group|wc -l))) || 0
 			ONLINE_GET=$(dbus list ssconf_basic_group|wc -l) || 0
-			echo_date "本次更新订阅来源 【$group】， 新增节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；"
-			echo_date "现共有自添加SSR节点：$USER_ADD 个。"
-			echo_date "现共有订阅SSR节点：$ONLINE_GET 个。"
-			echo_date "在线订阅列表更新完成!"
+			echo_date "本次更新订阅来源 【$group】， 新增节点 $addnum 个，修改 $updatenum 个，删除 $delnum 个；" >> $LOG_FILE
+			echo_date "现共有自添加SSR节点：$USER_ADD 个。" >> $LOG_FILE
+			echo_date "现共有订阅SSR节点：$ONLINE_GET 个。" >> $LOG_FILE
+			echo_date "在线订阅列表更新完成!" >> $LOG_FILE
+			NO_DEL=0
+		else
+			return 3
 		fi
 	else
 		return 1

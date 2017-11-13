@@ -441,11 +441,11 @@
             "version": "0.4"
         }, 
         {
-            "build_date": "2017-11-14_01:45:47", 
+            "build_date": "2017-11-14_02:08:24", 
             "changelog": "1.9.8", 
             "description": "轻松科学上网~", 
             "home_url": "Module_shadowsocks.asp", 
-            "md5": "3a879e1f429c889b94acc4426c819590", 
+            "md5": "b9fdd930a2dc3f008447d9626a73b883", 
             "name": "shadowsocks", 
             "tar_url": "shadowsocks/shadowsocks.tar.gz", 
             "title": "shadowsocks", 
