@@ -249,15 +249,15 @@
             "version": "1.1.5"
         }, 
         {
-            "build_date": "2017-11-15_13:30:38", 
+            "build_date": "2017-11-15_14:00:10", 
             "changelog": "", 
             "description": "多运营商自动分流", 
             "home_url": "Module_policy.asp", 
-            "md5": "c8eac85ae334e348be3a707b99533451", 
+            "md5": "100e36656509faaa43aac697879ab37d", 
             "name": "policy", 
             "tar_url": "policy/policy.tar.gz", 
             "title": "策略路由", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-11-11_15:56:45", 

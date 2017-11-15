@@ -254,7 +254,7 @@
 				}
 			}
 			table3_node_nu = tmp_2.length;
-			console.log("table3_node_nu", table3_node_nu);
+			//console.log("table3_node_nu", table3_node_nu);
 			//--------------------------------------
 			// count table2 line data nu
 			var tmp_3 = [];
@@ -270,7 +270,7 @@
 				}
 			}
 			table2_node_nu = tmp_4.length;
-			console.log("table2_node_nu", table2_node_nu);
+			//console.log("table2_node_nu", table2_node_nu);
 			//--------------------------------------
 			if(table3_node_nu > 0){
 				for ( var i = 1; i <= table3_node_nu; i++){
@@ -281,8 +281,8 @@
 			for ( var i = 0; i < option_isp.length; i++){
 				option_isp_name.push(option_isp[i][1]);
 			}
-			console.log("option_isp", option_isp)
-			console.log("option_isp_name", option_isp_name)
+			//console.log("option_isp", option_isp)
+			//console.log("option_isp_name", option_isp_name)
 			//--------------------------------------
 			table3.setup();
 			get_wans_list();
@@ -302,8 +302,8 @@
 						wans = eval(Base64.decode(response.result));
 						for ( var i = 0; i < wans.length; i++ ){
 							var wans_temp = [];
-							wans_temp[0] = wans[0][i]
-							wans_temp[1] = wans[0][i]
+							wans_temp[0] = wans[i][0];
+							wans_temp[1] = wans[i][0];
 							option_wan.push(wans_temp);
 						}
 						option_wan_name  = wans.sort();
@@ -328,10 +328,6 @@
 					$('#'+tableX[i]).removeClass('active');
 					$('.'+boxX[i]).hide();
 				}
-				//if(obj == "app2"){
-				//	$("#table_2_grid tr").remove();
-				//	table2.setup();
-				//}
 			}
 		}
 		function verifyFields(r){
@@ -395,7 +391,7 @@
 					}
 				}
 			}
-			console.log(dbus)
+			//console.log(dbus)
 			// now post data
 			postdata("policy_config.sh", dbus)
 		}
