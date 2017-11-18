@@ -19,6 +19,10 @@ if [ "$COMP" == "1" ];then
 	opkg remove node-npm node-homebridge node 
 fi
 
+rm -rf $KSROOT/homebridge/accessories
+rm -rf $KSROOT/homebridge/persist
+rm -rf /usr/lib/node_modules/homebridge*
+
 dbus set softcenter_module_homebridge_description=智能家庭网关
 dbus set softcenter_module_homebridge_install=1
 dbus set softcenter_module_homebridge_name=homebridge

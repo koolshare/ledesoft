@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=homebridge
-VERSION=0.5
+VERSION=0.6
 TITLE=Homebridge
 DESCRIPTION=智能家庭网关
 HOME_URL=Module_homebridge.asp
+CHANGELOG="修复自动生成配置文件的错误"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

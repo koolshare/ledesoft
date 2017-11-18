@@ -23,15 +23,15 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-09-14_13:46:27", 
-            "changelog": "", 
+            "build_date": "2017-11-18_21:20:32", 
+            "changelog": "修复自动生成配置文件的错误", 
             "description": "智能家庭网关", 
             "home_url": "Module_homebridge.asp", 
-            "md5": "9a13912a89d7cd0d99511cef2e05ab85", 
+            "md5": "a132573a1e0d6dec55aee37d2f954549", 
             "name": "homebridge", 
             "tar_url": "homebridge/homebridge.tar.gz", 
             "title": "Homebridge", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-10-14_15:22:41", 

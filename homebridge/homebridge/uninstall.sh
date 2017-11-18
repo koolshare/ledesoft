@@ -18,6 +18,8 @@ rm -rf /etc/rc.d/S98homebridge.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/Module_homebridge.asp
 rm -rf $KSROOT/webs/res/icon-homebridge.png
 rm -rf $KSROOT/webs/res/icon-homebridge-bg.png
+rm -rf $KSROOT/homebridge
+rm -rf /usr/lib/node_modules/homebridge*
 
 dbus remove softcenter_module_homebridge_home_url
 dbus remove softcenter_module_homebridge_install

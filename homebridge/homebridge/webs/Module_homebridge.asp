@@ -219,16 +219,11 @@ No part of this file may be used without permission.
 		</div>
 	<div class="box"><br>
 	<div class="heading"><font color="#FF3300">设置说明：</font> <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
-	<div class="section content" id="sesdivnotes" style="display:none">
+	<div class="section content" id="sesdivnotes" style="display:">
 			<li> 你必须购买支持homekit协议的硬件才能配置此网关使用。默认只能在局域网内使用，如果要在外网访问的话，需要家里有第四代的Apple TV或者任意iPad做中转。</font></li>
-			<br />
 			<li> 小米第二代智能网关才能支持homekit，且需要开启开发者模式，进入局域网通信协议菜单，打开开关。</li>
-			<br />
-			<li> 小米智能网关MAC为在米家APP中点击网关信息中显示mac=引号内的内容，设置时去掉：号。</li>
-			<br />
-			<li> 小米智能网关密码为在米家APP中点击局域网通信协议显示的密码。</li>
-			<br />
-			<li> 如果你有多个智能网关可以使用，号分隔。</li>
+			<li> 小米智能网关MAC为在米家APP中点击网关信息中显示mac=引号内的内容，设置时去掉：号且小写。</li>
+			<li> 小米智能网关密码为在米家APP中点击局域网通信协议显示的密码，严格按照大小写。</li>
 	</div>
 	</div>
 </div>
