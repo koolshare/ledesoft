@@ -78,14 +78,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2017-09-09_18:29:47", 
+            "build_date": "2017-11-21_21:49:06", 
+            "changelog": "更新黑名单", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "2e20ddf7e3c104d03fc9846df83e5eac", 
+            "md5": "1a9b68e806df4b0b0ff0a22b7d880f25", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.33"
+            "version": "3.6.1.34"
         }, 
         {
             "build_date": "2017-10-03_00:51:16", 
@@ -247,6 +248,11 @@
             "tar_url": "shellinabox/shellinabox.tar.gz", 
             "title": "ShellnaBox", 
             "version": "1.1.5"
+        }, 
+        {
+            "name": "nwan", 
+            "tar_url": "nwan/nwan.tar.gz", 
+            "title": "nwan"
         }, 
         {
             "build_date": "2017-11-15_14:00:10", 

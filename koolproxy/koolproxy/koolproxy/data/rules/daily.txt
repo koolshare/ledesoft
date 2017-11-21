@@ -1,19 +1,38 @@
 !x  -----------------------------------------------------------------------------------------------------------------
-!x  -----[KoolProxy Plus 3.6.1]
-!x  -----update[rules]: 2017-9-8 22:11
+!x  -----[KoolProxy Plus 3.6.3]
+!x  -----update[rules]: 2017-11-19 21:07
 !x  -----Thanks: From KP Rule Group -- <houzi-> <today2004> <a-len> <xiaoxia> <leo> <Carseason>
 !x  -----Thanks for help: <CJX> <yiclear> <xwhyz> 
 !x  -----Tip: Welcome to rule group,Please Send mail to <wojiaolinmu008@gmail.com>
 !x  -----------------------------------------------------------------------------------------------------------------
-!|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
+|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
+||dnvod.tv/w
+||jb51.net/jslib/jquery/
+||jb51.net/js/beitou.js
+jb51.net##.logom.fl,#txtlink,.logor.fr,.blank6,.topimg
+www.jb51.net##img[src^="http://files.jb51.net/image"]
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://live.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
 !|https://www.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
-|http://gaoqing.la$s@<div id="head" class="row">@<div id="head" style="display:none">@
+||muchong.com.cn###hd > DIV.wp > DIV.a_mu:nth-child(8) > A > IMG
+|http://hot.cnbeta.com/$s@<div style="display:block !important;*">@<div style="display:none !important;>@
+|http://hot.cnbeta.com/$s@JB=function()@@
+|http://hot.cnbeta.com/articles/$s@<section class="mt5 cber" style="display:none">*</section>@@
+|http://hot.cnbeta.com/assets/js/pages/article.js?v=$s@var CheckBlock=function(options)@@
 !||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/player_yknpsv.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
 !||static.youku.com/$r@http://static.youku.com/*/v/swf/upsplayer/loader.swf@http://koolshare.b0.upaiyun.com/kp/swf/dszw/youku.swf@
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://api.bilibili.com/x/web-show/res/loc?pf=0&id=160
+@@|http://music.163.com/eapi/ad/get?_nmclfl=1
+!||https://alicdn.com/g/mm/afp-cdn/JS/
+|https://afpmm.alicdn.com/g/mm/afp-cdn/JS/
+!||v.aty.sohu.com/crossdomain.xml$domain=~cnbeta.com
+!|https://v.aty.sohu.com/crossdomain.xml
+||gridsumdissector.com^$third-party
+|https://afpssp.alimama.com/crossdomain.xml
+|https://promotion.aliyun.com/promotion/adv/getAliyunAdv.
+|https://alimama.alicdn.com/
+||https://mediav.com
 !x  -----------------------------------------------------------------------------------------------------------------
 
 !x  -----------------------------------------------------------------------------------------------------------------
