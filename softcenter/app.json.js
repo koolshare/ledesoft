@@ -67,6 +67,17 @@
             "version": "1.0.7"
         }, 
         {
+            "build_date": "2017-11-24_18:16:42", 
+            "changelog": "", 
+            "description": "PPPOE服务器", 
+            "home_url": "Module_pppoeserver.asp", 
+            "md5": "b544bc87f2450e7de5cfcffb891c3f0b", 
+            "name": "pppoeserver", 
+            "tar_url": "pppoeserver/pppoeserver.tar.gz", 
+            "title": "PPPoE Server", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-09_22:23:58", 
             "changelog": "", 
             "description": "增强路由NAT能力", 

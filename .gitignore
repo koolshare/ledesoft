@@ -19,3 +19,5 @@ tunnel
 /acme/build
 /policy/build
 /ssrserver/build
+/pppoeserver/build
+/nwan/build
