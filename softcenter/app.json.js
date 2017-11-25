@@ -394,15 +394,15 @@
             "version": "1.9.8"
         }, 
         {
-            "build_date": "2017-11-04_23:03:00", 
-            "changelog": "增加使用证书登陆", 
+            "build_date": "2017-11-26_00:00:19", 
+            "changelog": "修复2.9无法使用证书登陆", 
             "description": "与你的网络无缝并行", 
             "home_url": "Module_anyconnect.asp", 
-            "md5": "9c4de631031211bacb269bb6400fd375", 
+            "md5": "82f064de30f90ad7163a272e9f1b9664", 
             "name": "anyconnect", 
             "tar_url": "anyconnect/anyconnect.tar.gz", 
             "title": "AnyConnect Server", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-10-12_11:01:40", 
