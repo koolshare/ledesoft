@@ -599,13 +599,12 @@ start_sslocal(){
 
 start_dns(){
 	# Start DNS2SOCKS
-	# if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
-		echo_date 开启ss-local，提供socks5端口：23456
-		start_sslocal
-		sleep 1
+	echo_date 开启ss-local，提供socks5端口：23456
+	start_sslocal
+	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
 		echo_date 开启dns2socks，监听端口：23456
 		dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
-	# fi
+	fi
 
 	# Start ss-tunnel
 	if [ "2" == "$ss_dns_foreign" ];then

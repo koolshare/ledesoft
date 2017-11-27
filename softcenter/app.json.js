@@ -246,15 +246,15 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2017-11-27_23:23:17", 
+            "build_date": "2017-11-27_23:30:45", 
             "changelog": "1.9.8", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "ae965f514cf987f0b5e2a326f1132429", 
+            "md5": "91ee9f7cc4e4c1d6bc071b5089f315d9", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "1.9.9.1"
+            "version": "1.9.9.2"
         }, 
         {
             "build_date": "2017-11-11_15:56:45", 
