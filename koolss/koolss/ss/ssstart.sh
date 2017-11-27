@@ -89,7 +89,7 @@ chinadns=$(ps | grep "chinadns" | grep -v "grep")
 DNS2SOCK=$(ps | grep "dns2socks" | grep -v "grep")
 Pcap_DNSProxy=$(ps | grep "Pcap_DNSProxy" | grep -v "grep")
 HAPID=`pidof haproxy`
-ip_rule_exist=`/usr/sbin/ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
+ip_rule_exist=`ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 #--------------------------------------------------------------------------
 
 calculate_wans_nu(){
@@ -253,10 +253,10 @@ route_add(){
 	elif [ "$devname" == "1" ];then
 		echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"、
 	else
-		GW=`/usr/sbin/ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
+		GW=`ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
 		l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
 		if [ -n "$GW" ];then
-			/usr/sbin/ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
+			ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
 			if [ ! -f $cleanfile ];then
 				cat	> $cleanfile <<-EOF
@@ -264,7 +264,7 @@ route_add(){
 				EOF
 			fi
 			chmod +x $cleanfile
-			echo "/usr/sbin/ip route del $routeip via $GW dev $devname 【$l3_name】" >>	/tmp/route_del
+			echo "ip route del $routeip via $GW dev $devname 【$l3_name】" >>	/tmp/route_del
 		else
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】失败, 因为$devname 【$l3_name】已经离线!!! $routeip将会自动选择出口！"
 		fi
@@ -1037,20 +1037,20 @@ flush_nat(){
 	ipset -F router >/dev/null 2>&1 && ipset -X router >/dev/null 2>&1
 
 	#remove_redundant_rule
-	ip_rule_exist=`/usr/sbin/ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
+	ip_rule_exist=`ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 	if [ ! -z "ip_rule_exist" ];then
 		echo_date 清除重复的ip rule规则.
 		until [ "$ip_rule_exist" = 0 ]
 		do 
 			#ip rule del fwmark 0x07 table 310
-			/usr/sbin/ip rule del fwmark 0x07 table 310 pref 789
+			ip rule del fwmark 0x07 table 310 pref 789
 			ip_rule_exist=`expr $ip_rule_exist - 1`
 		done
 	fi
 
 	# remove_route_table
 	echo_date 删除ip route规则.
-	/usr/sbin/ip route del local 0.0.0.0/0 dev lo table 310 >/dev/null 2>&1
+	ip route del local 0.0.0.0/0 dev lo table 310 >/dev/null 2>&1
 }
 
 # creat ipset rules
@@ -1282,8 +1282,8 @@ apply_nat_rules(){
 		iptables -t nat -A SHADOWSOCKS_GAM -p tcp -m set ! --match-set chnroute dst -j REDIRECT --to-ports 3333
 	fi
 	#[ "$mangle" == "1" ] && load_tproxy
-	[ "$mangle" == "1" ] && /usr/sbin/ip rule add fwmark 0x07 table 310 pref 789
-	[ "$mangle" == "1" ] && /usr/sbin/ip route add local 0.0.0.0/0 dev lo table 310
+	[ "$mangle" == "1" ] && ip rule add fwmark 0x07 table 310 pref 789
+	[ "$mangle" == "1" ] && ip route add local 0.0.0.0/0 dev lo table 310
 	# 创建游戏模式udp rule
 	[ "$mangle" == "1" ] && iptables -t mangle -N SHADOWSOCKS
 	# IP/cidr/白域名 白名单控制（不走ss）
