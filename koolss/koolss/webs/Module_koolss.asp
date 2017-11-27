@@ -4119,8 +4119,8 @@
 				$('#gfw_number').html(dbus.ss_gfw_status || "未初始化");
 				$('#chn_number').html(dbus.ss_chn_status || "未初始化");
 				$('#cdn_number').html(dbus.ss_cdn_status || "未初始化");
-				$('#Routing_number').html(dbus.ss_Routing_status || "未初始化");
-				$('#WhiteList_number').html(dbus.ss_WhiteList_status || "未初始化");
+				$('#Routing_number').html(dbus.ss_pcap_routing || "未初始化");
+				$('#WhiteList_number').html(dbus.ss_pcap_whitelist || "未初始化");
 			</script>
 		</div>
 	</div>
