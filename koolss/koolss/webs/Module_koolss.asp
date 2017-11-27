@@ -1,4 +1,4 @@
-<title>shadowsocks</title>
+<title>koolss</title>
 <content>
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/tomato.js"></script>
@@ -2071,7 +2071,7 @@
 			  	async:false,
 			 	success: function(data){
 			 	 	dbus = data.result[0];
-					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/shadowsocks/Changelog.txt" target="_blank"><font color="#0099FF">shadowsocks for LEDE  ' + (dbus["ss_version"]  || "") + '</font></a>' );
+					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/koolss/Changelog.txt" target="_blank"><font color="#0099FF">koolss for LEDE  ' + (dbus["ss_version"]  || "") + '</font></a>' );
 			  	}
 			});
 		}
@@ -3124,7 +3124,7 @@
 						}else{
 							// when shut down ss finished, close the log tab
 							$('#msg_warring').hide();
-							showMsg("msg_success","提交成功","<b>shadowsocks成功关闭！</b>");
+							showMsg("msg_success","提交成功","<b>koolss成功关闭！</b>");
 							setTimeout("$('#msg_success').hide()", 4000);
 							setTimeout("tabSelect('fuckapp')", 4000);
 						}
@@ -3488,8 +3488,8 @@
 							document.body.removeChild(a);
 						}else if (arg == 6){
 							var b = document.createElement('A')
-							b.href = "/files/shadowsocks.tar.gz"
-							b.download = 'shadowsocks_' + dbus["ss_version"] + '.tar.gz'
+							b.href = "/files/koolss.tar.gz"
+							b.download = 'koolss_' + dbus["ss_version"] + '.tar.gz'
 							document.body.appendChild(b);
 							b.click();
 							document.body.removeChild(b);
@@ -3542,7 +3542,7 @@
 		<div class="content">
 			<div id="ss_switch_pannel" class="section">
 				<fieldset>
-					<label class="col-sm-3 control-left-label" for="_undefined">shadowsocks开关</label>
+					<label class="col-sm-3 control-left-label" for="_undefined">koolss开关</label>
 						<div class="switch_field" style="display:table-cell;float: left;">
 							<label for="_ss_basic_enable">
 								<input type="checkbox" class="switch" name="ss_basic_enable" onclick="verifyFields(this, 1)" onchange="verifyFields(this, 1)" id="_ss_basic_enable" style="display: none;"/>
@@ -3561,7 +3561,7 @@
 			</script>
 			<hr />
 			<fieldset id="ss_status_pannel" style="cursor: pointer;" title="查询ip分流情况">
-				<label class="col-sm-3 control-left-label" id="ss_status_title">shadowsocks运行状态</label>
+				<label class="col-sm-3 control-left-label" id="ss_status_title">koolss运行状态</label>
 				<div class="col-sm-9">
 					<font id="_ss_basic_status_foreign" name="ss_basic_status_foreign" color="#1bbf35">国外链接: waiting...</font>
 				</div>
@@ -3955,7 +3955,7 @@
 	<div id="ss_lb_tab_readme" class="box boxr5">
 		<div class="heading">负载均衡操作手册： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('lb');"><span id="sesdivlbshowhide"><i class="icon-chevron-up"></i></span></a></div>
 		<div class="section content" id="sesdivlb" style="display:none">
-			<li>在此页面可以设置多个shadowsocks或者shadowsocksR帐号负载均衡，同时具有故障转移、自动恢复的功能；</li>
+			<li>在此页面可以设置多个ss或者ssr帐号负载均衡，同时具有故障转移、自动恢复的功能；</li>
 			<li>注意：设置负载均衡的节点需要加密方式、密码、混淆等需要完全一致！SS、SSR之间不支持设置负载均衡；</li>
 			<li>提交设置后会开启haproxy，并在ss节点配置中增加一个服务器IP为127.0.0.1，端口为负载均衡服务器端口的帐号；</li>
 			<li>负载均衡模式下不支持udp转发：不能使用游戏模式，不能使用ss-tunnel作为国外dns方案;</li>
@@ -4105,7 +4105,7 @@
 					{ title: '国内域名数量（cdn名单）', rid:'cdn_number_1', text:'<a id="cdn_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/cdn.txt" target="_blank"></a>'},
 					{ title: 'Routing.txt（Pcap规则）', rid:'Routing_number_1', text:'<a id="Routing_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/Routing.txt" target="_blank"></a>'},
 					{ title: 'WhiteList.txt（Pcap规则）', rid:'WhiteList_number_1', text:'<a id="WhiteList_number" href="https://github.com/koolshare/koolshare.github.io/blob/acelan_softcenter_ui/maintain_files/WhiteList.txt" target="_blank"></a>'},
-					{ title: 'shadowsocks规则自动更新', multi: [
+					{ title: 'koolss规则自动更新', multi: [
 						{ name: 'ss_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.ss_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_rule_update_day', type: 'select', options:option_day_time, value: dbus.ss_basic_rule_update_day || "7",suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_basic_rule_update_hr', type: 'select', options:option_hour_time, value: dbus.ss_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
