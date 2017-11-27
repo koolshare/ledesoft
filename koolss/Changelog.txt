@@ -3,7 +3,8 @@ Koolshare LEDE-X64 shadowsocks Changelog
 1.9.9
    - update	为避免不必要的麻烦，更名为koolss
    - update	更新ss-libev ssr-libev二进制文件
-   - fix	修复游戏模式下udp不通的问题
+   - fix	修复2.10固件游戏模式下udp不通的问题
+   - fix	修复2.10固件出口设定出问题
 
 1.9.8
    - update	现在点击SS状态，会弹出分流检测框，提供ip111.cn检测接口，需要软件中心0.2.9及其以上版本。
