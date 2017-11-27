@@ -4006,7 +4006,7 @@
 				]);
 				
 				E('_ss_kcp_config').placeholder = "请将速度模式为manual的参数和其它参数依次填写进来";
-				document.getElementById("_ss_kcp_version").innerHTML = dbus["ss_kcp_version"] || "20170904";
+				document.getElementById("_ss_kcp_version").innerHTML = dbus["ss_kcp_version"] || "20171113";
 				$("#_ss_kcp_node option[value='0']").remove();
 			</script>
 			</div>
