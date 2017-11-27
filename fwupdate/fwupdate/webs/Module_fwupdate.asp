@@ -90,11 +90,54 @@ input[disabled]:hover{
 				}
 			});
 		}
+		
+		function versionCompare(v1, v2, options) {
+			var lexicographical = options && options.lexicographical,
+				zeroExtend = options && options.zeroExtend,
+				v1parts = v1.split('.'),
+				v2parts = v2.split('.');
 
+			function isValidPart(x) {
+				return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+			}
+
+			if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+				return NaN;
+			}
+
+			if (zeroExtend) {
+				while (v1parts.length < v2parts.length) v1parts.push("0");
+				while (v2parts.length < v1parts.length) v2parts.push("0");
+			}
+
+			if (!lexicographical) {
+				v1parts = v1parts.map(Number);
+				v2parts = v2parts.map(Number);
+			}
+
+			for (var i = 0; i < v1parts.length; ++i) {
+				if (v2parts.length == i) {
+					return true;
+				}
+
+				if (v1parts[i] == v2parts[i]) {
+					continue;
+				} else if (v1parts[i] > v2parts[i]) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			if (v1parts.length != v2parts.length) {
+				return false;
+			}
+			return false;
+		}
+		
 		function verifyFields(r){
-			var local_version = parseFloat(E('_fwupdate_fwlocal').innerHTML);
-			var online_version = parseFloat(E('_fwupdate_fwlast').innerHTML);
-
+			var local_version = $.trim(E('_fwupdate_fwlocal').innerHTML);
+			var online_version = $.trim(E('_fwupdate_fwlast').innerHTML);
 			if(isNaN(local_version)){ //版本号不是数字
 				showMsg("msg_warring","错误！","<b>获取本地版本号错误！</b>");
 				return false;
@@ -104,8 +147,8 @@ input[disabled]:hover{
 				showMsg("msg_warring","错误！","<b>获取在线版本号错误！请检查你的网络！</b>");
 				return false;
 			}
-
-			if (online_version > local_version){
+			if (versionCompare(online_version, local_version)){
+			//if (online_version > local_version){
 				E('save-button').disabled = false;
 			}else{
 				var a = E('_fwupdate_enforce').checked;

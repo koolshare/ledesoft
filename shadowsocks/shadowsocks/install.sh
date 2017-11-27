@@ -77,7 +77,7 @@ cp -rf /tmp/shadowsocks/init.d/* $KSROOT/init.d/
 cp -rf /tmp/shadowsocks/webs/* $KSROOT/webs/
 cp /tmp/shadowsocks/install.sh $KSROOT/scripts/ss_install.sh
 cp /tmp/shadowsocks/uninstall.sh $KSROOT/scripts/uninstall_shadowsocks.sh
-
+[ ! -L "/koolshare/bin/ssr-tunnel" ] && ln -sf /koolshare/bin/ssr-local /koolshare/bin/ssr-tunnel
 # delete luci cache
 rm -rf /tmp/luci-*
 
