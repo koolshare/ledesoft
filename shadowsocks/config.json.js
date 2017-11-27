@@ -1,9 +1,0 @@
-{
-"version":"1.9.8",
-"md5":"b9fdd930a2dc3f008447d9626a73b883",
-"home_url":"Module_shadowsocks.asp",
-"title":"shadowsocks",
-"description":"轻松科学上网~",
-"changelog":"1.9.8",
-"build_date":"2017-11-14_02:08:24"
-}

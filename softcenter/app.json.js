@@ -246,6 +246,17 @@
             "version": "1.4"
         }, 
         {
+            "build_date": "2017-11-27_23:08:59", 
+            "changelog": "1.9.8", 
+            "description": "轻松科学上网~", 
+            "home_url": "Module_koolss.asp", 
+            "md5": "7e1523e741ffca857cafca5bcef91d4a", 
+            "name": "koolss", 
+            "tar_url": "koolss/koolss.tar.gz", 
+            "title": "科学上网插件", 
+            "version": "1.9.9"
+        }, 
+        {
             "build_date": "2017-11-11_15:56:45", 
             "changelog": "√修复全局连接数无法修改的问题", 
             "description": "高效的BT、PT下载工具", 
@@ -473,21 +484,10 @@
             "tar_url": "anyconnect/anyconnect.tar.gz", 
             "title": "AnyConnect Server", 
             "version": "0.5"
-        }, 
-        {
-            "build_date": "2017-11-14_02:08:24", 
-            "changelog": "1.9.8", 
-            "description": "轻松科学上网~", 
-            "home_url": "Module_shadowsocks.asp", 
-            "md5": "b9fdd930a2dc3f008447d9626a73b883", 
-            "name": "shadowsocks", 
-            "tar_url": "shadowsocks/shadowsocks.tar.gz", 
-            "title": "shadowsocks", 
-            "version": "1.9.8"
         }
     ], 
     "home_url": "https://raw.githubusercontent.com/koolshare/koolshare.github.io/master", 
-    "md5": "bde390da9e47dba0368bdc0d05138205", 
+    "md5": "dbbd6f85ef0aad24e3c3d56bc7cd5a36", 
     "tar_url": "softcenter/softcenter.tar.gz", 
     "version": "0.3.1"
 }

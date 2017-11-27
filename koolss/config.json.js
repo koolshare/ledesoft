@@ -1,0 +1,9 @@
+{
+"version":"1.9.9",
+"md5":"7e1523e741ffca857cafca5bcef91d4a",
+"home_url":"Module_koolss.asp",
+"title":"科学上网插件",
+"description":"轻松科学上网~",
+"changelog":"1.9.8",
+"build_date":"2017-11-27_23:08:59"
+}
