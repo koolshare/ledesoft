@@ -1383,8 +1383,8 @@ write_numbers(){
 	ipset_numbers=`cat $KSROOT/ss/rules/gfwlist.conf | grep -c ipset`
 	chnroute_numbers=`cat $KSROOT/ss/rules/chnroute.txt | grep -c .`
 	cdn_numbers=`cat $KSROOT/ss/rules/cdn.txt | grep -c .`
-	update_pcap_routing=`cat $KSROOT/ss/dns/Routing.txt |grep -c /`
-	update_pcap_white=`cat $KSROOT/ss/dns/WhiteList.txt |grep -Ec "^\.\*"`
+	pcap_routing_nu=`cat $KSROOT/ss/dns/Routing.txt |grep -c /`
+	pcap_white_nu=`cat $KSROOT/ss/dns/WhiteList.txt |grep -Ec "^\.\*"`
 	
 	update_ipset=`cat $KSROOT/ss/rules/version | sed -n 1p | sed 's/#/\n/g'| sed -n 1p`
 	update_chnroute=`cat $KSROOT/ss/rules/version | sed -n 2p | sed 's/#/\n/g'| sed -n 1p`
@@ -1395,9 +1395,10 @@ write_numbers(){
 	dbus set ss_gfw_status="$ipset_numbers 条，最后更新版本： $update_ipset "
 	dbus set ss_chn_status="$chnroute_numbers 条，最后更新版本： $update_chnroute "
 	dbus set ss_cdn_status="$cdn_numbers 条，最后更新版本： $update_cdn "
-	dbus set ss_pcap_routing="$update_pcap_routing 条，最后更新版本： $update_pcap_routing "
-	dbus set ss_pcap_whitelist="$update_pcap_white 条，最后更新版本： $update_pcap_white "
+	dbus set ss_pcap_routing="$pcap_routing_nu 条，最后更新版本： $update_pcap_routing "
+	dbus set ss_pcap_whitelist="$pcap_white_nu 条，最后更新版本： $update_pcap_white "
 }
+
 
 detect_koolss(){
 	[ -f "/etc/config/shadowsocks" ] && koolss_enable=`uci get shadowsocks.@global[0].global_server`
