@@ -14,14 +14,12 @@ cp /tmp/homebridge/uninstall.sh $KSROOT/scripts/uninstall_homebridge.sh
 chmod +x $KSROOT/scripts/homebridge_*
 chmod +x $KSROOT/init.d/S98homebridge.sh
 
-COMP=`versioncmp $homebridge_version 0.5`
-if [ "$COMP" == "1" ];then
-	opkg remove node-npm node-homebridge node 
-fi
+opkg remove node-mdns node-homebridge node-npm node 
 
 rm -rf $KSROOT/homebridge/accessories
 rm -rf $KSROOT/homebridge/persist
-rm -rf /usr/lib/node_modules/homebridge*
+rm -rf /usr/lib/node_modules
+rm -rf /usr/lib/node
 
 dbus set softcenter_module_homebridge_description=智能家庭网关
 dbus set softcenter_module_homebridge_install=1
