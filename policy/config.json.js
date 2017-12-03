@@ -1,9 +1,9 @@
 {
-"version":"0.2",
-"md5":"100e36656509faaa43aac697879ab37d",
+"version":"0.3",
+"md5":"feb538760dd7b895a0fed5fad1765cde",
 "home_url":"Module_policy.asp",
 "title":"策略路由",
 "description":"多运营商自动分流",
-"changelog":"",
-"build_date":"2017-11-15_14:00:10"
+"changelog":"增加SSL源进源出选项",
+"build_date":"2017-12-03_16:10:38"
 }

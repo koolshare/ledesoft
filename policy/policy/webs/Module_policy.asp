@@ -208,6 +208,7 @@
 
 		function conf2obj(){
 			E("_policy_enable").checked = dbus["policy_enable"] == 1 ? true : false;
+			E("_policy_ssl").checked = dbus["policy_ssl"] == 1 ? true : false;
 			E("_policy_config").value = dbus["policy_config"];
 			E("_policy_tarckip").value = dbus["policy_tarckip"];
 		}
@@ -400,6 +401,7 @@
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[1], "fields": obj};
 			dbus.policy_enable = E('_policy_enable').checked ? '1':'0';
+			dbus.policy_ssl = E('_policy_ssl').checked ? '1':'0';
 			dbus.policy_config = E('_policy_config').value;
 			dbus.policy_tarckip = E('_policy_tarckip').value;
 			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
@@ -448,6 +450,7 @@
 					{ title: '开启策略路由', name:'policy_enable',type:'checkbox',value: "" },
 					{ title: '运行状态', text: '<font id="_policy_status" name=_policy_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '分流策略', name:'policy_config',type:'select',options:[['1','全局分流'],['2','只分流WEB'],['3','负载均衡']],value: "" },
+					{ title: 'SSL源进源出', name:'policy_ssl',type:'checkbox',value: "" },
 					{ title: '追踪IP设置', name:'policy_tarckip',type:'textarea', maxlen: 200, size: 200, value: dbus.policy_tarckip || "114.114.114.114 taobao.com www.baidu.com 119.29.29.29" },
 				]);
 			</script>

@@ -288,15 +288,15 @@
             "title": "nwan"
         }, 
         {
-            "build_date": "2017-11-15_14:00:10", 
-            "changelog": "", 
+            "build_date": "2017-12-03_16:10:38", 
+            "changelog": "增加SSL源进源出选项", 
             "description": "多运营商自动分流", 
             "home_url": "Module_policy.asp", 
-            "md5": "100e36656509faaa43aac697879ab37d", 
+            "md5": "feb538760dd7b895a0fed5fad1765cde", 
             "name": "policy", 
             "tar_url": "policy/policy.tar.gz", 
             "title": "策略路由", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-11-11_15:56:45", 

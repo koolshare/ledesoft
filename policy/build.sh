@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=policy
-VERSION=0.2
+VERSION=0.3
 TITLE="策略路由"
 DESCRIPTION=多运营商自动分流
 HOME_URL=Module_policy.asp
-CHANGELOG=""
+CHANGELOG="增加SSL源进源出选项"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
