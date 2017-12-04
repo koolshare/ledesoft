@@ -1,9 +1,9 @@
 {
-"version":"0.1",
-"md5":"64c0862993310dc82dd1af26c34a712f",
+"version":"0.2",
+"md5":"608987f62d83a52de79e65d67816639d",
 "home_url":"Module_easyexplorer.asp",
 "title":"EasyExplorer",
 "description":"强大易用的全平台同步工具",
-"changelog":"",
-"build_date":"2017-12-01_15:50:58"
+"changelog":"修复进程无法运行的问题",
+"build_date":"2017-12-04_22:46:28"
 }

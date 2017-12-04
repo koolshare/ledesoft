@@ -144,15 +144,15 @@
             "version": "0.9"
         }, 
         {
-            "build_date": "2017-12-01_15:50:58", 
-            "changelog": "", 
+            "build_date": "2017-12-04_22:46:28", 
+            "changelog": "修复进程无法运行的问题", 
             "description": "强大易用的全平台同步工具", 
             "home_url": "Module_easyexplorer.asp", 
-            "md5": "64c0862993310dc82dd1af26c34a712f", 
+            "md5": "608987f62d83a52de79e65d67816639d", 
             "name": "easyexplorer", 
             "tar_url": "easyexplorer/easyexplorer.tar.gz", 
             "title": "EasyExplorer", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-09-29_18:06:01", 

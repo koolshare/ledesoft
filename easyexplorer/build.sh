@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=easyexplorer
-VERSION=0.1
+VERSION=0.2
 TITLE=EasyExplorer
 DESCRIPTION=强大易用的全平台同步工具
 HOME_URL=Module_easyexplorer.asp
-CHANGELOG=""
+CHANGELOG="修复进程无法运行的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

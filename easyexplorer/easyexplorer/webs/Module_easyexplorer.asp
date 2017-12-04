@@ -89,7 +89,7 @@ function save(){
 	}
 	//-------------- post Apps to dbus ---------------
 	var id = 1 + Math.floor(Math.random() * 6);
-	var postData = {"id": id, "method":'easyexplorer_config.sh', "params":[], "fields": Apps};
+	var postData = {"id": id, "method":'easyexplorer_config.sh', "params":[1], "fields": Apps};
 	var success = function(data) {
 		//
 		$('#footer-msg').text(data.result);
