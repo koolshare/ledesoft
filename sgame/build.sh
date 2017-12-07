@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=sgame
-VERSION=0.1
+VERSION=0.2
 TITLE="游戏加速器"
 DESCRIPTION="外服游戏解决方案"
 HOME_URL=Module_sgame.asp

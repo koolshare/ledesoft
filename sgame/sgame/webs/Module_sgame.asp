@@ -342,6 +342,10 @@
 				elem.display('cancel-button', false);
 				noChange=0;
 				setTimeout("get_log();", 200);
+			}else if(obj=='app1'){
+				var d  = E('_sgame_udp_enable').checked;
+				elem.display('sgame_basic_tab2', d);
+				elem.display('sgame_basic_udppannel', d);
 			}else{
 				elem.display('save-button', true);
 				elem.display('cancel-button', true);
@@ -357,7 +361,6 @@
 				elem.display('sgame_log_tab', false);
 				E('save-button').style.display = "";
 			}
-			verifyFields();
 		}
 		function showMsg(Outtype, title, msg){
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
