@@ -1,6 +1,17 @@
 {
     "apps": [
         {
+            "build_date": "2017-12-07_23:24:10", 
+            "changelog": "", 
+            "description": "外服游戏解决方案", 
+            "home_url": "Module_sgame.asp", 
+            "md5": "33303c6050cd4a1a75a8086edf244f29", 
+            "name": "sgame", 
+            "tar_url": "sgame/sgame.tar.gz", 
+            "title": "游戏加速器", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-12_15:16:43", 
             "changelog": "", 
             "description": "软件中心自动云备份和恢复", 
