@@ -970,7 +970,7 @@ start_ss_redir(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/koolss.pid >/dev/null 2>&1
 			else
-				ss-redir $SPECIAL_ARG -c $CONFIG_FILE --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/koolss.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE $ARG_OBFS -f /var/run/koolss.pid >/dev/null 2>&1
 			fi
 		fi
 		# ONLY UDP
