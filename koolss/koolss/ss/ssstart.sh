@@ -982,7 +982,7 @@ start_ss_redir(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-redir -c $CONFIG_FILE -U -f /var/run/koolss.pid >/dev/null 2>&1
 			else
-				ss-redir -c $CONFIG_FILE -U --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/koolss.pid >/dev/null 2>&1
+				ss-redir -c $CONFIG_FILE $ARG_OBFS -U -f /var/run/koolss.pid >/dev/null 2>&1
 			fi
 		fi
 	else
