@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.9.6
+   - fix	修复ss服务器出口设定失败的问题；
+
 1.9.9.5
    - update	更新kcptun到20171201
    - update	订阅链接字符限制从200改到1024

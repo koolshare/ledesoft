@@ -50,10 +50,10 @@ route_add(){
 	devname=$1
 	routeip=$2
 	cleanfile=/tmp/route_del
-	#if [ $wanport -ne 0	] && [ -z $(/usr/sbin/ip route show|grep $routeip) ];then
-	GW=$(/usr/sbin/ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}')
+	#if [ $wanport -ne 0	] && [ -z $(ip route show|grep $routeip) ];then
+	GW=$(ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}')
 	if [ -n $GW ] && [ -n $devname ];then
-		/usr/sbin/ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
+		ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
 		echo_date "【出口设定】设置 $routeip 出口为 $devname" >> $LOG_FILE
 		if [ ! -f $cleanfile ];then
 			cat	> $cleanfile <<-EOF
@@ -61,7 +61,7 @@ route_add(){
 			EOF
 		fi
 		chmod +x $cleanfile
-		echo "/usr/sbin/ip route del $routeip via $GW dev $devname" >>	/tmp/route_del
+		echo "ip route del $routeip via $GW dev $devname" >>	/tmp/route_del
 	  	fi
 	#fi
 }

@@ -315,11 +315,7 @@ resolv_server_ip(){
 		ss_basic_server_ip="$ss_basic_server"
 	fi
 
-	if [ "$ss_mwan_vps_ip_dst" != "0" ] && [ -n "$ss_basic_server_ip" ];then
-		if [ "$ss_basic_server_ip" == "127.0.0.1" ];then
-			[ "$ss_basic_server_ip" != "127.0.0.1" ] && route_add $ss_mwan_vps_ip_dst $ss_basic_server_ip
-		fi
-	fi
+	[ "$ss_mwan_vps_ip_dst" != "0" ] && [ -n "$ss_basic_server_ip" ] && [ "$ss_basic_server_ip" != "127.0.0.1" ] && route_add $ss_mwan_vps_ip_dst $ss_basic_server_ip
 }
 
 start_kcp(){
