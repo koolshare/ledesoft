@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=sgame
-VERSION=0.2
+VERSION=0.3
 TITLE="游戏加速器"
 DESCRIPTION="外服游戏解决方案"
 HOME_URL=Module_sgame.asp
+CHANGELOG="主程序更新到0.22"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

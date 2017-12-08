@@ -22,8 +22,8 @@ fi
 
 ip route del $server
 if [ "$sgame_basic_modeold" != 3 ]; then
-	ip route del 0.0.0.0/1
-	ip route del 128.0.0.0/1
+	ip route del 0/1
+	ip route del 128/1
 	loger "将默认路由从VPN通道变更到默认"
 fi
 if [ -f /tmp/shadowvpn_routes ]; then

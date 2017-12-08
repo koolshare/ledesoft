@@ -159,7 +159,7 @@ start_sgame(){
 		concurrency=1
 		net=$sgame_basic_subnet
 		mtu=$sgame_basic_mtu
-		intf=tun1
+		intf=tun0
 		up=$KSROOT/sgame/client_up.sh
 		down=$KSROOT/sgame/client_down.sh
 		pidfile=/var/run/shadowvpn.pid

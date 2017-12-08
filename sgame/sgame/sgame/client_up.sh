@@ -34,8 +34,8 @@ loger "VPN出口：$sgame_wan_foreign  网关: $foreigngateway"
 suf="dev $intf"
 ip route add $server via $foreigngateway
 if [ "$sgame_basic_mode" != 3 ]; then
-	ip route add 0.0.0.0/1 dev $intf
-	ip route add 128.0.0.0/1 dev $intf
+	ip route add 0/1 dev $intf
+	ip route add 128/1 dev $intf
 	loger "将默认路由设置到 VPN 通道"
 	suf="via $chinagateway"
 fi

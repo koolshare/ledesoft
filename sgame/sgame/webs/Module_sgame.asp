@@ -558,7 +558,7 @@
 			<span class="col" style="line-height:30px;width:700px">
 			ShadowVPN是针对UDP发包和nat类型优化的游戏加速软件。<br />
 			你需要安装ShadowVPN服务端程序。
-			<a href="http://firmware.koolshare.cn/binary/tools/" target="_blank"> 【nat测试工具下载】 </a>
+			<a href="http://firmware.koolshare.cn/binary/tools/" target="_blank"> 【nat测试工具下载】 </a><a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" target="_blank"> 【服务器搭建WIKI】 </a><a href="https://github.com/rains31/ShadowVPN.git" target="_blank"> 【最新源码下载】 </a>
 		</div>
 	</div>
 	<div class="box" style="margin-top: 0px;min-width:540px;">
