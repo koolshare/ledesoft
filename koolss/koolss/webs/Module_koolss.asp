@@ -3032,7 +3032,7 @@
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "pcap_update", "chromecast", "online_links_goss"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr"];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dns2socks_user", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr"];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -3826,7 +3826,7 @@
 						{ name: 'ss_pdnsd_udp_server_dns2socks', type: 'text', value: dbus.ss_pdnsd_udp_server_dns2socks || "8.8.8.8:53" },
 						{ name: 'ss_pdnsd_udp_server_dnscrypt',type: 'select', options:option_opendns, value: dbus.ss_pdnsd_udp_server_dns2socks || "1" },
 						{ name: 'ss_pdnsd_udp_server_ss_tunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_pdnsd_udp_server_ss_tunnel || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_pdnsd_udp_server_ss_tunnel_user', type: 'text', value: dbus.ss_pdnsd_udp_server_ss_tunnel }
+						{ name: 'ss_pdnsd_udp_server_ss_tunnel_user', type: 'text', value: dbus.ss_pdnsd_udp_server_ss_tunnel_user || "9.9.9.9:53" }
 					]},
 
 					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd上游服务器（TCP）</font>', multi: [
@@ -3846,11 +3846,11 @@
 					]},
 					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*ChinaDNS国外DNS</font>', multi: [
 						{ name: 'ss_chinadns_foreign_method',type:'select',options:[['1', 'dns2socks'], ['2', 'dnscrypt-proxy'], ['3', 'ss-tunnel'],['4', '自定义']], value: dbus.ss_chinadns_foreign_method || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_dns2socks', type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_dns2socks || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_dns2socks_user', type: 'text', value: dbus.ss_chinadns_foreign_dns2socks_user || "8.8.8.8:53" },
+						{ name: 'ss_chinadns_foreign_dns2socks', type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_dns2socks || "2"},
+						{ name: 'ss_chinadns_foreign_dns2socks_user', type: 'text', value: dbus.ss_chinadns_foreign_dns2socks_user || "8.8.8.8:53", prefix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_chinadns_foreign_dnscrypt',type: 'select', options:option_opendns, value: dbus.ss_chinadns_foreign_dnscrypt || "1" },
-						{ name: 'ss_chinadns_foreign_sstunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_sstunnel || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_sstunnel_user', type: 'text', value: dbus.ss_chinadns_foreign_sstunnel_user },
+						{ name: 'ss_chinadns_foreign_sstunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_sstunnel || "2"},
+						{ name: 'ss_chinadns_foreign_sstunnel_user', type: 'text', value: dbus.ss_chinadns_foreign_sstunnel_user || "8.8.8.8:53", prefix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_chinadns_foreign_method_user', type: 'text', value: dbus.ss_chinadns_foreign_method_user, suffix: '<lable id="_ss_chinadns_foreign_method_user_txt">自定义直连的chinaDNS国外dns。</lable>' },
 					]},
 					{ title: 'SS服务器地址解析', multi: [

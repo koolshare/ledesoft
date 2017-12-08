@@ -1,5 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.9.7
+   - fix	修复pdnsd udp ss-tunnel 自定义功能显示问题；
+   - fix	修复chinadns dns2socks 自定义攻功能问题；
+
 1.9.9.6
    - fix	修复ss服务器出口设定失败的问题；
 
