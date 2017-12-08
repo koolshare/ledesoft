@@ -1,5 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.9.5
+   - update	更新kcptun到20171201
+   - update	订阅链接字符限制从200改到1024
+
 1.9.9
    - update	为避免不必要的麻烦，更名为koolss
    - add	ssr添加auth_chain_e/f支持

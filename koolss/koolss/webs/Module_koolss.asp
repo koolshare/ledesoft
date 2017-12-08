@@ -1746,7 +1746,7 @@
 		}
 		online_link.setup = function() {
 			this.init( 'online_link-grid', '', 10, [
-				{ type: 'text', maxlen: 200 }
+				{ type: 'text', maxlen: 1024 }
 			] );
 			this.headerSet( [ '订阅地址'] );
 			for ( var i = 1; i <= 10; i++){
@@ -3980,7 +3980,7 @@
 			<script type="text/javascript">
 				$('#ss_kcp_panel_1').forms([
 					{ title: 'KCP加速开关', name:'ss_kcp_enable', type:'checkbox',  value: dbus.ss_kcp_enable == 1 },  // ==1 means default close; !=0 means default open
-					{ title: '当前KCP版本', rid:'ss_kcp_version', text:'<font id="_ss_kcp_version" color="#1bbf35">20170904</font>'},
+					{ title: '当前KCP版本', rid:'ss_kcp_version', text:'<font id="_ss_kcp_version" color="#1bbf35">20171201</font>'},
 				]);
 			</script>
 			</div>
