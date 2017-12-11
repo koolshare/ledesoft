@@ -1,9 +1,9 @@
 {
 "version":"0.4",
-"md5":"e7f9da96c19e3d6e97752cc146ea4d75",
+"md5":"53fcbe31ba562b21615bb22a79884731",
 "home_url":"Module_sgame.asp",
 "title":"游戏加速器",
 "description":"外服游戏解决方案",
-"changelog":"主程序更新到0.22",
-"build_date":"2017-12-11_18:06:02"
+"changelog":"更改方案为TinyVPN",
+"build_date":"2017-12-11_18:08:58"
 }

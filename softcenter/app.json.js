@@ -1,11 +1,11 @@
 {
     "apps": [
         {
-            "build_date": "2017-12-11_18:06:02", 
-            "changelog": "主程序更新到0.22", 
+            "build_date": "2017-12-11_18:08:58", 
+            "changelog": "更改方案为TinyVPN", 
             "description": "外服游戏解决方案", 
             "home_url": "Module_sgame.asp", 
-            "md5": "e7f9da96c19e3d6e97752cc146ea4d75", 
+            "md5": "53fcbe31ba562b21615bb22a79884731", 
             "name": "sgame", 
             "tar_url": "sgame/sgame.tar.gz", 
             "title": "游戏加速器", 

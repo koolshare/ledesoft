@@ -5,7 +5,7 @@ VERSION=0.4
 TITLE="游戏加速器"
 DESCRIPTION="外服游戏解决方案"
 HOME_URL=Module_sgame.asp
-CHANGELOG="主程序更新到0.22"
+CHANGELOG="更改方案为TinyVPN"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
