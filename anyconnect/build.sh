@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=anyconnect
-VERSION=0.5
+VERSION=0.6
 TITLE="AnyConnect Server"
 DESCRIPTION="与你的网络无缝并行"
 HOME_URL=Module_anyconnect.asp
-CHANGELOG="修复2.9无法使用证书登陆"
+CHANGELOG="修复防火墙重复添加的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

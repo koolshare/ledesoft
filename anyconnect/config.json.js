@@ -1,9 +1,9 @@
 {
-"version":"0.5",
-"md5":"82f064de30f90ad7163a272e9f1b9664",
+"version":"0.6",
+"md5":"2980f1f7193b56909f8acd4372ff5b63",
 "home_url":"Module_anyconnect.asp",
 "title":"AnyConnect Server",
 "description":"与你的网络无缝并行",
-"changelog":"修复2.9无法使用证书登陆",
-"build_date":"2017-11-26_00:00:19"
+"changelog":"修复防火墙重复添加的问题",
+"build_date":"2017-12-11_18:18:31"
 }
