@@ -1,9 +1,9 @@
 {
-"version":"0.9",
-"md5":"c518f2e044148006d147cbde20af7c4e",
+"version":"1.0",
+"md5":"be84d44419b367ff2d43c4c47aba2391",
 "home_url":"Module_pppoeai.asp",
 "title":"拨号助手",
 "description":"拨号到指定号段",
-"changelog":"√修复启动时导致插件锁定的BUG",
-"build_date":"2017-10-24_10:45:52"
+"changelog":"√修复无法检测拨号程序的问题",
+"build_date":"2017-12-11_18:30:36"
 }

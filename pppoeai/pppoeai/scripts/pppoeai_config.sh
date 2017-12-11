@@ -22,7 +22,7 @@ get_count_mode(){
 start_pppoeai(){
 	local IP
 	#循环开始
-	local pppdcheck=`ps |grep pppd|grep -v grep|wc -l`
+	local pppdcheck=`pidof pppd|wc -l`
 	if [ "$pppdcheck" == "0" ]; then
 		cat /dev/null >$LOGFILE
 		echo_date "未检测到拨号程序，请先设置好wan口并拨号成功再运行拨号助手！"
