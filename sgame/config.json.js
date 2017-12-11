@@ -1,9 +1,9 @@
 {
-"version":"0.3",
-"md5":"fee74a149fe426f21c0ffad95a316955",
+"version":"0.4",
+"md5":"e7f9da96c19e3d6e97752cc146ea4d75",
 "home_url":"Module_sgame.asp",
 "title":"游戏加速器",
 "description":"外服游戏解决方案",
 "changelog":"主程序更新到0.22",
-"build_date":"2017-12-08_12:24:10"
+"build_date":"2017-12-11_18:06:02"
 }

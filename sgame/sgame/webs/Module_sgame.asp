@@ -1,4 +1,4 @@
-<title>sgame</title>
+<title>LEDE软件中心-游戏加速器</title>
 <content>
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
@@ -143,7 +143,7 @@
 		}
 
 		function set_version(){
-			$('#_sgame_version').html( '<font color="#1bbf35">ShadowVPN for LEDE - 游戏加速器 ' + (dbus["sgame_version"]  || "") + '</font></a>' );
+			$('#_sgame_version').html( '<font color="#1bbf35">TinyFecVPN for LEDE - 游戏加速器 ' + (dbus["sgame_version"]  || "") + '</font></a>' );
 		}
 
 		function get_dbus_data(){
@@ -181,7 +181,7 @@
 						setTimeout("get_run_status();", 5000);
 					}else{
 						if(dbus["sgame_basic_enable"] != "1"){
-							E("_sgame_basic_status_bin").innerHTML = "ShadowVPN - 尚未提交，暂停获取状态！";
+							E("_sgame_basic_status_bin").innerHTML = "TinyVPN - 尚未提交，暂停获取状态！";
 							E("_sgame_basic_status_foreign").innerHTML = "国外链接 - 尚未提交，暂停获取状态！";
 							E("_sgame_basic_status_china").innerHTML = "国内链接 - 尚未提交，暂停获取状态！";
 						}else{
@@ -322,6 +322,9 @@
 			elem.display('sgame_basic_tab2', d);
 			elem.display('sgame_basic_udppannel', d);
 
+			var e  = E('_sgame_basic_mode').value == '1';
+			elem.display(PR('_sgame_wan_china'), !e);
+
 			return true;
 		}
 		function tabSelect(obj){
@@ -346,6 +349,8 @@
 				var d  = E('_sgame_udp_enable').checked;
 				elem.display('sgame_basic_tab2', d);
 				elem.display('sgame_basic_udppannel', d);
+				elem.display('save-button', true);
+				elem.display('cancel-button', true);
 			}else{
 				elem.display('save-button', true);
 				elem.display('cancel-button', true);
@@ -371,11 +376,11 @@
 			setTimeout("tabSelect('app6')", 500);
 			status_time = 999999990;
 			get_run_status();
-			E("_sgame_basic_status_bin").innerHTML = "ShadowVPN - 提交中...暂停获取状态！";
+			E("_sgame_basic_status_bin").innerHTML = "TinyVPN - 提交中...暂停获取状态！";
 			E("_sgame_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_sgame_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["sgame_basic_enable", "sgame_udp_enable", "sgame_udp_disableobscure"];
-			var paras_inp = ["sgame_basic_server", "sgame_basic_port", "sgame_basic_password", "sgame_basic_mode", "sgame_basic_subnet", "sgame_basic_mtu", "sgame_basic_token", "sgame_dns_plan", "sgame_dns_china", "sgame_dns_china_user", "sgame_dns_foreign", "sgame_dns_foreign_user", "sgame_wan_china", "sgame_wan_foreign", "sgame_udp_server", "sgame_udp_port", "sgame_udp_password", "sgame_udp_fec", "sgame_udp_timeout", "sgame_udp_mode", "sgame_udp_report", "sgame_udp_mtu", "sgame_udp_jitter", "sgame_udp_interval", "sgame_udp_drop", "sgame_udp_other" ];
+			var paras_chk = ["sgame_basic_enable", "sgame_udp_enable"];
+			var paras_inp = ["sgame_basic_server", "sgame_basic_port", "sgame_basic_password", "sgame_basic_mode", "sgame_basic_subnet", "sgame_basic_other", "sgame_dns_plan", "sgame_dns_china", "sgame_dns_china_user", "sgame_dns_foreign", "sgame_dns_foreign_user", "sgame_wan_china", "sgame_wan_foreign", "sgame_udp_server", "sgame_udp_port", "sgame_udp_password", "sgame_udp_mode",  "sgame_udp_other" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus[paras_chk[i]] = E('_' + paras_chk[i] ).checked ? '1':'0';
@@ -556,9 +561,9 @@
 		</div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
-			ShadowVPN是针对UDP发包和nat类型优化的游戏加速软件。<br />
-			你需要安装ShadowVPN服务端程序。
-			<a href="http://firmware.koolshare.cn/binary/tools/" target="_blank"> 【nat测试工具下载】 </a><a href="https://github.com/clowwindy/ShadowVPN/wiki/ShadowVPN-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" target="_blank"> 【服务器搭建WIKI】 </a><a href="https://github.com/rains31/ShadowVPN.git" target="_blank"> 【最新源码下载】 </a>
+			TinyFecVPN是工作在VPN方式的双边网络加速工具，可以加速全流量(TCP/UDP/ICMP)，针对UDP发包和nat类型优化的游戏加速软件。<br />
+			你需要安装TinyFecVPN服务端程序。
+			<a href="http://firmware.koolshare.cn/binary/tools/" target="_blank"> 【nat测试工具下载】 </a><a href="https://github.com/wangyu-/tinyFecVPN/blob/master/doc/README.zh-cn.md" target="_blank"> 【服务器搭建WIKI】 </a><a href="https://github.com/wangyu-/tinyFecVPN.git" target="_blank"> 【最新源码下载】 </a>
 		</div>
 	</div>
 	<div class="box" style="margin-top: 0px;min-width:540px;">
@@ -575,10 +580,10 @@
 			<fieldset id="sgame_status_pannel">
 				<label class="col-sm-3 control-left-label" for="_undefined">游戏加速运行状态</label>
 				<div class="col-sm-9">
-					<font id="_sgame_basic_status_bin" name="sgame_basic_status_bin" color="#1bbf35">ShadowVPN: waiting...</font>
+					<font id="_sgame_basic_status_bin" name="sgame_basic_status_bin" color="#1bbf35">TinyVPN: 正在获取...</font>
 				</div>
 				<div class="col-sm-9" style="margin-top:2px">
-					<font id="_sgame_basic_status_china" name="sgame_basic_status_china" color="#1bbf35">国内链接: waiting...</font><br><font id="_sgame_basic_status_foreign" name="sgame_basic_status_foreign" color="#1bbf35">国外链接: waiting...</font>
+					<font id="_sgame_basic_status_china" name="sgame_basic_status_china" color="#1bbf35">国内链接: 正在获取...</font><br><font id="_sgame_basic_status_foreign" name="sgame_basic_status_foreign" color="#1bbf35">国外链接: 正在获取...</font>
 				</div>
 			</fieldset>
 		</div>
@@ -597,17 +602,16 @@
 			<script type="text/javascript">
 				$('#sgame_basic_pannel').forms([
 					{ title: '加速模式', name:'sgame_basic_mode',type:'select',options:option_mode,value: dbus.sgame_basic_mode || "2" },
-					{ title: 'ShadowVPN 服务器地址', multi: [
+					{ title: '服务器地址', multi: [
 						{ name:'sgame_basic_server',type:'text',size: 20,value: dbus.sgame_basic_server || "2", suffix: ' &nbsp;&nbsp;端口：'},
 						{ name: 'sgame_basic_port',type:'text',size: 6,value:dbus.sgame_basic_port || "4031"},
 					],help: '尽管支持域名格式，但是仍然建议首先使用IP地址。'},
-					{ title: 'ShadowVPN 连接密码', name:'sgame_basic_password',type:'password',size: 20,maxLength:30,value:dbus.sgame_basic_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给配置文件，导致启动后不能使用加速器。',peekaboo: 1  },
-					{ title: '本地子网', name:'sgame_basic_subnet',type:'text',size: 18,value:dbus.sgame_basic_subnet|| "10.7.0.2/24" },
-					{ title: 'MTU', name:'sgame_basic_mtu',type:'text',size: 4,value: dbus.sgame_basic_mtu || "1432",help: '和服务器上设置一致。' },
-					{ title: 'Token', name:'sgame_basic_token',type:'text',size: 20,value: dbus.sgame_basic_token ,help: '单用户留空不要填写。' },
+					{ title: '连接密码', name:'sgame_basic_password',type:'password',size: 20,maxLength:30,value:dbus.sgame_basic_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给配置文件，导致启动后不能使用加速器。',peekaboo: 1  },
+					{ title: '本地子网', name:'sgame_basic_subnet',type:'text',size: 18,value:dbus.sgame_basic_subnet|| "10.7.0.0" },
+					{ title: '其它自定义参数', name:'sgame_basic_other',type:'text',size: 65,value: dbus.sgame_basic_other ,suffix: ' 其它自定义参数，请手动输入，如-f 20:10' },
 					{ title: '国内出口', name:'sgame_wan_china',type:'select',options:[],value: dbus.sgame_wan_china },
 					{ title: 'VPN出口', name:'sgame_wan_foreign',type:'select',options:[],value: dbus.sgame_wan_foreign },
-					{ title: '开启UDPspeederV2加速', name:'sgame_udp_enable',type:'checkbox',  value: dbus.sgame_udp_enable == 1 },
+					{ title: '开启Udp2raw突破UDP屏蔽或QOS限速', name:'sgame_udp_enable',type:'checkbox',  value: dbus.sgame_udp_enable == 1 },
 				]);
 			</script>
 		</div>
@@ -618,23 +622,13 @@
 			<div id="sgame_basic_udppannel" class="section"></div>
 			<script type="text/javascript">
 				$('#sgame_basic_udppannel').forms([
-					{ title: 'UDPspeederV2 服务器地址', multi: [
+					{ title: 'Udp2raw 服务器地址', multi: [
 						{ name:'sgame_udp_server',type:'text',size: 20,value: dbus.sgame_udp_server || "2", suffix: ' &nbsp;&nbsp;端口：'},
 						{ name: 'sgame_udp_port',type:'text',size: 6,value:dbus.sgame_udp_port || "4031"},
 					],help: '尽管支持域名格式，但是仍然建议首先使用IP地址。'},
-					{ title: 'UDPspeederV2 连接密码', name:'sgame_udp_password',type:'password',size: 20,maxLength:30,value:dbus.sgame_udp_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给配置文件，导致启动后不能使用加速器。',peekaboo: 1  },
-					{ title: '',name:'sgame_udp_status1', suffix: ' =======以下服务器和客户端设置必须一致！======='},
-					{ title: '* 关闭数据包随机填充（--disable-obscure）', name:'sgame_udp_disableobscure',type:'checkbox',value: dbus.sgame_udp_disableobscure == 1, suffix: ' 关闭可节省一点带宽和cpu' },
-					{ title: '',name:'sgame_udp_status2', suffix: ' =======以下为包发送选项，两端设置可以不同, 只影响本地包发送======='},
-					{ title: '* fec参数 （-f）', name:'sgame_udp_fec',type:'text',size: 18,value:dbus.sgame_udp_fec, suffix: ' 必填，x:y，每x个包额外发送y个包。<a target="_blank" href="https://github.com/wangyu-/UDPspeeder/wiki/%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C">fec使用经验</a>' },
-					{ title: '* timeout参数 （--timeout）', name:'sgame_udp_timeout',type:'text',size: 4,value: dbus.sgame_udp_timeout ,suffix: ' 单位：ms，默认8，留空则使用默认值，仅在--mode 0下起作用'  },
-					{ title: '* mode参数 （--mode）', name:'sgame_udp_mode',type:'text',size: 20,value: dbus.sgame_udp_mode ,suffix: ' 默认1，留空则使用默认值' },
-					{ title: '* 数据发送和接受报告 （--report）', name:'sgame_udp_report',type:'text',size: 20,value: dbus.sgame_udp_report ,suffix: ' 单位：s，留空则不使用' },
-					{ title: '* mtu参数 （--mtu）', name:'sgame_udp_mtu',type:'text',size: 20,value: dbus.sgame_udp_mtu ,suffix: ' 默认1250，留空则使用默认值' },
-					{ title: '* 原始数据抖动延迟 （-j,--jitter）', name:'sgame_udp_jitter',type:'text',size: 20,value: dbus.sgame_udp_jitter ,suffix: ' 单位：ms，默认0，留空则使用默认值' },
-					{ title: '* 时间窗口 （-i,--interval）', name:'sgame_udp_interval',type:'text',size: 20,value: dbus.sgame_udp_interval ,suffix: ' 单位：ms，默认0，留空则使用默认值。' },
-					{ title: '* 随机丢包 （--random-drop）', name:'sgame_udp_drop',type:'text',size: 20,value: dbus.sgame_udp_drop ,suffix: ' 单位：0.01%，默认0，留空则使用默认值' },
-					{ title: '* 其它参数 ', name:'sgame_udp_other',type:'text',size: 100,value: dbus.sgame_udp_other ,suffix: ' 其它高级参数，请手动输入，如 -q1 等' },
+					{ title: 'Udp2raw 连接密码', name:'sgame_udp_password',type:'password',size: 20,maxLength:30,value:dbus.sgame_udp_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给配置文件，导致启动后不能使用加速器。',peekaboo: 1  },
+					{ title: '模式', name:'sgame_udp_mode',type:'select',options:[['faketcp','faketcp'],['udp','udp'],['icmp','icmp']],value:dbus.sgame_udp_mode || "faketcp", suffix: 'raw-mode 默认:faketcp' },
+					{ title: '其它参数', name:'sgame_udp_other',type:'text',size: 65,value: dbus.sgame_udp_other ,suffix: ' 其它自定义参数，请手动输入，如 -q1 等' },
 				]);
 			</script>
 		</div>

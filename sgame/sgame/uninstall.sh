@@ -16,8 +16,8 @@ rm -rf $KSROOT/scripts/sgame_*
 rm -rf $KSROOT/webs/Module_sgame.asp
 rm -rf $KSROOT/webs/res/icon-sgame.png
 rm -rf $KSROOT/webs/res/icon-sgame-bg.png
-rm -rf $KSROOT/bin/shadowvpn
-rm -rf $KSROOT/bin/speederv2
+rm -rf $KSROOT/bin/tinyvpn
+rm -rf $KSROOT/bin/udp2raw
 rm -rf /etc/hotplug.d/iface/30-sgame
 rm -rf $KSROOT/sgame
 

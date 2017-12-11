@@ -14,9 +14,8 @@ cp -rf /tmp/sgame/hotplug/* /etc/hotplug.d/iface/
 cp /tmp/sgame/uninstall.sh $KSROOT/scripts/uninstall_sgame.sh
 
 chmod +x $KSROOT/scripts/sgame_*
-chmod +x $KSROOT/sgame/*.sh
-chmod +x $KSROOT/bin/shadowvpn
-chmod +x $KSROOT/bin/speederv2
+chmod +x $KSROOT/bin/tinyvpn
+chmod +x $KSROOT/bin/udp2raw
 
 dbus set softcenter_module_sgame_description="外服游戏解决方案"
 dbus set softcenter_module_sgame_install=1
