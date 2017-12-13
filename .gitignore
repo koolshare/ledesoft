@@ -21,3 +21,4 @@ tunnel
 /ssrserver/build
 /pppoeserver/build
 /nwan/build
+/routetable/build

@@ -1,0 +1,14 @@
+#!/bin/sh
+[ "$ACTION" = ifup ] || exit 0
+
+device=$(ip route show 0/0 | sed -e 's/.* dev \([^ ]*\).*/\1/')
+
+[ -z "$device" -o "$DEVICE" = "$device" ] || exit 0
+
+source /koolshare/scripts/base.sh
+eval `dbus export routetable_`
+
+[ "$routetable_enable" == "1" ] && {
+	/koolshare/scripts/routetable_config.sh
+	logger -t routetable "Restart routetable due to ifup of $INTERFACE ($DEVICE)"
+}

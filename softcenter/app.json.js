@@ -166,6 +166,17 @@
             "version": "0.3"
         }, 
         {
+            "build_date": "2017-12-13_15:48:27", 
+            "changelog": "", 
+            "description": "路由流量指明灯", 
+            "home_url": "Module_routetable.asp", 
+            "md5": "8966e2c021cb3a3a41b692bfac4b95c5", 
+            "name": "routetable", 
+            "tar_url": "routetable/routetable.tar.gz", 
+            "title": "路由表设置", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-29_18:06:01", 
             "changelog": "√修复重启导致防火墙规则重复", 
             "description": "巨硬套餐激活工具", 
