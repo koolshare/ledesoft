@@ -373,15 +373,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-11-16_00:17:13", 
-            "changelog": "", 
+            "build_date": "2017-12-13_16:58:20", 
+            "changelog": "增加客户端科学上网开关", 
             "description": "科学上网服务器", 
             "home_url": "Module_ssrserver.asp", 
-            "md5": "de375fbf147d7ccdde38bd9aa4c646ba", 
+            "md5": "87156990927fbd529025c02f7b867913", 
             "name": "ssrserver", 
             "tar_url": "ssrserver/ssrserver.tar.gz", 
             "title": "SSR Server", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-10-25_10:49:24", 

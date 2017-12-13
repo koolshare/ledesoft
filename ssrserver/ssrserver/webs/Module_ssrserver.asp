@@ -121,7 +121,7 @@ No part of this file may be used without permission.
 			// disable update botton when in update progress
 			E('save-button').disabled = true;
 			// collect basic data
-			var para_chk = ["ssrserver_enable", "ssrserver_tcp"];
+			var para_chk = ["ssrserver_enable", "ssrserver_tcp", "ssrserver_ss"];
 			var para_inp = ["ssrserver_port", "ssrserver_timeout", "ssrserver_passwd", "ssrserver_encrypt", "ssrserver_protocol", "ssrserver_protocol_param", "ssrserver_obfs", "ssrserver_obfs_param", "ssrserver_redirect"];
 			// collect data from checkbox
 			for (var i = 0; i < para_chk.length; i++) {
@@ -228,6 +228,7 @@ No part of this file may be used without permission.
 					{ title: '混淆参数', name:'ssrserver_obfs_param',type:'text', maxlen: 50, size: 50,value: dbus.ssrserver_obfs_param },
 					{ title: '重定向', name:'ssrserver_redirect',type:'text', maxlen: 50, size: 50,value: dbus.ssrserver_redirect },
 					{ title: 'TCP快速打开', name:'ssrserver_tcp',type:'checkbox',value: dbus.ssrserver_tcp == 1 },
+					{ title: '允许客户端科学上网', name:'ssrserver_ss',type:'checkbox',value: dbus.ssrserver_ss == 1 },
 				]);
 			</script>
 		</div>

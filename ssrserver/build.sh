@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=ssrserver
-VERSION=0.1
+VERSION=0.2
 TITLE="SSR Server"
 DESCRIPTION=科学上网服务器
 HOME_URL=Module_ssrserver.asp
+CHANGELOG="增加客户端科学上网开关"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
