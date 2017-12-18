@@ -15,6 +15,7 @@ cp -rf /tmp/easyexplorer/webs/* $KSROOT/webs/
 cp /tmp/easyexplorer/uninstall.sh $KSROOT/scripts/uninstall_easyexplorer.sh
 
 chmod +x $KSROOT/bin/easyexplorer
+chmod +x $KSROOT/bin/video_mux
 chmod +x $KSROOT/scripts/easyexplorer_*
 chmod +x $KSROOT/init.d/S99easyexplorer.sh
 

@@ -1,9 +1,9 @@
 {
-"version":"0.3",
-"md5":"2425d15496eca357e07a613e08aa952e",
+"version":"0.4",
+"md5":"ec9451f5bfda7e1c699ab3ffc13fecb2",
 "home_url":"Module_easyexplorer.asp",
 "title":"EasyExplorer",
 "description":"强大易用的全平台同步工具",
-"changelog":"更新主程序",
-"build_date":"2017-12-05_15:39:32"
+"changelog":"增加DLNA支持",
+"build_date":"2017-12-18_11:15:11"
 }

@@ -13,6 +13,7 @@ done
 
 sleep 1
 rm -rf $KSROOT/bin/easyexplorer
+rm -rf $KSROOT/bin/video_mux
 rm -rf $KSROOT/scripts/easyexplorer*
 rm -rf $KSROOT/init.d/S99easyexplorer.sh
 rm -rf /etc/rc.d/S99easyexplorer.sh >/dev/null 2>&1
