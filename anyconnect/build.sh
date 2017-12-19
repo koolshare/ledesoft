@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=anyconnect
-VERSION=0.7
+VERSION=0.8
 TITLE="AnyConnect Server"
 DESCRIPTION="与你的网络无缝并行"
 HOME_URL=Module_anyconnect.asp
