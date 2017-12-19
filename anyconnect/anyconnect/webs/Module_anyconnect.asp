@@ -135,6 +135,7 @@ No part of this file may be used without permission.
 			elem.display(PR('_anyconnect_user'), h1);
 			elem.display(PR('_anyconnect_passwd'), h1);
 			E('_download_cert').disabled = h1;			
+			E('_restore_now').disabled = h1;			
 			return true;
 		}
 
@@ -262,6 +263,44 @@ No part of this file may be used without permission.
 				}
 			});
 		}
+
+		function restore_now(o){
+			verifyFields();
+			// disable update botton when in update progress
+			E('save-button').disabled = true;
+			// collect basic data
+			var para_chk = ["anyconnect_enable"];
+			var para_inp = ["anyconnect_port", "anyconnect_user", "anyconnect_passwd", "anyconnect_auth", "anyconnect_host"];
+			// collect data from checkbox
+			for (var i = 0; i < para_chk.length; i++) {
+				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
+			}
+			// data from other element
+			for (var i = 0; i < para_inp.length; i++) {
+				if (!E('_' + para_inp[i] ).value){
+					dbus[para_inp[i]] = "";
+				}else{
+					dbus[para_inp[i]] = E('_' + para_inp[i]).value;
+				}
+			}
+			// post data
+			var id2 = parseInt(Math.random() * 100000000);
+			var postData2 = {"id": id2, "method": "anyconnect_config.sh", "params":[o], "fields": dbus};
+			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
+			$.ajax({
+				url: "/_api/",
+				cache:false,
+				type: "POST",
+				dataType: "json",
+				data: JSON.stringify(postData2),
+				error: function(){
+					showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
+				}
+			});
+			reload = 1;
+			tabSelect("app3");
+		}
+
 	</script>
 
 	<div class="box">
@@ -294,7 +333,10 @@ No part of this file may be used without permission.
 					{ title: '登陆方式', name: 'anyconnect_auth', type: 'select', options: option_auth, value: dbus.anyconnect_auth },
 					{ title: '用户名', name:'anyconnect_user',type:'text', maxlen: 20, size: 20, value: dbus.anyconnect_user || 'koolshare' },
 					{ title: '密码', name:'anyconnect_passwd',type:'password', maxlen: 20, size: 20, value: dbus.anyconnect_passwd, peekaboo: 1 },
-					{ title: '用户证书下载', name:'anyconnect_cert',text:' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载（p12）<i class="icon-download"></i></button>' },
+					{ title: '证书管理', multi: [ 
+						{ name:'restore_cert',suffix: ' <button id="_restore_now" onclick="restore_now(1);" class="btn btn-primary">重新生成证书</button>' },
+						{ name:'anyconnect_cert',suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载（p12）<i class="icon-download"></i></button>' },
+					] },
 					]);
 			</script>
 		</div>
