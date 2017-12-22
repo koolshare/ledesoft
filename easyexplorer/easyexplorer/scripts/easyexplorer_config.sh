@@ -10,6 +10,13 @@ check_folder(){
 	}	
 }
 
+check_dlna(){
+	[ "$easyexplorer_dlna" == "1" -a ! -f "/usr/bin/video_mux" ] && {
+		wget --no-check-certificate --timeout=8 --tries=2 -O - https://ledesoft.ngrok.wang/easyexplorer/module/video_mux > /tmp/video_mux
+		[ "$?" -eq 0 ] && mv /tmp/video_mux /usr/bin/video_mux && chmod a+x /usr/bin/video_mux
+	}	
+}
+
 gen_config(){
 	cat >/tmp/etc/easyexplorer.json<<EOF
 {"username":"$easyexplorer_token","sharePath":"$easyexplorer_folder"}
@@ -76,6 +83,7 @@ port)
 		stop_easyexplorer
 		sleep 1
 		check_folder
+		check_dlna
 		#gen_config
 		start_easyexplorer
 		creat_start_up

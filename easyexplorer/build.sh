@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=easyexplorer
-VERSION=0.4
+VERSION=0.5
 TITLE=EasyExplorer
 DESCRIPTION=强大易用的全平台同步工具
 HOME_URL=Module_easyexplorer.asp
-CHANGELOG="增加DLNA支持"
+CHANGELOG="升级BIN文件"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

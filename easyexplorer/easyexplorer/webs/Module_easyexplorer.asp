@@ -81,6 +81,7 @@ function toggleVisibility(whichone) {
 
 function save(){
 	Apps.easyexplorer_enable = E('_easyexplorer_enable').checked ? '1':'0';
+	Apps.easyexplorer_dlna = E('_easyexplorer_dlna').checked ? '1':'0';
 	Apps.easyexplorer_token = E('_easyexplorer_token').value;
 	Apps.easyexplorer_folder = E('_easyexplorer_folder').value;
 	if(Apps.easyexplorer_token == ""){
@@ -89,7 +90,7 @@ function save(){
 	}
 	//-------------- post Apps to dbus ---------------
 	var id = 1 + Math.floor(Math.random() * 6);
-	var postData = {"id": id, "method":'easyexplorer_config.sh', "params":[1], "fields": Apps};
+	var postData = {"id": id, "method":'easyexplorer_config.sh', "params":[], "fields": Apps};
 	var success = function(data) {
 		//
 		$('#footer-msg').text(data.result);
@@ -139,7 +140,8 @@ $('#easyexplorer-fields').forms([
 { title: '开启EasyExplorer', name: 'easyexplorer_enable', type: 'checkbox', value: ((Apps.easyexplorer_enable == '1')? 1:0)},
 { title: 'EasyeEplorer运行状态', text: '<font id="easyexplorer_status" name=easyexplorer_status color="#1bbf35">正在获取运行状态...</font>' },
 { title: 'Token', name: 'easyexplorer_token', type: 'text', maxlen: 38, size: 38, value: Apps.easyexplorer_token },
-{ title: '本地同步文件夹', name: 'easyexplorer_folder', type: 'text', maxlen: 100, size: 100, value: Apps.easyexplorer_folder || "/mnt/sda3/share" },
+{ title: '本地同步文件夹', name: 'easyexplorer_folder', type: 'text', size: 60, value: Apps.easyexplorer_folder || "/mnt/sda3/share" },
+{ title: '开启DLNA解码器下载', name: 'easyexplorer_dlna', type: 'checkbox', value: ((Apps.easyexplorer_dlna == '1')? 1:0)},
 { title: 'WEB控制台',  name: 'easyexplorer_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":8899" + '/ target="_blank"><u>http://'  + location.hostname + ":8899" + '</u></a>'}
 ]);
 </script>
@@ -149,7 +151,9 @@ $('#easyexplorer-fields').forms([
 	<div class="heading">EasyExplorer穿透设置教程： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:none">
 			<li> 查看设置教程<a id="gfw_number" href="http://koolshare.cn/thread-129199-1-1.html" target="_blank"><font color="#FF3300">http://koolshare.cn/thread-129199-1-1.html</font></a></li>
-			<br />
+			<li> DLNA解码组件较大，如果你不使用DLNA服务则无需开启。</li>
+			<li> 首次启用DLNA解码支持会需要较长时间来下载视频解码组件。</li>
+			<li> 更新固件后需要重新下载视频解码组件。</li>
 			<li> IOS和Android APP目前还在开发中。</li>
 	</div>
 </div>

@@ -6,6 +6,7 @@ eval `dbus export easyexplorer`
 
 mkdir -p $KSROOT/init.d
 mkdir -p /tmp/upload
+rm -rf $KSROOT/bin/video_mux
 
 cd /tmp
 cp -rf /tmp/easyexplorer/bin/* $KSROOT/bin/
@@ -33,13 +34,4 @@ sh /koolshare/scripts/easyexplorer_config.sh
 
 sleep 1
 rm -rf /tmp/easyexplorer* >/dev/null 2>&1
-
-
-
-
-
-
-
-
-
 

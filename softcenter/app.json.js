@@ -155,15 +155,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-12-18_11:15:11", 
-            "changelog": "增加DLNA支持", 
+            "build_date": "2017-12-22_12:53:59", 
+            "changelog": "升级BIN文件", 
             "description": "强大易用的全平台同步工具", 
             "home_url": "Module_easyexplorer.asp", 
-            "md5": "ec9451f5bfda7e1c699ab3ffc13fecb2", 
+            "md5": "bacc0bbb385c561558e80684d21622ca", 
             "name": "easyexplorer", 
             "tar_url": "easyexplorer/easyexplorer.tar.gz", 
             "title": "EasyExplorer", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-12-13_15:48:27", 
