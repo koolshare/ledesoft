@@ -1,9 +1,9 @@
 {
-"version":"0.2.0",
-"md5":"91cdf7c7ebea86dc73d50f8fa5c0b623",
+"version":"0.2.1",
+"md5":"f1c42a0eea609ae0dca053f19dca0be6",
 "home_url":"Module_hotfix.asp",
 "title":"HOTFIX",
 "description":"快速修复当前固件中的BUG",
-"changelog":"修复重启酷软空白",
-"build_date":"2017-09-14_21:15:10"
+"changelog":"修复2.12科学上网无法使用的bug",
+"build_date":"2017-12-23_19:13:09"
 }

@@ -47,6 +47,11 @@ if [ "$version_local" == "2.1" ] || [ "$version_local" == "2.2" ];then
 	fi
 fi
 
+# fix 2.12 ss-redir libsodium
+if [ "$version_local" == "2.12" ];then
+	ln -s /usr/lib/libsodium.so.23.1.0 /usr/lib/libsodium.so.18
+fi
+
 # fix missing sadog.lua
 if [ -f "/koolshare/ss/version" ];then
 	SS_VERSION=`/koolshare/ss/version`
