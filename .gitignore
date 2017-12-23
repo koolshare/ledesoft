@@ -22,3 +22,4 @@ tunnel
 /pppoeserver/build
 /nwan/build
 /routetable/build
+/sqos/build

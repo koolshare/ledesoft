@@ -111,6 +111,17 @@
             "version": "3.6.1.34"
         }, 
         {
+            "build_date": "2017-12-23_19:00:42", 
+            "changelog": "", 
+            "description": "宽带限速、优化", 
+            "home_url": "Module_sqos.asp", 
+            "md5": "7a5434881989c1645df4b1427fd77edd", 
+            "name": "sqos", 
+            "tar_url": "sqos/sqos.tar.gz", 
+            "title": "QOS", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-03_00:51:16", 
             "changelog": "", 
             "description": "小巧便携BT下载器", 
