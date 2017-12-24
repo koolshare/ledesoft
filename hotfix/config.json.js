@@ -1,9 +1,9 @@
 {
 "version":"0.2.1",
-"md5":"f1c42a0eea609ae0dca053f19dca0be6",
+"md5":"490a66b06111fed13c311f29ac022a7a",
 "home_url":"Module_hotfix.asp",
 "title":"HOTFIX",
 "description":"快速修复当前固件中的BUG",
 "changelog":"修复2.12科学上网无法使用的bug",
-"build_date":"2017-12-23_19:13:09"
+"build_date":"2017-12-24_11:03:58"
 }

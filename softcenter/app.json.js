@@ -56,11 +56,11 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2017-12-23_19:13:09", 
+            "build_date": "2017-12-24_11:03:58", 
             "changelog": "修复2.12科学上网无法使用的bug", 
             "description": "快速修复当前固件中的BUG", 
             "home_url": "Module_hotfix.asp", 
-            "md5": "f1c42a0eea609ae0dca053f19dca0be6", 
+            "md5": "490a66b06111fed13c311f29ac022a7a", 
             "name": "hotfix", 
             "tar_url": "hotfix/hotfix.tar.gz", 
             "title": "HOTFIX", 
