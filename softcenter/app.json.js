@@ -296,6 +296,17 @@
             "version": "1.9.9.7"
         }, 
         {
+            "build_date": "2017-12-26_16:07:21", 
+            "changelog": "", 
+            "description": "开源的P2P加密组网", 
+            "home_url": "Module_n2n.asp", 
+            "md5": "3a88c76588e7cddd561fecd07670f507", 
+            "name": "n2n", 
+            "tar_url": "n2n/n2n.tar.gz", 
+            "title": "N2N V2", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-09_18:25:54", 
             "description": "FRPC内网穿透工具", 
             "home_url": "Module_frpc.asp", 
