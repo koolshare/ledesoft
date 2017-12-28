@@ -1,9 +1,9 @@
 {
-"version":"0.2",
-"md5":"87156990927fbd529025c02f7b867913",
+"version":"0.3",
+"md5":"51d10983e52ae7782a93a925fca5f2a4",
 "home_url":"Module_ssrserver.asp",
 "title":"SSR Server",
 "description":"科学上网服务器",
-"changelog":"增加客户端科学上网开关",
-"build_date":"2017-12-13_16:58:20"
+"changelog":"修复安装包下载的问题",
+"build_date":"2017-12-28_14:17:14"
 }

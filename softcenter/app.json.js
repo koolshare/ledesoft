@@ -296,6 +296,11 @@
             "version": "1.9.9.7"
         }, 
         {
+            "name": "brook", 
+            "tar_url": "brook/brook.tar.gz", 
+            "title": "brook"
+        }, 
+        {
             "build_date": "2017-12-26_16:07:21", 
             "changelog": "", 
             "description": "开源的P2P加密组网", 
@@ -395,15 +400,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2017-12-13_16:58:20", 
-            "changelog": "增加客户端科学上网开关", 
+            "build_date": "2017-12-28_14:17:14", 
+            "changelog": "修复安装包下载的问题", 
             "description": "科学上网服务器", 
             "home_url": "Module_ssrserver.asp", 
-            "md5": "87156990927fbd529025c02f7b867913", 
+            "md5": "51d10983e52ae7782a93a925fca5f2a4", 
             "name": "ssrserver", 
             "tar_url": "ssrserver/ssrserver.tar.gz", 
             "title": "SSR Server", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-10-25_10:49:24", 
