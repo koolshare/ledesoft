@@ -1,9 +1,9 @@
 {
-"version":"0.4",
-"md5":"a3ff4cd0ed9af1c68e05f9274dcc47d0",
+"version":"0.5",
+"md5":"b443b83157f000c78a4c4f0aa94c1ecd",
 "home_url":"Module_transmission.asp",
 "title":"Transmission",
 "description":"高效的BT、PT下载工具",
-"changelog":"√修复全局连接数无法修改的问题",
-"build_date":"2017-11-11_15:56:45"
+"changelog":"修复增强web下载",
+"build_date":"2017-12-28_14:29:47"
 }

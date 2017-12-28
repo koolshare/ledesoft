@@ -34,15 +34,15 @@
             "version": "1.3"
         }, 
         {
-            "build_date": "2017-11-18_21:20:32", 
-            "changelog": "修复自动生成配置文件的错误", 
+            "build_date": "2017-12-28_14:30:24", 
+            "changelog": "修复安装包下载", 
             "description": "智能家庭网关", 
             "home_url": "Module_homebridge.asp", 
-            "md5": "a132573a1e0d6dec55aee37d2f954549", 
+            "md5": "29c0e5fbfe52e3d59055c243f3930ec2", 
             "name": "homebridge", 
             "tar_url": "homebridge/homebridge.tar.gz", 
             "title": "Homebridge", 
-            "version": "0.6"
+            "version": "0.7"
         }, 
         {
             "build_date": "2017-10-14_15:22:41", 
@@ -348,15 +348,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-11-11_15:56:45", 
-            "changelog": "√修复全局连接数无法修改的问题", 
+            "build_date": "2017-12-28_14:29:47", 
+            "changelog": "修复增强web下载", 
             "description": "高效的BT、PT下载工具", 
             "home_url": "Module_transmission.asp", 
-            "md5": "a3ff4cd0ed9af1c68e05f9274dcc47d0", 
+            "md5": "b443b83157f000c78a4c4f0aa94c1ecd", 
             "name": "transmission", 
             "tar_url": "transmission/transmission.tar.gz", 
             "title": "Transmission", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-09-09_18:30:46", 
