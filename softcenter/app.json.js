@@ -348,15 +348,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2017-12-28_14:29:47", 
-            "changelog": "修复增强web下载", 
+            "build_date": "2017-12-28_15:18:04", 
+            "changelog": "修复安装web出错误的问题", 
             "description": "高效的BT、PT下载工具", 
             "home_url": "Module_transmission.asp", 
-            "md5": "b443b83157f000c78a4c4f0aa94c1ecd", 
+            "md5": "4e8704d2f4bb117a4ac9d6d4e1008040", 
             "name": "transmission", 
             "tar_url": "transmission/transmission.tar.gz", 
             "title": "Transmission", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-09-09_18:30:46", 
