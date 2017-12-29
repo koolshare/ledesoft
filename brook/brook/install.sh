@@ -7,10 +7,11 @@ mkdir -p $KSROOT/brook
 mkdir -p /tmp/upload
 
 cd /tmp
-cp -rf /tmp/brook/brook /koolshare/brook/
-cp -rf /tmp/brook/scripts/* /koolshare/scripts/
-cp -rf /tmp/brook/webs/* /koolshare/webs/
-cp -rf /tmp/brook/init.d/* /koolshare/init.d/
+cp -rf /tmp/brook/bin $KSROOT/bin/
+cp -rf /tmp/brook/brook/* $KSROOT/brook/
+cp -rf /tmp/brook/scripts/* $KSROOT/scripts/
+cp -rf /tmp/brook/webs/* $KSROOT/webs/
+cp -rf /tmp/brook/init.d/* $KSROOT/init.d/
 cp -rf /tmp/brook/uninstall.sh $KSROOT/scripts/uninstall_brook.sh
 
 chmod 755 /koolshare/bin/brook
