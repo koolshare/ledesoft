@@ -7,7 +7,7 @@ mkdir -p $KSROOT/brook
 mkdir -p /tmp/upload
 
 cd /tmp
-cp -rf /tmp/brook/bin $KSROOT/bin/
+cp -rf /tmp/brook/bin/* $KSROOT/bin/
 cp -rf /tmp/brook/brook/* $KSROOT/brook/
 cp -rf /tmp/brook/scripts/* $KSROOT/scripts/
 cp -rf /tmp/brook/webs/* $KSROOT/webs/
