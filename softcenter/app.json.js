@@ -296,11 +296,11 @@
             "version": "1.9.9.7"
         }, 
         {
-            "build_date": "2017-12-29_18:08:05", 
+            "build_date": "2017-12-29_18:35:24", 
             "changelog": "", 
             "description": "跨平台的Socks5代理", 
             "home_url": "Module_brook.asp", 
-            "md5": "89565a7a6f931bd10921c1852dbd709e", 
+            "md5": "9641fe7ca7aea7de697d01c59a6dc571", 
             "name": "brook", 
             "tar_url": "brook/brook.tar.gz", 
             "title": "Brook", 
