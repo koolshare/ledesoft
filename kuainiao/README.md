@@ -1,2 +1,0 @@
-# kuainiao
-Kuainiao for TTsoftcenter

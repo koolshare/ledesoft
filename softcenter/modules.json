@@ -1,12 +1,7 @@
 [
-{"module": "koolproxy", "git_source": "https://github.com/koolproxy/ttsoft-koolproxy.git"},
-{"module": "xunlei", "git_source": "https://github.com/Kenneyzh/xunlei.git"},
-{"module": "syncthing", "git_source": "https://github.com/Kenneyzh/syncthing.git"},
-{"module": "kuainiao", "git_source": "https://github.com/Kenneyzh/kuainiao.git"},
-{"module": "dnspod", "git_source": "https://github.com/Kenneyzh/dnspod.git"},
-{"module": "aria2", "git_source": "https://github.com/Kenneyzh/aria2.git"},
-{"module": "gdddns", "git_source": "https://github.com/mritd/ttsoft-gdddns.git"},
-{"module": "frpc", "git_source": "https://github.com/Kenneyzh/frpc.git"},
+{"module": "qiandao", "git_source": "https://github.com/hikaruchang/qiandao-koolsoft.git"},
+{"module": "udpspeeder", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
+{"module": "udp2raw", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
 {}
 ]
 

@@ -253,17 +253,6 @@
             "version": "0.4"
         }, 
         {
-            "build_date": "2017-09-13_21:32:02", 
-            "changelog": "↑ 更新二进制文件", 
-            "description": "UDP双边加速工具", 
-            "home_url": "Module_udpspeeder.asp", 
-            "md5": "85a543b8e36af5de86b01c0f8ed3aec5", 
-            "name": "udpspeeder", 
-            "tar_url": "udpspeeder/udpspeeder.tar.gz", 
-            "title": "UDPspeeder", 
-            "version": "1.0.6"
-        }, 
-        {
             "build_date": "2017-10-19_20:43:20", 
             "changelog": "", 
             "description": "安装盘剩余空间挂载", 
@@ -363,16 +352,6 @@
             "tar_url": "transmission/transmission.tar.gz", 
             "title": "Transmission", 
             "version": "0.6"
-        }, 
-        {
-            "build_date": "2017-09-09_18:30:46", 
-            "description": "上下行带宽提速", 
-            "home_url": "Module_kuainiao.asp", 
-            "md5": "130068e43c0185e2b578b7dc69561e72", 
-            "name": "kuainiao", 
-            "tar_url": "kuainiao/kuainiao.tar.gz", 
-            "title": "kuainiao", 
-            "version": "1.1"
         }, 
         {
             "build_date": "2017-10-01_16:30:07", 
@@ -491,16 +470,6 @@
             "tar_url": "minieap/minieap.tar.gz", 
             "title": "校园认证", 
             "version": "0.1"
-        }, 
-        {
-            "build_date": "2017-09-10_23:08:06", 
-            "description": "应对udp限速、屏蔽", 
-            "home_url": "Module_udp2raw.asp", 
-            "md5": "78cb38c360fa9a45cd16d820609d22f8", 
-            "name": "udp2raw", 
-            "tar_url": "udp2raw/udp2raw.tar.gz", 
-            "title": "udp2raw", 
-            "version": "0.3"
         }, 
         {
             "build_date": "2017-11-02_22:40:01", 
