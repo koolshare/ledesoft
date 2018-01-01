@@ -32,6 +32,18 @@ case $(uname -m) in
     ;;
 esac
 
+#校验固件版本
+echo_date 开始检测固件版本...
+version_local=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
+check_version=`versioncmp $version_local 2.12`
+if [ "$check_version" == "1" ];then
+	echo_date 当前固件版本太低，不支持最新版插件，请将固件升级到2.12以上版本
+	echo_date 退出安装！
+	exit 0
+else
+	echo_date 检测通过，符合安装条件！
+fi
+
 # 准备
 echo_date 创建相关文件夹...
 mkdir -p $KSROOT/ss

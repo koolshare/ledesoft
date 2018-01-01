@@ -1,5 +1,12 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.9.8 (*不支持2.12以下固件)
+   - update	升级ss版本到3.1.2;
+   - update	升级pacp版本到0.4.9.5；
+   - update	升级simple-obfs到0.0.5；
+   - fix	修复2.12版本以上固件用户某些加密无法使用的问题；
+
+==========================================
 1.9.9.7
    - fix	修复pdnsd udp ss-tunnel 自定义功能显示问题；
    - fix	修复chinadns dns2socks 自定义攻功能问题；

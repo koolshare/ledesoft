@@ -699,7 +699,7 @@
 					{ title: 'brook 服务器', name:'brook_basic_server',type:'text',size: 20,value:dbus.brook_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。'},
 					{ title: 'brook 端口', name:'brook_basic_port',type:'text',size: 20,value:dbus.brook_basic_port },
 					{ title: 'brook 密码', name:'brook_basic_password',type:'password',size: 20,maxLength:30,value:dbus.brook_basic_password,help: '如果你的密码内有特殊字符，可能会导致密码参数不能正确的传给ss，导致启动后不能使用ss。',peekaboo: 1  },
-					{ title: '允许局域网设备连接Socks5端口(1280)', name:'brook_basic_sock',type:'checkbox',  value: dbus.brook_basic_sock == 1,help: '开启后局域网内客户端都能连接本socks5代理,端口号：1280' },
+					{ title: '允许局域网设备连接Socks5端口(1281)', name:'brook_basic_sock',type:'checkbox',  value: dbus.brook_basic_sock == 1,help: '开启后局域网内客户端都能连接本socks5代理,端口号：1281' },
 				]);
 			</script>
 		</div>
