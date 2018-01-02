@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=pppoeai
-VERSION=1.0
+VERSION=1.1
 TITLE=拨号助手
 DESCRIPTION=拨号到指定号段
 HOME_URL=Module_pppoeai.asp
-CHANGELOG="√修复无法检测拨号程序的问题"
+CHANGELOG="修复导致开机网卡无法加载的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

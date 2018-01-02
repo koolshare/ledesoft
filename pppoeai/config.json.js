@@ -1,9 +1,9 @@
 {
-"version":"1.0",
-"md5":"be84d44419b367ff2d43c4c47aba2391",
+"version":"1.1",
+"md5":"64dfe3287d4b6d0c9dfa492caab986d1",
 "home_url":"Module_pppoeai.asp",
 "title":"拨号助手",
 "description":"拨号到指定号段",
-"changelog":"√修复无法检测拨号程序的问题",
-"build_date":"2017-12-11_18:30:36"
+"changelog":"修复导致开机网卡无法加载的问题",
+"build_date":"2018-01-02_11:28:12"
 }

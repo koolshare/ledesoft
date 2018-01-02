@@ -14,13 +14,6 @@ STOP=15
 source /koolshare/scripts/base.sh
 eval `dbus export pppoeai_` 
 
-boot(){
-	until ip route show 0/0 | grep -q "^default"; do
-		sleep 1
-	done	
-	start
-}
-
 start(){
 	[ "$pppoeai_enable" == "1" ] && sh /koolshare/scripts/pppoeai_config.sh
 }
