@@ -210,15 +210,15 @@
             "version": "1.9"
         }, 
         {
-            "build_date": "2017-10-13_10:50:08", 
-            "changelog": "", 
+            "build_date": "2018-01-05_15:00:31", 
+            "changelog": "安装盘不显示boot分区", 
             "description": "Debian系统和Unifi控制器", 
             "home_url": "Module_unifi.asp", 
-            "md5": "815f9c6c7aad452a4a24f6686b2bef3c", 
+            "md5": "1ceef085030a55b34955ea45f89ddd56", 
             "name": "unifi", 
             "tar_url": "unifi/unifi.tar.gz", 
             "title": "Unifi Controller", 
-            "version": "0.3"
+            "version": "0.4"
         }, 
         {
             "build_date": "2017-10-19_16:08:11", 
@@ -383,6 +383,11 @@
             "tar_url": "usbmount/usbmount.tar.gz", 
             "title": "USB自动挂载", 
             "version": "1.0"
+        }, 
+        {
+            "name": "entware", 
+            "tar_url": "entware/entware.tar.gz", 
+            "title": "entware"
         }, 
         {
             "build_date": "2017-12-28_14:17:14", 
