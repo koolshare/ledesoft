@@ -385,9 +385,15 @@
             "version": "1.0"
         }, 
         {
+            "build_date": "2018-01-05_19:19:30", 
+            "changelog": "", 
+            "description": "Entware环境和扩展", 
+            "home_url": "Module_entware.asp", 
+            "md5": "241ab95abf082074bc36f59d6a3587a9", 
             "name": "entware", 
             "tar_url": "entware/entware.tar.gz", 
-            "title": "entware"
+            "title": "Entware", 
+            "version": "0.1"
         }, 
         {
             "build_date": "2017-12-28_14:17:14", 
