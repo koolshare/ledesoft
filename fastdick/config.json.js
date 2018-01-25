@@ -1,9 +1,9 @@
 {
-"version":"0.4",
-"md5":"2f90f11ce9387bc7b74da7f409648272",
+"version":"0.5",
+"md5":"b00d4728305c1a32617cee88bf5a7643",
 "home_url":"Module_fastdick.asp",
 "title":"迅雷快鸟",
 "description":"宽带上下行提速",
-"changelog":"",
-"build_date":"2017-10-17_17:26:35"
+"changelog":"升级API",
+"build_date":"2018-01-25_19:24:42"
 }

@@ -34,11 +34,11 @@ except ImportError as ex:
 if hasattr(ssl, '_create_unverified_context') and hasattr(ssl, '_create_default_https_context'):
     ssl._create_default_https_context = ssl._create_unverified_context
 
-rsa_mod = 0xAC69F5CCC8BDE47CD3D371603748378C9CFAD2938A6B021E0E191013975AD683F5CBF9ADE8BD7D46B4D2EC2D78AF146F1DD2D50DC51446BB8880B8CE88D476694DFC60594393BEEFAA16F5DBCEBE22F89D640F5336E42F587DC4AFEDEFEAC36CF007009CCCE5C1ACB4FF06FBA69802A8085C2C54BADD0597FC83E6870F1E36FD
-rsa_pubexp = 0x010001
+#rsa_mod = 0xAC69F5CCC8BDE47CD3D371603748378C9CFAD2938A6B021E0E191013975AD683F5CBF9ADE8BD7D46B4D2EC2D78AF146F1DD2D50DC51446BB8880B8CE88D476694DFC60594393BEEFAA16F5DBCEBE22F89D640F5336E42F587DC4AFEDEFEAC36CF007009CCCE5C1ACB4FF06FBA69802A8085C2C54BADD0597FC83E6870F1E36FD
+#rsa_pubexp = 0x010001
 
-APP_VERSION = "2.0.3.4"
-PROTOCOL_VERSION = 108
+APP_VERSION = "2.4.1.3"
+PROTOCOL_VERSION = 200
 VASID_DOWN = 14 # vasid for downstream accel
 VASID_UP = 33 # vasid for upstream accel
 FALLBACK_MAC = '000000000000'
@@ -52,13 +52,13 @@ if not PY3K:
     import urllib2
     from urllib2 import URLError
     from cStringIO import StringIO as sio
-    rsa_pubexp = long(rsa_pubexp)
+    #rsa_pubexp = long(rsa_pubexp)
 else:
     import urllib.request as urllib2
     from urllib.error import URLError
     from io import BytesIO as sio
 
-account_file_encrypted = '.swjsq.account'
+account_session = '.swjsq.session'
 account_file_plain = 'swjsq.account.txt'
 shell_file = 'swjsq_wget.sh'
 ipk_file = 'swjsq_0.0.1_all.ipk'
@@ -66,68 +66,21 @@ log_file = 'swjsq.log'
 
 login_xunlei_intv = 600 # do not login twice in 10min
 
+DEVICE = "SmallRice R1"
+OS_VERSION = "5.0.1"
+
 header_xl = {
     'Content-Type':'',
     'Connection': 'Keep-Alive',
     'Accept-Encoding': 'gzip',
-    'User-Agent': 'android-async-http/xl-acc-sdk/version-1.6.1.177600'
+    'User-Agent': 'android-async-http/xl-acc-sdk/version-2.1.1.177662'
 }
 header_api = {
     'Content-Type':'',
     'Connection': 'Keep-Alive',
     'Accept-Encoding': 'gzip',
-    'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 5.0.1; SmallRice Build/LRX22C)'
+    'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android %s; %s Build/LRX22C)' % (OS_VERSION, DEVICE)
 }
-
-
-try:
-    from Crypto.PublicKey import RSA
-except ImportError:
-    #slow rsa
-    print('Warning: pycrypto not found, use pure-python implemention')
-    rsa_result = {}
-
-    def cached(func):
-        def _(s):
-            if s in rsa_result:
-                _r = rsa_result[s]
-            else:
-                _r = func(s)
-                rsa_result[s] = _r
-            return _r
-        return _
-
-    # https://github.com/mengskysama/XunLeiCrystalMinesMakeDie/blob/master/run.py
-    def modpow(b, e, m):
-        result = 1
-        while (e > 0):
-            if e & 1:
-                result = (result * b) % m
-            e = e >> 1
-            b = (b * b) % m
-        return result
-
-    def str_to_int(string):
-        str_int = 0
-        for i in range(len(string)):
-            str_int = str_int << 8
-            str_int += ord(string[i])
-        return str_int
-
-    @cached
-    def rsa_encode(data):
-        result = modpow(str_to_int(data), rsa_pubexp, rsa_mod)
-        return "{0:0256X}".format(result) # length should be 1024bit, hard coded here
-else:
-    cipher = RSA.construct((rsa_mod, rsa_pubexp))
-
-    def rsa_encode(s):
-        if PY3K and isinstance(s, str):
-            s = s.encode("utf-8")
-        _ = binascii.hexlify(cipher.encrypt(s, None)[0]).upper()
-        if PY3K:
-            _ = _.decode("utf-8")
-        return _
 
 
 def get_mac(nic = '', to_splt = ':'):
@@ -241,6 +194,7 @@ class fast_d1ck(object):
         self.mac = get_mac(to_splt = '').upper() + '004V'
         self.xl_uid = None
         self.xl_session = None
+        self.xl_loginkey = None
         self.xl_login_payload = None
         self.last_login_xunlei = 0
         self.do_down_accel = False
@@ -248,52 +202,60 @@ class fast_d1ck(object):
         
         self.state = 0
 
-        
-    def login_xunlei(self, uname, pwd_md5):
+    def load_xl(self, dt):
+        if 'sessionID' in dt:
+            self.xl_session = dt['sessionID']
+        if 'userID' in dt:
+            self.xl_uid = dt['userID']
+        if 'loginKey' in dt:
+            self.xl_loginkey = dt['loginKey']
+
+    def login_xunlei(self, uname, pwd):       
         _ = int(login_xunlei_intv - time.time() + self.last_login_xunlei)
         if _ > 0: 
             print("sleep %ds to prevent login flood" % _)
             time.sleep(_)
         self.last_login_xunlei = time.time()
 
-        pwd = rsa_encode(pwd_md5)
-        fake_device_id = hashlib.md5(("%s23333" % pwd_md5).encode('utf-8')).hexdigest() # just generate a 32bit string
+        # pwd = rsa_encode(pwd_md5)
+        fake_device_id = hashlib.md5(("msfdc%s23333" % pwd).encode('utf-8')).hexdigest() # just generate a 32bit string
         # sign = div.10?.device_id + md5(sha1(packageName + businessType + md5(a protocolVersion specific GUID)))
-        device_sign = "div100.%s%s" % (fake_device_id, hashlib.md5(
-            hashlib.sha1(("%scom.xunlei.vip.swjsq68700d1872b772946a6940e4b51827e8af" % fake_device_id).encode('utf-8'))
+        device_sign = "div101.%s%s" % (fake_device_id, hashlib.md5(
+            hashlib.sha1(("%scom.xunlei.vip.swjsq68c7f21687eed3cdb400ca11fc2263c998" % fake_device_id).encode('utf-8'))
                 .hexdigest().encode('utf-8')
          ).hexdigest())
         _payload = {
-                "protocolVersion": PROTOCOL_VERSION,# 109
-                "sequenceNo": 1000001,
-                "platformVersion": 1,
-                "sdkVersion": 177550,# 177600
+                "protocolVersion": str(PROTOCOL_VERSION),
+                "sequenceNo": "1000001",
+                "platformVersion": "2",
+                "sdkVersion": "177662",
                 "peerID": self.mac,
-                "businessType": 68,
+                "businessType": "68",
                 "clientVersion": APP_VERSION,
                 "devicesign":device_sign,
-                "isCompressed": 0,
-                "cmdID": 1,
+                "isCompressed": "0",
+                #"cmdID": 1,
                 "userName": uname,
                 "passWord": pwd,
-                "loginType": 0, # normal account
+                #"loginType": 0, # normal account
                 "sessionID": "",
                 "verifyKey": "",
                 "verifyCode": "",
                 "appName": "ANDROID-com.xunlei.vip.swjsq",
-                "rsaKey": {
-                    "e": "%06X" % rsa_pubexp,
-                    "n": long2hex(rsa_mod)
-                },
-                "extensionList": ""
+                #"rsaKey": {
+                #    "e": "%06X" % rsa_pubexp,
+                #    "n": long2hex(rsa_mod)
+                #},
+                #"extensionList": "",
+                "deviceModel": DEVICE,
+                "deviceName": DEVICE,
+                "OSVersion": OS_VERSION
         }
-        ct = http_req('https://login.mobile.reg2t.sandai.net:443/', body = json.dumps(_payload), headers = header_xl, encoding = 'gbk')
+        ct = http_req('https://mobile-login.xunlei.com:443/login', body=json.dumps(_payload), headers=header_xl, encoding='utf-8')
         self.xl_login_payload = _payload
         dt = json.loads(ct)
-        if 'sessionID' in dt:
-            self.xl_session = dt['sessionID']
-        if 'userID' in dt:
-            self.xl_uid = dt['userID']
+        
+        self.load_xl(dt)
         return dt
 
 
@@ -301,43 +263,36 @@ class fast_d1ck(object):
         # copy original payload to new dict
         _payload = dict(self.xl_login_payload)
         _payload.update({
-            "sequenceNo": 1000002,
-            "cmdID": 3,
-            "vasid": vasid,
-            "userID": self.xl_uid,
+            "sequenceNo": "1000002",
+            "vasid": str(vasid),
+            "userID": str(self.xl_uid),
             "sessionID": self.xl_session,
-            "extensionList": [
-                "payId", "isVip", "mobile", "birthday", "isSubAccount", "isAutoDeduct", "isYear", "imgURL",
-                "vipDayGrow", "role", "province", "rank", "expireDate", "personalSign", "jumpKey", "allowScore",
-                "nickName", "vipGrow", "isSpecialNum", "vipLevel", "order", "payName", "isRemind", "account",
-                "sex", "vasType", "register", "todayScore", "city", "country"
-            ]
+            #"extensionList": [
+            #    "payId", "isVip", "mobile", "birthday", "isSubAccount", "isAutoDeduct", "isYear", "imgURL",
+            #    "vipDayGrow", "role", "province", "rank", "expireDate", "personalSign", "jumpKey", "allowScore",
+            #    "nickName", "vipGrow", "isSpecialNum", "vipLevel", "order", "payName", "isRemind", "account",
+            #    "sex", "vasType", "register", "todayScore", "city", "country"
+            #]
         })
         # delete unwanted kv pairs
-        for k in ('userName', 'passWord', 'loginType', 'verifyKey', 'verifyCode', 'rsaKey'):
+        for k in ('userName', 'passWord', 'verifyKey', 'verifyCode'):
             del _payload[k]
-        ct = http_req('https://login.mobile.reg2t.sandai.net:443/', body = json.dumps(_payload), headers = header_xl, encoding = 'gbk')
+        ct = http_req('https://mobile-login.xunlei.com:443/getuserinfo', body=json.dumps(_payload), headers=header_xl, encoding='utf-8')
         return json.loads(ct)
 
     def renew_xunlei(self):
-        _payload = {
-            "protocolVersion": 108,
-            "sequenceNo": 1000000,
-            "platformVersion": 1,
-            "peerID": self.mac,
-            "businessType": 68,
-            "clientVersion": APP_VERSION,
-            "isCompressed": 0,
-            "cmdID": 11,
-            "userID": self.xl_uid,
-            "sessionID": self.xl_session
-        }
-        ct = http_req('https://login.mobile.reg2t.sandai.net:443/', body = json.dumps(_payload), headers = header_xl, encoding = 'gbk')
+        _payload = dict(self.xl_login_payload)
+        _payload.update({
+            "sequenceNo": "1000001",
+            "userName": str(self.xl_uid), #wtf
+            "loginKey": self.xl_loginkey,
+        })
+        for k in ('passWord', 'verifyKey', 'verifyCode', "sessionID"):
+            del _payload[k]
+        ct = http_req('https://mobile-login.xunlei.com:443/loginkey ', body=json.dumps(_payload), headers=header_xl, encoding='utf-8')
         dt = json.loads(ct)
-        if 'sessionID' in dt:
-            self.xl_session = dt['sessionID']
-        if 'userID' in dt:
-            self.xl_uid = dt['userID']
+        
+        self.load_xl(dt)
         return dt
 
 
@@ -376,14 +331,17 @@ class fast_d1ck(object):
         return ret
 
 
-    def run(self, uname, pwd, save = True):
+    def run(self, uname, pwd, save=True):
         if uname[-2] == ':':
             print('Error: sub account can not upgrade')
             os._exit(3)
 
-        dt = self.login_xunlei(uname, pwd)
-
         if not self.xl_session:
+            dt = self.login_xunlei(uname, pwd)
+        else:
+            dt = self.renew_xunlei()
+
+        if dt['errorCode'] != "0" or not self.xl_session or not self.xl_loginkey:
             uprint('Error: login xunlei failed, %s' % dt['errorDesc'], 'Error: login failed')
             print(dt)
             os._exit(1)
@@ -391,21 +349,29 @@ class fast_d1ck(object):
         
         yyyymmdd = time.strftime("%Y%m%d", time.localtime(time.time()))
         
-        if dt['isVip'] == 1 and dt['vasType'] == 5 and dt['expireDate'] > yyyymmdd: # choaji membership
+        if 'vipList' not in dt:
+            vipList = []
+        else:
+            vipList = dt['vipList']
+        if vipList and vipList[0]['isVip'] == "1" and vipList[0]['vasType'] == "5" and vipList[0]['expireDate'] > yyyymmdd: # choaji membership
             self.do_down_accel = True
             self.do_up_accel = True
-            print('Expire date for chaoji member: %s' % dt['expireDate'])
+            print('Expire date for chaoji member: %s' % vipList[0]['expireDate'])
         else:
             _vas_debug = []
             for _vas, _name, _v in ((VASID_DOWN, 'fastdick', 'do_down_accel'), (VASID_UP, 'upstream acceleration', 'do_up_accel')):
                 _dt = self.check_xunlei_vas(_vas)
-                _vas_debug.append({k:_dt[k] for k in _dt if k.startswith("other")})
-                if _dt['other_isVip'] == 1:
-                    if _dt['other_expireDate'] < yyyymmdd:
-                        print('Warning: Your %s membership expires on %s' % (_name, _dt['other_expireDate']))
-                    else:
-                        print('Expire date for %s: %s' % (_name, _dt['other_expireDate']))
-                        setattr(self, _v, True)
+                if 'vipList' not in _dt or not _dt['vipList']:
+                    continue
+                for vip in _dt['vipList']:
+                    if vip['vasid'] == str(_vas):
+                        _vas_debug.append(vip)
+                        if vip['isVip'] == "1":
+                            if vip['expireDate'] < yyyymmdd:
+                                print('Warning: Your %s membership expires on %s' % (_name, vip['expireDate']))
+                            else:
+                                print('Expire date for %s: %s' % (_name, vip['expireDate']))
+                                setattr(self, _v, True)
                 
             if not self.do_down_accel and not self.do_up_accel:
                 print('Error: You are neither xunlei fastdick member nor upstream acceleration member, buy buy buy!\nDebug: %s' % _vas_debug)
@@ -416,8 +382,8 @@ class fast_d1ck(object):
                 os.remove(account_file_plain)
             except:
                 pass
-            with open(account_file_encrypted, 'w') as f:
-                f.write('%s,%s' % (uname, pwd))
+            with open(account_session, 'w') as f:
+                f.write('%s\n%s' % (json.dumps(dt), json.dumps(self.xl_login_payload)))
         
         api_ret = self.api('bandwidth', no_session = True)
         
@@ -441,7 +407,7 @@ class fast_d1ck(object):
         
         if not self.do_down_accel and not self.do_up_accel:
             print("Error: neither downstream nor upstream can be upgraded")
-            os._exit(3)
+            #os._exit(3)
         
         _avail = api_ret[list(api_ret.keys())[0]]
         
@@ -540,6 +506,14 @@ class fast_d1ck(object):
         # i=1~17 keepalive, renew session, i++
         # i=18 (3h) re-upgrade, i:=0
         # i=100 login, i:=18
+        xl_renew_payload = dict(self.xl_login_payload)
+        xl_renew_payload.update({
+            "sequenceNo": "1000001",
+            "userName": str(self.xl_uid), #wtf
+            "loginKey": "$loginkey",
+        })
+        for k in ('passWord', 'verifyKey', 'verifyCode', "sessionID"):
+            del xl_renew_payload[k]
         with open(shell_file, 'wb') as f:
             _ = '''#!/bin/ash
 TEST_URL="https://baidu.com"
@@ -555,7 +529,7 @@ else
 fi
 
 uid='''+str(self.xl_uid)+'''
-pwd='''+rsa_encode(pwd)+'''
+pwd='''+pwd+'''
 nic=eth0
 peerid='''+self.mac+'''
 uid_orig=$uid
@@ -607,14 +581,15 @@ while true; do
         fi
         last_login_xunlei=$tmstmp
         log "login xunlei"
-        ret=`$HTTP_REQ https://login.mobile.reg2t.sandai.net:443/ $POST_ARG"'''+json.dumps(self.xl_login_payload).replace('"','\\"')+'''" --header "$UA_XL"`
+        ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/login $POST_ARG"'''+json.dumps(self.xl_login_payload).replace('"','\\"')+'''" --header "$UA_XL"`
         session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
         session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
-        uid_temp=`echo $ret|grep -oE "userID..[0-9]{9}"`
+        uid_temp=`echo $ret|grep -oE "userID...[0-9]{9}"`
         uid=`echo $uid_temp|grep -oE "[0-9]{9}"`
+        loginkey=`echo $ret|grep -oE "lk...[a-f,0-9,\.]{96}"`
         i=18
         if [ -z "$session" ]; then
-            log "session is empty"
+            log "login session is empty"
             i=100
             sleep 60
             uid=$uid_orig
@@ -664,11 +639,23 @@ while true; do
     fi
 
     log "renew xunlei"
-    ret=`$HTTP_REQ https://login.mobile.reg2t.sandai.net:443/ $POST_ARG"{\\"protocolVersion\\":'''+str(PROTOCOL_VERSION)+''',\\"sequenceNo\\":1000000,\\"platformVersion\\":1,\\"peerID\\":\\"$peerid\\",\\"businessType\\":68,\\"clientVersion\\":\\"'''+APP_VERSION+'''\\",\\"isCompressed\\":0,\\"cmdID\\":11,\\"userID\\":$uid,\\"sessionID\\":\\"$session\\"}" --header "$UA_XL"`
-    error_code=`echo $ret|grep -oE "errorCode..[0-9]+"|grep -oE "[0-9]+"`
+    ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/loginkey $POST_ARG"'''+json.dumps(xl_renew_payload).replace('"','\\"')+'''" --header "$UA_XL"`
+    error_code=`echo $ret|grep -oE "errorCode...[0-9]+"|grep -oE "[0-9]+"`
     if [[ -z $error_code || $error_code -ne 0 ]]; then
         i=100
         continue
+    fi
+    session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
+    session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
+    loginkey=`echo $ret|grep -oE "lk...[a-f,0-9,\.]{96}"`
+    if [ -z "$session" ]; then
+        log "renew session is empty"
+        i=100
+        sleep 60
+        uid=$uid_orig
+        continue
+    else
+        log "session is $session"
     fi
 
     log "keepalive"
@@ -811,14 +798,17 @@ if __name__ == '__main__':
             uid, pwd = open(account_file_plain).read().strip().split(',')
             if PY3K:
                 pwd = pwd.encode('utf-8')
-            ins.run(uid, hashlib.md5(pwd).hexdigest())
-        elif os.path.exists(account_file_encrypted):
-            uid, pwd_md5 = open(account_file_encrypted).read().strip().split(',')
-            ins.run(uid, pwd_md5, save = False)
+            ins.run(uid, pwd)
+        elif os.path.exists(account_session):
+            with open(account_session) as f:
+                session = json.loads(f.readline())
+                ins.xl_login_payload = json.loads(f.readline())
+            ins.load_xl(session)
+            ins.run(ins.xl_login_payload['userName'], ins.xl_login_payload['passWord'])
         elif 'XUNLEI_UID' in os.environ and 'XUNLEI_PASSWD' in os.environ:
             uid = os.environ['XUNLEI_UID']
             pwd = os.environ['XUNLEI_PASSWD']
-            ins.run(uid, hashlib.md5(pwd).hexdigest())
+            ins.run(uid, pwd)
         else:
             _real_print('Please use XUNLEI_UID=<uid>/XUNLEI_PASSWD=<pass> envrionment varibles or create config file "%s", input account splitting with comma(,). Eg:\nyonghuming,mima' % account_file_plain)
     except KeyboardInterrupt:
