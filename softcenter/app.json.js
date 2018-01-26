@@ -133,15 +133,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2018-01-25_19:24:42", 
-            "changelog": "升级API", 
+            "build_date": "2018-01-26_12:44:29", 
+            "changelog": "修复多次登陆的问题", 
             "description": "宽带上下行提速", 
             "home_url": "Module_fastdick.asp", 
-            "md5": "b00d4728305c1a32617cee88bf5a7643", 
+            "md5": "8d3b934310ca5ac9f044b3dc7aee5333", 
             "name": "fastdick", 
             "tar_url": "fastdick/fastdick.tar.gz", 
             "title": "迅雷快鸟", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2017-10-16_19:22:00", 
