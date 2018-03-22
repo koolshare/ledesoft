@@ -1,0 +1,4 @@
+Koolshare LEDE V2ray Changelog
+===========================================
+
+changelogs can be found at: http://koolshare.cn/thread-64086-1-1.html

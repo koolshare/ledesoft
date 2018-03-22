@@ -12,6 +12,17 @@
             "version": "0.4"
         }, 
         {
+            "build_date": "2018-03-22_15:37:14", 
+            "changelog": "", 
+            "description": "模块化的代理软件包", 
+            "home_url": "Module_v2ray.asp", 
+            "md5": "8c120d443ee440db54e7e2bcf4d14bf1", 
+            "name": "v2ray", 
+            "tar_url": "v2ray/v2ray.tar.gz", 
+            "title": "V2Ray", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-12_15:16:43", 
             "changelog": "", 
             "description": "软件中心自动云备份和恢复", 
