@@ -270,11 +270,11 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2018-03-22_16:45:20", 
+            "build_date": "2018-03-22_16:51:21", 
             "changelog": "不支持2.12以下固件", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "e8d0c999894eba128990a8680f2fe9a7", 
+            "md5": "1e46380c5f5b0ad00d3e1b740a6ee32d", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
