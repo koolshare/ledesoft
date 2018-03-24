@@ -7,6 +7,7 @@ eval `dbus export v2ray_`
 mkdir -p $KSROOT/init.d
 mkdir -p $KSROOT/v2ray
 cp -rf /tmp/v2ray/bin/* $KSROOT/bin/
+cp -rf /tmp/v2ray/init.d/* $KSROOT/init.d/
 cp -rf /tmp/v2ray/v2ray/* $KSROOT/v2ray/
 cp -rf /tmp/v2ray/scripts/* $KSROOT/scripts/
 cp -rf /tmp/v2ray/webs/* $KSROOT/webs/

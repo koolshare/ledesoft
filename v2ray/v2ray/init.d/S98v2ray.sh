@@ -15,7 +15,7 @@ eval `dbus export v2ray_`
 
 
 start(){
-	[ "$v2ray_enable" == "1" ] && /koolshare/scripts/v2ray_config.sh restart
+	[ "$v2ray_basic_enable" == "1" ] && /koolshare/scripts/v2ray_config.sh start > /tmp/upload/v2ray_log.txt
 }
 
 stop(){

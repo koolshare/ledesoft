@@ -13,6 +13,7 @@ done
 
 sleep 1
 rm -rf $KSROOT/scripts/v2ray*
+rm -rf $KSROOT/init.d/S98v2ray.sh
 rm -rf $KSROOT/v2ray
 rm -rf $KSROOT/bin/v2ray
 rm -rf $KSROOT/bin/v2ctl
