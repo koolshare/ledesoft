@@ -1,9 +1,9 @@
 {
-"version":"1.9.9.8",
-"md5":"e939f310825cc5a624dbfc20d48be01e",
+"version":"1.9.9.9",
+"md5":"1e46380c5f5b0ad00d3e1b740a6ee32d",
 "home_url":"Module_koolss.asp",
 "title":"科学上网插件",
 "description":"轻松科学上网~",
 "changelog":"不支持2.12以下固件",
-"build_date":"2018-01-01_19:11:59"
+"build_date":"2018-03-22_16:51:21"
 }

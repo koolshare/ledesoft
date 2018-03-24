@@ -1092,8 +1092,8 @@
 				{ type: 'select',maxlen:40,options:option_ssr_protocal,value:''},
 				{ type: 'text', maxlen: 50 },
 				{ type: 'select',maxlen:40,options:option_ssr_obfs,value:''},
-				{ type: 'text', maxlen: 50 },
-				{ type: 'text', maxlen: 50 }
+				{ type: 'text', maxlen: 512 },
+				{ type: 'text', maxlen: 512 }
 			] );
 			this.headerSet( [ '序号', '模式', '节点名称', '服务器地址', '端口', '密码', '加密方式', '协议', '协议参数', '混淆', '混淆参数', 'ping' ] );
 			for ( var i = 1; i <= dbus["ssrconf_basic_node_max"]; i++){
