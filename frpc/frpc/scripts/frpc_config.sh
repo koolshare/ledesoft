@@ -18,13 +18,13 @@ write_conf(){
         echo "local_ip = `echo $i|cut -d'<' -f4`" >> $conf_file
         echo "local_port = `echo $i|cut -d'<' -f5`" >> $conf_file
         echo "remote_port = `echo $i|cut -d'<' -f6`" >> $conf_file
-        use_gzip=`echo $i|cut -d'<' -f7`
+        use_compression=`echo $i|cut -d'<' -f7`
         use_encryption=`echo $i|cut -d'<' -f8`
         privilege_mode=`echo $i|cut -d'<' -f9`
-        if [ $use_gzip == "1" ];then
-            echo "use_gzip = true" >> $conf_file
+        if [ $use_compression == "1" ];then
+            echo "use_compression = true" >> $conf_file
         else
-            echo "use_gzip = false" >> $conf_file
+            echo "use_compression = false" >> $conf_file
         fi
         if [ $use_encryption == "1" ];then
             echo "use_encryption = true" >> $conf_file

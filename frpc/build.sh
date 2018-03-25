@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=frpc
-VERSION=1.6
+VERSION=1.7
 TITLE=frpc
 DESCRIPTION=FRPC内网穿透工具
 HOME_URL=Module_frpc.asp
+CHANGELOG="更新二进制到1.6.1"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
