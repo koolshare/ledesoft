@@ -25,4 +25,5 @@ dbus set softcenter_module_v2ray_title="V2Ray"
 dbus set softcenter_module_v2ray_version=0.1
 
 sleep 1
+rm -rf $KSROOT/init.d/S98v2ray.sh
 rm -rf /tmp/v2ray >/dev/null 2>&1
