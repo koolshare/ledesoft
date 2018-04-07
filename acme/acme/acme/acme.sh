@@ -947,6 +947,7 @@ _sign() {
 
 }
 
+
 #keylength or isEcc flag (empty str => not ecc)
 _isEccKey() {
   _length="$1"
