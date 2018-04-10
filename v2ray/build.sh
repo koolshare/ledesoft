@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=v2ray
-VERSION=0.3
+VERSION=0.4
 TITLE="V2Ray"
 DESCRIPTION="模块化的代理软件包"
 HOME_URL=Module_v2ray.asp
