@@ -1,9 +1,9 @@
 {
-"version":"1.9.9.9",
-"md5":"1e46380c5f5b0ad00d3e1b740a6ee32d",
+"version":"1.9.9.10",
+"md5":"1fde3f2f85bf57222ac90fa4d10d221c",
 "home_url":"Module_koolss.asp",
 "title":"科学上网插件",
 "description":"轻松科学上网~",
-"changelog":"不支持2.12以下固件",
-"build_date":"2018-03-22_16:51:21"
+"changelog":"增加xchacha20-ietf-poly1305加密方式",
+"build_date":"2018-04-11_16:40:44"
 }

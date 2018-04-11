@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+1.9.9.10
+   - update	增加xchacha20-ietf-poly1305加密方式
+
 1.9.9.9
    - update	更改混淆参数长度限制50字符为512字符
 

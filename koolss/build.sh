@@ -5,7 +5,7 @@ VERSION=`cat koolss/ss/version`
 TITLE=科学上网插件
 DESCRIPTION="轻松科学上网~"
 HOME_URL=Module_koolss.asp
-CHANGELOG="不支持2.12以下固件"
+CHANGELOG="增加xchacha20-ietf-poly1305加密方式"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
