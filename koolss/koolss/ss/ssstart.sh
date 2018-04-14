@@ -256,7 +256,7 @@ route_add(){
 		GW=`ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
 		l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
 		if [ -n "$GW" ];then
-			ip route add $routeip	via	$GW dev $devname >/dev/null 2>&1 &
+			ip route add $routeip via $GW dev $devname >/dev/null 2>&1
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
 			if [ ! -f $cleanfile ];then
 				cat	> $cleanfile <<-EOF
@@ -264,7 +264,7 @@ route_add(){
 				EOF
 			fi
 			chmod +x $cleanfile
-			echo "ip route del $routeip via $GW dev $devname 【$l3_name】" >>	/tmp/route_del
+			echo "ip route del $routeip via $GW dev $devname 【$l3_name】" >> /tmp/route_del
 		else
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】失败, 因为$devname 【$l3_name】已经离线!!! $routeip将会自动选择出口！"
 		fi
@@ -291,7 +291,7 @@ resolv_server_ip(){
 			# store resoved ip in skipd
 			echo_date 将解析结果储存到skipd数据库...
 			if [ "$ss_basic_type"  == "1" ];then
-				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				[ -z "$ssconf_basic_max_node" ] && SSR_NODE="$ssconf_basic_max_node" || SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
 				dbus set ssrconf_basic_server_ip_$SSR_NODE="$server_ip"
 			elif [ "$ss_basic_type"  == "0" ];then
 				dbus set ssconf_basic_server_ip_$ss_basic_node="$server_ip"
@@ -300,7 +300,7 @@ resolv_server_ip(){
 			# get pre-resoved ip in skipd
 			echo_date 尝试获取上次储存的解析结果...
 			if [ "$ss_basic_type"  == "1" ];then
-				SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
+				[ -z "$ssconf_basic_max_node" ] && SSR_NODE="$ssconf_basic_max_node" || SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
 				ss_basic_server=`dbus get ssrconf_basic_server_ip_$SSR_NODE`
 			elif [ "$ss_basic_type"  == "0" ];then
 				ss_basic_server=`dbus get ssconf_basic_server_ip_$ss_basic_node`
@@ -1075,7 +1075,6 @@ add_white_black_ip(){
 			ipset -! add black_list $ip >/dev/null 2>&1
 		done
 	fi
-	
 	# white ip/cidr
 	#ip1=$(nvram get wan0_ipaddr | cut -d"." -f1,2)
 	#ip1=`cat /etc/config/pppoe|grep localip | awk '{print $4}'| cut -d"." -f1,2`
@@ -1357,7 +1356,6 @@ chromecast(){
 	fi
 }
 # =======================================================================================================
-#---------------------------------------------------------------------------------------------------------
 load_nat(){
 	echo_date "加载nat规则!"
 	flush_nat
@@ -1402,7 +1400,6 @@ detect_koolss(){
 	if [ -n "$SS_NU" ] && [ "$koolss_enable" != "nil" ];then
 		echo_date 检测到你开启了koolss！！！
 		echo_date 插件版本ss不能和koolss混用，如需使用插件ss，请关闭koolss！！
-
 	else
 		start_ok=1
 	fi
@@ -1451,93 +1448,93 @@ get_status(){
 restart_by_fw(){
 	# get_status >> /tmp/ss_start.txt
 	# for nat
-	[ ! -f "/tmp/koolss.nat_lock" ] && exit 0
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
-	#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发koolss重启！ 
-	echo_date 防火墙重启触发koolss重启！
-	echo_date ---------------------------------------------------------------------------------------
-	detect_koolss
-	calculate_wans_nu
-	restore_dnsmasq_conf
-	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-	kill_process
-	load_nat
-	start_ss_redir
-	start_kcp
-	[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-	start_dns
-	create_dnsmasq_conf
-	restart_dnsmasq
-	echo_date ------------------------- koolss 重启完毕 -------------------------
-	echo XU6J03M6
-}
+	flock -x 1000
+	{
+		echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
+		#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发koolss重启！ 
+		echo_date 防火墙重启触发koolss重启！
+		echo_date ---------------------------------------------------------------------------------------
+		detect_koolss
+		calculate_wans_nu
+		restore_dnsmasq_conf
+		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+		kill_process
+		load_nat
+		start_ss_redir
+		start_kcp
+		[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+		start_dns
+		create_dnsmasq_conf
+		restart_dnsmasq
+		echo_date ------------------------- koolss 重启完毕 -------------------------
+		echo XU6J03M6
+	}
+	flock -u 1000
+} 1000<>"$LOCK_FILE"
 
 case $1 in
 restart)
 	# get_status >> /tmp/ss_start.txt
 	# used by web for start/restart; or by system for startup by S99koolss.sh in rc.d
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
-	[ -n "$ONSTART" ] && echo_date 路由器开机触发koolss启动！ || echo_date web提交操作触发koolss启动！
-	echo_date ---------------------------------------------------------------------------------------
-	# stop first
-	restore_dnsmasq_conf
-	if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
-		restart_dnsmasq
-	else
-		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-	fi
-	flush_nat
-	restore_start_file
-	kill_process
-	kill_cron_job
-	echo_date ---------------------------------------------------------------------------------------
-	[ -f "$LOCK_FILE" ] && return 1
-	touch "$LOCK_FILE"
-	# start
-	detect_koolss
-	calculate_wans_nu
-	resolv_server_ip
-	[ -z "$ONSTART" ] && creat_ss_json
-	create_dnsmasq_conf
-	auto_start
-	start_ss_redir
-	start_kcp
-	load_nat
-	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-	restart_dnsmasq
-	start_dns
-	write_numbers
-	echo_date ------------------------- koolss 启动完毕 -------------------------
-	# do not start by nat when start up
-	[ ! -f "/tmp/koolss.nat_lock" ] && touch /tmp/koolss.nat_lock
-	rm -f "$LOCK_FILE"
-	return 0
+	{
+		flock -x 1000
+		{
+			echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
+			[ -n "$ONSTART" ] && echo_date 路由器开机触发koolss启动！ || echo_date web提交操作触发koolss启动！
+			echo_date ---------------------------------------------------------------------------------------
+			# stop first
+			restore_dnsmasq_conf
+			if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
+				restart_dnsmasq
+			else
+				[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+			fi
+			flush_nat
+			restore_start_file
+			kill_process
+			kill_cron_job
+			echo_date ---------------------------------------------------------------------------------------
+			# start
+			detect_koolss
+			calculate_wans_nu
+			resolv_server_ip
+			[ -z "$ONSTART" ] && creat_ss_json
+			create_dnsmasq_conf
+			auto_start
+			start_ss_redir
+			start_kcp
+			load_nat
+			[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+			restart_dnsmasq
+			start_dns
+			write_numbers
+			echo_date ------------------------- koolss 启动完毕 -------------------------
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 stop)
-	#only used by web stop
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	echo_date ---------------------- LEDE 固件 koolss -----------------------
-	restore_dnsmasq_conf
-	restart_dnsmasq
-	flush_nat
-	restore_start_file
-	kill_process
-	kill_cron_job
-	echo_date ------------------------- koolss 成功关闭 -------------------------
+	{
+		flock -x 1000
+		{
+			#only used by web stop
+			echo_date ---------------------- LEDE 固件 koolss -----------------------
+			restore_dnsmasq_conf
+			restart_dnsmasq
+			flush_nat
+			restore_start_file
+			kill_process
+			kill_cron_job
+			echo_date ------------------------- koolss 成功关闭 -------------------------
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 lb_restart)
 	[ -n "`pidof haproxy`" ] && echo_date 关闭haproxy进程... && killall haproxy
 	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
 	;;
 *)
-	restart_by_fw >/tmp/upload/ss_log.txt
+	restart_by_fw > /tmp/upload/ss_log.txt
 	;;
 esac

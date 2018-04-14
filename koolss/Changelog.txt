@@ -3,6 +3,10 @@ Koolshare LEDE-X64 shadowsocks Changelog
 1.9.9.10
    - update	增加xchacha20-ietf-poly1305加密方式
 
+2.0.0
+   - fix	修复2.15固件下重启防火墙卡住的问题。
+   - fix	修复ssr服务器域名解析ip储存错误的问题。
+
 1.9.9.9
    - update	更改混淆参数长度限制50字符为512字符
 

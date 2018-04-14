@@ -271,15 +271,15 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2018-04-11_16:40:44", 
+            "build_date": "2018-04-15_01:23:23", 
             "changelog": "增加xchacha20-ietf-poly1305加密方式", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "1fde3f2f85bf57222ac90fa4d10d221c", 
+            "md5": "624dbf1b002b46cc203fda44f5dc796f", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "1.9.9.10"
+            "version": "2.0.0"
         }, 
         {
             "build_date": "2018-01-05_19:19:30", 
