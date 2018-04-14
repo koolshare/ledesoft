@@ -4,6 +4,7 @@ export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export softether`
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
+LOCK_FILE=/var/lock/softether.lock
 [ -f "$KSROOT/softether/vpn_server.config" ] && openvpn_port=`cat $KSROOT/softether/vpn_server.config | grep OpenVPN_UdpPortList | awk -F " " '{print $3}'` || openvpn_port=1194
 [ -z "$openvpn_port" ] && openvpn_port=1194
 
@@ -121,6 +122,12 @@ stop)
 	echo_date "插件关闭成功！"
 	;;
 *)
-	open_close_port
+	{
+		flock -x 1000
+		{
+			open_close_port
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 esac
