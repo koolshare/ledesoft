@@ -480,15 +480,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2018-04-15_01:54:49", 
+            "build_date": "2018-04-15_01:58:19", 
             "changelog": "", 
             "description": "VPN全家桶", 
             "home_url": "Module_softether_vpn.asp", 
-            "md5": "63611120641e5922c0dc7583b5cb8cb3", 
+            "md5": "4d3511cb0378dc91e4a1cf3fcd0e7b01", 
             "name": "softether_vpn", 
             "tar_url": "softether_vpn/softether_vpn.tar.gz", 
             "title": "softether_vpn", 
-            "version": "1.0.8"
+            "version": "1.0.9"
         }, 
         {
             "build_date": "2017-09-11_23:49:21", 
