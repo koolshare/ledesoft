@@ -1,9 +1,9 @@
 {
 "version":"3.6.1.34",
-"md5":"1a9b68e806df4b0b0ff0a22b7d880f25",
+"md5":"ee092f43820c1f5e8d62b572c4cc5503",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
 "changelog":"更新黑名单",
-"build_date":"2017-11-21_21:49:06"
+"build_date":"2018-04-15_01:36:31"
 }

@@ -5,11 +5,11 @@ source $KSROOT/scripts/base.sh
 eval `dbus export koolproxy_`
 SOFT_DIR=/koolshare
 KP_DIR=$SOFT_DIR/koolproxy
+LOCK_FILE=/var/lock/koolproxy.lock
 
 write_user_txt(){
 	if [ -n "$koolproxy_custom_rule" ];then
 		echo $koolproxy_custom_rule| base64_decode |sed 's/\\n/\n/g' > $KP_DIR/data/rules/user.txt
-		#dbus remove koolproxy_custom_rule
 	fi
 }
 
@@ -308,8 +308,6 @@ dns_takeover(){
 			if [ -n "$chromecast_nu" ]; then
 				echo_date 全局过滤模式下删除DNS劫持
 				iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
-				echo_date done
-				echo_date
 			fi
 		fi
 	fi
@@ -328,66 +326,88 @@ get_rule_para(){
 
 case $1 in
 start)
-	echo_date ================== koolproxy启用 =================
-	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
-	detect_cert
-	start_koolproxy
-	add_ipset_conf && restart_dnsmasq
-	creat_ipset
-	add_white_black_ip
-	load_nat
-	dns_takeover
-	creat_start_up
-	write_nat_start
-	write_reboot_job
-	# add_ss_event
-	echo_date =================================================
+	{
+		flock -x 1000
+		{
+			echo_date ================== koolproxy启用 =================
+			rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
+			detect_cert
+			start_koolproxy
+			add_ipset_conf && restart_dnsmasq
+			creat_ipset
+			add_white_black_ip
+			load_nat
+			dns_takeover
+			creat_start_up
+			write_nat_start
+			write_reboot_job
+			# add_ss_event
+			echo_date =================================================
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 restart)
-	# now stop
-	echo_date ================== 关闭 =================
-	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
-	remove_ss_event
-	remove_reboot_job
-	del_dns_takeover
-	remove_ipset_conf
-	remove_nat_start
-	flush_nat
-	stop_koolproxy
-	del_start_up
-	# now start
-	echo_date ================== koolproxy启用 =================
-	detect_cert
-	start_koolproxy
-	add_ipset_conf && restart_dnsmasq
-	creat_ipset
-	add_white_black_ip
-	load_nat
-	dns_takeover
-	creat_start_up
-	write_nat_start
-	write_reboot_job
-	add_ss_event
-	echo_date koolproxy启用成功，请等待日志窗口自动关闭，页面会自动刷新...
-	[ ! -f "/tmp/koolprxoy.nat_lock" ] && touch /tmp/koolprxoy.nat_lock
-	echo_date =================================================
+	{
+		flock -x 1000
+		{
+			# now stop
+			echo_date ================== 关闭 =================
+			rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
+			remove_ss_event
+			remove_reboot_job
+			del_dns_takeover
+			remove_ipset_conf
+			remove_nat_start
+			flush_nat
+			stop_koolproxy
+			del_start_up
+			# now start
+			echo_date ================== koolproxy启用 =================
+			detect_cert
+			start_koolproxy
+			add_ipset_conf && restart_dnsmasq
+			creat_ipset
+			add_white_black_ip
+			load_nat
+			dns_takeover
+			creat_start_up
+			write_nat_start
+			write_reboot_job
+			add_ss_event
+			echo_date koolproxy启用成功，请等待日志窗口自动关闭，页面会自动刷新...
+			echo_date =================================================
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 stop)
-	remove_ss_event
-	remove_reboot_job
-	del_dns_takeover
-	remove_ipset_conf && restart_dnsmasq
-	remove_nat_start
-	flush_nat
-	stop_koolproxy
-	del_start_up
+	{
+		flock -x 1000
+		{
+			remove_ss_event
+			remove_reboot_job
+			del_dns_takeover
+			remove_ipset_conf && restart_dnsmasq
+			remove_nat_start
+			flush_nat
+			stop_koolproxy
+			del_start_up
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 *)
-	[ ! -f "/tmp/koolprxoy.nat_lock" ] && exit 0
-	flush_nat
-	creat_ipset
-	add_white_black_ip
-	load_nat
-	dns_takeover
+	{
+		flock -x 1000
+		{
+			flush_nat
+			creat_ipset
+			add_white_black_ip
+			load_nat
+			dns_takeover
+		}
+		flock -u 1000
+	} 1000<>"$LOCK_FILE"
 	;;
 esac
