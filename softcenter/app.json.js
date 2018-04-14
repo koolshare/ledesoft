@@ -447,15 +447,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2018-04-15_01:36:31", 
-            "changelog": "更新黑名单", 
+            "build_date": "2018-04-15_01:48:38", 
+            "changelog": "修复防火墙锁", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "ee092f43820c1f5e8d62b572c4cc5503", 
+            "md5": "eec2634c7c786c6c0532f4e76466e7e2", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.6.1.34"
+            "version": "3.7.2"
         }, 
         {
             "build_date": "2017-12-28_14:30:24", 
