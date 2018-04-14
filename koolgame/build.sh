@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolgame
-VERSION=1.0.2
+VERSION=1.0.3
 TITLE="游戏加速"
 DESCRIPTION="小宝开发的游戏加速V2"
 HOME_URL=Module_koolgame.asp

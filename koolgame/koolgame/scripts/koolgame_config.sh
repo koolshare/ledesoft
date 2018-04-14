@@ -554,66 +554,66 @@ detect_ss(){
 
 
 restart_koolgame(){
-	# router is on boot
-	ONSTART=`ps -l|grep $PPID|grep -v grep|grep S98koolgame`
-	# used by web for start/restart; or by system for startup by S98koolgame.sh in rc.d
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	echo_date ---------------------- LEDE 固件 KOOLGAME -----------------------
-	detect_ss
-	# stop first
-	restore_dnsmasq_conf
-	[ -z "$IFIP" ] && [ -z "$ONSTART" ] && restart_dnsmasq
-	flush_nat
-	restore_start_file
-	kill_process
-	echo_date ---------------------------------------------------------------------------------------
-	[ -f "$LOCK_FILE" ] && return 1
-	touch "$LOCK_FILE"
-	# start
-	resolv_server_ip
-	[ -z "$ONSTART" ] && creat_game2_json
-	create_dnsmasq_conf
-	auto_start
-	start_koolgame
-	load_nat
-	restart_dnsmasq
-	write_version
-	echo_date ------------------------- KOOLGAME 启动完毕 -------------------------
-	# get_status >> /tmp/koolgame_start.txt
-	# do not start by nat when start up
-	[ ! -f "/tmp/koolgame.nat_lock" ] && touch /tmp/koolgame.nat_lock
-	rm -f "$LOCK_FILE"
-	return 0
-}
+	flock -x 1000
+	{
+		# router is on boot
+		ONSTART=`ps -l|grep $PPID|grep -v grep|grep S98koolgame`
+		# used by web for start/restart; or by system for startup by S98koolgame.sh in rc.d
+		echo_date ---------------------- LEDE 固件 KOOLGAME -----------------------
+		detect_ss
+		# stop first
+		restore_dnsmasq_conf
+		[ -z "$IFIP" ] && [ -z "$ONSTART" ] && restart_dnsmasq
+		flush_nat
+		restore_start_file
+		kill_process
+		echo_date ---------------------------------------------------------------------------------------
+		# start
+		resolv_server_ip
+		[ -z "$ONSTART" ] && creat_game2_json
+		create_dnsmasq_conf
+		auto_start
+		start_koolgame
+		load_nat
+		restart_dnsmasq
+		write_version
+		echo_date ------------------------- KOOLGAME 启动完毕 -------------------------
+		# get_status >> /tmp/koolgame_start.txt
+	}
+	flock -u 1000
+} 1000<>"$LOCK_FILE"
+
 stop_koolgame(){
-	#only used by web stop
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	echo_date ---------------------- LEDE 固件 koolgame -----------------------
-	restore_dnsmasq_conf
-	restart_dnsmasq
-	flush_nat
-	restore_start_file
-	kill_process
-	echo_date ------------------------- KOOLGAME 成功关闭 -------------------------
-}
+	flock -x 1000
+	{
+		#only used by web stop
+		echo_date ---------------------- LEDE 固件 koolgame -----------------------
+		restore_dnsmasq_conf
+		restart_dnsmasq
+		flush_nat
+		restore_start_file
+		kill_process
+		echo_date ------------------------- KOOLGAME 成功关闭 -------------------------
+	}
+	flock -u 1000
+} 1000<>"$LOCK_FILE"
+
+
 restart_by_nat(){
-	# for nat
-	[ ! -f "/tmp/koolgame.nat_lock" ] && exit 0
-	while [ -f "$LOCK_FILE" ]; do
-		sleep 1
-	done
-	detect_ss
-	restore_dnsmasq_conf
-	kill_process
-	load_nat
-	start_koolgame
-	create_dnsmasq_conf
-	restart_dnsmasq
-}
+	flock -x 1000
+	{
+		# for nat
+		detect_ss
+		restore_dnsmasq_conf
+		kill_process
+		load_nat
+		start_koolgame
+		create_dnsmasq_conf
+		restart_dnsmasq
+	}
+	flock -u 1000
+} 1000<>"$LOCK_FILE"
+
 
 # used by rc.d
 case $1 in
