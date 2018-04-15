@@ -1,9 +1,9 @@
 {
-"version":"2.0.0",
-"md5":"c5b5e86a881f03c144a2473b5eae7fa3",
+"version":"2.0.1",
+"md5":"c57bbccc4abf3bf0d88c1b76cbd1ac59",
 "home_url":"Module_koolss.asp",
 "title":"科学上网插件",
 "description":"轻松科学上网~",
 "changelog":"修复防火墙锁",
-"build_date":"2018-04-15_01:31:39"
+"build_date":"2018-04-15_19:20:01"
 }

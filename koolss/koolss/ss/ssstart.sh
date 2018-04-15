@@ -1,4 +1,7 @@
 #!/bin/sh
+
+# shadowsocks script for LEDE/OPENWRT firmware modified by fw867 from koolshare
+# by sadog (sadoneli@gmail.com) from koolshare.cn
 #--------------------------------------------------------------------------------------
 # Variable definitions
 export KSROOT=/koolshare
@@ -17,6 +20,7 @@ LOCK_FILE=/var/lock/koolss.lock
 ISP_DNS1=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
 ISP_DNS2=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 3p`
 IFIP=`echo $ss_basic_server|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+ARG_OBFS=""
 # triggher shell
 ONSTART=`ps -l|grep $PPID|grep -v grep|grep "S99koolss"`
 #ONMWAN3=`ps -l|grep $PPID|grep -v grep|grep "mwan3.user"`
@@ -343,8 +347,7 @@ start_kcp(){
 	fi
 }
 
-# create koolss config file...
-creat_ss_json(){
+ss_arg(){
 	if [ "$ss_basic_ss_obfs_host" != "" ];then
 		if [ "$ss_basic_ss_obfs" == "http" ];then
 			ARG_OBFS="obfs=http;obfs-host=$ss_basic_ss_obfs_host"
@@ -362,6 +365,9 @@ creat_ss_json(){
 			ARG_OBFS=""
 		fi
 	fi
+}
+# create koolss config file...
+creat_ss_json(){
 	# creat normal ss json
 	echo_date 创建SS配置文件到$CONFIG_FILE
 	if [ "$ss_basic_type" == "0" ];then
@@ -1498,6 +1504,7 @@ restart)
 			detect_koolss
 			calculate_wans_nu
 			resolv_server_ip
+			ss_arg
 			[ -z "$ONSTART" ] && creat_ss_json
 			create_dnsmasq_conf
 			auto_start

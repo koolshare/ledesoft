@@ -272,15 +272,15 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2018-04-15_01:31:39", 
+            "build_date": "2018-04-15_19:20:01", 
             "changelog": "修复防火墙锁", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "c5b5e86a881f03c144a2473b5eae7fa3", 
+            "md5": "c57bbccc4abf3bf0d88c1b76cbd1ac59", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "2.0.0"
+            "version": "2.0.1"
         }, 
         {
             "build_date": "2018-01-05_19:19:30", 
