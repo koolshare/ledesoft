@@ -170,7 +170,7 @@ function save(){
 
 </script>
 <div class="box">
-	<div class="heading">frpc内网穿透 <a href="javascript:history.back()" class="btn" style="float:right;border-radius:3px;">返回</a></div>
+	<div class="heading">frpc内网穿透 <a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 	<div class="content">
 		<span class="col" style="line-height:30px;width:700px">
 		frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp, http, https 协议。<br />
@@ -189,7 +189,7 @@ function save(){
 		var log_mode = [['debug', 'debug'], ['info', 'info'], ['warn', 'warn'], ['error', 'error']];
 		var protocol = [['tcp', 'tcp'], ['kcp', 'kcp']];
 		var tcp_mux = [['false', 'false'], ['true', 'true']];
-		var login_fail_exit = [['false', '失败后退出程序'], ['true', '失败后重复连接']];
+		var login_fail_exit = [['false', '失败后重复连接'], ['true', '失败后退出程序']];
 		var log_file = [['/dev/null', '关闭'], ['/tmp/frpc.log', '开启']];
 		$('#frpc-fields').forms([
 		{ title: '开启frpc', name: 'frpc_enable', type: 'checkbox', value: ((Apps.frpc_enable == '1')? 1:0)},
