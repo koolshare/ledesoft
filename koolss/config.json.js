@@ -1,9 +1,9 @@
 {
 "version":"2.0.2",
-"md5":"8a5f7ad55d30b0b911242a4702c91d7f",
+"md5":"2231e2d227f21d23f4c4321f30b880a5",
 "home_url":"Module_koolss.asp",
 "title":"科学上网插件",
 "description":"轻松科学上网~",
-"changelog":"修复使用ss混淆节点，重启路由后不会启用混淆的问题。",
-"build_date":"2018-04-17_02:43:41"
+"changelog":"修复提交错误代码-6。",
+"build_date":"2018-04-17_02:46:57"
 }
