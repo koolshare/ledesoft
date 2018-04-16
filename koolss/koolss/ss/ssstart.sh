@@ -350,17 +350,17 @@ start_kcp(){
 ss_arg(){
 	if [ "$ss_basic_ss_obfs_host" != "" ];then
 		if [ "$ss_basic_ss_obfs" == "http" ];then
-			ARG_OBFS="obfs=http;obfs-host=$ss_basic_ss_obfs_host"
+			ARG_OBFS="--plugin obfs-local --plugin-opts obfs=http;obfs-host=$ss_basic_ss_obfs_host"
 		elif [ "$ss_basic_ss_obfs" == "tls" ];then
-			ARG_OBFS="obfs=tls;obfs-host=$ss_basic_ss_obfs_host"
+			ARG_OBFS="--plugin obfs-local --plugin-opts obfs=tls;obfs-host=$ss_basic_ss_obfs_host"
 		else
 			ARG_OBFS=""
 		fi
 	else
 		if [ "$ss_basic_ss_obfs" == "http" ];then
-			ARG_OBFS="obfs=http"
+			ARG_OBFS="--plugin obfs-local --plugin-opts obfs=http"
 		elif [ "$ss_basic_ss_obfs" == "tls" ];then
-			ARG_OBFS="obfs=tls"
+			ARG_OBFS="--plugin obfs-local --plugin-opts obfs=tls"
 		else
 			ARG_OBFS=""
 		fi
@@ -594,7 +594,7 @@ start_sslocal(){
 		if [ "$ss_basic_ss_obfs" == "0" ];then
 			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 		else
-			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sslocal1.pid >/dev/null 2>&1
+			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE $ARG_OBFS -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 		fi
 	fi
 }
@@ -619,7 +619,7 @@ start_dns(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			else
-				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" $ARG_OBFS -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			fi
 		fi
 	fi
@@ -677,7 +677,7 @@ start_dns(){
 					if [ "$ss_basic_ss_obfs" == "0" ];then
 						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 					else
-						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" $ARG_OBFS -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 					fi
 				fi
 			fi
@@ -745,7 +745,7 @@ start_dns(){
 				if [ "$ss_basic_ss_obfs" == "0" ];then
 					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 				else
-					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" $ARG_OBFS -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 				fi
 			fi
 		elif [ "$ss_chinadns_foreign_method" == "4" ];then
@@ -972,7 +972,7 @@ start_ss_redir(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -f /var/run/koolss.pid >/dev/null 2>&1
 			else
-				ss-redir $SPECIAL_ARG -c $CONFIG_FILE --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/koolss.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE $ARG_OBFS -f /var/run/koolss.pid >/dev/null 2>&1
 			fi
 		fi
 		# ONLY UDP
@@ -984,7 +984,7 @@ start_ss_redir(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-redir -c $CONFIG_FILE -U -f /var/run/koolss.pid >/dev/null 2>&1
 			else
-				ss-redir -c $CONFIG_FILE -U --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/koolss.pid >/dev/null 2>&1
+				ss-redir -c $CONFIG_FILE $ARG_OBFS -U -f /var/run/koolss.pid >/dev/null 2>&1
 			fi
 		fi
 	else
@@ -997,7 +997,7 @@ start_ss_redir(){
 			if [ "$ss_basic_ss_obfs" == "0" ];then
 				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -u -f /var/run/koolss.pid >/dev/null 2>&1
 			else
-				ss-redir $SPECIAL_ARG -c $CONFIG_FILE -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/koolss.pid >/dev/null 2>&1
+				ss-redir $SPECIAL_ARG -c $CONFIG_FILE $ARG_OBFS -u -f /var/run/koolss.pid >/dev/null 2>&1
 			fi
 		fi
 	fi
