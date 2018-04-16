@@ -97,6 +97,7 @@ ip_rule_exist=`ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 #--------------------------------------------------------------------------
 
 calculate_wans_nu(){
+	rm -rf /tmp/wan_names.txt
 	interface_nu=`ubus call network.interface dump|jq '.interface|length'`
 	if [ -z "$interface_nu" ];then
 		echo_date "没有找到任何可用网络接口"
@@ -109,10 +110,12 @@ calculate_wans_nu(){
 			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop|grep -v "$lan_addr_prefix."|grep -v 127.0.0.1|sed 's/"nexthop"://g'|grep -v :`
 			if [ -n "$WAN_EXIST" ];then
 				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
+				wan_gw=`ubus call network.interface dump|jq .interface[$j].route[0].nexthop|sed 's/"//g'`
 				wan_ifname_l3=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
 				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 				if [ "$wan_up" == "true" ];then
-					echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
+					#echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
+					echo "[ \"$j\", \"$wan_name\" ]" >> /tmp/wan_names.txt
 					wans_nu=$(($wans_nu+1))
 					if [ -z "$default_wan_if" ];then
 						default_wan_if=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
@@ -249,16 +252,20 @@ kill_cron_job(){
 
 # ==========================================================================================
 route_add(){
-	devname="$1"
+	#devname="$1"
+	devnu="$1"
 	routeip="$2"
 	cleanfile=/tmp/route_del
-	if [ "$devname" == "0" ];then
-		echo_date "【出口设定】 不指定 $routeip 的出口"、
-	elif [ "$devname" == "1" ];then
-		echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"、
+	if [ "$devnu" == "0" ];then
+		echo_date "【出口设定】 不指定 $routeip 的出口"
+	#elif [ "$devname" == "1" ];then
+	#	echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"
 	else
-		GW=`ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
-		l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
+		#GW=`ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
+		GW=`ubus call network.interface dump|jq .interface["$devnu"].route[0].nexthop|sed 's/"//g'`
+		#l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
+		l3_name=`ubus call network.interface dump|jq .interface["$devnu"].l3_device|sed 's/"//g'`
+		devname=`ubus call network.interface dump|jq .interface["$devnu"].device|sed 's/"//g'`
 		if [ -n "$GW" ];then
 			ip route add $routeip via $GW dev $devname >/dev/null 2>&1
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
@@ -268,7 +275,7 @@ route_add(){
 				EOF
 			fi
 			chmod +x $cleanfile
-			echo "ip route del $routeip via $GW dev $devname 【$l3_name】" >> /tmp/route_del
+			echo "ip route del $routeip via $GW dev $devname" >> /tmp/route_del
 		else
 			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】失败, 因为$devname 【$l3_name】已经离线!!! $routeip将会自动选择出口！"
 		fi
@@ -1454,88 +1461,84 @@ get_status(){
 restart_by_fw(){
 	# get_status >> /tmp/ss_start.txt
 	# for nat
+	exec 1000>"$LOCK_FILE"
 	flock -x 1000
-	{
-		echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
-		#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发koolss重启！ 
-		echo_date 防火墙重启触发koolss重启！
-		echo_date ---------------------------------------------------------------------------------------
-		detect_koolss
-		calculate_wans_nu
-		restore_dnsmasq_conf
-		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-		kill_process
-		load_nat
-		start_ss_redir
-		start_kcp
-		[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-		start_dns
-		create_dnsmasq_conf
-		restart_dnsmasq
-		echo_date ------------------------- koolss 重启完毕 -------------------------
-		echo XU6J03M6
-	}
+	echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
+	#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发koolss重启！ 
+	echo_date 防火墙重启触发koolss重启！
+	echo_date ---------------------------------------------------------------------------------------
+	detect_koolss
+	calculate_wans_nu
+	restore_dnsmasq_conf
+	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+	kill_process
+	load_nat
+	start_ss_redir
+	start_kcp
+	[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	start_dns
+	create_dnsmasq_conf
+	restart_dnsmasq
+	echo_date ------------------------- koolss 重启完毕 -------------------------
+	echo XU6J03M6
 	flock -u 1000
-} 1000<>"$LOCK_FILE"
+	rm -rf "$LOCK_FILE"
+}
 
 case $1 in
 restart)
 	# get_status >> /tmp/ss_start.txt
 	# used by web for start/restart; or by system for startup by S99koolss.sh in rc.d
-	{
-		flock -x 1000
-		{
-			echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
-			[ -n "$ONSTART" ] && echo_date 路由器开机触发koolss启动！ || echo_date web提交操作触发koolss启动！
-			echo_date ---------------------------------------------------------------------------------------
-			# stop first
-			restore_dnsmasq_conf
-			if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
-				restart_dnsmasq
-			else
-				[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-			fi
-			flush_nat
-			restore_start_file
-			kill_process
-			kill_cron_job
-			echo_date ---------------------------------------------------------------------------------------
-			# start
-			detect_koolss
-			calculate_wans_nu
-			resolv_server_ip
-			ss_arg
-			[ -z "$ONSTART" ] && creat_ss_json
-			create_dnsmasq_conf
-			auto_start
-			start_ss_redir
-			start_kcp
-			load_nat
-			[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-			restart_dnsmasq
-			start_dns
-			write_numbers
-			echo_date ------------------------- koolss 启动完毕 -------------------------
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	exec 1000>"$LOCK_FILE"
+	flock -x 1000
+	echo_date ----------------------------- LEDE 固件 koolss -------------------------------------
+	[ -n "$ONSTART" ] && echo_date 路由器开机触发koolss启动！ || echo_date web提交操作触发koolss启动！
+	echo_date ---------------------------------------------------------------------------------------
+	# stop first
+	restore_dnsmasq_conf
+	if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
+		restart_dnsmasq
+	else
+		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+	fi
+	flush_nat
+	restore_start_file
+	kill_process
+	kill_cron_job
+	echo_date ---------------------------------------------------------------------------------------
+	# start
+	detect_koolss
+	calculate_wans_nu
+	resolv_server_ip
+	ss_arg
+	[ -z "$ONSTART" ] && creat_ss_json
+	create_dnsmasq_conf
+	auto_start
+	start_ss_redir
+	start_kcp
+	load_nat
+	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+	restart_dnsmasq
+	start_dns
+	write_numbers
+	echo_date ------------------------- koolss 启动完毕 -------------------------
+	flock -u 1000
+	rm -rf "$LOCK_FILE"
 	;;
 stop)
-	{
-		flock -x 1000
-		{
-			#only used by web stop
-			echo_date ---------------------- LEDE 固件 koolss -----------------------
-			restore_dnsmasq_conf
-			restart_dnsmasq
-			flush_nat
-			restore_start_file
-			kill_process
-			kill_cron_job
-			echo_date ------------------------- koolss 成功关闭 -------------------------
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	exec 1000>"$LOCK_FILE"
+	flock -x 1000
+	#only used by web stop
+	echo_date ---------------------- LEDE 固件 koolss -----------------------
+	restore_dnsmasq_conf
+	restart_dnsmasq
+	flush_nat
+	restore_start_file
+	kill_process
+	kill_cron_job
+	echo_date ------------------------- koolss 成功关闭 -------------------------
+	flock -u 1000
+	rm -rf "$LOCK_FILE"
 	;;
 lb_restart)
 	[ -n "`pidof haproxy`" ] && echo_date 关闭haproxy进程... && killall haproxy

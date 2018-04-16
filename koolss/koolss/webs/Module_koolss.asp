@@ -3452,6 +3452,7 @@
 				dbus3["ss_basic_online_links_goss"] = E("_ss_basic_online_links_goss").checked ? '1':'0';
 				
 			}else if(arg == 9){
+				tabSelect("app11");
 				dbus3["ss_mwan_ping_dst"] = E("_ss_mwan_ping_dst").value;
 				dbus3["ss_mwan_china_dns_dst"] = E("_ss_mwan_china_dns_dst").value;
 				dbus3["ss_mwan_vps_ip_dst"] = E("_ss_mwan_vps_ip_dst").value;

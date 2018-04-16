@@ -272,15 +272,15 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2018-04-15_19:20:01", 
-            "changelog": "修复防火墙锁", 
+            "build_date": "2018-04-17_02:43:41", 
+            "changelog": "修复使用ss混淆节点，重启路由后不会启用混淆的问题。", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "c57bbccc4abf3bf0d88c1b76cbd1ac59", 
+            "md5": "8a5f7ad55d30b0b911242a4702c91d7f", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "2.0.1"
+            "version": "2.0.2"
         }, 
         {
             "build_date": "2018-01-05_19:19:30", 

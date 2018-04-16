@@ -19,7 +19,8 @@ else
 			wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 			
 			if [ "$wan_up" == "true" ];then
-				echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
+				#echo "[ \"$wan_ifname_l3\", \"$wan_name\" ]" >> /tmp/wan_names.txt
+				echo "[ \"$j\", \"$wan_name\" ]" >> /tmp/wan_names.txt
 			fi
 		fi
 		j=$(($j+1))
