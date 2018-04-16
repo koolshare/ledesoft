@@ -1,9 +1,9 @@
 {
-"version":"1.7",
-"md5":"1d7ee5564fa034281730839bb013ad62",
+"version":"1.9",
+"md5":"b7fe689090b620de450908371148b83a",
 "home_url":"Module_frpc.asp",
 "title":"frpc",
 "description":"FRPC内网穿透工具",
-"changelog":"更新二进制到1.6.1",
-"build_date":"2018-03-26_00:22:24"
+"changelog":"修复一些web错误",
+"build_date":"2018-04-16_18:03:00"
 }

@@ -121,15 +121,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2018-03-26_00:22:24", 
-            "changelog": "更新二进制到1.6.1", 
+            "build_date": "2018-04-16_18:03:00", 
+            "changelog": "修复一些web错误", 
             "description": "FRPC内网穿透工具", 
             "home_url": "Module_frpc.asp", 
-            "md5": "1d7ee5564fa034281730839bb013ad62", 
+            "md5": "b7fe689090b620de450908371148b83a", 
             "name": "frpc", 
             "tar_url": "frpc/frpc.tar.gz", 
             "title": "frpc", 
-            "version": "1.7"
+            "version": "1.9"
         }, 
         {
             "build_date": "2017-09-19_12:21:44", 
