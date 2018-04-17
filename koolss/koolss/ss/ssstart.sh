@@ -252,32 +252,27 @@ kill_cron_job(){
 
 # ==========================================================================================
 route_add(){
-	#devname="$1"
 	devnu="$1"
 	routeip="$2"
 	cleanfile=/tmp/route_del
 	if [ "$devnu" == "0" ];then
 		echo_date "【出口设定】 不指定 $routeip 的出口"
-	#elif [ "$devname" == "1" ];then
-	#	echo_date "【出口设定】 $routeip 指定的出口已经离线，不设置该ip的出口。"
 	else
-		#GW=`ip route show|grep default|grep -v 'lo'|grep "$devname"|awk -F " " '{print $3}'`
 		GW=`ubus call network.interface dump|jq .interface["$devnu"].route[0].nexthop|sed 's/"//g'`
-		#l3_name=`uci show network|grep $devname|grep -v orig|grep -v wan6|grep ifname|cut -d "." -f2`
 		l3_name=`ubus call network.interface dump|jq .interface["$devnu"].l3_device|sed 's/"//g'`
-		devname=`ubus call network.interface dump|jq .interface["$devnu"].device|sed 's/"//g'`
+		#devname=`ubus call network.interface dump|jq .interface["$devnu"].device|sed 's/"//g'`
 		if [ -n "$GW" ];then
-			ip route add $routeip via $GW dev $devname >/dev/null 2>&1
-			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】"
+			ip route add $routeip via $GW dev $l3_name >/dev/null 2>&1
+			echo_date "【出口设定】设置 $routeip 出口为 $l3_name"
 			if [ ! -f $cleanfile ];then
 				cat	> $cleanfile <<-EOF
 				#!/bin/sh
 				EOF
 			fi
 			chmod +x $cleanfile
-			echo "ip route del $routeip via $GW dev $devname" >> /tmp/route_del
+			echo "ip route del $routeip via $GW dev $l3_name" >> /tmp/route_del
 		else
-			echo_date "【出口设定】设置 $routeip 出口为 $devname 【$l3_name】失败, 因为$devname 【$l3_name】已经离线!!! $routeip将会自动选择出口！"
+			echo_date "【出口设定】设置 $routeip 出口为 $l3_name 失败, 因为$l3_name 已经离线!!! $routeip将会自动选择出口！"
 		fi
 	fi
 }
