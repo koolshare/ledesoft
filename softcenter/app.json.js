@@ -392,15 +392,15 @@
             "version": "0.3"
         }, 
         {
-            "build_date": "2018-04-07_17:28:04", 
-            "changelog": "更新acme到2.7.8", 
+            "build_date": "2018-04-17_14:54:36", 
+            "changelog": "修复ali，cloudxns接口", 
             "description": "自动部署SSL证书", 
             "home_url": "Module_acme.asp", 
-            "md5": "7e148b32fd249c194246836083e9ade1", 
+            "md5": "8dae2c9a1c2145667586d2fc6da9cb65", 
             "name": "acme", 
             "tar_url": "acme/acme.tar.gz", 
             "title": "Let's Encrypt", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2018-01-05_15:00:31", 

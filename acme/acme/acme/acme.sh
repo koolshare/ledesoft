@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-VER=2.7.8
+VER=2.7.9
 
 PROJECT_NAME="acme.sh"
 
@@ -946,7 +946,6 @@ _sign() {
   fi
 
 }
-
 
 #keylength or isEcc flag (empty str => not ecc)
 _isEccKey() {

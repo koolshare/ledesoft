@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=acme
-VERSION=0.4
+VERSION=0.5
 TITLE="Let's Encrypt"
 DESCRIPTION=自动部署SSL证书
 HOME_URL=Module_acme.asp
-CHANGELOG="更新acme到2.7.8"
+CHANGELOG="修复ali，cloudxns接口"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
