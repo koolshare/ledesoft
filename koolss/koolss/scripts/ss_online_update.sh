@@ -35,6 +35,8 @@ add_ssr_servers(){
 	[ -n "$1" ] && dbus set ssrconf_basic_rss_obfs_param_$ssrindex=$obfsparam
 	dbus set ssrconf_basic_password_$ssrindex=$password
 	echo_date 成功添加了添加SSR节点：$remarks 到节点列表第 $ssrindex 位。 >> $LOG_FILE
+	dbus set ssrconf_basic_node_max=$ssrindex
+	dbus set ssrconf_basic_max_node=$ssrindex
 }
 
 add_ss_servers(){
@@ -446,6 +448,7 @@ add() {
 	rm -rf /tmp/group_info.txt >/dev/null 2>&1
 	echo_date 添加链接为：`dbus get ss_base64_links`
 	ssrlinks_nu=`dbus list ss_base64_link_|cut -d "=" -f 1|cut -d "_" -f 4`
+	remove_node_gap
 	for link_nu in $ssrlinks_nu
 	do
 		ssrlink=$(dbus get ss_base64_link_$link_nu)
@@ -473,7 +476,11 @@ add() {
 		fi
 		dbus remove ss_base64_links
 	done
-	dbus remove ss_ssr_add_link
+	link1=`dbus list ss_base64_link_|cut -d "=" -f 1`
+	for link2 in $link1
+	do
+		dbus remove $link2
+	done
 	echo_date "=============================================================================================" >> $LOG_FILE
 	rm -f "$LOCK_FILE"
 }

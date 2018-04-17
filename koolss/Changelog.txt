@@ -1,5 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.0.4 (未推送)
+   - fix	修复SS/SSR链接添加节点成功但是不显示在节点列表的问题
+   - fix	找bug中...
+
 2.0.3
    - fix	修复pppoe拨号下多wan出口设定实际不成功的问题
 
