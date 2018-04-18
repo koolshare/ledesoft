@@ -1,9 +1,9 @@
 {
-"version":"1.9",
-"md5":"ec0c4595a3c90531f29d259aeb785bf8",
+"version":"2.0",
+"md5":"a62db2bf0361c43b7209795d1ab40f73",
 "home_url":"Module_aria2.asp",
 "title":"Aria2",
 "description":"超酷的远程下载工具",
 "changelog":"修复RPC密钥随机更改的问题",
-"build_date":"2017-11-12_17:56:59"
+"build_date":"2018-04-18_20:13:43"
 }
