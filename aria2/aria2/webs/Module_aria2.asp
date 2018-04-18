@@ -79,7 +79,7 @@ function save() {
       Apps.aria2_max_concurrent_downloads = E('_aria2_max_concurrent_downloads').value;
       Apps.aria2_input_file = "/koolshare/aria2/aria2.session";
       Apps.aria2_save_session = "/koolshare/aria2/aria2.session";
-      Apps.aria2_enable_http_pipelining = "true";
+      Apps.aria2_enable_http_pipelining = "false";
       Apps.aria2_max_connection_per_server = "10";
       Apps.aria2_min_split_size = "10M";
       Apps.aria2_split = "10";
