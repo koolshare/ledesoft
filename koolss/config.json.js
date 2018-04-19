@@ -1,9 +1,9 @@
 {
-"version":"2.0.3",
-"md5":"134164b1a6cd31e93b086e716a1a12fb",
+"version":"2.0.4",
+"md5":"78bf8e593e7572a9cffe30c5b92c1077",
 "home_url":"Module_koolss.asp",
 "title":"科学上网插件",
 "description":"轻松科学上网~",
 "changelog":"修复pppoe拨号下出口问题。",
-"build_date":"2018-04-17_16:02:15"
+"build_date":"2018-04-19_22:59:22"
 }

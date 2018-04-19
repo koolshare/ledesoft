@@ -272,15 +272,15 @@
             "version": "1.4"
         }, 
         {
-            "build_date": "2018-04-17_16:02:15", 
+            "build_date": "2018-04-19_22:59:22", 
             "changelog": "修复pppoe拨号下出口问题。", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "134164b1a6cd31e93b086e716a1a12fb", 
+            "md5": "78bf8e593e7572a9cffe30c5b92c1077", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "2.0.3"
+            "version": "2.0.4"
         }, 
         {
             "build_date": "2018-01-05_19:19:30", 
