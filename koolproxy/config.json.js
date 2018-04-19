@@ -1,9 +1,9 @@
 {
-"version":"3.7.2.1",
-"md5":"adf56ee3e9d5611cec3456c48507a78e",
+"version":"3.7.2.2",
+"md5":"b121fb8d7ff1aa776d8e1e99c693bf9a",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
 "changelog":"添加全端口过滤功能",
-"build_date":"2018-04-20_00:53:39"
+"build_date":"2018-04-20_01:21:50"
 }

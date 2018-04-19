@@ -384,15 +384,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2018-04-20_00:53:39", 
+            "build_date": "2018-04-20_01:21:50", 
             "changelog": "添加全端口过滤功能", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "adf56ee3e9d5611cec3456c48507a78e", 
+            "md5": "b121fb8d7ff1aa776d8e1e99c693bf9a", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.7.2.1"
+            "version": "3.7.2.2"
         }, 
         {
             "build_date": "2017-12-22_12:53:59", 

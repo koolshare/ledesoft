@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolproxy
-VERSION=3.7.2.1
+VERSION=3.7.2.2
 TITLE=koolproxy
 DESCRIPTION=听说KP和软路由更搭哦~
 HOME_URL=Module_koolproxy.asp
@@ -13,7 +13,7 @@ rm -rf *
 wget https://kprule.com/koolproxy.txt
 wget https://kprule.com/daily.txt
 wget https://kprule.com/kp.dat
-wget https://kprule.com/user.txt
+#wget https://kprule.com/user.txt
 
 cd ../../../..
 # Check and include base
