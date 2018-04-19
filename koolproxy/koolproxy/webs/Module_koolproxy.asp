@@ -275,7 +275,9 @@ No part of this file may be used without permission.
 			var f = (E('_koolproxy_reboot').value == '1');
 			var g = (E('_koolproxy_reboot').value == '2');
 			var h = (E('_koolproxy_mode').value == '2');
+			var p = (E('_koolproxy_all_port').value);
 			E('_koolproxy_mode').disabled = !a;
+			E('_koolproxy_all_port').disabled = !a;
 			E('_koolproxy_reboot').disabled = !a;
 			E('_download_cert').disabled = !a;
 			elem.display('_koolproxy_reboot_hour', a && f);
@@ -321,6 +323,7 @@ No part of this file may be used without permission.
 			dbus.koolproxy_enable = E('_koolproxy_enable').checked ? '1':'0';
 			dbus.koolproxy_host = E('_koolproxy_host').checked ? '1':'0';
 			dbus.koolproxy_mode = E('_koolproxy_mode').value;
+			dbus.koolproxy_all_port = E('_koolproxy_all_port').value;
 			dbus.koolproxy_reboot = E('_koolproxy_reboot').value;
 			dbus.koolproxy_reboot_hour = E('_koolproxy_reboot_hour').value;
 			dbus.koolproxy_reboot_inter_hour = E('_koolproxy_reboot_inter_hour').value;
@@ -432,6 +435,7 @@ No part of this file may be used without permission.
 					{ title: 'Koolproxy运行状态', text: '<font id="_koolproxy_status" name=_koolproxy_status color="#1bbf35">正在获取运行状态...</font>' },
 					{ title: 'Koolproxy规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
 					{ title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式'],['3','视频模式']],value: dbus.koolproxy_mode || "1" },
+					{ title: '开启全端口过滤', name:'koolproxy_all_port',type:'select',options:[['0','关闭'],['1','开启']],value: dbus.koolproxy_all_port || "0" },
 					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: dbus.koolproxy_host == 1, suffix: '<lable id="_koolproxy_host_nu"></lable>' },
 					{ title: '插件自动重启', multi: [
 						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },

@@ -210,10 +210,11 @@ factor(){
 flush_nat(){
 	echo_date 移除nat规则...
 	cd /tmp
-	iptables -t nat -S | grep -E "KOOLPROXY|KP_HTTP|KP_HTTPS" | sed 's/-A/iptables -t nat -D/g'|sed 1,3d > clean.sh && chmod 777 clean.sh && ./clean.sh && rm clean.sh
+	iptables -t nat -S | grep -E "KOOLPROXY|KP_HTTP|KP_HTTPS|KP_ALL_PORT" | sed 's/-A/iptables -t nat -D/g'|sed 1,4d > clean.sh && chmod 777 clean.sh && ./clean.sh
 	iptables -t nat -X KOOLPROXY > /dev/null 2>&1
 	iptables -t nat -X KP_HTTP > /dev/null 2>&1
 	iptables -t nat -X KP_HTTPS > /dev/null 2>&1
+	iptables -t nat -X KP_ALL_PORT > /dev/null 2>&1
 	ipset -F black_koolproxy > /dev/null 2>&1 && ipset -X black_koolproxy > /dev/null 2>&1
 	ipset -F white_kp_list > /dev/null 2>&1 && ipset -X white_kp_list > /dev/null 2>&1
 }
@@ -265,10 +266,17 @@ load_nat(){
 	iptables -t nat -A KP_HTTP -p tcp -m multiport --dport 80 -j REDIRECT --to-ports 3000
 	iptables -t nat -N KP_HTTPS
 	iptables -t nat -A KP_HTTPS -p tcp -m multiport --dport 80,443 -j REDIRECT --to-ports 3000
+	iptables -t nat -N KP_ALL_PORT
+	iptables -t nat -A KP_ALL_PORT -p tcp -j REDIRECT --to-ports 3000
 	# 局域网控制
 	lan_acess_control
 	# 剩余流量转发到缺省规则定义的链中
-	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
+	if [ "$koolproxy_all_port" == "1" ];then
+		echo_date 开启全端口过滤...
+		iptables -t nat -A KOOLPROXY -p tcp -j KP_ALL_PORT
+	else
+		iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
+	fi
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
 	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
