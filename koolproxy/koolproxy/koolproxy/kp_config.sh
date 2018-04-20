@@ -171,6 +171,9 @@ get_mode_name() {
 		2)
 			echo "http + https"
 		;;
+		3)
+			echo "full port"
+		;;		
 	esac
 }
 
@@ -196,6 +199,9 @@ get_action_chain() {
 		2)
 			echo "KP_HTTPS"
 		;;
+		3)
+			echo "KP_ALL_PORT"
+		;;		
 	esac
 }
 
@@ -271,12 +277,7 @@ load_nat(){
 	# 局域网控制
 	lan_acess_control
 	# 剩余流量转发到缺省规则定义的链中
-	if [ "$koolproxy_all_port" == "1" ];then
-		echo_date 开启全端口过滤...
-		iptables -t nat -A KOOLPROXY -p tcp -j KP_ALL_PORT
-	else
-		iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
-	fi
+	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
 	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
