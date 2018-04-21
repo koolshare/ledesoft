@@ -1,7 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.0.6
+   - update	为了更好的兼容，更新shadowsocks-libev 3.1.3和obfs-local 0.0.5的静态编译版本（2018年4月21日编译）
+   
 2.0.5
-   - note	建议将固件升级到较新版本，2.14及以上，较老固件版本不保证完全兼容。
    - update	更新shadowsocks-libev 到3.1.3；更新obfs-local到0.0.5最新（2018年4月20日编译）
    - update	更新shadowsocksRR-libev 到最新（2018年4月20日编译）；
    - update	极大的简化了DNS设定逻辑，让设定更加方便易懂；
