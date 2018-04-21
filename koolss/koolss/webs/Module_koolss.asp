@@ -2069,7 +2069,7 @@
 			  	async:false,
 			 	success: function(data){
 			 	 	dbus = data.result[0];
-					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/koolss/Changelog.txt" target="_blank"><font color="#0099FF">koolss for LEDE  ' + (dbus["ss_version"]  || "") + '</font></a>' );
+					$('#_ss_version').html( '<a style="margin-left:-4px" href="https://github.com/koolshare/ledesoft/blob/master/koolss/Changelog.txt" target="_blank"><font color="#0099FF">koolss for OpenWRT/LEDE  ' + (dbus["ss_version"]  || "") + '</font></a>' );
 			  	}
 			});
 		}
