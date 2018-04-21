@@ -171,16 +171,14 @@
 		var option_mode_name = ['', 'gfwlist模式', '大陆白名单模式', '游戏模式', '全局模式'];
 		var option_acl_mode = [['0', '不通过SS'], ['1', 'gfwlist模式'], ['2', '大陆白名单模式'], ['3', '游戏模式'], ['4', '全局模式']];
 		var option_acl_mode_name = ['不通过SS', 'gfwlist模式', '大陆白名单模式', '游戏模式', '全局模式'];
-		var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', '所有端口'],['0', '自定义']];
-		var option_acl_port_name = ['80,443', '22,80,443', '所有端口', '自定义'];
+		var option_acl_port = [['80,443', '80,443'], ['22,80,443', '22,80,443'], ['all', '全部端口'],['0', '自定义']];
+		var option_acl_port_name = ['80,443', '22,80,443', '全部端口', '自定义'];
 		var option_method = [['none', 'none'],['rc4', 'rc4'], ['rc4-md5', 'rc4-md5'], ['rc4-md5-6', 'rc4-md5-6'], ['aes-128-gcm', 'aes-128-gcm'], ['aes-192-gcm', 'aes-192-gcm'], ['aes-256-gcm', 'aes-256-gcm'], ['aes-128-cfb', 'aes-128-cfb'], ['aes-192-cfb', 'aes-192-cfb'], ['aes-256-cfb', 'aes-256-cfb'], ['aes-128-ctr', 'aes-128-ctr'], ['aes-192-ctr', 'aes-192-ctr'], ['aes-256-ctr', 'aes-256-ctr'], ['camellia-128-cfb', 'camellia-128-cfb'], ['camellia-192-cfb', 'camellia-192-cfb'], ['camellia-256-cfb', 'camellia-256-cfb'], ['bf-cfb', 'bf-cfb'], ['cast5-cfb', 'cast5-cfb'], ['idea-cfb', 'idea-cfb'], ['rc2-cfb', 'rc2-cfb'], ['seed-cfb', 'seed-cfb'], ['salsa20', 'salsa20'], ['chacha20', 'chacha20'], ['chacha20-ietf', 'chacha20-ietf'], ['chacha20-ietf-poly1305', 'chacha20-ietf-poly1305'], ['xchacha20-ietf-poly1305', 'xchacha20-ietf-poly1305']];
 		var option_ssr_protocal = [['origin','origin'],['verify_simple','verify_simple'],['verify_sha1','verify_sha1'],['auth_sha1','auth_sha1'],['auth_sha1_v2','auth_sha1_v2'],['auth_sha1_v4','auth_sha1_v4'],['auth_aes128_md5','auth_aes128_md5'],['auth_aes128_sha1','auth_aes128_sha1'],['auth_chain_a','auth_chain_a'],['auth_chain_b','auth_chain_b'],['auth_chain_c','auth_chain_c'],['auth_chain_d','auth_chain_d'],['auth_chain_e','auth_chain_e'],['auth_chain_f','auth_chain_f']];
 		var option_ssr_obfs = [['plain','plain'],['http_simple','http_simple'],['http_post','http_post'],['tls1.2_ticket_auth','tls1.2_ticket_auth']];
 		var option_dns_china = [['1', '运营商DNS【自动获取】'],  ['2', '阿里DNS1【223.5.5.5】'],  ['3', '阿里DNS2【223.6.6.6】'],  ['4', '114DNS1【114.114.114.114】'],  ['5', '114DNS1【114.114.115.115】'],  ['6', 'cnnic DNS【1.2.4.8】'],  ['7', 'cnnic DNS【210.2.4.8】'],  ['8', 'oneDNS1【112.124.47.27】'],  ['9', 'oneDNS2【114.215.126.16】'],  ['10', '百度DNS【180.76.76.76】'],  ['11', 'DNSpod DNS【119.29.29.29】'],  ['12', '自定义']];
-		var option_dns_foreign = [['1', 'dns2socks'], ['2', 'ss-tunnel'], ['3', 'dnscrypt-proxy'], ['4', 'pdnsd'], ['5', 'ChinaDNS'], ['6', 'Pcap_DNSProxy']];
-		var option_ss_sstunnel = [['2', 'google dns\[8.8.8.8\]'], ['3', 'google dns\[8.8.4.4\]'], ['1', 'OpenDNS\[208.67.220.220\]'], ['4', '自定义']];
-		var option_ChinaDNS_china = [['1', '阿里DNS1【223.5.5.5】'], ['2', '阿里DNS2【223.6.6.6】'], ['3', '114DNS1【114.114.114.114】'], ['4', '114DNS1【114.114.115.115】'], ['5', 'cnnic DNS【1.2.4.8】'], ['6', 'cnnic DNS【210.2.4.8】'], ['7', 'oneDNS1【112.124.47.27】'], ['8', 'oneDNS2【114.215.126.16】'], ['9', '百度DNS【180.76.76.76】'], ['10', 'DNSpod DNS【119.29.29.29】'], ['11', '自定义']];
-		var option_opendns = [['adguard-dns-family-ns1','Adguard DNS Family Protection 1'], ['adguard-dns-family-ns2','Adguard DNS Family Protection 2'], ['adguard-dns-ns1','Adguard DNS 1'], ['adguard-dns-ns2','Adguard DNS 2'], ['cisco','Cisco OpenDNS'], ['cisco-familyshield','Cisco OpenDNS with FamilyShield'], ['cisco-ipv6','Cisco OpenDNS over IPv6'], ['cisco-port53','Cisco OpenDNS backward compatibility port 53'], ['cloudns-syd','CloudNS Sydney'], ['cs-cawest','CS Canada west DNSCrypt server'], ['cs-cfi','CS cryptofree France DNSCrypt server'], ['cs-cfii','CS secondary cryptofree France DNSCrypt server'], ['cs-ch','CS Switzerland DNSCrypt server'], ['cs-de','CS Germany DNSCrypt server'], ['cs-fr2','CS secondary France DNSCrypt server'], ['cs-rome','CS Italy DNSCrypt server'], ['cs-useast','CS New York City NY US DNSCrypt server'], ['cs-usnorth','CS Chicago IL US DNSCrypt server'], ['cs-ussouth','CS Dallas TX US DNSCrypt server'], ['cs-ussouth2','CS Atlanta GA US DNSCrypt server'], ['cs-uswest','CS Seattle WA US DNSCrypt server'], ['cs-uswest2','CS Las Vegas NV US DNSCrypt server'], ['d0wn-au-ns1','OpenNIC Resolver Australia 01 - d0wn'], ['d0wn-bg-ns1','OpenNIC Resolver Bulgaria 01 - d0wn'], ['d0wn-cy-ns1','OpenNIC Resolver Cyprus 01 - d0wn'], ['d0wn-de-ns1','OpenNIC Resolver Germany 01 - d0wn'], ['d0wn-de-ns2','OpenNIC Resolver Germany 02 - d0wn'], ['d0wn-dk-ns1','OpenNIC Resolver Denmark 01 - d0wn'], ['d0wn-fr-ns2','OpenNIC Resolver France 02 - d0wn'], ['d0wn-es-ns1','OpenNIC Resolver Spain 01- d0wn'], ['d0wn-gr-ns1','OpenNIC Resolver Greece 01 - d0wn'], ['d0wn-hk-ns1','OpenNIC Resolver Hong Kong 01 - d0wn'], ['d0wn-is-ns1','OpenNIC Resolver Iceland 01 - d0wn'], ['d0wn-lu-ns1','OpenNIC Resolver Luxembourg 01 - d0wn'], ['d0wn-lu-ns1-ipv6','OpenNIC Resolver Luxembourg 01 over IPv6 - d0wn'], ['d0wn-lv-ns1','OpenNIC Resolver Latvia 01 - d0wn'], ['d0wn-lv-ns2','OpenNIC Resolver Latvia 02 - d0wn'], ['d0wn-lv-ns2-ipv6','OpenNIC Resolver Latvia 01 over IPv6 - d0wn'], ['d0wn-nl-ns3','OpenNIC Resolver Netherlands 03 - d0wn'], ['d0wn-nl-ns3-ipv6','OpenNIC Resolver Netherlands 03 over IPv6 - d0wn'], ['d0wn-random-ns1','OpenNIC Resolver Moldova 01 - d0wn'], ['d0wn-random-ns2','OpenNIC Resolver Netherlands 02 - d0wn'], ['d0wn-ro-ns1','OpenNIC Resolver Romania 01 - d0wn'], ['d0wn-ro-ns1-ipv6','OpenNIC Resolver Romania 01 over IPv6 - d0wn'], ['d0wn-ru-ns1','OpenNIC Resolver Russia 01 - d0wn'], ['d0wn-se-ns1','OpenNIC Resolver Sweden 01 - d0wn'], ['d0wn-se-ns1-ipv6','OpenNIC Resolver Sweden 01 over IPv6 - d0wn'], ['d0wn-sg-ns1','OpenNIC Resolver Singapore 01 - d0wn'], ['d0wn-sg-ns2','OpenNIC Resolver Singapore 02 - d0wn'], ['d0wn-sg-ns2-ipv6','OpenNIC Resolver Singapore 01 over IPv6 - d0wn'], ['d0wn-tz-ns1','OpenNIC Resolver Tanzania 01 - d0wn'], ['d0wn-ua-ns1','OpenNIC Resolver Ukraine 01 - d0wn'], ['d0wn-ua-ns1-ipv6','OpenNIC Resolver Ukraine 01 over IPv6 - d0wn'], ['d0wn-uk-ns1','OpenNIC Resolver United Kingdom 01 - d0wn'], ['d0wn-uk-ns1-ipv6','OpenNIC Resolver United Kingdom 01 over IPv6 - d0wn'], ['d0wn-us-ns1','OpenNIC Resolver United States of America 01 - d0wn'], ['d0wn-us-ns1-ipv6','OpenNIC Resolver United States of America 01 over IPv6 - d0wn'], ['d0wn-us-ns2','OpenNIC Resolver United States of America 02 - d0wn'], ['d0wn-us-ns2-ipv6','OpenNIC Resolver United States of America 02 over IPv6 - d0wn'], ['dns-freedom','DNS Freedom'], ['dnscrypt.eu-dk','DNSCrypt.eu Denmark'], ['dnscrypt.eu-dk-ipv6','DNSCrypt.eu Denmark over IPv6'], ['dnscrypt.eu-nl','DNSCrypt.eu Holland'], ['dnscrypt.eu-nl-ipv6','DNSCrypt.eu Holland over IPv6'], ['dnscrypt.org-fr','DNSCrypt.org France'], ['fvz-anyone','Primary OpenNIC Anycast DNS Resolver'], ['fvz-anyone-ipv6','Primary OpenNIC Anycast DNS IPv6 Resolver'], ['fvz-anytwo','Secondary OpenNIC Anycast DNS Resolver'], ['fvz-anytwo-ipv6','Secondary OpenNIC Anycast DNS IPv6 Resolver'], ['ipredator','Ipredator.se Server'], ['ns0.dnscrypt.is','ns0.dnscrypt.is in Reykjav铆k, Iceland'], ['okturtles','okTurtles'], ['opennic-tumabox','TumaBox'], ['ovpnse','OVPN.se Integritet AB'], ['soltysiak','Soltysiak'], ['soltysiak-ipv6','Soltysiak over IPv6'], ['ventricle.us','Anatomical DNS'], ['yandex','Yandex']];
+		var option_dns_foreign = [['1', 'dns2socks'], ['2', 'ss-tunnel'], ['3', 'dnscrypt-proxy'], ['4', 'pdnsd'], ['5', 'ChinaDNS'], ['6', 'Pcap_DNSProxy'], ['7', 'cdns']];
+		var option_opendns = [['adguard-dns-family-ns1', 'Adguard DNS Family Protection 1'], ['adguard-dns-family-ns2', 'Adguard DNS Family Protection 2'], ['adguard-dns-ns1', 'Adguard DNS 1'], ['adguard-dns-ns2', 'Adguard DNS 2'], ['bikinhappy-sg', 'BikinHappy Singapore'], ['bn-fr0', 'Babylon Network France 0'], ['bn-fr0-ipv6', 'Babylon Network France 0 (IPv6)'], ['bn-fr1', 'Babylon Network France 1'], ['bn-fr1-ipv6', 'Babylon Network France 1 (IPv6)'], ['bn-nl0', 'Babylon Network Netherlands 0'], ['bn-nl0-ipv6', 'Babylon Network Netherlands 0 (IPv6)'], ['cisco', 'Cisco OpenDNS'], ['cisco-familyshield', 'Cisco OpenDNS with FamilyShield'], ['cisco-ipv6', 'Cisco OpenDNS over IPv6'], ['cpunks-ru', 'Cypherpunks.ru'], ['cs-caeast', 'CS Canada east DNSCrypt server'], ['cs-cawest', 'CS Canada west DNSCrypt server'], ['cs-cfi', 'CS cryptofree France DNSCrypt server'], ['cs-cfii', 'CS secondary cryptofree France DNSCrypt server'], ['cs-ch', 'CS Switzerland DNSCrypt server'], ['cs-de', 'CS Frankfurt, DE DNSCrypt server'], ['cs-de3', 'CS Dusseldorf, DE DNSCrypt server'], ['cs-dk', 'CS Denmark DNSCrypt server'], ['cs-dk2', 'CS secondary Denmark DNSCrypt server'], ['cs-es', 'CS Spain DNSCrypt server'], ['cs-fi', 'CS Finland DNSCrypt server'], ['cs-fr', 'CS France DNSCrypt server'], ['cs-fr2', 'CS secondary France DNSCrypt server'], ['cs-lt', 'CS Lithuania DNSCrypt server'], ['cs-lv', 'CS Latvia DNSCrypt server'], ['cs-md', 'CS Moldova DNSCrypt server'], ['cs-nl', 'CS Netherlands DNSCrypt server'], ['cs-pl', 'CS Poland DNSCrypt server'], ['cs-pt', 'CS Portugal DNSCrypt server'], ['cs-ro', 'CS Romania DNSCrypt server'], ['cs-rome', 'CS Italy DNSCrypt server'], ['cs-uk', 'CS England DNSCrypt server'], ['cs-useast', 'CS New York City NY US DNSCrypt server'], ['cs-useast2', 'CS Washington DC US DNSCrypt server'], ['cs-usnorth', 'CS Chicago IL US DNSCrypt server'], ['cs-ussouth', 'CS Dallas TX US DNSCrypt server'], ['cs-ussouth2', 'CS Atlanta GA US DNSCrypt server'], ['cs-uswest', 'CS Seattle WA US DNSCrypt server'], ['cs-uswest3', 'CS secondary Las Vegas NV US DNSCrypt server'], ['cs-uswest5', 'CS Los Angeles CA US DNSCrypt server'], ['d0wn-at-ns1', 'D0wn Resolver Austria 01'], ['d0wn-cz-ns1', 'D0wn Resolver Czech Republic 01'], ['d0wn-de-ns1', 'D0wn Resolver Germany 01'], ['d0wn-de-ns1-ipv6', 'D0wn Resolver Germany 01 over IPv6'], ['d0wn-es-ns1', 'D0wn Resolver Spain 01'], ['d0wn-fr-ns1', 'D0wn Resolver France 01'], ['d0wn-fr-ns2', 'D0wn Resolver France 02'], ['d0wn-fr-ns2-ipv6', 'D0wn Resolver France 02 over IPv6'], ['d0wn-gr-ns1', 'D0wn Resolver Greece 01'], ['d0wn-id-ns1', 'D0wn Resolver Indonesia 01'], ['d0wn-is-ns1', 'D0wn Resolver Iceland 01'], ['d0wn-is-ns2', 'D0wn Resolver Iceland 02'], ['d0wn-it-ns1', 'D0wn Resolver Italy 01'], ['d0wn-lv-ns1', 'D0wn Resolver Latvia 01'], ['d0wn-lv-ns2', 'D0wn Resolver Latvia 02'], ['d0wn-lv-ns2-ipv6', 'D0wn Resolver Latvia 01 over IPv6'], ['d0wn-md-ns1', 'D0wn Resolver Moldova 01'], ['d0wn-md-ns1-ipv6', 'D0wn Resolver Moldova 01 over IPv6'], ['d0wn-mx-ns1', 'D0wn Resolver Mexico 01'], ['d0wn-nl-ns1', 'D0wn Resolver Netherlands 01'], ['d0wn-nl-ns1-ipv6', 'D0wn Resolver Netherlands 01 over IPv6'], ['d0wn-nl-ns2', 'D0wn Resolver Netherlands 02'], ['d0wn-nl-ns2-ipv6', 'D0wn Resolver Netherlands 02 over IPv6'], ['d0wn-nl-ns4', 'D0wn Resolver Netherlands 04'], ['d0wn-random-ns1', 'D0wn Resolver Moldova Random 01'], ['d0wn-random-ns1-ipv6', 'D0wn Resolver Moldova Random 01 over IPv6'], ['d0wn-random-ns2', 'D0wn Resolver Netherlands Random 02'], ['d0wn-random-ns2-ipv6', 'D0wn Resolver Netherlands Random 02 over IPv6'], ['d0wn-ru-ns1', 'D0wn Resolver Russia 01'], ['d0wn-se-ns1', 'D0wn Resolver Sweden 01'], ['d0wn-se-ns1-ipv6', 'D0wn Resolver Sweden 01 over IPv6'], ['d0wn-se-ns2', 'D0wn Resolver Sweden 02'], ['d0wn-sg-ns1', 'D0wn Resolver Singapore 01'], ['d0wn-sg-ns1-ipv6', 'D0wn Resolver Singapore 01 over IPv6'], ['d0wn-tz-ns1', 'D0wn Resolver Tanzania 01'], ['d0wn-tz-ns1-ipv6', 'D0wn Resolver Tanzania 01 over IPv6'], ['d0wn-us-ns1', 'D0wn Resolver United States of America 01'], ['d0wn-us-ns2', 'D0wn Resolver United States of America 02'], ['d0wn-us-ns4', 'D0wn Resolver United States of America 04'], ['d0wn-za-ns1', 'D0wn Resolver South Africa 01'], ['dnscrypt.ca-1', 'dnscrypt.ca Server 1'], ['dnscrypt.ca-2', 'dnscrypt.ca Server 2'], ['dnscrypt.eu-dk', 'DNSCrypt.eu Denmark'], ['dnscrypt.eu-dk-ipv6', 'DNSCrypt.eu Denmark over IPv6'], ['dnscrypt.eu-nl', 'DNSCrypt.eu Holland'], ['dnscrypt.nl-ns0', 'DNSCrypt.nl The Netherlands (NL)'], ['dnscrypt.nl-ns0-ipv6', 'DNSCrypt.nl The Netherlands (NL) over IPv6'], ['dnscrypt.org-fr', 'DNSCrypt.org France'], ['fvz-anyone', 'Primary OpenNIC Anycast DNS Resolver'], ['fvz-anytwo', 'Secondary OpenNIC Anycast DNS Resolver'], ['ipredator', 'Ipredator.se Server'], ['ns0.dnscrypt.is', 'ns0.dnscrypt.is in Reykjavk, Iceland'], ['okturtles', 'okTurtles'], ['opennic-tumabox', 'TumaBox'], ['opennic-tumabox-ipv6', 'TumaBox over IPv6'], ['securedns', 'SecureDNS'], ['securedns-ipv6', 'SecureDNS over IPv6'], ['soltysiak', 'Soltysiak'], ['soltysiak-ipv6', 'Soltysiak over IPv6'], ['ventricle.us', 'Anatomical DNS'], ['yandex', 'Yandex']];
 		var option_status_inter = [['0', '不更新'], ['5', '5s'], ['10', '10s'], ['15', '15s'], ['30', '30s'], ['60', '60s']];
 		var option_sleep = [['0', '0s'], ['5', '5s'], ['10', '10s'], ['15', '15s'], ['30', '30s'], ['60', '60s']];
 		var option_ss_obfs = [['0','关闭'],['tls','tls'],['http','http']];
@@ -2467,16 +2465,7 @@
 				$("#_ss_acl_default_mode option[value=3]").show();
 				$("#_ss_acl_pannel_4 option[value=3]").show();
 			}
-			// ------------------------
-			
-			// pannel dns: display the description for ss dns plan
-			if (E("_ss_dns_plan").value == "1"){
-				$('#_ss_dns_plan_txt').html("国外dns解析gfwlist名单内的国外域名，剩下的所有域名用国内dns解析。")
-			}else{
-				$('#_ss_dns_plan_txt').html("国内dns解析cdn名单内的国内域名用，剩下的所有域名用国外dns解析。")
-			}
-			
-			// ------------------------
+
 			// when change mode in acl tab, mode in pannel1 should also be changed
 			if ( $(r).attr("id") == "_ss_acl_default_mode" ) {
 				if (E("_ss_acl_default_mode").value != "0"){
@@ -2488,87 +2477,60 @@
 				E("_ss_acl_default_mode").value = E("_ss_basic_mode").value;
 
 			}
-			// ------------------------
-			// pannel dns:
-			if (E("_ss_dns_foreign").value == "5"){
-				elem.display(PR('_ss_dns_china'), false);
-				elem.display(PR('_ss_isp_website_web'), false);
-				elem.display(PR('_ss_dns_china_chinadns_txt'), true);
-				elem.display(PR('_ss_cdn_chinadns_txt'), true);
-				elem.display(PR('_ss_dns_china_pcap_txt'), false);
-				elem.display(PR('_ss_cdn_pcap_txt'), false);
-			}else if (E("_ss_dns_foreign").value == "6"){
-				elem.display(PR('_ss_dns_china'), false);
-				elem.display(PR('_ss_isp_website_web'), false);
-				elem.display(PR('_ss_dns_china_chinadns_txt'), false);
-				elem.display(PR('_ss_cdn_chinadns_txt'), false);
-				elem.display(PR('_ss_dns_china_pcap_txt'), true);
-				elem.display(PR('_ss_cdn_pcap_txt'), true);
-			}else{
-				elem.display(PR('_ss_dns_china'), true);
-				elem.display(PR('_ss_isp_website_web'), true);
-				elem.display(PR('_ss_dns_china_chinadns_txt'), false);
-				elem.display(PR('_ss_dns_china_pcap_txt'), false);
-				elem.display(PR('_ss_cdn_chinadns_txt'), false);
-				elem.display(PR('_ss_cdn_pcap_txt'), false);
-			}
+			// DNS
 			var c  = E('_ss_dns_china').value == '12';
 			var d1 = E('_ss_dns_foreign').value == '1'; // dns2socks
 			var d2 = E('_ss_dns_foreign').value == '2'; // ss-tunnel
 			var d3 = E('_ss_dns_foreign').value == '3'; // dnscrypt-proxy
 			var d4 = E('_ss_dns_foreign').value == '4'; // pndsd
 			var d5 = E('_ss_dns_foreign').value == '5'; // ChinaDNS
-			var d6 = E('_ss_dns_foreign').value == '6'; // ChinaDNS
-			var e  = E('_ss_sstunnel').value == '4'; // ss_sstunnel user
-			var f1 = E('_ss_pdnsd_method').value == '1'; // pdnsd udp
-			var f2 = E('_ss_pdnsd_method').value == '2'; // pdnsd tcp
-			var g1 = E('_ss_pdnsd_udp_server').value == '1'; // pdnsd dns2socks
-			var g2 = E('_ss_pdnsd_udp_server').value == '2'; // pdnsd dnscrypt-proxy
-			var g3 = E('_ss_pdnsd_udp_server').value == '3'; // pdnsd ss_tunnel
-			var h  = E('_ss_pdnsd_udp_server_ss_tunnel').value == '4'; // pdnsd ss_tunnel = 4
-			var i  = E('_ss_chinadns_china').value == '11'; // ChinaDNS china user
-			var j1 = E('_ss_chinadns_foreign_method').value == '1'; // ChinaDNS dns2socks
-			var j2 = E('_ss_chinadns_foreign_method').value == '2'; // ChinaDNS dnscrypt-proxy
-			var j3 = E('_ss_chinadns_foreign_method').value == '3'; // ChinaDNS ss_tunnel
-			var j4 = E('_ss_chinadns_foreign_method').value == '4'; // ChinaDNS user
-			var k  = E('_ss_chinadns_foreign_sstunnel').value == '4'; // ChinaDNS user
-			var n  = E('_ss_chinadns_foreign_dns2socks').value == '4'; // ChinaDNS user
-			// DNS
+			var d6 = E('_ss_dns_foreign').value == '6'; // Pcap_DNSProxy
+			var d7 = E('_ss_dns_foreign').value == '7'; // cdns
+			var e1 = E('_ss_chinadns_method').value == '1'; // ChinaDNS origin
+			var e2 = E('_ss_chinadns_method').value == '2'; // ChinaDNS ecs
+			var f1 = E('_ss_pdnsd_method').value == '1'; // pndsd udp
+			var f2 = E('_ss_pdnsd_method').value == '2'; // pndsd tcp
 			elem.display('_ss_dns_china_user', c);
 			elem.display('_ss_dns2socks_user', d1);
-			elem.display('_ss_sstunnel', d2);
-			elem.display('_ss_sstunnel_user', d2 && e);
+			elem.display('_ss_sstunnel_user', d2);
 			elem.display('_ss_opendns', d3);
-			// pdnsd method
-			elem.display(PR('_ss_pdnsd_method'), d4);
-			// pdnsd udp
-			elem.display(PR('_ss_pdnsd_udp_server'), d4 && f1);
-			elem.display('_ss_pdnsd_udp_server_dns2socks', d4 && f1 && g1);
-			elem.display('_ss_pdnsd_udp_server_dnscrypt', d4 && f1 && g2);
-			elem.display('_ss_pdnsd_udp_server_ss_tunnel', d4 && f1 && g3);
-			elem.display('_ss_pdnsd_udp_server_ss_tunnel_user', d4 && f1 && g3 && h);
-			// pdnsd tcp
-			elem.display(PR('_ss_pdnsd_server_ip'), PR('_ss_pdnsd_server_port'), d4 && f2);
-			// pndsd cache
-			elem.display(PR('_ss_pdnsd_server_cache_min'), PR('_ss_pdnsd_server_cache_max'), d4);
-			//ChinaDNS
-			elem.display(PR('_ss_chinadns_china'), d5);
-			elem.display('_ss_chinadns_china_user', d5 && i);
-			elem.display(PR('_ss_chinadns_foreign_method'), d5);
-			elem.display('_ss_chinadns_foreign_dns2socks', d5 && j1);
-			elem.display('_ss_chinadns_foreign_dns2socks_user', d5 && j1 && n);
-			elem.display('_ss_chinadns_foreign_dnscrypt', d5 && j2);
-			elem.display('_ss_chinadns_foreign_sstunnel', d5 && j3);
-			elem.display('_ss_chinadns_foreign_sstunnel_user', d5 && j3 && k);
-			elem.display('_ss_chinadns_foreign_method_user', d5 && j4);
-			elem.display('_ss_chinadns_foreign_method_user_txt', d5 && j4);
-			var l1  = E('_ss_basic_rule_update').value == '1'; 
+			elem.display('_ss_pdnsd_method', d4);
+			elem.display('_ss_pdnsd_user', d4);
+			elem.display('_ss_chinadns_method', d5);
+			elem.display('_ss_chinadns_user', d5 && e1);
+			elem.display(elem.parentElem('_ssdns_foreign_suffix', 'SPAN'), d1 || d2 || d3 || d4 || d5);
+			elem.display(elem.parentElem('_ss_method_suffix', 'SPAN'), d4 || d5 && e1);
+			if(d1){
+				$("#_ss_dns_note").html('<a href="https://github.com/qiuzi/dns2socks" target="_blank">dns2socks</a>把DNS请求转发到socks5端口，利用SS服务器进行解析');
+			}else if(d2){
+				$("#_ss_dns_note").html('<a href="https://github.com/shadowsocks/shadowsocks-libev" target="_blank">ss-tunnel</a>把DNS请求通过udp转发到SS服务器进行解析');
+			}else if(d4){
+				if(f1){
+					$("#_ss_dns_note").html('udp查询方式默认通过dns2socks转发到SS服务器进行解析');
+				}else if(f2){
+					$("#_ss_dns_note").html('tcp查询方式为直连到此处定义的国外DNS进行解析，请确保该DNS支持TCP解析');
+				}
+			}else if(d5){
+				if(e1){
+					$("#_ss_dns_note").html('<a href="https://github.com/shadowsocks/ChinaDNS" target="_blank">原版ChinaDNS</a>默认用dns2socks转发到SS服务器进行解析');
+				}else if(e2){
+					$("#_ss_dns_note").html('<a href="https://github.com/aa65535/ChinaDNS/issues/1" target="_blank">ECS版ChinaDNS</a>需要上游DNS服务器支持ECS，所以此处固定为直连谷歌DNS<br />如果你的网络到谷歌DNS丢包严重、不通或你的上级路由开了国外代理，请不要使用此方案');
+				}
+			}else if(d6){
+				$("#_ss_dns_note").html('<a href="https://github.com/chengr28/Pcap_DNSProxy" target="_blank">Pcap_DNSProxy</a>是一个基于 WinPcap/LibPcap 用于过滤 DNS 投毒污染的工具');
+			}else if(d7){
+				$("#_ss_dns_note").html('<a href="https://github.com/semigodking/cdns" target="_blank">cdns</a>支持ECS，解析方式为直连国外支持ECS的DNS服务器（配置文件：/koolshare/ss/rule/cdns.json）<br />如果你的上级路由开了国外代理，请不要使用此方案');
+			}else{
+				$("#_ss_dns_note").html('');
+			}
+
+			// rule
+			var l1  = E('_ss_basic_rule_update').value == '1';
+			var l3  = E('_ss_basic_node_update').value == '1';
 			elem.display('_ss_basic_rule_update_day', l1);
 			elem.display('_ss_basic_rule_update_hr', l1);
-			var l3  = E('_ss_basic_node_update').value == '1';
 			elem.display('_ss_basic_node_update_day', l3);
 			elem.display('_ss_basic_node_update_hr', l3);
-			
 			elem.display(elem.parentElem('_ss_basic_gfwlist_update', 'DIV'), l1);
 			elem.display('_ss_basic_gfwlist_update_txt', l1);
 			elem.display(elem.parentElem('_ss_basic_chnroute_update', 'DIV'), l1);
@@ -2577,15 +2539,13 @@
 			elem.display('_ss_basic_cdn_update_txt', l1);
 			elem.display(elem.parentElem('_ss_basic_pcap_update', 'DIV'), l1);
 			elem.display('_ss_basic_pcap_update_txt', l1);
-			
-			var m  = E('_ss_basic_dnslookup').value == '1';
-			elem.display('_ss_basic_dnslookup_server', m);
-			elem.display('_ss_basic_dnslookup_txt', m);
+
+			// ss online update
 			var p1 = E('_ssr_subscribe_obfspara').value == '1';
 			var p2 = E('_ssr_subscribe_obfspara').value == '2';
+			var q = E('_ss_acl_default_port').value == '0';
 			elem.display('_ssr_subscribe_obfspara_text', p2);
 			elem.display('_ssr_subscribe_obfspara_val', p2);
-			var q = E('_ss_acl_default_port').value == '0';
 			elem.display('_ss_acl_default_port_user', q);
 			
 			calculate_max_node();
@@ -3032,7 +2992,7 @@
 			E("_ss_basic_kcp_status").innerHTML = "KCP状态 - 提交中...暂停获取状态！";
 			E("_ss_basic_lb_status").innerHTML = "负载均衡 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "gfwlist_update", "chnroute_update", "cdn_update", "pcap_update", "chromecast", "online_links_goss"];
-			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_plan", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_udp_server", "ss_pdnsd_udp_server_dns2socks", "ss_pdnsd_udp_server_dnscrypt", "ss_pdnsd_udp_server_ss_tunnel", "ss_pdnsd_udp_server_ss_tunnel_user", "ss_pdnsd_server_ip", "ss_pdnsd_server_port", "ss_pdnsd_server_cache_min", "ss_pdnsd_server_cache_max", "ss_chinadns_china", "ss_chinadns_china_user", "ss_chinadns_foreign_method", "ss_chinadns_foreign_dns2socks", "ss_chinadns_foreign_dns2socks_user", "ss_chinadns_foreign_dnscrypt", "ss_chinadns_foreign_sstunnel", "ss_chinadns_foreign_sstunnel_user", "ss_chinadns_foreign_method_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_basic_dnslookup", "ss_basic_dnslookup_server", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr"];
+			var paras_inp = ["ss_basic_node", "ss_basic_mode", "ss_basic_server", "ss_basic_port", "ss_basic_password", "ss_basic_method", "ss_basic_ss_obfs", "ss_basic_ss_obfs_host", "ss_basic_rss_protocal", "ss_basic_rss_protocal_para", "ss_basic_rss_obfs", "ss_basic_rss_obfs_para", "ss_dns_china", "ss_dns_china_user", "ss_dns_foreign", "ss_dns2socks_user", "ss_sstunnel_user", "ss_opendns", "ss_pdnsd_method", "ss_pdnsd_user", "ss_chinadns_method", "ss_chinadns_user", "ss_basic_rule_update", "ss_basic_rule_update_day", "ss_basic_rule_update_hr", "ss_basic_refreshrate", "ss_basic_bypass", "ss_acl_default_mode", "ss_acl_default_port", "ssr_subscribe_mode", "ssr_subscribe_obfspara", "ssr_subscribe_obfspara_val", "ss_mwan_ping_dst", "ss_mwan_china_dns_dst", "ss_mwan_vps_ip_dst", "ss_basic_node_update", "ss_basic_node_update_day", "ss_basic_node_update_hr"];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["ss_basic_" + paras_chk[i]] = E('_ss_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -3803,73 +3763,27 @@
 			<div id="ss_dns_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#ss_dns_pannel').forms([
-					{ title: 'DNS解析偏好', name:'ss_dns_plan',type:'select',options:[['1', '国内优先'], ['2', '国外优先']], value: dbus.ss_dns_plan || "2", suffix: '<lable id="_ss_dns_plan_txt"></lable>'},
 					{ title: '选择国内DNS', multi: [
 						{ name: 'ss_dns_china',type:'select', options:option_dns_china, value: dbus.ss_dns_china || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'ss_dns_china_user', type: 'text', value: dbus.ss_dns_china_user }
 					]},
-					// dns foreign chinadns
-					{ title: '选择国内DNS', suffix: '<lable id="_ss_dns_china_chinadns_txt">ChinaDNS方案自带国内cdn加速，无需定义国内DNS </lable>' },
-					// dns foreign pcap
-					{ title: '选择国内DNS', suffix: '<lable id="_ss_dns_china_pcap_txt">Pcap_DNSProxy方案自带国内cdn加速，无需定义国内DNS </lable>'},
 					{ title: '选择国外DNS', multi: [
-						{ name: 'ss_dns_foreign',type: 'select', options:option_dns_foreign, value: dbus.ss_dns_foreign || "1", suffix: ' &nbsp;&nbsp;' },
+						{ name: 'ss_dns_foreign',type: 'select', options:option_dns_foreign, value: dbus.ss_dns_foreign || "1" },
+						{ suffix: '<lable id="_ssdns_foreign_suffix">&nbsp;&nbsp;</lable>' },
+						{ name: 'ss_chinadns_method',type: 'select',options:[['1', '原版'], ['2', 'ECS版']], value: dbus.ss_chinadns_method || "1" },
+						{ name: 'ss_pdnsd_method',type: 'select',options:[['1', 'udp查询'], ['2', 'tcp查询']], value: dbus.ss_pdnsd_method || "1" },
+						{ suffix: '<lable id="_ss_method_suffix">&nbsp;&nbsp;</lable>' },
 						{ name: 'ss_dns2socks_user', type: 'text', value: dbus.ss_dns2socks_user || "8.8.8.8:53" },
-						{ name: 'ss_sstunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_sstunnel || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_sstunnel_user', type: 'text', value: dbus.ss_sstunnel_user || "" },
-						{ name: 'ss_opendns',type: 'select', options:option_opendns, value: dbus.ss_opendns || "cisco", suffix: ' &nbsp;&nbsp;' }
+						{ name: 'ss_sstunnel_user', type: 'text', value: dbus.ss_sstunnel_user || "8.8.8.8:53" },
+						{ name: 'ss_opendns',type: 'select', options:option_opendns, value: dbus.ss_opendns || "cisco"},
+						{ name: 'ss_chinadns_user', type: 'text', value: dbus.ss_chinadns_user || "8.8.8.8:53" },
+						{ name: 'ss_pdnsd_user', type: 'text', value: dbus.ss_pdnsd_user || "8.8.8.8:53" },
+						{ suffix: '<lable id="_ss_dns_note"></lable>' }
 					]},
-					//pdnsd
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd查询方式</font>', name:'ss_pdnsd_method',type:'select',options:[['1', '仅udp查询'], ['2', '仅tcp查询']], value: dbus.ss_pdnsd_method || "1" },
-
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd上游服务器（UDP）</font>', multi: [
-						{ name: 'ss_pdnsd_udp_server',type:'select',options:[['1', 'dns2socks'], ['2', 'dnscrypt-proxy'], ['3', 'ss-tunnel']], value: dbus.ss_pdnsd_udp_server || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_pdnsd_udp_server_dns2socks', type: 'text', value: dbus.ss_pdnsd_udp_server_dns2socks || "8.8.8.8:53" },
-						{ name: 'ss_pdnsd_udp_server_dnscrypt',type: 'select', options:option_opendns, value: dbus.ss_pdnsd_udp_server_dns2socks || "1" },
-						{ name: 'ss_pdnsd_udp_server_ss_tunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_pdnsd_udp_server_ss_tunnel || "2", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_pdnsd_udp_server_ss_tunnel_user', type: 'text', value: dbus.ss_pdnsd_udp_server_ss_tunnel_user || "9.9.9.9:53" }
-					]},
-
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd上游服务器（TCP）</font>', multi: [
-						{ name: 'ss_pdnsd_server_ip', type: 'text', value: dbus.ss_pdnsd_server_ip },
-						{ suffix: ' ：' },
-						{ name: 'ss_pdnsd_server_port', type: 'text', value: dbus.ss_pdnsd_server_port }
-					]},
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*pdnsd缓存设置</font>', multi: [
-						{ name: 'ss_pdnsd_server_cache_min', type: 'text', size: '1', value: dbus.ss_pdnsd_server_cache_min || "24h" },
-						{ suffix: ' → ' },
-						{ name: 'ss_pdnsd_server_cache_max', type: 'text', size: '1', value: dbus.ss_pdnsd_server_cache_max || "1w" }
-					]},
-					//ChinaDNS
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*ChinaDNS国内DNS</font>', multi: [
-						{ name: 'ss_chinadns_china',type:'select', options:option_ChinaDNS_china, value: dbus.ss_chinadns_china || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_china_user', type: 'text', value: dbus.ss_chinadns_china_user }
-					]},
-					{ title: '<font color="#1bbf35">&nbsp;&nbsp;&nbsp;&nbsp;*ChinaDNS国外DNS</font>', multi: [
-						{ name: 'ss_chinadns_foreign_method',type:'select',options:[['1', 'dns2socks'], ['2', 'dnscrypt-proxy'], ['3', 'ss-tunnel'],['4', '自定义']], value: dbus.ss_chinadns_foreign_method || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_dns2socks', type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_dns2socks || "2"},
-						{ name: 'ss_chinadns_foreign_dns2socks_user', type: 'text', value: dbus.ss_chinadns_foreign_dns2socks_user || "8.8.8.8:53", prefix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_dnscrypt',type: 'select', options:option_opendns, value: dbus.ss_chinadns_foreign_dnscrypt || "1" },
-						{ name: 'ss_chinadns_foreign_sstunnel',type: 'select', options:option_ss_sstunnel, value: dbus.ss_chinadns_foreign_sstunnel || "2"},
-						{ name: 'ss_chinadns_foreign_sstunnel_user', type: 'text', value: dbus.ss_chinadns_foreign_sstunnel_user || "8.8.8.8:53", prefix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_chinadns_foreign_method_user', type: 'text', value: dbus.ss_chinadns_foreign_method_user, suffix: '<lable id="_ss_chinadns_foreign_method_user_txt">自定义直连的chinaDNS国外dns。</lable>' },
-					]},
-					{ title: 'SS服务器地址解析', multi: [
-						{ name: 'ss_basic_dnslookup',type:'select',options:[['0', 'resolveip方式'], ['1', 'nslookup方式']], value: dbus.ss_basic_dnslookup || "1", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'ss_basic_dnslookup_server', type: 'text', value: dbus.ss_basic_dnslookup_server || "119.29.29.29", suffix: '<lable id="_ss_basic_dnslookup_txt">当服务器地址是域名的时候会用此设定解析。</lable>' }
-					]},
-					{ title: 'chromecast支持 (接管局域网DNS解析)',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0 },
+					{ title: 'chromecast支持 (接管局域网DNS解析)',  name:'ss_basic_chromecast',type:'checkbox', value: dbus.ss_basic_chromecast != 0, suffix: '<lable>此处强烈建议开启！</lable>' },
 					{ title: '<b>自定义CDN加速名单</b></br></br><font color="#B2B2B2">强制用国内DNS解析的域名，一行一个，如：</br>koolshare.cn</br>baidu.com</font>', name: 'ss_isp_website_web', type: 'textarea', value: Base64.decode(dbus.ss_isp_website_web)||"",	style: 'width: 100%; height:150px;' },
-					// dns foreign chinadns
-					{ title: '自定义需要CDN加速名单', suffix: '<lable id="_ss_cdn_chinadns_txt">ChinaDNS方案自带国内cdn加速，无需定义cdn加速名单 </lable>' },
-					// dns foreign pcap
-					{ title: '自定义需要CDN加速名单', suffix: '<lable id="_ss_cdn_pcap_txt">Pcap_DNSProxy方案自带国内cdn加速，无需定义cdn加速名单 </lable>'},
 					{ title: '<b>自定义dnsmasq</b></br></br><font color="#B2B2B2">一行一个，错误的格式会导致dnsmasq不能启动，格式：</br>address=/koolshare.cn/2.2.2.2</br>bogus-nxdomain=220.250.64.18</br>conf-file=/jffs/mydnsmasq.conf</font>', name: 'ss_dnsmasq', type: 'textarea', value: Base64.decode(dbus.ss_dnsmasq)||"", style: 'width: 100%; height:150px;' }
 				]);
-					$('#_ss_dns_china_chinadns_txt').parent().css("margin-top","9px");
-					$('#_ss_cdn_chinadns_txt').parent().css("margin-top","9px");
-					$('#_ss_dns_china_pcap_txt').parent().css("margin-top","9px");
-					$('#_ss_cdn_pcap_txt').parent().css("margin-top","9px");
 			</script>
 		</div>
 	</div>

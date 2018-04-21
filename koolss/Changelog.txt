@@ -1,5 +1,18 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.0.5
+   - update	更新shadowsocks-libev 到3.1.3；更新obfs-local到0.0.5最新（2018年4月20日编译）
+   - update	更新shadowsocksRR-libev 到最新（2018年4月20日编译）；
+   - update	极大的简化了DNS设定逻辑，让设定更加方便易懂；
+   - add	新增cdns解析，该解析支持ECS；
+   - add	新增ChinaDNS ESC版解析，项目地址：https://github.com/aa65535/ChinaDNS；
+   - fix	修复dnscrypt-proxy在新固件内不可用的问题；
+   - update	更新dnscrypt-proxy DNS列表到最新；
+   - remove	移除DNS解析偏好选项，现在会根据使用模式自动选择；
+   - remove	移除SS服务器解析设置；
+   - update	更新内置分流规则和Pcap_DNSProxy规则到最新；
+   - update	为了安全起见，现在chormecast功能(接管局域网内客户端DNS解析功能)仅劫持路由下局域网内的DNS请求。
+
 2.0.4
    - fix	修复SS/SSR链接添加节点成功但是不显示在节点列表的问题
 

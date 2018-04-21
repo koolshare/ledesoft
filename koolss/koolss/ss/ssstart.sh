@@ -15,6 +15,7 @@ game_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 3`
 [ -n "$game_on" ] || [ "$ss_basic_mode" == "3" ] && mangle=1
 #lan_ipaddr=`awk "/config interface 'lan'/,/^$/ {print $1}" /etc/config/network | grep ipaddr |awk '{print $3}' |sed "s/'//g"`
 lan_ipaddr=`uci get network.lan.ipaddr`
+lan_ipaddr_prefix=`uci get network.lan.ipaddr`
 ip_prefix_hex=`echo $lan_ipaddr | awk -F "." '{printf ("0x%02x", $1)} {printf ("%02x", $2)} {printf ("%02x", $3)} {printf ("00/0xffffff00")}'`
 LOCK_FILE=/var/lock/koolss.lock
 ISP_DNS1=`cat /tmp/resolv.conf.auto|cut -d " " -f 2|grep -v 0.0.0.0|grep -v 127.0.0.1|sed -n 2p`
@@ -33,68 +34,18 @@ else
 	SPECIAL_ARG=""
 fi
 
-# dns china
-IFIP_DNS=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
-[ -n "$IFIP_DNS" ] && CDN="$ISP_DNS1" || CDN="114.114.114.114"
-[ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
-[ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
-[ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
-[ "$ss_dns_china" == "5" ] && CDN="114.114.115.115"
-[ "$ss_dns_china" == "6" ] && CDN="1.2.4.8"
-[ "$ss_dns_china" == "7" ] && CDN="210.2.4.8"
-[ "$ss_dns_china" == "8" ] && CDN="112.124.47.27"
-[ "$ss_dns_china" == "9" ] && CDN="114.215.126.16"
-[ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
-[ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
-[ "$ss_dns_china" == "12" ] && CDN="$ss_dns_china_user"
-
-# dns for foreign ss-tunnel
-[ "$ss_sstunnel" == "1" ] && gs="208.67.220.220:53"
-[ "$ss_sstunnel" == "2" ] && gs="8.8.8.8:53"
-[ "$ss_sstunnel" == "3" ] && gs="8.8.4.4:53"
-[ "$ss_sstunnel" == "4" ] && gs="$ss_sstunnel_user"	
-# dns for pdnsd upstream ss-tunnel
-[ "$ss_pdnsd_udp_server_ss_tunnel" == "1" ] && dns1="208.67.220.220:53"
-[ "$ss_pdnsd_udp_server_ss_tunnel" == "2" ] && dns1="8.8.8.8:53"
-[ "$ss_pdnsd_udp_server_ss_tunnel" == "3" ] && dns1="8.8.4.4:53"
-[ "$ss_pdnsd_udp_server_ss_tunnel" == "4" ] && dns1="$ss_pdnsd_udp_server_ss_tunnel_user"
-# dns for foreign dns: chinaDNS dns for china
-[ "$ss_chinadns_china" == "1" ] && rcc="223.5.5.5"
-[ "$ss_chinadns_china" == "2" ] && rcc="223.6.6.6"
-[ "$ss_chinadns_china" == "3" ] && rcc="114.114.114.114"
-[ "$ss_chinadns_china" == "4" ] && rcc="114.114.115.115"
-[ "$ss_chinadns_china" == "5" ] && rcc="1.2.4.8"
-[ "$ss_chinadns_china" == "6" ] && rcc="210.2.4.8"
-[ "$ss_chinadns_china" == "7" ] && rcc="112.124.47.27"
-[ "$ss_chinadns_china" == "8" ] && rcc="114.215.126.16"
-[ "$ss_chinadns_china" == "9" ] && rcc="180.76.76.76"
-[ "$ss_chinadns_china" == "10" ] && rcc="119.29.29.29"
-[ "$ss_chinadns_china" == "11" ] && rcc="$ss_chinadns_china_user"
-# dns for foreign dns: chinaDNS foreign dns:dns2socks
-[ "$ss_chinadns_foreign_dns2socks" == "1" ] && rcfd="208.67.220.220:53"
-[ "$ss_chinadns_foreign_dns2socks" == "2" ] && rcfd="8.8.8.8:53"
-[ "$ss_chinadns_foreign_dns2socks" == "3" ] && rcfd="8.8.4.4:53"
-[ "$ss_chinadns_foreign_dns2socks" == "4" ] && rcfd="$ss_chinadns_foreign_dns2socks_user"
-# dns for foreign dns: chinaDNS foreign dns:ss-tunnel
-[ "$ss_chinadns_foreign_sstunnel" == "1" ] && rcfs="208.67.220.220:53"
-[ "$ss_chinadns_foreign_sstunnel" == "2" ] && rcfs="8.8.8.8:53"
-[ "$ss_chinadns_foreign_sstunnel" == "3" ] && rcfs="8.8.4.4:53"
-[ "$ss_chinadns_foreign_sstunnel" == "4" ] && rcfs="$ss_chinadns_foreign_sstunnel_user"
-# ==========================================================================================
-# stop first
-redsocks2=$(ps | grep "redsocks2" | grep -v "grep")
-dnscrypt=$(ps | grep "dnscrypt-proxy" | grep -v "grep")
-ssredir=$(ps | grep "ss-redir" | grep -v "grep" | grep -vw "ssr-redir")
-ssrredir=$(ps | grep "ssr-redir" | grep -v "grep" | grep -vw "ss-redir")
-sstunnel=$(ps | grep "ss-tunnel" | grep -v "grep" | grep -vw "ssr-tunnel")
-ssrtunnel=$(ps | grep "ssr-tunnel" | grep -v "grep" | grep -vw "ss-tunnel")
-pdnsd=$(ps | grep "pdnsd" | grep -v "grep")
-chinadns=$(ps | grep "chinadns" | grep -v "grep")
-DNS2SOCK=$(ps | grep "dns2socks" | grep -v "grep")
-Pcap_DNSProxy=$(ps | grep "Pcap_DNSProxy" | grep -v "grep")
-HAPID=`pidof haproxy`
-ip_rule_exist=`ip rule show | grep "fwmark 0x1/0x1 lookup 310" | grep -c 310`
 #--------------------------------------------------------------------------
+
+get_lan_cidr(){
+   	netmask=`uci get network.lan.netmask`
+   	# Assumes there's no "255." after a non-255 byte in the mask
+   	local x=${netmask##*255.}
+   	set -- 0^^^128^192^224^240^248^252^254^ $(( (${#netmask} - ${#x})*2 )) ${x%%.*}
+   	x=${1%%$3*}
+   	suffix=$(( $2 + (${#x}/4) ))
+   	prefix=`uci get network.lan.ipaddr | cut -d "." -f1,2,3`
+   	echo $prefix.0/$suffix
+}
 
 calculate_wans_nu(){
 	rm -rf /tmp/wan_names.txt
@@ -138,13 +89,7 @@ restore_dnsmasq_conf(){
 	pc_delete "no-resolv" "/etc/dnsmasq.conf"
 	pc_delete "no-poll" "/etc/dnsmasq.conf"
 
-	# delete custom.conf
-	if [ -f /tmp/dnsmasq.d/custom.conf ];then
-		echo_date 删除 /tmp/dnsmasq.d/custom.conf
-		rm -rf /tmp/dnsmasq.d/custom.conf
-	fi
 	echo_date 删除ss相关的名单配置文件.
-	# remove conf under /jffs/etc/dnsmasq.d
 	rm -rf /tmp/dnsmasq.d/gfwlist.conf
 	rm -rf /tmp/dnsmasq.d/output.conf
 	rm -rf /tmp/dnsmasq.d/cdn.conf
@@ -156,6 +101,7 @@ restore_dnsmasq_conf(){
 	rm -rf /tmp/custom.conf
 	rm -rf /tmp/wblist.conf
 
+	echo_date 删除出口路由表设定.
 	if [ -f "/tmp/route_del" ];then
 		source /tmp/route_del >/dev/null 2>&1
 		rm -f /tmp/route_del >/dev/null 2>&1
@@ -163,8 +109,7 @@ restore_dnsmasq_conf(){
 }
 
 restore_start_file(){
-	echo_date 清除nat-start, wan-start中相关的SS启动命令...
-	rm -rf /etc/rc.d/S99koolss.sh  >/dev/null 2>&1
+	echo_date 清除koolss防火墙配置...
 	
 	uci -q batch <<-EOT
 	  delete firewall.ks_koolss
@@ -175,21 +120,17 @@ restore_start_file(){
 kill_process(){
 	#--------------------------------------------------------------------------
 	# kill dnscrypt-proxy
-	if [ -n "$dnscrypt" ]; then 
+	if [ -n "`pidof dnscrypt-proxy`" ]; then 
 		echo_date 关闭dnscrypt-proxy进程...
 		killall dnscrypt-proxy
 	fi
-	# kill redsocks2
-	if [ -n "$redsocks2" ]; then 
-		echo_date 关闭redsocks2进程...
-		killall redsocks2
-	fi
 	# kill ss-redir
-	if [ -n "$ssredir" ];then 
+	if [ -n "`pidof ss-redir`" ];then
 		echo_date 关闭ss-redir进程...
 		killall ss-redir
 	fi
-	if [ -n "$ssrredir" ];then 
+	# kill ssr-redir
+	if [ -n "`pidof ssr-redir`" ];then
 		echo_date 关闭ssr-redir进程...
 		killall ssr-redir
 	fi
@@ -205,31 +146,37 @@ kill_process(){
 		kill -9 $ssrlocal  >/dev/null 2>&1
 	fi
 	# kill ss-tunnel
-	if [ -n "$sstunnel" ];then 
+	if [ -n "`pidof ss-tunnel`" ];then
 		echo_date 关闭ss-tunnel进程...
 		killall ss-tunnel
 	fi
-	if [ -n "$ssrtunnel" ];then 
+	# kill ssr-tunnel
+	if [ -n "`pidof ssr-tunnel`" ];then
 		echo_date 关闭ssr-tunnel进程...
 		killall ssr-tunnel
 	fi
 	# kill pdnsd
-	if [ -n "$pdnsd" ];then 
+	if [ -n "`pidof pdnsd`" ];then
 		echo_date 关闭pdnsd进程...
 		killall pdnsd
 	fi
 	# kill Pcap_DNSProxy
-	if [ -n "$Pcap_DNSProxy" ];then 
+	if [ -n "`pidof Pcap_DNSProxy`" ];then
 		echo_date 关闭Pcap_DNSProxy进程...
 		killall Pcap_DNSProxy >/dev/null 2>&1
 	fi
 	# kill chinadns
-	if [ -n "$chinadns" ];then 
+	if [ -n "`pidof chinadns`" ];then
 		echo_date 关闭chinadns进程...
-		kill -9 `pidof chinadns`
+		killall chinadns
+	fi
+	# kill chinadns2
+	if [ -n "`pidof chinadns2`" ];then
+		echo_date 关闭chinadns2进程...
+		killall chinadns2
 	fi
 	# kill dns2socks
-	if [ -n "$DNS2SOCK" ];then 
+	if [ -n "`pidof dns2socks`" ];then
 		echo_date 关闭dns2socks进程...
 		killall dns2socks
 	fi
@@ -243,11 +190,16 @@ kill_process(){
 		echo_date 关闭haproxy进程...
 		killall kcpclient
 	fi
+	# kill cdns
+	if [ -n "`pidof cdns`" ];then
+		echo_date 关闭cdns进程...
+		killall cdns
+	fi
 }
 
 kill_cron_job(){
 	echo_date 删除ss规则定时更新任务.
-	sed -i '/ssupdate/d' /etc/crontabs/root >/dev/null 2>&1 &
+	sed -i '/ssupdate/d' /etc/crontabs/root >/dev/null 2>&1
 }
 
 # ==========================================================================================
@@ -277,24 +229,29 @@ route_add(){
 	fi
 }
 
-# try to resolv the ss server ip if it is domain...
 resolv_server_ip(){
 	if [ -z "$IFIP" ];then
-		# resolve first
-		if [ "$ss_basic_dnslookup" == "1" ];then
-			echo_date 使用nslookup方式解析服务器的ip地址,解析dns：$ss_basic_dnslookup_server
-			server_ip=`nslookup "$ss_basic_server" $ss_basic_dnslookup_server | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
+		# 先尝试解析
+		echo_date 尝试解析SS服务器的ip地址
+		server_ip=`nslookup "$ss_basic_server" 114.114.114.114 | sed '1,4d' | awk '{print $3}' | grep -v :|awk 'NR==1{print}'`
+		if [ "$?" == "0" ]; then
+			echo_date SS服务器的ip地址解析成功：$server_ip.
 		else
-			echo_date 使用resolveip方式解析服务器的ip地址.
+			echo_date SS服务器域名解析失败！
+			echo_date 尝试用resolveip方式解析...
 			server_ip=`resolveip -4 -t 2 $ss_basic_server|awk 'NR==1{print}'`
+			if [ "$?" == "0" ]; then
+		    	echo_date SS服务器的ip地址解析成功：$server_ip.
+			else
+				echo_date 使用resolveip方式SS服务器域名解析失败！建议使用手动更换域名为IP地址！
+			fi
 		fi
 
 		if [ -n "$server_ip" ];then
-			echo_date 服务器的ip地址解析成功：$server_ip.
+			# 解析成功，储存起来
 			ss_basic_server="$server_ip"
 			ss_basic_server_ip="$server_ip"
 			dbus set ss_basic_server_ip="$server_ip"
-			# store resoved ip in skipd
 			echo_date 将解析结果储存到skipd数据库...
 			if [ "$ss_basic_type"  == "1" ];then
 				[ -z "$ssconf_basic_max_node" ] && SSR_NODE="$ssconf_basic_max_node" || SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
@@ -303,7 +260,7 @@ resolv_server_ip(){
 				dbus set ssconf_basic_server_ip_$ss_basic_node="$server_ip"
 			fi
 		else
-			# get pre-resoved ip in skipd
+			# 解析不成功，查找下上次是否有储存
 			echo_date 尝试获取上次储存的解析结果...
 			if [ "$ss_basic_type"  == "1" ];then
 				[ -z "$ssconf_basic_max_node" ] && SSR_NODE="$ssconf_basic_max_node" || SSR_NODE=`expr $ss_basic_node - $ssconf_basic_max_node`
@@ -311,16 +268,18 @@ resolv_server_ip(){
 			elif [ "$ss_basic_type"  == "0" ];then
 				ss_basic_server=`dbus get ssconf_basic_server_ip_$ss_basic_node`
 			fi
-			ss_basic_server_ip="$ss_basic_server"
+			[ -n "$ss_basic_server" ] && ss_basic_server_ip="$ss_basic_server"
 			[ -n "$ss_basic_server" ] && echo_date 成功获取到上次储存的解析结果：$ss_basic_server
 			[ -z "$ss_basic_server" ] && ss_basic_server=`dbus get ss_basic_server` && echo_date SS服务器的ip地址解析失败，将由ss-redir自己解析.
 		fi
 	else
+		# 已经是IP地址了，还解析个毛啊
 		echo_date 检测到你的SS服务器已经是IP格式：$ss_basic_server,跳过解析... 
 		dbus set ss_basic_server_ip="$ss_basic_server"
 		ss_basic_server_ip="$ss_basic_server"
 	fi
 
+	# 用户指定出口
 	[ "$ss_mwan_vps_ip_dst" != "0" ] && [ -n "$ss_basic_server_ip" ] && [ "$ss_basic_server_ip" != "127.0.0.1" ] && route_add $ss_mwan_vps_ip_dst $ss_basic_server_ip
 }
 
@@ -334,7 +293,7 @@ start_kcp(){
 		fi
 		echo_date 启动KCPTUN.
 		start-stop-daemon -S -q -b -m \
-		-p /tmp/var/kcp.pid \
+		-p /tmp/run/kcp.pid \
 		-x /koolshare/bin/kcpclient \
 		-- -l 127.0.0.1:11183 \
 		-r $ss_kcp_server:$ss_kcp_port \
@@ -591,8 +550,10 @@ start_haproxy(){
 
 start_sslocal(){
 	if [ "$ss_basic_type" == "1" ];then
+		echo_date 开启ssr-local，提供socks5端口：23456
 		ssr-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 	elif  [ "$ss_basic_type" == "0" ];then
+		echo_date 开启ss-local，提供socks5端口：23456
 		if [ "$ss_basic_ss_obfs" == "0" ];then
 			ss-local $SPECIAL_ARG -l 23456 -c $CONFIG_FILE -u -f /var/run/sslocal1.pid >/dev/null 2>&1
 		else
@@ -603,39 +564,47 @@ start_sslocal(){
 
 start_dns(){
 	# Start DNS2SOCKS
-	echo_date 开启ss-local，提供socks5端口：23456
 	start_sslocal
 	if [ "1" == "$ss_dns_foreign" ] || [ -z "$ss_dns_foreign" ]; then
 		echo_date 开启dns2socks，监听端口：23456
-		dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
+		#dns2socks 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT > /dev/null 2>&1 &
+		start-stop-daemon -S -q -b -m \
+			-p /tmp/run/dns2socks.pid \
+			-x /koolshare/bin/dns2socks \
+			-- 127.0.0.1:23456 "$ss_dns2socks_user" 127.0.0.1:$DNS_PORT
 	fi
 
 	# Start ss-tunnel
 	if [ "2" == "$ss_dns_foreign" ];then
 		if [ "$ss_basic_type" == "1" ];then
 			echo_date 开启ssr-tunnel...
-			ssr-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+			ssr-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$ss_sstunnel_user" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 		elif  [ "$ss_basic_type" == "0" ];then
 			echo_date 开启ss-tunnel...
-			ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+			ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$ss_sstunnel_user" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			if [ "$ss_basic_ss_obfs" == "0" ];then
-				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$ss_sstunnel_user" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
 			else
-				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$gs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
+				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$ss_sstunnel_user" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
 			fi
 		fi
 	fi
 
 	# Start dnscrypt-proxy
-	if [ "3" == "$ss_dns_foreign" ] && [ "$ss_basic_enable" != "0" ];then
+	if [ "3" == "$ss_dns_foreign" ];then
 		echo_date 开启 dnscrypt-proxy，你选择了"$ss_opendns"节点.
-		dnscrypt-proxy -a 127.0.0.1:$DNS_PORT -d -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R $ss_opendns >/dev/null 2>&1 &
+		#dnscrypt-proxy -a 127.0.0.1:$DNS_PORT -d -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R $ss_opendns >/dev/null 2>&1 &
+		start-stop-daemon -S -q -b -m \
+			-p /tmp/run/dnscrypt-proxy.pid \
+			-x /koolshare/bin/dnscrypt-proxy \
+			-- -a 127.0.0.1:$DNS_PORT -d -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R $ss_opendns
 	fi
 	
 	# Start pdnsd
 	if [ "4" == "$ss_dns_foreign"  ]; then
 		echo_date 开启 pdnsd，pdnsd进程可能会不稳定，请自己斟酌.
 		echo_date 创建$KSROOT/ss/pdnsd文件夹.
+		[ -z "$ss_pdnsd_user" ] && ss_pdnsd_user="8.8.8.8:53"
 		mkdir -p $KSROOT/ss/pdnsd
 		if [ "$ss_pdnsd_method" == "1" ];then
 			echo_date 创建pdnsd配置文件到$KSROOT/ss/pdnsd/pdnsd.conf
@@ -649,42 +618,31 @@ start_dns(){
 					server_ip = 127.0.0.1;
 					status_ctl = on;
 					query_method=udp_only;
-					min_ttl=$ss_pdnsd_server_cache_min;
-					max_ttl=$ss_pdnsd_server_cache_max;
+					min_ttl=24h;
+					max_ttl=1w;
 					timeout=10;
 				}
 				
 				server {
-					label= "LEDE-X64"; 
+					label= "OPENWRT-X64"; 
 					ip = 127.0.0.1;
 					port = 1099;
 					root_server = on;   
 					uptest = none;    
 				}
 				EOF
-			if [ "$ss_pdnsd_udp_server" == "1" ];then
-				echo_date 开启ss-local，提供socks5端口：23456
-				start_sslocal
+				
 				echo_date 开启dns2socks作为pdnsd的上游服务器.
-				dns2socks 127.0.0.1:23456 "$ss_pdnsd_udp_server_dns2socks" 127.0.0.1:1099 > /dev/null 2>&1 &
-			elif [ "$ss_pdnsd_udp_server" == "2" ];then
-				echo_date 开启dnscrypt-proxy作为pdnsd的上游服务器.
-				dnscrypt-proxy --local-address=127.0.0.1:1099 --daemonize -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R "$ss_pdnsd_udp_server_dnscrypt"
-			elif [ "$ss_pdnsd_udp_server" == "3" ];then
-				if [ "$ss_basic_type" == "1" ];then
-					echo_date 开启ssr-tunnel作为pdnsd的上游服务器.
-					ssr-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1099 -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
-				elif  [ "$ss_basic_type" == "0" ];then
-					echo_date 开启ss-tunnel作为pdnsd的上游服务器.
-					if [ "$ss_basic_ss_obfs" == "0" ];then
-						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
-					else
-						ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l $DNS_PORT -L "$dns1" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
-					fi
-				fi
-			fi
+				#dns2socks 127.0.0.1:23456 "$ss_pdnsd_user" 127.0.0.1:1099 > /dev/null 2>&1 &
+				start-stop-daemon -S -q -b -m \
+					-p /tmp/run/dns2socks.pid \
+					-x /koolshare/bin/dns2socks \
+					-- 127.0.0.1:23456 "$ss_pdnsd_user" 127.0.0.1:1099
+
 		elif [ "$ss_pdnsd_method" == "2" ];then
 			echo_date 创建pdnsd配置文件到$KSROOT/ss/pdnsd/pdnsd.conf
+			ss_pdnsd_server_ip=`echo $ss_pdnsd_user|cut -d ":" -f1`
+			ss_pdnsd_server_port=`echo $ss_pdnsd_user|cut -d ":" -f2`
 			echo_date 你选择了-仅tcp查询-，使用"$ss_pdnsd_server_ip":"$ss_pdnsd_server_port"进行tcp查询.
 			cat > $KSROOT/ss/pdnsd/pdnsd.conf <<-EOF
 				global {
@@ -695,8 +653,8 @@ start_dns(){
 					server_ip = 127.0.0.1;
 					status_ctl = on;
 					query_method=tcp_only;
-					min_ttl=$ss_pdnsd_server_cache_min;
-					max_ttl=$ss_pdnsd_server_cache_max;
+					min_ttl=24h;
+					max_ttl=1w;
 					timeout=10;
 				}
 				
@@ -707,7 +665,7 @@ start_dns(){
 					root_server = on;   
 					uptest = none;    
 				}
-				EOF
+			EOF
 		fi
 		
 		chmod 644 $KSROOT/ss/pdnsd/pdnsd.conf
@@ -728,33 +686,49 @@ start_dns(){
 
 	# Start chinadns
 	if [ "5" == "$ss_dns_foreign" ];then
-		echo_date ┏ 你选择了chinaDNS作为解析方案！
-		if [ "$ss_chinadns_foreign_method" == "1" ];then
-			echo_date ┣ 开启ss-local,为dns2socks提供socks5端口：23456
-			start_sslocal
-			echo_date ┣ 开启dns2socks，作为chinaDNS上游国外dns，转发dns：$rcfd
-			dns2socks 127.0.0.1:23456 "$rcfd" 127.0.0.1:1055 >/dev/null 2>&1 &
-		elif [ "$ss_chinadns_foreign_method" == "2" ];then
-			echo_date ┣ 开启 dnscrypt-proxy，作为chinaDNS上游国外dns，你选择了"$ss_chinadns_foreign_dnscrypt"节点.
-			dnscrypt-proxy --local-address=127.0.0.1:1055 --daemonize -L $KSROOT/ss/rules/dnscrypt-resolvers.csv -R $ss_chinadns_foreign_dnscrypt >/dev/null 2>&1
-		elif [ "$ss_chinadns_foreign_method" == "3" ];then
-			if [ "$ss_basic_type" == "1" ];then
-				echo_date ┣ 开启ssr-tunnel，作为chinaDNS上游国外dns，转发dns：$rcfs
-				ssr-tunnel -b 127.0.0.1 -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
-			elif  [ "$ss_basic_type" == "0" ];then
-				echo_date ┣ 开启ss-tunnel，作为chinaDNS上游国外dns，转发dns：$rcfs
-				ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid
-				if [ "$ss_basic_ss_obfs" == "0" ];then
-					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u -f /var/run/sstunnel.pid >/dev/null 2>&1
-				else
-					ss-tunnel -s $ss_basic_server -p $ss_basic_port -c $CONFIG_FILE -l 1055 -L "$rcfs" -u --plugin obfs-local --plugin-opts "$ARG_OBFS" -f /var/run/sstunnel.pid >/dev/null 2>&1
-				fi
+		if [ "$ss_chinadns_method" == "1" ] || [ -z "$ss_chinadns_method" ];then
+			#dns2socks 127.0.0.1:23456 "$ss_chinadns_user" 127.0.0.1:1055 >/dev/null 2>&1 &
+			start-stop-daemon -S -q -b -m \
+				-p /tmp/run/dns2socks.pid \
+				-x /koolshare/bin/dns2socks \
+				-- 127.0.0.1:23456 "$ss_chinadns_user" 127.0.0.1:1055
+			#chinadns -p $DNS_PORT -s "$CDN",127.0.0.1:1055 -m -d -c $KSROOT/ss/rules/chnroute.txt >/dev/null 2>&1 &
+			start-stop-daemon -S -q -b -m \
+				-p /tmp/run/chinadns.pid \
+				-x /koolshare/bin/chinadns \
+				-- -p $DNS_PORT -s "$CDN",127.0.0.1:1055 -m -d -c $KSROOT/ss/rules/chnroute.txt
+		elif [ "$ss_chinadns_method" == "2" ];then
+			echo_date 开启EDNS版chinadns，用于dns解析...
+			clinet_ip="114.114.114.114"
+			public_ip=`curl --connect-timeout 4 -s 'http://members.3322.org/dyndns/getip'`
+			if [ "$?" == "0" ] && [ -n "$public_ip" ];then
+				echo_date 你的公网ip地址是：$public_ip
+				dbus set ss_basic_publicip="$public_ip"
+				clinet_ip=$public_ip
+			else
+				[ -n "$ss_basic_publicip" ] && clinet_ip=$ss_basic_publicip
 			fi
-		elif [ "$ss_chinadns_foreign_method" == "4" ];then
-			echo_date ┣ 你选择了自定义chinadns国外dns！dns：$ss_chinadns_foreign_method_user
+
+			# 用chnroute去判断SS服务器在国内还是在国外
+			if [ -n "$ss_basic_server_ip" ];then
+				FO=`awk -F'[./]' -v ip=$ss_basic_server_ip ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
+			else
+				FO="2333"
+			fi
+			
+			if [ -z "$FO" ];then
+				# ss服务器是国外IP
+				ss_real_server_ip="$ss_basic_server_ip"
+			else
+				# ss服务器是国内ip （可能用了国内中转，那么用谷歌dns ip地址去作为国外edns标签）
+				[ -z "$ss_real_server_ip" ] && ss_real_server_ip="8.8.8.8"
+			fi
+			#chinadns2 -p $DNS_PORT -s 8.8.8.8:53 -e $clinet_ip,$ss_real_server_ip -c /koolshare/ss/rules/chnroute.txt >/dev/null 2>&1 &
+			start-stop-daemon -S -q -b -m \
+				-p /tmp/run/chinadns2.pid \
+				-x /koolshare/bin/chinadns2 \
+				-- -p $DNS_PORT -s 8.8.8.8:53 -e $clinet_ip,$ss_real_server_ip -c /koolshare/ss/rules/chnroute.txt
 		fi
-		echo_date ┗ 开启chinadns进程！
-		chinadns -p $DNS_PORT -s "$rcc",127.0.0.1:1055 -m -d -c $KSROOT/ss/rules/chnroute.txt  >/dev/null 2>&1 &
 	fi
 	
 	# Start Pcap_DNSProxy
@@ -763,17 +737,70 @@ start_dns(){
 			#sed -i "/^Listen Port/c Listen Port = $DNS_PORT" $KSROOT/ss/dns/Config.ini
 			Pcap_DNSProxy -c /koolshare/ss/dns
 	fi
+	
+	# Start cdns
+	if [ "7" == "$ss_dns_foreign" ]; then
+		echo_date 开启cdns，用于dns解析...
+		#cdns -c /koolshare/ss/rules/cdns.json > /dev/null 2>&1 &
+		start-stop-daemon -S -q -b -m \
+			-p /tmp/run/cdns.pid \
+			-x /koolshare/bin/cdns \
+			-- -c /koolshare/ss/rules/cdns.json
+	fi
 }
-#--------------------------------------------------------------------------------------
 
 create_dnsmasq_conf(){
+	if [ "$ss_dns_china" == "1" ];then
+		IFIP_DNS1=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+		IFIP_DNS2=`echo $ISP_DNS2|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+		if [ -n "$IFIP_DNS1" ];then
+			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用114取代之
+			FO1=`awk -F'[./]' -v ip=$IFIP_DNS1 ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
+			if [ -z "$FO1" ];then
+				# 运营商DNS是局域网(国外)ip
+				CDN="114.114.114.114"
+			else
+				# 运营商DNS是国内ip
+				CDN="$ISP_DNS1"
+			fi
+		else
+			CDN="114.114.114.114"
+		fi
+
+		if [ -n "$IFIP_DNS2" ];then
+			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用114取代之
+			FO2=`awk -F'[./]' -v ip=$IFIP_DNS2 ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
+			if [ -z "$FO2" ];then
+				# 运营商DNS是局域网(国外)ip
+				CDN2="114.114.115.115"
+			else
+				# 运营商DNS是国内ip
+				CDN2="$ISP_DNS1"
+			fi
+		else
+			CDN2="114.114.115.115"
+		fi
+	fi
+	[ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
+	[ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
+	[ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
+	[ "$ss_dns_china" == "5" ] && CDN="114.114.115.115"
+	[ "$ss_dns_china" == "6" ] && CDN="1.2.4.8"
+	[ "$ss_dns_china" == "7" ] && CDN="210.2.4.8"
+	[ "$ss_dns_china" == "8" ] && CDN="112.124.47.27"
+	[ "$ss_dns_china" == "9" ] && CDN="114.215.126.16"
+	[ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
+	[ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
+	[ "$ss_dns_china" == "12" ] && {
+		[ -n "$ss_dns_china_user" ] && CDN="$ss_dns_china_user" || CDN="114.114.114.114"
+	}
 	# append china site
 	rm -rf /tmp/sscdn.conf
-	if [ "$ss_dns_plan" == "2" ] && [ "$ss_dns_foreign" != "5" ] && [ "$ss_dns_foreign" != "6" ];then
-		echo_date 生成cdn加速列表到/tmp/sscdn.conf，加速用的dns：$CDN
-		echo "#for china site CDN acclerate" >> /tmp/sscdn.conf
-		cat $KSROOT/ss/rules/cdn.txt | sed "s/^/server=&\/./g" | sed "s/$/\/&$CDN/g" | sort | awk '{if ($0!=line) print;line=$0}' >>/tmp/sscdn.conf
-	fi
+	rm -rf /tmp/custom.conf
+	
+	echo_date 生成cdn加速列表到/tmp/sscdn.conf，加速用的dns：$CDN
+	echo "#for china site CDN acclerate" >> /tmp/sscdn.conf
+	cat $KSROOT/ss/rules/cdn.txt | sed "s/^/server=&\/./g" | sed "s/$/\/&$CDN/g" | sort | awk '{if ($0!=line) print;line=$0}' >>/tmp/sscdn.conf
 
 	# append user defined china site
 	if [ -n "$ss_isp_website_web" ];then
@@ -786,7 +813,6 @@ create_dnsmasq_conf(){
 		done
 	fi
 	
-	rm -rf /tmp/custom.conf
 	if [ -n "$ss_dnsmasq" ];then
 		echo_date 添加自定义dnsmasq设置到/tmp/custom.conf
 		echo "$ss_dnsmasq" | base64_decode | sort -u >> /tmp/custom.conf
@@ -808,18 +834,6 @@ create_dnsmasq_conf(){
 	echo "ipset=/.raw.githubusercontent.com/router" >> /tmp/wblist.conf
 	echo "server=/.apnic.net/127.0.0.1#7913" >> /tmp/wblist.conf
 	echo "ipset=/.apnic.net/router" >> /tmp/wblist.conf
-	# if [ "$ss_basic_online_links_goss" == "1" ];then
-	# 	online_links=`dbus list ss_online_link_|cut -d "=" -f2 |awk -F'/' '{print $3}'|grep .`
-	# 	if [ -n "$online_links" ];then
-	# 		echo_date 应用订阅地址走SS
-	# 		echo "#for online_links" >> //tmp/wblist.conf
-	# 		for online_link in $online_links
-	# 		do 
-	# 			echo "$online_link" | sed "s/^/server=&\/./g" | sed "s/$/\/127.0.0.1#7913/g" >> /tmp/wblist.conf
-	# 			echo "$online_link" | sed "s/^/ipset=&\/./g" | sed "s/$/\/router/g" >> /tmp/wblist.conf
-	# 		done
-	# 	fi
-	# fi
 	# append white domain list,not through ss
 	wanwhitedomain=$(echo $ss_wan_white_domain | base64_decode)
 	if [ -n "$ss_wan_white_domain" ];then
@@ -850,78 +864,54 @@ create_dnsmasq_conf(){
 			echo "$wan_black_domain" | sed "s/^/ipset=&\/./g" | sed "s/$/\/black_list/g" >> /tmp/wblist.conf
 		done
 	fi
-	# ln conf
 	# custom dnsmasq
 	rm -rf /tmp/dnsmasq.d/custom.conf
+	rm -rf /tmp/dnsmasq.d/wblist.conf
+	rm -rf /tmp/dnsmasq.d/cdn.conf
+	
+	# ln conf
 	if [ -f /tmp/custom.conf ];then
 		echo_date 创建域自定义dnsmasq配置文件软链接到/tmp/dnsmasq.d/custom.conf
 		mv /tmp/custom.conf /tmp/dnsmasq.d/custom.conf
 	fi
-	# custom dnsmasq
-	rm -rf /tmp/dnsmasq.d/wblist.conf
 	if [ -f /tmp/wblist.conf ];then
 		echo_date 创建域名黑/白名单软链接到/tmp/dnsmasq.d/wblist.conf
 		mv /tmp/wblist.conf /tmp/dnsmasq.d/wblist.conf
 	fi
-	rm -rf /tmp/dnsmasq.d/cdn.conf
 	if [ -f /tmp/sscdn.conf ];then
 		echo_date 创建cdn加速列表软链接/tmp/dnsmasq.d/cdn.conf
 		mv /tmp/sscdn.conf /tmp/dnsmasq.d/cdn.conf
 	fi
-	gfw_on=`dbus list ss_acl_mode|cut -d "=" -f 2 | grep 1`	
-	rm -rf /tmp/dnsmasq.d/gfwlist.conf
-	if [ "$ss_basic_mode" == "1" ];then
-		echo_date 创建gfwlist的软连接到/tmp/dnsmasq.d/文件夹.
-		ln -sf $KSROOT/ss/rules/gfwlist.conf /tmp/dnsmasq.d/gfwlist.conf
-	elif [ "$ss_basic_mode" == "2" ] || [ "$ss_basic_mode" == "3" ];then
-		if [ ! -f /tmp/dnsmasq.d/gfwlist.conf ] && [ "$ss_dns_plan" == "1" ] || [ -n "$gfw_on" ];then
-			echo_date 创建gfwlist的软连接到/tmp/dnsmasq.d/文件夹.
-			ln -sf $KSROOT/ss/rules/gfwlist.conf /tmp/dnsmasq.d/gfwlist.conf
-		fi
-	fi
-	
-	if [ "$ss_dns_china" == "1" ];then
-		IFIP_DNS1=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
-		IFIP_DNS2=`echo $ISP_DNS2|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
-		[ -n "$IFIP_DNS1" ] && CDN1="$ISP_DNS1" || CDN1="114.114.114.114"
-		[ -n "$IFIP_DNS2" ] && CDN2="$ISP_DNS2" || CDN2="114.114.115.115"
-	fi
-	[ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
-	[ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
-	[ "$ss_dns_china" == "4" ] && CDN="114.114.114.114"
-	[ "$ss_dns_china" == "5" ] && CDN="114.114.115.115"
-	[ "$ss_dns_china" == "6" ] && CDN="1.2.4.8"
-	[ "$ss_dns_china" == "7" ] && CDN="210.2.4.8"
-	[ "$ss_dns_china" == "8" ] && CDN="112.124.47.27"
-	[ "$ss_dns_china" == "9" ] && CDN="114.215.126.16"
-	[ "$ss_dns_china" == "10" ] && CDN="180.76.76.76"
-	[ "$ss_dns_china" == "11" ] && CDN="119.29.29.29"
-	[ "$ss_dns_china" == "12" ] && CDN="$ss_dns_china_user"
+	echo_date 创建gfwlist的软连接到/tmp/dnsmasq.d/文件夹.
+	[ ! -L "/tmp/dnsmasq.d/gfwlist.conf" ] && ln -sf $KSROOT/ss/rules/gfwlist.conf /tmp/dnsmasq.d/gfwlist.conf
 	
 	echo "no-resolv" >> /tmp/dnsmasq.d/ssserver.conf
-	if [ "$ss_dns_plan" == "1" ] || [ -z "$ss_dns_china" ];then
+	gfw_on=`dbus list ss_acl_mode_|cut -d "=" -f 2 | grep -E "1"`
+	chn_on=`dbus list ss_acl_mode_|cut -d "=" -f 2 | grep -E "2|3"`
+	all_on=`dbus list ss_acl_mode_|cut -d "=" -f 2 | grep -E "4"`
+	if [ "$ss_basic_mode" == "1" ] && [ -z "$chn_on" ] && [ -z "$all_on" ];then
 		if [ "$ss_dns_china" == "1" ];then
-			echo_date DNS解析方案国内优先，使用运营商DNS优先解析国内DNS.
+			#echo_date DNS解析方案国内优先，使用运营商DNS优先解析国内DNS.
 			echo "all-servers" >> /tmp/dnsmasq.d/ssserver.conf
-			echo "server=$CDN1#53" >> /tmp/dnsmasq.d/ssserver.conf
+			echo "server=$CDN#53" >> /tmp/dnsmasq.d/ssserver.conf
 			echo "server=$CDN2#53" >> /tmp/dnsmasq.d/ssserver.conf
 		else
-			echo_date DNS解析方案国内优先，使用自定义DNS：$CDN进行解析国内DNS.
+			#echo_date DNS解析方案国内优先，使用自定义DNS：$CDN进行解析国内DNS.
 			echo "server=$CDN#53" >> /tmp/dnsmasq.d/ssserver.conf
 		fi
-	elif [ "$ss_dns_plan" == "2" ];then
-		echo_date DNS解析方案国外优先，优先解析国外DNS.
+
+	else
+		#echo_date DNS解析方案国外优先，优先解析国外DNS.
 		echo "server=127.0.0.1#7913" >> /tmp/dnsmasq.d/ssserver.conf
 	fi
 	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN" ] && route_add $ss_mwan_china_dns_dst $CDN
-	[ "$CDN" != "$CDN1" ] && [ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN1" ] && route_add $ss_mwan_china_dns_dst $CDN1
-	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN2" ] && route_add $ss_mwan_china_dns_dst $CDN2
+	[ "$ss_mwan_china_dns_dst" != "0" ] && [ -n "$CDN2" ] && [ "$CDN" != "$CDN2" ] && route_add $ss_mwan_china_dns_dst $CDN2
 }
 
 #--------------------------------------------------------------------------------------
 auto_start(){
 	# nat start
-	echo_date 添加nat-start触发事件...
+	echo_date 添加koolss防火墙规则
 	uci -q batch <<-EOT
 	  delete firewall.ks_koolss
 	  set firewall.ks_koolss=include
@@ -932,8 +922,6 @@ auto_start(){
 	  commit firewall
 	EOT
 
-	# auto start
-	echo_date 加入开机自动启动...
 	[ ! -L "/etc/rc.d/S99koolss.sh" ] && ln -sf $KSROOT/init.d/S99koolss.sh /etc/rc.d/S99koolss.sh
 
 	# cron job
@@ -1087,7 +1075,12 @@ add_white_black_ip(){
 	#ip1=$(nvram get wan0_ipaddr | cut -d"." -f1,2)
 	#ip1=`cat /etc/config/pppoe|grep localip | awk '{print $4}'| cut -d"." -f1,2`
 	[ ! -z "$ss_basic_server_ip" ] && SERVER_IP=$ss_basic_server_ip || SERVER_IP=""
-	ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 $SERVER_IP 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 112.124.47.27 114.215.126.16 180.76.76.76 119.29.29.29 $ISP_DNS1 $ISP_DNS2"
+	IFIP_DNS1=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+	IFIP_DNS2=`echo $ISP_DNS2|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
+	[ -n "$IFIP_DNS1" ] && ISP_DNS_a="$ISP_DNS1" || ISP_DNS_a=""
+	[ -n "$IFIP_DNS2" ] && ISP_DNS_b="$ISP_DNS2" || ISP_DNS_a=""
+	
+	ip_lan="0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4 $SERVER_IP 223.5.5.5 223.6.6.6 114.114.114.114 114.114.115.115 1.2.4.8 210.2.4.8 112.124.47.27 114.215.126.16 180.76.76.76 119.29.29.29 $ISP_DNS_a $ISP_DNS_b"
 	for ip in $ip_lan
 	do
 		ipset -! add white_list $ip >/dev/null 2>&1
@@ -1345,13 +1338,13 @@ chromecast(){
 	is_right_lanip=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53" |grep "$lan_ipaddr"`
 	if [ "$ss_basic_chromecast" == "1" ];then
 		if [ -z "$chromecast_nu" ]; then
-			iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
+			iptables -t nat -A PREROUTING -p udp -s $(get_lan_cidr) --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 			echo_date $LOG1
 		else
 			if [ -z "$is_right_lanip" ]; then
 				echo_date 黑名单模式开启DNS劫持
 				iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
-				iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
+				iptables -t nat -A PREROUTING -p udp -s $(get_lan_cidr) --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
 			else
 				echo_date DNS劫持规则已经添加，跳过~
 			fi
@@ -1365,7 +1358,7 @@ chromecast(){
 }
 # =======================================================================================================
 load_nat(){
-	echo_date "加载nat规则!"
+	echo_date "开始加载nat规则!"
 	flush_nat
 	creat_ipset
 	add_white_black_ip
@@ -1491,9 +1484,11 @@ restart)
 	echo_date ---------------------------------------------------------------------------------------
 	# stop first
 	restore_dnsmasq_conf
+	#if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
 	if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
 		restart_dnsmasq
 	else
+		[ "$ss_dns_foreign" == "5" ] && [ "$ss_chinadns_method" == "2" ] && restart_dnsmasq
 		[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
 	fi
 	flush_nat
@@ -1513,8 +1508,8 @@ restart)
 	start_kcp
 	load_nat
 	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-	restart_dnsmasq
 	start_dns
+	restart_dnsmasq
 	write_numbers
 	echo_date ------------------------- koolss 启动完毕 -------------------------
 	flock -u 1000
