@@ -5,7 +5,7 @@ Koolshare LEDE-X64 shadowsocks Changelog
    - update	更新shadowsocksRR-libev 到最新（2018年4月20日编译）；
    - update	极大的简化了DNS设定逻辑，让设定更加方便易懂；
    - add	新增cdns解析，该解析支持ECS；
-   - add	新增ChinaDNS ESC版解析，项目地址：https://github.com/aa65535/ChinaDNS；
+   - add	新增ChinaDNS ECS，项目地址：https://github.com/aa65535/ChinaDNS；
    - fix	修复dnscrypt-proxy在新固件内不可用的问题；
    - update	更新dnscrypt-proxy DNS列表到最新；
    - remove	移除DNS解析偏好选项，现在会根据使用模式自动选择；
