@@ -1,6 +1,6 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.7.2]
-!x  -----update[rules]: 2018-4-12 20:20
+!x  -----update[rules]: 2018-4-22 18:47
 !x  -----QQ group: 595300867<1-group> 203726739<2-group> 369773525<3-group>
 !x  -----Thanks: From KP Rule Group -- <houzi-> <Carseason>
 !x  -----Thanks for help: <yiclear> <adbyby>
@@ -182,5 +182,5 @@ tiexue.net##div[style*="overflow: hidden; position: fixed;"]
 www.tiexue.net##style + p + div[class]
 tiexue.net##style + script + div + div[class]
 |http://www.creaders.net##.ads_pic
-
+btbtt.co##.wrapper_bg_c.hidden-xs
 !x  -----------------------------------------------------------------------------------------------------------------
