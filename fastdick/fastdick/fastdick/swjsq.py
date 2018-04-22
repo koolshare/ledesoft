@@ -29,6 +29,11 @@ except ImportError as ex:
     print("Error: cannot import module ssl or hashlib (%s)." % str(ex))
     print("If you are using openwrt, run \"opkg install python-openssl\"")
     os._exit(0)
+try:
+    import zlib
+except ImportError as ex:
+    print("Warning: cannot import module zlib (%s)." % str(ex))
+    # TODO: if there's a python dist that is not bundled with zlib ever exists, disable gzip Accept-Encoding
 
 #xunlei use self-signed certificate; on py2.7.9+
 if hasattr(ssl, '_create_unverified_context') and hasattr(ssl, '_create_default_https_context'):
@@ -51,11 +56,13 @@ PY3K = sys.version_info[0] == 3
 if not PY3K:
     import urllib2
     from urllib2 import URLError
+    from urllib import quote as url_quote
     from cStringIO import StringIO as sio
     #rsa_pubexp = long(rsa_pubexp)
 else:
     import urllib.request as urllib2
     from urllib.error import URLError
+    from urllib.parse import quote as url_quote
     from io import BytesIO as sio
 
 account_session = '.swjsq.session'
@@ -67,7 +74,10 @@ log_file = 'swjsq.log'
 login_xunlei_intv = 600 # do not login twice in 10min
 
 DEVICE = "SmallRice R1"
+DEVICE_MODEL = "R1"
 OS_VERSION = "5.0.1"
+OS_API_LEVEL = "24"
+OS_BUILD = "LRX22C"
 
 header_xl = {
     'Content-Type':'',
@@ -79,7 +89,7 @@ header_api = {
     'Content-Type':'',
     'Connection': 'Keep-Alive',
     'Accept-Encoding': 'gzip',
-    'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android %s; %s Build/LRX22C)' % (OS_VERSION, DEVICE)
+    'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android %s; %s Build/%s)' % (OS_VERSION, DEVICE_MODEL, OS_BUILD)
 }
 
 
@@ -181,7 +191,15 @@ def http_req(url, headers = {}, body = None, encoding = 'utf-8'):
     if sys.version.startswith('3') and isinstance(body, str):
         body = bytes(body, encoding = 'ascii')
     resp = urllib2.urlopen(req, data = body, timeout = 60)
-    ret = resp.read().decode(encoding)
+    buf = resp.read()
+    # check if response is gzip encoded
+    if buf.startswith(b'\037\213'):
+        try:
+            buf = zlib.decompress(buf, 16 + zlib.MAX_WBITS) # skip gzip headers
+        except Exception as ex:
+            print('Warning: malformed gzip response (%s).' % str(ex))
+            # buf is unchanged
+    ret = buf.decode(encoding)
     if sys.version.startswith('3') and isinstance(ret, bytes):
         ret = str(ret)
     return ret
@@ -247,7 +265,7 @@ class fast_d1ck(object):
                 #    "n": long2hex(rsa_mod)
                 #},
                 #"extensionList": "",
-                "deviceModel": DEVICE,
+                "deviceModel": DEVICE_MODEL,
                 "deviceName": DEVICE,
                 "OSVersion": OS_VERSION
         }
@@ -281,6 +299,12 @@ class fast_d1ck(object):
         return json.loads(ct)
 
     def renew_xunlei(self):
+        _ = int(login_xunlei_intv - time.time() + self.last_login_xunlei)
+        if _ > 0: 
+            print("sleep %ds to prevent login flood" % _)
+            time.sleep(_)
+        self.last_login_xunlei = time.time()
+
         _payload = dict(self.xl_login_payload)
         _payload.update({
             "sequenceNo": "1000001",
@@ -298,21 +322,23 @@ class fast_d1ck(object):
 
     def api(self, cmd, extras = '', no_session = False):
         ret = {}
-        for _k1, api_url_k, _v in (('down', 'api_url', 'do_down_accel'), ('up', 'api_up_url','do_up_accel')):
+        for _k1, api_url_k, _clienttype, _v in (('down', 'api_url', 'swjsq', 'do_down_accel'), ('up', 'api_up_url', 'uplink', 'do_up_accel')):
             if not getattr(self, _v):
                 continue
             while True:
                 # missing dial_account, (userid), os
                 api_url = getattr(self, api_url_k)
-                url = 'http://%s/v2/%s?%sclient_type=android-swjsq-%s&peerid=%s&time_and=%d&client_version=androidswjsq-%s&userid=%s&os=android-5.0.1.23SmallRice%s' % (
+                # TODO: phasing out time_and
+                url = 'http://%s/v2/%s?%sclient_type=android-%s-%s&peerid=%s&time_and=%d&client_version=android%s-%s&userid=%s&os=android-%s%s' % (
                         api_url,
                         cmd,
                         ('sessionid=%s&' % self.xl_session) if not no_session else '',
-                        APP_VERSION,
+                        _clienttype, APP_VERSION,
                         self.mac,
                         time.time() * 1000,
-                        APP_VERSION,
+                        _clienttype, APP_VERSION,
                         self.xl_uid,
+                        url_quote("%s.%s%s" % (OS_VERSION, OS_API_LEVEL, DEVICE_MODEL)),
                         ('&%s' % extras) if extras else '',
                 )
                 try:
@@ -336,14 +362,20 @@ class fast_d1ck(object):
             print('Error: sub account can not upgrade')
             os._exit(3)
 
-        if not self.xl_session:
-            dt = self.login_xunlei(uname, pwd)
-        else:
-            dt = self.renew_xunlei()
+        login_methods = [lambda : self.login_xunlei(uname, pwd)]
+        if self.xl_session:
+            login_methods.insert(0, self.renew_xunlei)
 
-        if dt['errorCode'] != "0" or not self.xl_session or not self.xl_loginkey:
-            uprint('Error: login xunlei failed, %s' % dt['errorDesc'], 'Error: login failed')
-            print(dt)
+        failed = True
+        for _lm in login_methods:
+            dt = _lm()
+            if dt['errorCode'] != "0" or not self.xl_session or not self.xl_loginkey:
+                uprint('Error: login xunlei failed, %s' % dt['errorDesc'], 'Error: login failed')
+                print(dt)
+            else:
+                failed = False
+                break
+        if failed:
             os._exit(1)
         print('Login xunlei succeeded')
         
@@ -353,25 +385,28 @@ class fast_d1ck(object):
             vipList = []
         else:
             vipList = dt['vipList']
+        # chaoji member
         if vipList and vipList[0]['isVip'] == "1" and vipList[0]['vasType'] == "5" and vipList[0]['expireDate'] > yyyymmdd: # choaji membership
             self.do_down_accel = True
-            self.do_up_accel = True
+            # self.do_up_accel = True
             print('Expire date for chaoji member: %s' % vipList[0]['expireDate'])
-        else:
-            _vas_debug = []
-            for _vas, _name, _v in ((VASID_DOWN, 'fastdick', 'do_down_accel'), (VASID_UP, 'upstream acceleration', 'do_up_accel')):
-                _dt = self.check_xunlei_vas(_vas)
-                if 'vipList' not in _dt or not _dt['vipList']:
-                    continue
-                for vip in _dt['vipList']:
-                    if vip['vasid'] == str(_vas):
-                        _vas_debug.append(vip)
-                        if vip['isVip'] == "1":
-                            if vip['expireDate'] < yyyymmdd:
-                                print('Warning: Your %s membership expires on %s' % (_name, vip['expireDate']))
-                            else:
-                                print('Expire date for %s: %s' % (_name, vip['expireDate']))
-                                setattr(self, _v, True)
+        # kuainiao down/up member
+        _vas_debug = []
+        for _vas, _name, _v in ((VASID_DOWN, 'fastdick', 'do_down_accel'), (VASID_UP, 'upstream acceleration', 'do_up_accel')):
+            if getattr(self, _v): # don't check again if vas is activated in other membership
+                continue
+            _dt = self.check_xunlei_vas(_vas)
+            if 'vipList' not in _dt or not _dt['vipList']:
+                continue
+            for vip in _dt['vipList']:
+                if vip['vasid'] == str(_vas):
+                    _vas_debug.append(vip)
+                    if vip['isVip'] == "1":
+                        if vip['expireDate'] < yyyymmdd:
+                            print('Warning: Your %s membership expires on %s' % (_name, vip['expireDate']))
+                        else:
+                            print('Expire date for %s: %s' % (_name, vip['expireDate']))
+                            setattr(self, _v, True)
                 
             if not self.do_down_accel and not self.do_up_accel:
                 print('Error: You are neither xunlei fastdick member nor upstream acceleration member, buy buy buy!\nDebug: %s' % _vas_debug)
@@ -407,7 +442,7 @@ class fast_d1ck(object):
         
         if not self.do_down_accel and not self.do_up_accel:
             print("Error: neither downstream nor upstream can be upgraded")
-            #os._exit(3)
+            os._exit(3)
         
         _avail = api_ret[list(api_ret.keys())[0]]
         
@@ -417,11 +452,11 @@ class fast_d1ck(object):
               
         _dial_account = _avail['dial_account']
 
-        #_script_mtime = os.stat(os.path.realpath(__file__)).st_mtime
-        #if not os.path.exists(shell_file) or os.stat(shell_file).st_mtime < _script_mtime:
-        #    self.make_wget_script(pwd, _dial_account)
-        #if not os.path.exists(ipk_file) or os.stat(ipk_file).st_mtime < _script_mtime:
-            #update_ipk()
+       # _script_mtime = os.stat(os.path.realpath(__file__)).st_mtime
+       # if not os.path.exists(shell_file) or os.stat(shell_file).st_mtime < _script_mtime:
+       #     self.make_wget_script(pwd, _dial_account)
+       # if not os.path.exists(ipk_file) or os.stat(ipk_file).st_mtime < _script_mtime:
+        #    update_ipk()
 
         #print(_)
         def _atexit_func():
@@ -439,11 +474,19 @@ class fast_d1ck(object):
         while True:
             has_error = False
             try:
-                # self.state=1~17 keepalive, renew session, self.state++
+                # self.state=1~17 keepalive,  self.state++
                 # self.state=18 (3h) re-upgrade all, self.state-=18
                 # self.state=100 login, self.state:=18
                 if self.state == 100:
-                    dt = self.login_xunlei(uname, pwd)
+                    _dt_t = self.renew_xunlei()
+                    if int(_dt_t['errorCode']):
+                        time.sleep(60)
+                        dt = self.login_xunlei(uname, pwd)
+                        if int(dt['errorCode']):
+                            self.state = 100
+                            continue
+                    else:
+                        _dt_t = dt
                     self.state = 18
                 if self.state % 18 == 0:#3h
                     print('Initializing upgrade')
@@ -461,10 +504,10 @@ class fast_d1ck(object):
                     if _upgrade_done:
                         print("Upgrade done: %s" % ", ".join(_upgrade_done))
                 else:
-                    _dt_t = self.renew_xunlei()
-                    if _dt_t['errorCode']:
-                        self.state = 100
-                        continue
+                    # _dt_t = self.renew_xunlei()
+                    # if _dt_t['errorCode']:
+                    #     self.state = 100
+                    #     continue
                     try:
                         api_ret = self.api('keepalive')
                     except Exception as ex:
@@ -580,40 +623,63 @@ while true; do
             sleep $slp
         fi
         last_login_xunlei=$tmstmp
-        log "login xunlei"
-        ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/login $POST_ARG"'''+json.dumps(self.xl_login_payload).replace('"','\\"')+'''" --header "$UA_XL"`
-        session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
-        session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
-        uid_temp=`echo $ret|grep -oE "userID...[0-9]{9}"`
-        uid=`echo $uid_temp|grep -oE "[0-9]{9}"`
-        loginkey=`echo $ret|grep -oE "lk...[a-f,0-9,\.]{96}"`
-        i=18
-        if [ -z "$session" ]; then
-            log "login session is empty"
-            i=100
-            sleep 60
-            uid=$uid_orig
-            continue
-        else
-            log "session is $session"
+
+        if [ ! -z "$loginkey" ]; then
+            log "renew xunlei"
+            ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/loginkey $POST_ARG"'''+json.dumps(xl_renew_payload).replace('"','\\"')+'''" --header "$UA_XL"`
+            error_code=`echo $ret|grep -oE "errorCode...[0-9]+"|grep -oE "[0-9]+"`
+            if [[ -z $error_code || $error_code -ne 0 ]]; then
+                log "renew error code $error_code"
+            fi
+            session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
+            session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
+            if [ -z "$session" ]; then
+                log "renew session is empty"
+                sleep 60
+            else
+                log "session is $session"
+            fi
         fi
 
-        if [ -z "$uid" ]; then
-            #echo "uid is empty"
-            uid=$uid_orig
-        else
-            log "uid is $uid"
+        if [ -z "$session" ]; then
+            log "login xunlei"
+            ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/login $POST_ARG"'''+json.dumps(self.xl_login_payload).replace('"','\\"')+'''" --header "$UA_XL"`
+            session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
+            session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
+            uid_temp=`echo $ret|grep -oE "userID...[0-9]+"`
+            uid=`echo $uid_temp|grep -oE "[0-9]+"`
+            if [ -z "$session" ]; then
+                log "login session is empty"
+                uid=$uid_orig
+            else
+                log "session is $session"
+            fi
+
+            if [ -z "$uid" ]; then
+                #echo "uid is empty"
+                uid=$uid_orig
+            else
+                log "uid is $uid"
+            fi
         fi
+
+        if [ -z "$session" ]; then
+            sleep 600
+            continue
+        fi
+
+        loginkey=`echo $ret|grep -oE "lk...[a-f,0-9,\.]{96}"`
+        i=18
     fi
 
     if test $i -eq 18; then
         log "upgrade"
         _ts=`date +%s`0000
         if test $do_down_accel -eq 1; then
-            $HTTP_REQ "$api_url/upgrade?peerid=$peerid&userid=$uid&sessionid=$session&user_type=1&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"
+            $HTTP_REQ "$api_url/upgrade?peerid=$peerid&userid=$uid&sessionid=$session&user_type=1&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"
         fi
         if test $do_up_accel -eq 1; then
-            $HTTP_REQ "$api_up_url/upgrade?peerid=$peerid&userid=$uid&sessionid=$session&user_type=1&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"
+            $HTTP_REQ "$api_up_url/upgrade?peerid=$peerid&userid=$uid&sessionid=$session&user_type=1&client_type=android-uplink-'''+APP_VERSION+'''&time_and=$_ts&client_version=androiduplink-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"
         fi
         i=1
         sleep 590
@@ -628,40 +694,21 @@ while true; do
         orig_day_of_month=$day_of_month
         _ts=`date +%s`0000
         if test $do_down_accel -eq 1; then
-            $HTTP_REQ "$api_url/recover?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"
+            $HTTP_REQ "$api_url/recover?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"
         fi
         if test $do_up_accel -eq 1; then
-            $HTTP_REQ "$api_up_url/recover?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"
+            $HTTP_REQ "$api_up_url/recover?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-uplink-'''+APP_VERSION+'''&time_and=$_ts&client_version=androiduplink-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"
         fi
         sleep 5
         i=100
         continue
     fi
 
-    log "renew xunlei"
-    ret=`$HTTP_REQ https://mobile-login.xunlei.com:443/loginkey $POST_ARG"'''+json.dumps(xl_renew_payload).replace('"','\\"')+'''" --header "$UA_XL"`
-    error_code=`echo $ret|grep -oE "errorCode...[0-9]+"|grep -oE "[0-9]+"`
-    if [[ -z $error_code || $error_code -ne 0 ]]; then
-        i=100
-        continue
-    fi
-    session_temp=`echo $ret|grep -oE "sessionID...[A-F,0-9]{32}"`
-    session=`echo $session_temp|grep -oE "[A-F,0-9]{32}"`
-    loginkey=`echo $ret|grep -oE "lk...[a-f,0-9,\.]{96}"`
-    if [ -z "$session" ]; then
-        log "renew session is empty"
-        i=100
-        sleep 60
-        uid=$uid_orig
-        continue
-    else
-        log "session is $session"
-    fi
 
     log "keepalive"
     _ts=`date +%s`0000
     if test $do_down_accel -eq 1; then
-        ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"`
+        ret=`$HTTP_REQ "$api_url/keepalive?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"`
         if [[ -z $ret ]]; then
             sleep 60
             i=18
@@ -676,7 +723,7 @@ while true; do
         fi
     fi
     if test $do_up_accel -eq 1; then
-        ret=`$HTTP_REQ "$api_up_url/keepalive?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-swjsq-'''+APP_VERSION+'''&time_and=$_ts&client_version=androidswjsq-'''+APP_VERSION+'''&os=android-5.0.1.24SmallRice&dial_account='''+dial_account+'''"`
+        ret=`$HTTP_REQ "$api_up_url/keepalive?peerid=$peerid&userid=$uid&sessionid=$session&client_type=android-uplink-'''+APP_VERSION+'''&time_and=$_ts&client_version=androiduplink-'''+APP_VERSION+'''&os=android-'''+OS_VERSION+'.'+OS_API_LEVEL+DEVICE_MODEL+'''&dial_account='''+dial_account+'''"`
         if [[ -z $ret ]]; then
             sleep 60
             i=18
@@ -796,8 +843,6 @@ if __name__ == '__main__':
     try:
         if os.path.exists(account_file_plain):
             uid, pwd = open(account_file_plain).read().strip().split(',')
-            if PY3K:
-                pwd = pwd.encode('utf-8')
             ins.run(uid, pwd)
         elif os.path.exists(account_session):
             with open(account_session) as f:

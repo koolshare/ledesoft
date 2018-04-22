@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=fastdick
-VERSION=0.6
+VERSION=0.7
 TITLE=迅雷快鸟
 DESCRIPTION=宽带上下行提速
 HOME_URL=Module_fastdick.asp
-CHANGELOG="修复多次登陆的问题"
+CHANGELOG="同步快鸟最新API"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
