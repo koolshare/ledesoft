@@ -1,9 +1,9 @@
 {
-"version":"0.4",
-"md5":"1ceef085030a55b34955ea45f89ddd56",
+"version":"0.5",
+"md5":"07316d02d50c3fac8da04aeb41d9b1bd",
 "home_url":"Module_unifi.asp",
 "title":"Unifi Controller",
 "description":"Debian系统和Unifi控制器",
-"changelog":"安装盘不显示boot分区",
-"build_date":"2018-01-05_15:00:31"
+"changelog":"支持升级控制器",
+"build_date":"2018-04-22_21:39:26"
 }

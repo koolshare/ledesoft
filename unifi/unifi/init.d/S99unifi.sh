@@ -16,7 +16,10 @@ eval `dbus export unifi_`
 
 
 start(){
-	[ "$unifi_enable" == "1" ] && /koolshare/scripts/unifi_config.sh
+	[ "$unifi_enable" == "1" ] && {
+    sleep 30
+    /koolshare/scripts/unifi_config.sh
+  }
 }
 
 stop(){

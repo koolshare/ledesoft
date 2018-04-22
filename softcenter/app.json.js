@@ -111,15 +111,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2018-04-20_21:41:48", 
-            "changelog": "修复全端口过滤功能", 
+            "build_date": "2018-04-22_21:34:28", 
+            "changelog": "配置页面更新调整", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "6d6433f2041aac065bc6f5d615c75cb5", 
+            "md5": "dc04a6e92ff688c89f909c6c3d5cf14c", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.7.2.3"
+            "version": "3.7.2.4"
         }, 
         {
             "build_date": "2017-12-23_19:00:42", 
@@ -221,15 +221,15 @@
             "version": "2.1"
         }, 
         {
-            "build_date": "2018-01-05_15:00:31", 
-            "changelog": "安装盘不显示boot分区", 
+            "build_date": "2018-04-22_21:39:26", 
+            "changelog": "支持升级控制器", 
             "description": "Debian系统和Unifi控制器", 
             "home_url": "Module_unifi.asp", 
-            "md5": "1ceef085030a55b34955ea45f89ddd56", 
+            "md5": "07316d02d50c3fac8da04aeb41d9b1bd", 
             "name": "unifi", 
             "tar_url": "unifi/unifi.tar.gz", 
             "title": "Unifi Controller", 
-            "version": "0.4"
+            "version": "0.5"
         }, 
         {
             "build_date": "2017-10-19_16:08:11", 

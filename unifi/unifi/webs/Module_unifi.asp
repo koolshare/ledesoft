@@ -190,6 +190,43 @@ No part of this file may be used without permission.
 			});
 		}
 
+		function update_unifi(o){
+			verifyFields();
+			// disable update botton when in update progress
+			E('save-button').disabled = true;
+			// collect basic data
+			var para_chk = ["unifi_enable","unifi_debian"];
+			var para_inp = ["unifi_on_disk","unifi_mode"];
+			// collect data from checkbox
+			for (var i = 0; i < para_chk.length; i++) {
+				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
+			}
+			// data from other element
+			for (var i = 0; i < para_inp.length; i++) {
+				if (!E('_' + para_inp[i] ).value){
+					dbus[para_inp[i]] = "";
+				}else{
+					dbus[para_inp[i]] = E('_' + para_inp[i]).value;
+				}
+			}
+			// post data
+			var id2 = parseInt(Math.random() * 100000000);
+			var postData2 = {"id": id2, "method": "unifi_config.sh", "params":[o], "fields": dbus};
+			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
+			$.ajax({
+				url: "/_api/",
+				cache:false,
+				type: "POST",
+				dataType: "json",
+				data: JSON.stringify(postData2),
+				error: function(){
+					showMsg("msg_error","失败","<b>当前系统存在异常查看系统日志！</b>");
+				}
+			});
+			reload = 1;
+			tabSelect("app3");
+		}
+		
 	</script>
 
 	<div class="box">
@@ -209,11 +246,17 @@ No part of this file may be used without permission.
 		<div class="content">
 			<div id="identification" class="section"></div>
 			<script type="text/javascript">
+				var option_auth = [['1', '稳定版'],['2', '开发版'],['3', '快速预览版']];
 				$('#identification').forms([
 					{ title: '开启', name:'unifi_enable',type:'checkbox',value: dbus.unifi_enable == 1 },
 					{ title: '运行状态', text: '<font id="_unifi_status" name=_unifi_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '只安装Debian系统', name:'unifi_debian',type:'checkbox',value: dbus.unifi_debian == 1 },
 					{ title: '安装目录', name:'unifi_on_disk',type:'select', options:[], value: dbus.unifi_on_disk ,suffix: '选择空闲空间大于5G的硬盘' },
+					{ title: 'Unifi控制器版本', name: 'unifi_mode', type: 'select', options: option_auth, value: dbus.unifi_mode },
+					{ title: 'Unifi控制器', multi: [ 
+						{ name:'update_unifi',suffix: ' <button id="_update_now" onclick="update_unifi(1);" class="btn btn-primary">检查升级</button>' },
+						{ name:'change_unifi',suffix: ' <button id="_change_now" onclick="update_unifi(2);" class="btn btn-primary">切换版本</button>' },
+					] },
 					{ title: '控制器管理', name:'unifi_url' ,text: '<a href=https://' + location.hostname + ":8443" + '/ target="_blank"><u>https://'  + location.hostname + ":8443" + '</u></a>' },
 				]);
 			</script>
