@@ -15,7 +15,6 @@ dbus set softcenter_module_hotfix_title=HOTFIX
 dbus set softcenter_module_hotfix_version=0.1
 dbus set softcenter_module_hotfix_description="无疼修复当前固件中的BUG"
 
-
 # ====================== fix start ===============================
 version_local=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
 
@@ -63,6 +62,15 @@ if [ "$?" != "0" ];then
 		wget -O- "https://ledesoft.ngrok.wang/$name/$name/init.d/$file" >/koolshare/init.d/$file
 	done
 	chmod +x /koolshare/init.d/*
+fi
+
+# host fix for firmware under 2.14 for flock missing (2018-4-23 16:56:10)
+if [ "`/koolshare/bin/versioncmp $version_local 2.14`" == "1" ];then
+	if [ -z "`which flock`" ];then
+		cd /tmp/hotfix/hotfix
+		chmod +x flock_2.32-1_x86_64.ipk
+		opkg install ./flock_2.32-1_x86_64.ipk
+	fi
 fi
 
 # ====================== fix end ===============================

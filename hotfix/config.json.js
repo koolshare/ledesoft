@@ -1,9 +1,9 @@
 {
-"version":"0.2.1",
-"md5":"490a66b06111fed13c311f29ac022a7a",
+"version":"0.2.2",
+"md5":"49a0257be686c7fe4478d649953e6b96",
 "home_url":"Module_hotfix.asp",
 "title":"HOTFIX",
 "description":"快速修复当前固件中的BUG",
-"changelog":"修复2.12科学上网无法使用的bug",
-"build_date":"2017-12-24_11:03:58"
+"changelog":"修复flock缺失的问题",
+"build_date":"2018-04-23_17:06:33"
 }
