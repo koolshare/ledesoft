@@ -147,6 +147,7 @@ creat_ipset(){
 	# Load ipset netfilter kernel modules and kernel modules
 	ipset -! create white_kp_list nethash
 	ipset -! create black_koolproxy iphash
+	cat $KP_DIR/data/rules/koolproxy.txt | grep -Eo "(.\w+\:[1-9][0-9]{1,4})/" | grep -Eo "([0-9]{1,5})" | sort -un | sed -e '$a\80' -e '$a\443' | sed -e "s/^/-A kp_full_port &/g" -e "1 i\-N kp_full_port bitmap:port range 0-65535 " | ipset -R -!
 }
 
 add_white_black_ip(){
@@ -223,6 +224,7 @@ flush_nat(){
 	iptables -t nat -X KP_ALL_PORT > /dev/null 2>&1
 	ipset -F black_koolproxy > /dev/null 2>&1 && ipset -X black_koolproxy > /dev/null 2>&1
 	ipset -F white_kp_list > /dev/null 2>&1 && ipset -X white_kp_list > /dev/null 2>&1
+	ipset -F kp_full_port > /dev/null 2>&1 && ipset -X kp_full_port > /dev/null 2>&1
 }
 
 get_acl_para(){
@@ -273,7 +275,8 @@ load_nat(){
 	iptables -t nat -N KP_HTTPS
 	iptables -t nat -A KP_HTTPS -p tcp -m multiport --dport 80,443 -j REDIRECT --to-ports 3000
 	iptables -t nat -N KP_ALL_PORT
-	iptables -t nat -A KP_ALL_PORT -p tcp -j REDIRECT --to-ports 3000
+#	iptables -t nat -A KP_ALL_PORT -p tcp -j REDIRECT --to-ports 3000
+	iptables -t nat -A KP_ALL_PORT -p tcp -m set --match-set kp_full_port dst -j REDIRECT --to-ports 3000
 	# 局域网控制
 	lan_acess_control
 	# 剩余流量转发到缺省规则定义的链中

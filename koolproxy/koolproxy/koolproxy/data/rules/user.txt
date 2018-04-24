@@ -34,7 +34,7 @@
 !  ||torrentzap.com##.tp_reccomend_banner,.ad_top,[class="ad_right"]......
 !  ------------------------------------------------------------------------------------------
 !  文本替换语法：$s@匹配内容@替换内容@
-!  非标准端口过滤语法：||abc.com:8081/ad.html
+!  非标准端口过滤语法：||abc.com:8081/ad.html或者|http://adb.com:8081/
 !  文本替换例子：|http://cdn.pcbeta.js.inimc.com/data/cache/common.js?$s@old@new@
 !  重定向语法：$r@匹配内容@替换内容@
 !  重定向例子：|http://koolshare.cn$r@http://koolshare.cn/*@http://www.qq.com@
