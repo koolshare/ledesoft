@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=unifi
-VERSION=0.5
+VERSION=0.6
 TITLE="Unifi Controller"
 DESCRIPTION=Debian系统和Unifi控制器
 HOME_URL=Module_unifi.asp
-CHANGELOG="支持升级控制器"
+CHANGELOG="修复初始安装问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
