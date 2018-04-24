@@ -1,9 +1,9 @@
 {
-"version":"3.7.2.5",
-"md5":"c97e24bb5196d66f4a97c9a5acc476a2",
+"version":"3.7.2.6",
+"md5":"3d189f8df7198965679642d25c7a7a28",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
-"changelog":"优化全端口过滤",
-"build_date":"2018-04-24_22:15:10"
+"changelog":"修复全端口过滤",
+"build_date":"2018-04-24_22:55:13"
 }

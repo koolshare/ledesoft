@@ -1,6 +1,6 @@
 ﻿!x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.7.3-beta]
-!x  -----update[rules]: 2018-4-22 18:47
+!x  -----update[rules]: 2018-4-23 20:38
 !x  -----update[video]: 2018-4-22 18:47
 !x  -----QQ group: 595300867<1-group> 203726739<2-group> 369773525<3-group>
 !x  -----Thanks: From KP Rule Group -- <houzi-> <Carseason>
@@ -3763,6 +3763,7 @@
 |https://nicorette.co.kr
 |https://m.youtube.com/_get_ads\
 |https://m.autohome.com.cn/news/img_resource/source/commonimgs^
+|https://message.csdn.net/msg.popup.js$script
 |https://pingjs.qq.com^
 |https://s.youtube.com^
 |https://ss0.bdstatic.com/*/tam-ogel/$script
@@ -3812,6 +3813,7 @@
 @@|https://www.qidian.com/Javascript/qidian.common.js?
 |https://www.77kp.com/bd/
 |https://ads.exoclick.com/
+|https://ad.csdn.net^
 |https://ad.ettoday.net
 |https://adserver.juicyads.com/js/
 |https://cpro.baidustatic.com^
@@ -10106,6 +10108,7 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 |https://hao.360.cn###large2small
 |https://m.kuaidi100.com##[id="kuaidiBoxM"]
 |https://m.qidian.com##div.app_download
+|https://m.blog.csdn.net##[width="400"]
 |https://www.17173.com##[class^="tg-bevel-bg tg-bevel-bg"][class$="classNameForSetLinkSearch"]
 !|https://www.bilibili.com##[class^="gg-"],.adpos,div#b_app_link,div.goto-mobile,[data-id="68"],.live-ad-full,.index-promote,.ad-f,[data-id^="490"],[data-ad-type],.data-id-ad,.ad-e1
 |https://wenku.baidu.com###ggbtm
@@ -10123,6 +10126,8 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 ||https://cnbeta.com##.cbv,.tigerstock,div.time,ins.adsbygoogle,[href="http://www.dangbei.com/?cnbeta"],[class="item cooperation"],.cbhelp,[href^="http://click.aliyun.com/m/"],.commt-r,#fixed_area,#aswift_0_expand,.other_news,a[href^="https://www.tigerbrokers.com/market/"],.article-global,.cnbeta-side-sponsor
 ||https://cnbeta.com##.cbv810
 ||https://cnbeta.com##[id^="dfb-wrapper-"]
+||https://csdn.net##.yd_a_d_feed_cla,[data-mod^="ad_popu_"]
+||https://csdn.net###tad2,div#ad_top,DIV[class^="ad_"],#Topic_Top,div#ad_left,div#ad_right,DIV.AD.mb-bg,.enter-AD,.top_ad,.ad .J_adv,.dl_mar_b,.J_adv
 ||https://fc2livecn.com##.m-lbxLst-bnr
 ||https://golangtc.com###ads,[href^="https://www.upyun.com/zh/solution_video.html?utm_source=Golang&utm_medium=ad&"],.bar,#content-bar,[href^="http://click.aliyun.com/"]
 ||https://loldytt.com##div[id^="qj960"],div[id^="qj300"],div#xinxi,div#gouwu,div#xinnxi,div#xinxii,div#xinxin
