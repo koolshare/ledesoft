@@ -12,6 +12,7 @@ do
 done
 
 sleep 1
+rm -rf /etc/hotplug.d/iface/97-routetable
 rm -rf $KSROOT/scripts/routetable*
 rm -rf $KSROOT/routetable
 rm -rf $KSROOT/webs/Module_routetable.asp

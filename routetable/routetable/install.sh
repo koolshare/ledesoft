@@ -5,7 +5,6 @@ source $KSROOT/scripts/base.sh
 
 cp -rf /tmp/routetable/scripts/* $KSROOT/scripts/
 cp -rf /tmp/routetable/webs/* $KSROOT/webs/
-cp -rf /tmp/routetable/hotplug/* /etc/hotplug.d/iface/
 cp /tmp/routetable/uninstall.sh $KSROOT/scripts/uninstall_routetable.sh
 
 chmod +x $KSROOT/scripts/routetable_*
