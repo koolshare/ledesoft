@@ -21,7 +21,6 @@ start_koolproxy(){
 	[ -f "$KSROOT/bin/koolproxy" ] && rm -rf $KSROOT/bin/koolproxy
 	[ ! -L "$KSROOT/bin/koolproxy" ] && ln -sf $KSROOT/koolproxy/koolproxy $KSROOT/bin/koolproxy
 	[ "$koolproxy_mode" == "3" ] && EXT_ARG="-e" || EXT_ARG=""
-	#[ "$koolproxy_filter_ss" == "1" ] && EXT_ARG2="--mark --ttl 160" || EXT_ARG2=""
 	cd $KP_DIR && koolproxy $EXT_ARG --mark -d
 }
 
@@ -31,16 +30,11 @@ stop_koolproxy(){
 	killall koolproxy >/dev/null 2>&1
 }
 
-# ===============================
-# this part for start up wan/nat
 creat_start_up(){
-	echo_date 加入开机自动启动...
-	[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && ln -sf $SOFT_DIR/init.d/S93koolproxy.sh /etc/rc.d/S93koolproxy.sh
-}
-
-del_start_up(){
-	echo_date 删除开机自动启动...
-	rm -rf /etc/rc.d/S93koolproxy.sh >/dev/null 2>&1
+	[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && {
+		echo_date 加入开机自动启动...
+		ln -sf $SOFT_DIR/init.d/S93koolproxy.sh /etc/rc.d/S93koolproxy.sh
+	}
 }
 
 write_nat_start(){
@@ -93,12 +87,14 @@ remove_ipset_conf(){
 }
 
 del_dns_takeover(){
-	ss_chromecast=`uci -q get shadowsocks.@global[0].dns_53`
 	ss_enable=`iptables -t nat -L SHADOWSOCKS 2>/dev/null |wc -l`
+	ss_chromecast=`dbus get ss_basic_chromecast`
 	[ -z "$ss_chromecast" ] && ss_chromecast=0
-	if [ "$ss_chromecast" -eq 0 ] || [ "$ss_chromecast" -eq 1 ] && [ "$ss_enable" -eq 0 ]; then
+	if [ "$ss_enable" == "0" ]; then
 		chromecast_nu=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53"|awk '{print $1}'`
 		[ -n "$chromecast_nu" ] && iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
+	else
+		[ "$ss_chromecast" == "0" ] && [ -n "$chromecast_nu" ] && iptables -t nat -D PREROUTING $chromecast_nu >/dev/null 2>&1
 	fi
 }
 
@@ -107,18 +103,6 @@ restart_dnsmasq(){
 		echo_date 重启dnsmasq进程...
 		/etc/init.d/dnsmasq restart > /dev/null 2>&1
 	fi
-}
-
-add_ss_event(){
-	start=`dbus list __event__onssstart_|grep koolproxy`
-	if [ -z "$start" ];then
-		echo_date 添加ss事件触发：当ss启用或者重启，重新加载koolproxy的nat规则.
-		dbus event onssstart_koolproxy $KP_DIR/koolproxy.sh
-	fi
-}
-
-remove_ss_event(){
-	dbus remove __event__onssstart_koolproxy
 }
 
 write_reboot_job(){
@@ -332,94 +316,77 @@ detect_cert(){
 	fi
 }
 
-get_rule_para(){
-	echo `dbus get koolproxy_rule_list|sed 's/>/\n/g'|sed '/^$/d'|awk NR==$1{print}|cut -d "<" -f "$2"`
+set_lock(){
+	exec 1000>"$LOCK_FILE"
+	flock -x 1000
+}
+
+unset_lock(){
+	flock -u 1000
+	rm -rf "$LOCK_FILE"
 }
 
 case $1 in
 start)
-	{
-		flock -x 1000
-		{
-			echo_date ================== koolproxy启用 =================
-			rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
-			detect_cert
-			start_koolproxy
-			add_ipset_conf && restart_dnsmasq
-			creat_ipset
-			add_white_black_ip
-			load_nat
-			dns_takeover
-			creat_start_up
-			write_nat_start
-			write_reboot_job
-			# add_ss_event
-			echo_date =================================================
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	set_lock
+	echo_date ================== koolproxy启用 =================
+	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
+	detect_cert
+	start_koolproxy
+	add_ipset_conf && restart_dnsmasq
+	creat_ipset
+	add_white_black_ip
+	load_nat
+	dns_takeover
+	write_nat_start
+	write_reboot_job
+	echo_date =================================================
+	unset_lock
 	;;
 restart)
-	{
-		flock -x 1000
-		{
-			# now stop
-			echo_date ================== 关闭 =================
-			rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
-			remove_ss_event
-			remove_reboot_job
-			del_dns_takeover
-			remove_ipset_conf
-			remove_nat_start
-			flush_nat
-			stop_koolproxy
-			del_start_up
-			# now start
-			echo_date ================== koolproxy启用 =================
-			detect_cert
-			start_koolproxy
-			add_ipset_conf && restart_dnsmasq
-			creat_ipset
-			add_white_black_ip
-			load_nat
-			dns_takeover
-			creat_start_up
-			write_nat_start
-			write_reboot_job
-			add_ss_event
-			echo_date koolproxy启用成功，请等待日志窗口自动关闭，页面会自动刷新...
-			echo_date =================================================
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	set_lock
+	# now stop
+	echo_date ================== 关闭 =================
+	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
+	remove_reboot_job
+	del_dns_takeover
+	remove_ipset_conf
+	remove_nat_start
+	flush_nat
+	stop_koolproxy
+	# now start
+	echo_date ================== koolproxy启用 =================
+	detect_cert
+	start_koolproxy
+	add_ipset_conf && restart_dnsmasq
+	creat_ipset
+	add_white_black_ip
+	load_nat
+	dns_takeover
+	creat_start_up
+	write_nat_start
+	write_reboot_job
+	echo_date koolproxy启用成功，请等待日志窗口自动关闭，页面会自动刷新...
+	echo_date =================================================
+	unset_lock
 	;;
 stop)
-	{
-		flock -x 1000
-		{
-			remove_ss_event
-			remove_reboot_job
-			del_dns_takeover
-			remove_ipset_conf && restart_dnsmasq
-			remove_nat_start
-			flush_nat
-			stop_koolproxy
-			del_start_up
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	set_lock
+	remove_reboot_job
+	del_dns_takeover
+	remove_ipset_conf && restart_dnsmasq
+	remove_nat_start
+	flush_nat
+	stop_koolproxy
+	unset_lock
 	;;
 *)
-	{
-		flock -x 1000
-		{
-			flush_nat
-			creat_ipset
-			add_white_black_ip
-			load_nat
-			dns_takeover
-		}
-		flock -u 1000
-	} 1000<>"$LOCK_FILE"
+	set_lock
+	flush_nat
+	creat_ipset
+	add_white_black_ip
+	load_nat
+	dns_takeover
+	unset_lock
 	;;
 esac
