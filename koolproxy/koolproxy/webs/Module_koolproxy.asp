@@ -275,9 +275,11 @@ No part of this file may be used without permission.
 			var f = (E('_koolproxy_reboot').value == '1');
 			var g = (E('_koolproxy_reboot').value == '2');
 			var h = (E('_koolproxy_mode').value == '2');
-//			var p = (E('_koolproxy_all_port').value);
+			var x = (E('_koolproxy_port').value == '1');
+			var p = (E('_koolproxy_bp_port').value);
 			E('_koolproxy_mode').disabled = !a;
-//			E('_koolproxy_all_port').disabled = !a;
+			E('_koolproxy_port').disabled = !a			
+//			E('_koolproxy_bp_port').disabled = !a;
 			E('_koolproxy_reboot').disabled = !a;
 			E('_download_cert').disabled = !a;
 			elem.display('_koolproxy_reboot_hour', a && f);
@@ -287,6 +289,7 @@ No part of this file may be used without permission.
 			elem.display('koolproxy_reboot_inter_hour_suf', a && g);
 			elem.display('koolproxy_reboot_inter_hour_pre', a && g);
 			elem.display(PR('_koolproxy_host'), h);
+			elem.display(PR('_koolproxy_bp_port'), x);
 		}
 		
 		function tabSelect(obj){
@@ -323,7 +326,8 @@ No part of this file may be used without permission.
 			dbus.koolproxy_enable = E('_koolproxy_enable').checked ? '1':'0';
 			dbus.koolproxy_host = E('_koolproxy_host').checked ? '1':'0';
 			dbus.koolproxy_mode = E('_koolproxy_mode').value;
-//			dbus.koolproxy_all_port = E('_koolproxy_all_port').value;
+			dbus.koolproxy_port = E('_koolproxy_port').value;
+			dbus.koolproxy_bp_port = E('_koolproxy_bp_port').value;
 			dbus.koolproxy_reboot = E('_koolproxy_reboot').value;
 			dbus.koolproxy_reboot_hour = E('_koolproxy_reboot_hour').value;
 			dbus.koolproxy_reboot_inter_hour = E('_koolproxy_reboot_inter_hour').value;
@@ -435,7 +439,8 @@ No part of this file may be used without permission.
 					{ title: 'Koolproxy运行状态', text: '<font id="_koolproxy_status" name=_koolproxy_status color="#1bbf35">正在获取运行状态...</font>' },
 					{ title: 'Koolproxy规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
 					{ title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式'],['3','视频模式']],value: dbus.koolproxy_mode || "1" },
-//					{ title: '开启全端口过滤', name:'koolproxy_all_port',type:'select',options:[['0','关闭'],['1','开启']],value: dbus.koolproxy_all_port || "0" },
+					{ title: '端口控制', name:'koolproxy_port',type:'select',options:[['0','关闭'],['1','开启']],value: dbus.koolproxy_port || "0" },					
+					{ title: '例外端口', name:'koolproxy_bp_port',type:'text',style:'input_style', maxlen:20, value:dbus.koolproxy_bp_port ,suffix: '<font color="#FF0000">单端口:80</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">多端口:80,443</font>'},
 					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: dbus.koolproxy_host == 1, suffix: '<lable id="_koolproxy_host_nu"></lable>' },
 					{ title: '插件自动重启', multi: [
 						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },
@@ -453,9 +458,9 @@ No part of this file may be used without permission.
 		<div class="content">
 			<div class="tabContent">	
 				<table class="line-table" cellspacing=1 id="ctrl-grid"></table>
-			</div>
+			</div>		
 			<br><hr>
-			<h4>Notes</h4>
+			<h4>使用手册</h4>
 			<div class="section" id="sesdiv_notes2">
 				<ul>
 					<li>过滤https站点广告需要为相应设备安装证书，并启用http + https过滤！</li>
@@ -465,6 +470,7 @@ No part of this file may be used without permission.
 					<li>在路由器下的设备，不管是电脑，还是移动设备，都可以在浏览器中输入<i><b>110.110.110.110</b></i>来下载证书。</i></li>
 					<li>如果想在多台装有koolroxy的路由设备上使用一个证书，请用winscp软件备份/koolshare/koolproxy/data文件夹，并上传到另一台路由。</li>
 					<li><font color="red">注意！全端口过滤【full port】效果牛逼和覆盖的范围更广，但却对设备的性能有非常高的要求，请根据自己的设备的情况进行选择！</font></li>
+					<li><font color="red">注意！如果使用全端口过滤【full port】导致一些端口出现问题，可以开启端口控制，进行例外端口排除！</font></li>					
 				</ul>
 			</div>
 			<br><hr>
