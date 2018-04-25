@@ -413,10 +413,8 @@
 			return [ data[0], option_mode_name[data[1]], data[2] || "节点" + data.length, data[3], data[4], data[5], data[6], (data[7] == 0 ? "" : data[7]), data[8], data[9]];
 		}
 		ss_node.verifyFields = function( row, quiet ) {
-			//E('_ss_node-grid_1').style.display = "none";
-			//E('_ss_node-grid_10').style.display = "none";
 			var f = fields.getAll( row );
-			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet );
+			return v_port( f[4], quiet );
 		}
 		ss_node.resetNewEditor = function() {
 			var f;
@@ -774,7 +772,7 @@
 		var ssr_node = new TomatoGrid();
 		ssr_node.verifyFields = function( row, quiet ) {
 			var f = fields.getAll( row );
-			return v_iptaddr( f[3], quiet ) && v_port( f[4], quiet ) && v_domain( f[10], quiet );
+			return v_port( f[4], quiet );
 		}
 		ssr_node.resetNewEditor = function() {
 			var f;

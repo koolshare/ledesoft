@@ -1,5 +1,9 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.0.7
+   - update	去除节点列表对于服务器ip验证和混淆参数的域名验证
+   - update 更新判断ip地址是否国外的验证方式
+
 2.0.6
    - update	为了更好的兼容，更新shadowsocks-libev 3.1.3和obfs-local 0.0.5的静态编译版本（2018年4月21日编译）
    

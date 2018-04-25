@@ -709,19 +709,18 @@ start_dns(){
 				[ -n "$ss_basic_publicip" ] && clinet_ip=$ss_basic_publicip
 			fi
 
-			# 用chnroute去判断SS服务器在国内还是在国外
 			if [ -n "$ss_basic_server_ip" ];then
-				FO=`awk -F'[./]' -v ip=$ss_basic_server_ip ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
+				ipset test chnroute $ss_basic_server_ip > /dev/null 2>&1
+				if [ "$?" != "0" ];then
+					# ss服务器是国外IP
+					ss_real_server_ip="$ss_basic_server_ip"
+				else
+					# ss服务器是国内ip （可能用了国内中转，那么用谷歌dns ip地址去作为国外edns标签）
+					ss_real_server_ip="8.8.8.8"
+				fi
 			else
-				FO="2333"
-			fi
-			
-			if [ -z "$FO" ];then
-				# ss服务器是国外IP
-				ss_real_server_ip="$ss_basic_server_ip"
-			else
-				# ss服务器是国内ip （可能用了国内中转，那么用谷歌dns ip地址去作为国外edns标签）
-				[ -z "$ss_real_server_ip" ] && ss_real_server_ip="8.8.8.8"
+				# ss服务器可能是域名，并且没有得到解析结果，用8.8.8.8替换之
+				ss_real_server_ip="8.8.8.8"
 			fi
 			#chinadns2 -p $DNS_PORT -s 8.8.8.8:53 -e $clinet_ip,$ss_real_server_ip -c /koolshare/ss/rules/chnroute.txt >/dev/null 2>&1 &
 			start-stop-daemon -S -q -b -m \
@@ -730,7 +729,7 @@ start_dns(){
 				-- -p $DNS_PORT -s 8.8.8.8:53 -e $clinet_ip,$ss_real_server_ip -c /koolshare/ss/rules/chnroute.txt
 		fi
 	fi
-	
+
 	# Start Pcap_DNSProxy
 	if [ "6" == "$ss_dns_foreign"  ]; then
 			echo_date 开启Pcap_DNSProxy..
@@ -754,32 +753,34 @@ create_dnsmasq_conf(){
 		IFIP_DNS1=`echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
 		IFIP_DNS2=`echo $ISP_DNS2|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:"`
 		if [ -n "$IFIP_DNS1" ];then
-			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用114取代之
-			FO1=`awk -F'[./]' -v ip=$IFIP_DNS1 ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
-			if [ -z "$FO1" ];then
-				# 运营商DNS是局域网(国外)ip
+			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用取代之
+			ipset test chnroute $ISP_DNS1 > /dev/null 2>&1
+			if [ "$?" != "0" ];then
+				# 运营商DNS：ISP_DNS1是局域网(国外)ip
 				CDN="114.114.114.114"
 			else
-				# 运营商DNS是国内ip
+				# 运营商DNS：ISP_DNS1是国内ip
 				CDN="$ISP_DNS1"
 			fi
 		else
+			# 运营商DNS：ISP_DNS1不是ip格式，用114取代之
 			CDN="114.114.114.114"
 		fi
 
 		if [ -n "$IFIP_DNS2" ];then
-			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用114取代之
-			FO2=`awk -F'[./]' -v ip=$IFIP_DNS2 ' {for (i=1;i<=int($NF/8);i++){a=a$i"."} if (index(ip, a)==1){split( ip, A, ".");b=int($NF/8);if (A[b+1]<($(NF+b-4)+2^(8-$NF%8))&&A[b+1]>=$(NF+b-4)) print ip,"belongs to",$0} a=""}' /koolshare/ss/rules/chnroute.txt`
-			if [ -z "$FO2" ];then
-				# 运营商DNS是局域网(国外)ip
+			# 用chnroute去判断运营商DNS是否为局域网(国外)ip地址，有些二级路由的是局域网ip地址，会被ChinaDNS 判断为国外dns服务器，这个时候用取代之
+			ipset test chnroute $ISP_DNS2 > /dev/null 2>&1
+			if [ "$?" != "0" ];then
+				# 运营商DNS：ISP_DNS2是局域网(国外)ip
 				CDN2="114.114.115.115"
 			else
-				# 运营商DNS是国内ip
-				CDN2="$ISP_DNS1"
+				# 运营商DNS：ISP_DNS2是国内ip
+				CDN2="$ISP_DNS2"
 			fi
 		else
+			# 运营商DNS：ISP_DNS2不是ip格式，用114取代之
 			CDN2="114.114.115.115"
-		fi
+		fi		
 	fi
 	[ "$ss_dns_china" == "2" ] && CDN="223.5.5.5"
 	[ "$ss_dns_china" == "3" ] && CDN="223.6.6.6"
@@ -1359,8 +1360,8 @@ chromecast(){
 # =======================================================================================================
 load_nat(){
 	echo_date "开始加载nat规则!"
-	flush_nat
-	creat_ipset
+	#flush_nat
+	#creat_ipset
 	add_white_black_ip
 	apply_nat_rules
 	chromecast
@@ -1460,6 +1461,8 @@ restart_by_fw(){
 	restore_dnsmasq_conf
 	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
 	kill_process
+	flush_nat
+	creat_ipset
 	load_nat
 	start_ss_redir
 	start_kcp
@@ -1502,6 +1505,7 @@ restart)
 	resolv_server_ip
 	ss_arg
 	[ -z "$ONSTART" ] && creat_ss_json
+	creat_ipset
 	create_dnsmasq_conf
 	auto_start
 	start_ss_redir
