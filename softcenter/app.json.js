@@ -177,6 +177,17 @@
             "version": "1.1"
         }, 
         {
+            "build_date": "2018-04-26_13:50:07", 
+            "changelog": "", 
+            "description": "增强路由NAT能力", 
+            "home_url": "Module_hwnat.asp", 
+            "md5": "3ed528254b38c482f85bbdc2bf32f9f7", 
+            "name": "hwnat", 
+            "tar_url": "hwnat/hwnat.tar.gz", 
+            "title": "NAT硬件加速", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-12-22_12:53:59", 
             "changelog": "升级BIN文件", 
             "description": "强大易用的全平台同步工具", 
