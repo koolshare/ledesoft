@@ -57,7 +57,7 @@ rm -rf /tmp/koolproxy* >/dev/null 2>&1
 
 # remove old files if exist
 find /etc/rc.d/ -name *koolproxy.sh* | xargs rm -rf
-[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && ln -sf $SOFT_DIR/init.d/S93koolproxy.sh /etc/rc.d/S93koolproxy.sh
+[ ! -L "/etc/rc.d/S93koolproxy.sh" ] && ln -sf $KSROOT/init.d/S93koolproxy.sh /etc/rc.d/S93koolproxy.sh
 
 [ -z "$koolproxy_mode" ] && dbus set koolproxy_mode="1"
 [ -z "$koolproxy_acl_default" ] && dbus set koolproxy_acl_default="1"
