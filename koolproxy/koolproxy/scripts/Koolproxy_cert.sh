@@ -53,6 +53,7 @@ restore() {
 	rm -rf $CA_DIR
 	rm -f /tmp/upload/koolproxyCA.tar.gz
 	rm -rf /tmp/upload/koolproxyca.tar.gz
+	rm -rf $KSROOT/koolproxy/data/koolproxyCA.tar.gz
 	echo_date "证书恢复成功！"
 }
 
@@ -69,6 +70,7 @@ case $2 in
 2)
 	#恢复证书
 	restore >> $LOG_FILE
+	/etc/rc.d/S93koolproxy restart
 	http_response "$1"
 	echo XU6J03M6 >> $LOG_FILE
 	;;
