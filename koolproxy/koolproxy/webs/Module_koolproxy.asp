@@ -293,9 +293,9 @@ No part of this file may be used without permission.
 		}
 		
 		function tabSelect(obj){
-			var tableX = ['app1-server1-jb-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-rz-tab'];
-			var boxX = ['boxr1','boxr3','boxr4','boxr5'];
-			var appX = ['app1','app3','app4','app5'];
+			var tableX = ['app1-server1-jb-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-zsgl-tab','app6-server1-rz-tab'];
+			var boxX = ['boxr1','boxr3','boxr4','boxr5','boxr6'];
+			var appX = ['app1','app3','app4','app5','app6'];
 			for (var i = 0; i < tableX.length; i++){
 				if(obj == appX[i]){
 					$('#'+tableX[i]).addClass('active');
@@ -305,7 +305,7 @@ No part of this file may be used without permission.
 					$('.'+boxX[i]).hide();
 				}
 			}
-			if(obj=='app5'){
+			if(obj=='app6'){
 				setTimeout("get_log();", 400);
 				elem.display('save-button', false);
 				elem.display('cancel-button', false);
@@ -364,7 +364,7 @@ No part of this file may be used without permission.
 				}
 			});
 			reload = 1;
-			tabSelect("app5");
+			tabSelect("app6");
 		}
 		
 		function get_log(){
@@ -414,7 +414,62 @@ No part of this file may be used without permission.
 				}
 			});
 		}
-
+		function kp_cert(script, arg){
+			var id = parseInt(Math.random() * 100000000);
+			var postData = {"id": id, "method": script, "params":[arg], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					if (script == "kp_cert.sh"){
+						if (arg == 1){
+							var a = document.createElement('A');
+							a.href = "/files/koolproxyca.tar.gz";
+							a.download = 'koolproxyCA.tar.gz';
+							document.body.appendChild(a);
+							a.click();
+							document.body.removeChild(a);
+						}else if (arg == 2){
+							setTimeout("window.location.reload()", 1000);							
+						}
+					}
+				}
+			});
+		}
+		function restore_cert(){
+			var filename = $("#file").val();
+			filename = filename.split('\\');
+			filename = filename[filename.length-1];
+			var filelast = filename.split('.');
+			filelast = filelast[filelast.length-1];
+			if(filelast !='gz'){
+				alert('恢复文件格式不正确！');
+				return false;
+			}
+			var formData = new FormData();
+			formData.append('koolproxyCA.tar.gz', $('#file')[0].files[0]);
+			$('.popover').html('正在恢复，请稍后……');
+			//changeButton(true);
+			$.ajax({
+				url: '/_upload',
+				type: 'POST',
+				async: true,
+				cache:false,
+				data: formData,
+				processData: false,
+				contentType: false,
+				complete:function(res){
+					if(res.status==200){
+						kp_cert('kp_cert.sh', 2);
+					}
+				}
+			});
+		}
+		
 	</script>
 
 	<div class="box">
@@ -427,7 +482,8 @@ No part of this file may be used without permission.
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-jb-tab" class="active"><i class="icon-system"></i> 基本设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-kz-tab"><i class="icon-tools"></i> 访问控制</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-server1-zdy-tab"><i class="icon-hammer"></i> 自定义规则</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-rz-tab"><i class="icon-info"></i> 日志信息</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-zsgl-tab"><i class="icon-lock"></i> 证书管理</a></li>		
+		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-server1-rz-tab"><i class="icon-info"></i> 日志信息</a></li>
 	</ul>
 	<div class="box boxr1" style="margin-top: 0px;">
 		<div class="heading">基本设置</div>
@@ -491,6 +547,18 @@ No part of this file may be used without permission.
 		</div>
 	</div>
 	<div class="box boxr5">
+		<div class="heading">证书管理</div>
+		<div class="content">
+			<div id="kp_certificate_management" class="section"></div>
+			<script type="text/javascript">
+				$('#kp_certificate_management').forms([
+					{ title: '证书备份', suffix: '<button onclick="kp_cert(\'kp_cert.sh\', 1);" class="btn btn-success">证书下载 <i class="icon-download"></i></button>' },
+					{ title: '证书恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_cert();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' }
+				]);
+			</script>
+		</div>
+	</div>	
+	<div class="box boxr6">
 		<div class="heading">状态日志</div>
 		<div class="content">
 			<div class="section kp_log content">
