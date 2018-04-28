@@ -11,7 +11,6 @@ mkdir -p /tmp/upload
 rm -rf $KSROOT/bin/koolproxy >/dev/null 2>&1
 rm -rf $KSROOT/res/icon-koolproxy.png >/dev/null 2>&1
 rm -rf $KSROOT/scripts/Koolproxy_* >/dev/null 2>&1
-rm -rf $KSROOT/scripts/kp_cert.sh >/dev/null 2>&1
 rm -rf $KSROOT/webs/module_Koolproxy.asp >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/koolproxy >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/*.sh >/dev/null 2>&1

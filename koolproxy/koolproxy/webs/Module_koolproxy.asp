@@ -2,7 +2,6 @@
 Tomato GUI
 Copyright (C) 2006-2010 Jonathan Zarate
 http://www.polarcloud.com/tomato/
-
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
@@ -61,7 +60,6 @@ No part of this file may be used without permission.
 					}
 				}
 			}
-
 		}
 		kpacl.fieldValuesToData = function( row ) {
 			var f = fields.getAll( row );
@@ -78,14 +76,11 @@ No part of this file may be used without permission.
 				
 			}
 		}
-
     	kpacl.onChange = function(which, cell) {
     	    return this.verifyFields((which == 'new') ? this.newEditor: this.editor, true, cell);
     	}
-
 		kpacl.verifyFields = function( row, quiet, cell) {
 			var f = fields.getAll( row );
-
 			if ( $(cell).attr("id") == "_[object HTMLTableElement]_1" ) {
 				if (f[0].value){
 					f[1].value = option_arp_list[f[0].selectedIndex][2];
@@ -102,7 +97,6 @@ No part of this file may be used without permission.
 			if (f[1].value && f[2].value){
 				return v_ip( f[1], quiet ) || v_mac( f[2], quiet );
 			}
-
 			if (f[0].value == "自定义"){
 				console.log("sucess!");
 				kpacl.updateUI;
@@ -110,15 +104,11 @@ No part of this file may be used without permission.
 		}
 		kpacl.onAdd = function() {
 			var data;
-
 			this.moving = null;
 			this.rpHide();
-
 			if (!this.verifyFields(this.newEditor, false)) return;
-
 			data = this.fieldValuesToData(this.newEditor);
 			this.insertData(1, data);
-
 			this.disableNewEditor(false);
 			this.resetNewEditor();
 		}
@@ -169,7 +159,6 @@ No part of this file may be used without permission.
 			});
 			setTimeout("get_run_status();", 1000);
 		}
-
 		function get_arp_list(){
 			var id = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id, "method": "KoolProxy_getarp.sh", "params":[], "fields": ""};
@@ -210,7 +199,6 @@ No part of this file may be used without permission.
 				timeout:1000
 			});
 		}
-
 		function unique_array(array){
 			var r = [];
 			for(var i = 0, l = array.length; i < l; i++) {
@@ -232,7 +220,6 @@ No part of this file may be used without permission.
 			  	}
 			});
 		}
-
 		function get_run_status(){
 			var id1 = parseInt(Math.random() * 100000000);
 			var postData1 = {"id": id1, "method": "KoolProxy_status.sh", "params":[2], "fields": ""};
@@ -260,7 +247,6 @@ No part of this file may be used without permission.
 				}
 			});
 		}	
-
 		function download_cert(){
 			location.href = "http://110.110.110.110";
 		}
@@ -308,18 +294,14 @@ No part of this file may be used without permission.
 			if(obj=='app6'){
 				setTimeout("get_log();", 400);
 				elem.display('save-button', false);
-				elem.display('cancel-button', false);
 			}else{
 				elem.display('save-button', true);
-				elem.display('cancel-button', true);
 			}
 		}
-
 		function showMsg(Outtype, title, msg){
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 			$('#'+Outtype).show();
 		}
-
 		function save(){
 			verifyFields();
 			// collect basic data
@@ -402,7 +384,6 @@ No part of this file may be used without permission.
 				}
 			});
 		}
-
 		function get_user_txt() {
 			$.ajax({
 				url: '/_temp/user.txt',
@@ -415,6 +396,7 @@ No part of this file may be used without permission.
 			});
 		}
 		function kp_cert(script, arg){
+			tabSelect("app6");
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": ""};
 			$.ajax({
@@ -425,8 +407,11 @@ No part of this file may be used without permission.
 				data: JSON.stringify(postData),
 				dataType: "json",
 				success: function(response){
-					if (script == "kp_cert.sh"){
+					console.log("id", id);
+					console.log("response", response);
+					if (response.result == id){
 						if (arg == 1){
+							console.log("333");
 							var a = document.createElement('A');
 							a.href = "/files/koolproxyca.tar.gz";
 							a.download = 'koolproxyCA.tar.gz';
@@ -434,7 +419,7 @@ No part of this file may be used without permission.
 							a.click();
 							document.body.removeChild(a);
 						}else if (arg == 2){
-							setTimeout("window.location.reload()", 1000);							
+							setTimeout("window.location.reload()", 1000);
 						}
 					}
 				}
@@ -464,12 +449,11 @@ No part of this file may be used without permission.
 				contentType: false,
 				complete:function(res){
 					if(res.status==200){
-						kp_cert('kp_cert.sh', 2);
+						kp_cert('Koolproxy_cert.sh', 2);
 					}
 				}
 			});
 		}
-		
 	</script>
 
 	<div class="box">
@@ -552,7 +536,7 @@ No part of this file may be used without permission.
 			<div id="kp_certificate_management" class="section"></div>
 			<script type="text/javascript">
 				$('#kp_certificate_management').forms([
-					{ title: '证书备份', suffix: '<button onclick="kp_cert(\'kp_cert.sh\', 1);" class="btn btn-success">证书下载 <i class="icon-download"></i></button>' },
+					{ title: '证书备份', suffix: '<button onclick="kp_cert(\'Koolproxy_cert.sh\', 1);" class="btn btn-success">证书备份 <i class="icon-download"></i></button>' },
 					{ title: '证书恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_cert();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' }
 				]);
 			</script>
@@ -566,7 +550,6 @@ No part of this file may be used without permission.
 					y = Math.floor(docu.getViewSize().height * 0.55);
 					s = 'height:' + ((y > 300) ? y : 300) + 'px;display:block';
 					$('.section.kp_log').append('<textarea class="as-script" name="koolproxy_log" id="_koolproxy_log" wrap="off" style="max-width:100%; min-width: 100%; margin: 0; ' + s + '" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>');
-
 				</script>
 			</div>
 		</div>
@@ -578,6 +561,5 @@ No part of this file may be used without permission.
 	<div id="msg_error" class="alert alert-error icon" style="display:none;">
 	</div>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">保存 <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 	<script type="text/javascript">init_kp();</script>
 </content>
