@@ -447,15 +447,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2018-04-28_21:19:54", 
+            "build_date": "2018-04-28_21:30:45", 
             "changelog": "添加证书管理", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "ae6ecadafac0c0ac58d4591ac07ece91", 
+            "md5": "b9c1d4b5bff4e700fb51fead5decabd1", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.7.2.10"
+            "version": "3.7.2.11"
         }, 
         {
             "build_date": "2017-12-28_14:30:24", 

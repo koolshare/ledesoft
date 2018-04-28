@@ -2,30 +2,30 @@
 
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
-alias echo_date='echo ¡¾$(date +%YÄê%mÔÂ%dÈÕ\ %X)¡¿:'
+alias echo_date='echo ã€$(date +%Yå¹´%mæœˆ%dæ—¥\ %X)ã€‘:'
 LOG_FILE=/tmp/upload/kp_log.txt
 CA_DIR=/tmp/upload/CA/
 echo "" > $LOG_FILE
 
 backup() {
-	echo_date "¿ªÊ¼±¸·ÝÖ¤Êé£¡"
+	echo_date "å¼€å§‹å¤‡ä»½è¯ä¹¦ï¼"
 	mkdir -p $KSROOT/webs/files
 	
 	if [ ! -f $KSROOT/koolproxy/data/private/ca.key.pem ]; then
-		echo_date "Ö¤ÊéÎÄ¼þ£º$KSROOT/koolproxy/data/private/ca.key.pem ²»´æÔÚ£¡"
+		echo_date "è¯ä¹¦æ–‡ä»¶ï¼š$KSROOT/koolproxy/data/private/ca.key.pem ä¸å­˜åœ¨ï¼"
 		file_found=0
 	fi
 	if [ ! -f $KSROOT/koolproxy/data/private/base.key.pem ]; then
-		echo_date "Ö¤ÊéÎÄ¼þ£º$KSROOT/koolproxy/data/private/base.key.pem ²»´æÔÚ£¡"
+		echo_date "è¯ä¹¦æ–‡ä»¶ï¼š$KSROOT/koolproxy/data/private/base.key.pem ä¸å­˜åœ¨ï¼"
 		file_found=0
 	fi
 	if [ ! -f $KSROOT/koolproxy/data/certs/ca.crt ]; then
-		echo_date "$KSROOT/koolproxy/data/certs/ca.crt ²»´æÔÚ£¡"
+		echo_date "$KSROOT/koolproxy/data/certs/ca.crt ä¸å­˜åœ¨ï¼"
 		file_found=0
 	fi
 
 	if [ "$file_found" == "0" ];then
-		echo_date "ÍË³ö±¸·Ý£¡"
+		echo_date "é€€å‡ºå¤‡ä»½ï¼"
 		echo XU6J03M6
 		exit 1
 	fi
@@ -33,18 +33,18 @@ backup() {
 	cd $KSROOT/koolproxy/data
 	tar czf /tmp/upload/koolproxyca.tar.gz private/ca.key.pem private/base.key.pem certs/ca.crt 
 	cp /tmp/upload/koolproxyca.tar.gz $KSROOT/webs/files/koolproxyca.tar.gz	
-	echo_date "Ö¤Êé±¸·ÝÍê±Ï"
+	echo_date "è¯ä¹¦å¤‡ä»½å®Œæ¯•"
 }
 
 restore() {
 	if [ -f /tmp/upload/koolproxyCA.tar.gz ];then
-		echo_date "¿ªÊ¼»Ö¸´Ö¤Êé£¡"
+		echo_date "å¼€å§‹æ¢å¤è¯ä¹¦ï¼"
 		mkdir -p $CA_DIR
 		cp /tmp/upload/koolproxyCA.tar.gz $CA_DIR
 		cd $CA_DIR
 		tar xzf $CA_DIR/koolproxyCA.tar.gz
 	else
-		echo_date "Ã»ÓÐÕÒµ½ÉÏ´«µÄÖ¤Êé±¸·ÝÎÄ¼þ£¡ÍË³ö»Ö¸´£¡"
+		echo_date "æ²¡æœ‰æ‰¾åˆ°ä¸Šä¼ çš„è¯ä¹¦å¤‡ä»½æ–‡ä»¶ï¼é€€å‡ºæ¢å¤ï¼"
 		echo XU6J03M6
 		exit 1
 	fi
@@ -53,12 +53,12 @@ restore() {
 	rm -rf $CA_DIR
 	rm -f /tmp/upload/koolproxyCA.tar.gz
 	rm -rf /tmp/upload/koolproxyca.tar.gz
-	echo_date "Ö¤Êé»Ö¸´³É¹¦£¡"
+	echo_date "è¯ä¹¦æ¢å¤æˆåŠŸï¼"
 }
 
 case $2 in
 1)
-	#±¸·ÝÖ¤Êé
+	#å¤‡ä»½è¯ä¹¦
 	backup >> $LOG_FILE
 	http_response "$1"
 	echo XU6J03M6 >> $LOG_FILE
@@ -67,7 +67,7 @@ case $2 in
 	rm -rf /tmp/upload/koolproxyca.tar.gz
 	;;
 2)
-	#»Ö¸´Ö¤Êé
+	#æ¢å¤è¯ä¹¦
 	restore >> $LOG_FILE
 	http_response "$1"
 	echo XU6J03M6 >> $LOG_FILE
