@@ -459,7 +459,7 @@ No part of this file may be used without permission.
 	<div class="box">
 		<div class="heading">KoolProxy<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
 		<div class="content">
-			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">koolproxy是能识别adblock规则的代理软件，可以用于去除网页静广告和视频广告，并且支持https！</span>
+			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">koolproxy是一款高效的修改和过滤流量包的代理软件，可以用于去除网页静广告和视频广告，并且支持https！</span>
 		</div>	
 	</div>
 	<ul class="nav nav-tabs">
@@ -480,7 +480,7 @@ No part of this file may be used without permission.
 					{ title: 'Koolproxy规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
 					{ title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式'],['3','视频模式']],value: dbus.koolproxy_mode || "1" },
 					{ title: '端口控制', name:'koolproxy_port',type:'select',options:[['0','关闭'],['1','开启']],value: dbus.koolproxy_port || "0" },					
-					{ title: '例外端口', name:'koolproxy_bp_port',type:'text',style:'input_style', maxlen:20, value:dbus.koolproxy_bp_port ,suffix: '<font color="#FF0000">单端口:80</font>&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">多端口:80,443</font>'},
+					{ title: '例外端口', name:'koolproxy_bp_port',type:'text',style:'input_style', maxlen:20, value:dbus.koolproxy_bp_port ,suffix: '<font color="#FF0000">例：</font>&nbsp;&nbsp;<font color="#FF0000">【单端口】：80【多端口】：80,443</font>'},
 					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: dbus.koolproxy_host == 1, suffix: '<lable id="_koolproxy_host_nu"></lable>' },
 					{ title: '插件自动重启', multi: [
 						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },
