@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE="hotfix"
-VERSION="0.2.2"
+VERSION="0.2.3"
 TITLE="HOTFIX"
 DESCRIPTION="快速修复当前固件中的BUG"
 HOME_URL="Module_hotfix.asp"
-CHANGELOG="修复flock缺失的问题"
+CHANGELOG="修复2.17实时流量的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

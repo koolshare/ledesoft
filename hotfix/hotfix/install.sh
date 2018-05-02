@@ -73,6 +73,12 @@ if [ "`/koolshare/bin/versioncmp $version_local 2.14`" == "1" ];then
 	fi
 fi
 
+# host fix for firmware under 2.17 for flock missing (2018-4-23 16:56:10)
+if [ "$version_local" == "2.17" ];then
+		cp -r /tmp/hotfix/hotfix/realtimetraffic.htm /usr/lib/lua/luci/view/admin_status/realtimetraffic.htm
+		rm -rf /tmp/luci-*
+fi
+
 # ====================== fix end ===============================
 
 sleep 1
