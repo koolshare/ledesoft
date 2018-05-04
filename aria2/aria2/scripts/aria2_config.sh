@@ -1,5 +1,6 @@
 #!/bin/sh
 
+opkg update && opkg install sudo &
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export aria2`
@@ -21,7 +22,7 @@ EOF
 }
 
 start_aria2(){
-	/koolshare/aria2/aria2c --conf-path=/tmp/aria2.conf -D >/dev/null 2>&1 &
+	sudo -u nobody /koolshare/aria2/aria2c --conf-path=/tmp/aria2.conf -D >/dev/null 2>&1 &
 }
 
 kill_aria2(){
