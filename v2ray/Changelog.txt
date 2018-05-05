@@ -1,4 +1,6 @@
-Koolshare LEDE V2ray Changelog
+Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
 
-changelogs can be found at: http://koolshare.cn/thread-64086-1-1.html
+0.5
+   - update remove input/selset element, use json config only
+   - update now dns can set port
