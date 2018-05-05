@@ -18,8 +18,6 @@
 		var status_time = 1;
 		var option_mode = [['VMess', 'VMess']];
 		var option_acl_mode = [['0', '不代理'], ['1', 'gfwlist黑名单'], ['2', '大陆白名单'], ['3', '游戏模式'], ['4', '全局模式']];
-		var option_auth = [['none', '不加密'], ['auto', '自动'], ['aes-128-cfb', 'aes-128-cfb'], ['aes-128-gcm', 'aes-128-gcm'], ['chacha20-poly1305', 'chacha20-poly1305']];
-		//var option_transport = [['tcp', 'tcp'], ['kcp', 'kcp'], ['ws', 'ws']];
 		var option_acl_mode_name = ['不代理', 'gfwlist黑名单', '大陆白名单', '游戏模式', '全局模式'];
 		var option_dns_china = [['1', '运营商DNS【自动获取】'],  ['2', '阿里DNS1【223.5.5.5】'],  ['3', '阿里DNS2【223.6.6.6】'],  ['4', '114DNS1【114.114.114.114】'],  
 								['5', '114DNS1【114.114.115.115】'],  ['6', 'cnnic DNS【1.2.4.8】'],  ['7', 'cnnic DNS【210.2.4.8】'],  ['8', 'oneDNS1【112.124.47.27】'],  
@@ -135,6 +133,7 @@
 				}
 			}
 		}
+
 		//============================================
 		var v2ray_acl = new TomatoGrid();
 		v2ray_acl.dataToView = function( data ) {
@@ -250,15 +249,15 @@
 			] );
 			this.headerSet( [ '主机别名', '主机IP地址', 'MAC地址', '访问控制'] );
 			if (typeof(dbus["v2ray_acl_node_max"]) == "undefined"){
-				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>全部主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>全部主机 - mac</small></i>','<select id="_v2ray_acl_default_mode" name="v2ray_acl_default_mode" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="0">不代理</option><option value="1">gfwlist黑名单</option><option value="2">大陆白名单</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>']);
+				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>全部主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>全部主机 - mac</small></i>','<select id="_v2ray_acl_default_mode1" name="v2ray_acl_default_mode1" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;" onchange="verifyFields(this, 1)"><option value="0">不代理</option><option value="1">gfwlist黑名单</option><option value="2">大陆白名单</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>']);
 			}else{
-				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>其它主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>其它主机 - mac</small></i>','<select id="_v2ray_acl_default_mode" name="v2ray_acl_default_mode" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;"><option value="0">不代理</option><option value="1">gfwlist黑名单</option><option value="2">大陆白名单</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>']);
+				this.footerSet( [ '<small id="footer_name" style="color:#1bbf35"><i>缺省规则</i></small>','<small id="footer_ip" style="color:#1bbf35"><i>其它主机 - ip</i></small>','<small id="footer_mac" style="color:#1bbf35"><i>其它主机 - mac</small></i>','<select id="_v2ray_acl_default_mode1" name="v2ray_acl_default_mode1" style="border: 0px solid #222;background: transparent;margin-left:-4px;padding:-0 -0;height:16px;" onchange="verifyFields(this, 1)"><option value="0">不代理</option><option value="1">gfwlist黑名单</option><option value="2">大陆白名单</option><option value="3">游戏模式</option><option value="4">全局模式</option></select>']);
 			}
 			
 			if(typeof(dbus["v2ray_acl_default_mode"]) != "undefined" ){
-				E("_v2ray_acl_default_mode").value = dbus["v2ray_acl_default_mode"];
+				E("_v2ray_acl_default_mode1").value = dbus["v2ray_acl_default_mode"];
 			}else{
-				E("_v2ray_acl_default_mode").value = 1;
+				E("_v2ray_acl_default_mode1").value = 1;
 			}
 			
 			for ( var i = 1; i <= dbus["v2ray_acl_node_max"]; i++){
@@ -286,7 +285,7 @@
 		}
 
 		function set_version(){
-			$('#_v2ray_version').html( '<font color="#1bbf35">V2Ray for LEDE ' + (dbus["v2ray_version"]  || "") + '</font></a>' );
+			$('#_v2ray_version').html( '<font color="#1bbf35">v2ray for openwrt - ' + (dbus["v2ray_version"]  || "") + '</font>' );
 		}
 
 		function get_dbus_data(){
@@ -407,18 +406,20 @@
 					tabSelect('fuckapp')
 				}
 			}
-			
+			// change main mode adn acl mode
+			if ( $(r).attr("id") == "_v2ray_acl_default_mode" ) {
+				E("_v2ray_acl_default_mode1").value = E("_v2ray_acl_default_mode").value;
+			}
+			if ( $(r).attr("id") == "_v2ray_acl_default_mode1" ) {
+				E("_v2ray_acl_default_mode").value = E("_v2ray_acl_default_mode1").value;
+			}
+
+			// dns			
 			var b  = E('_v2ray_dns_china').value == '12';
 			elem.display('_v2ray_dns_china_user', b);
 			
 			var c  = E('_v2ray_dns_foreign').value == '4';
 			elem.display('_v2ray_dns_foreign_user', c);
-			
-			var d = E('_v2ray_basic_mux').checked == '1';
-			elem.display(PR('_v2ray_basic_muxnum'), d);
-
-			var f = E('_v2ray_basic_custom').checked == '1';
-			elem.display(PR('_v2ray_basic_config'), f);
 
 			return true;
 		}
@@ -467,9 +468,8 @@
 			get_run_status();
 			E("_v2ray_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_v2ray_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "custom", "mux"];
-			var paras_inp = ["v2ray_basic_server", "v2ray_basic_port", "v2ray_basic_password", "v2ray_acl_default_mode", 
-							"v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_basic_mode", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_alterld", "v2ray_basic_auth", "v2ray_basic_muxnum" ];
+			var paras_chk = ["enable"];
+			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["v2ray_basic_" + paras_chk[i]] = E('_v2ray_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -661,6 +661,7 @@
 		<div class="heading">
 			<span id="_v2ray_version"></span>
 			<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+			<a href="https://github.com/koolshare/ledesoft/blob/master/v2ray/Changelog.txt" target="_blank" class="btn btn-primary" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">更新日志</a>
 		</div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
@@ -672,7 +673,7 @@
 		<div class="heading">
 		</div>
 		<div class="content">
-			<div id="v2ray_switch_pannel" class="section"></div>
+			<div id="v2ray_switch_pannel" class="section" style="margin-top: -20px;"></div>
 			<script type="text/javascript">
 				$('#v2ray_switch_pannel').forms([
 					{ title: '代理开关', name:'v2ray_basic_enable',type:'checkbox',  value: dbus.v2ray_basic_enable == 1 }  // ==1 means default close; !=0 means default open
@@ -705,17 +706,7 @@
 			<script type="text/javascript">
 				$('#v2ray_basic_pannel').forms([
 					{ title: '代理模式', name:'v2ray_acl_default_mode',type:'select', options:option_acl_mode, value:dbus.v2ray_acl_default_mode },
-					{ title: '服务器类型', name:'v2ray_basic_mode',type:'select', options:option_mode, value:dbus.v2ray_basic_mode },
-					{ title: '服务器地址', name:'v2ray_basic_server',type:'text',size: 20,value:dbus.v2ray_basic_server,help: '尽管支持域名格式，但是仍然建议首先使用IP地址。'},
-					{ title: '服务器端口', name:'v2ray_basic_port',type:'text',size: 20,value:dbus.v2ray_basic_port },
-					{ title: '密码.UUID', name:'v2ray_basic_password',type:'password',size: 50,maxLength:50,value:dbus.v2ray_basic_password,help: '需要和服务器一致。',peekaboo: 1  },
-					{ title: 'Alterld', name:'v2ray_basic_alterld',type:'text',size: 20,maxLength:20,value:dbus.v2ray_basic_alterld,help: '需要和服务器一致。'},
-					{ title: '加密方式', name:'v2ray_basic_auth',type:'select', options:option_auth, value:dbus.v2ray_basic_auth },
-					//{ title: '传输协议', name:'v2ray_basic_transport',type:'select', options:option_transport, value:dbus.v2ray_basic_transport },
-					{ title: 'Mux', name:'v2ray_basic_mux',type:'checkbox',  value: dbus.v2ray_basic_mux == 1,help: '开启多路复用' },
-					{ title: 'Mux并发连接数', name:'v2ray_basic_muxnum',type:'text',size: 5,value:dbus.v2ray_basic_muxnum || '8'},
-					{ title: '自定义配置文件', name:'v2ray_basic_custom',type:'checkbox',  value: dbus.v2ray_basic_custom == 1 ,help: '本选项勾选后以上配置无效，主流量本地监听端口必须为1280'},
-					{ title: '<b>配置文件内容</b></br></br><font color="#B2B2B2">本地监听端口必须为<b>1280</b></font>', name:'v2ray_basic_config',type:'textarea', value: Base64.decode(dbus.v2ray_basic_config)||"", style: 'width: 100%; height:450px;' },
+					{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', value: Base64.decode(dbus.v2ray_basic_config)||"", style: 'width: 100%; height:450px;' },
 				]);
 			</script>
 		</div>
@@ -773,7 +764,7 @@
 				$('#v2ray_addon_pannel').forms([
 					{ title: 'V2Ray 数据操作', suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 2);" class="btn btn-success">清除所有 v2ray 数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'v2ray_config.sh\', 3);" class="btn btn-download">备份所有 v2ray 数据</button>' },
 					{ title: 'V2Ray 数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
-					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/txthinking/v2ray/releases" target="_blank"></a>'},
+					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/v2ray/v2ray-core/releases" target="_blank"></a>'},
 					{ title: 'V2Ray 版本升级', suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 5);" class="btn btn-download">一键升级v2ray 版本</button>' }
 				]);
 				$('#v2ray_version').html(dbus.v2ray_basic_version || "未初始化");

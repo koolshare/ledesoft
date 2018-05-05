@@ -1,6 +1,7 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
-
 0.5
-   - update remove input/selset element, use json config only
-   - update now dns can set port
+   - update 移除选填框，现在只需要json输入框即可；
+   - update 提高json配置成功率，现在不需要修改本地监听端口和手动配置dns等，只需要将你的客户端json配置全部粘贴进输入框即可；
+   - update 现在v2ray_dns自定义设置可以设置端口，如1.1.1.1:53；
+   - update	同步v2ray V3.21二进制文件；
