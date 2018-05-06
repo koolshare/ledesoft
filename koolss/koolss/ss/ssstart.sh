@@ -732,9 +732,11 @@ start_dns(){
 
 	# Start Pcap_DNSProxy
 	if [ "6" == "$ss_dns_foreign"  ]; then
-			echo_date 开启Pcap_DNSProxy..
-			#sed -i "/^Listen Port/c Listen Port = $DNS_PORT" $KSROOT/ss/dns/Config.ini
-			Pcap_DNSProxy -c /koolshare/ss/dns
+		echo_date 开启Pcap_DNSProxy..
+		#sed -i "/^Listen Port/c Listen Port = $DNS_PORT" $KSROOT/ss/dns/Config.ini
+		sed -i 's/119.29.29.29:53/114.114.114.114:53/' $KSROOT/ss/dns/Config.ini
+		change=`echo $ISP_DNS1|sed -e 's/$/:53/'`;sed -i 's/223.6.6.6:53/'"$change"'/' $KSROOT/ss/dns/Config.ini
+		Pcap_DNSProxy -c /koolshare/ss/dns
 	fi
 	
 	# Start cdns
