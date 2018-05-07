@@ -735,7 +735,8 @@ start_dns(){
 		echo_date 开启Pcap_DNSProxy..
 		#sed -i "/^Listen Port/c Listen Port = $DNS_PORT" $KSROOT/ss/dns/Config.ini
 		sed -i 's/119.29.29.29:53/114.114.114.114:53/' $KSROOT/ss/dns/Config.ini
-		change=`echo $ISP_DNS1|sed -e 's/$/:53/'`;sed -i 's/223.6.6.6:53/'"$change"'/' $KSROOT/ss/dns/Config.ini
+		change=`echo $ISP_DNS1|sed -e 's/$/:53/'`
+		echo $ISP_DNS1|grep -E "([0-9]{1,3}[\.]){3}[0-9]{1,3}|:" >> /dev/null;[ "$?" == "0" ] && sed -i 's/223.6.6.6:53/'"$change"'/' $KSROOT/ss/dns/Config.ini || sed -i 's/223.6.6.6:53/114.114.114.115:53/' $KSROOT/ss/dns/Config.ini
 		Pcap_DNSProxy -c /koolshare/ss/dns
 	fi
 	

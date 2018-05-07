@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.1.0
+   - fix	修正运行脚本
+
 2.0.9
    - fix	修复使用Pcap_DNSProxy苹果商店DNS解析问题
 
