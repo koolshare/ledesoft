@@ -13,6 +13,7 @@
 		var dbus = {};
 		var table2_node_nu;
 		var table3_node_nu;
+		var table4_node_nu;
 		var softcenter = 0;
 		//var option_wan = [['wan', 'wan'], ['wan2', 'wan2']];
 		var option_wan = [];
@@ -181,6 +182,32 @@
 			this.showNewEditor();
 			this.resetNewEditor();
 		}
+		//============================================
+		var table4 = new TomatoGrid();
+	
+		table4.verifyFields = function( row, quiet ) {
+			var f = fields.getAll( row );
+			return true;
+		}
+		table4.resetNewEditor = function() {
+			var f = fields.getAll( this.newEditor );
+			ferror.clearAll( f );
+			f[ 0 ].selectedIndex   = '';
+			f[ 1 ].selectedIndex   = '';
+		}
+		table4.setup = function() {
+			this.init( 'table_4_grid', 'move', 500, [
+				{ type: 'select', options:option_wan, value:'' },
+				{ type: 'text', value:'' }
+			] );
+			this.headerSet( [ 'WAN口名称',  '国家区域'] );
+			for ( var i = 1; i <= table4_node_nu; i++){
+				var t1 = [dbus["policy_cwan_name_" + i ], dbus["policy_cwan_isp_" + i ] ]
+				if ( t1.length == 2 ) this.insertData( -1, t1 );
+			}
+			this.showNewEditor();
+			this.resetNewEditor();
+		}
 
 		//============================================
 
@@ -285,6 +312,33 @@
 			//console.log("option_isp", option_isp)
 			//console.log("option_isp_name", option_isp_name)
 			//--------------------------------------
+			//--------------------------------------
+			// count table3 line data nu
+			var tmp_5 = [];
+			var tmp_6 = [];
+			
+			for ( var i = 0; i < tmp_5.length; i++){
+				if (tmp_5[i][0] == ""){
+					tmp_6.push(tmp_5[i][1]);
+				}
+			}
+			table4_node_nu = tmp_6.length;
+			//console.log("table3_node_nu", table3_node_nu);
+			//--------------------------------------
+			// count table2 line data nu
+			var tmp_7 = [];
+			var tmp_8 = [];
+			for (var field in dbus) {
+				c = field.split("policy_cwan_isp_");
+				tmp_7.push(c)
+			}
+			
+			for ( var i = 0; i < tmp_7.length; i++){
+				if (tmp_7[i][0] == ""){
+					tmp_8.push(tmp_7[i][1]);
+				}
+			}
+			table4_node_nu = tmp_8.length;
 			table3.setup();
 			get_wans_list();
 		}
@@ -311,6 +365,7 @@
 						//console.log(option_wan)
 						//console.log(option_wan_name)
 						table2.setup();
+						table4.setup();
 					}
 				},
 				timeout:1000
@@ -318,9 +373,9 @@
 		}
 
 		function tabSelect(obj){
-			var tableX = ['app1-tab', 'app2-tab', 'app3-tab'];
-			var boxX = ['boxr1', 'boxr2', 'boxr3'];
-			var appX = ['app1', 'app2', 'app3'];
+			var tableX = ['app1-tab', 'app2-tab', 'app3-tab', 'app4-tab'];
+			var boxX = ['boxr1', 'boxr2', 'boxr3', 'boxr4'];
+			var appX = ['app1', 'app2', 'app3', 'app4'];
 			for (var i = 0; i < tableX.length; i++){
 				if(obj == appX[i]){
 					$('#'+tableX[i]).addClass('active');
@@ -392,6 +447,23 @@
 					}
 				}
 			}
+			// collect data from table4
+			var table4_conf = ["policy_cwan_name_", "policy_cwan_isp_"];
+			// mark all data for delete first
+			for ( var i = 1; i <= table4_node_nu; i++){
+				for ( var j = 0; j < table4_conf.length; ++j ) {
+					dbus[table4_conf[j] + i ] = ""
+				}
+			}
+			//now save table2 data to object dbus
+			var data = table4.getAllData();
+			if(data.length > 0){
+				for ( var i = 0; i < data.length; ++i ) {
+					for ( var j = 0; j < table4_conf.length; ++j ) {
+						dbus[table4_conf[j] + (i + 1)] = data[i][j];
+					}
+				}
+			}
 			//console.log(dbus)
 			// now post data
 			postdata("policy_config.sh", dbus)
@@ -440,6 +512,7 @@
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" ><i class="icon-system"></i> 基本设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" ><i class="icon-globe"></i> 分流设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" ><i class="icon-tools"></i> 自定义运营商</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab" ><i class="icon-tools"></i> 国家分流</a></li>
 	</ul>
 	<div class="box boxr1" style="margin-top: 15px;">
 		<div class="heading">基本设置</div>
@@ -500,6 +573,24 @@
 	<div class="section content" id="sesdivnotes" style="display:">
 			<li> 自定义运营商名称可随意填写</li>
 			<li> 路由表文件地址必须为绝对地址，如：/etc/cmcc.txt</li>
+	</div>
+	</div>
+	<!-- ------------------ 表格4--------------------- -->
+	<div class="box boxr4" id="table_4" style="margin-top: 15px;">
+		<div class="heading">国家分流</div>
+		<div class="content">
+			<div class="tabContent">
+				<table class="line-table" cellspacing="1" id="table_4_grid">
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="pbr_wan_readme4" class="box boxr4" style="margin-top: 15px;">
+	<div class="heading">优化建议： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
+	<div class="section content" id="sesdivnotes" style="display:">
+			<li> 列表越上面的规则优先级越高，点击列表项右上角箭头可以对项目优先级重新排序</li>
+			<li> 国家区域仅支持Geoip区域名称缩写，字母必须大写。<a href="http://www.jctrans.com/tool/gjym.htm" target="_blank"> (常见区域名称缩写)</a></li>
+			<li> 支持的区域名称：A1 A2 AD AE AF AG AI AL AM AO AP AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET EU FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW</li>
 	</div>
 	</div>
 	<!-- ------------------ 其它 --------------------- -->
