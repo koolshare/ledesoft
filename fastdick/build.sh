@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=fastdick
-VERSION=0.8
+VERSION=0.9
 TITLE=迅雷快鸟
 DESCRIPTION=宽带上下行提速
 HOME_URL=Module_fastdick.asp

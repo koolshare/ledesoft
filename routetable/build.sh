@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=routetable
-VERSION=0.3
+VERSION=0.4
 TITLE="路由表设置"
 DESCRIPTION=路由流量指明灯
 HOME_URL=Module_routetable.asp

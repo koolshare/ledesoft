@@ -1,9 +1,9 @@
 {
-"version":"0.8",
-"md5":"9fa0daef600dde73e9eb741cea82304e",
+"version":"0.9",
+"md5":"c02bb56eddbc0ccd7996753e9bdcd099",
 "home_url":"Module_fastdick.asp",
 "title":"迅雷快鸟",
 "description":"宽带上下行提速",
 "changelog":"增加断线重拨自动重置",
-"build_date":"2018-04-26_10:58:33"
+"build_date":"2018-05-12_14:47:04"
 }
