@@ -452,6 +452,17 @@
             "version": "1.0.3"
         }, 
         {
+            "build_date": "2018-05-19_20:28:09", 
+            "changelog": "", 
+            "description": "魔改BBR", 
+            "home_url": "Module_bbr.asp", 
+            "md5": "7d1d1ad61f871444a40ca93a19066bea", 
+            "name": "bbr", 
+            "tar_url": "bbr/bbr.tar.gz", 
+            "title": "BBR MOD", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-09-19_12:21:44", 
             "changelog": "", 
             "description": "使PPPoE能够跨路由使用", 
