@@ -659,7 +659,7 @@ start_dns(){
 				}
 				
 				server {
-					label= "RT-AC68U"; 
+					label= "OPENWRT-X64"; 
 					ip = $ss_pdnsd_server_ip;
 					port = $ss_pdnsd_server_port;
 					root_server = on;   
