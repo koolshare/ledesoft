@@ -119,7 +119,7 @@ function save(){
 <div class="content">
 <div id="bbr-fields"></div>
 <script type="text/javascript">
-var option_mode = [['cubic', '默认Cubic'],['bbr', '原版BBR'],['tcp_bbr_mod', '魔改BBR']];
+var option_mode = [['cubic', '默认Cubic'],['bbr', '原版BBR'],['tcp_bbr_mod', '魔改BBR'],['tcp_bbr_tsunami', '魔改BBR→Yankee版'],['tcp_bbr_nql', '魔改BBR→南琴浪版']];
 $('#bbr-fields').forms([
 { title: '当前状态', text: '<font id="bbr_status" name=bbr_status color="#1bbf35">正在获取运行状态...</font>' },
 { title: 'TCP BBR拥塞控制算法', name: 'bbr_mode', type: 'select', options: option_mode, value: dbus.bbr_mode},

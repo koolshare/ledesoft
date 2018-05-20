@@ -1,9 +1,9 @@
 {
-"version":"0.1",
-"md5":"7d1d1ad61f871444a40ca93a19066bea",
+"version":"0.2",
+"md5":"ae432688ea655bacf86449c7bc4b4217",
 "home_url":"Module_bbr.asp",
 "title":"BBR MOD",
 "description":"魔改BBR",
-"changelog":"",
-"build_date":"2018-05-19_20:28:09"
+"changelog":"增加更多模块",
+"build_date":"2018-05-20_17:03:22"
 }

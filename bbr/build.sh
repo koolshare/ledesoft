@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=bbr
-VERSION=0.1
+VERSION=0.2
 TITLE="BBR MOD"
 DESCRIPTION=魔改BBR
 HOME_URL=Module_bbr.asp
+CHANGELOG="增加更多模块"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
