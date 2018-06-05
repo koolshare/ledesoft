@@ -1459,24 +1459,40 @@ restart_by_fw(){
 	#[ -n "$ONMWAN3" ] && echo_date mwan3重启触发koolss重启！ 
 	echo_date 防火墙重启触发koolss重启！
 	echo_date ---------------------------------------------------------------------------------------
-	detect_koolss
-	calculate_wans_nu
-	restore_dnsmasq_conf
-	[ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
-	kill_process
-	flush_nat
-	creat_ipset
-	load_nat
-	start_ss_redir
-	start_kcp
-	[ "$ss_lb_enable" == "1" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
-	start_dns
-	create_dnsmasq_conf
-	restart_dnsmasq
-	echo_date ------------------------- koolss 重启完毕 -------------------------
-	echo XU6J03M6
-	flock -u 1000
-	rm -rf "$LOCK_FILE"
+        # stop first
+        restore_dnsmasq_conf
+        #if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
+        if [ -z "$IFIP" ] && [ -z "$ONSTART" ];then
+                restart_dnsmasq
+        else
+                [ "$ss_dns_foreign" == "5" ] && [ "$ss_chinadns_method" == "2" ] && restart_dnsmasq
+                [ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && restart_dnsmasq
+        fi
+        flush_nat
+        restore_start_file
+        kill_process
+        kill_cron_job
+        echo_date ---------------------------------------------------------------------------------------
+        # start
+        detect_koolss
+        calculate_wans_nu
+        resolv_server_ip
+        ss_arg
+        [ -z "$ONSTART" ] && creat_ss_json
+        creat_ipset
+        create_dnsmasq_conf
+        auto_start
+        start_ss_redir
+        start_kcp
+        load_nat
+        [ "$ss_lb_enable" == "1" ] && [ "$ss_basic_node" == "0" ] && [ -n "$ss_lb_node_max" ] && start_haproxy
+        start_dns
+        restart_dnsmasq
+        write_numbers
+        echo_date ------------------------- koolss 启动完毕 -------------------------
+        flock -u 1000
+        rm -rf "$LOCK_FILE"
+        ;;
 }
 
 case $1 in
