@@ -1,0 +1,9 @@
+{
+"version":"0.7",
+"md5":"6387241b8e2775d8f62ac4376926bcdf",
+"home_url":"Module_v2ray.asp",
+"title":"V2Ray",
+"description":"模块化的代理软件包",
+"changelog":"更新0.7版本",
+"build_date":"2018-06-22_15:26:06"
+}

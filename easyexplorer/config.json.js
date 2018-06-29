@@ -1,0 +1,9 @@
+{
+"version":"0.7",
+"md5":"374cf10736d7b7aca332b893177acf78",
+"home_url":"Module_easyexplorer.asp",
+"title":"EasyExplorer",
+"description":"强大易用的全平台同步工具",
+"changelog":"更新验证方式",
+"build_date":"2018-05-28_13:19:11"
+}

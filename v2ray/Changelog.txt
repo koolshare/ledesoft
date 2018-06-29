@@ -1,0 +1,19 @@
+Koolshare OpenWRT/LEDE V2ray plugin Changelog
+===========================================
+0.7
+   - update	更新v2ray二进制到最新：V3.26；
+   - fix	防火墙自动重启无法运行的问题；
+   - del	删除geoip数据库；
+
+0.6
+   - 说明	v2ray json配置保存时，有时会使skipd进程崩溃，导致软件中心看不到任何插件，此问题已在软件中心0.3.3修复，请更新软件中心！
+   - update	更新v2ray二进制到最新：V3.25.1；
+   - update	更新json配置生成策略；
+   - add	添加规则定时更新功能；
+   - fix	修复dns为国内优先时，选在运营商以外的dns无效的问题；
+
+0.5
+   - update 移除选填框，现在只需要json输入框即可；
+   - update 提高json配置成功率，现在不需要修改本地监听端口和手动配置dns等，只需要将你的客户端json配置全部粘贴进输入框即可；
+   - update 现在v2ray_dns自定义设置可以设置端口，如1.1.1.1:53；
+   - update	同步v2ray V3.21二进制文件；

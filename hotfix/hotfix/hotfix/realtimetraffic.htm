@@ -1,0 +1,99 @@
+<%#
+ Copyright 2017 crwnet <crwbak@gmail.com>
+ Licensed to the public under the Apache License 2.0.
+-%>
+
+<%
+	if luci.http.formvalue("status") == "1" then
+		local rv = luci.sys.exec("realtimetraffic")
+		luci.http.prepare_content("application/json")
+		luci.http.write(rv)
+		return
+	elseif luci.http.formvalue("dhcp") == "1" then
+		local rv = {}
+		local i = 0
+		luci.sys.net.ipv4_hints(function(ip, name)
+			i = i + 1
+			rv[i] = {ip = ip, name = name}
+		end)
+		luci.http.prepare_content("application/json")
+		luci.http.write_json(rv)
+		return
+	end
+%>
+
+<%+header%>
+
+<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
+<script type="text/javascript">//<![CDATA[
+	var dhcp_cache = {};
+	var inprocess = false;
+	function updateDhcpCache()
+	{
+		inprocess = true;
+		XHR.get('<%=REQUEST_URI%>', { dhcp: 1 },
+			function(x, infos)
+			{
+				dhcp_cache = {}
+				for (var i in infos)
+				{
+					info = infos[i];
+					dhcp_cache[info.ip] = info.name;
+				}
+				inprocess = false;
+			}
+		);
+	}
+	function ipToName(ip)
+	{
+		var ret = dhcp_cache[ip];
+		if (!ret){
+			if(!inprocess) updateDhcpCache();
+			ret = "<%:Collecting data...%>";
+		}
+		return ret;
+	}
+	function appendRowData(i, name, ip, db, dp, ub, up)
+	{
+		var tr = datatable.rows[0].parentNode.insertRow(-1);
+		tr.className = 'cbi-section-table-row cbi-rowstyle-' + (1 + (i % 2));
+		tr.insertCell(-1).innerHTML = name;
+		tr.insertCell(-1).innerHTML = ip;
+		tr.insertCell(-1).innerHTML = String.format('%1024mb/s (%d <%:Pkts.%>)', db * 8, dp);
+		tr.insertCell(-1).innerHTML = String.format('%1024mb/s (%d <%:Pkts.%>)', ub * 8, up);
+		return tr;
+	}
+	updateDhcpCache();
+	XHR.poll(2, '<%=REQUEST_URI%>', { status: 1 },
+		function(x, infos)
+		{
+			while (datatable.rows.length > 1) datatable.rows[0].parentNode.deleteRow(-1);
+			var sdb = 0, sdp = 0, sub = 0, sup = 0;
+			for (var i = 0; i < infos.length; i++)
+			{
+				var info = infos[i];
+				sdb += info.db; sdp += info.dp; sub += info.ub; sup += info.up;
+				appendRowData(i, ipToName(info.ip), info.ip, info.db, info.dp, info.ub, info.up);
+			}
+			var tr = appendRowData(i, "<%:Statistics%>", i + " <%:Clients%>", sdb, sdp, sub, sup);
+			tr.style.fontWeight = "bold";
+		});
+//]]></script>
+
+<h2 name="content"><%:Realtime Traffic%></h2>
+
+<fieldset class="cbi-section" id="cbi-table-table">
+	<div class="cbi-section-node">
+		<table class="cbi-section-table" id="datatable" style="max-width:1000px;table-layout:fixed;">
+			<tr class="cbi-section-table-titles">
+				<th class="cbi-section-table-cell" width="25%"><%:Hostname%></th>
+				<th class="cbi-section-table-cell" width="25%"><%:IP address%></th>
+				<th class="cbi-section-table-cell" width="25%"><%:Download%></th>
+				<th class="cbi-section-table-cell" width="25%"><%:Upload%></th>
+			</tr>
+			<tr><td colspan="4"><em><%:Collecting data...%></em></td></tr>
+		</table>
+	</div>
+</fieldset>
+
+<%+footer%>

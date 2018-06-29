@@ -1,0 +1,10 @@
+Koolshare Asuswrt-Merlin softether_vpn Changelog
+===========================================
+1.0.7
+   - fix 	add process run status show in web page
+
+1.0.6
+   - fix	fix port open issue when firewall restart
+-------------------------
+1.0.0	add softether_vpn
+1.0.1	remove console info
