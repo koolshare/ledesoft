@@ -1,15 +1,18 @@
-/*! layer-v3.1.0 Web弹层组件 MIT License  http://layer.layui.com/  By 贤心 */ ;
+/*! layer-v3.1.1 Web弹层组件 MIT License  http://layer.layui.com/  By 贤心 */ ;
 ! function(e, t) {
 	"use strict";
 	var i, n, a = e.layui && layui.define,
 		o = {
 			getPath: function() {
-				var e = document.scripts,
-					t = e[e.length - 1],
-					i = t.src;
-					//console.log((i.substring(0, i.lastIndexOf("/") - 29))+"layer/")
-				//if (!t.getAttribute("merge")) return i.substring(0, i.lastIndexOf("/") + 1)
-				if (!t.getAttribute("merge")) return i.substring(0, i.lastIndexOf("/") - 29)+"layer/"
+				var e = document.currentScript ? document.currentScript.src : function() {
+					for (var e, t = document.scripts, i = t.length - 1, n = i; n > 0; n--)
+						if ("interactive" === t[n].readyState) {
+							e = t[n].src;
+							break
+						}
+					return e || t[i].src
+				}();
+				return e.substring(0, e.lastIndexOf("/") + 1) + "layer/"
 			}(),
 			config: {},
 			end: {},
@@ -24,7 +27,7 @@
 			link: function(t, i, n) {
 				if (r.path) {
 					//console.log(r)
-					//r.path = 'http://192.168.3.1/layer/';
+					r.path = '/layer/';
 					var a = document.getElementsByTagName("head")[0],
 						s = document.createElement("link");
 					"string" == typeof i && (n = i);
@@ -38,7 +41,7 @@
 			}
 		},
 		r = {
-			v: "3.1.0",
+			v: "3.1.1",
 			ie: function() {
 				var t = navigator.userAgent.toLowerCase();
 				return !!(e.ActiveXObject || "ActiveXObject" in e) && ((t.match(/msie\s(\d+)/) || [])[1] || "11")
