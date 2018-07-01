@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=homebridge
-VERSION=0.7
+VERSION=0.8
 TITLE=Homebridge
 DESCRIPTION=智能家庭网关
 HOME_URL=Module_homebridge.asp
-CHANGELOG="修复安装包下载"
+CHANGELOG="修复配件无法搜索到的问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
@@ -17,7 +17,7 @@ DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 cd $DIR
 
 # build bin
-sh $DIR/build/build
+sh $DIR/build/build homebridge
 
 # do something here
 
