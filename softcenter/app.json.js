@@ -447,11 +447,11 @@
             "version": "0.7"
         }, 
         {
-            "build_date": "2018-07-01_17:33:06", 
+            "build_date": "2018-07-01_17:38:34", 
             "changelog": "修复配件无法搜索到的问题", 
             "description": "智能家庭网关", 
             "home_url": "Module_homebridge.asp", 
-            "md5": "f8f6a1784ab567801cb0188459d11b0f", 
+            "md5": "21fbf23db80e51f1395c93e5e349d0f5", 
             "name": "homebridge", 
             "tar_url": "homebridge/homebridge.tar.gz", 
             "title": "Homebridge", 
