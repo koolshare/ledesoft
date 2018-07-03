@@ -19,7 +19,7 @@ input[disabled]:hover{
 	<script type="text/javascript">
 		var dbus;
 		var softcenter = 0;
-		var params = ["fwupdate_fwlocal", "fwupdate_fwlast", "fwupdate_keep", "fwupdate_enforce"];
+		var params = ["fwupdate_fwlocal", "fwupdate_fwlast", "fwupdate_keep", "fwupdate_uefi", "fwupdate_enforce"];
 		var options_type = [];
 		var options_list = [];
 		var _responseLen;
@@ -59,6 +59,13 @@ input[disabled]:hover{
 					E("_fwupdate_keep").checked = true;
 				}else{
 					E("_fwupdate_keep").checked = false;
+				}
+			}
+			if(typeof(dbus["fwupdate_uefi"]) != "undefined"){
+				if (dbus["fwupdate_uefi"] == 1){
+					E("_fwupdate_uefi").checked = true;
+				}else{
+					E("_fwupdate_uefi").checked = false;
 				}
 			}
 		}
@@ -300,6 +307,7 @@ input[disabled]:hover{
 				$('#identification').forms([
 					{ title: '当前固件版本', text: '<font id="_fwupdate_fwlocal" name=_fwupdate_status color="#1bbf35">正在检查本地固件版本...</font>' },
 					{ title: '最新固件版本', text: '<font id="_fwupdate_fwlast" name=_fwupdate_status color="#1bbf35">正在获取最新固件版本...</font>' },
+					{ title: '升级UEFI固件', name:'fwupdate_uefi',type:'checkbox',value: "0" == '1' },
 					{ title: '保留配置', name:'fwupdate_keep',type:'checkbox',value: "0" == '1' },
 					{ title: '强制重刷', name:'fwupdate_enforce',type:'checkbox',value: "0" == '1' },
 				]);
