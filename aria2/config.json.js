@@ -1,9 +1,9 @@
 {
-"version":"2.1",
-"md5":"7dda53924de5f6e06e5e29bb47ef3270",
+"version":"2.2",
+"md5":"152dc8640748e2d721dac545e6782199",
 "home_url":"Module_aria2.asp",
 "title":"Aria2",
 "description":"超酷的远程下载工具",
-"changelog":"修复115下载报错",
-"build_date":"2018-04-18_23:55:08"
+"changelog":"更新二进制1.34.0",
+"build_date":"2018-07-04_10:49:00"
 }
