@@ -5,5 +5,6 @@
 "content2":"<font color='##cc338c'>\
 <b>1. </b>升级内核到4.14.52；<br />\
 <b>2. </b>增加一些万兆网卡驱动<br />\
-<b>3. </b>修复一些已知BUG<br />",
+<b>3. </b>修复一些已知BUG<br />\
+<b>4. </b>由于advanced tomato主题早已不再维护，为了避免以后可能出现的界面问题，移除了toamto主题，从2.19开始使用openwrt默认的bootstrap主题<br />",
 }
