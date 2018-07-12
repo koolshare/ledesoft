@@ -316,8 +316,8 @@ dns_takeover(){
 }
 
 detect_cert(){
-	if [ ! -f $KP_DIR/data/private/ca.key.pem ]; then
-		echo_date 检测到首次运行，开始生成koolproxy证书，用于https过滤！
+	if [ ! -f $KP_DIR/data/private/ca.key.pem -o ! -f $KP_DIR/data/cert/ca.crt ]; then
+		echo_date 开始生成koolproxy证书，用于https过滤！
 		cd $KP_DIR/data && sh gen_ca.sh
 	fi
 }

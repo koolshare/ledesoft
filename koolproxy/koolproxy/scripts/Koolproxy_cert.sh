@@ -2,6 +2,7 @@
 
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
+eval `dbus export koolproxy_`
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
 LOG_FILE=/tmp/upload/kp_log.txt
 CA_DIR=/tmp/upload/CA/
@@ -36,6 +37,19 @@ backup() {
 	echo_date "证书备份完毕"
 }
 
+stop_koolproxy(){
+	echo_date 关闭koolproxy主进程...
+	kill -9 `pidof koolproxy` >/dev/null 2>&1
+	killall koolproxy >/dev/null 2>&1
+}
+
+restart_koolproxy(){
+	
+	echo_date 重启koolproxy主进程！
+	[ "$koolproxy_mode" == "3" ] && EXT_ARG="-e" || EXT_ARG=""
+	cd $KSROOT/koolproxy && koolproxy $EXT_ARG --mark -d
+}
+
 restore() {
 	if [ -f /tmp/upload/koolproxyCA.tar.gz ];then
 		echo_date "开始恢复证书！"
@@ -49,11 +63,15 @@ restore() {
 		exit 1
 	fi
 	
-	mv -f $CA_DIR/* $KSROOT/koolproxy/data
+	cp -rf $CA_DIR/* $KSROOT/koolproxy/data
 	rm -rf $CA_DIR
 	rm -f /tmp/upload/koolproxyCA.tar.gz
 	rm -rf /tmp/upload/koolproxyca.tar.gz
 	rm -rf $KSROOT/koolproxy/data/koolproxyCA.tar.gz
+
+	stop_koolproxy
+	sleep 1
+	restart_koolproxy
 	echo_date "证书恢复成功！"
 }
 

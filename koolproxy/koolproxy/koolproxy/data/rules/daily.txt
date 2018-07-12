@@ -1,6 +1,6 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy Plus 3.7.2]
-!x  -----update[rules]: 2018-4-22 18:47
+!x  -----update[rules]: 2018-7-8 21:46
 !x  -----QQ group: 595300867<1-group> 203726739<2-group> 369773525<3-group>
 !x  -----Thanks: From KP Rule Group -- <houzi-> <Carseason>
 !x  -----Thanks for help: <yiclear> <adbyby>
@@ -15,12 +15,11 @@
 @@|http://resolver.msg.xiaomi.net
 ||creaders.net/ad_func.js
 |http://pub.creaders.net/html/site_ad_images/
-|https://sp0.baidu.com/*/.gif?
+!|https://sp0.baidu.com/*/.gif?
 ||zimuku.cn/images/v2/js/bn*.js
 |https://dm.aizhan.com/tps/noexpire/js/4.0.1/adClosefeedbackUpgrade.min.js
 |https://dm.aizhan.com/bvzdpzs.js
 |https://statics.aizhan.com/jsa/zone.js
-/^http:\/\/vali\.cp31\.ott\.cibntv\.net\/youku\/[0-9,a-f,\/,A-F,-]+\.mp4\?/
 ||https://77kp.com/jquery/
 @@|http://js.passport.qihucdn.com/5.0.3.js
 ||https://e.lzytt.com/
@@ -28,11 +27,24 @@
 |https://s13.cnzz.com
 @@|http://p.store.qq.com/photo
 @@|http://share.dmhy.org/common/generate-captcha?code=
-||https://bdstatic.com^*/plugins/every_cookie_
+!||https://bdstatic.com^*/plugins/every_cookie_
 ||km.com/dypcimg/mversion/js/zepto_min.js
 ||eastday.com/assets/js/resources/detail/
 ||eastday.com/assets/js/resources/new_detail_
 ||eastday.com/assets/js/detail_
+||https://s.ytimg.com/yts/jsbin/www-pagead-id-vfla_fkeg/www-pagead-id.js
+||s.ytimg.com/yts/jsbin/www-pagead-id-vfla_fkeg/www-pagead-id.js
+||https://youtube.com/get_midroll_
+||https://0o0.ooo$domain=kisssub.org
+|https://i.loli.net/2017/11/03/59fc6b3c5b723.jpg
+||bbs.pcbeta.com$s@height:1??px;padding-top:10px;@height:100%;padding-top:10px;@
+||bbs.pcbeta.com$s@;padding:1px;width:468px;height:6?px;border:?px@;padding:1px;width:468px;height:100%;border:1px@
+||bbs.pcbeta.com$s@;padding:1px;width:960px;height:6?px;border:?px@;padding:1px;width:960px;height:100%;border:1px@
+||bbs.pcbeta.com$s@width:980px; position:relative; height:1??px;@width:980px; position:relative; height:100%;@
+||bbs.pcbeta.com$s@{margin-bottom:10px;height:1??px;}@{margin-bottom:10px;height:100%;}@
+!|http://gaoqing.la/$s@<center>*</center>@<center></center>@
+@@|http://diy.pconline.com.cn
+
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://live.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
 !|https://www.bilibili.com/*$r@/^https:\/\/(.*)/(\d*)/@http://$1/$2@
@@ -67,8 +79,11 @@
 |http://gaoqing.la$s@<script src="http://dspmy.ge95.com:8008/?aspx=1367">var *</script>@@
 |https://www.cnbeta.com/##.trc_rbox.thumbnails-c.trc-content-sponsored
 |http://www.zimuku.cn/$s@<li class="li"  style="width:820px;height:90px;*#eee;">@@
-|http://bbs.pcbeta.com/$s@<style type="text/css">*</style>@<style type="text/css"></style>@
-
+agefans.com###content > div.div_left > div:nth-child(4)
+|http://www.kisssub.org##img[style="width:960px; height:90px"]
+|https://www.cnbeta.com##[class^=" trc_related_container trc_spotlight_widget trc_elastic"]
+!btbtt55.com##[class^="ADTOPLB_"]
+ 
 !x  -----------------------------------------------------------------------------------------------------------------
 ||you85./ling/
 ||dnvod.tv/w
@@ -80,7 +95,7 @@
 |https://yes1.feng.com/x.js
 |https://share.acgnx.se/images/gDqF4N4b.png
 |https://share.acgnx.se/images/cjTQH5PQ.png
-|https://sp*.baidu.com^*.gif?
+!|https://sp*.baidu.com^*.gif?
 |https://code.zantainet.com^$script
 !|https://api.bilibili.com/x/web-show/res/loc?pf=0&id=160
 @@|http://music.163.com/eapi/ad/get?_nmclfl=1
@@ -133,7 +148,7 @@
 |https://www.80s.tw/80sad/fumeiti.js
 |https://www.80s.tw/80sad/80s.js
 ||ip.hivps.xyz^$third-party
-||https://tanx.com^$third-party,domain=~tmall.com|~uc123.com
+||https://tanx.com^$third-party,domain=~tmall.com|~uc123.com|~taobao.com
 ||https://sdqoi2d.com^
 ||yxdown.com/cj/
 |https://static.ettoday.net/ad/
