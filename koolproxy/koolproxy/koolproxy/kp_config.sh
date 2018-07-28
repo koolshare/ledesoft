@@ -16,7 +16,7 @@ write_user_txt(){
 start_koolproxy(){
 	write_user_txt
 	kp_version=`koolproxy -h | head -n1 | awk '{print $6}'`
-	dbus set koolproxy_binary_version="koolprxoy $kp_version "
+	dbus set koolproxy_binary_version="koolproxy $kp_version "
 	echo_date 开启koolproxy主进程！
 	[ -f "$KSROOT/bin/koolproxy" ] && rm -rf $KSROOT/bin/koolproxy
 	[ ! -L "$KSROOT/bin/koolproxy" ] && ln -sf $KSROOT/koolproxy/koolproxy $KSROOT/bin/koolproxy
@@ -316,7 +316,7 @@ dns_takeover(){
 }
 
 detect_cert(){
-	if [ ! -f $KP_DIR/data/private/ca.key.pem -o ! -f $KP_DIR/data/cert/ca.crt ]; then
+	if [ ! -f $KP_DIR/data/private/ca.key.pem -o ! -f $KP_DIR/data/certs/ca.crt ]; then
 		echo_date 开始生成koolproxy证书，用于https过滤！
 		cd $KP_DIR/data && sh gen_ca.sh
 	fi

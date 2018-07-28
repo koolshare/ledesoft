@@ -1,9 +1,9 @@
 {
-"version":"3.7.2.13",
-"md5":"f0ea66fc9732491cd977c685b079eb8a",
+"version":"3.7.2.14",
+"md5":"939c8c433cf7e0abff2dda770b76253a",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
-"changelog":"修复证书恢复不正确",
-"build_date":"2018-07-12_21:43:43"
+"changelog":"修复证书重复生成的问题",
+"build_date":"2018-07-28_13:27:43"
 }
