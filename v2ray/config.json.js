@@ -1,9 +1,9 @@
 {
-"version":"0.7",
-"md5":"6387241b8e2775d8f62ac4376926bcdf",
+"version":"0.8",
+"md5":"442c4bd7277b420414c8e25bdb522af8",
 "home_url":"Module_v2ray.asp",
 "title":"V2Ray",
 "description":"模块化的代理软件包",
-"changelog":"更新0.7版本",
-"build_date":"2018-06-22_15:26:06"
+"changelog":"更新0.8版本",
+"build_date":"2018-07-30_11:27:23"
 }
