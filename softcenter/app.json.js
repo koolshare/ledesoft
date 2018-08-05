@@ -12,6 +12,17 @@
             "version": "0.3"
         }, 
         {
+            "build_date": "2018-08-05_14:03:00", 
+            "changelog": "", 
+            "description": "每日批量自动签到", 
+            "home_url": "Module_smzdm.asp", 
+            "md5": "3ae7e044052c18c62bbe2ad5cb9166a8", 
+            "name": "smzdm", 
+            "tar_url": "smzdm/smzdm.tar.gz", 
+            "title": "什么值得买", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-09_22:23:58", 
             "changelog": "", 
             "description": "增强路由NAT能力", 

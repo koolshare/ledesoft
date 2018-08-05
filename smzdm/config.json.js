@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"3ae7e044052c18c62bbe2ad5cb9166a8",
+"home_url":"Module_smzdm.asp",
+"title":"什么值得买",
+"description":"每日批量自动签到",
+"changelog":"",
+"build_date":"2018-08-05_14:03:00"
+}
