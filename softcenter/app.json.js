@@ -530,15 +530,15 @@
             "version": "1.6"
         }, 
         {
-            "build_date": "2018-07-04_10:49:00", 
-            "changelog": "更新二进制1.34.0", 
+            "build_date": "2018-08-09_11:18:21", 
+            "changelog": "支持routeID输入", 
             "description": "超酷的远程下载工具", 
             "home_url": "Module_aria2.asp", 
-            "md5": "152dc8640748e2d721dac545e6782199", 
+            "md5": "ca196781cb7f1f77fdb1ff1f87188940", 
             "name": "aria2", 
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "Aria2", 
-            "version": "2.2"
+            "version": "2.3"
         }, 
         {
             "build_date": "2017-09-09_18:21:59", 

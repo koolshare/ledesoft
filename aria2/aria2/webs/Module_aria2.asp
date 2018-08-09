@@ -155,7 +155,7 @@ function save() {
           { title: '同时进行任务数', name: 'aria2_max_concurrent_downloads', type: 'text', maxlen: 2, size: 2, value: Apps.aria2_max_concurrent_downloads || '3'},
           { title: '开启DHT', name: 'aria2_enable_dht', type: 'checkbox', value: ((Apps.aria2_enable_dht == '1')? 1:0)},
           { title: '开启RPC访问密钥', name: 'aria2_rpc_enable', type: 'checkbox', value: ((Apps.aria2_rpc_enable == '1')? 1:0)},
-          { title: 'RPC访问密钥', name: 'aria2_rpc_secret', type: 'text', maxlen: 32, size: 34, value: Apps.aria2_rpc_secret },
+          { title: 'RPC访问密钥', name: 'aria2_rpc_secret', type: 'text', maxlen: 80, size: 60, value: Apps.aria2_rpc_secret },
           { title: 'BT监听端口', name: 'aria2_listen_port', type: 'text', maxlen: 5, size: 5, value: Apps.aria2_listen_port || '6888' },
           { title: '单个种子最大连接数', name: 'aria2_bt_max_peers', type: 'text', maxlen: 3, size: 3, value: Apps.aria2_bt_max_peers || '60' },
           { title: '添加tracker', name: 'aria2_bt_tracker', type: 'textarea', maxlen: 20000, size: 20000, value: Apps.aria2_bt_tracker || 'udp://tracker1.wasabii.com.tw:6969/announce,udp://tracker2.wasabii.com.tw:6969/announce,http://mgtracker.org:6969/announce,http://tracker.mg64.net:6881/announce,http://share.camoe.cn:8080/announce,udp://tracker.opentrackr.org:1337/announce,udp://9.rarbg.com:2710/announce,udp://11.rarbg.me:80/announce,http://tracker.tfile.me/announce,http://tracker3.torrentino.com/announce' , suffix: '如下载速度慢，可以尝试增加更多tracker服务器，多个服务器以小写逗号,分隔'},

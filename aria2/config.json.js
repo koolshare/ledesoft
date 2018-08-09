@@ -1,9 +1,9 @@
 {
-"version":"2.2",
-"md5":"152dc8640748e2d721dac545e6782199",
+"version":"2.3",
+"md5":"ca196781cb7f1f77fdb1ff1f87188940",
 "home_url":"Module_aria2.asp",
 "title":"Aria2",
 "description":"超酷的远程下载工具",
-"changelog":"更新二进制1.34.0",
-"build_date":"2018-07-04_10:49:00"
+"changelog":"支持routeID输入",
+"build_date":"2018-08-09_11:18:21"
 }
