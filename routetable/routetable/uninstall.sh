@@ -18,7 +18,7 @@ rm -rf $KSROOT/routetable
 rm -rf $KSROOT/webs/Module_routetable.asp
 rm -rf $KSROOT/webs/res/icon-routetable.png
 rm -rf $KSROOT/webs/res/icon-routetable-bg.png
-rm -rf /etc/rc.d/S90routetable.sh >/dev/null 2>&1
+rm -rf /etc/init.d/S80routetable.sh >/dev/null 2>&1
 
 dbus remove softcenter_module_routetable_home_url
 dbus remove softcenter_module_routetable_install

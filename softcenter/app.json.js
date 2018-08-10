@@ -420,15 +420,15 @@
             "version": "1.1.6"
         }, 
         {
-            "build_date": "2018-08-04_12:27:53", 
+            "build_date": "2018-08-10_10:46:43", 
             "changelog": "修复重装系统后的启动问题", 
             "description": "路由流量指明灯", 
             "home_url": "Module_routetable.asp", 
-            "md5": "87050534a6a6ce0405b180ff9a850957", 
+            "md5": "ef5447732b54dcf8e84f008a8047bb9e", 
             "name": "routetable", 
             "tar_url": "routetable/routetable.tar.gz", 
             "title": "路由表设置", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2018-05-28_13:19:11", 

@@ -1,9 +1,9 @@
 {
-"version":"0.5",
-"md5":"87050534a6a6ce0405b180ff9a850957",
+"version":"0.6",
+"md5":"ef5447732b54dcf8e84f008a8047bb9e",
 "home_url":"Module_routetable.asp",
 "title":"路由表设置",
 "description":"路由流量指明灯",
 "changelog":"修复重装系统后的启动问题",
-"build_date":"2018-08-04_12:27:53"
+"build_date":"2018-08-10_10:46:43"
 }
