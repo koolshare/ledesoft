@@ -61,7 +61,7 @@ calculate_wans_nu(){
 			WAN_EXIST=`ubus call network.interface dump|jq .interface[$j]|grep nexthop|grep -v "$lan_addr_prefix."|grep -v 127.0.0.1|sed 's/"nexthop"://g'|grep -v :`
 			if [ -n "$WAN_EXIST" ];then
 				wan_name=`ubus call network.interface dump|jq .interface[$j].interface|sed 's/"//g'`
-				wan_gw=`ubus call network.interface dump|jq .interface[$j].route[0].nexthop|sed 's/"//g'`
+				wan_gw=`ubus call network.interface dump|jq .interface[$j].route[-1].nexthop|sed 's/"//g'`
 				wan_ifname_l3=`ubus call network.interface dump|jq .interface[$j].l3_device|sed 's/"//g'`
 				wan_up=`ubus call network.interface dump|jq .interface[$j].up|sed 's/"//g'`
 				if [ "$wan_up" == "true" ];then
@@ -210,7 +210,7 @@ route_add(){
 	if [ "$devnu" == "0" ];then
 		echo_date "【出口设定】 不指定 $routeip 的出口"
 	else
-		GW=`ubus call network.interface dump|jq .interface["$devnu"].route[0].nexthop|sed 's/"//g'`
+		GW=`ubus call network.interface dump|jq .interface["$devnu"].route[-1].nexthop|sed 's/"//g'`
 		l3_name=`ubus call network.interface dump|jq .interface["$devnu"].l3_device|sed 's/"//g'`
 		#devname=`ubus call network.interface dump|jq .interface["$devnu"].device|sed 's/"//g'`
 		if [ -n "$GW" ];then
