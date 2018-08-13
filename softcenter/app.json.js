@@ -148,15 +148,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2018-08-13_13:24:25", 
-            "changelog": "修复配置文件问题", 
+            "build_date": "2018-08-13_13:44:23", 
+            "changelog": "升级二进制", 
             "description": "跨平台的Socks5代理", 
             "home_url": "Module_brook.asp", 
-            "md5": "f95a5bd235153ef7faf5afa4c4e07521", 
+            "md5": "38d058ef0f2987b741a59d26d784792d", 
             "name": "brook", 
             "tar_url": "brook/brook.tar.gz", 
             "title": "Brook", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2018-05-12_19:19:17", 
