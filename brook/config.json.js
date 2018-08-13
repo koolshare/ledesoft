@@ -1,9 +1,9 @@
 {
 "version":"0.2",
-"md5":"76dce2c188255931cac165ba9e717db1",
+"md5":"f95a5bd235153ef7faf5afa4c4e07521",
 "home_url":"Module_brook.asp",
 "title":"Brook",
 "description":"跨平台的Socks5代理",
 "changelog":"修复配置文件问题",
-"build_date":"2018-08-13_13:22:19"
+"build_date":"2018-08-13_13:24:25"
 }
