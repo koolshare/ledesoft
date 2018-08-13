@@ -1,10 +1,11 @@
 #!/bin/sh
 
 MODULE=brook
-VERSION=0.1
+VERSION=0.2
 TITLE="Brook"
 DESCRIPTION="跨平台的Socks5代理"
 HOME_URL=Module_brook.asp
+CHANGELOG="修复配置文件问题"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
