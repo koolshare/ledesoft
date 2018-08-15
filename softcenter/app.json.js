@@ -469,15 +469,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2018-08-15_10:41:34", 
-            "changelog": "update 3.8.1", 
+            "build_date": "2018-08-15_11:46:25", 
+            "changelog": "更新二进制: 3.8.1", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "685048dbb6aa610e037f6920a2eb9718", 
+            "md5": "90e7ddd1826f069029caed2c6fd71915", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.8.1"
+            "version": "3.8.1.1"
         }, 
         {
             "build_date": "2018-08-05_14:03:00", 
