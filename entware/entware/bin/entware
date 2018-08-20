@@ -2,43 +2,47 @@
 source /opt/etc/profile
 ## @Author: triton
 # @Date:   2017-07-29 06:10:54
-# @Last Modified by:   triton2
-# @Last Modified time: 2017-12-10 22:52:46
+# @Last Modified by:   xzhih
+# @Last Modified time: 2018-08-08 05:03:31
 
 # 软件包列表
-pkglist="wget unzip grep sed ca-certificates php7 php7-cgi php7-cli php7-fastcgi php7-fpm php7-mod-calendar php7-mod-ctype php7-mod-curl php7-mod-dom php7-mod-exif php7-mod-fileinfo php7-mod-ftp php7-mod-gd php7-mod-gettext php7-mod-gmp php7-mod-hash php7-mod-iconv php7-mod-intl php7-mod-json php7-mod-ldap php7-mod-session php7-mod-mbstring  php7-mod-mcrypt  php7-mod-mysqli php7-mod-opcache php7-mod-openssl php7-mod-pdo php7-mod-pcntl php7-mod-pdo-mysql php7-mod-phar php7-mod-session php7-mod-shmop php7-mod-simplexml php7-mod-soap php7-mod-sockets php7-mod-sqlite3 php7-mod-sysvmsg php7-mod-sysvsem php7-mod-sysvshm php7-mod-tokenizer php7-mod-xml php7-mod-xmlreader php7-mod-xmlwriter php7-mod-zip php7-pecl-dio php7-pecl-http php7-pecl-libevent php7-pecl-propro php7-pecl-raphf nginx-extras zoneinfo-core zoneinfo-asia libmariadb mariadb-server mariadb-client mariadb-client-extra"
+pkglist="wget unzip grep sed tar ca-certificates coreutils-whoami php7 php7-cgi php7-cli php7-fastcgi php7-fpm php7-mod-mysqli php7-mod-pdo php7-mod-pdo-mysql nginx-extras mariadb-server mariadb-server-extra mariadb-client mariadb-client-extra"
+
+phpmod="php7-mod-calendar php7-mod-ctype php7-mod-curl php7-mod-dom php7-mod-exif php7-mod-fileinfo php7-mod-ftp php7-mod-gd php7-mod-gettext php7-mod-gmp php7-mod-hash php7-mod-iconv php7-mod-intl php7-mod-json php7-mod-ldap php7-mod-session php7-mod-mbstring php7-mod-opcache php7-mod-openssl php7-mod-pcntl php7-mod-phar php7-pecl-redis php7-mod-session php7-mod-shmop php7-mod-simplexml php7-mod-snmp php7-mod-soap php7-mod-sockets php7-mod-sqlite3 php7-mod-sysvmsg php7-mod-sysvsem php7-mod-sysvshm php7-mod-tokenizer php7-mod-xml php7-mod-xmlreader php7-mod-xmlwriter php7-mod-zip php7-pecl-dio php7-pecl-http php7-pecl-libevent php7-pecl-propro php7-pecl-raphf redis snmpd snmp-mibs snmp-utils zoneinfo-core zoneinfo-asia"
 
 # 后续可能增加的包(缺少源支持)
 # php7-mod-imagick imagemagick imagemagick-jpeg imagemagick-png imagemagick-tiff imagemagick-tools
 
 # Web程序
 # (1) phpMyAdmin（数据库管理工具）
-url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/4.7.5/phpMyAdmin-4.7.5-all-languages.zip"
+url_phpMyAdmin="https://files.phpmyadmin.net/phpMyAdmin/4.8.2/phpMyAdmin-4.8.2-all-languages.zip"
 
 # (2) WordPress（使用最广泛的CMS）
-url_WordPress="https://cn.wordpress.org/wordpress-4.8.1-zh_CN.zip"
+url_WordPress="https://cn.wordpress.org/wordpress-4.9.4-zh_CN.zip"
 
 # (3) Owncloud（经典的私有云）
-url_Owncloud="https://lede-opkg.koolcenter.com/onmp/owncloud-10.0.3.zip"
+url_Owncloud="https://download.owncloud.org/community/owncloud-10.0.9.zip"
 
 # (4) Nextcloud（Owncloud团队的新作，美观强大的个人云盘）
-url_Nextcloud="https://lede-opkg.koolcenter.com/onmp/nextcloud-12.0.3.zip"
+url_Nextcloud="https://download.nextcloud.com/server/releases/nextcloud-13.0.5.zip"
 
 # (5) h5ai（优秀的文件目录）
 url_h5ai="https://release.larsjung.de/h5ai/h5ai-0.29.0.zip"
 
 # (6) Lychee（一个很好看，易于使用的Web相册）
-url_Lychee="https://lede-opkg.koolcenter.com/onmp/Lychee-master.zip"
+url_Lychee="https://github.com/electerious/Lychee/archive/master.zip"
 
 # (7) Kodexplorer（可道云aka芒果云在线文档管理器）
-url_Kodexplorer="http://static.kodcloud.com/update/download/kodexplorer4.24.zip"
+url_Kodexplorer="http://static.kodcloud.com/update/download/kodexplorer4.25.zip"
 
-# (8) Netdata（详细得惊人的服务器监控面板）
-url_Netdata="netdata"
+# (8) Typecho (流畅的轻量级开源博客程序)
+url_Typecho="http://typecho.org/downloads/1.1-17.10.30-release.tar.gz"
 
-if [[ "mips" = $(uname -m) ]]; then
-    url_Netdata="http://pkg.entware.net/binaries/mipsel/archive/netdata_1.6.0-1_mipselsf.ipk"
-fi
+# (9) Z-Blog (体积小，速度快的PHP博客程序)
+url_Zblog="https://update.zblogcn.com/zip/Z-BlogPHP_1_5_2_1935_Zero.zip"
+
+# (10) DzzOffice (开源办公平台)
+url_DzzOffice="https://codeload.github.com/zyx0814/dzzoffice/zip/master"
 
 # 通用环境变量获取
 get_env()
@@ -48,7 +52,7 @@ get_env()
 
     # 获取网关
     localhost=`uci get network.lan.ipaddr`
-	mysqlpasswd=`dbus get entware_password`
+    mysqlpasswd=`dbus get entware_password`
 }
 
 ##### 软件包状态检测 #####
@@ -56,6 +60,21 @@ install_check()
 {
     notinstall=""
     for data in $pkglist ; do
+        if [[ `opkg list-installed | grep $data | wc -l` -ne 0 ]];then
+            echo "$data 已安装"
+        else
+            notinstall="$notinstall $data"
+            echo "$data 正在安装..."
+            opkg install $data
+        fi
+    done
+}
+
+# 安装PHP mod 
+install_php_mod()
+{
+    notinstall=""
+    for data in $phpmod ; do
         if [[ `opkg list-installed | grep $data | wc -l` -ne 0 ]];then
             echo "$data 已安装"
         else
@@ -81,11 +100,13 @@ install_onmp_ipk()
     done
 
     if [[ ${#notinstall} -gt 0 ]]; then
-        echo "可能会因为网络问题某些软件包无法安装，请挂全局VPN再次运行命令"
+        echo "可能会因为某些问题某些核心软件包无法安装，请保持/opt/目录足够干净，如果是网络问题，请挂全局VPN再次运行命令"
     else
         echo "----------------------------------------"
         echo "|********** ONMP软件包已完整安装 *********|"
         echo "----------------------------------------"
+        echo "开始安装PHP的模块(Nextcloud这类应用需要)"
+        install_php_mod;;
         echo "现在开始初始化ONMP"
         init_onmp
         echo ""
@@ -109,10 +130,15 @@ init_onmp()
     # 初始化PHP
     init_php > /dev/null 2>&1
 
+    # 初始化redis
+    echo 'unixsocket /opt/var/run/redis.sock' >> /opt/etc/redis.conf
+    echo 'unixsocketperm 777' >> /opt/etc/redis.conf 
+
     # 添加探针
-    cp /opt/ONMP-master/default /opt/wwwroot/ -R
+    cp /opt/onmp/tz.php /opt/wwwroot/default -R
     add_vhost 81 default
-    sed -e "s/.*\#php-fpm.*/    include     \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/default.conf
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/default.conf
+    chmod -R 777 /opt/wwwroot/default
 
     # 生成ONMP命令
     set_onmp_sh
@@ -134,46 +160,40 @@ cat > "/opt/etc/nginx/nginx.conf" <<-\EOF
 user theOne root;
 pid /opt/var/run/nginx.pid;
 worker_processes auto;
-worker_rlimit_nofile 65535;
+
 events {
     use epoll;
     multi_accept on;
-    worker_connections 51200;
+    worker_connections 1024;
 }
+
 http {
-    sendfile                        on;
-    tcp_nopush                      on;
-    tcp_nodelay                     on;
-    default_type                    application/octet-stream;
-    server_tokens                   off;
-    keepalive_timeout               60;
-    client_max_body_size            2000m;
-    client_body_temp_path           /opt/tmp/;
-    client_header_buffer_size       8k;
-    large_client_header_buffers     4 32k;
-    server_names_hash_bucket_size   128;
-    gzip                            on;
-    gzip_vary                       on;
-    gzip_proxied                    expired no-cache no-store private no_last_modified no_etag auth;
-    gzip_types                      application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
-    gzip_disable                    "MSIE [1-6]\.";
-    gzip_buffers                    4 16k;
-    gzip_comp_level                 4;
-    gzip_min_length                 1k;
-    gzip_http_version               1.1;
-    fastcgi_buffers                 4 64k;
-    fastcgi_buffer_size             64k;
-    fastcgi_send_timeout            300;
-    fastcgi_read_timeout            300;
-    fastcgi_connect_timeout         300;
-    fastcgi_busy_buffers_size       128k;
-    fastcgi_temp_file_write_size    256k;
-    include                         mime.types;
-    include                         /opt/etc/nginx/vhost/*.conf;
+    charset utf-8;
+    include mime.types;
+    default_type application/octet-stream;
+    
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 60;
+    
+    client_max_body_size 2000m;
+    client_body_temp_path /opt/tmp/;
+    
+    gzip on; 
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_min_length 1k;
+    gzip_buffers 4 8k;
+    gzip_comp_level 2;
+    gzip_disable "msie6";
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript image/svg+xml;
+
+    include /opt/etc/nginx/vhost/*.conf;
 }
 EOF
 
-sed -e "s/theOne/root/g" -i /opt/etc/nginx/nginx.conf
+sed -e "s/theOne/$username/g" -i /opt/etc/nginx/nginx.conf
 
 # 特定程序的nginx配置
 nginx_special_conf
@@ -187,10 +207,10 @@ nginx_special_conf()
 cat > "/opt/etc/nginx/conf/php-fpm.conf" <<-\OOO
 location ~ \.php(?:$|/) {
     fastcgi_split_path_info ^(.+\.php)(/.+)$; 
-    fastcgi_pass                    unix:/opt/var/run/php7-fpm.sock;
-    fastcgi_index                   index.php;
-    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
-    include                         fastcgi_params;
+    fastcgi_pass unix:/opt/var/run/php7-fpm.sock;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
 }
 OOO
 
@@ -201,19 +221,29 @@ add_header X-XSS-Protection "1; mode=block";
 add_header X-Robots-Tag none;
 add_header X-Download-Options noopen;
 add_header X-Permitted-Cross-Domain-Policies none;
+
 location = /robots.txt {
     allow all;
     log_not_found off;
     access_log off;
 }
 location = /.well-known/carddav {
-  return 301 $scheme://$host/remote.php/dav;
+    return 301 $scheme://$host/remote.php/dav;
 }
 location = /.well-known/caldav {
-  return 301 $scheme://$host/remote.php/dav;
+    return 301 $scheme://$host/remote.php/dav;
 }
+
+fastcgi_buffers 64 4K;
+gzip on;
+gzip_vary on;
+gzip_comp_level 4;
+gzip_min_length 256;
+gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
 location / {
-    rewrite ^ /index.php$uri;
+    rewrite ^ /index.php$request_uri;
 }
 location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
     deny all;
@@ -221,23 +251,26 @@ location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
 location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console) {
     deny all;
 }
+
 location ~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+)\.php(?:$|/) {
-    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    fastcgi_split_path_info ^(.+?\.php)(/.*)$;
     include fastcgi_params;
-    fastcgi_pass unix:/opt/var/run/php7-fpm.sock;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     fastcgi_param PATH_INFO $fastcgi_path_info;
     fastcgi_param modHeadersAvailable true;
     fastcgi_param front_controller_active true;
+    fastcgi_pass unix:/opt/var/run/php7-fpm.sock;
     fastcgi_intercept_errors on;
     fastcgi_request_buffering off;
 }
+
 location ~ ^/(?:updater|ocs-provider)(?:$|/) {
     try_files $uri/ =404;
     index index.php;
 }
+
 location ~ \.(?:css|js|woff|svg|gif)$ {
-    try_files $uri /index.php$uri$is_args$args;
+    try_files $uri /index.php$request_uri;
     add_header Cache-Control "public, max-age=15778463";
     add_header X-Content-Type-Options nosniff;
     add_header X-XSS-Protection "1; mode=block";
@@ -246,51 +279,133 @@ location ~ \.(?:css|js|woff|svg|gif)$ {
     add_header X-Permitted-Cross-Domain-Policies none;
     access_log off;
 }
+
 location ~ \.(?:png|html|ttf|ico|jpg|jpeg)$ {
-    try_files $uri /index.php$uri$is_args$args;
+    try_files $uri /index.php$request_uri;
     access_log off;
 }
 OOO
 
 # owncloud
 cat > "/opt/etc/nginx/conf/owncloud.conf" <<-\OOO
-gzip off;
-index index.php;
-error_page 403 /core/templates/403.php;
-error_page 404 /core/templates/404.php;
-rewrite ^/.well-known/carddav /remote.php/carddav/ permanent;
-rewrite ^/.well-known/caldav /remote.php/caldav/ permanent;
+add_header X-Content-Type-Options nosniff;
+add_header X-Frame-Options "SAMEORIGIN";
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Robots-Tag none;
+add_header X-Download-Options noopen;
+add_header X-Permitted-Cross-Domain-Policies none;
+
 location = /robots.txt {
     allow all;
     log_not_found off;
     access_log off;
 }
-location ~ ^/(build|tests|config|lib|3rdparty|templates|data)/ {
-    deny all;
+location = /.well-known/carddav {
+    return 301 $scheme://$host/remote.php/dav;
+}
+location = /.well-known/caldav {
+    return 301 $scheme://$host/remote.php/dav;
+}
+
+gzip off;
+fastcgi_buffers 8 4K; 
+fastcgi_ignore_headers X-Accel-Buffering;
+error_page 403 /core/templates/403.php;
+error_page 404 /core/templates/404.php;
+
+location / {
+    rewrite ^ /index.php$uri;
+}
+
+location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+    return 404;
 }
 location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console) {
-    deny all;
+    return 404;
 }
-location / {
-    rewrite ^/remote/(.*) /remote.php last;
-    rewrite ^(/core/doc/[^\/]+/)$ $1/index.html;
+
+location ~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+|core/templates/40[34])\.php(?:$|/) {
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+    fastcgi_param PATH_INFO $fastcgi_path_info;
+    fastcgi_param modHeadersAvailable true;
+    fastcgi_param front_controller_active true;
+    fastcgi_read_timeout 180;
+    fastcgi_pass unix:/opt/var/run/php7-fpm.sock;
+    fastcgi_intercept_errors on;
+    fastcgi_request_buffering on;
+}
+
+location ~ ^/(?:updater|ocs-provider)(?:$|/) {
     try_files $uri $uri/ =404;
+    index index.php;
 }
-location ~* \.(?:css|js)$ {
-    add_header Cache-Control "public, max-age=7200";
+
+location ~ \.(?:css|js)$ {
+    try_files $uri /index.php$uri$is_args$args;
+    add_header Cache-Control "max-age=15778463";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header X-Download-Options noopen;
+    add_header X-Permitted-Cross-Domain-Policies none;
     access_log off;
 }
-location ~* \.(?:jpg|jpeg|gif|bmp|ico|png|swf)$ {
+
+location ~ \.(?:svg|gif|png|html|ttf|woff|ico|jpg|jpeg|map)$ {
+    add_header Cache-Control "public, max-age=7200";
+    try_files $uri /index.php$uri$is_args$args;
     access_log off;
 }
 OOO
 
 # wordpress
 cat > "/opt/etc/nginx/conf/wordpress.conf" <<-\OOO
+location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+}
+location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+}
+location ~ /\. {
+    deny all;
+}
+location ~ ^/wp-content/uploads/.*\.php$ {
+    deny all;
+}
+location ~* /(?:uploads|files)/.*\.php$ {
+    deny all;
+}
+
 location / {
     try_files $uri $uri/ /index.php?$args;
 }
-rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+
+location ~ \.php$ {
+    include fastcgi.conf;
+    fastcgi_intercept_errors on;
+    fastcgi_pass unix:/opt/var/run/php7-fpm.sock;
+    fastcgi_buffers 16 16k;
+    fastcgi_buffer_size 32k;
+}
+
+location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+    expires max;
+    log_not_found off;
+}
+OOO
+
+# typecho
+cat > "/opt/etc/nginx/conf/typecho.conf" <<-\OOO
+if (!-e $request_filename) {
+        rewrite ^(.*)$ /index.php$1 last;
+    }
 OOO
 
 }
@@ -299,70 +414,48 @@ OOO
 init_sql()
 {
     get_env
-    /opt/etc/init.d/S70mariadbd stop > /dev/null 2>&1
+    /opt/etc/init.d/S70mysqld stop > /dev/null 2>&1
     sleep 10
+    killall mysqld > /dev/null 2>&1
     rm -rf /opt/mysql
     rm -rf /opt/var/mysql
+    mkdir -p /opt/etc/mysql/
 
 # MySQL设置
 cat > "/opt/etc/mysql/my.cnf" <<-\MMM
 [client-server]
-port                            = 3306
-socket                          = /opt/tmp/mysql.sock
+port               = 3306
+socket             = /opt/var/run/mysqld.sock
 
 [mysqld]
-user                            = theOne
-pid-file                        = /opt/var/run/mariadb.pid
-basedir                         = /opt
-lc_messages_dir                 = /opt/share/mysql
-lc_messages                     = en_US
-datadir                         = /opt/var/mysql/
-tmpdir                          = /opt/tmp/
+user               = theOne
+socket             = /opt/var/run/mysqld.sock
+pid-file           = /opt/var/run/mysqld.pid
+basedir            = /opt
+lc_messages_dir    = /opt/share/mysql
+lc_messages        = en_US
+datadir            = /opt/var/mysql/
+tmpdir             = /opt/tmp/
 
 skip-external-locking
-bind-address                    = 127.0.0.1
-max_connections                 = 25
-connect_timeout                 = 5
-wait_timeout                    = 600
-key_buffer_size                 = 16M
-max_allowed_packet              = 16M
-table_open_cache                = 64
-sort_buffer_size                = 64K
-read_buffer_size                = 256K
-read_rnd_buffer_size            = 256K
-net_buffer_length               = 2K
-myisam_sort_buffer_size         = 64K
-thread_cache_size               = 8
-thread_stack                    = 128K
-query_cache_limit               = 128K
-query_cache_size                = 2M
-server-id                       = 1
-default-storage-engine          = innodb
-innodb_autoinc_lock_mode        = 2
-innodb_flush_method             = O_DIRECT
-innodb_data_home_dir            = /opt/var/mysql
-innodb_log_group_home_dir       = /opt/var/mysql
-innodb_buffer_pool_size         = 16M
-innodb_additional_mem_pool_size = 2M
-innodb_large_prefix             = ON
-innodb_file_per_table           = ON
-log_warnings                    = 2
-slow_query_log                  = 1
-slow_query_log_file             = /opt/var/log/mariadb-slow.log
-long_query_time                 = 10
-log_slow_rate_limit             = 20
-log_slow_verbosity              = query_plan
+
+bind-address       = 127.0.0.0
+
+key_buffer_size    = 24M
+max_allowed_packet = 24M
+thread_stack       = 192K
+thread_cache_size  = 8
 
 [mysqldump]
 quick
-max_allowed_packet              = 16M
+quote-names
+max_allowed_packet = 24M
 
 [mysql]
-#no-auto-rehash 
+#no-auto-rehash
 
-[myisamchk]
-key_buffer_size                 = 8M
-sort_buffer_size                = 8M
+[isamchk]
+key_buffer_size    = 24M
 
 [mysqlhotcopy]
 interactive-timeout
@@ -370,13 +463,17 @@ MMM
 
 sed -e "s/theOne/$username/g" -i /opt/etc/mysql/my.cnf
 
+chmod 644 /opt/etc/mysql/my.cnf
+
+mkdir -p /opt/var/mysql
+
 # 数据库安装
-/opt/bin/mysql_install_db
+/opt/bin/mysql_install_db --user=$username --basedir=/opt --datadir=/opt/var/mysql/
 echo -e "\n正在初始化数据库，请稍等1分钟"
 sleep 20
 
 # 初次启动MySQL
-/opt/etc/init.d/S70mariadbd start
+/opt/etc/init.d/S70mysqld start
 sleep 60
 
 # 设置数据库密码
@@ -395,10 +492,11 @@ mkdir -p /opt/usr/php/tmp/
 chmod -R 777 /opt/usr/php/tmp/
 
 sed -e "/^doc_root/d" -i /opt/etc/php.ini
-sed -e "s/.*memory_limit = .*/memory_limit = 32M/g" -i /opt/etc/php.ini
-sed -e "s/.*post_max_size = .*/post_max_size = 1000M/g" -i /opt/etc/php.ini
-sed -e "s/.*max_execution_time = .*/max_execution_time = 200 /g" -i /opt/etc/php.ini
-sed -e "s/.*upload_max_filesize.*/upload_max_filesize = 2000M/g" -i /opt/etc/php.ini
+sed -e "s/.*memory_limit = .*/memory_limit = 128M/g" -i /opt/etc/php.ini
+sed -e "s/.*output_buffering = .*/output_buffering = 4096/g" -i /opt/etc/php.ini
+sed -e "s/.*post_max_size = .*/post_max_size = 8000M/g" -i /opt/etc/php.ini
+sed -e "s/.*max_execution_time = .*/max_execution_time = 2000 /g" -i /opt/etc/php.ini
+sed -e "s/.*upload_max_filesize.*/upload_max_filesize = 8000M/g" -i /opt/etc/php.ini
 sed -e "s/.*listen.mode.*/listen.mode = 0666/g" -i /opt/etc/php7-fpm.d/www.conf
 
 # PHP配置文件
@@ -410,7 +508,8 @@ opcache.interned_strings_buffer=8
 opcache.max_accelerated_files=10000
 opcache.memory_consumption=128
 opcache.save_comments=1
-opcache.revalidate_freq=1
+opcache.revalidate_freq=60
+opcache.fast_shutdown=1
 PHPINI
 
 cat >> "/opt/etc/php7-fpm.d/www.conf" <<-\PHPFPM
@@ -425,9 +524,9 @@ PHPFPM
 ############# 用户设置数据库密码 ############
 set_passwd()
 {
-    /opt/etc/init.d/S70mariadbd start
+    /opt/etc/init.d/S70mysqld start
     sleep 3
-    echo -e "\033[41;37m 初始密码：$mysqlpasswd \033[0m"
+    echo -e "\033[41;37m 初始密码：123456 \033[0m"
     mysqladmin -u root -p password
     onmp restart
 }
@@ -435,9 +534,16 @@ set_passwd()
 ################ 卸载onmp ###############
 remove_onmp()
 {
-    killall -9 nginx mysqld php-fpm
-    for data in $pkglist; do
-        opkg remove $data --force-depends
+    /opt/etc/init.d/S70mysqld stop > /dev/null 2>&1
+    /opt/etc/init.d/S79php7-fpm stop > /dev/null 2>&1
+    /opt/etc/init.d/S80nginx stop > /dev/null 2>&1
+    /opt/etc/init.d/S70redis stop > /dev/null 2>&1
+    killall -9 nginx mysqld php-fpm redis-server > /dev/null 2>&1
+    for pkg in $pkglist; do
+        opkg remove $pkg --force-depends
+    done
+    for mod in $phpmod; do
+        opkg remove $mod --force-depends
     done
     rm -rf /opt/wwwroot
     rm -rf /opt/etc/nginx/vhost
@@ -447,6 +553,7 @@ remove_onmp()
     rm -rf /opt/etc/nginx/
     rm -rf /opt/etc/php*
     rm -rf /opt/etc/mysql
+    rm -rf /opt/etc/redis*
 }
 
 ################ 生成ONMP命令 ###############
@@ -479,22 +586,25 @@ vhost_list()
 
 onmp_restart()
 {
+    /opt/etc/init.d/S70mysqld stop > /dev/null 2>&1
+    /opt/etc/init.d/S79php7-fpm stop > /dev/null 2>&1
+    /opt/etc/init.d/S80nginx stop > /dev/null 2>&1
     killall -9 nginx mysqld php-fpm > /dev/null 2>&1
-    sleep 2
-    /opt/etc/init.d/S70mariadbd start > /dev/null 2>&1
+    sleep 3
+    /opt/etc/init.d/S70mysqld start > /dev/null 2>&1
     /opt/etc/init.d/S79php7-fpm start > /dev/null 2>&1
     /opt/etc/init.d/S80nginx start > /dev/null 2>&1
     sleep 3
-    onmplist="nginx php-fpm mysqld"
     num=0
-    for i in $onmplist; do
-        if [ `ps | grep $i |wc -l` -eq 1 ];then
-            echo "$i 启动失败"
-            num=`expr $num + 1`
+    for PROC in 'nginx' 'php-fpm' 'mysqld'; do 
+        if [ -n "`pidof $PROC`" ]; then
+            echo $PROC "启动成功";
         else
-            echo "$i 启动成功"
-        fi
+            echo $PROC "启动失败";
+            num=`expr $num + 1`
+        fi 
     done
+
     if [[ $num -gt 0 ]]; then
         echo "onmp启动失败"
         logger -t "【ONMP】" "启动失败"
@@ -507,7 +617,7 @@ onmp_restart()
 
 case $1 in
     open ) 
-    /opt/ONMP-master/onmp_intall.sh
+    /opt/onmp/onmp.sh
     ;;
 
     start )
@@ -519,7 +629,9 @@ case $1 in
     stop )
     echo "onmp正在停止"
     logger -t "【ONMP】" "正在停止"
-    killall -9 nginx mysqld php-fpm
+    /opt/etc/init.d/S70mysqld stop > /dev/null 2>&1
+    /opt/etc/init.d/S79php7-fpm stop > /dev/null 2>&1
+    /opt/etc/init.d/S80nginx stop > /dev/null 2>&1
     echo "onmp已停止"
     logger -t "【ONMP】" "已停止"
     ;;
@@ -530,29 +642,94 @@ case $1 in
     onmp_restart
     ;;
 
+    mysql )
+    case $2 in
+        start ) /opt/etc/init.d/S70mysqld start;;
+        stop ) /opt/etc/init.d/S70mysqld stop;;
+        restart ) /opt/etc/init.d/S70mysqld restart;;
+        * ) echo "onmp mysqld start|restart|stop";;
+    esac
+    ;;
+
+    php )
+    case $2 in
+        start ) /opt/etc/init.d/S79php7-fpm start;;
+        stop ) /opt/etc/init.d/S79php7-fpm stop;;
+        restart ) /opt/etc/init.d/S79php7-fpm restart;;
+        * ) echo "onmp php start|restart|stop";;
+    esac
+    ;;
+
+    nginx )
+    case $2 in
+        start ) /opt/etc/init.d/S80nginx start;;
+        stop ) /opt/etc/init.d/S80nginx stop;;
+        restart ) /opt/etc/init.d/S80nginx restart;;
+        * ) echo "onmp nginx start|restart|stop";;
+    esac
+    ;;
+
+    redis )
+    case $2 in
+        start ) /opt/etc/init.d/S70redis start;;
+        stop ) /opt/etc/init.d/S70redis stop;;
+        restart ) /opt/etc/init.d/S70redis restart;;
+        * ) echo "onmp redis start|restart|stop";;
+    esac
+    ;;
+
     list )
     vhost_list
     ;;
     * )
-    echo "----------------------------------------"
-    echo "|*************  onmp 命令  *************|"
-    echo "|**********  管理 onmp open  **********|"
-    echo "|*********  启动 停止 重启ONMP  *********|"
-    echo "|*****  onmp start|stop|restart   *****|"
-    echo "|*******  查看网站列表 onmp list  *******|"
-    echo "----------------------------------------"
+#
+cat << HHH
+=================================
+ onmp 管理命令
+ onmp open
+
+ 启动 停止 重启
+ onmp start|stop|restart
+
+ 查看网站列表 onmp list
+
+ Nginx 管理命令
+ onmp nginx start|restart|stop
+ MySQL 管理命令
+ onmp mysql start|restart|stop
+ PHP 管理命令
+ onmp php start|restart|stop
+ Redis 管理命令
+ onmp redis start|restart|stop
+=================================
+HHH
     ;;
 esac
 EOF
 
 chmod +x /opt/bin/onmp
-echo "----------------------------------------"
-echo "|**********  onmp命令已经生成  **********|"
-echo "|**********  管理 onmp open  **********|"
-echo "|*********  启动 停止 重启ONMP  *********|"
-echo "|*****  onmp start|stop|restart   *****|"
-echo "|*******  查看网站列表 onmp list  *******|"
-echo "----------------------------------------"
+#
+cat << HHH
+=================================
+ onmp 管理命令
+ onmp open
+
+ 启动 停止 重启
+ onmp start|stop|restart
+
+ 查看网站列表 onmp list
+
+ Nginx 管理命令
+ onmp nginx start|restart|stop
+ MySQL 管理命令
+ onmp mysql start|restart|stop
+ PHP 管理命令
+ onmp php start|restart|stop
+ Redis 管理命令
+ onmp redis start|restart|stop
+=================================
+HHH
+
 }
 
 ############### 网站程序安装 ##############
@@ -574,10 +751,12 @@ cat << AAA
 (5) h5ai（优秀的文件目录）
 (6) Lychee（一个很好看，易于使用的Web相册）
 (7) Kodexplorer（可道云aka芒果云在线文档管理器）
-(8) Netdata（详细得惊人的服务器监控面板）
+(8) Typecho (流畅的轻量级开源博客程序)
+(9) Z-Blog (体积小，速度快的PHP博客程序)
+(10) DzzOffice (开源办公平台)
 (0) 退出
 AAA
-read -p "输入你的选择[0-9]: " input
+read -p "输入你的选择[0-11]: " input
 case $input in
     1) install_phpmyadmin;;
 2) install_wordpress;;
@@ -586,9 +765,11 @@ case $input in
 5) install_h5ai;;
 6) install_lychee;;
 7) install_kodexplorer;;
-8) install_netdata;;
+8) install_typecho;;
+9) install_zblog;;
+10) install_dzzoffice;;
 0) exit;;
-*) echo "你输入的不是 0 ~ 9 之间的!"
+*) echo "你输入的不是 0 ~ 10 之间的!"
 break;;
 esac
 }
@@ -605,7 +786,7 @@ web_installer()
     # 获取用户自定义设置
     read -p "输入服务端口（请避开已使用的端口）[留空默认$port]: " nport
     if [[ $nport ]]; then
-        $port=$nport
+        port=$nport
     fi
     read -p "输入目录名（留空默认：$name）: " webdir
     if [[ ! -n "$webdir" ]]; then
@@ -625,21 +806,31 @@ esac
 fi
 
     # 下载程序并解压
+    suffix="zip"
+    if [[ -n "$istar" ]]; then
+        suffix="tar"
+    fi
     if [[ ! -d "/opt/wwwroot/$webdir" ]] ; then
         rm -rf /opt/etc/nginx/vhost/$webdir.conf
-        if [[ ! -f /opt/wwwroot/$name.zip ]]; then
-            rm -rf /opt/tmp/$name.zip
-            wget --no-check-certificate -O /opt/tmp/$name.zip $filelink
-            mv /opt/tmp/$name.zip /opt/wwwroot/
+        if [[ ! -f /opt/wwwroot/$name.$suffix ]]; then
+            rm -rf /opt/tmp/$name.$suffix
+            wget --no-check-certificate -O /opt/tmp/$name.$suffix $filelink
+            mv /opt/tmp/$name.* /opt/wwwroot/
         fi
-        if [[ ! -f "/opt/wwwroot/$name.zip" ]]; then
+        if [[ ! -f "/opt/wwwroot/$name.$suffix" ]]; then
             echo "下载未成功"
         else
             echo "正在解压..."
             if [[ -n "$hookdir" ]]; then
                 mkdir /opt/wwwroot/$hookdir
             fi
-            unzip /opt/wwwroot/$name.zip -d /opt/wwwroot/$hookdir > /dev/null 2>&1
+
+            if [[ -n "$istar" ]]; then
+                tar zxf /opt/wwwroot/$name.$suffix -C /opt/wwwroot/$hookdir > /dev/null 2>&1
+            else
+                unzip /opt/wwwroot/$name.$suffix -d /opt/wwwroot/$hookdir > /dev/null 2>&1
+            fi
+            
             mv /opt/wwwroot/$dirname /opt/wwwroot/$webdir
             echo "解压完成..."
         fi
@@ -661,6 +852,7 @@ fi
 #     dirname=""          # 解压后的目录名
 #     port=               # 端口
 #     hookdir=$dirname    # 某些程序解压后不是单个目录，用这个hook解决
+#     istar=true          # 是否为tar压缩包, 不是则删除此行
 
 #     # 运行安装程序 
 #     web_installer
@@ -669,7 +861,7 @@ fi
 
 #     # 添加到虚拟主机
 #     add_vhost $port $webdir
-#     sed -e "s/.*\#php-fpm.*/    include       \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf         # 添加php-fpm支持
+#     sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf         # 添加公共php-fpm支持
 #     onmp restart >/dev/null 2>&1
 #     echo "$name安装完成"
 #     echo "浏览器地址栏输入：$localhost:$port 即可访问"
@@ -693,7 +885,7 @@ install_phpmyadmin()
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include     \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
@@ -713,14 +905,11 @@ install_wordpress()
     web_installer
     echo "正在配置$name..."
     chmod -R 777 /opt/wwwroot/$webdir
-    echo "define("FS_METHOD","direct");" >> /opt/wwwroot/$webdir/wp-config-sample.php
-    echo "define("FS_CHMOD_DIR", 0777);" >> /opt/wwwroot/$webdir/wp-config-sample.php
-    echo "define("FS_CHMOD_FILE", 0777);" >> /opt/wwwroot/$webdir/wp-config-sample.php
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include     \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
-    sed -e "s/.*\#otherconf.*/    include     \/opt\/etc\/nginx\/conf\/wordpress.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    # WordPress的配置文件中有php-fpm了, 不需要外部引入
+    sed -e "s/.*\#otherconf.*/    include \/opt\/etc\/nginx\/conf\/wordpress.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
@@ -745,7 +934,7 @@ install_h5ai()
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include       \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     sed -e "s/.*\index index.html.*/    index  index.html  index.php  \/_h5ai\/public\/index.php;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
@@ -770,12 +959,12 @@ install_lychee()
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include       \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
     echo "首次打开会要配置数据库信息"
-    echo "地址：127.0.0.1 用户、密码你自己设置的或者默认是root $mysqlpasswd"
+    echo "地址：127.0.0.1 用户、密码你自己设置的或者默认是root 123456"
     echo "下面的可以不配置，然后下一步创建个用户就可以用了"
 }
 
@@ -795,14 +984,16 @@ install_owncloud()
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include       \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
-    sed -e "s/.*\#otherconf.*/        include     \/opt\/etc\/nginx\/conf\/owncloud.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    # Owncloud的配置文件中有php-fpm了, 不需要外部引入
+    sed -e "s/.*\#otherconf.*/    include \/opt\/etc\/nginx\/conf\/owncloud.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
     echo "首次打开会要配置用户和数据库信息"
-    echo "地址默认 localhost 用户、密码你自己设置的或者默认是root $mysqlpasswd"
+    echo "地址默认 localhost 用户、密码你自己设置的或者默认是root 123456"
     echo "安装好之后可以点击左上角三条杠进入market安装丰富的插件，比如在线预览图片、视频等"
+    echo "需要先在 web 界面配置完成后，才能使用 onmp open 的第 10 个选项开启 Redis"
 }
 
 ################# 安装Nextcloud ##############
@@ -822,12 +1013,14 @@ install_nextcloud()
     # 添加到虚拟主机
     add_vhost $port $webdir
     # nextcloud的配置文件中有php-fpm了, 不需要外部引入
-    sed -e "s/.*\#otherconf.*/    include     \/opt\/etc\/nginx\/conf\/nextcloud.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    sed -e "s/.*\#otherconf.*/    include \/opt\/etc\/nginx\/conf\/nextcloud.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
     echo "首次打开会要配置用户和数据库信息"
-    echo "地址默认 localhost 用户、密码你自己设置的或者默认是root $mysqlpasswd"
+    echo "地址默认 localhost 用户、密码你自己设置的或者默认是root 123456"
+    echo "需要先在 web 界面配置完成后，才能使用 onmp open 的第 10 个选项开启 Redis"
 }
 
 ############## 安装kodexplorer芒果云 ##########
@@ -847,65 +1040,81 @@ install_kodexplorer()
 
     # 添加到虚拟主机
     add_vhost $port $webdir
-    sed -e "s/.*\#php-fpm.*/    include       \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
     onmp restart >/dev/null 2>&1
     echo "$name安装完成"
     echo "浏览器地址栏输入：$localhost:$port 即可访问"
 }
 
-############# 安装Netdata ############
-install_netdata()
+############# 安装Typecho ############
+install_typecho()
 {
-    echo "1. 安装"
-    echo "2. 卸载"
-    read -p "输入你的选择[1~2]: " input
-    case $input in
-        1 ) 
-opkg install $url_Netdata
-if [[ `opkg list-installed | grep netdata | wc -l` -eq 0 ]];then
-    echo "安装失败"
-    exit
-fi
-read -p "请输入端口(默认19999): " netdataport
-if [[ $netdataport ]]; then
-# 
-cat > "/opt/etc/nginx/vhost/netdata.conf" <<-\OOO
-upstream backend {
-    server 127.0.0.1:19999;
-    keepalive 64;
+    # 默认配置
+    filelink=$url_Typecho
+    name="Typecho"
+    dirname="build"
+    port=90
+    istar=true
+
+    # 运行安装程序 
+    web_installer
+    echo "正在配置$name..."
+    chmod -R 777 /opt/wwwroot/$webdir 
+
+    # 添加到虚拟主机
+    add_vhost $port $webdir
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf         # 添加php-fpm支持
+    sed -e "s/.*\#otherconf.*/    include \/opt\/etc\/nginx\/conf\/typecho.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf
+    onmp restart >/dev/null 2>&1
+    echo "$name安装完成"
+    echo "浏览器地址栏输入：$localhost:$port 即可访问"
+    echo "可以用phpMyaAdmin建立数据库，然后在这个站点上一步步配置网站信息"
 }
-server {
-    listen 80;
-    server_name localhost;
-    location / {
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_set_header X-Forwarded-Server $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://backend;
-        proxy_http_version 1.1;
-        proxy_pass_request_headers on;
-        proxy_set_header Connection "keep-alive";
-        proxy_store off;
-    }
+
+######## 安装Z-Blog ########
+install_zblog()
+{
+    # 默认配置
+    filelink=$url_Zblog
+    name="Zblog"
+    dirname="Z-BlogPHP_1_5_1_1740_Zero"
+    hookdir=$dirname
+    port=91
+
+    # 运行安装程序 
+    web_installer
+    echo "正在配置$name..."
+    chmod -R 777 /opt/wwwroot/$webdir     # 目录权限看情况使用
+
+    # 添加到虚拟主机
+    add_vhost $port $webdir
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf         # 添加php-fpm支持
+    onmp restart >/dev/null 2>&1
+    echo "$name安装完成"
+    echo "浏览器地址栏输入：$localhost:$port 即可访问"
 }
-OOO
-sed -e "s/.*listen.*/    listen $netdataport\;/g" -i /opt/etc/nginx/vhost/netdata.conf
-else
-    netdataport=19999
-fi
-/opt/etc/init.d/S60netdata restart
-nginx -s reload
-echo "Netdata安装完成"
-echo "浏览器地址栏输入：$localhost:$netdataport 即可访问"
-;;
-2)
-killall netdata > /dev/null 2>&1
-opkg remove netdata
-rm -rf /opt/etc/nginx/vhost/netdata.conf
-nginx -s reload
-echo "卸载完成"
-;;
-esac
+
+######### 安装DzzOffice #########
+install_dzzoffice()
+{
+    # 默认配置
+    filelink=$url_DzzOffice
+    name="DzzOffice"
+    dirname="dzzoffice-master"
+    port=92
+
+    # 运行安装程序 
+    web_installer
+    echo "正在配置$name..."
+    chmod -R 777 /opt/wwwroot/$webdir     # 目录权限看情况使用
+
+    # 添加到虚拟主机
+    add_vhost $port $webdir
+    sed -e "s/.*\#php-fpm.*/    include \/opt\/etc\/nginx\/conf\/php-fpm.conf\;/g" -i /opt/etc/nginx/vhost/$webdir.conf         # 添加php-fpm支持
+    onmp restart >/dev/null 2>&1
+    echo "$name安装完成"
+    echo "浏览器地址栏输入：$localhost:$port 即可访问"
+    echo "DzzOffice应用市场中，某些应用无法自动安装的，请自行参看官网给的手动安装教程"
 }
 
 ############# 添加到虚拟主机 #############
@@ -915,8 +1124,8 @@ add_vhost()
 cat > "/opt/etc/nginx/vhost/$2.conf" <<-\EOF
 server {
     listen 81;
-    server_name     localhost;
-    root            /opt/wwwroot/www/;
+    server_name localhost;
+    root /opt/wwwroot/www/;
     index index.html index.htm index.php tz.php;
     #php-fpm
     #otherconf
@@ -924,7 +1133,29 @@ server {
 EOF
 
 sed -e "s/.*listen.*/    listen $1\;/g" -i /opt/etc/nginx/vhost/$2.conf
-sed -e "s/.*\/opt\/wwwroot\/www\/.*/    root  \/opt\/wwwroot\/$2\/\;/g" -i /opt/etc/nginx/vhost/$2.conf
+sed -e "s/.*\/opt\/wwwroot\/www\/.*/    root \/opt\/wwwroot\/$2\/\;/g" -i /opt/etc/nginx/vhost/$2.conf
+}
+
+############## 网站管理 ##############
+web_manager()
+{
+    onmp stop > /dev/null 2>&1
+    i=1
+    for conf in /opt/etc/nginx/vhost/*;
+    do
+        path=$(cat $conf | awk 'NR==4' | awk '{print $2}' | sed 's/;//')
+        echo "$i. $path"
+        eval web_conf$i="$conf"
+        eval web_file$i="$path"
+        i=$((i + 1))
+    done
+    read -p "请选择要删除的网站：" webnum
+    eval conf=\$web_conf"$webnum"
+    eval file=\$web_file"$webnum"
+    rm -rf "$conf"
+    rm -rf "$file"
+    onmp start > /dev/null 2>&1
+    echo "网站已删除"
 }
 
 ############## Swap交换空间 ##############
@@ -945,7 +1176,7 @@ SWAP
 read -p "输入你的选择[1-3]: " input
 case $input in
     1) on_swap;;
-2) swapoff /opt/swapfile;;
+2) swapoff /opt/.swap;;
 3) del_swap;;
 *) echo "你输入的不是 1 ~ 3 之间的!"
 break;;
@@ -959,14 +1190,15 @@ on_swap()
     if [[ -n "$status" ]]; then
         echo "Swap已启用"
     else
-        if [[ ! -e "/opt/swapfile" ]]; then
+        if [[ ! -e "/opt/.swap" ]]; then
             echo "正在生成swap文件，请耐心等待..."
-            dd if=/dev/zero of=/opt/swapfile bs=1024 count=524288
+            dd if=/dev/zero of=/opt/.swap bs=1024 count=524288
             # 设置交换文件
-            mkswap /opt/swapfile
-            # 启用交换分区
+            mkswap /opt/.swap
+            chmod 0600 /opt/.swap
         fi
-        swapon /opt/swapfile
+        # 启用交换分区
+        swapon /opt/.swap
         echo "现在你可以使用free命令查看swap是否启用"
     fi
 }
@@ -975,8 +1207,105 @@ on_swap()
 del_swap()
 {
     # 弃用交换分区
-    swapoff /opt/swapfile
-    rm -rf /opt/swapfile
+    swapoff /opt/.swap
+    rm -rf /opt/.swap
+}
+
+############## 开启 Redis ###############
+redis()
+{
+    i=1
+    for conf in /opt/etc/nginx/vhost/*;
+    do
+        path=$(cat $conf | awk 'NR==4' | awk '{print $2}' | sed 's/;//')
+        echo "$i. $path"
+        eval web_file$i="$path"
+        i=$((i + 1))
+    done
+    read -p "请选择 NextCloud 或 OwnCloud 的安装目录：" webnum
+    eval file=\$web_file"$webnum"
+
+#
+echo "NC 和 OC 需要先在 web 界面配置完成后，才能使用这个选项开启 Redis"
+read -p "确认安装 [Y/n]: " input
+case $input in
+    Y|y ) 
+#
+sed -e "/);/d" -i $file/config/config.php
+cat >> "$file/config/config.php" <<-\EOF
+'memcache.locking' => '\OC\Memcache\Redis',
+'memcache.local' => '\OC\Memcache\Redis',
+'redis' => array(
+    'host' => '/opt/var/run/redis.sock',
+    'port' => 0,
+    ),
+);
+EOF
+;;
+* ) exit;;
+esac 
+
+onmp restart >/dev/null 2>&1
+echo "没报错的话就是安装上了，记住以后重启之后要运行 Redis"
+echo "Redis 管理命令 onmp redis start|restart|stop"
+echo "我先帮你运行了"
+onmp redis start
+
+}
+
+############## 数据库自动备份 ##############
+sql_backup()
+{
+# 输出选项
+cat << EOF
+数据库自动备份
+(1) 开启
+(2) 关闭
+(0) 退出
+EOF
+
+read -p "输入你的选择: " input
+case $input in
+    1) sql_backup_on;;
+2) sql_backup_off;;
+0) exit;;
+*) echo "没有这个选项!"
+exit;;
+esac 
+}
+
+### 数据库自动备份开启 ###
+sql_backup_on()
+{
+    if [[ ! -d "/opt/backup" ]]; then
+        mkdir /opt/backup
+    fi
+    read -p "输入你的数据库用户名: " sqlusr
+    read -p "输入你的数据库用户密码: " sqlpasswd
+
+# 删除
+rm -rf /opt/bin/sqlbackup
+
+# 写入文件
+cat > "/opt/bin/sqlbackup" <<-\EOF
+#!/bin/sh
+/opt/bin/mysqldump -uusername -puserpasswd -A > /opt/backup/sql_backup_$(date +%Y%m%d%H).sql
+EOF
+    
+sed -e 's/username/'"$sqlusr"'/g' -i /opt/bin/sqlbackup
+sed -e 's/userpasswd/'"$sqlpasswd"'/g' -i /opt/bin/sqlbackup
+
+chmod +x /opt/bin/sqlbackup
+
+echo "命令创建成功，你可以直接使用sqlbackup命令直接备份，也可以在路由器管理页添加定时任务 1 */3 * * * /opt/bin/sqlbackup，意思是每3 小时自动备份一次"
+
+}
+
+### 数据库自动备份关闭 ###
+sql_backup_off()
+{
+    rm -rf /opt/bin/sqlbackup
+    echo "如果你使用了自动定时备份，请删除配置"
 }
 
 ###########################################
@@ -986,33 +1315,57 @@ start()
 {
 # 输出选项
 cat << EOF
-----------------------------------------
-|**************** ONMP ****************|
-----------------------------------------
+      ___           ___           ___           ___    
+     /  /\         /__/\         /__/\         /  /\   
+    /  /::\        \  \:\       |  |::\       /  /::\  
+   /  /:/\:\        \  \:\      |  |:|:\     /  /:/\:\ 
+  /  /:/  \:\   _____\__\:\   __|__|:|\:\   /  /:/~/:/ 
+ /__/:/ \__\:\ /__/::::::::\ /__/::::| \:\ /__/:/ /:/  
+ \  \:\ /  /:/ \  \:\~~\~~\/ \  \:\~~\__\/ \  \:\/:/   
+  \  \:\  /:/   \  \:\  ~~~   \  \:\        \  \::/    
+   \  \:\/:/     \  \:\        \  \:\        \  \:\    
+    \  \::/       \  \:\        \  \:\        \  \:\   
+     \__\/         \__\/         \__\/         \__\/   
+
+=======================================================
+
 (1) 安装ONMP
 (2) 卸载ONMP
 (3) 设置数据库密码
 (4) 重置数据库
-(5) 全部重置（会删除网站目录，请注意备份）
-(6) 安装网站程序
-(7) 开启Swap
+(5) 数据库自动备份
+(6) 全部重置（会删除网站目录，请注意备份）
+(7) 安装网站程序
+(8) 网站管理
+(9) 开启Swap
+(10) 开启 Redis
 (0) 退出
 
 EOF
 
-read -p "输入你的选择[0-6]: " input
+read -p "输入你的选择[0-9]: " input
 case $input in
     1) install_onmp_ipk;;
 2) remove_onmp;;
 3) set_passwd;;
 4) init_sql;;
-5) init_onmp;;
-6) install_website;;
-7) set_swap;;
+5) sql_backup;;
+6) init_onmp;;
+7) install_website;;
+8) web_manager;;
+9) set_swap;;
+10) redis;;
 0) exit;;
-*) echo "你输入的不是 0 ~ 6 之间的!"
+*) echo "你输入的不是 0 ~ 8 之间的!"
 exit;;
 esac 
 }
+
+re_sh="renewsh"
+
+if [ "$1" == "$re_sh" ]; then
+    set_onmp_sh
+    exit;
+fi  
 
 start
