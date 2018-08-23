@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=entware
-VERSION=0.2
+VERSION=0.3
 TITLE="Entware"
 DESCRIPTION="Entware环境和扩展"
 HOME_URL=Module_entware.asp
-CHANGELOG="升级ONMP到2018-08-08"
+CHANGELOG="修复一个语法错误"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

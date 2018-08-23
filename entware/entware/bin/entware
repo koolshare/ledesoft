@@ -106,7 +106,7 @@ install_onmp_ipk()
         echo "|********** ONMP软件包已完整安装 *********|"
         echo "----------------------------------------"
         echo "开始安装PHP的模块(Nextcloud这类应用需要)"
-        install_php_mod;;
+        install_php_mod
         echo "现在开始初始化ONMP"
         init_onmp
         echo ""
