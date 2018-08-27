@@ -1,5 +1,8 @@
 Koolshare LEDE-X64 shadowsocks Changelog
 ==========================================
+2.1.1
+   - fix	修复某些时候iptables规则被多次添加，导致koolproxy的国外过滤异常
+
 2.1.0
    - fix	修正运行脚本
 

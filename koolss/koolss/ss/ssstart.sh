@@ -1001,15 +1001,26 @@ start_ss_redir(){
 flush_nat(){
 	echo_date 尝试先清除已存在的iptables规则，防止重复添加
 	# flush rules and set if any
-	iptables -t nat -D PREROUTING -p tcp -j SHADOWSOCKS >/dev/null 2>&1
-	sleep 1
+	nat_indexs=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/SHADOWSOCKS/='|sort -r`
+	for nat_index in $nat_indexs
+	do
+		iptables -t nat -D PREROUTING $nat_index >/dev/null 2>&1
+	done	
+	#iptables -t nat -D PREROUTING -p tcp -j SHADOWSOCKS >/dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS > /dev/null 2>&1 && iptables -t nat -X SHADOWSOCKS > /dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS_EXT > /dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS_GFW > /dev/null 2>&1 && iptables -t nat -X SHADOWSOCKS_GFW > /dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS_CHN > /dev/null 2>&1 && iptables -t nat -X SHADOWSOCKS_CHN > /dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS_GAM > /dev/null 2>&1 && iptables -t nat -X SHADOWSOCKS_GAM > /dev/null 2>&1
 	iptables -t nat -F SHADOWSOCKS_GLO > /dev/null 2>&1 && iptables -t nat -X SHADOWSOCKS_GLO > /dev/null 2>&1
-	iptables -t mangle -D PREROUTING -p udp -j SHADOWSOCKS >/dev/null 2>&1
+
+	mangle_indexs=`iptables -nvL PREROUTING -t mangle |sed 1,2d | sed -n '/SHADOWSOCKS/='|sort -r`
+	for mangle_index in $mangle_indexs
+	do
+		iptables -t mangle -D PREROUTING $mangle_index >/dev/null 2>&1
+	done
+	#iptables -t mangle -D PREROUTING -p udp -j SHADOWSOCKS >/dev/null 2>&1
+	
 	iptables -t mangle -F SHADOWSOCKS >/dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS >/dev/null 2>&1
 	iptables -t mangle -F SHADOWSOCKS_GAM > /dev/null 2>&1 && iptables -t mangle -X SHADOWSOCKS_GAM > /dev/null 2>&1
 	iptables -t nat -D OUTPUT -p tcp -m set --match-set router dst -j REDIRECT --to-ports 3333 >/dev/null 2>&1
@@ -1295,7 +1306,6 @@ apply_nat_rules(){
 	if [ "$mangle" == "1" ];then
 		if [ "$ss_basic_bypass" == "2" ];then
 			iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m geoip ! --destination-country CN -j TPROXY --on-port 3333 --tproxy-mark 0x07
-			
 		else
 			iptables -t mangle -A SHADOWSOCKS_GAM -p udp -m set ! --match-set chnroute dst -j TPROXY --on-port 3333 --tproxy-mark 0x07
 		fi
@@ -1319,15 +1329,19 @@ apply_nat_rules(){
 	[ "$mangle" == "1" ] && ss_acl_default_mode=3
 	[ "$ss_basic_mode" == "3" ] && iptables -t mangle -A SHADOWSOCKS -p udp -j $(get_action_chain $ss_acl_default_mode)
 	# 重定所有流量到 SHADOWSOCKS
-	KP_INDEX=`iptables -t nat -L PREROUTING|tail -n +3|sed -n -e '/^KOOLPROXY/='`
+	KP_INDEX=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/KOOLPROXY/='|head -n1`
 	if [ -n "$KP_INDEX" ]; then
 		let KP_INDEX+=1
-		#确保添加到KOOLPROXY规则之后
+		#开启了KP，这把规则放在KOOLPROXY下面
 		iptables -t nat -I PREROUTING $KP_INDEX -p tcp -j SHADOWSOCKS
 	else
-		PR_INDEX=`iptables -t nat -L PREROUTING|tail -n +3|sed -n -e '/^prerouting_rule/='`|| 1
-		#如果kp没有运行，确保添加到prerouting_rule规则之后
-		let PR_INDEX+=1	
+		#KP没有运行，确保添加到prerouting_rule规则之后
+		PR_INDEX=`iptables -t nat -L PREROUTING|tail -n +3|sed -n -e '/^prerouting_rule/='`
+		if [ -z "$PR_INDEX" ]; then
+			PR_INDEX=1
+		else
+			let PR_INDEX+=1
+		fi	
 		iptables -t nat -I PREROUTING $PR_INDEX -p tcp -j SHADOWSOCKS
 	fi
 	[ "$mangle" == "1" ] && iptables -t mangle -I PREROUTING 1 -p udp -j SHADOWSOCKS
