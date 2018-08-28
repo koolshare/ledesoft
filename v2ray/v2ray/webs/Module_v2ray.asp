@@ -3,7 +3,6 @@
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/tomato.js"></script>
 <script type="text/javascript" src="/js/advancedtomato.js"></script>
-<script type="text/javascript" src="/js/v2ray.js"></script>
 <style type="text/css">
 .box, #v2ray_tabs {
 	min-width:720px;
@@ -139,7 +138,100 @@
 				}
 			}
 		}
-
+		function createFormFields(data, settings) {
+			var id, id1, common, output, form = '';
+			var s = $.extend({
+					// Defaults
+					'align': 'left',
+					'grid': ['col-sm-3', 'col-sm-9']
+				},
+				settings);
+			// Loop through array
+			$.each(data,
+				function(key, v) {
+					if (!v) {
+						form += '<br />';
+						return;
+					}
+					if (v.ignore) return;
+					form += '<fieldset' + ((v.rid) ? ' id="' + v.rid + '"' : '') + ((v.hidden) ? ' style="display: none;"' : '') + '>';
+					if (v.help) {
+						v.title += ' (<i data-toggle="tooltip" class="icon-info icon-normal" title="' + v.help + '"></i>)';
+					}
+					if (v.text) {
+						if (v.title) {
+							form += '<label class="' + s.grid[0] + ' ' + ((s.align == 'center') ? 'control-label' : 'control-left-label') + '">' + v.title + '</label><div class="' + s.grid[1] + ' text-block">' + v.text + '</div></fieldset>';
+						} else {
+							form += '<label class="' + s.grid[0] + ' ' + ((s.align == 'center') ? 'control-label' : 'control-left-label') + '">' + v.text + '</label></fieldset>';
+						}
+						return;
+					}
+					if (v.multi) multiornot = v.multi;
+					else multiornot = [v];
+					output = '';
+					$.each(multiornot,
+						function(key, f) {
+							if ((f.type == 'radio') && (!f.id)) id = '_' + f.name + '_' + i;
+							else id = (f.id ? f.id : ('_' + f.name));
+							if (id1 == '') id1 = id;
+							common = ' onchange="verifyFields(this, 1)" id="' + id + '"';
+							if (f.size > 65) common += ' style="width: 100%; display: block;"';
+							if (f.hidden) common += ' style="display:none;"'; //add by sadog
+							if (f.attrib) common += ' ' + f.attrib;
+							name = f.name ? (' name="' + f.name + '"') : '';
+							// Prefix
+							if (f.prefix) output += f.prefix;
+							switch (f.type) {
+								case 'checkbox':
+									output += '<div class="checkbox c-checkbox"><label><input class="custom" type="checkbox"' + name + (f.value ? ' checked' : '') + ' onclick="verifyFields(this, 1)"' + common + '>\
+		<span></span> ' + (f.suffix ? f.suffix : '') + '</label></div>';
+									break;
+								case 'radio':
+									output += '<div class="radio c-radio"><label><input class="custom" type="radio"' + name + (f.value ? ' checked' : '') + ' onclick="verifyFields(this, 1)"' + common + '>\
+		<span></span> ' + (f.suffix ? f.suffix : '') + '</label></div>';
+									break;
+								case 'password':
+									if (f.peekaboo) {
+										switch (get_config('web_pb', '1')) {
+											case '0':
+												f.type = 'text';
+											case '2':
+												f.peekaboo = 0;
+												break;
+										}
+									}
+									if (f.type == 'password') {
+										common += ' autocomplete="off"';
+										if (f.peekaboo) common += ' onfocus=\'peekaboo("' + id + '",1)\' onclick=\'this.removeAttribute(' + 'readonly' + ');\' readonly="true"';
+									}
+									// drop
+								case 'text':
+									output += '<input type="' + f.type + '"' + name + ' value="' + escapeHTML(UT(f.value)) + '" maxlength=' + f.maxlen + (f.size ? (' size=' + f.size) : '') + (f.style ? (' style=' + f.style) : '') + (f.onblur ? (' onblur=' + f.onblur) : '') + common + '>';
+									break;
+								case 'select':
+									output += '<select' + name + (f.style ? (' style=' + f.style) : '') + common + '>';
+									for (optsCount = 0; optsCount < f.options.length; ++optsCount) {
+										a = f.options[optsCount];
+										if (a.length == 1) a.push(a[0]);
+										output += '<option value="' + a[0] + '"' + ((a[0] == f.value) ? ' selected' : '') + '>' + a[1] + '</option>';
+									}
+									output += '</select>';
+									break;
+								case 'textarea':
+									output += '<textarea ' + 'spellcheck=\"false\"' + (f.style ? (' style="' + f.style + '" ') : '') + name + common + (f.wrap ? (' wrap=' + f.wrap) : '') + '>' + escapeHTML(UT(f.value)) + '</textarea>';
+									break;
+								default:
+									if (f.custom) output += f.custom;
+									break;
+							}
+							if (f.suffix && (f.type != 'checkbox' && f.type != 'radio')) output += '<span class="help-block">' + f.suffix + '</span>';
+						});
+					if (id1 != '') form += '<label class="' + s.grid[0] + ' ' + ((s.align == 'center') ? 'control-label' : 'control-left-label') + '" for="' + id + '">' + v.title + '</label><div class="' + s.grid[1] + '">' + output;
+					else form += '<label>' + v.title + '</label>';
+					form += '</div></fieldset>';
+				});
+			return form;
+		}
 		//============================================
 		var v2ray_acl = new TomatoGrid();
 		v2ray_acl.dataToView = function( data ) {
@@ -287,6 +379,7 @@
 			});
 			show_hide_panel();
 			set_version();
+			//version_show();
 			setTimeout("get_run_status();", 2000);
 		}
 
@@ -508,9 +601,7 @@
 					dbus[paras_base64[i]] = Base64.encode(E('_' + paras_base64[i]).value);
 				}
 			}
-			console.log(Base64.encode(E('_v2ray_basic_config').value));
 			dbus["v2ray_basic_config"] = Base64.encode(E('_v2ray_basic_config').value);
-			//dbus["v2ray_basic_config"] = Base64.encode(pack_js(E('_v2ray_basic_config').value));
 			
 			// collect acl data from acl pannel
 			var v2ray_acl_conf = ["v2ray_acl_name_", "v2ray_acl_ip_", "v2ray_acl_mac_", "v2ray_acl_mode_" ];
@@ -697,12 +788,27 @@
 				}
 			});
 		}
+
+		function version_show() {
+			$('#_v2ray_version').html( '<font color="#1bbf35">v2ray for openwrt - ' + (dbus["v2ray_version"]  || "") + '</font>' );
+			$.ajax({
+				url: 'https://raw.githubusercontent.com/koolshare/ledesoft/master/v2ray/config.json.js',
+				type: 'GET',
+				dataType: 'json',
+				success: function(res) {
+					if (typeof(res["version"]) != "undefined" && typeof(dbus["v2ray_version"]) != "undefined" && res["version"].length > 0 && res["version"] != dbus["v2ray_version"]) {
+						$("#updateBtn").html('升级到：' + res.version);
+					}
+				}
+			});
+		}		
 	</script>
 	<div class="box">
 		<div class="heading">
 			<span id="_v2ray_version"></span>
 			<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
 			<a href="https://github.com/koolshare/ledesoft/blob/master/v2ray/Changelog.txt" target="_blank" class="btn btn-primary" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">更新日志</a>
+			<!--<button type="button" id="updateBtn" onclick="check_update()" class="btn btn-primary" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">检查更新 <i class="icon-upgrade"></i></button>-->
 		</div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
