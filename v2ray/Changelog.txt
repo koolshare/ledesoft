@@ -1,5 +1,10 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
+0.9 (to be countine)
+   - update	添加插件内自动更新功能
+   - fix	修复使用插件导致v2ray服务器二级域名的解析问题
+   - fix	修复一个web错误
+
 0.8
    - update	更新v2ray二进制到最新：V3.32；
    - fix	修复防火墙规则重复添加的问题；
