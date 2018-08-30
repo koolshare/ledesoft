@@ -20,3 +20,4 @@ start(){
 
 stop(){
 	/koolshare/ss/ssstart.sh stop
+}
