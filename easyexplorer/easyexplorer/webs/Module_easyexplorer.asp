@@ -81,7 +81,7 @@ function toggleVisibility(whichone) {
 
 function save(){
 	Apps.easyexplorer_enable = E('_easyexplorer_enable').checked ? '1':'0';
-	Apps.easyexplorer_dlna = E('_easyexplorer_dlna').checked ? '1':'0';
+//	Apps.easyexplorer_dlna = E('_easyexplorer_dlna').checked ? '1':'0';
 	Apps.easyexplorer_token = E('_easyexplorer_token').value;
 	Apps.easyexplorer_folder = E('_easyexplorer_folder').value;
 	if(Apps.easyexplorer_token == ""){
@@ -143,8 +143,8 @@ $('#easyexplorer-fields').forms([
 { title: '开启EasyExplorer', name: 'easyexplorer_enable', type: 'checkbox', value: ((Apps.easyexplorer_enable == '1')? 1:0)},
 { title: 'EasyeEplorer运行状态', text: '<font id="easyexplorer_status" name=easyexplorer_status color="#1bbf35">正在获取运行状态...</font>' },
 { title: 'Token', name: 'easyexplorer_token', type: 'text', maxlen: 38, size: 38, value: Apps.easyexplorer_token },
-{ title: '本地同步文件夹', name: 'easyexplorer_folder', type: 'text', size: 60, value: Apps.easyexplorer_folder || "/mnt/sda3/share" },
-{ title: '开启DLNA解码器下载', name: 'easyexplorer_dlna', type: 'checkbox', value: ((Apps.easyexplorer_dlna == '1')? 1:0)},
+{ title: '本地同步文件夹', name: 'easyexplorer_folder', type: 'text', size: 38, value: Apps.easyexplorer_folder || "/mnt/sda3/share" },
+//{ title: '开启DLNA解码器下载', name: 'easyexplorer_dlna', type: 'checkbox', value: ((Apps.easyexplorer_dlna == '1')? 1:0)},
 { title: 'WEB控制台',  name: 'easyexplorer_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":8899" + '/ target="_blank"><u>http://'  + location.hostname + ":8899" + '</u></a>'},
 { title: '相关链接', suffix: ' <button onclick="download_binary();" class="btn btn-danger">EasyExplorer全平台下载</button>' }
 ]);
