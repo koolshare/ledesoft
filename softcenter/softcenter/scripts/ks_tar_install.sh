@@ -1,97 +1,123 @@
 #!/bin/sh
+
+#  for lede x64 by fw867
+
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 alias echo_date='echo 【$(date +%Y年%m月%d日\ %X)】:'
-
-#From dbus to local variable
 eval `dbus export soft`
-name=`echo "$soft_name"|sed 's/.tar.gz//g'|awk -F "_" '{print $1}'|awk -F "-" '{print $1}'`
+TARGET_DIR=/tmp/upload
 
-cat /dev/null > /tmp/upload/soft_log.txt
-INSTALL_SUFFIX=_install
-VER_SUFFIX=_version
-NAME_SUFFIX=_name
-rm -rf /tmp/upload/soft_log.txt
-cd /tmp/upload/
-echo_date 开启软件离线安装！>> /tmp/upload/soft_log.txt
-sleep 1
-if [ -f /tmp/upload/$soft_name ];then
-	echo_date /tmp目录下检测到上传的离线安装包$soft_name >> /tmp/upload/soft_log.txt
+clean(){
+	rm -rf /tmp/$name >/dev/null 2>&1
+	rm -rf /tmp/$MODULE_NAME >/dev/null 2>&1
+	rm -rf /tmp/$soft_name >/dev/null 2>&1
+	find /tmp -name "*.tar.gz"|xargs rm -rf >/dev/null 2>&1
+}
+
+install_tar(){
+	name=`echo "$soft_name"|sed 's/.tar.gz//g'|awk -F "_" '{print $1}'|awk -F "-" '{print $1}'`
+	INSTALL_SUFFIX=_install
+	VER_SUFFIX=_version
+	NAME_SUFFIX=_name
+	cd /tmp
+	echo_date ====================== step 1 ===========================
+	echo_date 开启软件离线安装！
 	sleep 1
-	echo_date 尝试解压离线安装包离线安装包 >> /tmp/upload/soft_log.txt
-	sleep 1
-	tar -zxvf $soft_name -C /tmp >/dev/null 2>&1
-	echo_date 解压完成！ >> /tmp/upload/soft_log.txt
-	sleep 1
-	cd /tmp/
-	if [ -f /tmp/$name/install.sh ];then
-		echo_date 找到安装脚本！ >> /tmp/upload/soft_log.txt
-		chmod +x /tmp/$name/install.sh >/dev/null 2>&1
-		echo_date 运行安装脚本... >> /tmp/upload/soft_log.txt
-		echo_date ====================== step 1 =========================== >> /tmp/upload/soft_log.txt
+	if [ -f $TARGET_DIR/$soft_name ];then
+		echo_date $TARGET_DIR目录下检测到上传的离线安装包$soft_name
+		mv /tmp/upload/$soft_name /tmp
 		sleep 1
-		start-stop-daemon -S -q -x /tmp/$name/install.sh >> /tmp/upload/soft_log.txt 2>&1
-		#sh /tmp/$name/install.sh >> /tmp/upload/soft_log.txt 2>&1
-		echo_date ====================== step 2 =========================== >> /tmp/upload/soft_log.txt
-		dbus set "softcenter_module_$name$NAME_SUFFIX=$name"
-		dbus set "softcenter_module_$name$INSTALL_SUFFIX=1"
-		#dbus set "softcenter_module_$name$VER_SUFFIX=$soft_install_version"
-		if [ -n "$soft_install_version" ];then
-			dbus set "softcenter_module_$name$VER_SUFFIX=$soft_install_version"
-			echo_date "从插件文件名中获取到了版本号：$soft_install_version" >> /tmp/upload/soft_log.txt
+		echo_date 尝试解压离线安装包离线安装包
+		sleep 1
+		tar -zxvf $soft_name >/dev/null 2>&1
+		echo_date 解压完成！
+		sleep 1
+		cd /tmp
+		
+		if [ -f /tmp/$name/install.sh ];then
+			INSTALL_SCRIPT=/tmp/$name/install.sh
 		else
-			#已经在插件安装中设置了
-			if [ -z "`dbus get softcenter_module_$name$VER_SUFFIX`" ];then
-				dbus set "softcenter_module_$name$VER_SUFFIX=0.1"
-				echo_date "插件安装脚本里没有找到版本号，设置默认版本号为0.1" >> /tmp/upload/soft_log.txt
-			else
-				echo_date "插件安装脚本已经设置了插件版本号为：`dbus get softcenter_module_$name$VER_SUFFIX`" >> /tmp/upload/soft_log.txt
-			fi
+			INSTALL_SCRIPT_NU=`find /tmp -name "install.sh"|wc -l` 2>/dev/null
+			[ "$INSTALL_SCRIPT_NU" == "1" ] && INSTALL_SCRIPT=`find /tmp -name "install.sh"` || INSTALL_SCRIPT=""
 		fi
-		install_pid=`ps | grep install.sh | grep -v grep | awk '{print $1}'`
-		i=120
-		until [ ! -n "$install_pid" ]
-		do
-		    i=$(($i-1))
-		    if [ "$i" -lt 1 ];then
-		        echo_date "Could not load nat rules!"
-		        echo_date 安装似乎出了点问题，请手动重启路由器后重新尝试... >> /tmp/upload/soft_log.txt
-		        echo_date 删除相关文件并退出... >> /tmp/upload/soft_log.txt
-				sleep 1
-		        rm -rf /tmp/$name
-		        rm -rf /tmp/upload/$soft_name
-		        dbus remove "softcenter_module_$name$INSTALL_SUFFIX"
-				echo jobdown >> /tmp/upload/soft_log.txt
-		        exit
-		    fi
-		    sleep 1
-		done
-		echo_date 离线包安装完成！ >> /tmp/upload/soft_log.txt
-		sleep 1
-		echo_date 一点点清理工作... >> /tmp/upload/soft_log.txt
-		sleep 1
-		rm -rf /tmp/$name
-		rm -rf /tmp/upload/$soft_name
-		echo_date 完成！ >> /tmp/upload/soft_log.txt
-		sleep 1
-		echo jobdown >> /tmp/upload/soft_log.txt
-	else
-		echo_date 没有找到安装脚本！ >> /tmp/upload/soft_log.txt
-		echo_date 删除相关文件并退出... >> /tmp/upload/soft_log.txt
-		rm -rf /tmp/$name
-		rm -rf /tmp/upload/$soft_name
-		echo jobdown >> /tmp/upload/soft_log.txt
-	fi
-else
-	echo_date 没有找到离线安装包！ >> /tmp/upload/soft_log.txt
-	echo_date 删除相关文件并退出... >> /tmp/upload/soft_log.txt
-	rm -rf /tmp/$name
-	rm -rf /tmp/upload/$soft_name
-	echo jobdown >> /tmp/upload/soft_log.txt
-fi
 
-dbus remove soft_install_version
-dbus remove soft_name
-#echo jobdown >> /tmp/upload/soft_log.txt
-rm -rf /tmp/$name
-rm -rf /tmp/upload/$soft_name
+		if [ -n "$INSTALL_SCRIPT" -a -f "$INSTALL_SCRIPT" ];then
+			SCRIPT_AB_DIR=`dirname $INSTALL_SCRIPT`
+			MODULE_NAME=${SCRIPT_AB_DIR##*/}
+			echo_date 准备安装$MODULE_NAME插件！
+			echo_date 找到安装脚本！
+			chmod +x $INSTALL_SCRIPT >/dev/null 2>&1
+			echo_date 运行安装脚本...
+			echo_date ====================== step 2 ===========================
+			sleep 1
+			start-stop-daemon -S -q -x $INSTALL_SCRIPT 2>&1
+			#sh /tmp/$name/install.sh 2>&1
+			if [ "$?" != "0" ];then
+				echo_date 因为$MODULE_NAME插件安装失败！退出离线安装！
+				clean
+				dbus remove "softcenter_module_$MODULE_NAME$INSTALL_SUFFIX"
+				echo jobdown
+				exit
+			fi
+			echo_date ====================== step 3 ===========================
+			dbus set "softcenter_module_$MODULE_NAME$NAME_SUFFIX=$MODULE_NAME"
+			dbus set "softcenter_module_$MODULE_NAME$INSTALL_SUFFIX=1"
+			#dbus set "softcenter_module_$name$VER_SUFFIX=$soft_install_version"
+			if [ -n "$soft_install_version" ];then
+				dbus set "softcenter_module_$MODULE_NAME$VER_SUFFIX=$soft_install_version"
+				echo_date "从插件文件名中获取到了版本号：$soft_install_version"
+			else
+				#已经在插件安装中设置了
+				if [ -z "`dbus get softcenter_module_$MODULE_NAME$VER_SUFFIX`" ];then
+					dbus set "softcenter_module_$MODULE_NAME$VER_SUFFIX=0.1"
+					echo_date "插件安装脚本里没有找到版本号，设置默认版本号为0.1"
+				else
+					echo_date "插件安装脚本已经设置了插件版本号为：`dbus get softcenter_module_$MODULE_NAME$VER_SUFFIX`"
+				fi
+			fi
+			install_pid=`ps | grep -w install.sh | grep -v grep | awk '{print $1}'`
+			i=120
+			until [ -z "$install_pid" ]
+			do
+				install_pid=`ps | grep -w install.sh | grep -v grep | awk '{print $1}'`
+				i=$(($i-1))
+				if [ "$i" -lt 1 ];then
+					echo_date "Could not load nat rules!"
+					echo_date 安装似乎出了点问题，请手动重启路由器后重新尝试...
+					echo_date 删除相关文件并退出...
+					sleep 1
+					clean
+					dbus remove "softcenter_module_$MODULE_NAME$INSTALL_SUFFIX"
+					echo jobdown
+					exit
+				fi
+				sleep 1
+			done
+			echo_date 离线包安装完成！
+			sleep 1
+			echo_date 一点点清理工作...
+			sleep 1
+			clean
+			echo_date 完成！离线安装插件成功，现在你可以退出本页面~
+			sleep 1
+		else
+			echo_date 没有找到安装脚本！
+			echo_date 删除相关文件并退出...
+			clean
+		fi
+	else
+		echo_date 没有找到离线安装包！
+		echo_date 删除相关文件并退出...
+		clean
+	fi
+	sleep 1
+	dbus remove soft_install_version
+	dbus remove soft_name
+	echo jobdown
+	clean
+}
+
+echo " " > /tmp/upload/soft_log.txt
+#http_response "$1"
+install_tar > /tmp/upload/soft_log.txt

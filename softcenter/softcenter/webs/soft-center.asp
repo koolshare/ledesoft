@@ -357,7 +357,7 @@ $.ajax({
         $('#server').html('服务器：访问故障');
 		notice_show();
 		softCenterInit();
-    },timeout:1000
+    },timeout:5000
 });
 //推送信息
 function notice_show(){
@@ -632,7 +632,7 @@ function getSoftCenter(obj){
 			getLocalApp(obj)
 			//console.log("network error",data);
 		},
-		timeout:1000
+		timeout:5000
 	});
 }
 function getLocalApp(obj){
