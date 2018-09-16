@@ -1,6 +1,10 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
 0.8
+   - update	更新v2ray二进制到最新：V3.4；
+   - fix	修复规则更新的问题；
+
+0.8
    - update	更新v2ray二进制到最新：V3.32；
    - fix	修复防火墙规则重复添加的问题；
    - add	增加geoip数据库；
