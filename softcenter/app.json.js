@@ -121,15 +121,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2018-08-27_16:09:42", 
-            "changelog": "koolss 2.1.1", 
+            "build_date": "2018-09-16_18:41:49", 
+            "changelog": "修复规则更新", 
             "description": "轻松科学上网~", 
             "home_url": "Module_koolss.asp", 
-            "md5": "72155599e78851ddd70ea8ef77d4ddf3", 
+            "md5": "a21f5111bf6f88adf21e8aa3d266166b", 
             "name": "koolss", 
             "tar_url": "koolss/koolss.tar.gz", 
             "title": "科学上网插件", 
-            "version": "2.1.1"
+            "version": "2.1.2"
         }, 
         {
             "name": "test", 
