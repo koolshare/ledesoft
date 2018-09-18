@@ -319,7 +319,7 @@ function tabSelect(obj){
 // 但是路由内部的绝对时间与浏览器上的时间可能不同步,所以无法使用路由器内的时间. 浏览器的策略是,
 // 安装的时候会有一个同样的计时,若这个超时时间内,安装状态有变化,则更新安装状态.从而可以实时更新安装进程.
 var currState = {"installing": false, "lastChangeTick": 0, "lastStatus": "-1", "module":""};
-var softcenterUrl = "https://ledesoft.ngrok.wang";
+var softcenterUrl = "https://ledesoft.ddnsto.com";
 var dataTypeX = "jsonp";
 var softInfo = {};
 var appsInfo;
@@ -345,7 +345,7 @@ var Msginfos = [
        		 ];
 //检查并切换服务器
 $.ajax({
-	url: "https://ledesoft.ngrok.wang/softcenter/switch_server.json.js",
+	url: "https://ledesoft.ddnsto.com/softcenter/switch_server.json.js",
     type: "GET",
     dataType:'jsonp',
     success: function() {
