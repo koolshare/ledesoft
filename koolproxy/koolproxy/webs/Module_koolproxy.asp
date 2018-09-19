@@ -257,7 +257,7 @@ No part of this file may be used without permission.
 			window.open("https://koolproxy.io");
 		}
 		function issues_KP(){
-			window.open("https://github.com/koolproxy/koolproxy_rules/issues/86");
+			window.open("https://docs.google.com/spreadsheets/d/1bEhsx4he78dRlhfp6XbiM4w-nW3vjeVS-cWpPO9VPrw/edit?usp=sharing");
 		}
 		function verifyFields(){
 			var a = E('_koolproxy_enable').checked;
