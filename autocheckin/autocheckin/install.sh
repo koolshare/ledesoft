@@ -12,6 +12,9 @@ cp /tmp/autocheckin/uninstall.sh $KSROOT/scripts/uninstall_autocheckin.sh
 
 chmod +x $KSROOT/scripts/autocheckin_*
 chmod +x $KSROOT/autocheckin/autocheckin
+chmod +x $KSROOT/init.d/S95autocheckin.sh
+
+[ ! -L "/etc/rc.d/S95autocheckin.sh" ] && ln -sf $KSROOT/init.d/S95autocheckin.sh /etc/rc.d/S95autocheckin.sh
 
 dbus set softcenter_module_autocheckin_description=每日批量自动签到
 dbus set softcenter_module_autocheckin_install=1

@@ -8,14 +8,14 @@
 # See /LICENSE for more information.
 #
 
-START=99
+START=95
 STOP=15
 
 source /koolshare/scripts/base.sh
 eval `dbus export autocheckin_`
 
 start(){
-	[ "$autocheckin_enable" == "1" ] && /koolshare/scripts/autocheckin_config.sh start
+	[ "$autocheckin_enable" == "1" ] && /koolshare/scripts/autocheckin_config.sh
 }
 
 stop(){
