@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=autocheckin
-VERSION="0.3"
+VERSION="0.3.1"
 TITLE="签到狗2.0"
 DESCRIPTION=每日批量自动签到
 HOME_URL=Module_autocheckin.asp
