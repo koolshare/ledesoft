@@ -13,12 +13,12 @@ done
 
 sleep 1
 rm -rf $KSROOT/scripts/autocheckin*
-rm -rf $KSROOT/init.d/S99autocheckin.sh
+rm -rf $KSROOT/init.d/S95autocheckin.sh
 rm -rf $KSROOT/autocheckin
 rm -rf $KSROOT/webs/Module_autocheckin.asp
 rm -rf $KSROOT/webs/res/icon-autocheckin.png
 rm -rf $KSROOT/webs/res/icon-autocheckin-bg.png
-rm -rf /etc/rc.d/S99autocheckin.sh >/dev/null 2>&1
+rm -rf /etc/rc.d/S95autocheckin.sh >/dev/null 2>&1
 
 dbus remove softcenter_module_autocheckin_home_url
 dbus remove softcenter_module_autocheckin_install

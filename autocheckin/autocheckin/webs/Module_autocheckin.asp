@@ -29,7 +29,15 @@
 			['163music', '163music'],
 			['miui', 'miui'],
 			['kafan', 'kafan'],
-			['52pojie', '52pojie']
+			['52pojie', '52pojie'],
+			['zimuzu', 'zimuzu'],
+			['gztown', 'gztown'],
+			['meizu', 'meizu'],
+			['hdpfans', 'hdpfans'],
+			['chh', 'chh'],
+			['koolshare', 'koolshare'],
+			['huawei', 'huawei'],
+			['jd', 'jd']
 		];
 		var table2_node_nu;
 		var softcenter = 0;
@@ -278,11 +286,11 @@
 			if(obj=='app3' ){
 				setTimeout("get_log();");
 				elem.display('save-button', false);
-				elem.display('cancel-button', false);
+//				elem.display('cancel-button', false);
 //				reload = 1;
 			}else{
 				elem.display('save-button', true);
-				elem.display('cancel-button', true);
+//				elem.display('cancel-button', true);
 			}			
 			if (obj == 'fuckapp') {
 				elem.display('qiandao_status_pannel', false);
@@ -310,6 +318,7 @@
 			var a = E('_autocheckin_enable').checked;
 			if ($(r).attr("id") == "_autocheckin_enable") {
 				if (a) {
+					$("#save-button").html("提交")
 					elem.display('qiandao_status_pannel', a);
 					elem.display('pbr_tabs', a);
 					elem.display('identification', a);
@@ -317,6 +326,7 @@
 					elem.display('pbr_basic_readme', a);
 					tabSelect('app1')
 				} else {
+					$("#save-button").html("停止")
 					tabSelect('fuckapp')
 				}
 			}
@@ -470,6 +480,10 @@
 				}
 			});
 		}		
+
+		function join_qq(){
+			window.open("https://jq.qq.com/?_wv=1027&k=5RiTrKC");
+		}		
 		
 	</script>
 	<div class="box">
@@ -517,7 +531,8 @@
 					//{ title: '开启自动签到', name:'autocheckin_enable',type:'checkbox',value: "" },
 					//{ title: '运行状态', text: '<font id="_autocheckin_status" name=_autocheckin_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '签到时间', name: 'autocheckin_hour', type: 'select', options: option_cru_hour, value: "" },
-					{ title: '一键签到', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键签到 <i class="icon-cloud"></i></button>' }	
+					{ title: '一键签到', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键签到 <i class="icon-cloud"></i></button>'},
+					{ title: '交流反馈', suffix: '<button id="join_qq" onclick="join_qq();" class="btn btn-danger">加入QQ群 <i class="icon-tools"></li></button>'}
 				]);
 			</script>
 		</div>
@@ -557,6 +572,5 @@
 	<div id="msg_success" class="alert alert-success icon" style="display:none;"></div>
 	<div id="msg_error" class="alert alert-error icon" style="display:none;"></div>
 	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">提交 <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消 <i class="icon-cancel"></i></button>
 	<script type="text/javascript">init_autocheckin();</script>
 </content>
