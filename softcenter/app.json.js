@@ -426,15 +426,15 @@
             "version": "0.9"
         }, 
         {
-            "build_date": "2018-09-20_00:14:53", 
-            "changelog": "修复BUG", 
+            "build_date": "2018-09-23_18:17:05", 
+            "changelog": "修复BUG和增加签到站点", 
             "description": "每日批量自动签到", 
             "home_url": "Module_autocheckin.asp", 
-            "md5": "e9573204e790ed249283f4d6de20fc82", 
+            "md5": "501665793cfe1ad61499bc8d17e70111", 
             "name": "autocheckin", 
             "tar_url": "autocheckin/autocheckin.tar.gz", 
             "title": "签到狗2.0", 
-            "version": "0.2"
+            "version": "0.3"
         }, 
         {
             "build_date": "2017-10-02_22:27:11", 
