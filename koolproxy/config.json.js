@@ -1,9 +1,9 @@
 {
-"version":"3.8.1.2",
-"md5":"18065102f3eb35377880d17b1474ce19",
+"version":"3.8.1.3",
+"md5":"d89c9f7ca052182f669d552295c3ce34",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
-"changelog":"修复问题反馈链接",
-"build_date":"2018-09-19_23:55:49"
+"changelog":"增加规则订阅和修复视频模式",
+"build_date":"2018-09-26_10:58:33"
 }

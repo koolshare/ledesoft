@@ -1,4 +1,5 @@
 #! /bin/sh
+
 alias echo_date='echo $(date +%Y年%m月%d日\ %X):'
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
@@ -6,10 +7,43 @@ eval `dbus export koolproxy_`
 SOFT_DIR=/koolshare
 KP_DIR=$SOFT_DIR/koolproxy
 LOCK_FILE=/var/lock/koolproxy.lock
+# 一定要按照source.list的排列顺序
+SOURCE_LIST=$KP_DIR/data/source.list
 
 write_user_txt(){
 	if [ -n "$koolproxy_custom_rule" ];then
 		echo $koolproxy_custom_rule| base64_decode |sed 's/\\n/\n/g' > $KP_DIR/data/rules/user.txt
+	fi
+}
+
+load_rules(){
+	if [ "$koolproxy_mode" == "3" ]; then
+		:
+	else
+		if [ "$koolproxy_oline_rules" == "1" ]; then
+			echo_date 加载【绿坝规则】
+			sed -i '1,4s/0/1/g' $SOURCE_LIST
+		else
+			sed -i '1,3s/1/0/g' $SOURCE_LIST
+		fi
+		if [ "$koolproxy_easylist_rules" == "1" ]; then
+			echo_date 加载【ABP规则】
+			sed -i '5s/0/1/g' $SOURCE_LIST
+		else
+			sed -i '5s/1/0/g' $SOURCE_LIST			
+		fi
+		if [ "$koolproxy_abx_rules" == "1" ]; then
+			echo_date 加载【乘风规则】
+			sed -i '6s/0/1/g' $SOURCE_LIST
+		else
+			sed -i '6s/1/0/g' $SOURCE_LIST			
+		fi
+		if [ "$koolproxy_fanboy_rules" == "1" ]; then
+			echo_date 加载【Fanboy规则】
+			sed -i '7s/0/1/g' $SOURCE_LIST
+		else
+			sed -i '7s/1/0/g' $SOURCE_LIST			
+		fi				
 	fi
 }
 
@@ -18,10 +52,16 @@ start_koolproxy(){
 	kp_version=`koolproxy -h | head -n1 | awk '{print $6}'`
 	dbus set koolproxy_binary_version="koolproxy $kp_version "
 	echo_date 开启koolproxy主进程！
+	load_rules
 	[ -f "$KSROOT/bin/koolproxy" ] && rm -rf $KSROOT/bin/koolproxy
 	[ ! -L "$KSROOT/bin/koolproxy" ] && ln -sf $KSROOT/koolproxy/koolproxy $KSROOT/bin/koolproxy
-	[ "$koolproxy_mode" == "3" ] && EXT_ARG="-e" || EXT_ARG=""
-	cd $KP_DIR && koolproxy $EXT_ARG --mark -d
+	[ "$koolproxy_mode" == "1" ] && echo_date 选择【全局过滤模式】
+	[ "$koolproxy_mode" == "2" ] && echo_date 选择【IPSET过滤模式】
+	if [ "$koolproxy_mode" == "3" ]; then
+		echo_date 选择【视频过滤模式】
+		sed -i '1s/1/0/g;2s/1/0/g' $SOURCE_LIST
+	fi
+	cd $KP_DIR && koolproxy --mark -d
 }
 
 stop_koolproxy(){

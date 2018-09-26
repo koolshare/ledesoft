@@ -152,6 +152,7 @@ No part of this file may be used without permission.
 		function init_kp(){
 			verifyFields();
 			//kpacl.setup(dbus);
+			set_version();
 			get_user_txt();
 			$("#_koolproxy_log").click(
 				function() {
@@ -216,7 +217,12 @@ No part of this file may be used without permission.
 			  	dataType: "json",
 			  	async:false,
 			 	success: function(data){
-			 	 	dbus = data.result[0];
+					dbus = data.result[0];
+					E('_koolproxy_oline_rules').checked = (dbus["koolproxy_oline_rules"] == 1);
+					E('_koolproxy_easylist_rules').checked = (dbus["koolproxy_easylist_rules"] == 1);
+					E('_koolproxy_abx_rules').checked = (dbus["koolproxy_abx_rules"] == 1);
+					E('_koolproxy_fanboy_rules').checked = (dbus["koolproxy_fanboy_rules"] == 1);
+					setTimeout("get_log();", 500);					
 			  	}
 			});
 		}
@@ -235,6 +241,7 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = response.result.split("@@")[0];
 					document.getElementById("_koolproxy_rule_status").innerHTML = response.result.split("@@")[1];
+					document.getElementById("_koolproxy_third_rule_status").innerHTML = response.result.split("@@")[2];
 					setTimeout("get_run_status();", 10000);
 				},
 				error: function(){
@@ -243,6 +250,7 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = "获取运行状态失败！";
 					document.getElementById("_koolproxy_rule_status").innerHTML = "获取规则状态失败！";
+					document.getElementById("_koolproxy_third_rule_status").innerHTML = "获取规则状态失败！";
 					setTimeout("get_run_status();", 5000);
 				}
 			});
@@ -282,9 +290,9 @@ No part of this file may be used without permission.
 		}
 		
 		function tabSelect(obj){
-			var tableX = ['app1-server1-jb-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-zsgl-tab','app6-server1-rz-tab'];
-			var boxX = ['boxr1','boxr3','boxr4','boxr5','boxr6'];
-			var appX = ['app1','app3','app4','app5','app6'];
+			var tableX = ['app1-server1-jb-tab','app3-server1-kz-tab','app4-server1-zdy-tab','app5-server1-zsgl-tab','app6-server1-gzgl-tab','app7-server1-rz-tab'];
+			var boxX = ['boxr1','boxr3','boxr4','boxr5','boxr6','boxr7'];
+			var appX = ['app1','app3','app4','app5','app6','app7'];
 			for (var i = 0; i < tableX.length; i++){
 				if(obj == appX[i]){
 					$('#'+tableX[i]).addClass('active');
@@ -294,7 +302,7 @@ No part of this file may be used without permission.
 					$('.'+boxX[i]).hide();
 				}
 			}
-			if(obj=='app6'){
+			if(obj=='app7'){
 				setTimeout("get_log();", 400);
 				elem.display('save-button', false);
 			}else{
@@ -305,7 +313,28 @@ No part of this file may be used without permission.
 			$('#'+Outtype).html('<h5>'+title+'</h5>'+msg+'<a class="close"><i class="icon-cancel"></i></a>');
 			$('#'+Outtype).show();
 		}
+		
+		function toggleVisibility(whichone) {
+			if (E('sesdiv' + whichone).style.display == '') {
+				E('sesdiv' + whichone).style.display = 'none';
+				E('sesdiv' + whichone + 'showhide').innerHTML = '<i class="icon-chevron-up"></i>';
+				cookie.set('adv_dhcpdns_' + whichone + '_vis', 0);
+			} else {
+				E('sesdiv' + whichone).style.display = '';
+				E('sesdiv' + whichone + 'showhide').innerHTML = '<i class="icon-chevron-down"></i>';
+				cookie.set('adv_dhcpdns_' + whichone + '_vis', 1);
+			}
+		}
+		
 		function save(){
+			var R1 = document.getElementById('_koolproxy_oline_rules').checked==false;
+			var R2 = document.getElementById('_koolproxy_easylist_rules').checked==false;
+			var R3 = document.getElementById('_koolproxy_abx_rules').checked==false;
+			var R4 = document.getElementById('_koolproxy_fanboy_rules').checked==false;
+			if(R1 && R2 && R3 && R4){
+				alert("请到【规则管理】勾选绿坝规则！");
+				return false;
+			}
 			verifyFields();
 			// collect basic data
 			dbus.koolproxy_enable = E('_koolproxy_enable').checked ? '1':'0';
@@ -317,6 +346,10 @@ No part of this file may be used without permission.
 			dbus.koolproxy_reboot_hour = E('_koolproxy_reboot_hour').value;
 			dbus.koolproxy_reboot_inter_hour = E('_koolproxy_reboot_inter_hour').value;
 			dbus.koolproxy_acl_default = E('_koolproxy_acl_default').value;
+			dbus.koolproxy_oline_rules = E("_koolproxy_oline_rules").checked ? "1" : "0";
+			dbus.koolproxy_easylist_rules = E("_koolproxy_easylist_rules").checked ? "1" : "0";
+			dbus.koolproxy_abx_rules = E("_koolproxy_abx_rules").checked ? "1" : "0";
+			dbus.koolproxy_fanboy_rules = E("_koolproxy_fanboy_rules").checked ? "1" : "0";			
 			dbus["koolproxy_custom_rule"] = Base64.encode(document.getElementById("_koolproxy_custom_rule").value);
 			// collect data from acl pannel
 			var data2 = kpacl.getAllData();
@@ -349,7 +382,7 @@ No part of this file may be used without permission.
 				}
 			});
 			reload = 1;
-			tabSelect("app6");
+			tabSelect("app7");
 		}
 		
 		function get_log(){
@@ -399,7 +432,7 @@ No part of this file may be used without permission.
 			});
 		}
 		function kp_cert(script, arg){
-			tabSelect("app6");
+			tabSelect("app7");
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": ""};
 			$.ajax({
@@ -457,20 +490,28 @@ No part of this file may be used without permission.
 				}
 			});
 		}
+		
+		function set_version() {
+			$('#_koolproxy_version').html('<font color="#1bbf35">KoolProxy</font>');
+		}	
 	</script>
 
 	<div class="box">
-		<div class="heading">KoolProxy<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a></div>
+		<div class="heading">
+		<span id="_koolproxy_version"></span>
+		<a href="#/soft-center.asp" class="btn" style="float:right;border-radius:3px;margin-right:5px;margin-top:0px;">返回</a>
+		</div>
 		<div class="content">
-			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">koolproxy是一款高效的修改和过滤流量包的代理软件，可以用于去除网页静广告和视频广告，并且支持https！</span>
+			<span id="msg" class="col-sm-9" style="margin-top:10px;width:700px">koolproxy是一款高效的修改和过滤流量包的软件，用于保护未成年人健康上网，并且支持https和IPV6！</span>
 		</div>	
 	</div>
 	<ul class="nav nav-tabs">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-server1-jb-tab" class="active"><i class="icon-system"></i> 基本设置</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-kz-tab"><i class="icon-tools"></i> 访问控制</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-server1-kz-tab"><i class="icon-tools"></i> 访问控制</a></li>		
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-server1-zdy-tab"><i class="icon-hammer"></i> 自定义规则</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-zsgl-tab"><i class="icon-lock"></i> 证书管理</a></li>		
-		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-server1-rz-tab"><i class="icon-info"></i> 日志信息</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-server1-zsgl-tab"><i class="icon-lock"></i> 证书管理</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-server1-gzgl-tab"><i class="icon-cmd"></i> 规则管理</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-server1-rz-tab"><i class="icon-info"></i> 日志信息</a></li>
 	</ul>
 	<div class="box boxr1" style="margin-top: 0px;">
 		<div class="heading">基本设置</div>
@@ -480,7 +521,7 @@ No part of this file may be used without permission.
 				$('#identification').forms([
 					{ title: '开启Koolproxy', name:'koolproxy_enable',type:'checkbox',value: dbus.koolproxy_enable == 1 },
 					{ title: 'Koolproxy运行状态', text: '<font id="_koolproxy_status" name=_koolproxy_status color="#1bbf35">正在获取运行状态...</font>' },
-					{ title: 'Koolproxy规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
+//					{ title: 'Koolproxy规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
 					{ title: '过滤模式', name:'koolproxy_mode',type:'select',options:[['1','全局模式'],['2','IPSET模式'],['3','视频模式']],value: dbus.koolproxy_mode || "1" },
 					{ title: '端口控制', name:'koolproxy_port',type:'select',options:[['0','关闭'],['1','开启']],value: dbus.koolproxy_port || "0" },					
 					{ title: '例外端口', name:'koolproxy_bp_port',type:'text',style:'input_style', maxlen:20, value:dbus.koolproxy_bp_port ,suffix: '<font color="#FF0000">例：</font>&nbsp;&nbsp;<font color="#FF0000">【单端口】：80【多端口】：80,443</font>'},
@@ -544,8 +585,40 @@ No part of this file may be used without permission.
 				]);
 			</script>
 		</div>
-	</div>	
+	</div>
 	<div class="box boxr6">
+		<div class="heading">规则管理</div>
+		<div class="content">
+			<div id="kp_rules_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#kp_rules_pannel').forms([
+					{ title: '绿坝规则状态', text: '<font id="_koolproxy_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },
+					{ title: '第三方规则状态', text: '<font id="_koolproxy_third_rule_status" name=_koolproxy_status color="#1bbf35">正在获取规则状态...</font>' },	
+					{ title: '默认规则订阅', multi: [
+						{ name: 'koolproxy_oline_rules',type:'checkbox',value: dbus.koolproxy_oline_rules == '1', suffix: '<lable id="_kp_oline_rules">绿坝规则</lable>&nbsp;&nbsp;' }
+					]},
+					{ title: '第三方规则订阅', multi: [
+						{ name: 'koolproxy_easylist_rules',type:'checkbox',value: dbus.koolproxy_easylist_rules == '1', suffix: '<lable id="_kp_easylist">ABP规则</lable>&nbsp;&nbsp;' },
+						{ name: 'koolproxy_abx_rules',type:'checkbox',value: dbus.koolproxy_abx_rules == '1', suffix: '<lable id="_kp_abx">乘风规则</lable>&nbsp;&nbsp;' },
+						{ name: 'koolproxy_fanboy_rules',type:'checkbox',value: dbus.koolproxy_fanboy_rules == '1', suffix: '<lable id="_kp_fanboy">Fanboy规则</lable>&nbsp;&nbsp;' }
+					]}	
+				]);
+			</script>
+		</div>
+	</div>
+	<div id="kp_rules_readme" class="box boxr6" style="margin-top: 15px;">
+	<div class="heading">规则管理说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
+	<div class="section content" id="sesdivnotes" style="display:">
+			<li> KoolProxy推荐使用默认规则即可满足屏蔽的效果。</li>
+			<li><font color="green"> 【绿坝规则】</font>经过KoolProxy审核并通过兼容性测试的。</li>
+			<li> 第三方规则是由一些爱好者编写的，兼容性很难保证。</li>
+			<li><font color="red"> 注意！规则加载的越多产生冲突且不兼容的问题就会大大增加。</font></li>		
+			<li><font color="red"> 注意！我们无法去保证所有规则都能完美地在KoolProxy上面运行。</font></li>
+			<li><font color="red"> 注意！规则不是越多越好，建议第三方规则根据自己需要勾选一种即可。</font></li>
+			<li><font color="red"> 如果用户在选择规则上出现的风险，将由用户去承担，KoolProxy不承担任何责任。</font></li>
+	</div>
+	</div>
+	<div class="box boxr7">
 		<div class="heading">状态日志</div>
 		<div class="content">
 			<div class="section kp_log content">
