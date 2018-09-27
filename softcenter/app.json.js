@@ -503,15 +503,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2018-09-26_10:58:33", 
-            "changelog": "增加规则订阅和修复视频模式", 
+            "build_date": "2018-09-27_23:17:43", 
+            "changelog": " 修复配置页面BUG", 
             "description": "听说KP和软路由更搭哦~", 
             "home_url": "Module_koolproxy.asp", 
-            "md5": "d89c9f7ca052182f669d552295c3ce34", 
+            "md5": "17cf4057e4e364eb83112d9c36bd0d8a", 
             "name": "koolproxy", 
             "tar_url": "koolproxy/koolproxy.tar.gz", 
             "title": "koolproxy", 
-            "version": "3.8.1.3"
+            "version": "3.8.1.4"
         }, 
         {
             "build_date": "2017-10-09_22:23:58", 
