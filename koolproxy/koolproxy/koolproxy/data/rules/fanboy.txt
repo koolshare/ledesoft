@@ -1,8 +1,8 @@
 [Adblock Plus 2.0]
-! Checksum: RtJAMmNeu7zrCNOM8OtUOA
+! Checksum: oa+AO4hMiPW2o/V1vzw7Pg
 ! Title: Fanboy+Easylist-Merged Ultimate List
-! Version: 2018-09-25 20:00
-! Last modified: 25 Sep 2018 08:40 UTC
+! Version: 2018-09-27 00:40:18
+! Last modified: 26 Sep 2018 15:40 UTC
 ! Expires: 3 days (update frequency)
 ! Homepage: https://easylist.to/
 ! Licence: https://easylist.to/pages/licence.html
@@ -44,12 +44,12 @@ takeover_banner_
 ! *** easylist:easylist/easylist_general_block_dimensions.txt ***
 ! *** easylist:easylist/easylist_general_block_popup.txt ***
 ! Commonly used popup scripts on movie/tv streaming sites
-!|javascript:*setTimeout$popup
-!|javascript:*window.location$popup
+|javascript:*setTimeout$popup
+|javascript:*window.location$popup
 ! Used with many websites to generate multiple popups
-!|blob:$popup
-!|data:text$popup
-!|dddata:text$popup
+|blob:$popup
+|data:text$popup
+|dddata:text$popup
 !------------------------General element hiding rules-------------------------!
 ! *** easylist:easylist/easylist_general_hide.txt ***
 ! brave browser overlay ad
@@ -6458,6 +6458,7 @@ takeover_banner_
 ||baphruesqm.com^$third-party
 ||bbxaumvpzqpunx.com^$third-party
 ||bdtmbiezv.com^$third-party
+||bdtwxreri.com^$third-party
 ||begnsbnjegnolq.com^$third-party
 ||bikuetrh.com^$third-party
 ||bimwswreljucxa.com^$third-party
@@ -6495,6 +6496,7 @@ takeover_banner_
 ||cmrppltjs.com^$third-party
 ||coshfgpgab.com^$third-party
 ||cqhxrlnhzlda.com^$third-party
+||cqjnxsbuplcqri.com^$third-party
 ||crgfbmzsk.com^$third-party
 ||crjsrbyybipozq.com^$third-party
 ||crvvrxfgsvohiy.com^$third-party
@@ -6509,6 +6511,7 @@ takeover_banner_
 ||daljntupdaoejb.com^$third-party
 ||dcyeufoq.com^$third-party
 ||degitlwfezpe.com^$third-party
+||deiqehvcdnntg.com^$third-party
 ||dergevqzqi.com^$third-party
 ||derqboxqca.com^$third-party
 ||dfawfyhesfe.com^$third-party
@@ -6588,6 +6591,7 @@ takeover_banner_
 ||gqlaoeyczxsvk.com^$third-party
 ||gsjhehtqvin.com^$third-party
 ||gvahzhgblkkyr.com^$third-party
+||gwxaulcgmizcq.com^$third-party
 ||gxleeixyzlaaab.com^$third-party
 ||gxxkrzrvy.com^$third-party
 ||gxzfpusmd.com^$third-party
@@ -6607,6 +6611,7 @@ takeover_banner_
 ||hiitwzyvkdyvxn.com^$third-party
 ||hjjdmohuzp.com^$third-party
 ||hkhotpewfxr.com^$third-party
+||hmepgymo.com^$third-party
 ||hmzwcomigpqia.com^$third-party
 ||hnregzjxsafu.com^$third-party
 ||hogylomirfc.com^$third-party
@@ -6628,10 +6633,12 @@ takeover_banner_
 ||ijnghdmfrb.com^$third-party
 ||ikhdsnufzzj.com^$third-party
 ||iluwjbuwm.com^$third-party
+||imidshmpzr.com^$third-party
 ||imnsmvmjrdiwwr.com^$third-party
 ||inhcrirmboz.com^$third-party
 ||iogutpkrkkycq.com^$third-party
 ||ipehunxxyir.com^$third-party
+||itlmnxlauah.com^$third-party
 ||itsyuvrlesq.com^$third-party
 ||iwgdguuz.com^$third-party
 ||izavihllfvej.com^$third-party
@@ -6688,6 +6695,7 @@ takeover_banner_
 ||kxzmmtdx.com^$third-party
 ||labdwkqyavb.com^$third-party
 ||lbaybxwiklnfe.com^$third-party
+||lcsgdwlxrlgq.com^$third-party
 ||ledvqaldtf.com^$third-party
 ||liadlzantv.com^$third-party
 ||ljrljohnoqa.com^$third-party
@@ -6773,6 +6781,7 @@ takeover_banner_
 ||pegfkacjwjca.com^$third-party
 ||peyttlwbznahi.com^$third-party
 ||pfiuzxey.com^$third-party
+||phiubpdrh.com^$third-party
 ||pifsistcwycouc.com^$third-party
 ||pkxquvydrgin.com^$third-party
 ||pmohsibnim.com^$third-party
@@ -6823,10 +6832,13 @@ takeover_banner_
 ||qytuwxcozbk.com^$third-party
 ||qzbnokxxvvpwf.com^$third-party
 ||rahvoujjgmtvft.com^$third-party
+||rbtpsbtzh.com^$third-party
 ||rcumwyqkv.com^$third-party
 ||rdfpnzisjyiwtu.com^$third-party
+||rdizmyst.com^$third-party
 ||rdooybwcuyg.com^$third-party
 ||realnwspfbumn.com^$third-party
+||rereghpaz.com^$third-party
 ||rfbmtfebfcwlgo.com^$third-party
 ||rhqrfnkngrhrha.com^$third-party
 ||rhypgggd.com^$third-party
@@ -6839,6 +6851,7 @@ takeover_banner_
 ||rnlfitypkucbhi.com^$third-party
 ||ropkrhilt.com^$third-party
 ||rpcncuzsmpni.com^$third-party
+||rqigvkwoqafpjz.com^$third-party
 ||rquagrre.com^$third-party
 ||rstjainimptgn.com^$third-party
 ||rtdogcdkovndho.com^$third-party
@@ -6867,6 +6880,7 @@ takeover_banner_
 ||tbnnsmwfjzttct.com^$third-party
 ||tdjoaosibes.com^$third-party
 ||teefpagayhb.com^$third-party
+||tepazmynhvo.com^$third-party
 ||tfijbdegozfh.com^$third-party
 ||tfqexqeldxjvet.com^$third-party
 ||thqwivyhdpoem.com^$third-party
@@ -6901,6 +6915,7 @@ takeover_banner_
 ||uisrihozphejjt.com^$third-party
 ||ujwdwwfuqcgnv.com^$third-party
 ||ulrryqpp.com^$third-party
+||umvgcqaxmie.com^$third-party
 ||uqemcyylvcdrgs.com^$third-party
 ||usfmwydo.com^$third-party
 ||utbclxmcv.com^$third-party
@@ -6963,6 +6978,7 @@ takeover_banner_
 ||xeflnvycs.com^$third-party
 ||xeirmdgphdl.com^$third-party
 ||xgznkebnjme.com^$third-party
+||xhlrlyygx.com^$third-party
 ||xihkdzijh.com^$third-party
 ||xkgbbiqqekja.com^$third-party
 ||xkhxejeaarq.com^$third-party
@@ -7001,6 +7017,9 @@ takeover_banner_
 ||yvlhxqxw.com^$third-party
 ||yvlmcehqt.com^$third-party
 ||yxbglezas.com^$third-party
+||yzyalgnxo.com^$third-party
+||zaattuotjbkj.com^$third-party
+||zajawwgpl.com^$third-party
 ||zbsqhxyjlh.com^$third-party
 ||zfpsotrgboqp.com^$third-party
 ||zgwuvfye.com^$third-party
@@ -14979,6 +14998,7 @@ takeover_banner_
 ||9amq5z4y1y.com^$popup
 ||9newstoday.net^$popup,third-party
 ||9t5.me^$popup,third-party
+||aaucwbe.com^$popup
 ||abbeyblog.me^$popup,third-party
 ||abbp1.pw^$popup
 ||ablogica.com^$popup,third-party
@@ -24484,13 +24504,13 @@ takeover_banner_
 @@||depositfiles.com/get_file.php$xmlhttprequest
 @@||depositfiles.com/gold/$xmlhttprequest
 @@||depositfiles.com/js/$script
-@@||depositfiles.com/thumb/$xmlhttprequest
+@@||depositfiles.com/thumb/$image,xmlhttprequest
 @@||depositfiles.com/upload/$subdocument
 @@||depositfiles.org/api/$xmlhttprequest
 @@||depositfiles.org/get_file.php$xmlhttprequest
 @@||depositfiles.org/gold/$xmlhttprequest
 @@||depositfiles.org/js/$script
-@@||depositfiles.org/thumb/$xmlhttprequest
+@@||depositfiles.org/thumb/$image,xmlhttprequest
 @@||depositfiles.org/upload/$subdocument,xmlhttprequest
 @@||depositvpn.com/api/$xmlhttprequest,domain=depositfiles.com|depositfiles.org|dfiles.eu|dfiles.ru
 @@||depositvpn.com/iframe/$subdocument,domain=depositfiles.com|depositfiles.org|dfiles.eu|dfiles.ru
@@ -24498,13 +24518,13 @@ takeover_banner_
 @@||dfiles.eu/get_file.php?$xmlhttprequest
 @@||dfiles.eu/gold/$xmlhttprequest
 @@||dfiles.eu/js/$script
-@@||dfiles.eu/thumb/$xmlhttprequest
+@@||dfiles.eu/thumb/$image,xmlhttprequest
 @@||dfiles.eu/upload/$subdocument,xmlhttprequest
 @@||dfiles.ru/api/$xmlhttprequest
 @@||dfiles.ru/get_file.php$xmlhttprequest
 @@||dfiles.ru/gold/$xmlhttprequest
 @@||dfiles.ru/js/$script
-@@||dfiles.ru/thumb/$xmlhttprequest
+@@||dfiles.ru/thumb/$image,xmlhttprequest
 @@||dfiles.ru/upload/$subdocument,xmlhttprequest
 @@||google.com/js/bg/$script,domain=depositfiles.com|depositfiles.org|dfiles.eu|dfiles.ru
 @@||google.com/recaptcha/$subdocument,domain=depositfiles.com|depositfiles.org|dfiles.eu|dfiles.ru
@@ -24798,6 +24818,8 @@ takeover_banner_
 ! Zippyshare
 ! Suprafiles
 @@||google.com/recaptcha/$subdocument,domain=suprafiles.me
+@@||gstatic.com/recaptcha/$script,domain=suprafiles.me
+@@||suprafiles.me^$generichide
 ! vidzi.tv
 @@||ajax.googleapis.com^$script,domain=vidzi.online|vidzi.si|vidzi.tv
 @@||static.vidzi.tv/jwplayer-$script,domain=vidzi.online|vidzi.si|vidzi.tv
@@ -26344,12 +26366,6 @@ wyciwyg:$popup,domain=jkanime.net|vodlock.co
 @@||motherless.com/scripts/swfobject.js
 ! taxidrivermovie.com
 @@||taxidrivermovie.com/style/core-min.js$script,~third-party
-! xhamster.com
-@@||ahcdn.com/key=$xmlhttprequest,domain=xhamster.com
-@@||cdn*.com/hls/$xmlhttprequest,domain=xhamster.com
-@@||video.xhcdn.com/key=$xmlhttprequest,domain=xhamster.com
-@@||xhcdn.com^$script,domain=xhamster.com
-@@||xhcdn.com^*/shader/$xmlhttprequest,domain=xhamster.com
 ! hdzog.com
 @@||ajax.googleapis.com^$script,domain=hdzog.com
 @@||hdzog.com/key=$~third-party,xmlhttprequest
@@ -26768,7 +26784,7 @@ kenrockwell.com,mocospace.com,telegraph.co.uk###adds
 tortoisesvn.net###adgroup
 shivtr.com###admanager
 girlsgames.biz###admd
-909lifefm.com,anichart.net,audioreview.com,boldsky.com,carlow-nationalist.ie,cayrock.ky,chelseanews.com,daemon-tools.cc,disconnect.me,dreadcentral.com,duckduckgo.com,eveningecho.ie,footballfancast.com,full-stream.me,g.doubleclick.net,gearculture.com,genevalunch.com,goodreturns.in,hdcast.tv,healthboards.com,hot1041.ky,inspirationti.me,kildare-nationalist.ie,kiss.ky,laois-nationalist.ie,lavamovies.se,lorempixel.com,lshstream.com,lshstreams.com,mobilerevamp.org,mtbr.com,nylonguysmag.com,photographyreview.com,placehold.it,playr.org,privack.com,quiz4fun.com,quote.com,roscommonherald.ie,skyuser.co.uk,talk1300.com,theindustry.cc,toorgle.net,triblive.com,tvope.com,urbandictionary.com,washingtonmonthly.com,waterford-news.ie,wccftech.com,westernpeople.com,wexfordecho.ie,x1071.ky###ads
+909lifefm.com,anichart.net,audioreview.com,boldsky.com,carlow-nationalist.ie,cayrock.ky,chelseanews.com,craigclassifiedads.com,daemon-tools.cc,disconnect.me,dreadcentral.com,duckduckgo.com,eveningecho.ie,footballfancast.com,full-stream.me,g.doubleclick.net,gearculture.com,genevalunch.com,goodreturns.in,hdcast.tv,healthboards.com,hot1041.ky,inspirationti.me,kildare-nationalist.ie,kiss.ky,laois-nationalist.ie,lavamovies.se,lorempixel.com,lshstream.com,lshstreams.com,mobilerevamp.org,mtbr.com,nylonguysmag.com,photographyreview.com,placehold.it,playr.org,privack.com,quiz4fun.com,quote.com,roscommonherald.ie,skyuser.co.uk,talk1300.com,theindustry.cc,toorgle.net,triblive.com,tvope.com,urbandictionary.com,washingtonmonthly.com,waterford-news.ie,wccftech.com,westernpeople.com,wexfordecho.ie,x1071.ky###ads
 chia-anime.com###ads8
 privack.com###adsb
 uploaded.net###adshare-videoad
@@ -32451,6 +32467,7 @@ answers.com##.links_openx
 ipsnews.net##.linksmoll_black
 youtube.com##.list-view[style="margin: 7px 0pt;"]
 maps.yahoo.com##.listing > .ysm
+gosearchresults.com##.listing-right
 cfos.de##.ll_center
 cso.com.au,goodgearguide.com.au,pcworld.co.nz,pcworld.idg.com.au##.lo-toppromos
 calgaryherald.com##.local-branding
@@ -35127,7 +35144,7 @@ codeproject.com##a[href^="https://dm.codeproject.com/"]
 speedtest.net,torlock.com,torrentfunk.com##a[href^="https://go.nordvpn.net/"]
 speedtest.net##a[href^="https://go.nordvpn.net/aff_c?offer_id="]
 bitcoinmagazine.com##a[href^="https://godistributed.com/trade?"]
-9to5google.com,9to5mac.com,9to5toys.com,dailynews.lk,dexerto.com,diply.com,electrek.co,herald.ca,hltv.org,kuwaittimes.net,limetorrents.cc,pcgamesn.com,smallseotools.com,socialeurope.eu,sundayobserver.lk,thehackernews.com,thenationonlineng.net,threepercenternation.com,torrentdownloads.me,tribuneonlineng.com,wheremilan.com##a[href^="https://goo.gl/"]
+9to5google.com,9to5mac.com,9to5toys.com,bulbagarden.net,dailynews.lk,dexerto.com,diply.com,electrek.co,herald.ca,hltv.org,kuwaittimes.net,limetorrents.cc,pcgamesn.com,smallseotools.com,socialeurope.eu,sundayobserver.lk,thehackernews.com,thenationonlineng.net,threepercenternation.com,torrentdownloads.me,tribuneonlineng.com,wheremilan.com##a[href^="https://goo.gl/"]
 userscdn.com##a[href^="https://hostdzire.com/billing/aff.php?"]
 douploads.com##a[href^="https://href.li/"]
 capricornfm.co.za,jazzfm.com,readmng.com##a[href^="https://itunes.apple.com/"]
@@ -36901,7 +36918,7 @@ baltimoresun.com,boston.com,calgaryherald.com,capitalgazette.com,carrollcountyti
 moviefone.com##.zergnet
 ign.com##.zergnet-container
 baltimoresun.com,boston.com,calgaryherald.com,capitalgazette.com,carrollcountytimes.com,chicagotribune.com,citypaper.com,courant.com,dailypress.com,deathandtaxesmag.com,edmontonjournal.com,edmunds.com,financialpost.com,gofugyourself.com,hearthhead.com,ign.com,infinitiev.com,latimes.com,leaderpost.com,lolking.net,mcall.com,montrealgazette.com,nasdaq.com,nationalpost.com,orlandosentinel.com,ottawacitizen.com,pcmag.com,ranker.com,sandiegouniontribune.com,saveur.com,sherdog.com,spin.com,sun-sentinel.com,theprovince.com,thestarphoenix.com,timeanddate.com,tmn.today,torontosun.com,twincities.com,vagazette.com,vancouversun.com,vibe.com,windsorstar.com,wowhead.com##.zergnet-holder
-broadwayworld.com##[id="outbrain_widget_"
+broadwayworld.com##[id="outbrain_widget_"]
 intoday.in##a[href*=".zedo.com/"]
 msn.com##a[href^="http://adfarm.mediaplex.com/"]
 monova.org##a[href^="http://adsrvmedia.adk2x.com/"]
@@ -37811,6 +37828,7 @@ sexyandfunny.com,yourdailypornstars.com##a[href*="/out.php?"]
 badjojo.com##a[href*="/out.php?siteid=13&id=0&url=http%3A%2F%2Fsyndication.traffichaus.com"]
 mansurfer.com##a[href*="/out/"]
 avgle.com##a[href*="/redirect"]
+xhamster.com##a[href*="/spclick.php?"]
 celebrity-slips.com##a[href*="?_atc="]
 gotporn.com,katestube.com,sextvx.com,spankbang.com,vporn.com,xnostars.com,xxxporn.pics##a[href*="?ats="]
 redtube.com,thumbzilla.com##a[href*="?coupon="]
@@ -41069,7 +41087,6 @@ motherless.com##table[style*="max-width:"]
 @@||mylifetime.com^$generichide
 @@||mypapercraft.net^$generichide
 @@||mzstatic.com^*.jpg#$image,domain=newmusicforpeople.org
-@@||namesakeoscilloscopemarquis.com^*/ads.js$domain=~tvil.me
 @@||narkive.com^$generichide
 @@||nationalgeographic.com^*/advertising.js
 @@||nbahd.com^$generichide
@@ -47195,6 +47212,7 @@ http://utm.$domain=~utm.edu|~utm.md|~utoronto.ca
 ||counter.hyipexplorer.com^
 ||counter.maases.com^
 ||counter.mgaserv.com^
+||counter.packa2.cz^
 ||counter.pagesview.com^
 ||counter.pax.com^
 ||counter.powweb.com^
@@ -49957,6 +49975,7 @@ http://utm.$domain=~utm.edu|~utm.md|~utoronto.ca
 ||digitalspy.co.uk/gip1.php
 ||dilbert.com^*&tracker$script
 ||dippic.com/cgi-bin/index_dl.cgi?
+||discordapp.com^*/science
 ||discordapp.com^*/track
 ||displaymate.com/cgi-bin/stat/
 ||divxden.com^*/tracker.js
@@ -51776,7 +51795,7 @@ http://utm.$domain=~utm.edu|~utm.md|~utoronto.ca
 ||xfinity.com/event/
 ||xhamster.com/ajax.php?act=track_event
 ||xhamster.com/embed.log/
-||xhcdn.com/js/track.min.js?
+||xhcdn.com/js/track.
 ||xing.com/collect/
 ||xing.com/logjam/
 ||xnxx.com/in.php?referer
@@ -53681,6 +53700,7 @@ http://utm.$domain=~utm.edu|~utm.md|~utoronto.ca
 ! Mining-related whitelists
 @@||alltube.tv/jsverify.php$~third-party,xmlhttprequest
 @@||broadcastt.xyz/apps/$websocket
+@@||imaster.space^$websocket
 @@||mycdn.me/chat$websocket
 @@||mycdn.me/publish$websocket
 @@||onlinevideoconverter.com/webservice|$~third-party,xmlhttprequest
@@ -56573,6 +56593,7 @@ gw2treasures.com##.notification
 ||moreshare.com^$third-party
 ||mozo.com.au/widgets/$third-party
 ||my.leadpages.net^$third-party
+||my.sendinblue.com/users/subscribe/$third-party
 ||myeffecto.com^$third-party
 ||myvoicenation.com^$third-party
 ||newsgator.com^$third-party

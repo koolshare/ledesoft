@@ -1,8 +1,7 @@
 ﻿!x  -----------------------------------------------------------------------------------------------------------------
-!x  -----[KoolProxy 3.8.1]
-!x  -----update[rules]: 2018-09-24 18:21
-!x  -----update[video]: 2018-09-20 23:53
-!x  -----Thanks: From KP Rule Group -- <houzi-> <Carseason>
+!x  -----[KoolProxy 3.8.2]
+!x  -----update[rules]: 2018-09-27 20:00
+!x  -----Thanks: From lvba Rule Group
 !x  -----Thanks for help: <yiclear> <adbyby>
 !x  --------------------------------------------- white rules -------------------------------------------------------
 @@|http:/*/softdl.360tpcdn.com/
@@ -359,6 +358,7 @@
 @@||zllyun.com/images/banner/
 !x  --------------------------------------------- white rules <https> -------------------------------------------------------
 @@@@|https://apisgame.iqiyi.com
+@@@@|https://api.yuedu.iqiyi.com
 @@@@|https://api.sports.163.com
 @@@@|https://account.zhihu.com
 @@@@|https://api.car.autohome.com.cn
@@ -3958,6 +3958,8 @@
 |https://j.gamersky.com/web2015/js/index_top_ad_1.js$script
 |https://ja.gamersky.com/
 |https://jsjs.nthyn.com/
+|https://js.tv.itc.cn/site/play/v1/vip_discount_a0458d.js
+|https://js.tv.itc.cn/base/core/gg_
 |https://l.qq.com/lview?
 |https://nt.compass-fit.jp/lift_widget.js?adspot_
 |https://nichibenren.or.jp
@@ -10834,6 +10836,7 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 |http://www.zol.com.cn##body > div:nth-child(5)
 |http://www.ppx##[src*="sinaimg.cn"]
 |https://www.163.com##.fixed_foot_ad,.tie-ad-bar,div.btm-ad,iframe#btm_ad_taobao,div.postadlayer.nbw-win,DIV.gg200x300,div.footer.clearfix,DIV[class$="_header_gg"],DIV.gg300,div[class^="gg-"],iframe[src^="http://g.163.com/r?site="],div#adao,IFRAME[src^="http://x.jd.com/exsites?spread_type=2&ad_ids="],div.ggarea,div.ep-header-side,div.through_line,div.area_top_ad,div.area_brand_ad,div.list_ad,div.ad_960_a,iframe[src^="http://img1.126.net/channel7/"],img[width="278"][height="69"],div[lzrd-class="lzrd-ad-external"],div.float-bar,div.youdao,div.ls-inner,div.ep-header-main,div[id^="banner"],img[width="560"][height="100"],div.layout-shoping,.m-sidead,#j-sidead,#backadframe,[class^="u-index-ad"],.J_adcontrol,.banner-ad,.post_adtop_main,.top-banner,.index_top_ad,.post_end_ad,.post_right_ad,[class="mb35"] > div[style],.topad,.top_ad,.idx_top_ad,.idx_tonglan_ad,a[href^="http://g.163.com/a?CID="],.mod_ad_r,.ad300,.right_originalcolumn_ad,.ad_hover_href_top,.rg_ad,.hp_textlink_ad,.head_ad,.mod_ad_text,.mod_index_ad,.mod_r_ad,.kaola_ad,.store_lottery,[src^="http://static-alias-1.360buyimg.com/jzt/tpl/"],.index_bottom_ad,.topnav_ad,.bottomad,.top-gg-area,[src^="http://money.163.com/special/gegu_"],[adtype="infoAd"],[id$="-bottom-banner"]
+|https://www.4k123.com##.comeing_wad,.a_pb,#diy_chart,.area,.bm.a_c
 |https://www.77kp.com/###adfdiv
 |https://www.autohome.com.cn##.column > div[id^="s"]:first-child:last-child
 |https://all.qidian.com##img[width="990"][height="40"]
@@ -11203,6 +11206,7 @@ zznews.cn##.ad:not([style="margin-top:0px;padding-top:0px;"]),.ad1000-60
 |https://bbs.feng.com/$s@<div><script type="text/javascript">*<!-- header start -->@<!-- header start -->@
 |https://club.m.autohome.com.cn/$s@display: block!important;@display: none!important;@
 |https://g.pconline.com.cn/$s@"display:block!important;"@"display:none!important;"@
+|https://js.tv.itc.cn/base/plugin/login_$s@i.cookie("fee_status",null,@i.cookie("fee_status",1,@
 |https://www.cnbeta.com/$s@<div style="display:block !important;*">@<div style="display:none !important;>@
 |https://www.cnbeta.com/$s@JB=function()@@
 |https://www.cnbeta.com/articles/$s@<section class="mt5 cber" style="display:none">*</section>@@

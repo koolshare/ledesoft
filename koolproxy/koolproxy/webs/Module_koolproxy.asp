@@ -159,6 +159,7 @@ No part of this file may be used without permission.
 					x = -1;
 			});
 			setTimeout("get_run_status();", 1000);
+			setTimeout("get_rules_status();", 1000);			
 		}
 		function get_arp_list(){
 			var id = parseInt(Math.random() * 100000000);
@@ -218,11 +219,7 @@ No part of this file may be used without permission.
 			  	async:false,
 			 	success: function(data){
 					dbus = data.result[0];
-					E('_koolproxy_oline_rules').checked = (dbus["koolproxy_oline_rules"] == 1);
-					E('_koolproxy_easylist_rules').checked = (dbus["koolproxy_easylist_rules"] == 1);
-					E('_koolproxy_abx_rules').checked = (dbus["koolproxy_abx_rules"] == 1);
-					E('_koolproxy_fanboy_rules').checked = (dbus["koolproxy_fanboy_rules"] == 1);
-					setTimeout("get_log();", 500);					
+					setTimeout("get_log();", 500);	
 			  	}
 			});
 		}
@@ -241,7 +238,6 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = response.result.split("@@")[0];
 					document.getElementById("_koolproxy_rule_status").innerHTML = response.result.split("@@")[1];
-					document.getElementById("_koolproxy_third_rule_status").innerHTML = response.result.split("@@")[2];
 					setTimeout("get_run_status();", 10000);
 				},
 				error: function(){
@@ -250,11 +246,37 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = "获取运行状态失败！";
 					document.getElementById("_koolproxy_rule_status").innerHTML = "获取规则状态失败！";
-					document.getElementById("_koolproxy_third_rule_status").innerHTML = "获取规则状态失败！";
 					setTimeout("get_run_status();", 5000);
 				}
 			});
-		}	
+		}
+		
+		function get_rules_status(){
+			var id2 = parseInt(Math.random() * 100000000);
+			var postData2 = {"id": id2, "method": "KoolProxy_rules_status.sh", "params":[2], "fields": ""};
+			$.ajax({
+				type: "POST",
+				cache:false,
+				url: "/_api/",
+				data: JSON.stringify(postData2),
+				dataType: "json",
+				success: function(response){
+					if(softcenter == 1){
+						return false;
+					}
+					document.getElementById("_koolproxy_third_rule_status").innerHTML = response.result.split("@@");
+					setTimeout("get_rules_status();", 15000);
+				},
+				error: function(){
+					if(softcenter == 1){
+						return false;
+					}
+					document.getElementById("_koolproxy_third_rule_status").innerHTML = "获取规则状态失败！";
+					setTimeout("get_rules_status();", 5500);
+				}
+			});
+		}		
+		
 		function download_cert(){
 			location.href = "http://110.110.110.110";
 		}
@@ -327,11 +349,15 @@ No part of this file may be used without permission.
 		}
 		
 		function save(){
+			var KP = document.getElementById('_koolproxy_enable').checked==false;			
 			var R1 = document.getElementById('_koolproxy_oline_rules').checked==false;
 			var R2 = document.getElementById('_koolproxy_easylist_rules').checked==false;
 			var R3 = document.getElementById('_koolproxy_abx_rules').checked==false;
 			var R4 = document.getElementById('_koolproxy_fanboy_rules').checked==false;
-			if(R1 && R2 && R3 && R4){
+
+			if (KP){
+				
+			}else if(R1 && R2 && R3 && R4){
 				alert("请到【规则管理】勾选绿坝规则！");
 				return false;
 			}
