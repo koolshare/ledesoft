@@ -6,14 +6,14 @@ source $KSROOT/scripts/base.sh
 eval `dbus export koolproxy_`
 
 version=`koolproxy -v`
-status=`ps|grep -w koolproxy | grep -cv grep`
+status=`ps | grep koolproxy | grep -v grep | wc -l`
 date=`echo_date1`
 pid=`pidof koolproxy`
 
 rules_date_local=`cat $KSROOT/koolproxy/data/rules/koolproxy.txt  | sed -n '3p'|awk '{print $3,$4}'`
 rules_nu_local=`grep -E -v "^!" $KSROOT/koolproxy/data/rules/koolproxy.txt | wc -l`
 
-if [ "$status" == "2" ]; then
+if [ "$status" -ge "1" ]; then
 	if [ "$koolproxy_oline_rules" == "1" ]; then
 		http_response "【$date】 KoolProxy $version  进程运行正常！(PID: $pid) @@绿坝规则：$rules_date_local / $rules_nu_local条"
 	else

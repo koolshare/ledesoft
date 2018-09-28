@@ -238,7 +238,7 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = response.result.split("@@")[0];
 					document.getElementById("_koolproxy_rule_status").innerHTML = response.result.split("@@")[1];
-					setTimeout("get_run_status();", 10000);
+					setTimeout("get_run_status();", 1000);
 				},
 				error: function(){
 					if(softcenter == 1){
@@ -246,7 +246,7 @@ No part of this file may be used without permission.
 					}
 					document.getElementById("_koolproxy_status").innerHTML = "获取运行状态失败！";
 					document.getElementById("_koolproxy_rule_status").innerHTML = "获取规则状态失败！";
-					setTimeout("get_run_status();", 5000);
+					setTimeout("get_run_status();", 500);
 				}
 			});
 		}
@@ -265,14 +265,14 @@ No part of this file may be used without permission.
 						return false;
 					}
 					document.getElementById("_koolproxy_third_rule_status").innerHTML = response.result.split("@@");
-					setTimeout("get_rules_status();", 15000);
+					setTimeout("get_rules_status();", 20000);
 				},
 				error: function(){
 					if(softcenter == 1){
 						return false;
 					}
 					document.getElementById("_koolproxy_third_rule_status").innerHTML = "获取规则状态失败！";
-					setTimeout("get_rules_status();", 5500);
+					setTimeout("get_rules_status();", 10000);
 				}
 			});
 		}		
