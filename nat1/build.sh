@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=nat1
-VERSION=0.1
+VERSION=0.2
 TITLE="Full cone NAT"
 DESCRIPTION="NAT类型-Full cone"
 HOME_URL=Module_nat1.asp
