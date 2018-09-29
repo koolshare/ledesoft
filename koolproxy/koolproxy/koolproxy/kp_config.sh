@@ -17,32 +17,31 @@ write_user_txt(){
 }
 
 load_rules(){
-	if [ "$koolproxy_mode" == "3" ]; then
-		:
+	sed -i '1,7s/1/0/g' $SOURCE_LIST
+
+	if [ "$koolproxy_video_rules" == "1" -a "koolproxy_oline_rules" == "0" -a "$koolproxy_easylist_rules" == "0" -a "$koolproxy_abx_rules" == "0" -a "$koolproxy_fanboy_rules" == "0" ]; then
+		echo_date 加载【视频规则】
+		sed -i '3,4s/0/1/g' $SOURCE_LIST
 	else
 		if [ "$koolproxy_oline_rules" == "1" ]; then
 			echo_date 加载【绿坝规则】
-			sed -i '1,4s/0/1/g' $SOURCE_LIST
-		else
-			sed -i '1,3s/1/0/g' $SOURCE_LIST
+			sed -i '1,2s/0/1/g;4s/0/1/g' $SOURCE_LIST
 		fi
+		if [ "$koolproxy_video_rules" == "1" ]; then
+			echo_date 加载【视频规则】
+			sed -i '3,4s/0/1/g' $SOURCE_LIST
+		fi		
 		if [ "$koolproxy_easylist_rules" == "1" ]; then
 			echo_date 加载【ABP规则】
-			sed -i '5s/0/1/g' $SOURCE_LIST
-		else
-			sed -i '5s/1/0/g' $SOURCE_LIST			
+			sed -i '5s/0/1/g' $SOURCE_LIST		
 		fi
 		if [ "$koolproxy_abx_rules" == "1" ]; then
 			echo_date 加载【乘风规则】
-			sed -i '6s/0/1/g' $SOURCE_LIST
-		else
-			sed -i '6s/1/0/g' $SOURCE_LIST			
+			sed -i '6s/0/1/g' $SOURCE_LIST		
 		fi
 		if [ "$koolproxy_fanboy_rules" == "1" ]; then
 			echo_date 加载【Fanboy规则】
-			sed -i '7s/0/1/g' $SOURCE_LIST
-		else
-			sed -i '7s/1/0/g' $SOURCE_LIST			
+			sed -i '7s/0/1/g' $SOURCE_LIST		
 		fi				
 	fi
 }
@@ -55,12 +54,13 @@ start_koolproxy(){
 	load_rules
 	[ -f "$KSROOT/bin/koolproxy" ] && rm -rf $KSROOT/bin/koolproxy
 	[ ! -L "$KSROOT/bin/koolproxy" ] && ln -sf $KSROOT/koolproxy/koolproxy $KSROOT/bin/koolproxy
-	[ "$koolproxy_mode" == "1" ] && echo_date 选择【全局过滤模式】
-	[ "$koolproxy_mode" == "2" ] && echo_date 选择【IPSET过滤模式】
-	if [ "$koolproxy_mode" == "3" ]; then
-		echo_date 选择【视频过滤模式】
-		sed -i '1s/1/0/g;2s/1/0/g' $SOURCE_LIST
-	fi
+	[ "$koolproxy_mode" == "0" ] && echo_date 选择【不过滤】	
+	[ "$koolproxy_mode" == "1" ] && echo_date 选择【全局模式】
+	[ "$koolproxy_mode" == "2" ] && echo_date 选择【带HTTPS的全局模式】
+	[ "$koolproxy_mode" == "3" ] && echo_date 选择【黑名单模式】
+	[ "$koolproxy_mode" == "4" ] && echo_date 选择【带HTTPS的黑名单模式】
+	[ "$koolproxy_mode" == "5" ] && echo_date 选择【全端口模式】
+	[ "$koolproxy_video_rules" == "1" -a "koolproxy_oline_rules" == "0" -a "$koolproxy_easylist_rules" == "0" -a "$koolproxy_abx_rules" == "0" -a "$koolproxy_fanboy_rules" == "0" ] && echo_date 选择【视频模式】
 	cd $KP_DIR && koolproxy --mark -d
 }
 
@@ -100,13 +100,7 @@ remove_nat_start(){
 # ===============================
 
 add_ipset_conf(){
-	if [ "$koolproxy_mode" == "2" ];then
-		if [ "$koolproxy_host" == "1" ];then
-			echo_date 添加Adblock Plus Host软连接...
-			ln -sf $KP_DIR/data/dnsmasq.adblock /tmp/dnsmasq.d/dnsmasq.adblock
-		fi
-		dbus set koolproxy_host_nu=`cat /koolshare/koolproxy/data/dnsmasq.adblock|wc -l`
-		
+	if [ "$koolproxy_mode" == "3" -o "$koolproxy_mode" == "4" ];then
 		echo_date 添加黑名单软连接...
 		rm -rf /tmp/dnsmasq.d/koolproxy_ipset.conf
 		ln -sf $KP_DIR/data/koolproxy_ipset.conf /tmp/dnsmasq.d/koolproxy_ipset.conf
@@ -119,11 +113,6 @@ remove_ipset_conf(){
 		echo_date 移除黑名单软连接...
 		rm -rf /tmp/dnsmasq.d/koolproxy_ipset.conf
 	fi
-
-	if [ -L "/tmp/dnsmasq.d/dnsmasq.adblock" ];then
-		echo_date 移除Adblock Plus Host软连接...
-		rm -rf /tmp/dnsmasq.d/dnsmasq.adblock
-	fi	
 }
 
 del_dns_takeover(){
@@ -191,14 +180,20 @@ get_mode_name() {
 			echo "不过滤"
 		;;
 		1)
-			echo "http模式"
+			echo "全局模式"
 		;;
 		2)
-			echo "http + https"
+			echo "带HTTPS的全局模式"
 		;;
 		3)
-			echo "full port"
-		;;		
+			echo "黑名单模式"
+		;;
+		4)
+			echo "带HTTPS的黑名单模式"
+		;;
+		5)
+			echo "全端口模式"
+		;;							
 	esac
 }
 
@@ -225,6 +220,12 @@ get_action_chain() {
 			echo "KP_HTTPS"
 		;;
 		3)
+			echo "KP_BLOCK_HTTP"
+		;;
+		4)
+			echo "KP_BLOCK_HTTPS"
+		;;				
+		5)
 			echo "KP_ALL_PORT"
 		;;		
 	esac
@@ -241,10 +242,12 @@ factor(){
 flush_nat(){
 	echo_date 移除nat规则...
 	cd /tmp
-	iptables -t nat -S | grep -E "KOOLPROXY|KP_HTTP|KP_HTTPS|KP_ALL_PORT" | sed 's/-A/iptables -t nat -D/g'|sed 1,4d > clean.sh && chmod 777 clean.sh && ./clean.sh
+	iptables -t nat -S | grep -E "KOOLPROXY|KP_HTTP|KP_HTTPS|KP_BLOCK_HTTP|KP_BLOCK_HTTPS|KP_ALL_PORT" | sed 's/-A/iptables -t nat -D/g'|sed 1,6d > clean.sh && chmod 777 clean.sh && ./clean.sh
 	iptables -t nat -X KOOLPROXY > /dev/null 2>&1
 	iptables -t nat -X KP_HTTP > /dev/null 2>&1
 	iptables -t nat -X KP_HTTPS > /dev/null 2>&1
+	iptables -t nat -X KP_BLOCK_HTTP > /dev/null 2>&1
+	iptables -t nat -X KP_BLOCK_HTTPS > /dev/null 2>&1	
 	iptables -t nat -X KP_ALL_PORT > /dev/null 2>&1
 	ipset -F black_koolproxy > /dev/null 2>&1 && ipset -X black_koolproxy > /dev/null 2>&1
 	ipset -F white_kp_list > /dev/null 2>&1 && ipset -X white_kp_list > /dev/null 2>&1
@@ -257,7 +260,7 @@ get_acl_para(){
 
 lan_acess_control(){
 	# lan access control
-	[ -z "$koolproxy_acl_default" ] && koolproxy_acl_default=1
+#	[ -z "$koolproxy_acl_default" ] && koolproxy_acl_default=1
 	acl_nu=`dbus get koolproxy_acl_list|sed 's/>/\n/g'|sed '/^$/d'|sed '/^ /d'|wc -l`
 	if [ -n "$acl_nu" ]; then
 		min="1"
@@ -277,10 +280,10 @@ lan_acess_control(){
 			iptables -t nat -A KOOLPROXY $(factor $ipaddr "-s") $(factor $mac "-m mac --mac-source") -p tcp $(get_jump_mode $proxy_mode) $(get_action_chain $proxy_mode)
 		min=`expr $min + 1`
 		done
-		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $koolproxy_acl_default)
+		echo_date 加载ACL规则：其余主机模式为：$(get_mode_name $koolproxy_mode)
 		
 	else
-		echo_date 加载ACL规则：所有模式为：$(get_mode_name $koolproxy_acl_default)
+		echo_date 加载ACL规则：所有模式为：$(get_mode_name $koolproxy_mode)
 	fi
 
 }
@@ -298,6 +301,10 @@ load_nat(){
 	iptables -t nat -A KP_HTTP -p tcp -m multiport --dport 80 -j REDIRECT --to-ports 3000
 	iptables -t nat -N KP_HTTPS
 	iptables -t nat -A KP_HTTPS -p tcp -m multiport --dport 80,443 -j REDIRECT --to-ports 3000
+	iptables -t nat -N KP_BLOCK_HTTP
+	iptables -t nat -A KP_BLOCK_HTTP -p tcp -m multiport --dport 80 -m set --match-set black_koolproxy dst -j REDIRECT --to-ports 3000
+	iptables -t nat -N KP_BLOCK_HTTPS
+	iptables -t nat -A KP_BLOCK_HTTPS -p tcp -m multiport --dport 80,443 -m set --match-set black_koolproxy dst -j REDIRECT --to-ports 3000	
 	iptables -t nat -N KP_ALL_PORT
 	#iptables -t nat -A KP_ALL_PORT -p tcp -j REDIRECT --to-ports 3000
 	# 端口控制 
@@ -310,7 +317,7 @@ load_nat(){
 	# 局域网控制
 	lan_acess_control
 	# 剩余流量转发到缺省规则定义的链中
-	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_acl_default)
+	iptables -t nat -A KOOLPROXY -p tcp -j $(get_action_chain $koolproxy_mode)
 	# 重定所有流量到 KOOLPROXY
 	# 全局模式和视频模式
 	PR_NU=`iptables -nvL PREROUTING -t nat |sed 1,2d | sed -n '/prerouting_rule/='`
@@ -319,9 +326,10 @@ load_nat(){
 	else
 		let PR_NU+=1
 	fi	
-	[ "$koolproxy_mode" == "1" ] || [ "$koolproxy_mode" == "3" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -j KOOLPROXY
+#	[ "$koolproxy_mode" == "1" ] || [ "$koolproxy_mode" == "3" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -j KOOLPROXY
+	iptables -t nat -I PREROUTING "$PR_NU" -p tcp -j KOOLPROXY
 	# ipset 黑名单模式
-	[ "$koolproxy_mode" == "2" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
+#	[ "$koolproxy_mode" == "2" ] && iptables -t nat -I PREROUTING "$PR_NU" -p tcp -m set --match-set black_koolproxy dst -j KOOLPROXY
 }
 
 dns_takeover(){
@@ -332,7 +340,7 @@ dns_takeover(){
 	#chromecast=`iptables -t nat -L PREROUTING -v -n|grep "dpt:53"`
 	chromecast_nu=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53"|awk '{print $1}'`
 	is_right_lanip=`iptables -t nat -L PREROUTING -v -n --line-numbers|grep "dpt:53" |grep "$lan_ipaddr"`
-	if [ "$koolproxy_mode" == "2" ]; then
+	if [ "$koolproxy_mode" == "3" -o "$koolproxy_mode" == "4" ]; then
 		if [ -z "$chromecast_nu" ]; then
 			echo_date 黑名单模式开启DNS劫持
 			iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to $lan_ipaddr >/dev/null 2>&1
