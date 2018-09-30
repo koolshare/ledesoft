@@ -69,6 +69,12 @@ open_close_port(){
 	fi
 }
 
+restart_dnsmasq(){
+	# Restart dnsmasq
+	echo_date 重启dnsmasq服务...
+	/etc/init.d/dnsmasq restart >/dev/null 2>&1
+}
+
 case $1 in
 restart)
 	{
@@ -113,6 +119,7 @@ restart)
 			creat_start_up
 			echo_date "创建防火墙启动..."
 			write_nat_start
+			restart_dnsmasq
 			echo_date "插件运行完毕！"
 		}
 		flock -u 1000
@@ -129,6 +136,7 @@ stop)
 			open_close_port
 			echo_date "删除防火墙启动..."
 			remove_nat_start
+			restart_dnsmasq
 			echo_date "插件关闭成功！"
 		}
 		flock -u 1000
