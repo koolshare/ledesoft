@@ -17,9 +17,13 @@
 		var noChange = 0;
 		var status_time = 1;
 		var option_udp = [['√', '开启'],['x', '关闭']];
-		var option_time = [];
+		var option_time_hour = [];
+		var option_time_minute = [];
 		for(var i = 0; i < 24; i++){
-			option_time[i] = [i, i + "点"];
+			option_time_hour[i] = [i, i + "点"];
+		}
+		for(var i = 0; i < 60; i++){
+			option_time_minute[i] = [i, i + "分"];
 		}
 		if (typeof btoa == "Function") {
 			Base64 = {
@@ -188,8 +192,10 @@
 			E("_sgame_udp2raw_mode").value = dbus["sgame_udp2raw_mode"] || "faketcp";
 			E("_sgame_basic_server").value = dbus["sgame_basic_server"] || "114.114.114.114";
 			E("_sgame_basic_port").value = dbus["sgame_basic_port"] || "867";
-			E("_sgame_base_cron_enable").value = dbus["sgame_basic_cron_enable"] || "20";
-			E("_sgame_base_cron_disable").value = dbus["sgame_base_cron_disable"] || "2";
+			E("_sgame_base_cron_enablehour").value = dbus["sgame_base_cron_enablehour"] || "19";
+			E("_sgame_base_cron_disablehour").value = dbus["sgame_base_cron_disablehour"] || "1";
+			E("_sgame_base_cron_enableminute").value = dbus["sgame_basic_cron_enableminute"] || "50";
+			E("_sgame_base_cron_disableminute").value = dbus["sgame_base_cron_disableminute"] || "30";
 			E("_sgame_basic_subnet").value = dbus["sgame_basic_subnet"] || "10.22.22.0";
 			E("_sgame_udp2raw_password").value = Base64.decode(dbus["sgame_udp2raw_password"]);
 			E("_sgame_udp2raw_other").value = Base64.decode(dbus["sgame_udp2raw_other"]) || "-a --log-level 4 --log-position";
@@ -309,8 +315,10 @@
 			elem.display('sgame_basic_tab_udp2raw', a&&b);
 			elem.display(PR('_sgame_basic_server'), !b);
 			elem.display(PR('_sgame_basic_port'), !b);
-			elem.display(PR('_sgame_base_cron_enable'), c);
-			elem.display(PR('_sgame_base_cron_disable'), c);
+			elem.display(PR('_sgame_base_cron_enablehour'), c);
+			elem.display(PR('_sgame_base_cron_enableminute'), c);
+			elem.display(PR('_sgame_base_cron_disablehour'), c);
+			elem.display(PR('_sgame_base_cron_disableminute'), c);
 		}
 
 		function toggleVisibility(whichone) {
@@ -446,8 +454,10 @@
 			dbus.sgame_basic_server = E('_sgame_basic_server').value;
 			dbus.sgame_basic_port = E('_sgame_basic_port').value;
 			dbus.sgame_basic_subnet = E('_sgame_basic_subnet').value;
-			dbus.sgame_base_cron_enable = E('_sgame_base_cron_enable').value;
-			dbus.sgame_base_cron_disable = E('_sgame_base_cron_disable').value;
+			dbus.sgame_base_cron_enablehour = E('_sgame_base_cron_enablehour').value;
+			dbus.sgame_base_cron_enableminute = E('_sgame_base_cron_enableminute').value;
+			dbus.sgame_base_cron_disablehour = E('_sgame_base_cron_disablehour').value;
+			dbus.sgame_base_cron_disableminute = E('_sgame_base_cron_disableminute').value;
 			showMsg("msg_warring","正在提交数据！","<b>等待后台运行完毕，请不要刷新本页面！</b>");
 			$.ajax({
 				url: "/_api/",
@@ -520,8 +530,14 @@
 				$('#identification').forms([
 					{ title: '开启Udp2raw突破UDP屏蔽或QOS限速', name:'sgame_udp2raw_enable',type:'checkbox',  value: dbus.sgame_udp2raw_enable == 1 },
 					{ title: '定时自动开关', name:'sgame_base_cron',type:'checkbox',  value: dbus.sgame_base_cron == 1 },
-					{ title: '定时开启', name: 'sgame_base_cron_enable',type: 'select', options:option_time, value: dbus.sgame_base_cron_enable || '20' ,suffix: ' 时' },
-					{ title: '定时关闭', name: 'sgame_base_cron_disable',type: 'select', options:option_time, value: dbus.sgame_base_cron_disable || '2' ,suffix: ' 时' },
+					{ title: '定时开启', multi: [
+						{ name: 'sgame_base_cron_enablehour',type: 'select', options:option_time_hour, value: dbus.sgame_base_cron_enablehour || '19' ,suffix: ' 时' },
+						{ name: 'sgame_base_cron_enableminute',type: 'select', options:option_time_minute, value: dbus.sgame_base_cron_enableminute || '30' ,suffix: ' 分' },
+					]},
+					{ title: '定时关闭', multi: [
+						{ name: 'sgame_base_cron_disablehour',type: 'select', options:option_time_hour, value: dbus.sgame_base_cron_disablehour || '2' ,suffix: ' 时' },
+						{ name: 'sgame_base_cron_disableminute',type: 'select', options:option_time_minute, value: dbus.sgame_base_cron_disableminute || '2' ,suffix: ' 分' },
+					]},
 				]);
 			</script>
 		</div>
