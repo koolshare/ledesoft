@@ -1,0 +1,9 @@
+{
+"version":"0.2",
+"md5":"f364044d13f0917398079b05e472f90a",
+"home_url":"Module_xldoc.asp",
+"title":"救救迅雷",
+"description":"修复迅雷不能下载的BUG",
+"changelog":"",
+"build_date":"2017-10-18_11:08:01"
+}

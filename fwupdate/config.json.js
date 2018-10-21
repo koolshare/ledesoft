@@ -1,0 +1,9 @@
+{
+"version":"0.2.7",
+"md5":"c9d2a9028aea106e853cc7b78dd2c679",
+"home_url":"Module_fwupdate.asp",
+"title":"固件更新",
+"description":"在线更新路由器固件",
+"changelog":"",
+"build_date":"2018-07-03_17:14:32"
+}

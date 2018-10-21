@@ -1,0 +1,9 @@
+{
+"version":"0.5",
+"md5":"86736506fa660ad31f46f35ded25f8e3",
+"home_url":"Module_sgame.asp",
+"title":"游戏加速器",
+"description":"外服游戏解决方案",
+"changelog":"完全重写方案",
+"build_date":"2018-10-21_12:41:01"
+}

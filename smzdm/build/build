@@ -1,0 +1,35 @@
+#!/bin/sh
+TOOLCHAIN_BASE=~/lede/staging_dir/toolchain-x86_64_gcc-7.3.0_musl/bin
+CC=x86_64-openwrt-linux-musl-gcc
+STRIP=x86_64-openwrt-linux-musl-strip
+#SCRIPTS="homebridge_config.sh homebridge_status.sh"
+BASEDIR=$(cd `dirname $0`;cd ..;pwd)
+BUILDDIR=$(cd `dirname $0`;pwd)
+
+mkdir -p $BUILDDIR/bin
+cd $BUILDDIR
+echo $BUILDDIR
+for script in `ls *.sh`
+do
+	echo making $script
+	# "transform shell to c"
+	cd $BUILDDIR
+	shc -r -v -B -f $script >/dev/null 2>&1
+	
+	# "start compile"
+	export STAGING_DIR=$TOOLCHAIN_BASE
+	$TOOLCHAIN_BASE/$CC -o bin/$script $script.x.c
+	
+	# "strip program"
+	$TOOLCHAIN_BASE/$STRIP bin/$script
+	
+	# "copy files to ledesoft"
+	cp -rf bin/$script $BASEDIR/$1/scripts/	
+done
+
+# "remove useless files"
+rm -rf $BUILDDIR/*.x
+rm -rf $BUILDDIR/*.x.c
+rm -rf $BUILDDIR/bin
+
+echo "done!"

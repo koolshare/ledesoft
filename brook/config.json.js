@@ -1,0 +1,9 @@
+{
+"version":"0.3",
+"md5":"38d058ef0f2987b741a59d26d784792d",
+"home_url":"Module_brook.asp",
+"title":"Brook",
+"description":"跨平台的Socks5代理",
+"changelog":"升级二进制",
+"build_date":"2018-08-13_13:44:23"
+}

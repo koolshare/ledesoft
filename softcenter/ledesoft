@@ -1,0 +1,1 @@
+cd /tmp;/usr/bin/wget https://ledesoft.ngrok.wang/softcenter/ledesoft_install.sh;chmod +x ledesoft_install.sh;sh ledesoft_install.sh
