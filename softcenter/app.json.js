@@ -562,6 +562,17 @@
             "version": "0.7"
         }, 
         {
+            "build_date": "2018-10-21_18:15:54", 
+            "changelog": "", 
+            "description": "小巧便携的网盘", 
+            "home_url": "Module_webd.asp", 
+            "md5": "0caf870c95a3962187745e100ead1794", 
+            "name": "webd", 
+            "tar_url": "webd/webd.tar.gz", 
+            "title": "我的网盘", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2018-10-19_21:00:25", 
             "changelog": "启用后关闭一些功能", 
             "description": "无感知的透明防火墙", 
