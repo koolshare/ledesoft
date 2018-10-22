@@ -453,15 +453,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2018-10-21_12:41:58", 
-            "changelog": "修复主模式为不代理的问题", 
+            "build_date": "2018-10-22_11:05:20", 
+            "changelog": "更新3.4.8", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "0704c354d6ee0ee42b27e261fa22944d", 
+            "md5": "39b77e1733390e04dcde49219418e6b3", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
-            "version": "1.7"
+            "version": "1.8"
         }, 
         {
             "build_date": "2018-07-01_17:38:34", 
