@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"6d9e55a2c70b6db32debc53a9699b772",
+"home_url":"Module_baidupcs.asp",
+"title":"百度网盘",
+"description":"百度网盘同步管理工具",
+"changelog":"",
+"build_date":"2018-10-26_12:35:10"
+}

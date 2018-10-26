@@ -497,6 +497,17 @@
             "version": "1.1"
         }, 
         {
+            "build_date": "2018-10-26_12:35:10", 
+            "changelog": "", 
+            "description": "百度网盘同步管理工具", 
+            "home_url": "Module_baidupcs.asp", 
+            "md5": "6d9e55a2c70b6db32debc53a9699b772", 
+            "name": "baidupcs", 
+            "tar_url": "baidupcs/baidupcs.tar.gz", 
+            "title": "百度网盘", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-12_15:16:43", 
             "changelog": "", 
             "description": "软件中心自动云备份和恢复", 
