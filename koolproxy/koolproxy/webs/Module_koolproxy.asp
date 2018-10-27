@@ -189,7 +189,7 @@ No part of this file may be used without permission.
 						for ( var i = 0; i < s3.length -1; ++i ) {
 							option_arp_web[i] = [s3[ i ].split( '<' )[0],"【" + s3[ i ].split( '<' )[0] + "】",s3[ i ].split( '<' )[1],s3[ i ].split( '<' )[2]];
 						}
-						//option_arp_web[s3.length -1] = ["自定义", "【自定义】","",""];
+						option_arp_web[s3.length -1] = ["自定义", "【自定义设备】","",""];
 						//console.log("option_arp_web", option_arp_web);
 						//option_arp_list = $.extend([],option_arp_local, option_arp_web);
 						option_arp_list = unique_array(option_arp_local.concat( option_arp_web ));
