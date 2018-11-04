@@ -181,6 +181,7 @@ creat_ipset(){
 }
 
 gen_special_ip() {
+	dhcp_mode=`ubus call network.interface.wan status | grep \"proto\" | sed -e 's/^[ \t]\"proto\": //g' -e 's/"//g' -e 's/,//g'`
 	cat <<-EOF | grep -E "^([0-9]{1,3}\.){3}[0-9]{1,3}"
 		0.0.0.0/8
 		10.0.0.0/8
@@ -201,6 +202,7 @@ gen_special_ip() {
 		224.0.0.0/4
 		240.0.0.0/4
 		255.255.255.255
+		$([ "$dhcp_mode" == "pppoe" ] && ubus call network.interface.wan status | grep \"address\" | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')
 EOF
 }
 
