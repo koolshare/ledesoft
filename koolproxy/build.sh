@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE="koolproxy"
-VERSION="3.8.4.3"
+VERSION="3.8.4.6"
 TITLE=koolproxy
 DESCRIPTION="听说KP和软路由更搭哦~"
 HOME_URL="Module_koolproxy.asp"
-CHANGELOG="加入自定义设备控制"
+CHANGELOG="加入广告反馈通道"
 
 #get latest rules
 cd koolproxy/koolproxy/data/rules
