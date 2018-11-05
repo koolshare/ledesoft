@@ -181,7 +181,12 @@ creat_ipset(){
 }
 
 gen_special_ip() {
-	dhcp_mode=`ubus call network.interface.wan status | grep \"proto\" | sed -e 's/^[ \t]\"proto\": //g' -e 's/"//g' -e 's/,//g'`
+	ethernet=`ifconfig | grep eth | wc -l`
+	if [ "$ethernet" -ge "2" ]; then
+		dhcp_mode=`ubus call network.interface.wan status | grep \"proto\" | sed -e 's/^[ \t]\"proto\": //g' -e 's/"//g' -e 's/,//g'`
+	else
+		:
+	fi
 	cat <<-EOF | grep -E "^([0-9]{1,3}\.){3}[0-9]{1,3}"
 		0.0.0.0/8
 		10.0.0.0/8
