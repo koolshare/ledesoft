@@ -1,0 +1,60 @@
+!x  -----------------------------------------------------------------------------------------------------------------
+!x  -----[KoolProxy 3.8.4]
+!x  -----Thanks: From lvba Group
+!x  -----Thanks for help: <yiclear> <adbyby> <adm>
+!x  -----------------------------------------------------------------------------------------------------------------
+!|https://pan.baidu.com/feproxy/ad/list?
+|https://bonuscloud.io/$r@https://bonuscloud.io/@https://kprules.b0.upaiyun.com/null/404.html@
+|https://console.bonuscloud.io/$r@/https:\/\/.*\.bonuscloud\.io\/.*/@https://kprules.b0.upaiyun.com/null/404.html@
+|http://t66y.com/$s@function readS@function NoreadS@
+|https://t66y.com/$s@function readS@function NoreadS@
+|https://yaoshe26.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|https://t66y.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|http://t66y.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+!x  -----------------------------------------------------------------------------------------------------------------
+!|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
+!x  -----------------------------------------------------------------------------------------------------------------
+|http://*.php?ad=
+|http://*/99rejs/js
+|http://*/agetsou.js^
+|http://*/c@*!25.js|$script
+|http://*/cococ-66/$script
+|http://*/gg_js/
+|http://*/imgs.js?t=
+|http://*/js/adtop.js|
+|http://*/js/guanggao_gg.js?d=
+|http://*/js/sss/ad.js
+|http://*/static/js/aall.js
+|http://*/showadv/
+|http://*/qkostn.js|
+|http://*/zzhzgg.js
+|https://t66y.cc,https://t66y.com##DIV > A > IMG[src^="http://www.t66y.cc/img/"]:first-child,DIV.container > DIV > A[rel="nofollow"],blockquote img[onclick^="window.open('http://www.viidii.info/"],blockquote .f16
+|https://t66y.com##.tips,#footer > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1)
+91porn.com###container_video > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(7)
+91porn.com##.videoplayer > iframe:nth-child(1),#relatedtag-content
+3199.cn###ad640,[id^="ad0"]
+76fengyun.com###down_box{display:block!important;}.gggg,.ggao
+9553.com##[class="zm"]
+962.net##.show_ad,.g-962-ad
+amazon.cn##.adv-float-div
+downsx.rocks##.adbox,.Left-ad3_fixed,.google-ad2_fixed
+edu-acc.cn###doyoo_monitor
+fx678.com##[class^="adv-"]
+pc.weathercn.com###wrapper > div[style="padding:3px;"] > #pic
+pc.weathercn.com##a[href*="/cpro."],.pub_300x250,iframe[width="300"][height="250"],#bd-hl-content,.card.guang-h
+!x  -----------------------------------------------------------------------------------------------------------------
+||76fengyun.com/body22233.js
+||76fengyun.com/file/$s@onclick="window.open('*');startWait();"@onclick="window.open(document.getElementById('downpage_link').href);startWait();"@
+||atanx.alicdn.com/t/tanxssp.js?_v=
+||biquguan.com/guan/$script
+||djv99sxoqpv11.cloudfront.net
+||jmxlaser.com
+||jump2.bdimg.com/p/$s@<div class="l_post l_post_bright j_l_post clearfix ?????????? "@<div style="display:none"@
+||nxkycx.com
+||res.jklan.cn/wp-content/themes/tt/js/system.js?ver=$s@function goto()@function xxx()@
+||tieba.com/p/$s@<div class="l_post l_post_bright j_l_post clearfix ?????????? "@<div style="display:none"@
+||ychap.com
+||https://hdc.maxli.cn^
+||https://china.com##.mxm.mxm-780x90
+||eclick.baidu.com^
+!x  -----------------------------------------------------------------------------------------------------------------
