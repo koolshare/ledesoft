@@ -11,6 +11,8 @@
 |https://yaoshe26.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
 |https://t66y.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
 |http://t66y.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+||https://qianzhan.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+||imobile.com.cn/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
 !x  -----------------------------------------------------------------------------------------------------------------
@@ -43,7 +45,11 @@ fx678.com##[class^="adv-"]
 pc.weathercn.com###wrapper > div[style="padding:3px;"] > #pic
 pc.weathercn.com##a[href*="/cpro."],.pub_300x250,iframe[width="300"][height="250"],#bd-hl-content,.card.guang-h
 !x  -----------------------------------------------------------------------------------------------------------------
+|http://91.p9p.co/91ad.php
+|https://static0.tuicool.com/images/upload/java303.jpg
+|https://static0.tuicool.com/images/upload/aliyun001.jpg
 ||76fengyun.com/body22233.js
+|https://www.qianzhan.com##div.w1200:nth-child(16) > p:nth-child(1),#economist > div:nth-child(3) > p:nth-child(1),div.ptb40:nth-child(11) > div:nth-child(2) > p:nth-child(1)
 ||76fengyun.com/file/$s@onclick="window.open('*');startWait();"@onclick="window.open(document.getElementById('downpage_link').href);startWait();"@
 ||atanx.alicdn.com/t/tanxssp.js?_v=
 ||biquguan.com/guan/$script
