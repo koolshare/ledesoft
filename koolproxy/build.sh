@@ -1,24 +1,24 @@
 #!/bin/sh
 
 MODULE="koolproxy"
-VERSION="3.8.4.6"
+VERSION="3.8.4.7"
 TITLE=koolproxy
 DESCRIPTION="听说KP和软路由更搭哦~"
 HOME_URL="Module_koolproxy.asp"
-CHANGELOG="加入广告反馈通道"
+CHANGELOG="补全规则"
 
 #get latest rules
-cd koolproxy/koolproxy/data/rules
-rm -rf *
-wget https://kprule.com/koolproxy.txt
-wget https://kprule.com/daily.txt
-wget https://kprule.com/kp.dat
-wget https://kprule.com/user.txt
-wget https://kprule.com/easylistchina.txt
-wget https://kprule.com/chengfeng.txt
-wget https://kprule.com/fanboy.txt
+#cd koolproxy/koolproxy/data/rules
+#rm -rf *
+#wget https://kprule.com/koolproxy.txt
+#wget https://kprule.com/daily.txt
+#wget https://kprule.com/kp.dat
+#wget https://kprule.com/user.txt
+#wget https://kprule.com/easylistchina.txt
+#wget https://kprule.com/chengfeng.txt
+#wget https://kprule.com/fanboy.txt
 
-cd ../../../..
+#cd ../../../..
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
 
