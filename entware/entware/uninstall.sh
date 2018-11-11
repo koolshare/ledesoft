@@ -13,6 +13,7 @@ done
 
 sleep 1
 rm -rf $KSROOT/bin/entware
+rm -rf $KSROOT/bin/tz
 rm -rf $KSROOT/scripts/entware*
 rm -rf $KSROOT/init.d/S99entware.sh
 rm -rf $KSROOT/webs/Module_entware.asp

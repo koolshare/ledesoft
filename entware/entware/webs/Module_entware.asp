@@ -19,7 +19,7 @@ No part of this file may be used without permission.
 		var _responseLen;
 		var noChange = 0;
 		var reload = 0;
-		var option_install = [['1', 'phpMyAdmin（数据库管理工具）'], ['2', 'WordPress（使用最广泛的CMS）'], ['3', 'Owncloud（经典的私有云）'], ['4', 'Nextcloud（Owncloud团队的新作，美观强大的个人云盘）'], ['5', 'h5ai（优秀的文件目录）'], ['6', 'Lychee（一个很好看，易于使用的Web相册）'], ['7', 'Kodexplorer（可道云aka芒果云在线文档管理器）']];
+		var option_install = [['1', 'phpMyAdmin（数据库管理工具）'], ['2', 'WordPress（使用最广泛的CMS）'], ['3', 'Owncloud（经典的私有云）'], ['4', 'Nextcloud（Owncloud团队的新作，美观强大的个人云盘）'], ['5', 'h5ai（优秀的文件目录）'], ['6', 'Lychee（一个很好看，易于使用的Web相册）'], ['7', 'Kodexplorer（可道云aka芒果云在线文档管理器）'], ['8', 'Typecho (流畅的轻量级开源博客程序)'], ['9', 'Z-Blog (体积小，速度快的PHP博客程序)'], ['10', 'DzzOffice (开源办公平台)']];
 		tabSelect('app1');
 		
 		//============================================
@@ -291,7 +291,10 @@ No part of this file may be used without permission.
 					{ title: 'lychee', name:'lychee_url' ,text: '<a href=http://' + location.hostname + ":86" + '/ target="_blank"><u>http://'  + location.hostname + ":86" + '</u></a>' },
 					{ title: 'h5ai', name:'h5ai_url' ,text: '<a href=http://' + location.hostname + ":85" + '/ target="_blank"><u>http://'  + location.hostname + ":85" + '</u></a>' },
 					{ title: 'wordpress', name:'wordpress_url' ,text: '<a href=http://' + location.hostname + ":83" + '/ target="_blank"><u>http://'  + location.hostname + ":83" + '</u></a>' },
-					{ title: '芒果云', name:'kodexplorer_url' ,text: '<a href=http://' + location.hostname + ":88" + '/ target="_blank"><u>http://'  + location.hostname + ":88" + '</u></a>' },
+					{ title: '可道云', name:'kodexplorer_url' ,text: '<a href=http://' + location.hostname + ":88" + '/ target="_blank"><u>http://'  + location.hostname + ":88" + '</u></a>' },
+					{ title: 'Typecho', name:'typecho_url' ,text: '<a href=http://' + location.hostname + ":90" + '/ target="_blank"><u>http://'  + location.hostname + ":90" + '</u></a>' },
+					{ title: 'Z-Blog', name:'zbolg_url' ,text: '<a href=http://' + location.hostname + ":91" + '/ target="_blank"><u>http://'  + location.hostname + ":91" + '</u></a>' },
+					{ title: 'DzzOffice', name:'dzzoffice_url' ,text: '<a href=http://' + location.hostname + ":92" + '/ target="_blank"><u>http://'  + location.hostname + ":92" + '</u></a>' },
 				]);
 			</script>
 	</div>
