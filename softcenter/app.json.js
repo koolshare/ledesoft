@@ -311,9 +311,15 @@
             "version": "1.0.8"
         }, 
         {
+            "build_date": "2018-11-14_14:52:36", 
+            "changelog": "", 
+            "description": "高效的次世代VPN", 
+            "home_url": "Module_wireguard.asp", 
+            "md5": "2b6f6ae9768f955a0a1ed9e327c441c5", 
             "name": "wireguard", 
             "tar_url": "wireguard/wireguard.tar.gz", 
-            "title": "wireguard"
+            "title": "WireGuard", 
+            "version": "0.1"
         }, 
         {
             "build_date": "2017-12-19_20:30:49", 

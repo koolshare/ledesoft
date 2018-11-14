@@ -33,5 +33,5 @@ tunnel
 /autocheckin/build
 /bridge/build
 /sgame/build
-/wireguard
+/wireguard/build
 /test
