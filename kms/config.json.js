@@ -1,9 +1,9 @@
 {
-"version":"0.8",
-"md5":"206c88f07cc22e2013c3cc8df5883a68",
+"version":"0.9",
+"md5":"b5fe5e2d99ae4694a7d3c1a3e42c8c7b",
 "home_url":"Module_kms.asp",
-"title":"kms",
+"title":"KMS",
 "description":"巨硬套餐激活工具",
-"changelog":"√修复重启导致防火墙规则重复",
-"build_date":"2017-09-29_18:06:01"
+"changelog":"升级bin到2018-10-20",
+"build_date":"2018-11-14_15:31:06"
 }

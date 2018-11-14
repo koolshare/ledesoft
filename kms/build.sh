@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=kms
-VERSION=0.8
-TITLE=kms
+VERSION=0.9
+TITLE=KMS
 DESCRIPTION=巨硬套餐激活工具
 HOME_URL=Module_kms.asp
-CHANGELOG="√修复重启导致防火墙规则重复"
+CHANGELOG="升级bin到2018-10-20"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

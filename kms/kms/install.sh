@@ -31,7 +31,7 @@ rm -rf /tmp/kms* >/dev/null 2>&1
 dbus set softcenter_module_kms_install=1
 dbus set softcenter_module_kms_version=1.3
 dbus set softcenter_module_kms_name=kms
-dbus set softcenter_module_kms_title=kms
+dbus set softcenter_module_kms_title=KMS
 dbus set softcenter_module_kms_description="巨硬套餐激活工具"
 
 # remove old files if exist
