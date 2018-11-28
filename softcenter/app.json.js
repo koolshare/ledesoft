@@ -464,11 +464,11 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2018-11-28_17:40:58", 
+            "build_date": "2018-11-28_17:44:51", 
             "changelog": "增加升级版本选择", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "ef195ae9c494d78a30f4395e54db57c8", 
+            "md5": "d2a7371fca2994ad5c544726f2ea7a5f", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
