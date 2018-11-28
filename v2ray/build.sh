@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=v2ray
-VERSION=1.9
+VERSION=2.0
 TITLE="V2Ray"
 DESCRIPTION="模块化的代理软件包"
 HOME_URL=Module_v2ray.asp
-CHANGELOG="增加断线自动重启"
+CHANGELOG="增加升级版本选择"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

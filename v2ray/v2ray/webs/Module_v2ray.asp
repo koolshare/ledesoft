@@ -596,8 +596,8 @@
 			get_run_status();
 			E("_v2ray_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_v2ray_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron"];
-			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute" ];
+			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron" ];
+			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute", "v2ray_basic_check_releases" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["v2ray_basic_" + paras_chk[i]] = E('_v2ray_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -726,7 +726,10 @@
 		}
 		function manipulate_conf(script, arg){
 			var dbus3 = {};
-			if(arg == 2 || arg == 4 || arg == 5){
+			if(arg == 2 || arg == 4){
+				tabSelect("app6");
+			}else if(arg == 5){
+				dbus3.v2ray_basic_check_releases = E('_v2ray_basic_check_releases').value;
 				tabSelect("app6");
 			}else if(arg == 6){
 				status_time = 999999990;
@@ -973,7 +976,10 @@
 					{ title: 'V2Ray 数据操作', suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 2);" class="btn btn-success">清除所有 v2ray 数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'v2ray_config.sh\', 3);" class="btn btn-download">备份所有 v2ray 数据</button>' },
 					{ title: 'V2Ray 数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
 					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/v2ray/v2ray-core/releases" target="_blank"></a>'},
-					{ title: 'V2Ray 版本升级', suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 5);" class="btn btn-download">一键升级v2ray 版本</button>' }
+					{ title: 'V2Ray 版本升级', multi: [
+						{ name:'v2ray_basic_check_releases',type:'select', options:[['0', '升级到最新版（包括测试版）'], ['1', '仅升级到正式版']], value: dbus.v2ray_basic_check_releases || "1" ,suffix: ' 仅检查正式版'},
+						{ suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 5);" class="btn btn-download">一键升级v2ray 版本</button>' }
+					]}
 				]);
 				$('#v2ray_version').html(dbus.v2ray_basic_version || "未初始化");
 			</script>
