@@ -1,9 +1,9 @@
 {
-"version":"1.8",
-"md5":"39b77e1733390e04dcde49219418e6b3",
+"version":"1.9",
+"md5":"7a6d19ac79a288a52828cf909535e929",
 "home_url":"Module_v2ray.asp",
 "title":"V2Ray",
 "description":"模块化的代理软件包",
-"changelog":"更新3.4.8",
-"build_date":"2018-10-22_11:05:20"
+"changelog":"增加断线自动重启",
+"build_date":"2018-11-28_14:36:11"
 }

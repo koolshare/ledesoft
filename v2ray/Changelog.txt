@@ -1,5 +1,11 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
+1.9
+   - add	增加守护断线自动重启；
+   - add	增加定时自动开关；
+   - update	更新v2ray二进制到最新：V4.6.6；
+   - fix	修复更新规则后没有重启的问题；
+
 1.4
    - fix	修复iptables规则重复加载；
 

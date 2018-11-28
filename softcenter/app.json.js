@@ -464,15 +464,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2018-10-22_11:05:20", 
-            "changelog": "更新3.4.8", 
+            "build_date": "2018-11-28_14:36:11", 
+            "changelog": "增加断线自动重启", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "39b77e1733390e04dcde49219418e6b3", 
+            "md5": "7a6d19ac79a288a52828cf909535e929", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
-            "version": "1.8"
+            "version": "1.9"
         }, 
         {
             "build_date": "2018-07-01_17:38:34", 

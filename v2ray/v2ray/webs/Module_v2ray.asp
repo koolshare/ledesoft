@@ -29,9 +29,19 @@
 		var option_arp_web = [];
 		var softcenter = 0;
 		var option_day_time = [["7", "每天"], ["1", "周一"], ["2", "周二"], ["3", "周三"], ["4", "周四"], ["5", "周五"], ["6", "周六"], ["0", "周日"]];
-		var option_hour_time = [];
+		var option_time_hour = [];
 		for(var i = 0; i < 24; i++){
-			option_hour_time[i] = [i, i + "点"];
+			option_time_hour[i] = [i, i + "点"];
+		}
+
+		var option_time_minute = [];
+		for(var i = 0; i < 59; i++){
+			option_time_minute[i] = [i, i + "分"];
+		}
+
+		var option_time_watch = [];
+		for(var i = 1; i < 60; i++){
+			option_time_watch[i-1] = [i, i + "分钟"];
 		}
 
 		if (typeof btoa == "Function") {
@@ -521,6 +531,14 @@
 			
 			var c  = E('_v2ray_dns_foreign').value == '4';
 			elem.display('_v2ray_dns_foreign_user', c);
+
+			//switch
+			var d  = E('_v2ray_basic_cron').checked;
+			elem.display(PR('_v2ray_basic_cron_enablehour'), d);
+			elem.display(PR('_v2ray_basic_cron_enableminute'), d);
+			elem.display(PR('_v2ray_basic_cron_disablehour'), d);
+			elem.display(PR('_v2ray_basic_cron_disableminute'), d);
+
 			//rule
 			var l1  = E('_v2ray_basic_rule_update').value == '1';
 			elem.display('_v2ray_basic_rule_update_day', l1);
@@ -578,8 +596,8 @@
 			get_run_status();
 			E("_v2ray_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_v2ray_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update"];
-			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr" ];
+			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron"];
+			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["v2ray_basic_" + paras_chk[i]] = E('_v2ray_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -919,7 +937,7 @@
 					{ title: '规则自动更新', multi: [
 						{ name: 'v2ray_basic_rule_update',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.v2ray_basic_rule_update || "1", suffix: ' &nbsp;&nbsp;' },
 						{ name: 'v2ray_basic_rule_update_day', type: 'select', options:option_day_time, value: dbus.v2ray_basic_rule_update_day || "7",suffix: ' &nbsp;&nbsp;' },
-						{ name: 'v2ray_basic_rule_update_hr', type: 'select', options:option_hour_time, value: dbus.v2ray_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'v2ray_basic_rule_update_hr', type: 'select', options:option_time_hour, value: dbus.v2ray_basic_rule_update_hr || "3",suffix: ' &nbsp;&nbsp;' },
 						{ name: 'v2ray_basic_gfwlist_update',type:'checkbox',value: dbus.v2ray_basic_gfwlist_update != 0, suffix: '<lable id="_v2ray_basic_gfwlist_update_txt">gfwlist</lable>&nbsp;&nbsp;' },
 						{ name: 'v2ray_basic_chnroute_update',type:'checkbox',value: dbus.v2ray_basic_chnroute_update != 0, suffix: '<lable id="_v2ray_basic_chnroute_update_txt">chnroute</lable>&nbsp;&nbsp;' },
 						{ name: 'v2ray_basic_cdn_update',type:'checkbox',value: dbus.v2ray_basic_cdn_update != 0, suffix: '<lable id="_v2ray_basic_cdn_update_txt">cdn_list</lable>&nbsp;&nbsp;' },
@@ -939,6 +957,19 @@
 			<div id="v2ray_addon_pannel" class="section"></div>
 			<script type="text/javascript">
 				$('#v2ray_addon_pannel').forms([
+					{ title: 'V2Ray 自动守护', multi: [
+						{ name: 'v2ray_basic_watchdog',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.v2ray_basic_watchdog || "1", suffix: ' &nbsp;&nbsp;检测间隔：' },
+						{ name: 'v2ray_basic_watchdog_time', type: 'select', options:option_time_watch, value: dbus.v2ray_basic_watchdog_time || "1",suffix: ' &nbsp;&nbsp;' },
+					]},
+					{ title: '定时自动开关', name:'v2ray_basic_cron',type:'checkbox',  value: dbus.v2ray_basic_cron == 1 },
+					{ title: '定时开启', multi: [
+						{ name: 'v2ray_basic_cron_enablehour',type: 'select', options:option_time_hour, value: dbus.v2ray_basic_cron_enablehour || '8' ,suffix: ' 时' },
+						{ name: 'v2ray_basic_cron_enableminute',type: 'select', options:option_time_minute, value: dbus.v2ray_basic_cron_enableminute || '0' ,suffix: ' 分' },
+					]},
+					{ title: '定时关闭', multi: [
+						{ name: 'v2ray_basic_cron_disablehour',type: 'select', options:option_time_hour, value: dbus.v2ray_basic_cron_disablehour || '2' ,suffix: ' 时' },
+						{ name: 'v2ray_basic_cron_disableminute',type: 'select', options:option_time_minute, value: dbus.v2ray_basic_cron_disableminute || '30' ,suffix: ' 分' },
+					]},
 					{ title: 'V2Ray 数据操作', suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 2);" class="btn btn-success">清除所有 v2ray 数据</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="manipulate_conf(\'v2ray_config.sh\', 3);" class="btn btn-download">备份所有 v2ray 数据</button>' },
 					{ title: 'V2Ray 数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
 					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/v2ray/v2ray-core/releases" target="_blank"></a>'},
