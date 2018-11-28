@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export KSROOT=/koolshare
-export KSURL=https://ledesoft.ngrok.wang
+export KSURL=https://ledesoft.ddnsto.com
 export PATH=$KSROOT/bin:$KSROOT/scripts:/usr/bin:/sbin:/bin:/usr/sbin
 
 ACTION=$1
