@@ -1,9 +1,0 @@
-#!/bin/sh
-WAN_INTERFACE=$(echo ${INTERFACE} |grep -c wan)
-qos_enable=$(/koolshare/bin/dbus get sqos_enable)
-
-if [ "$WAN_INTERFACE" -ge "1" ] && [ "$ACTION" = "ifup" ] &&[ "$qos_enable" = "1" ]
-then
-  WAN_IF=$DEVICE
-  /koolshare/scripts/sqos_config.sh
-fi

@@ -246,11 +246,11 @@
             "version": "3.8.4.8"
         }, 
         {
-            "build_date": "2018-12-08_12:50:57", 
+            "build_date": "2018-12-08_13:11:57", 
             "changelog": "", 
             "description": "动态域名解析工具", 
             "home_url": "Module_koolddns.asp", 
-            "md5": "61f2c23111c4dcc6a7d04a91378de98f", 
+            "md5": "0e29a9abb06cf3476f09a55b3186815e", 
             "name": "koolddns", 
             "tar_url": "koolddns/koolddns.tar.gz", 
             "title": "Koolddns", 
@@ -277,17 +277,6 @@
             "tar_url": "entware/entware.tar.gz", 
             "title": "Entware", 
             "version": "0.4"
-        }, 
-        {
-            "build_date": "2017-10-18_11:08:01", 
-            "changelog": "", 
-            "description": "修复迅雷不能下载的BUG", 
-            "home_url": "Module_xldoc.asp", 
-            "md5": "f364044d13f0917398079b05e472f90a", 
-            "name": "xldoc", 
-            "tar_url": "xldoc/xldoc.tar.gz", 
-            "title": "救救迅雷", 
-            "version": "0.2"
         }, 
         {
             "build_date": "2018-05-20_17:03:22", 
@@ -627,17 +616,6 @@
             "name": "netdata", 
             "tar_url": "netdata/netdata.tar.gz", 
             "title": "路由监控", 
-            "version": "0.1"
-        }, 
-        {
-            "build_date": "2017-12-23_19:00:42", 
-            "changelog": "", 
-            "description": "宽带限速、优化", 
-            "home_url": "Module_sqos.asp", 
-            "md5": "7a5434881989c1645df4b1427fd77edd", 
-            "name": "sqos", 
-            "tar_url": "sqos/sqos.tar.gz", 
-            "title": "QOS", 
             "version": "0.1"
         }
     ], 
