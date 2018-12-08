@@ -246,14 +246,15 @@
             "version": "3.8.4.8"
         }, 
         {
-            "build_date": "2017-09-09_18:25:45", 
-            "description": "DNSPOD动态域名解析", 
-            "home_url": "Module_dnspod.asp", 
-            "md5": "97477066986e4c8ad94f10129eed8881", 
-            "name": "dnspod", 
-            "tar_url": "dnspod/dnspod.tar.gz", 
-            "title": "dnspod", 
-            "version": "1.4"
+            "build_date": "2018-12-08_12:50:57", 
+            "changelog": "", 
+            "description": "动态域名解析工具", 
+            "home_url": "Module_koolddns.asp", 
+            "md5": "61f2c23111c4dcc6a7d04a91378de98f", 
+            "name": "koolddns", 
+            "tar_url": "koolddns/koolddns.tar.gz", 
+            "title": "Koolddns", 
+            "version": "0.1"
         }, 
         {
             "build_date": "2018-05-12_14:47:04", 
@@ -572,16 +573,6 @@
             "tar_url": "aria2/aria2.tar.gz", 
             "title": "Aria2", 
             "version": "2.3"
-        }, 
-        {
-            "build_date": "2017-09-09_18:21:59", 
-            "description": "阿里云解析自动更新IP", 
-            "home_url": "Module_aliddns.asp", 
-            "md5": "e980e0c85dd809ba3f831744d08c628d", 
-            "name": "aliddns", 
-            "tar_url": "aliddns/aliddns.tar.gz", 
-            "title": "AliDDNS", 
-            "version": "0.7"
         }, 
         {
             "build_date": "2018-10-21_18:15:54", 

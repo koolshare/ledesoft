@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"61f2c23111c4dcc6a7d04a91378de98f",
+"home_url":"Module_koolddns.asp",
+"title":"Koolddns",
+"description":"动态域名解析工具",
+"changelog":"",
+"build_date":"2018-12-08_12:50:57"
+}
