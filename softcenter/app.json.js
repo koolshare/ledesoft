@@ -443,15 +443,15 @@
             "version": "0.6"
         }, 
         {
-            "build_date": "2018-09-05_00:00:41", 
-            "changelog": "修复token和更新版本", 
+            "build_date": "2018-12-10_10:25:02", 
+            "changelog": "提升稳定性", 
             "description": "强大易用的全平台同步工具", 
             "home_url": "Module_easyexplorer.asp", 
-            "md5": "dc7f27b8cdfe57c4ae23a5fcc7c1703a", 
+            "md5": "15c3bb9c5199ac5c191e1bb758261ac0", 
             "name": "easyexplorer", 
             "tar_url": "easyexplorer/easyexplorer.tar.gz", 
             "title": "EasyExplorer", 
-            "version": "0.8"
+            "version": "0.9"
         }, 
         {
             "build_date": "2018-11-28_17:44:51", 

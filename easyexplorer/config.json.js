@@ -1,9 +1,9 @@
 {
-"version":"0.8",
-"md5":"dc7f27b8cdfe57c4ae23a5fcc7c1703a",
+"version":"0.9",
+"md5":"15c3bb9c5199ac5c191e1bb758261ac0",
 "home_url":"Module_easyexplorer.asp",
 "title":"EasyExplorer",
 "description":"强大易用的全平台同步工具",
-"changelog":"修复token和更新版本",
-"build_date":"2018-09-05_00:00:41"
+"changelog":"提升稳定性",
+"build_date":"2018-12-10_10:25:02"
 }
