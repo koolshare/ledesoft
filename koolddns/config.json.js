@@ -1,9 +1,9 @@
 {
-"version":"0.1",
-"md5":"",
+"version":"0.2",
+"md5":"17b85a99c35463ee395ecfe209ad04d8",
 "home_url":"Module_koolddns.asp",
 "title":"Koolddns",
 "description":"动态域名解析工具",
-"changelog":"",
-"build_date":"2018-12-10_20:40:04"
+"changelog":"增加Secret/Token填写位数",
+"build_date":"2018-12-10_21:02:22"
 }

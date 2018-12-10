@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=koolddns
-VERSION=0.1
+VERSION=0.2
 TITLE="Koolddns"
 DESCRIPTION=动态域名解析工具
 HOME_URL=Module_koolddns.asp
-CHANGELOG=""
+CHANGELOG="增加Secret/Token填写位数"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
