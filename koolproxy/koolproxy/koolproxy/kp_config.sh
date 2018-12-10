@@ -154,21 +154,27 @@ restart_dnsmasq(){
 write_reboot_job(){
 	# start setvice
 	[ ! -f  "/etc/crontabs/root" ] && touch /etc/crontabs/root
-	CRONTAB=`cat /etc/crontabs/root|grep kp_config.sh`
-	if [ "1" == "$koolproxy_reboot" ]; then
-		[ -z "$CRONTAB" ] && echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件... && echo  "0 $koolproxy_reboot_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
-	elif [ "2" == "$koolproxy_reboot" ]; then
-		[ -z "$CRONTAB" ] && echo_date 开启插件间隔重启，每隔"$koolproxy_reboot_inter_hour"时，自动重启插件... && echo  "0 */$koolproxy_reboot_inter_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
-	fi
+	CRONTAB=`cat /etc/crontabs/root|grep KoolProxy_check_chain.sh`
+
+	[ -z "$CRONTAB" ] && echo_date 写入KP过滤代理链守护... && echo  "*/30 * * * * $SOFT_DIR/scripts/KoolProxy_check_chain.sh" >> /etc/crontabs/root
+#	if [ "1" == "$koolproxy_reboot" ]; then
+#		[ -z "$CRONTAB" ] && echo_date 开启插件定时重启，每天"$koolproxy_reboot_hour"时，自动重启插件... && echo  "0 $koolproxy_reboot_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
+#	elif [ "2" == "$koolproxy_reboot" ]; then
+#		[ -z "$CRONTAB" ] && echo_date 开启插件间隔重启，每隔"$koolproxy_reboot_inter_hour"时，自动重启插件... && echo  "0 */$koolproxy_reboot_inter_hour * * * $KP_DIR/kp_config.sh restart" >> /etc/crontabs/root 
+#	fi
 }
 
 remove_reboot_job(){
 	[ ! -f  "/etc/crontabs/root" ] && touch /etc/crontabs/root
-	jobexist=`cat /etc/crontabs/root|grep kp_config.sh`
+	jobexist=`cat /etc/crontabs/root|grep KoolProxy_check_chain.sh`
+	KP_ENBALE=`dbus get koolproxy_enable`
+
 	# kill crontab job
-	if [ -n "$jobexist" ];then
-		echo_date 关闭插件定时重启...
-		sed -i '/kp_config/d' /etc/crontabs/root >/dev/null 2>&1
+	if [ ! "$KP_ENBALE" == "1" ];then
+		if [ ! -z "$jobexist" ];then
+			echo_date 删除KP过滤代理链守护...
+			sed -i '/KoolProxy_check_chain/d' /etc/crontabs/root >/dev/null 2>&1
+		fi
 	fi
 }
 

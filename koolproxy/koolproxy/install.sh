@@ -14,14 +14,11 @@ rm -rf $KSROOT/scripts/Koolproxy_* >/dev/null 2>&1
 rm -rf $KSROOT/webs/module_Koolproxy.asp >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/koolproxy >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/*.sh >/dev/null 2>&1
-rm -rf $KSROOT/koolproxy/data/dnsmasq.adblock >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/gen_ca.sh >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/koolproxy_ipset.conf >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/openssl.cnf >/dev/null 2>&1
 rm -rf $KSROOT/koolproxy/data/version >/dev/null 2>&1
-rm -rf $KSROOT/koolproxy/data/rules/daily.txt >/dev/null 2>&1
-rm -rf $KSROOT/koolproxy/data/rules/koolproxy.txt >/dev/null 2>&1
-rm -rf $KSROOT/koolproxy/data/rules/*.dat >/dev/null 2>&1
+rm -rf $KSROOT/koolproxy/data/rules/* >/dev/null 2>&1
 
 # copy new files
 cd /tmp

@@ -296,8 +296,8 @@ No part of this file may be used without permission.
 		}
 		function verifyFields(){
 			var a = E('_koolproxy_enable').checked;
-			var f = (E('_koolproxy_reboot').value == '1');
-			var g = (E('_koolproxy_reboot').value == '2');
+//			var f = (E('_koolproxy_reboot').value == '1');
+//			var g = (E('_koolproxy_reboot').value == '2');
 //			var h = (E('_koolproxy_mode').value == '2');
 			var h = (E('_koolproxy_mode_enable').value == '0');
 			var s = (E('_koolproxy_mode_enable').value == '1');
@@ -309,16 +309,16 @@ No part of this file may be used without permission.
 			E('_koolproxy_mode').disabled = !a;
 			E('_koolproxy_base_mode').disabled = !a;		
 //			E('_koolproxy_bp_port').disabled = !a;
-			E('_koolproxy_reboot').disabled = !a;
+//			E('_koolproxy_reboot').disabled = !a;
 			E('_download_cert').disabled = !a;
 			elem.display(PR('_koolproxy_mode'), s);
 			elem.display(PR('_koolproxy_base_mode'), h);
-			elem.display('_koolproxy_reboot_hour', a && f);
-			elem.display('koolproxy_reboot_hour_suf', a && f);
-			elem.display('koolproxy_reboot_hour_pre', a && f);
-			elem.display('_koolproxy_reboot_inter_hour', a && g);
-			elem.display('koolproxy_reboot_inter_hour_suf', a && g);
-			elem.display('koolproxy_reboot_inter_hour_pre', a && g);
+//			elem.display('_koolproxy_reboot_hour', a && f);
+//			elem.display('koolproxy_reboot_hour_suf', a && f);
+//			elem.display('koolproxy_reboot_hour_pre', a && f);
+//			elem.display('_koolproxy_reboot_inter_hour', a && g);
+//			elem.display('koolproxy_reboot_inter_hour_suf', a && g);
+//			elem.display('koolproxy_reboot_inter_hour_pre', a && g);
 			elem.display('readme_port', x);
 //			elem.display(PR('_koolproxy_host'), h);
 			if (dbus["koolproxy_portctrl_mode"]=="1"){
@@ -391,9 +391,9 @@ No part of this file may be used without permission.
 			dbus.koolproxy_mode = E('_koolproxy_mode').value;
 			dbus.koolproxy_port = E('_koolproxy_port').value;
 			dbus.koolproxy_bp_port = E('_koolproxy_bp_port').value;
-			dbus.koolproxy_reboot = E('_koolproxy_reboot').value;
-			dbus.koolproxy_reboot_hour = E('_koolproxy_reboot_hour').value;
-			dbus.koolproxy_reboot_inter_hour = E('_koolproxy_reboot_inter_hour').value;
+//			dbus.koolproxy_reboot = E('_koolproxy_reboot').value;
+//			dbus.koolproxy_reboot_hour = E('_koolproxy_reboot_hour').value;
+//			dbus.koolproxy_reboot_inter_hour = E('_koolproxy_reboot_inter_hour').value;
 			dbus.koolproxy_oline_rules = E("_koolproxy_oline_rules").checked ? "1" : "0";
 			dbus.koolproxy_video_rules = E("_koolproxy_video_rules").checked ? "1" : "0";
 			dbus.koolproxy_easylist_rules = E("_koolproxy_easylist_rules").checked ? "1" : "0";
@@ -603,11 +603,11 @@ No part of this file may be used without permission.
 					suffix: '<lable id="readme_port"><font color="#FF0000">【端口控制】&nbsp;&nbsp;只有全端口模式下才生效</font></lable>'},
 					{ title: '例外端口', name:'koolproxy_bp_port',type:'text',style:'input_style', maxlen:50, value:dbus.koolproxy_bp_port ,suffix: '<font color="#FF0000">例：</font><font color="#FF0000">【单端口】：80【多端口】：80,443</font>'},
 //					{ title: '开启Adblock Plus Host', name:'koolproxy_host',type:'checkbox',value: dbus.koolproxy_host == 1, suffix: '<lable id="_koolproxy_host_nu"></lable>' },
-					{ title: '插件自动重启', multi: [
-						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },
-						{ name: 'koolproxy_reboot_hour', type: 'select', options: option_reboot_hour, value: dbus.koolproxy_reboot_hour || "", suffix: '<lable id="koolproxy_reboot_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
-						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: option_reboot_inter, value: dbus.koolproxy_reboot_inter_hour || "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
-					] },
+//					{ title: '插件自动重启', multi: [
+//						{ name:'koolproxy_reboot',type:'select',options:[['1','定时'],['2','间隔'],['0','关闭']],value: dbus.koolproxy_reboot || "0", suffix: ' &nbsp;&nbsp;' },
+//						{ name: 'koolproxy_reboot_hour', type: 'select', options: option_reboot_hour, value: dbus.koolproxy_reboot_hour || "", suffix: '<lable id="koolproxy_reboot_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_hour_pre" class="help-block"><lable>每天</lable></span>' },
+//						{ name: 'koolproxy_reboot_inter_hour', type: 'select', options: option_reboot_inter, value: dbus.koolproxy_reboot_inter_hour || "", suffix: '<lable id="koolproxy_reboot_inter_hour_suf">重启</lable>', prefix: '<span id="koolproxy_reboot_inter_hour_pre" class="help-block"><lable>每隔</lable></span>' }
+//					] },
 					{ title: '证书下载', suffix: ' <button id="_download_cert" onclick="download_cert();" class="btn btn-danger">证书下载 <i class="icon-download"></i></button>&nbsp;&nbsp;<button onclick="https_KP();" class="btn btn-success">HTTPS过滤教程</button>' },
 					{ title: 'KoolProxy交流', suffix: ' <button id="_join_QQ" onclick="join_QQ();" class="btn">加入QQ群</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="join_KP();" class="btn">访问官网</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="issues_KP();" class="btn btn-danger">广告反馈</button>' }
 				]);
