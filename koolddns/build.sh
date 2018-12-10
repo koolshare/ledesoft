@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=koolddns
-VERSION=0.2.1
+VERSION=0.3
 TITLE="Koolddns"
 DESCRIPTION=动态域名解析工具
 HOME_URL=Module_koolddns.asp

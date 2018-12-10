@@ -129,13 +129,13 @@
 		var koolddns_dm = new TomatoGrid();
 		koolddns_dm.dataToView = function( data ) {
 			if (data[0]){
-				return [ option_dm_switch_name[data[0]], option_dm_api_name[data[1]], data[2], data[3], data[4], data[5], data[6], option_dm_mode_name[data[7]] ];
+				return [ option_dm_switch_name[data[0]], option_dm_api_name[data[1]], data[2], data[3], data[4], "******", "******", option_dm_mode_name[data[7]] ];
 			}else{
 				if (data[1]){
-					return [ option_dm_switch_name[data[1]], option_dm_api_name[data[1]], data[2], data[3], data[4], data[5], data[6], option_dm_mode_name[data[7]]];
+					return [ option_dm_switch_name[data[1]], option_dm_api_name[data[1]], data[2], data[3], data[4], "******", "******", option_dm_mode_name[data[7]]];
 				}else{
 					if (data[2]){
-						return [ option_dm_switch_name[data[2]], option_dm_api_name[data[1]], data[2], data[3], data[4], data[5], data[6], option_dm_mode_name[data[7]] ];
+						return [ option_dm_switch_name[data[2]], option_dm_api_name[data[1]], data[2], data[3], data[4], "******", "******", option_dm_mode_name[data[7]] ];
 					}
 				}
 			}
