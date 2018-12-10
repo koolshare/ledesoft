@@ -211,7 +211,7 @@
 			{ type: 'text',maxlen:20},	//name
 			{ type: 'text',maxlen:30},	//name
 			{ type: 'text',maxlen:20},	//name
-			{ type: 'text',maxlen:30},	//name
+			{ type: 'text',maxlen:40},	//name
 			{ type: 'select',maxlen:20,options:option_dm_mode}	//control
 			] );
 			this.headerSet( [ '启用', 'DDNS服务商', '接口', '子域名', '主域名', 'Key或ID(短)', 'Secret或者Token(长)', '接口类型'] );						
