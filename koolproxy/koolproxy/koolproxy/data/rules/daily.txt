@@ -1,66 +1,237 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !x  -----[KoolProxy 3.8.4]
 !x  -----Thanks: From lvba Group
-!x  -----Thanks for help: <yiclear> <adbyby> <adm>
+!x  -----Thanks for help: <yiclear> <adbyby> <adm> <adblock> <adguard>
 !x  -----------------------------------------------------------------------------------------------------------------
+|http://www.avtbl.com/$s@var s = document.createElement('script');@@
+!|https://m.biquke.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
 !|https://pan.baidu.com/feproxy/ad/list?
 |https://bonuscloud.io/$r@https://bonuscloud.io/@https://kprules.b0.upaiyun.com/null/404.html@
 |https://console.bonuscloud.io/$r@/https:\/\/.*\.bonuscloud\.io\/.*/@https://kprules.b0.upaiyun.com/null/404.html@
-|http://t66y.com/$s@function readS@function NoreadS@
-|https://t66y.com/$s@function readS@function NoreadS@
-|https://yaoshe26.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
-|https://t66y.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
-|http://t66y.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
-||https://qianzhan.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
-||imobile.com.cn/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
-!x  -----------------------------------------------------------------------------------------------------------------
-!|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
-!x  -----------------------------------------------------------------------------------------------------------------
-|http://*.php?ad=
-|http://*/99rejs/js
-|http://*/agetsou.js^
-|http://*/c@*!25.js|$script
-|http://*/cococ-66/$script
-|http://*/gg_js/
-|http://*/imgs.js?t=
-|http://*/js/adtop.js|
-|http://*/js/guanggao_gg.js?d=
-|http://*/js/sss/ad.js
-|http://*/static/js/aall.js
-|http://*/showadv/
-|http://*/qkostn.js|
-|http://*/zzhzgg.js
-|https://t66y.cc,https://t66y.com##DIV > A > IMG[src^="http://www.t66y.cc/img/"]:first-child,DIV.container > DIV > A[rel="nofollow"],blockquote img[onclick^="window.open('http://www.viidii.info/"],blockquote .f16
-|https://t66y.com##.tips,#footer > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1)
-91porn.com###container_video > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(7)
-91porn.com##.videoplayer > iframe:nth-child(1),#relatedtag-content
-3199.cn###ad640,[id^="ad0"]
-76fengyun.com###down_box{display:block!important;}.gggg,.ggao
-9553.com##[class="zm"]
-962.net##.show_ad,.g-962-ad
-amazon.cn##.adv-float-div
-downsx.rocks##.adbox,.Left-ad3_fixed,.google-ad2_fixed
-edu-acc.cn###doyoo_monitor
-fx678.com##[class^="adv-"]
-pc.weathercn.com###wrapper > div[style="padding:3px;"] > #pic
-pc.weathercn.com##a[href*="/cpro."],.pub_300x250,iframe[width="300"][height="250"],#bd-hl-content,.card.guang-h
-!x  -----------------------------------------------------------------------------------------------------------------
-|http://91.p9p.co/91ad.php
-|https://static0.tuicool.com/images/upload/java303.jpg
-|https://static0.tuicool.com/images/upload/aliyun001.jpg
-||76fengyun.com/body22233.js
-|https://www.qianzhan.com##div.w1200:nth-child(16) > p:nth-child(1),#economist > div:nth-child(3) > p:nth-child(1),div.ptb40:nth-child(11) > div:nth-child(2) > p:nth-child(1)
-||76fengyun.com/file/$s@onclick="window.open('*');startWait();"@onclick="window.open(document.getElementById('downpage_link').href);startWait();"@
-||atanx.alicdn.com/t/tanxssp.js?_v=
-||biquguan.com/guan/$script
-||djv99sxoqpv11.cloudfront.net
-||jmxlaser.com
-||jump2.bdimg.com/p/$s@<div class="l_post l_post_bright j_l_post clearfix ?????????? "@<div style="display:none"@
-||nxkycx.com
-||res.jklan.cn/wp-content/themes/tt/js/system.js?ver=$s@function goto()@function xxx()@
 ||tieba.com/p/$s@<div class="l_post l_post_bright j_l_post clearfix ?????????? "@<div style="display:none"@
-||ychap.com
-||https://hdc.maxli.cn^
-||https://china.com##.mxm.mxm-780x90
-||eclick.baidu.com^
+|https://www.ppx26.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|http://www.discuz.net/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|http://www.avtbk.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://www.dyfc.net/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+||wmxa.cn/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+||tiexue.net/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://www.baidu.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/baidu_ad.js"></script></head>@
+|https://m.baidu.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/baidu_ad.js"></script></head>@
+|https://yaoshe28.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://www.kafan.cn/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://www.kafan.cn/$s@</body>@<script>fuckcss('p:contains(腾讯视频),p:contains(理论永久)');</script></body>@
+||https://halihali.tv/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|http://sports.eastday.com$s@</body>@<script>fuckcss('a.dalink')</script></body>@
+|https://m.zongheng.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+!|https://m.zongheng.com/$s@</body>@<script>fuckcss('.pic_row')</script></body>@
+||21ic.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+||51cto.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+||51cto.com/$s@</body>@<script>fuckcss('#list4')</script></body>@
+|https://www.gaoqingkong.com/$s@</body>@<script>fuckcss('li.post.box:contains(红包)')</script></body>@
+||yingshidaquan.com$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://www.dygod.net/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|http://m.mm250.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|http://m.mm250.com/$s@</body>@<script>inHackcss.S('[id^="ndt"]','display:none!important')</script></body>@
+|https://www.918pd.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/hide.js"></script></head>@
+|https://www.918pd.com/$s@</body>@<script>inHackcss.S('[img[style="display: none;]','display:none!important')</script></body>@
+|https://www.918pd.com/$s@</body>@<script>fuckcss('a[href="https://www.511wpw.com"]')</script></body>@
+|https://www.918pd.com/$s@</body>@<script>inHackcss.S('[style="display:none;]','display:none!important')</script></body>@
+|http://m.76long.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|http://www.avtbl.com/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|http://fulibus.net/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|http://www.gugeys.cc/$s@</head>@<script src="http://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
 !x  -----------------------------------------------------------------------------------------------------------------
+|https://user.qzone.qq.com##div#QM_Container_100005,DIV#idQbossHotbar,DIV#div_corner_ad_container.gb_ad_tearing_angle,DIV#qbs_tips_div,div.gdtads_box,li[class="f-single f-s-s f-single-biz"],div.icenter-right-mod.icenter-right-ad,div#QM_100005_Body.bd,DIV.fn-feed-mod-bd,DIV.ck-act,.sogo-ad,#top-banner,.f-vqz-ad,.collet_box.fn_paipai
+ifeng.com##[id^="optimusPrimeContentId_"],#optimusPrimeContentId
+||https://youth.cn##div.edu-a_dds,div.hd_banner,div.r_huandeng,div.article_d,div[class^="ad00"],iframe[width="200px"][height="200px"],div[id^="myads"][class^="ad0"],div.ad,div[class^="banner"],DIV#sky.fdiv,DIV#identifier-pannel,DIV#sky.div,DIV.pic_banner,DIV.hd_pic,DIV.cj-ggw,div.download,.header
+||https://youth.cn##.ad_space_left,.ad_space_left_box
+!|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
+|https://toutiao.jxnews.com.cn##.adclass,.mediav-newsfeed-listitem-type-1,.mediavfeed-newsitem,#corner-flash,.ads-lbotton
+gocloud.cn##.a_pt,.a_mu
+www.96fei.com##.content-wrapper
+javccup.net##.img-responsive,[id^="divShow"]
+|https://sports.eastday.com##a[class="dalink"]
+|https://www.bnext.com.tw##.col.view_sidebar.d-none.d-lg-block,.ad_box,.ad_space,div[id^="div-gpt-ad"],.ytp-ad-progress-list
+www.youdao.com##.win-download
+!x  -----------------------------------------------------------------------------------------------------------------
+@@@@|https://api.twitter.com
+@@@@|https://caps.twitter.com
+|https://common.jxnews.com.cn/20
+|https://imgcdn.toutiaoyule.com/*/adimg/*
+|http://www.gocloud.cn/bbs/static/image/common/ad.gif
+||https://youth.cn/images/adyun.js
+|https://news.youth.cn/images/youth_sjy_$script
+||https://ifengimg.com/iis/iis_
+||https://ifengimg.com/ifeng/sources/
+||cr-nielsen.com^
+|https://ivy.pconline.com.cn^
+|https://jwz.3conline.com/adpuba/
+|https://m.pconline.com.cn/*_ad.jsp?
+||https://dytt8.net/js$script
+||https://dytt8.net/js1/
+|https://photo.0234408.cn/
+||https://pxyvb.cn^
+|https://m.yoxus.cn
+|http://*/*_*@*.exe
+|http://*/*@*_*.exe
+||https://popin.cc^
+||https://innity.net^
+||https://pixfs.net/js/adsbyfalcon.
+|https://ad-specs.guoshipartners.com/
+|https://ads-twitter.com^
+|https://twitter.com/i/cards/tfw/*?advertiser_name=
+||https://bmuju.com^
+||https://12jf3.cn^
+|https://fyal.e9emh.cn^
+|https://idm-su.baidu.com/su_new2.js
+||dre8.com
+||https://hs1s1.cn^
+||https://muusn.cn^
+||https://msuik.cn^
+|https://e.ajiez.com^
+|https://m.pcaoo.com^
+||https://sinawap.com^
+|https://bjzhwx.dre8.com/bwosfcsoy.js
+|https://sypd.w13qh.cn^
+|https://www.f8dy.tv/*/ads/300.
+||https://f8dy.tv/template/m1938/js/b
+|https://ssh.yuebeishiye.com^
+|https://www.ggdydz.com/js/918pd/
+|https://m.heygugu.com^
+||https://piaohua.com/js/yzz/
+||https://lvehaisen.com^
+||https://umengcloud.com
+||https://umeng.com
+||https://sinajs.cn/t6/home/js/pl/guide/adforfqy/
+|https://biz.weibo.com^
+!x  -----------------------------------------------------------------------------------------------------------------
+||https://twitter.com##.promotion,.has-profile-promoted-tweet,.is-promoted,.promoted-account,.promoted-trend,.promoted-tweet[data-disclosure-type="political"],.promoted-tweet[data-disclosure-type="promoted"],.promoted-videos
+||https://twitter.com##.stream-item-group-start[label="promoted"],.stream-tweet[label="promoted"]
+||https://twitter.com##.suggested-tweet-stream-container,.stream-item[data-item-type="tweet"][data-item-id*=":"]
+|https://hao.360.cn###header-patch,#daily-hotwords,#top_activity,#top_hotsite,#activity,#iguess,.mbar-bd,#festival-logoskin,#plane > .plane-hd,.cangbao_redbags,#top-full-column-tips,#plane-ria,.ad-top
+!x  -----------------------------------------------------------------------------------------------------------------
+!x  ------------------------------------------ xiaoshuo TXT ADV ----------------------------------------------------
+|http://js.passport.qihucdn.com/11
+|https://yihu.s06th.cn^
+|https://m.zhenben.cc/2000/
+||https://mgsue.cn^
+||https://hjues.com^
+|https://m.hjiec.com^
+||https://ffanq.com^
+||abfirst.cn^
+||https://mendoc.cn^
+||https://eshuy.com^
+|https://changyan.itc.cn^
+|https://m.eshuy.com^
+|https://m.tingshuge.com/*/m
+|https://static.xiashu.la/*/js/read.js
+|https://static.xiashu.la/*/js/fx.js?0.4
+|http://m.wodexiaoshuo2.cc/js/zhangjie.js
+|https://m.xinshula.com/js/ziji
+|https://m.x81zw.com/x81.js
+|http://m.wodexiaoshuo2.cc/js/xialun
+|https://wap.txtduo.com/mtxtduo.js
+|https://m.txt2017.com/*/js/style.js
+|https://m.shuanshu.com/js/dipiao.js
+|https://m.booktxt.net/js/ym11111
+|https://m.bxwx9.org/mjs/newwap.js
+|https://m.shengyan.org/*/book.js
+|https://m.biduo.cc/scripts/common.js
+|https://m.qianrenge.cc/*/common.js
+|https://m.zhuaji.org/css/common.js
+|https://m.sjxs.la/js/comm.js
+|https://m.qianrenge.cc/*/true.js
+|https://m.liewen.cc/js/common.js
+|https://m.biqumo.com/baidu/newcn
+|http://m.biqugego.com/wap/dun.js
+|https://gg.dsxdn.com/duanwenxue/wapdwx.js
+|http://m.longtanxs.com/js/baisu.js
+|https://jiansuo.dsxdn.com^
+|https://m.ttzw.com/*/true.js
+|https://m.ttzw.com/*/h.js
+|https://m.duanwenxue.com/js/tongji.js
+|https://m.dpcq1.net/*/s_wap_novelsearch_chapter_read.js
+|https://m.daizhuzai.com/*/s_wap_novelsearch_chapter_read.js
+|https://m.duanwenxue.com/functions/
+|https://m.qu.la/*/true.js
+|https://m.qu.la/*/cp.js
+|http://m.xbiquge.la/js/wap.js
+|https://m.biqudao.com/js/wap.js
+|https://m.555zw.com/js/wap.js
+|https://m.aszw.org/js/wap.js
+|https://m.kewaishu.info/ad1/wap.js
+|https://m.ranwena.com/scripts/wap.js
+|https://m.sjxs.la/js/wap.js
+|https://m.zhenben.cc/js/wap.js
+|https://m.zhenben.cc/foot.js
+|https://m.yfxiaoshuod.com/js/foot.js
+|http://*/wap.js$domain=23wxx.com|chenhuixsd.com|cyxse.com|hfxiaoshuo.com|hlxiaoshuo.net|lwxiaoshuo.com|m.1200ksw.com|m.16kxsw.com|m.23sw.net|m.2kxs.com|m.31wxw8.com|m.360118.com|m.37zw.net|m.3dllc.cc|m.3kw.cc|m.50zw.co|m.50zw.la|m.50zww.com|m.52biquge.com|m.555zw.com|m.58xs.tw|m.5ccc.net|m.630book.la|m.67shu.com|m.69shu.org|m.6mao.com|m.80txt.com|m.83zw.com|m.88106.com|m.88dus.com|m.98xiaoshuo.com|m.99shumeng.net|m.aiquxs.com|m.amu520.com|m.aszw.org|m.b5200.net|m.baishulou8.com|m.baoliny.com|m.beijingaishu.net|m.bichi.me|m.biqudu.com|m.biquge.cm|m.biquge.com.tw|m.biquge.info|m.biqugego.com|m.biqugexsw.com|m.biqugezw.com|m.biqumo.com|m.biquwu.cc|m.boluoxs.com|m.book9.net|m.booktxt.net|m.bqg5.cc|m.bqg5200.com|m.bxwx9.org|m.daizhuzai.com|m.dashubao.cc|m.ddxsw.net|m.dhzw.org|m.diyibanzhu.xyz|m.dpcq1.net|m.duanwenxue.com|m.fhxiaoshuo.com|m.fhxsw.org|m.gsdaquan.com|m.gulizw.com|m.gxwztv.com|m.haotxt.com|m.haxwx2.com|m.heiyanwang.com|m.hkslg.net|m.jjxsw.org|m.kewaishu.info|m.konlan.org|m.kxs7.com|m.lanseshuba.com|m.lbxs.com|m.ldw.la|m.lewenxiaoshuo.com|m.liewen.cc|m.liushuba.com|m.lkshu.com|m.longtanxs.com|m.luoqiu.com|m.lwtxt.net|m.miaobige.com|m.miaoshufang.com|m.mishug.com|m.mpzw.com|m.panqis.cn|m.qianrenge.cc|m.qu.la|m.ranwena.com|m.sanjiangge.com|m.shengyan.org|m.shuanshu.com|m.shuketxt.net|m.shumil.com|m.shuqu8.com|m.shuquge.com|m.shushu8.com|m.silukeke.com|m.sjtxt.la|m.snwx8.com|m.sosoxiaoshuo.cc|m.sqsxs.com|m.suimeng.la|m.tingshuge.com|m.tmetb.net|m.tsxsw.com|m.ttzw.com|m.txt2017.com|m.txtduo.com|m.tywxw.la|m.vodtw.com|m.wanjuanba.com|m.wantxt.com|m.wenxue6.com|m.wenxuem.com|m.wenxuemi.com|m.wodeshucheng.com|m.wodexiaoshuo1.cc|m.x81zw.com|m.xbxwx.net|m.xiaoxiaoshuwu.net|m.xiashu.la|m.xinshula.com|m.xs.la|m.xs222.tw|m.xy48.net|m.yawenb.com|m.ybdu.com|m.yssm.org|m.yunlaige.com|m.yuyouge.com|m.zbzw.la|m.zhenben.cc|m.zhuaji.org|m.zhuishubang.com|qihaoqihao.com|wap.xxbiquge.com|wap.yb3.cc|xntk.net|yfxiaoshuoa.com|zhxiaoshuoa.com|zwdu.com|k.heiyanwang.com|3g.wenxuem.com
+|https://m.52biquge.com/*/true.js
+|https://m.52biquge.com/*/h.js
+|https://wap.xbiquge6.com/js/script.js
+|https://m.chenhuixsg.com/js/foot.js
+|https://m.chenhuixsg.com/js/p.js
+|https://m.chenhuixsg.com/js/b.js
+|https://m.chenhuixsg.com/js/p.js
+|https://m.chenhuixsg.com/js/y.js
+|https://m.chenhuixsg.com/js/hfz
+|https://m.cyxsi.com/js/foot.js
+|https://m.cyxsi.com/js/p.js
+|https://m.cyxsi.com/js/b.js
+|https://m.cyxsi.com/js/hfz
+|https://m.yfxiaoshuod.com/js/hfz
+|https://m.hfxiaoshuoa.com/js/foot.js
+|https://m.hfxiaoshuoa.com/js/p.js
+|https://m.hfxiaoshuoa.com/js/b.js
+|https://m.hfxiaoshuoa.com/js/y.js
+|https://m.hfxiaoshuoa.com/js/hfz
+|https://m.hlxiaoshuoa.com/js/foot.js
+|https://m.hlxiaoshuoa.com/js/p.js
+|https://m.hlxiaoshuoa.com/js/b.js
+|https://m.hlxiaoshuoa.com/js/y.js
+|https://m.hlxiaoshuoa.com/js/hfz
+|https://m.bichi.me/hepu/nydj
+|https://m.bichi.me/hepu/xxf.js
+|https://m.88dush.com/mobile/css/m.js
+|https://www.qihaoqihao.com/script/book.js
+||https://ienkdaccessible.cn^
+|http://m.31wxw8.com/*/so.js
+||https://edysn.cn^
+|https://www.93vitui.com/svr/weixin.aspx?
+|http://m.kukudm.com/mg/show2.js
+||https://18tzx.com^
+||https://uodoo.com^
+|https://track.uc.cn/collect?
+|https://rescn.u3.ucweb.com^
+|https://applog.uc.cn/collect?
+|https://m.cyxsi.com/js/m.js?$s@function _17mb_@function @
+|https://m.hfxiaoshuoa.com/js/wap.js?$s@function _17mb_@function @
+|https://m.hlxiaoshuoa.com/js/wap.js?$s@function _17mb_@function @
+|https://m.23uu.org/*/script/wap.js$s@function _17mb_@function @
+|https://m.fpzw.com/wap/wap.js$s@function style_@function @
+|http://m.biquge.com.tw/*/style.js$s@function m_@function @
+|https://m.x83zw.com/style/style.js$s@function yd_d@function @
+|https://m.beijingaishu.net/*/wap.js$s@function qijixs_@function @
+|https://m.bichi.me/wap/qijixs/wap.js$s@function xbaixs_@function @
+|https://m.booktxt.net/js/read.js$s@function _17mb@function @
+|https://m.bqg5.cc/js/main.js$s@function invoke1@function xxxx@
+|https://m.dhzw.org/js/wap.js$s@function xuanfu@function xxxxxx@
+|https://m.dhzw.org/js/wap.js$s@function yuedu@function xxxxxx@
+|https://m.hkslg.net/js/wap.js$s@function yuedu@function xxxxx@
+|https://m.lewenxiaoshuo.com/js/wap.js$s@function xuanfu@function xxxxxx@
+|https://m.lewenxiaoshuo.com/js/wap.js$s@function yuedu@function xxxxxx@
+|https://m.konlan.org/js/wap.js$s@function xuanfu@function xxxxxx@
+|https://m.konlan.org/js/wap.js$s@function yuedu@function xxxxxx@
+|https://m.sanjiangge.com/js/wap.js$s@function _17mb@function _xxxxx@
+|https://m.sanjiangge.com/fs/style.js$s@function _17mb@function _xxxxx@
+|https://m.snwx8.com/$s@function xuanxuan@function xxxxxx@
+|https://m.snwx8.com/$s@function yuedu@function xxxxxx@
+|https://m.sqsxs.com/js/wap.js$s@function xuanfu@function xxxxxx@
+|https://m.sqsxs.com/js/wap.js$s@function yuedu@function xxxxxx@
+|https://m.tmetb.net/js/wap.js$s@function xuanfu@function xxxxxx@
+|https://m.tmetb.net/js/wap.js$s@function yuedu@function xxxxxx@
+|https://m.wenxuemi6.com/js/common.js$s@function style_@function xxxxx_@
+|https://m.zwdu.com/scripts/common.js$s@function app3@function xxxxx@
+|http://m.biquge.com.tw/style/style.js$s@function middle(){*function uc_foot(){*}@@
+|https://m.biqugexsw.com/js/common.js$s@eval(function(*});@@
+!x  ------------------------------------------ xiaoshuo TXT ADV ----------------------------------------------------
