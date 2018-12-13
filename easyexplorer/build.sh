@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE="easyexplorer"
-VERSION="0.9"
+VERSION="1.0"
 TITLE="EasyExplorer"
 DESCRIPTION="强大易用的全平台同步工具"
 HOME_URL="Module_easyexplorer.asp"
-CHANGELOG="提升稳定性"
+CHANGELOG="修复开机启动脚本"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

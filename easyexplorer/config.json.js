@@ -1,9 +1,9 @@
 {
-"version":"0.9",
-"md5":"15c3bb9c5199ac5c191e1bb758261ac0",
+"version":"1.0",
+"md5":"7ba29c06baf7d95ecab9e136101fefaf",
 "home_url":"Module_easyexplorer.asp",
 "title":"EasyExplorer",
 "description":"强大易用的全平台同步工具",
-"changelog":"提升稳定性",
-"build_date":"2018-12-10_10:25:02"
+"changelog":"修复开机启动脚本",
+"build_date":"2018-12-13_21:54:49"
 }

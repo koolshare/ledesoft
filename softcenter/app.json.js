@@ -132,15 +132,15 @@
             "version": "0.4"
         }, 
         {
-            "build_date": "2018-12-10_10:25:02", 
-            "changelog": "提升稳定性", 
+            "build_date": "2018-12-13_21:54:49", 
+            "changelog": "修复开机启动脚本", 
             "description": "强大易用的全平台同步工具", 
             "home_url": "Module_easyexplorer.asp", 
-            "md5": "15c3bb9c5199ac5c191e1bb758261ac0", 
+            "md5": "7ba29c06baf7d95ecab9e136101fefaf", 
             "name": "easyexplorer", 
             "tar_url": "easyexplorer/easyexplorer.tar.gz", 
             "title": "EasyExplorer", 
-            "version": "0.9"
+            "version": "1.0"
         }, 
         {
             "build_date": "2018-11-11_15:42:40", 
