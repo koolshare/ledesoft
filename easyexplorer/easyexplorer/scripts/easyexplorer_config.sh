@@ -33,7 +33,7 @@ stop_easyexplorer(){
 }
 
 creat_start_up(){
-	[ ! -L "/etc/rc.d/S99easyexplorer.sh" ] && ln -sf /koolshare/init.d/S88easyexplorer.sh /etc/rc.d/S99easyexplorer.sh
+	[ ! -L "/etc/rc.d/S99easyexplorer.sh" ] && ln -sf /koolshare/init.d/S99easyexplorer.sh /etc/rc.d/S99easyexplorer.sh
 }
 
 del_start_up(){
