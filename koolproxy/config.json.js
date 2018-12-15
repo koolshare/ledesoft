@@ -1,9 +1,9 @@
 {
-"version":"3.8.4.9",
-"md5":"896a16fc553a2b1fdca61a0a343957a1",
+"version":"3.8.5",
+"md5":"0fe2da2ef9a9ebf010498a95f5a325e2",
 "home_url":"Module_koolproxy.asp",
 "title":"koolproxy",
 "description":"听说KP和软路由更搭哦~",
-"changelog":"加入过滤代理链守护",
-"build_date":"2018-12-10_22:38:33"
+"changelog":"修复BUG",
+"build_date":"2018-12-15_23:08:22"
 }
