@@ -16,27 +16,30 @@ SS_ENABLE=`dbus get ss_basic_enable`
 V2_ENABLE=`dbus get v2ray_basic_enable`
 KG_ENABLE=`dbus get koolgame_basic_enable`
 
-KP_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/KOOLPROXY/='`
+KP_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/KOOLPROXY/=' | sed -n '1p'`
 
-SS_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/SHADOWSOCKS/='`
-[ -n "$SS_NUMBER" ] && export number="1"
+SS_DUPLICATE=`iptables -t nat -L PREROUTING | sed -e '1,2d' | grep SHADOWSOCKS | wc -l`
+SS_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/SHADOWSOCKS/=' | sed -n '1p'`
+[ "$SS_ENABLE" == "1" ] && export number="1"
 
-V2_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/V2RAY/='`
-[ -n "$V2_NUMBER" ] && export number="2"
+V2_DUPLICATE=`iptables -t nat -L PREROUTING | sed -e '1,2d' | grep V2RAY | wc -l`
+V2_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/V2RAY/=' | sed -n '1p'`
+[ "$V2_ENABLE" == "1"  ] && export number="2"
 
-KG_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/KOOLGAME/='`
-[ -n "$KG_NUMBER" ] && export number="3"
+KG_DUPLICATE=`iptables -t nat -L PREROUTING | sed -e '1,2d' | grep KOOLGAME | wc -l`
+KG_NUMBER=`iptables -t nat -L PREROUTING | sed -e '1,2d' | sed -n '/KOOLGAME/=' | sed -n '1p'`
+[ "$KG_ENABLE" == "1" ] && export number="3"
 
 [ ! "$KP_ENABLE" == "1" ] && return 0 || continue
 
 case $number in
 1)
-	[ "$KP_NUMBER" -gt "$SS_NUMBER" ] && /koolshare/init.d/S99koolss.sh restart
+	[ "$KP_NUMBER" -gt "$SS_NUMBER" -o "$SS_DUPLICATE" -ge "2" ] && /koolshare/init.d/S99koolss.sh restart
 	;;
 2)
-	[ "$KP_NUMBER" -gt "$V2_NUMBER" ] && /koolshare/init.d/S99v2ray.sh restart
+	[ "$KP_NUMBER" -gt "$V2_NUMBER" -o "$V2_DUPLICATE" -ge "2" ] && /koolshare/init.d/S99v2ray.sh restart
 	;;
 3)
-	[ "$KP_NUMBER" -gt "$KG_NUMBER" ] && /koolshare/init.d/S98koolgame.sh restart
+	[ "$KP_NUMBER" -gt "$KG_NUMBER" -o "$KG_DUPLICATE" -ge "2" ] && /koolshare/init.d/S98koolgame.sh restart
 	;;
 esac
