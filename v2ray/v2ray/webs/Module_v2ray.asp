@@ -982,7 +982,7 @@
 					{ title: 'V2Ray 数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
 					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/v2ray/v2ray-core/releases" target="_blank"></a>'},
 					{ title: 'V2Ray 版本升级', multi: [
-						{ name:'v2ray_basic_check_releases',type:'select', options:[['0', '升级到最新版（包括测试版）'], ['1', '仅升级到正式版']], value: dbus.v2ray_basic_check_releases || "1" ,suffix: ' 仅检查正式版'},
+						{ name:'v2ray_basic_check_releases',type:'select', options:[['0', '升级到最新版（包括测试版）'], ['1', '仅升级到正式版']], value: dbus.v2ray_basic_check_releases || "1" ,suffix: '  &nbsp;&nbsp;'},
 						{ suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 5);" class="btn btn-download">一键升级v2ray 版本</button>' }
 					]}
 				]);

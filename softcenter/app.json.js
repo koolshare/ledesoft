@@ -454,11 +454,11 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2018-12-25_00:15:15", 
+            "build_date": "2018-12-25_00:17:44", 
             "changelog": "增加smartdns", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "44737d5b666ef4c79bdfbc386953af3f", 
+            "md5": "4be6ff5503196ad0a0a6976e0d5a0b2a", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 

@@ -1,9 +1,9 @@
 {
 "version":"2.1",
-"md5":"44737d5b666ef4c79bdfbc386953af3f",
+"md5":"4be6ff5503196ad0a0a6976e0d5a0b2a",
 "home_url":"Module_v2ray.asp",
 "title":"V2Ray",
 "description":"模块化的代理软件包",
 "changelog":"增加smartdns",
-"build_date":"2018-12-25_00:15:15"
+"build_date":"2018-12-25_00:17:44"
 }
