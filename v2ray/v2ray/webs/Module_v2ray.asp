@@ -21,7 +21,7 @@
 		var option_acl_mode_name = ['不代理', 'gfwlist黑名单', '大陆白名单', '游戏模式', '全局模式'];
 		var option_dns_china = [['1', '运营商DNS【自动获取】'],  ['2', '阿里DNS1【223.5.5.5】'],  ['3', '阿里DNS2【223.6.6.6】'],  ['4', '114DNS1【114.114.114.114】'],  
 								['5', '114DNS1【114.114.115.115】'],  ['6', 'cnnic DNS【1.2.4.8】'],  ['7', 'cnnic DNS【210.2.4.8】'],  ['8', 'oneDNS1【112.124.47.27】'],  
-								['9', 'oneDNS2【114.215.126.16】'],  ['10', '百度DNS【180.76.76.76】'],  ['11', 'DNSpod DNS【119.29.29.29】'],  ['12', '自定义']];
+								['9', 'oneDNS2【114.215.126.16】'],  ['10', '百度DNS【180.76.76.76】'],  ['11', 'DNSpod DNS【119.29.29.29】'],  ['12', 'Smart DNS【127.0.0.1#7923】'],  ['13', '自定义']];
 		var option_v2ray_dns_foreign = [['2', 'google dns\[8.8.8.8\]'], ['3', 'google dns\[8.8.4.4\]'], ['1', 'OpenDNS\[208.67.220.220\]'], ['4', '自定义']];
 		var option_dns_foreign = [['1', 'v2ray_dns']];
 		var option_arp_list = [];
@@ -526,8 +526,12 @@
 			}
 
 			// dns			
-			var b  = E('_v2ray_dns_china').value == '12';
+			var b  = E('_v2ray_dns_china').value == '13';
 			elem.display('_v2ray_dns_china_user', b);
+			
+			// smartdns			
+			var b2  = E('_v2ray_dns_china').value == '12';
+			elem.display(PR('_v2ray_smartdns'), b2);
 			
 			var c  = E('_v2ray_dns_foreign').value == '4';
 			elem.display('_v2ray_dns_foreign_user', c);
@@ -611,7 +615,7 @@
 				}
 			}
 			// data need base64 encode
-			var paras_base64 = ["v2ray_wan_white_ip", "v2ray_wan_white_domain", "v2ray_wan_black_ip", "v2ray_wan_black_domain", "v2ray_dnsmasq"];
+			var paras_base64 = ["v2ray_wan_white_ip", "v2ray_wan_white_domain", "v2ray_wan_black_ip", "v2ray_wan_black_domain", "v2ray_dnsmasq", "v2ray_smartdns"];
 			for (var i = 0; i < paras_base64.length; i++) {
 				if (typeof(E('_' + paras_base64[i] ).value) == "undefined"){
 					dbus[paras_base64[i]] = "";
@@ -900,7 +904,8 @@
 						{ name: 'v2ray_dns_foreign_user', type: 'text', value: dbus.v2ray_dns_foreign_user || "8.8.8.8:53" },
 						{ suffix: '<lable>默认使用 v2ray 内置的DNS功能解析国外域名。</lable>' }
 					]},
-					{ title: '<b>自定义dnsmasq</b></br></br><font color="#B2B2B2">一行一个，错误的格式会导致dnsmasq不能启动，格式：</br>address=/koolshare.cn/2.2.2.2</br>bogus-nxdomain=220.250.64.18</br>conf-file=/koolshare/mydnsmasq.conf</font>', name: 'v2ray_dnsmasq', type: 'textarea', value: Base64.decode(dbus.v2ray_dnsmasq)||"", style: 'width: 100%; height:150px;' }
+					{ title: '<b>自定义dnsmasq</b></br></br><font color="#B2B2B2">一行一个，错误的格式会导致dnsmasq不能启动，格式：</br>address=/koolshare.cn/2.2.2.2</br>bogus-nxdomain=220.250.64.18</br>conf-file=/koolshare/mydnsmasq.conf</font>', name: 'v2ray_dnsmasq', type: 'textarea', value: Base64.decode(dbus.v2ray_dnsmasq)||"", style: 'width: 100%; height:150px;' },
+					{ title: '<b>自定义smartdns配置文件</b></br></br><font color="#B2B2B2">一行一个，错误的格式会导致smartdns不能启动</font></br><font color="#22B2B2">留空使用默认配置</font>', name: 'v2ray_smartdns', type: 'textarea', value: Base64.decode(dbus.v2ray_smartdns)||"", style: 'width: 100%; height:150px;' }
 				]);
 			</script>
 		</div>
@@ -977,7 +982,7 @@
 					{ title: 'V2Ray 数据恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_conf();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' },
 					{ title: 'V2Ray 当前版本', suffix: '<a id="v2ray_version" href="https://github.com/v2ray/v2ray-core/releases" target="_blank"></a>'},
 					{ title: 'V2Ray 版本升级', multi: [
-						{ name:'v2ray_basic_check_releases',type:'select', options:[['0', '升级到最新版（包括测试版）'], ['1', '仅升级到正式版']], value: dbus.v2ray_basic_check_releases || "1" ,suffix: '  &nbsp;&nbsp;'},
+						{ name:'v2ray_basic_check_releases',type:'select', options:[['0', '升级到最新版（包括测试版）'], ['1', '仅升级到正式版']], value: dbus.v2ray_basic_check_releases || "1" ,suffix: ' 仅检查正式版'},
 						{ suffix: '<button onclick="manipulate_conf(\'v2ray_config.sh\', 5);" class="btn btn-download">一键升级v2ray 版本</button>' }
 					]}
 				]);

@@ -17,6 +17,7 @@ chmod +x $KSROOT/scripts/v2ray_*
 chmod +x $KSROOT/scripts/uninstall_v2ray.sh
 chmod +x $KSROOT/bin/v2ray
 chmod +x $KSROOT/bin/v2ctl
+chmod +x $KSROOT/bin/smartdns
 
 dbus set softcenter_module_v2ray_description=模块化的代理软件包
 dbus set softcenter_module_v2ray_install=1
