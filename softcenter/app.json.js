@@ -421,6 +421,17 @@
             "version": "0.1"
         }, 
         {
+            "build_date": "2018-12-29_18:26:10", 
+            "changelog": "", 
+            "description": "轻量虚拟化应用程序", 
+            "home_url": "Module_docker.asp", 
+            "md5": "68ccbbf1bc426838065bd90fcc597875", 
+            "name": "docker", 
+            "tar_url": "docker/docker.tar.gz", 
+            "title": "Docker", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2017-10-19_16:08:11", 
             "changelog": "修复新固件下客户端上线通知失效", 
             "description": "推送路由器信息到微信~", 

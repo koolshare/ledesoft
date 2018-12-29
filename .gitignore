@@ -35,4 +35,5 @@ tunnel
 /sgame/build
 /wireguard/build
 /koolddns/build
+/docker/build
 /test
