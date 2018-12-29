@@ -66,15 +66,15 @@
             "version": "0.5"
         }, 
         {
-            "build_date": "2018-10-22_00:30:49", 
-            "changelog": "完善功能", 
+            "build_date": "2018-12-30_01:09:57", 
+            "changelog": "升级bin", 
             "description": "外服游戏解决方案", 
             "home_url": "Module_sgame.asp", 
-            "md5": "60fb5016ee27c687527c401b7cfff5b8", 
+            "md5": "cf4a0f8100feb40f98688777aefe366f", 
             "name": "sgame", 
             "tar_url": "sgame/sgame.tar.gz", 
             "title": "游戏加速器", 
-            "version": "0.6"
+            "version": "0.7"
         }, 
         {
             "build_date": "2018-09-23_18:26:03", 

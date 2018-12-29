@@ -226,6 +226,7 @@
 		
 		seach.populate = function(){
 			if(search_info){
+				search_info = Base64.decode(search_info);
 				search_info = search_info.split("<")
 				for ( var i = 1; i < search_info.length; ++i ) {
 					this.insertData( -1, [
@@ -361,10 +362,6 @@
 						container_info=Base64.decode(response.result.split("@@")[1]);
 						container.populatec();
 					}
-				},
-				error:function(){
-					images.setup();
-					container.setup();
 				},
 				timeout:1000
 			});
@@ -637,8 +634,9 @@
 							setTimeout("tabSelect('app6')", 500);
 							setTimeout("window.location.reload()", 800);
 						}else if (arg == 4){
-							setTimeout("tabSelect('app6')", 800000);
-							setTimeout("window.location.reload()", 900000);
+							if(response.result != -1){
+								setTimeout("window.location.reload()", 5000);
+							}
 						}
 					}
 				}
@@ -692,7 +690,7 @@
 			<script type="text/javascript">
 				$('#docker_basic_pannel').forms([
 					{ title: '安装目录', name:'docker_basic_disk',type:'text', size: 60, value:dbus.docker_basic_disk || "/mnt/sdb1" , suffix: '基础服务最少需要160MB以上空间，不要安装到系统盘'},
-					{ title: '存储存地址', name:'docker_basic_url',type:'text', size: 60, value:dbus.docker_basic_url || "http://hub-mirror.c.163.com" },
+					{ title: '镜像库地址', name:'docker_basic_url',type:'text', size: 60, value:dbus.docker_basic_url || "http://hub-mirror.c.163.com" },
 					{ title: '登陆Docker Hub', name:'docker_basic_login',type:'checkbox',  value: dbus.docker_basic_login == 1 }, 
 					{ title: '用户名', name:'docker_basic_user',type:'text', size: 22, value:dbus.docker_basic_user },
 					{ title: '密  码', name:'docker_basic_passwd',type:'password', size: 22, value:dbus.docker_basic_passwd , peekaboo: 1}
