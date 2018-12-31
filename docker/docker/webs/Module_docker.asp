@@ -11,13 +11,14 @@
 	<script type="text/javascript">
 		var dbus;
 		get_dbus_data();
-		get_table_list();
+		//get_table_list();
 		var softcenter = 0;
 		var _responseLen;
 		var noChange = 0;
 		var x = 4;
 		var status_time = 1;
 		var image = {};
+		var option_docker_net = [['host', '使用与Docker Host相同网络'],['bridge', '桥接网络'],['none', '无网络连接']];
 
 		if (typeof btoa == "Function") {
 			Base64 = {
@@ -264,7 +265,7 @@
 					images_info[i].split(">")[0] || "", 
 					images_info[i].split(">")[1] || "", 
 					images_info[i].split(">")[2] || "", 
-					'<button id="_run_images_now" onclick="manipulate_conf(\'docker_config.sh\', 5, \'' + images_info[i].split(">")[0] + '\' );" class="btn btn-success">创建 <i class="icon-plus"></i></button>&nbsp;&nbsp;<button id="_del_images_now" onclick="manipulate_conf(\'docker_config.sh\', 6, \'' + images_info[i].split(">")[0] + '\' );" class="btn btn">删除 <i class="icon-cancel"></i></button>'
+					'<button id="_run_images_now" onclick="show_add_panel( \'' + images_info[i].split(">")[0] + '\' );" class="btn btn-success">创建 <i class="icon-plus"></i></button>&nbsp;&nbsp;<button id="_del_images_now" onclick="manipulate_conf(\'docker_config.sh\', 6, \'' + images_info[i].split(">")[0] + '\' );" class="btn btn">删除 <i class="icon-cancel"></i></button>'
 					] );
 				}
 			}
@@ -295,7 +296,7 @@
 					container_info[i].split(">")[0] || "", 
 					container_info[i].split(">")[1] || "", 
 					container_info[i].split(">")[2] || "", 
-					'<button id="_start_images_now" onclick="manipulate_conf(\'docker_config.sh\', 7, \'' + container_info[i].split(">")[0] + '\' );" class="btn btn-success">启动 <i class="icon-check"></i></button>&nbsp;&nbsp;<button id="_stop_images_now" onclick="manipulate_conf(\'docker_config.sh\', 8, \'' + container_info[i].split(">")[0] + '\' );" class="btn btn-danger">停止 <i class="icon-chevron-up"></i></button>&nbsp;&nbsp;<button id="_rm_images_now" onclick="manipulate_conf(\'docker_config.sh\', 9, \'' + container_info[i].split(">")[0] + '\' );" class="btn">删除 <i class="icon-cancel"></i></button>'
+					'<button id="_start_images_now" onclick="manipulate_conf(\'docker_config.sh\', 7, \'' + container_info[i].split(">")[0] + '\' );" class="btn btn-success">启动 <i class="icon-check"></i></button>&nbsp;&nbsp;<button id="_stop_images_now" onclick="manipulate_conf(\'docker_config.sh\', 8, \'' + container_info[i].split(">")[0] + '\' );" class="btn btn-danger">停止 <i class="icon-disable"></i></button>&nbsp;&nbsp;<button id="_edit_images_now" onclick="show_edit_panel( \'' + container_info[i].split(">")[0] + '\' );" class="btn btn-primary">修改 <i class="icon-chevron-up"></i></button>&nbsp;&nbsp;<button id="_rm_images_now" onclick="manipulate_conf(\'docker_config.sh\', 9, \'' + container_info[i].split(">")[0] + '\' );" class="btn">删除 <i class="icon-cancel"></i></button>'
 					] );
 				}
 			}
@@ -321,11 +322,11 @@
 			});
 			show_hide_panel();
 			set_version();
-			//version_show();
-			setTimeout("get_run_status();", 2000);
 			seach.setup();
 			container.setup();
 			images.setup();
+			//version_show();
+			setTimeout("get_run_status();", 2000);
 		}
 
 		function set_version(){
@@ -345,9 +346,9 @@
 			});
 		}
 		
-		function get_table_list(){
+		function get_images_list(){
 			var id5 = parseInt(Math.random() * 100000000);
-			var postData2 = {"id": id5, "method": "docker_config.sh", "params":[10], "fields": ""};
+			var postData2 = {"id": id5, "method": "docker_config.sh", "params":[11], "fields": ""};
 			$.ajax({
 				type: "POST",
 				url: "/_api/",
@@ -357,9 +358,27 @@
 				dataType: "json",
 				success: function(response){
 					if (response.result != "-1"){
-						images_info=Base64.decode(response.result.split("@@")[0]);
+						images_info=Base64.decode(response.result);
 						images.populatei();
-						container_info=Base64.decode(response.result.split("@@")[1]);
+					}
+				},
+				timeout:1000
+			});
+		}
+		
+		function get_container_list(){
+			var id6 = parseInt(Math.random() * 100000000);
+			var postData3 = {"id": id6, "method": "docker_config.sh", "params":[12], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async:true,
+				cache:false,
+				data: JSON.stringify(postData3),
+				dataType: "json",
+				success: function(response){
+					if (response.result != "-1"){
+						container_info=Base64.decode(response.result);
 						container.populatec();
 					}
 				},
@@ -427,7 +446,25 @@
 			elem.display('docker_basic_tab', a);
 		}
 
-		function verifyFields(r){			
+		function show_add_panel(addimgename){
+			elem.display('docker_tab_images', true);
+			E("new_name").innerHTML = addimgename;
+			E("_docker_new_other").scrollIntoView(); 
+		}
+
+		function show_edit_panel(editcontainername){
+			elem.display('docker_tab_container', true);
+			E("container_edit_name").innerHTML = editcontainername;
+			E("_docker_edit_auto").value = dbus["docker_" + editcontainername + "_auto"] == "1";
+			E("_docker_edit_net").value = dbus["docker_" + editcontainername + "_net"];
+			E("_docker_edit_file").value = Base64.decode(dbus["docker_" + editcontainername + "_file"]);
+			E("_docker_edit_port").value = Base64.decode(dbus["docker_" + editcontainername + "_port"]);
+			E("_docker_edit_env").value = Base64.decode(dbus["docker_" + editcontainername + "_env"]);
+			E("_docker_edit_other").value = Base64.decode(dbus["docker_" + editcontainername + "_other"]);
+			E("_docker_edit_other").scrollIntoView(); 
+		}
+
+		function verifyFields(r){
 			// when check/uncheck docker_switch
 			var a  = E('_docker_basic_enable').checked;
 			if ( $(r).attr("id") == "_docker_basic_enable" ) {
@@ -439,10 +476,24 @@
 					tabSelect('fuckapp')
 				}
 			}
-			// login			
+
+			// login
 			var b  = E('_docker_basic_login').checked;
 			elem.display(PR('_docker_basic_user'), b);
 			elem.display(PR('_docker_basic_passwd'), b);
+
+			var h = (E('_docker_new_net').value == 'bridge');
+			elem.display(PR('_docker_new_port'), h);
+		
+			var ee = (E('_docker_edit_net').value == 'bridge');
+			if(ee){
+				elem.display(PR('_docker_edit_port'), true);
+				var cc = E('container_edit_name').textContent;
+				E("_docker_edit_port").value = Base64.decode(dbus["docker_" + cc + "_port"]);
+			}else{
+				elem.display(PR('_docker_edit_port'), false);
+				E("_docker_edit_port").value = ""
+			}
 
 			return true;
 		}
@@ -463,8 +514,20 @@
 				elem.display('save-button', false);
 				noChange=0;
 				setTimeout("get_log();", 200);
-			}else if(obj=='app2' || obj=='app3' || obj=='app5' || obj=='app7'){
+			}else if(obj=='app2' || obj=='app3'){
 				elem.display('save-button', false);
+				noChange=2001;
+			}else if(obj=='app5'){
+				elem.display('save-button', false);
+				elem.display('docker_tab_container', false);
+				$("#container-grid").find("tr:gt(0)").remove();
+				get_container_list();
+				noChange=2001;
+			}else if(obj=='app7'){
+				elem.display('save-button', false);
+				elem.display('docker_tab_images', false);
+				$("#images-grid").find("tr:gt(0)").remove();
+				get_images_list();
 				noChange=2001;
 			}else{
 				elem.display('save-button', true);
@@ -594,14 +657,57 @@
 				dbus3["docker_basic_seach"] = E('_docker_basic_seach').value;
 				E("search_warn").innerHTML = "正在搜索，请稍候！";
 				$("#seach-grid").find("tr:gt(0)").remove();
-				//tabSelect("app6");
 			}else if(arg == 3){
 				dbus3["docker_basic_cmd"] = Base64.encode(E('_docker_basic_cmd').value);
 				tabSelect("app6");
-			}else if(arg == 4 || arg == 5 || arg == 6 || arg == 7 || arg == 8 || arg == 9){
+			}else if(arg == 4 || arg == 7 || arg == 8){
 				//将table第一列传递给dbus
 				dbus3["docker_table_send"] = image;
 				tabSelect("app6");
+			}else if(arg == 5){
+				var el = E('_docker_new_name').value;
+				var re =  /^[0-9a-zA-Z]*$/;
+				if(el == ""){
+					alert("填写的信息不全，请检查后再提交！");
+					return false;
+				}
+				if (!re.test(el)){
+					alert("名称只能为数字和字母组成，不要使用特殊字符和汉字！");
+					return false;
+				}				
+				dbus3["docker_table_send"] = el;
+				dbus3["docker_"+ el + "_name"] = E('_docker_new_name').value;
+				dbus3["docker_"+ el + "_auto"] = E('_docker_new_auto').checked ? '1':'0';
+				dbus3["docker_"+ el + "_image"] = E('new_name').textContent;
+				dbus3["docker_"+ el + "_net"] = E('_docker_new_net').value;
+				dbus3["docker_"+ el + "_file"] = Base64.encode(E('_docker_new_file').value);
+				dbus3["docker_"+ el + "_port"] = Base64.encode(E('_docker_new_port').value);
+				dbus3["docker_"+ el + "_env"] = Base64.encode(E('_docker_new_env').value);
+				dbus3["docker_"+ el + "_other"] = Base64.encode(E('_docker_new_other').value);
+				tabSelect("app6");
+			}else if(arg == 6){
+				//删除镜像
+				var msg="您将要删除的镜像：" + image + "\n如果存在关联的容器会导致删除失败！\n删除后不可恢复，确定要删除吗？";
+				if(!confirm(msg)){
+					return false;
+				}
+				dbus3["docker_table_send"] = image;
+			}else if(arg == 9){
+				//删除容器
+				var msg="您将要删除的容器名称：" + image + "\n将会删除所有配置参数，删除后不可恢复，确定要删除吗？";
+				if(!confirm(msg)){
+					return false;
+				}
+				dbus3["docker_table_send"] = image;
+			}else if(arg == 10){
+				var ec = E('container_edit_name').textContent;
+				dbus3["docker_table_send"] = ec;
+				dbus3["docker_"+ ec + "_auto"] = E('_docker_edit_auto').checked ? '1':'0';
+				dbus3["docker_"+ ec + "_net"] = E('_docker_edit_net').value;
+				dbus3["docker_"+ ec + "_file"] = Base64.encode(E('_docker_edit_file').value);
+				dbus3["docker_"+ ec + "_port"] = Base64.encode(E('_docker_edit_port').value);
+				dbus3["docker_"+ ec + "_env"] = Base64.encode(E('_docker_edit_env').value);
+				dbus3["docker_"+ ec + "_other"] = Base64.encode(E('_docker_edit_other').value);
 			}
 			var id = parseInt(Math.random() * 100000000);
 			var postData = {"id": id, "method": script, "params":[arg], "fields": dbus3 };
@@ -630,7 +736,7 @@
 								E("search_warn").innerHTML = "错误！提交错误！";
 							}
 							E("_docker_basic_seach").value = "";
-						}else if (arg == 3 || arg == 5 || arg == 6 || arg == 7 || arg == 8 || arg == 9){
+						}else if (arg == 3 || arg == 5 || arg == 6 || arg == 7 || arg == 8 || arg == 9 || arg == 10){
 							setTimeout("tabSelect('app6')", 500);
 							setTimeout("window.location.reload()", 800);
 						}else if (arg == 4){
@@ -679,7 +785,7 @@
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 基本设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab"><i class="icon-tools"></i> 自定义命令</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab"><i class="icon-tools"></i> 注册表</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab"><i class="icon-cmd"></i> 映像</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app7');" id="app7-tab"><i class="icon-cmd"></i> 镜像</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app5');" id="app5-tab"><i class="icon-wake"></i> 容器</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app6');" id="app6-tab"><i class="icon-hourglass"></i> 查看日志</a></li>	
 	</ul>
@@ -715,7 +821,7 @@
 	</div>
 	<!-- ------------------ 注册表 --------------------- -->
 	<div class="box boxr2" id="docker_dns_tab" style="margin-top: 0px;">
-		<div class="heading">映像搜索</div>
+		<div class="heading">镜像搜索</div>
 		<div class="content" style="margin-top: -20px;">
 			<div id="docker_dns_pannel" class="section"></div>
 			<script type="text/javascript">
@@ -734,13 +840,33 @@
 		</div>
 	</div>
 	<!-- ------------------ 映像管理 --------------------- -->
-	<div class="box boxr7" id="ss_rule_tab" style="margin-top: 0px;">
-		<div class="heading">本地映像列表</div>
+	<div class="box boxr7" id="docker_rule_tab" style="margin-top: 0px;">
+		<div class="heading">本地镜像列表</div>
 			<div class="content">
 				<div class="tabContent">
 					<table class="line-table" cellspacing=1 id="images-grid"></table>
 				</div>
 				<br><hr>
+		</div>
+	</div>
+	<!-- ------------------ 添加容器 --------------------- -->
+	<div class="box boxr7" id="docker_tab_images" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content" style="margin-top: -20px;">
+			<div id="docker_basic_addpannel" class="section"></div>
+			<script type="text/javascript">
+				$('#docker_basic_addpannel').forms([
+					{ title: '当前容器使用的镜像：', suffix: '<span class="help-block"><lable id="new_name"></lable></span>'},
+					{ title: '容器名称', name:'docker_new_name',type:'text',size: 30,suffix: '* 使用英文字母和数字，不能为特殊符号或中文字符'},
+					{ title: '自动启动', name:'docker_new_auto',type:'checkbox' },
+					{ title: '网络接口', name:'docker_new_net',type:'select', options:option_docker_net },
+					{ title: '文件或文件夹挂载</br></br><font color="#B2B2B2"># 一项配置一行，格式：本地文件夹:容器文件夹<br />如将本地/mnt/sda3/downloads挂载到容器内的/Downloads：<br /># /mnt/sda3/downloads:/Downloads</font>', name:'docker_new_file',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '端口映射</br></br><font color="#B2B2B2">一项配置一行，格式：本地端口：容器端口/协议类型<br />如将OP的9002映射为容器里的TCP9001：<br />9002:9001/tcp</font>', name:'docker_new_port',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '环境变量</br></br><font color="#B2B2B2">一项配置一行，格式：变量名称:值<br /># 如将变量DATADIR配置为/unifi/data：<br />DATADIR=/unifi/data</font>', name:'docker_new_env',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '自定义配置</br></br><font color="#B2B2B2">如：-c=1024 -m=1g -i</font>', name:'docker_new_other',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '',suffix: '<button id="_add_new_now" onclick="manipulate_conf(\'docker_config.sh\', 5);" class="btn btn-success">创建容器 <i class="icon-check"></i></button>' }
+				]);
+			</script>
 		</div>
 	</div>
 	<!-- ------------------ 容器管理 --------------------- -->
@@ -750,6 +876,25 @@
 			<div class="tabContent">
 				<table class="line-table" cellspacing=1 id="container-grid"></table>
 			</div>
+		</div>
+	</div>
+	<!-- ------------------ 修改容器 --------------------- -->
+	<div class="box boxr5" id="docker_tab_container" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content" style="margin-top: -20px;">
+			<div id="docker_basic_editpannel" class="section"></div>
+			<script type="text/javascript">
+				$('#docker_basic_editpannel').forms([
+					{ title: '当前正在修改的容器名称', suffix: '<span class="help-block"><lable id="container_edit_name"></lable></span>'},
+					{ title: '开机自动启动', name:'docker_edit_auto',type:'checkbox' },
+					{ title: '网络接口', name:'docker_edit_net',type:'select', options:option_docker_net },
+					{ title: '文件或文件夹挂载</br></br><font color="#B2B2B2"># 一项配置一行，格式：本地文件夹:容器文件夹<br />如将本地/mnt/sda3/downloads挂载到容器内的/Downloads：<br /># /mnt/sda3/downloads:/Downloads</font>', name:'docker_edit_file',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '端口映射</br></br><font color="#B2B2B2">一项配置一行，格式：本地端口：容器端口/协议类型<br />如将OP的9002映射为容器里的TCP9001：<br />9002:9001/tcp</font>', name:'docker_edit_port',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '环境变量</br></br><font color="#B2B2B2">一项配置一行，格式：变量名称:值<br /># 如将变量DATADIR配置为/unifi/data：<br />DATADIR=/unifi/data</font>', name:'docker_edit_env',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '自定义配置</br></br><font color="#B2B2B2">如：-c=1024 -m=1g -i</font>', name:'docker_edit_other',type:'textarea',style: 'width: 100%; height:100px;'},
+					{ title: '',suffix: '<button id="_add_edit_now" onclick="manipulate_conf(\'docker_config.sh\', 10);" class="btn btn-success">更新容器配置 <i class="icon-check"></i></button>' }
+				]);
+			</script>
 		</div>
 	</div>
 	<!-- ------------------ log --------------------- -->

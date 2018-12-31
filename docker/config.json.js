@@ -1,9 +1,9 @@
 {
-"version":"0.1",
-"md5":"68ccbbf1bc426838065bd90fcc597875",
+"version":"0.2",
+"md5":"9826ff16404eae16254615b753e9b7af",
 "home_url":"Module_docker.asp",
 "title":"Docker",
 "description":"轻量虚拟化应用程序",
-"changelog":"",
-"build_date":"2018-12-29_18:26:10"
+"changelog":"增加配置管理",
+"build_date":"2019-01-01_00:32:31"
 }
