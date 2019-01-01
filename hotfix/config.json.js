@@ -1,9 +1,9 @@
 {
-"version":"0.2.3",
-"md5":"f6b2c17521cf557547ad2f22a26d43ff",
+"version":"0.2.4",
+"md5":"6e03bc4a9ae7434f7aa711882c8361c6",
 "home_url":"Module_hotfix.asp",
 "title":"HOTFIX",
 "description":"快速修复当前固件中的BUG",
-"changelog":"修复2.17实时流量的问题",
-"build_date":"2018-05-02_15:06:09"
+"changelog":"修复2.26默认主题汉化问题",
+"build_date":"2019-01-01_23:37:39"
 }
