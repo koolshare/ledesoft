@@ -421,15 +421,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2019-01-01_00:32:31", 
+            "build_date": "2019-01-01_15:41:27", 
             "changelog": "增加配置管理", 
             "description": "轻量虚拟化应用程序", 
             "home_url": "Module_docker.asp", 
-            "md5": "9826ff16404eae16254615b753e9b7af", 
+            "md5": "ec2b06fb29aed248a3bb24171db4dcd6", 
             "name": "docker", 
             "tar_url": "docker/docker.tar.gz", 
             "title": "Docker", 
-            "version": "0.2"
+            "version": "0.2.1"
         }, 
         {
             "build_date": "2017-10-19_16:08:11", 

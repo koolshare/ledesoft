@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE=docker
-VERSION=0.2
+VERSION=0.2.1
 TITLE="Docker"
 DESCRIPTION="轻量虚拟化应用程序"
 HOME_URL=Module_docker.asp
