@@ -659,9 +659,6 @@
 			elem.display(elem.parentElem('_v2ray_basic_cdn_update', 'DIV'), l1);
 			elem.display('_v2ray_basic_cdn_update_txt', l1);
 
-			var m = (E('_v2ray_basic_type').value == '1');
-			elem.display(PR('_v2ray_basic_config'), m);
-
 			// when check/uncheck v2ray_switch
 			var n  = E('_v2ray_sub_node_update').checked;
 			elem.display('_v2ray_sub_node_update_hr', n);
@@ -682,6 +679,10 @@
 				}else{
 					E('_v2ray_basic_config').value = ""
 				}			
+			}else{
+				var nid = E('_v2ray_basic_server').value
+				elem.display(PR('_v2ray_basic_tag'), false);
+				E("_v2ray_basic_config").value = Base64.decode(dbus["v2ray_sub_config_" + nid ])			
 			}
 			//console.log(n3);
 		}
@@ -709,7 +710,7 @@
 				}
 				for ( var i = 0; i < node_v2ray; i++){
 					option_server_list[i] = [ dbus["v2ray_sub_tag_" + ( i + 1)]];
-					E("_v2ray_sub_server").options[i] = new Option(option_server_list[i], i + 1);
+					E("_v2ray_basic_server").options[i] = new Option(option_server_list[i], i + 1);
 				}
 			}
 
@@ -796,7 +797,7 @@
 					dbus["v2ray_server_node_max"] = server_id;
 				}
 			}else{
-				dbus["v2ray_sub_config_" + server_id] = Base64.encode(E('_v2ray_sub_config').value);
+				dbus["v2ray_sub_config_" + server_id] = Base64.encode(E('_v2ray_basic_config').value);
 			}
 
 			// collect acl data from acl pannel
