@@ -31,6 +31,9 @@ if [ -n "$v2ray_basic_config" ]; then
 	dbus remove v2ray_basic_config
 fi
 
+[ -z "$v2ray_server_tag_1" ] && dbus set v2ray_server_node_max=0
+[ -z "$v2ray_sub_tag_1" ] && dbus set v2ray_sub_node_max=0
+
 dbus set softcenter_module_v2ray_description=模块化的代理软件包
 dbus set softcenter_module_v2ray_install=1
 dbus set softcenter_module_v2ray_name=v2ray

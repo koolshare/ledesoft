@@ -465,11 +465,11 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2019-01-07_19:02:43", 
+            "build_date": "2019-01-07_23:30:18", 
             "changelog": "修复订阅成功不显示的问题", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "07a49bb754cd383c2b5d628e1f74ba8d", 
+            "md5": "c3e6486b485dc4b4c85d5f88e365268b", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
