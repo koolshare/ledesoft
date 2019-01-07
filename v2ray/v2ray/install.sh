@@ -21,14 +21,18 @@ chmod +x $KSROOT/bin/v2ray
 chmod +x $KSROOT/bin/v2ctl
 chmod +x $KSROOT/bin/smartdns
 
-[ -n "$v2ray_basic_config" ] && {
+if [ -n "$v2ray_basic_config" ]; then
 	dbus set v2ray_server_tag_1="节点1"
 	dbus set v2ray_server_config_1="$v2ray_basic_config"
 	dbus set v2ray_basic_server=1
 	dbus set v2ray_basic_type=1
 	dbus set v2ray_server_node_max=1
+	dbus set v2ray_sub_node_max=0
 	dbus remove v2ray_basic_config
-}
+else
+	dbus set v2ray_server_node_max=1
+	dbus set v2ray_sub_node_max=0
+fi
 
 dbus set softcenter_module_v2ray_description=模块化的代理软件包
 dbus set softcenter_module_v2ray_install=1
