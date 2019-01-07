@@ -26,6 +26,7 @@ chmod +x $KSROOT/bin/smartdns
 	dbus set v2ray_server_config_1="$v2ray_basic_config"
 	dbus set v2ray_basic_server=1
 	dbus set v2ray_basic_type=1
+	dbus set v2ray_server_node_max=1
 	dbus remove v2ray_basic_config
 }
 
