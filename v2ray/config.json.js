@@ -1,9 +1,9 @@
 {
-"version":"2.3",
-"md5":"c3e6486b485dc4b4c85d5f88e365268b",
+"version":"2.3.1",
+"md5":"fdd2acb40bdb87c54a6c5ff6a10e96b1",
 "home_url":"Module_v2ray.asp",
 "title":"V2Ray",
 "description":"模块化的代理软件包",
-"changelog":"修复订阅成功不显示的问题",
-"build_date":"2019-01-07_23:30:18"
+"changelog":"增加一项配置",
+"build_date":"2019-01-08_00:00:43"
 }
