@@ -24,11 +24,13 @@
 								['9', 'oneDNS2【114.215.126.16】'],  ['10', '百度DNS【180.76.76.76】'],  ['11', 'DNSpod DNS【119.29.29.29】'],  ['12', 'Smart DNS【127.0.0.1#7923】'],  ['13', '自定义']];
 		var option_v2ray_dns_foreign = [['2', 'google dns\[8.8.8.8\]'], ['3', 'google dns\[8.8.4.4\]'], ['1', 'OpenDNS\[208.67.220.220\]'], ['4', '自定义']];
 		var option_dns_foreign = [['1', 'v2ray_dns']];
+		var option_server_list = [];
 		var option_arp_list = [];
 		var option_arp_local = [];
 		var option_arp_web = [];
 		var softcenter = 0;
 		var option_day_time = [["7", "每天"], ["1", "周一"], ["2", "周二"], ["3", "周三"], ["4", "周四"], ["5", "周五"], ["6", "周六"], ["0", "周日"]];
+		var option_time_mod = [["1", "自动重启"], ["2", "切换服务器"]];
 		var option_time_hour = [];
 		for(var i = 0; i < 24; i++){
 			option_time_hour[i] = [i, i + "点"];
@@ -243,6 +245,98 @@
 			return form;
 		}
 		//============================================
+		var v2ray_server = new TomatoGrid();
+		v2ray_server.dataToView = function( data ) {
+			if (data[0]){
+				return [ data[0], data[1], "******" ];
+			}else{
+				if (data[1]){
+					return [ data[1], data[1], "******" ];
+				}else{
+					if (data[2]){
+						return [ data[2], data[1], "******" ];
+					}
+				}
+			}
+		}
+		v2ray_server.fieldValuesToData = function( row ) {
+			var f = fields.getAll( row );
+			if (f[0].value){
+				return [ f[0].value, f[1].value, f[2].value ];
+			}else{
+				if (f[1].value){
+					return [ f[1].value, f[1].value, f[2].value ];
+				}else{
+					if (f[2].value){
+						return [ f[2].value, f[1].value, f[2].value ];
+					}
+				}
+			}
+		}
+    	v2ray_server.onChange = function(which, cell) {
+    	    return this.verifyFields((which == 'new') ? this.newEditor: this.editor, true, cell);
+    	}
+		v2ray_server.onAdd = function() {
+			var data;
+			this.moving = null;
+			this.rpHide();
+			if (!this.verifyFields(this.newEditor, false)) return;
+			data = this.fieldValuesToData(this.newEditor);
+			this.insertData(1, data);
+			this.disableNewEditor(false);
+			this.resetNewEditor();
+		}
+		v2ray_server.rpDel = function(b) {
+			b = PR(b);
+			TGO(b).moving = null;
+			b.parentNode.removeChild(b);
+			this.recolor();
+			this.rpHide()
+		}
+		v2ray_server.resetNewEditor = function() {
+			var f;
+			f = fields.getAll( this.newEditor );
+			ferror.clearAll( f );
+			f[ 0 ].value = '';
+			f[ 1 ].value = ''
+			f[ 2 ].value = ''
+		}
+		v2ray_server.footerSet = function(c, b) {
+			var f, d;
+			elem.remove(this.footer);
+			this.footer = f = this._insert(-1, c, b);
+			//f.className = "alert alert-info";
+			for (d = 0; d < f.cells.length; ++d) {
+				f.cells[d].cellN = d;
+				f.cells[d].onclick = function() {
+					TGO(this).footerClick(this)
+				}
+			}
+			return f
+		}
+		v2ray_server.dataToFieldValues = function (data) {
+			return [data[0], data[1], data[2]];
+		}
+		v2ray_server.setup = function() {
+			this.init( 'v2ray_server_pannel', '', 254, [
+			{ type: 'text',maxlen:3},	//name
+			{ type: 'text',maxlen:30},	//name
+			{ type: 'text',maxlen:9999}	//name
+			] );
+			this.headerSet( [ 'ID', 'V2ray服务器标签', 'V2ray配置文件'] );						
+			for ( var i = 1; i <= dbus["v2ray_server_node_max"]; i++){
+				var t = [
+						String(i),
+						dbus["v2ray_server_tag_" + i ], 
+						Base64.decode(dbus["v2ray_server_config_" + i ])
+						]
+				if ( t.length == 3 ) this.insertData( -1, t );
+			}
+			this.recolor();
+			this.showNewEditor();
+			this.resetNewEditor();
+		}
+		//============================================
 		var v2ray_acl = new TomatoGrid();
 		v2ray_acl.dataToView = function( data ) {
 			if (data[0]){
@@ -383,12 +477,14 @@
 		function init_v2ray(){
 			tabSelect('app1');
 			verifyFields();
+			v2ray_server.setup();
 			$("#_v2ray_basic_log").click(
 				function() {
 					x = 10000000;
 			});
 			show_hide_panel();
 			set_version();
+			auto_node_set();
 			//version_show();
 			setTimeout("get_run_status();", 2000);
 		}
@@ -501,6 +597,15 @@
 		}
 
 		function verifyFields(r){
+			// pannel1: when node changed, the main pannel element and other element should be changed, too.
+			if ( $(r).attr("id") == "_v2ray_basic_type" ) {
+				join_node();
+			}
+
+			if ( $(r).attr("id") == "_v2ray_basic_server" ) {
+				auto_node_set();
+			}
+
 			if (E("_v2ray_dns_plan").value == "1"){
 				$('#_v2ray_dns_plan_txt').html("国外dns解析gfwlist名单内的国外域名，剩下的域名用国内dns解析。 ")
 			}else if (E("_v2ray_dns_plan").value == "2"){
@@ -553,12 +658,68 @@
 			elem.display('_v2ray_basic_chnroute_update_txt', l1);
 			elem.display(elem.parentElem('_v2ray_basic_cdn_update', 'DIV'), l1);
 			elem.display('_v2ray_basic_cdn_update_txt', l1);
+
+			var m = (E('_v2ray_basic_type').value == '1');
+			elem.display(PR('_v2ray_basic_config'), m);
+
+			// when check/uncheck v2ray_switch
+			var n  = E('_v2ray_sub_node_update').checked;
+			elem.display('_v2ray_sub_node_update_hr', n);
+			elem.display('_v2ray_sub_node_update_day', n);
+			
 			return true;
 		}
+
+		function auto_node_set(){
+			var n1 = (E('_v2ray_basic_type').value == '1');
+			if (n1){
+				var n2 = (E('_v2ray_basic_server').options[E('_v2ray_basic_server').selectedIndex].innerText == "新增配置");
+				elem.display(PR('_v2ray_basic_tag'), n2);
+				var nid = E('_v2ray_basic_server').value
+				E("_v2ray_basic_config").value = Base64.decode(dbus["v2ray_server_config_" + nid ])
+				if (!n2){
+					E('_v2ray_basic_tag').value = ""
+				}else{
+					E('_v2ray_basic_config').value = ""
+				}			
+			}
+			//console.log(n3);
+		}
+		
+		function join_node(){
+			var server_type = (E('_v2ray_basic_type').value == '1');
+			
+			E("_v2ray_basic_server").options.length = 0;
+			if (server_type){ 
+				if (typeof(dbus["v2ray_server_node_max"]) == "undefined"){
+					node_v2ray = 0;
+				}else{
+					node_v2ray = parseInt(dbus["v2ray_server_node_max"]);
+				}
+				for ( var i = 0; i < node_v2ray; i++){
+					option_server_list[i] = [ dbus["v2ray_server_tag_" + ( i + 1)]];
+					E("_v2ray_basic_server").options[i] = new Option(option_server_list[i], i + 1);
+				}
+				E("_v2ray_basic_server").options[node_v2ray] = new Option("新增配置", node_v2ray + 1);
+			}else{
+				if (typeof(dbus["v2ray_sub_node_max"]) == "undefined"){
+					node_v2ray = 0;
+				}else{
+					node_v2ray = parseInt(dbus["v2ray_sub_node_max"]);
+				}
+				for ( var i = 0; i < node_v2ray; i++){
+					option_server_list[i] = [ dbus["v2ray_sub_tag_" + ( i + 1)]];
+					E("_v2ray_sub_server").options[i] = new Option(option_server_list[i], i + 1);
+				}
+			}
+
+			E("_v2ray_basic_server").value = dbus["v2ray_basic_server"]
+		}
+
 		function tabSelect(obj){
-			var tableX = ['app1-tab', 'app2-tab','app3-tab','app4-tab','app5-tab','app6-tab','app7-tab'];
-			var boxX = ['boxr1','boxr2','boxr3','boxr4','boxr5','boxr6','boxr7'];
-			var appX = ['app1','app2','app3','app4','app5','app6','app7'];
+			var tableX = ['app1-tab', 'app2-tab','app3-tab','app4-tab','app5-tab','app6-tab','app7-tab','app8-tab'];
+			var boxX = ['boxr1','boxr2','boxr3','boxr4','boxr5','boxr6','boxr7','boxr8'];
+			var appX = ['app1','app2','app3','app4','app5','app6','app7','app8'];
 			for (var i = 0; i < tableX.length; i++){
 				if(obj == appX[i]){
 					$('#'+tableX[i]).addClass('active');
@@ -572,7 +733,7 @@
 				elem.display('save-button', false);
 				noChange=0;
 				setTimeout("get_log();", 200);
-			}else if(obj=='app7'){
+			}else if(obj=='app7' || obj=='app8'){
 				elem.display('save-button', false);
 			}else{
 				elem.display('save-button', true);
@@ -601,7 +762,7 @@
 			E("_v2ray_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_v2ray_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
 			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron" ];
-			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute", "v2ray_basic_check_releases" ];
+			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_watchdog_mod", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute", "v2ray_basic_check_releases", "v2ray_basic_server", "v2ray_basic_type" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
 				dbus["v2ray_basic_" + paras_chk[i]] = E('_v2ray_basic_' + paras_chk[i] ).checked ? '1':'0';
@@ -623,8 +784,21 @@
 					dbus[paras_base64[i]] = Base64.encode(E('_' + paras_base64[i]).value);
 				}
 			}
-			dbus["v2ray_basic_config"] = Base64.encode(E('_v2ray_basic_config').value);
 			
+			//  node status
+			var node_type = (E('_v2ray_basic_type').value == '1');
+			var server_id = E('_v2ray_basic_server').value;
+			if (node_type){			
+				dbus["v2ray_server_config_" + server_id] = Base64.encode(E('_v2ray_basic_config').value);
+				var new_tag = (E('_v2ray_basic_tag').value == "");
+				if (!new_tag){
+					dbus["v2ray_server_tag_" + server_id] = E('_v2ray_basic_tag').value;
+					dbus["v2ray_server_node_max"] = server_id;
+				}
+			}else{
+				dbus["v2ray_sub_config_" + server_id] = Base64.encode(E('_v2ray_sub_config').value);
+			}
+
 			// collect acl data from acl pannel
 			var v2ray_acl_conf = ["v2ray_acl_name_", "v2ray_acl_ip_", "v2ray_acl_mac_", "v2ray_acl_mode_" ];
 			// mark all acl data for delete first
@@ -739,6 +913,27 @@
 				status_time = 999999990;
 				get_run_status();
 				tabSelect("app6");
+			}else if(arg == 9){
+				// collect acl data from acl pannel
+				var v2ray_server_conf = ["v2ray_server_tag_", "v2ray_server_config_"];
+				// mark all acl data for delete first
+				for ( var i = 1; i <= dbus3["v2ray_server_node_max"]; i++){
+					for ( var j = 0; j < v2ray_server_conf.length; ++j ) {
+						dbus3[v2ray_server_conf[j] + i ] = ""
+					}
+				}
+				var data = v2ray_server.getAllData();
+				if(data.length > 0){
+					for ( var i = 0; i < data.length; ++i ) {
+						for ( var j = 1; j < v2ray_server_conf.length; ++j ) {
+							dbus3[v2ray_server_conf[0] + (i + 1)] = data[i][1];
+							dbus3[v2ray_server_conf[j] + (i + 1)] = Base64.encode(data[i][j+1]);
+						}
+					}
+					dbus3["v2ray_server_node_max"] = data.length;
+				}else{
+					dbus3["v2ray_server_node_max"] = "";
+				}
 			}else if(arg == 7){
 				var paras_chk = ["gfwlist_update", "chnroute_update", "cdn_update"];
 				var paras_inp = ["v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr" ];
@@ -767,8 +962,17 @@
 				dataType: "json",
 				success: function(response){
 					if (script == "v2ray_config.sh"){
-						if(arg == 2 || arg == 4 || arg == 6 || arg == 7 ){
+						if(arg == 2 || arg == 4 || arg == 6 || arg == 7){
 							setTimeout("window.location.reload()", 800);
+						}else if (arg == 9){
+							if (response.result == id){
+								showMsg("msg_success","提交成功","<b>服务器列表保存成功！</b>");
+								setTimeout("$('#msg_success').hide()", 4000);								
+							}else{
+								$('#msg_warring').hide();
+								showMsg("msg_error","提交失败","<b>服务器列表保存失败！错误代码：" + response.result + "</b>");
+							}
+							setTimeout("window.location.reload()", 50);
 						}else if (arg == 3){
 							var a = document.createElement('A');
 							a.href = "/files/v2ray_conf_backup.sh";
@@ -784,6 +988,44 @@
 				}
 			});
 		}
+
+		function node_sub(script, arg ,msg){
+			var dbus4 = {};
+			if(arg == 0 || arg == 1){
+				var ask="你确定要删除【" + msg + "】信息？\n删除后不可恢复，确定要删除吗？";
+				if(!confirm(ask)){
+					return false;
+				}
+				tabSelect("app6");
+			}else if(arg == 2 || arg == 3){
+				dbus4.v2ray_basic_suburl = Base64.encode(E('_v2ray_basic_suburl').value);
+				dbus4.v2ray_sub_node_update_hr = E('_v2ray_sub_node_update_hr').value;
+				dbus4.v2ray_sub_node_update_day = E('_v2ray_sub_node_update_day').value;
+				dbus4.v2ray_sub_node_update = E('_v2ray_sub_node_update').checked ? '1':'0';
+				dbus4.v2ray_basic_suburl_socks = E('_v2ray_basic_suburl_socks').checked ? '1':'0';
+				tabSelect("app6");
+			}else if(arg == 4){
+				dbus4.v2ray_base64_links = E('_v2ray_base64_links').value;
+				tabSelect("app6");
+			}
+			var id4 = parseInt(Math.random() * 100000000);
+			var postData4 = {"id": id4, "method": script, "params":[arg], "fields": dbus4 };
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData4),
+				dataType: "json",
+				success: function(response){
+					if (script == "v2ray_sub.sh"){
+						setTimeout("tabSelect('app6')", 500);
+						setTimeout("window.location.reload()", 800);
+					}
+				}
+			});
+		}
+
 		function restore_conf(){
 			var filename = $("#file").val();
 			filename = filename.split('\\');
@@ -865,6 +1107,7 @@
 	</div>
 	<ul id="v2ray_tabs" class="nav nav-tabs">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active"><i class="icon-system"></i> 帐号设置</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app8');" id="app8-tab"><i class="icon-cloud"></i> 服务器列表</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app4');" id="app4-tab"><i class="icon-lock"></i> 访问控制</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab"><i class="icon-tools"></i> DNS设定</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab"><i class="icon-warning"></i> 黑白名单</a></li>
@@ -879,10 +1122,59 @@
 			<script type="text/javascript">
 				$('#v2ray_basic_pannel').forms([
 					{ title: '代理模式', name:'v2ray_acl_default_mode',type:'select', options:option_acl_mode, value:dbus.v2ray_acl_default_mode },
+					{ title: 'V2ray服务器类型', name:'v2ray_basic_type',type:'select',options:[['1', '自建'], ['2', '订阅']], value: dbus.v2ray_basic_type || "1"},
+					{ title: 'V2ray服务器选择', name:'v2ray_basic_server',type:'select',options:option_server_list},
+					{ title: '新增V2ray配置标签', name:'v2ray_basic_tag',type:'text'},
 					//{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', value: do_js_beautify(Base64.decode(dbus.v2ray_basic_config))||"", style: 'width: 100%; height:450px;' },
-					{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', value: Base64.decode(dbus.v2ray_basic_config)||"", style: 'width: 100%; height:450px;' },
+					{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', style: 'width: 100%; height:450px;' },
+				]);
+				join_node();
+			</script>
+		</div>
+	</div>
+	<!-- ------------------ 服务器列表 --------------------- -->
+	<div class="box boxr8" id="v2ray_server_tab" style="margin-top: 0px;">
+	<div class="heading"></div>
+		<div class="content">
+			<div class="tabContent">
+				<table class="line-table" cellspacing=1 id="v2ray_server_pannel"></table>
+			</div>
+			<br><hr>
+			<button type="button" value="Save" id="save-server-node" onclick="manipulate_conf('v2ray_config.sh', 9)" class="btn btn-primary">保存服务器列表 <i class="icon-check"></i></button>
+		</div>
+	</div>
+	<div class="box boxr8" id="v2ray_node_urladd" style="margin-top: 0px;">
+		<div class="heading"></div>
+		<div class="content">
+			<div id="v2ray_node_urladd_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#v2ray_node_urladd_pannel').forms([
+					{ title: '通过vmess链接添加节点</br></br><font color="#B2B2B2"># 可一次添加多个vmess://链接<br /># 每个链接以空格分隔</font>', name: 'v2ray_base64_links',type:'textarea', value: dbus.v2ray_base64_links, style: 'width: 100%; height:100px;' }
 				]);
 			</script>
+			<button type="button" value="Save" id="update-addurl-node" onclick="node_sub('v2ray_sub.sh', 4)" class="btn btn-primary" style="float:right;margin-right:20px;">添加节点 <i class="icon-check"></i></button>
+		</div>
+	</div>
+	<div class="box boxr8" id="v2ray_node_subscribe" style="margin-top: 0px;">
+		<div class="heading">节点订阅</div>
+		<div class="content">
+			<div id="v2ray_node_subscribe_pannel" class="section"></div>
+			<script type="text/javascript">
+				$('#v2ray_node_subscribe_pannel').forms([
+					{ title: '订阅配置', multi: [
+						{ suffix: ' 开启定时更新' },
+						{ name: 'v2ray_sub_node_update',type: 'checkbox',value: dbus.v2ray_sub_node_update == 1 ,suffix: ' &nbsp;&nbsp;' },
+						{ name: 'v2ray_sub_node_update_day',type: 'select', options:option_day_time, value: dbus.v2ray_sub_node_update_day || '7' ,suffix: ' &nbsp;' },
+						{ name: 'v2ray_sub_node_update_hr',type: 'select', options:option_time_hour, value: dbus.v2ray_sub_node_update_hr || '3' ,suffix: ' &nbsp;&nbsp;通过V2ray代理更新节点信息' },
+						{ name: 'v2ray_basic_suburl_socks',type: 'checkbox',value: dbus.v2ray_basic_suburl_socks == 1 },
+						{ suffix: '<button id="_remove_sub_node" onclick="node_sub(\'v2ray_sub.sh\', 2 ,\'订阅节点\');" class="btn btn-success">删除订阅节点 <i class="icon-cancel"></i></button>' },
+						{ suffix: '<button id="_remove_all_node" onclick="node_sub(\'v2ray_sub.sh\', 1 ,\'所有节点\');" class="btn btn-success">清空所有节点 <i class="icon-disable"></i></button>' },
+					]},
+					{ title: '订阅地址', name: 'v2ray_basic_suburl',type:'text',size: 100, value: Base64.decode(dbus.v2ray_basic_suburl) }
+				]);
+			</script>
+			<!--<button type="button" value="Save" id="dele-subscribe-node" onclick="delete_online_node()" class="btn" style="float:right;">删除订阅节点 <i class="icon-cancel"></i></button>-->
+			<button type="button" value="Save" id="update-subscribe-node" onclick="node_sub('v2ray_sub.sh', 3)" class="btn btn-primary" style="float:right;margin-right:20px;">保存设置并更新订阅 <i class="icon-check"></i></button>
 		</div>
 	</div>
 	<div class="box boxr2" id="v2ray_dns_tab" style="margin-top: 0px;">
@@ -967,7 +1259,8 @@
 				$('#v2ray_addon_pannel').forms([
 					{ title: 'V2Ray 自动守护', multi: [
 						{ name: 'v2ray_basic_watchdog',type: 'select', options:[['0', '禁用'], ['1', '开启']], value: dbus.v2ray_basic_watchdog || "1", suffix: ' &nbsp;&nbsp;检测间隔：' },
-						{ name: 'v2ray_basic_watchdog_time', type: 'select', options:option_time_watch, value: dbus.v2ray_basic_watchdog_time || "1",suffix: ' &nbsp;&nbsp;' },
+						{ name: 'v2ray_basic_watchdog_time', type: 'select', options:option_time_watch, value: dbus.v2ray_basic_watchdog_time || "1",suffix: ' &nbsp;&nbsp;掉线重连方案：' },
+						{ name: 'v2ray_basic_watchdog_mod', type: 'select', options:option_time_mod, value: dbus.v2ray_basic_watchdog_mod || "1",suffix: ' &nbsp;&nbsp;' },
 					]},
 					{ title: '定时自动开关', name:'v2ray_basic_cron',type:'checkbox',  value: dbus.v2ray_basic_cron == 1 },
 					{ title: '定时开启', multi: [

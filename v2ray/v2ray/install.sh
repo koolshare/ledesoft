@@ -6,6 +6,8 @@ eval `dbus export v2ray_`
 
 mkdir -p $KSROOT/init.d
 mkdir -p $KSROOT/v2ray
+[ "$v2ray_basic_enable" == "1" ] && $KSROOT/scripts/v2ray_config.sh stop >/dev/null 2>&1
+
 cp -rf /tmp/v2ray/bin/* $KSROOT/bin/
 cp -rf /tmp/v2ray/init.d/* $KSROOT/init.d/
 cp -rf /tmp/v2ray/v2ray/* $KSROOT/v2ray/
@@ -19,6 +21,14 @@ chmod +x $KSROOT/bin/v2ray
 chmod +x $KSROOT/bin/v2ctl
 chmod +x $KSROOT/bin/smartdns
 
+[ -n "$v2ray_basic_config" ] && {
+	dbus set v2ray_server_tag_1="节点1"
+	dbus set v2ray_server_config_1="$v2ray_basic_config"
+	dbus set v2ray_basic_server=1
+	dbus set v2ray_basic_type=1
+	dbus remove v2ray_basic_config
+}
+
 dbus set softcenter_module_v2ray_description=模块化的代理软件包
 dbus set softcenter_module_v2ray_install=1
 dbus set softcenter_module_v2ray_name=v2ray
@@ -29,3 +39,5 @@ sleep 1
 rm -rf $KSROOT/v2ray/gfw.txt
 rm -rf $KSROOT/init.d/S98v2ray.sh
 rm -rf /tmp/v2ray >/dev/null 2>&1
+
+[ "$v2ray_basic_enable" == "1" ] && $KSROOT/scripts/v2ray_config.sh start >/dev/null 2>&1

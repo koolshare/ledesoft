@@ -355,15 +355,15 @@
             "version": "0.6"
         }, 
         {
-            "build_date": "2018-05-02_15:06:09", 
-            "changelog": "修复2.17实时流量的问题", 
+            "build_date": "2019-01-01_23:37:39", 
+            "changelog": "修复2.26默认主题汉化问题", 
             "description": "快速修复当前固件中的BUG", 
             "home_url": "Module_hotfix.asp", 
-            "md5": "f6b2c17521cf557547ad2f22a26d43ff", 
+            "md5": "6e03bc4a9ae7434f7aa711882c8361c6", 
             "name": "hotfix", 
             "tar_url": "hotfix/hotfix.tar.gz", 
             "title": "HOTFIX", 
-            "version": "0.2.3"
+            "version": "0.2.4"
         }, 
         {
             "build_date": "2018-09-29_17:10:04", 
@@ -465,15 +465,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2018-12-25_00:17:44", 
-            "changelog": "增加smartdns", 
+            "build_date": "2019-01-07_15:58:17", 
+            "changelog": "增加订阅和多服务器支持", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "4be6ff5503196ad0a0a6976e0d5a0b2a", 
+            "md5": "c2ff2e0b1c171e9bc4d4a6dc1378b195", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
-            "version": "2.1"
+            "version": "2.2"
         }, 
         {
             "build_date": "2018-07-01_17:38:34", 

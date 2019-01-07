@@ -1,5 +1,14 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
+2.2
+   - add	增加多服务器支持；
+   - add	增加掉线守护随机切换其它服务器；
+   - add	增加订阅功能；
+   - add	增加通过vmess链接添加服务器功能；
+   - add	增加smartdns守护；
+   - update	更新v2ray二进制到最新：V4.10.0；
+   - update	更新smartdns二进制到最新：18 RC9；
+
 1.9
    - add	增加守护断线自动重启；
    - add	增加定时自动开关；
