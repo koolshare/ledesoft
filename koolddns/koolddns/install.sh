@@ -15,6 +15,7 @@ chmod +x $KSROOT/scripts/koolddns_*
 chmod +x $KSROOT/koolddns/koolddns.sh
 chmod +x $KSROOT/koolddns/*
 
+[ "-z $koolddns_dm_api_1" ] && dbus set koolddns_dm_node_max=0
 dbus set softcenter_module_koolddns_description=动态域名解析工具
 dbus set softcenter_module_koolddns_install=1
 dbus set softcenter_module_koolddns_name=koolddns
