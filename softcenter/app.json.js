@@ -246,11 +246,11 @@
             "version": "3.8.5"
         }, 
         {
-            "build_date": "2019-01-09_16:14:36", 
+            "build_date": "2019-01-09_16:15:32", 
             "changelog": "修复IPv6解析", 
             "description": "动态域名解析工具", 
             "home_url": "Module_koolddns.asp", 
-            "md5": "a3bf68b270abf603a0e3ba5873e30ab6", 
+            "md5": "64981eb2459573a165779d22070ec4cc", 
             "name": "koolddns", 
             "tar_url": "koolddns/koolddns.tar.gz", 
             "title": "Koolddns", 

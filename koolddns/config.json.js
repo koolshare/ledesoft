@@ -1,9 +1,9 @@
 {
 "version":"0.5",
-"md5":"a3bf68b270abf603a0e3ba5873e30ab6",
+"md5":"64981eb2459573a165779d22070ec4cc",
 "home_url":"Module_koolddns.asp",
 "title":"Koolddns",
 "description":"动态域名解析工具",
 "changelog":"修复IPv6解析",
-"build_date":"2019-01-09_16:14:36"
+"build_date":"2019-01-09_16:15:32"
 }
