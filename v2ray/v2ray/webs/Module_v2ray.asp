@@ -660,9 +660,9 @@
 			elem.display('_v2ray_basic_cdn_update_txt', l1);
 
 			// when check/uncheck v2ray_switch
-			var n  = E('_v2ray_sub_node_update').checked;
-			elem.display('_v2ray_sub_node_update_hr', n);
-			elem.display('_v2ray_sub_node_update_day', n);
+			var n  = E('_v2ray_basic_node_update').checked;
+			elem.display('_v2ray_basic_node_update_hr', n);
+			elem.display('_v2ray_basic_node_update_day', n);
 			
 			return true;
 		}
@@ -762,7 +762,7 @@
 			get_run_status();
 			E("_v2ray_basic_status_foreign").innerHTML = "国外链接 - 提交中...暂停获取状态！";
 			E("_v2ray_basic_status_china").innerHTML = "国内链接 - 提交中...暂停获取状态！";
-			var paras_chk = ["enable", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron" ];
+			var paras_chk = ["enable", "sbmode", "dns_chromecast", "gfwlist_update", "chnroute_update", "cdn_update", "cron" ];
 			var paras_inp = ["v2ray_acl_default_mode", "v2ray_dns_plan", "v2ray_dns_china", "v2ray_dns_china_user", "v2ray_dns_foreign_select", "v2ray_dns_foreign", "v2ray_dns_foreign_user", "v2ray_basic_rule_update", "v2ray_basic_rule_update_day", "v2ray_basic_rule_update_hr", "v2ray_basic_watchdog", "v2ray_basic_watchdog_time", "v2ray_basic_watchdog_mod", "v2ray_basic_cron_enablehour", "v2ray_basic_cron_enableminute", "v2ray_basic_cron_disablehour", "v2ray_basic_cron_disableminute", "v2ray_basic_check_releases", "v2ray_basic_server", "v2ray_basic_type" ];
 			// collect data from checkbox
 			for (var i = 0; i < paras_chk.length; i++) {
@@ -1000,9 +1000,9 @@
 				tabSelect("app6");
 			}else if(arg == 2 || arg == 3){
 				dbus4.v2ray_basic_suburl = Base64.encode(E('_v2ray_basic_suburl').value);
-				dbus4.v2ray_sub_node_update_hr = E('_v2ray_sub_node_update_hr').value;
-				dbus4.v2ray_sub_node_update_day = E('_v2ray_sub_node_update_day').value;
-				dbus4.v2ray_sub_node_update = E('_v2ray_sub_node_update').checked ? '1':'0';
+				dbus4.v2ray_basic_node_update_hr = E('_v2ray_basic_node_update_hr').value;
+				dbus4.v2ray_basic_node_update_day = E('_v2ray_basic_node_update_day').value;
+				dbus4.v2ray_basic_node_update = E('_v2ray_basic_node_update').checked ? '1':'0';
 				dbus4.v2ray_basic_suburl_socks = E('_v2ray_basic_suburl_socks').checked ? '1':'0';
 				tabSelect("app6");
 			}else if(arg == 4){
@@ -1125,6 +1125,7 @@
 					{ title: '代理模式', name:'v2ray_acl_default_mode',type:'select', options:option_acl_mode, value:dbus.v2ray_acl_default_mode },
 					{ title: 'V2ray服务器类型', name:'v2ray_basic_type',type:'select',options:[['1', '自建'], ['2', '订阅']], value: dbus.v2ray_basic_type || "1"},
 					{ title: 'V2ray服务器选择', name:'v2ray_basic_server',type:'select',options:option_server_list},
+					{ title: '开启进阶模式', name:'v2ray_basic_sbmode',type:'checkbox',value: dbus.v2ray_basic_sbmode == 1,suffix: '&nbsp;&nbsp;启用配置文件routing项，谨慎启用！'},
 					{ title: '新增V2ray配置标签', name:'v2ray_basic_tag',type:'text'},
 					//{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', value: do_js_beautify(Base64.decode(dbus.v2ray_basic_config))||"", style: 'width: 100%; height:450px;' },
 					{ title: '<b>v2ray配置文件</b></br></br><font color="#B2B2B2"># 此处填入v2ray json<br /># 请保证json内outbound的配置正确！</font>', name:'v2ray_basic_config',type:'textarea', style: 'width: 100%; height:450px;' },
@@ -1135,7 +1136,7 @@
 	</div>
 	<!-- ------------------ 服务器列表 --------------------- -->
 	<div class="box boxr8" id="v2ray_server_tab" style="margin-top: 0px;">
-	<div class="heading"></div>
+	<div class="heading">自建服务器列表</div>
 		<div class="content">
 			<div class="tabContent">
 				<table class="line-table" cellspacing=1 id="v2ray_server_pannel"></table>
@@ -1164,9 +1165,9 @@
 				$('#v2ray_node_subscribe_pannel').forms([
 					{ title: '订阅配置', multi: [
 						{ suffix: ' 开启定时更新' },
-						{ name: 'v2ray_sub_node_update',type: 'checkbox',value: dbus.v2ray_sub_node_update == 1 ,suffix: ' &nbsp;&nbsp;' },
-						{ name: 'v2ray_sub_node_update_day',type: 'select', options:option_day_time, value: dbus.v2ray_sub_node_update_day || '7' ,suffix: ' &nbsp;' },
-						{ name: 'v2ray_sub_node_update_hr',type: 'select', options:option_time_hour, value: dbus.v2ray_sub_node_update_hr || '3' ,suffix: ' &nbsp;&nbsp;通过V2ray代理更新节点信息' },
+						{ name: 'v2ray_basic_node_update',type: 'checkbox',value: dbus.v2ray_basic_node_update == 1 ,suffix: ' &nbsp;&nbsp;' },
+						{ name: 'v2ray_basic_node_update_day',type: 'select', options:option_day_time, value: dbus.v2ray_basic_node_update_day || '7' ,suffix: ' &nbsp;' },
+						{ name: 'v2ray_basic_node_update_hr',type: 'select', options:option_time_hour, value: dbus.v2ray_basic_node_update_hr || '3' ,suffix: ' &nbsp;&nbsp;通过V2ray代理更新节点信息' },
 						{ name: 'v2ray_basic_suburl_socks',type: 'checkbox',value: dbus.v2ray_basic_suburl_socks == 1 },
 						{ suffix: '<button id="_remove_sub_node" onclick="node_sub(\'v2ray_sub.sh\', 2 ,\'订阅节点\');" class="btn btn-success">删除订阅节点 <i class="icon-cancel"></i></button>' },
 						{ suffix: '<button id="_remove_all_node" onclick="node_sub(\'v2ray_sub.sh\', 1 ,\'所有节点\');" class="btn btn-success">清空所有节点 <i class="icon-disable"></i></button>' },

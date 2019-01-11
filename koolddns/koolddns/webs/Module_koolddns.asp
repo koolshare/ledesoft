@@ -17,8 +17,8 @@
 		var noChange = 0;
 		var x = 4;
 		var status_time = 1;
-		var option_dm_api = [['0', '阿里DDNS'], ['1', 'DNSPOD'], ['2', 'CloudXNS']];
-		var option_dm_api_name = ['阿里DDNS', 'DNSPOD', 'CloudXNS'];
+		var option_dm_api = [['0', '阿里DDNS'], ['1', 'DNSPOD'], ['2', 'CloudXNS'], ['3', 'Cloudflare'], ['4', 'Godaddy']];
+		var option_dm_api_name = ['阿里DDNS', 'DNSPOD', 'CloudXNS', 'Cloudflare', 'Godaddy'];
 		var option_dm_switch = [['0', '关闭'], ['1', '开启']];
 		var option_dm_switch_name = ['×', '√'];
 		var option_dm_mode = [['0', 'IPV4'], ['1', 'IPV6']];
@@ -207,14 +207,14 @@
 			this.init( 'koolddns_dm_pannel', '', 254, [
 			{ type: 'select',maxlen:2,options:option_dm_switch},
 			{ type: 'select',maxlen:2,options:option_dm_api},	//name
-			{ type: 'select',maxlen:10,options:option_wan_list},	//name
+			{ type: 'select',maxlen:20,options:option_wan_list},	//name
 			{ type: 'text',maxlen:20},	//name
 			{ type: 'text',maxlen:30},	//name
-			{ type: 'text',maxlen:20},	//name
-			{ type: 'text',maxlen:40},	//name
+			{ type: 'text',maxlen:100},	//name
+			{ type: 'text',maxlen:100},	//name
 			{ type: 'select',maxlen:20,options:option_dm_mode}	//control
 			] );
-			this.headerSet( [ '启用', 'DDNS服务商', '接口', '子域名', '主域名', 'Key或ID(短)', 'Secret或者Token(长)', '接口类型'] );						
+			this.headerSet( [ '启用', 'DDNS服务商', '接口', '子域名', '主域名', '校验码1', '校验码2', '接口类型'] );						
 			for ( var i = 1; i <= dbus["koolddns_dm_node_max"]; i++){
 				var t = [dbus["koolddns_dm_enable_" + i ], 
 						dbus["koolddns_dm_api_" + i ]  || "",
@@ -427,6 +427,18 @@
 			});
 		}
 
+		function toggleVisibility(whichone) {
+			if(E('sesdiv' + whichone).style.display=='') {
+				E('sesdiv' + whichone).style.display='none';
+				E('sesdiv' + whichone + 'showhide').innerHTML='<i class="icon-chevron-up"></i>';
+				cookie.set('adv_dhcpdns_' + whichone + '_vis', 0);
+			} else {
+				E('sesdiv' + whichone).style.display='';
+				E('sesdiv' + whichone + 'showhide').innerHTML='<i class="icon-chevron-down"></i>';
+				cookie.set('adv_dhcpdns_' + whichone + '_vis', 1);
+			}
+		}
+
 		function manipulate_conf(script, arg){
 			var dbus3 = {};
 			tabSelect("app3");
@@ -534,6 +546,19 @@
 				<table class="line-table" cellspacing=1 id="koolddns_dm_pannel"></table>
 			</div>
 			<br><hr>
+		</div>
+	</div>
+	<!-- ------------------ 帮助信息 --------------------- -->
+	<div class="box boxr1" id="koolddns_help_tab" style="margin-top: 0px;">
+		<div class="heading">设置说明 <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
+		<div class="section content" id="sesdivnotes" style="display:">
+				<li>阿里DNS：校验码1=【AccessKey ID】 校验码2=【Access Key Secret】;</li>
+				<li>DNSPOD：校验码1=【ID】校验码2=【Token】;</li>
+				<li>CloudXNS：校验码1=【api_key】校验码2=【secret_key】;</li>
+				<li>Cloudflare：校验码1=【Email】校验码2=【Key】;</li>
+				<li>Godaddy：校验码1=【API production key】校验码2=【API secret】;</li>
+				<li>阿里、Dnspod、Cloudflare无需预先在控制台添加要解析的子域名，插件会自动添加;</li>
+				<li>其它域名商需要先在控制台添加好子域名再使用插件更新解析;</li>
 		</div>
 	</div>
 	<!-- ------------------ 其它设置 --------------------- -->

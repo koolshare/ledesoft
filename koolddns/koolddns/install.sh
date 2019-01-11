@@ -5,7 +5,6 @@ source $KSROOT/scripts/base.sh
 eval `dbus export koolddns_`
 
 mkdir -p $KSROOT/init.d
-mkdir -p $KSROOT/koolddns
 cp -rf /tmp/koolddns/init.d/* $KSROOT/init.d/
 cp -rf /tmp/koolddns/scripts/* $KSROOT/scripts/
 cp -rf /tmp/koolddns/webs/* $KSROOT/webs/

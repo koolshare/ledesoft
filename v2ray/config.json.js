@@ -1,9 +1,9 @@
 {
-"version":"2.3.2",
-"md5":"b6bae0fc451401beaff0c0686ca56a96",
+"version":"2.3.3",
+"md5":"58d9a132aae6edf5b2ae1684d0986b35",
 "home_url":"Module_v2ray.asp",
 "title":"V2Ray",
 "description":"模块化的代理软件包",
-"changelog":"兼容新版配置",
-"build_date":"2019-01-10_20:20:39"
+"changelog":"增加进阶模式开关",
+"build_date":"2019-01-11_14:54:07"
 }

@@ -1,5 +1,10 @@
 Koolshare OpenWRT/LEDE V2ray plugin Changelog
 ===========================================
+2.3.3
+   - add	增加进阶模式开关；
+   - fix	修复自动更新订阅开关失效的问题；
+   - update	更新smartdns二进制到最新：Release 18；
+
 2.3.2
    - add	增加新版配置文件读取；
    - add	增加配置文件测试不通过日志显示详细信息；

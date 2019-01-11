@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=v2ray
-VERSION=2.3.2
+VERSION=2.3.3
 TITLE="V2Ray"
 DESCRIPTION="模块化的代理软件包"
 HOME_URL=Module_v2ray.asp
-CHANGELOG="兼容新版配置"
+CHANGELOG="增加进阶模式开关"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

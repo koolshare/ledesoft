@@ -246,15 +246,15 @@
             "version": "3.8.5"
         }, 
         {
-            "build_date": "2019-01-09_16:19:44", 
-            "changelog": "修复IPv6解析", 
+            "build_date": "2019-01-11_14:53:51", 
+            "changelog": "增加cloudflare", 
             "description": "动态域名解析工具", 
             "home_url": "Module_koolddns.asp", 
-            "md5": "0df157f040b1c9277d1a17e343db93c7", 
+            "md5": "e96af5f3425281a956c69fdded9691f8", 
             "name": "koolddns", 
             "tar_url": "koolddns/koolddns.tar.gz", 
             "title": "Koolddns", 
-            "version": "0.5"
+            "version": "0.6"
         }, 
         {
             "build_date": "2018-05-12_14:47:04", 
@@ -465,15 +465,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2019-01-10_20:20:39", 
-            "changelog": "兼容新版配置", 
+            "build_date": "2019-01-11_14:54:07", 
+            "changelog": "增加进阶模式开关", 
             "description": "模块化的代理软件包", 
             "home_url": "Module_v2ray.asp", 
-            "md5": "b6bae0fc451401beaff0c0686ca56a96", 
+            "md5": "58d9a132aae6edf5b2ae1684d0986b35", 
             "name": "v2ray", 
             "tar_url": "v2ray/v2ray.tar.gz", 
             "title": "V2Ray", 
-            "version": "2.3.2"
+            "version": "2.3.3"
         }, 
         {
             "build_date": "2018-07-01_17:38:34", 
