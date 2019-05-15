@@ -1,0 +1,9 @@
+{
+"version":"0.8.8",
+"md5":"ab7432a96012d6eec7b297a45e780150",
+"home_url":"Module_sgame.asp",
+"title":"游戏加速器",
+"description":"外服游戏解决方案",
+"changelog":"修复mac控制",
+"build_date":"2019-04-02_21:15:11"
+}

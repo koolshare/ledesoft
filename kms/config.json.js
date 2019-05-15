@@ -1,0 +1,9 @@
+{
+"version":"0.9",
+"md5":"b5fe5e2d99ae4694a7d3c1a3e42c8c7b",
+"home_url":"Module_kms.asp",
+"title":"KMS",
+"description":"巨硬套餐激活工具",
+"changelog":"升级bin到2018-10-20",
+"build_date":"2018-11-14_15:31:06"
+}

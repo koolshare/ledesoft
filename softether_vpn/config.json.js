@@ -1,0 +1,9 @@
+{
+"version":"1.1.2",
+"md5":"325ccc5fdd2024676c26dfec47057e00",
+"home_url":"Module_softether_vpn.asp",
+"title":"softether_vpn",
+"description":"VPN全家桶",
+"changelog":"支持2.30",
+"build_date":"2019-03-09_20:57:23"
+}

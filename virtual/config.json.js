@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"b6564647ad0179b48debd483b2f2cfd2",
+"home_url":"Module_virtual.asp",
+"title":"虚拟机助手",
+"description":"增强虚拟机操作系统性能",
+"changelog":"",
+"build_date":"2019-02-25_21:35:18"
+}

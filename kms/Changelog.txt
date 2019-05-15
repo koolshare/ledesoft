@@ -1,0 +1,5 @@
+Koolshare Asuswrt-Merlin KMS Changelog
+===========================================
+0.7
+   - add	add Changelogo.txt
+   - fix	fix port open issue when firewall restarted

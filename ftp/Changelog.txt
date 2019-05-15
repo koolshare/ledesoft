@@ -1,0 +1,4 @@
+Koolshare Asuswrt-Merlin ddnsto Changelog
+===========================================
+1.0.0
+   - add	add ddnsto support

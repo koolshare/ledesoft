@@ -1,0 +1,9 @@
+{
+"version":"0.2.3",
+"md5":"1db81c9a93ff2f4a7d6cc1d657c57eec",
+"home_url":"Module_docker.asp",
+"title":"Docker",
+"description":"轻量虚拟化应用程序",
+"changelog":"修复创建容器的错误",
+"build_date":"2019-02-12_22:32:00"
+}

@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"931ef3de97eb255cf0fed4b1f4bce4cc",
+"home_url":"Module_timewol.asp",
+"title":"定时唤醒",
+"description":"在指定时间唤醒设备",
+"changelog":"",
+"build_date":"2019-03-06_17:29:06"
+}

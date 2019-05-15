@@ -1,0 +1,6 @@
+[
+{"module": "udpspeeder", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
+{"module": "udp2raw", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
+{"module": "telespeedup", "git_source": "https://github.com/hikaruchang/telespeedup-koolsoft.git"},
+{"module": "qiandao", "git_source": "https://github.com/hikaruchang/qiandao-softcenter.git"}
+]

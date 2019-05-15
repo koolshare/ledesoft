@@ -1,0 +1,9 @@
+{
+"version":"2.4",
+"md5":"4613c1bcec6a85fc07a636f15b035b0c",
+"home_url":"Module_aria2.asp",
+"title":"Aria2",
+"description":"超酷的远程下载工具",
+"changelog":"支持2.30",
+"build_date":"2019-03-09_21:53:00"
+}

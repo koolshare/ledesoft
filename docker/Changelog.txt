@@ -1,0 +1,7 @@
+Koolshare OpenWRT/LEDE Docker plugin Changelog
+===========================================
+2.2.2
+   - add	增加镜像说明链接；
+   - modify	修改创建容器流程；
+   - modify	修改编辑容器流程；
+   - update	更新Docker二进制到最新：V18.09.1；
