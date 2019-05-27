@@ -99,15 +99,15 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2019-04-28_18:40:21", 
+            "build_date": "2019-05-27_20:04:44", 
             "changelog": "优化插件", 
             "description": "强大易用的全平台同步工具", 
             "home_url": "Module_easyexplorer.asp", 
-            "md5": "21d85aae435f2daf4a9e386d90921eae", 
+            "md5": "f990e93df6052473041513258237e566", 
             "name": "easyexplorer", 
             "tar_url": "easyexplorer/easyexplorer.tar.gz", 
             "title": "易有云 - EasyExplorer", 
-            "version": "1.3"
+            "version": "1.4"
         }, 
         {
             "build_date": "2019-03-02_16:54:35", 
