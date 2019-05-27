@@ -261,94 +261,94 @@
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
 !x  -----------------------------------------------------------------------------------------------------------------
-||avtbo.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||av.movie/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||gdmm.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||ad353.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||zhongzishenqi.pw/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||thzvv.*/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||ruanyifeng.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||itboth.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||itkeyword.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||pniao.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||uxxux.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||360-bo.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||cnforex.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||onlytvb.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+||avtbo.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||av.movie/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||gdmm.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||ad353.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||zhongzishenqi.pw/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||thzvv.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||ruanyifeng.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||itboth.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||itkeyword.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||pniao.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||uxxux.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||360-bo.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||cnforex.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||onlytvb.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 ||onlytvb.com/$s@</body>@<script>fuckcss('#photo-carousel')</script></body>@
-||dilidili.wang/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+||dilidili.wang/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 ||yxdown.com/$s@</body>@<script>fuckcss('#adv_1,.pic_show');</script></body>@
-||yxdown.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||epinv.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+||yxdown.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||epinv.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 ||epinv.com/$s@</body>@<script>fuckcss('.close:contains(关闭)');</script></body>@
-||39.net/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||xsjdy.net/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||youxijpw.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||eyy5.cn/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||yn-dove.cn/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||https://mydrivers.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-||https://cnbeta.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.zuixingkong.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.freep.cn/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.ixjys.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.rs05.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://news.163.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+||39.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||xsjdy.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||youxijpw.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||eyy5.cn/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||yn-dove.cn/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||https://mydrivers.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+||https://cnbeta.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.zuixingkong.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.freep.cn/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.ixjys.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.rs05.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://news.163.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://www.rs05.com/$s@</body>@<script>fuckcss('.item-third-dl,li:contains(家里没矿),li:contains(支付宝),.slideBox');</script></body>@
-|http://bbs.hh010.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://thz2.cc/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.52ghai.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://bbs.hh010.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://thz2.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.52ghai.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://www.52ghai.com/$s@</head>@<script>fuckcss('A[href="https://7449k.com/"]')</script></head>@
 |http://cpnn5.com:91/$s@</head>@<script>fuckcss('A[href="https://7449k.com/"]')</script></head>@
-|http://www.eroacg.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.friok.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.cjjjs.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.55xia.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://chromecj.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.ainuody.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://dm.dm530.net/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://www.eroacg.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.friok.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.cjjjs.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.55xia.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://chromecj.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.ainuody.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://dm.dm530.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://dm.dm530.net/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|http://m.biqu*.*/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.chnmoney.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.zimuzu.io/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://*btbtdy.*/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://m.biqu*.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.chnmoney.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.zimuzu.io/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://*btbtdy.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://m.biqu*.*/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|http://www.meijumi.vip/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://www.meijumi.vip/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://www.meijumi.vip/$s@</body>@<script>fuckcss('.dgd_stb_box.none')</script></body>@
-|http://www.avtbp.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://onetvb.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://www.avtbp.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://onetvb.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://onetvb.com/$s@</body>@<script>fuckcss('.photo-carousel,div#photo-carousel,img[src^="http://pan-yz.chaoxing.com/"]')</script></body>@
-|http://yeyemo.biz/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://www.jav777.cc/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|http://159i.com/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://yeyemo.biz/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://www.jav777.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|http://159i.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://159i.com/$s@</body>@<script>fuckcss('img[src^="https://159i.com/video/"],img[src^="/video/usr/uploads/bd/"],img[src^="//159i.com/video/usr/uploads/bd/"],img[src^="//img1.uploadhouse.com/"]')</script></body>@
-|http://www.xunbopian.cc/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|http://www.xunbopian.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |http://www.xunbopian.cc/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.avav336.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.bt121.net/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://99a18.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://cnbtkitty.xyz/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.onetvb.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.phb123.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://m.ankangwang.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.445zh.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://m.sbiquge.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://wangpan007.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.eyusky.net/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://cc.dety.men/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.1788hd.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.btdx8.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.coolinet.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://m.tywx.la/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|https://www.avav336.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.bt121.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://99a18.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://cnbtkitty.xyz/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.onetvb.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.phb123.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://m.ankangwang.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.445zh.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://m.sbiquge.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://wangpan007.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.eyusky.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://cc.dety.men/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.1788hd.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.btdx8.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.coolinet.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://m.tywx.la/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |https://m.tywx.la/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.lanzous.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://m.biquge5200.cc/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|https://www.lanzous.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://m.biquge5200.cc/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 |https://m.biquge5200.cc/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.tom024.com/$s@</head>@<script src="https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/AR.js"></script></head>@
-|https://xclient.info/$s@</head>@<script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=http://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.torrentkitty.se/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.imeiju.cc/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.chinatimes.com/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
-|https://www.wudidy.net/$s@</head>@<script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide_w.js></script><script src=https://dev.tencent.com/u/houzi-/p/hide_js/git/raw/master/hide.js charset=UTF-8></script></head>@
+|https://www.tom024.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
+|https://xclient.info/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.torrentkitty.se/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.imeiju.cc/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.chinatimes.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+|https://www.wudidy.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
 !x  -----------------------------------------------------------------------------------------------------------------
 www.freep.cn###divimg_2
 epinv.com##A[href*=".taobao.com"]

@@ -65,7 +65,10 @@ dbus set softcenter_module_koolproxy_description=koolproxy
 dbus set softcenter_module_koolproxy_install=1
 dbus set softcenter_module_koolproxy_home_url="Module_koolproxy.asp"
 dbus set softcenter_module_koolproxy_name=koolproxy
-dbus set softcenter_module_koolproxy_version=3.7.2
-dbus set koolproxy_version=3.7.2
+dbus set softcenter_module_koolproxy_version=3.8.5
+dbus set koolproxy_version=3.8.5
 
 [ "$koolproxy_enable" == "1" ] && sh $KSROOT/koolproxy/kp_config.sh restart
+
+exit 0
+
