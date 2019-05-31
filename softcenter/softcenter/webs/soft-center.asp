@@ -463,7 +463,7 @@ function getSoftCenter(obj){
 			locversion = obj["softcenter_version"];
 			$("#loading").hide();
 			$(".loader").show();
-			if (locversion != onlineversion) {
+			if (onlineversion && locversion != onlineversion) {
 				$("#update").show();
 					layer.open({
 						type: 1,
@@ -473,15 +473,14 @@ function getSoftCenter(obj){
 						shade: 0.8,
 						scrollbar: false,
 						id: 'LAY_layuipro',
-						btn: ['火速更新', '更新个毛'],
+						btn: ['立即更新', '下次更新'],
 						btnAlign: 'c',
 						moveType: 1,
 						content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">\
-									<b>欢迎来到koolshare软件中心！</b><br><br><br>\
-									如你所见，LEDE-X64软件中心又双叒叕更新了！<br>\
-									软件中心更新至' + re.version + '~<br><br>\
-									● 更新日志详情<a style="color:#33CCCC" target="_blank" href="https://github.com/koolshare/ledesoft/blob/master/softcenter/Changelog.txt">请戳我了解~</a><br>\
-									● 赶快更新吧，少年！<br><br>\
+									<b>欢迎来到koolshare 软件中心！</b><br><br><br>\
+									Openwrt/LEDE-X64软件中心又更新至' + re.version + '版本。<br><br>\
+									● 更新日志详情<a style="color:#33CCCC" target="_blank" href="https://github.com/koolshare/ledesoft/blob/master/softcenter/Changelog.txt">请点我了解~</a><br>\
+									● 建议使用chrome或者chrome内核浏览器，以保持最佳的兼容性！<br><br>\
 									我们的征途是星辰大海 ^_^</div>',
 						success: function(layero) {
 							var btn = layero.find('.layui-layer-btn');
@@ -809,7 +808,7 @@ function get_log(s){
 		},
 		error: function(xhr, status, error) {
 			if(s){
-				$('.popover').html('服务器出错，请稍候再试！');
+				$('.popover').html('日志获取出错，请稍候再试！');
 				changeButton(false);
 			}
 		}
