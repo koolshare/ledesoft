@@ -567,7 +567,7 @@ function getSoftCenter(obj){
 						bgimg1 = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
 						bgimg = '/res/icon-'+appname+'-bg.png';
 						appimg = '/res/icon-'+appname+'.png';
-						vhtml1 += '<div class="apps" style="background:url('+bgimg1+'), url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
+						vhtml1 += '<div class="apps" style="background:url('+bgimg1+'), url('+bgimg+');" >'+
 						'<a href="'+aurl+'" title="'+title+'\n'+description+'">'+
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg1+'" onerror="this.onerror=null;this.src=\'' + appimg + '\';"/></div>'+
@@ -583,7 +583,7 @@ function getSoftCenter(obj){
 						appimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+".png";
 						bgimg = softcenterUrl+"/softcenter/softcenter/webs/res/icon-"+appname+"-bg.png";
 						appButton = '<button type="button" value="'+appname+'" onclick="appinstall(this)" class="btn btn-primary">安装</button>';
-						vhtml2 += '<div title="'+title+'\n'+description+'" class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);">'+
+						vhtml2 += '<div title="'+title+'\n'+description+'" class="apps" style="background:url('+bgimg+');" >'+
 							'<div class="infos">'+
 								'<img class="appimg" src="'+appimg+'"/></div>'+
 								'<div class="app-name"><p>'+title+'</p>'+
@@ -644,7 +644,7 @@ function getLocalApp(obj){
 			appimg = "/res/icon-"+name+".png";
 			bgimg = "/res/icon-"+name+"-bg.png";
 			appButton = '<button type="button" value="'+name+'" onclick="appuninstall(this)" class="btn btn-danger">卸载</button>';
-			vhtml1 += '<div class="apps" style="background:url('+bgimg+');" onmouseover="change1(this);" onmouseout="change2(this);"><a href="'+aurl+'" title="'+name+'\n'+description+'"><div class="infos"><img class="appimg" src="'+appimg+'"/></div><div class="app-name"><p>'+name+'</p><p>'+description+'</p></div></a><div class="appDesc">'+appButton+'</div></div>';
+			vhtml1 += '<div class="apps" style="background:url('+bgimg+');"><a href="'+aurl+'" title="'+name+'\n'+description+'"><div class="infos"><img class="appimg" src="'+appimg+'"/></div><div class="app-name"><p>'+name+'</p><p>'+description+'</p></div></a><div class="appDesc">'+appButton+'</div></div>';
 		}  						
 	}
 	$("#app1-server1-basic-tab").html('<i class="icon-system"></i> 已安装（'+j+'）');
