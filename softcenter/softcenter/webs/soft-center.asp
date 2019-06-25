@@ -280,9 +280,9 @@ function change1(obj){
 	}
 	if(anmstatus != obj){
 		anmstatus = obj;
-		$(obj).stop().removeClass('animated flipInY').addClass('animated flipInY').one('animationend webkitAnimationEnd oAnimationEnd', function(){
-			$(obj).removeClass('animated flipInY');
-    	});	
+		// $(obj).stop().removeClass('animated flipInY').addClass('animated flipInY').one('animationend webkitAnimationEnd oAnimationEnd', function(){
+		// 	$(obj).removeClass('animated flipInY');
+    	// });	
 	}
 	$(obj).find('.appDesc').show();
 	$(obj).find('.app-name').width('130px');
