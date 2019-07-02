@@ -1,9 +1,9 @@
 #!/bin/sh
 
 MODULE="easyexplorer"
-VERSION="1.4"
+VERSION="1.5"
 TITLE="易有云 - EasyExplorer"
-DESCRIPTION="强大易用的全平台同步工具"
+DESCRIPTION="强大易用的全平台同步工具,支持双向同步！"
 HOME_URL="Module_easyexplorer.asp"
 CHANGELOG="优化插件"
 
