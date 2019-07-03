@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="easyexplorer"
-VERSION="1.5"
+VERSION="1.6"
 TITLE="易有云 - EasyExplorer"
 DESCRIPTION="强大易用的全平台同步工具,支持双向同步！"
 HOME_URL="Module_easyexplorer.asp"
