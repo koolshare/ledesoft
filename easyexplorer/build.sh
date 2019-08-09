@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE="easyexplorer"
-VERSION="1.6"
+VERSION="1.7"
 TITLE="易有云 - EasyExplorer"
 DESCRIPTION="强大易用的全平台同步工具,支持双向同步！"
 HOME_URL="Module_easyexplorer.asp"
-CHANGELOG="优化插件"
+CHANGELOG="更新二进制版本"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
