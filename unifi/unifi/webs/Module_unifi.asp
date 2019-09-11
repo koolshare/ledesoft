@@ -238,7 +238,7 @@ No part of this file may be used without permission.
 					{ title: '开启', name:'unifi_enable',type:'checkbox',value: dbus.unifi_enable == 1 },
 					{ title: '运行状态', text: '<font id="_unifi_status" name=_unifi_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '只安装Debian系统', name:'unifi_debian',type:'checkbox',value: dbus.unifi_debian == 1 },
-					{ title: '安装目录', name:'unifi_on_disk',type:'text',size: 60, value: dbus.unifi_on_disk ||'/mnt/sdb1/debian' ,suffix: '选择空闲空间大于5G的硬盘' },
+					{ title: '安装目录', name:'unifi_on_disk',type:'text',size: 60, value: dbus.unifi_on_disk ||'/mnt/sdb1' ,suffix: '选择空闲空间大于5G的硬盘' },
 					{ title: 'Unifi控制器版本', name: 'unifi_mode', type: 'select', options: option_auth, value: dbus.unifi_mode },
 					{ title: 'Unifi控制器', multi: [ 
 						{ name:'update_unifi',suffix: ' <button id="_update_now" onclick="update_unifi(1);" class="btn btn-primary">检查升级</button>' },
