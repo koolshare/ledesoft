@@ -176,15 +176,15 @@
             "version": "1.1.2"
         }, 
         {
-            "build_date": "2019-04-06_23:16:02", 
-            "changelog": "升级Debian版本", 
+            "build_date": "2019-09-11_11:52:51", 
+            "changelog": "安装目录自定义", 
             "description": "Debian系统和Unifi控制器", 
             "home_url": "Module_unifi.asp", 
-            "md5": "5564e7b29d95e2e69f43d92f57fc6496", 
+            "md5": "272c2c494d9950e9984e1599520feee0", 
             "name": "unifi", 
             "tar_url": "unifi/unifi.tar.gz", 
             "title": "Unifi Controller", 
-            "version": "0.8"
+            "version": "0.9"
         }, 
         {
             "build_date": "2019-03-10_11:29:50", 

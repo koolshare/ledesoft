@@ -39,14 +39,7 @@ No part of this file may be used without permission.
 			  	dataType: "json",
 			  	async:false,
 			 	success: function(data){
-			 	dbus = data.result[0];
-			  	$("#_unifi_on_disk").find('option').remove().end();
-				for ( var i = 1; i <= dbus["unifi_disk_nu"]; ++i ) {
-					//if (dbus["unifi_disk_type_" + i] == "ext2" || dbus["unifi_disk_type_" + i] == "ext3" || dbus["unifi_disk_type_" + i] == "ext4" ){
-						$("#_unifi_on_disk").append("<option value='" + dbus["unifi_disk_mount_" + i] + "/debian" + "'>" + dbus["unifi_disk_mount_" + i] + "/debian   空闲空间：" + dbus["unifi_disk_free_" + i] + "</option>");
-					//}
-				}
-				(dbus["unifi_on_disk"]) && $("#_unifi_on_disk").val(dbus["unifi_on_disk"]);
+          dbus = data.result[0];
 				}
 			});
 		}
@@ -197,18 +190,11 @@ No part of this file may be used without permission.
 			E('save-button').disabled = true;
 			// collect basic data
 			var para_chk = ["unifi_enable","unifi_debian"];
-			var para_inp = ["unifi_on_disk","unifi_mode"];
+			dbus.unifi_on_disk = E('_unifi_on_disk').value;
+			dbus.unifi_mode = E('_unifi_mode').value;
 			// collect data from checkbox
 			for (var i = 0; i < para_chk.length; i++) {
 				dbus[para_chk[i]] = E('_' + para_chk[i] ).checked ? '1':'0';
-			}
-			// data from other element
-			for (var i = 0; i < para_inp.length; i++) {
-				if (!E('_' + para_inp[i] ).value){
-					dbus[para_inp[i]] = "";
-				}else{
-					dbus[para_inp[i]] = E('_' + para_inp[i]).value;
-				}
 			}
 			// post data
 			var id2 = parseInt(Math.random() * 100000000);
@@ -252,7 +238,7 @@ No part of this file may be used without permission.
 					{ title: '开启', name:'unifi_enable',type:'checkbox',value: dbus.unifi_enable == 1 },
 					{ title: '运行状态', text: '<font id="_unifi_status" name=_unifi_status color="#1bbf35">正在检查运行状态...</font>' },
 					{ title: '只安装Debian系统', name:'unifi_debian',type:'checkbox',value: dbus.unifi_debian == 1 },
-					{ title: '安装目录', name:'unifi_on_disk',type:'select', options:[], value: dbus.unifi_on_disk ,suffix: '选择空闲空间大于5G的硬盘' },
+					{ title: '安装目录', name:'unifi_on_disk',type:'text',size: 60, value: dbus.unifi_on_disk ||'/mnt/sdb1/debian' ,suffix: '选择空闲空间大于5G的硬盘' },
 					{ title: 'Unifi控制器版本', name: 'unifi_mode', type: 'select', options: option_auth, value: dbus.unifi_mode },
 					{ title: 'Unifi控制器', multi: [ 
 						{ name:'update_unifi',suffix: ' <button id="_update_now" onclick="update_unifi(1);" class="btn btn-primary">检查升级</button>' },
