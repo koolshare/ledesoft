@@ -208,15 +208,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2019-01-12_11:37:17", 
-            "changelog": "修复导致ui错位的bug", 
+            "build_date": "2020-01-03_15:50:29", 
+            "changelog": "更新dnspod API", 
             "description": "动态域名解析工具", 
             "home_url": "Module_koolddns.asp", 
-            "md5": "4f3c9ddd36e319db8822e42c2547e067", 
+            "md5": "b01c12c5d4f174f155e7aa34f480f0bc", 
             "name": "koolddns", 
             "tar_url": "koolddns/koolddns.tar.gz", 
             "title": "Koolddns", 
-            "version": "0.6.1"
+            "version": "0.6.2"
         }, 
         {
             "build_date": "2018-05-12_14:47:04", 

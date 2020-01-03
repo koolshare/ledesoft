@@ -1,9 +1,9 @@
 {
-"version":"0.6.1",
-"md5":"4f3c9ddd36e319db8822e42c2547e067",
+"version":"0.6.2",
+"md5":"b01c12c5d4f174f155e7aa34f480f0bc",
 "home_url":"Module_koolddns.asp",
 "title":"Koolddns",
 "description":"动态域名解析工具",
-"changelog":"修复导致ui错位的bug",
-"build_date":"2019-01-12_11:37:17"
+"changelog":"更新dnspod API",
+"build_date":"2020-01-03_15:50:29"
 }
