@@ -44,6 +44,7 @@ open_close_port(){
 	iptables -D INPUT -p tcp --dport 5555 -j ACCEPT > /dev/null 2>&1
 	iptables -D INPUT -p tcp --dport 8888 -j ACCEPT > /dev/null 2>&1
 	iptables -D INPUT -p tcp --dport 992 -j ACCEPT > /dev/null 2>&1
+	iptables -D INPUT -p udp --dport 40000:44999 -j ACCEPT > /dev/null 2>&1
 	sleep 2
 	# add	
 	if [ "$softether_enable" == "1" ] && [ "$softether_l2tp" == "1" ];then
@@ -66,6 +67,7 @@ open_close_port(){
 		iptables -I INPUT -p tcp --dport 5555 -j ACCEPT > /dev/null 2>&1
 		iptables -I INPUT -p tcp --dport 8888 -j ACCEPT > /dev/null 2>&1
 		iptables -I INPUT -p tcp --dport 992 -j ACCEPT > /dev/null 2>&1
+		iptables -I INPUT -p udp --dport 40000:44999 -j ACCEPT > /dev/null 2>&1
 	fi
 }
 
