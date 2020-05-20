@@ -38,7 +38,7 @@ get_keep_status(){
 
 update_firmware(){
 	dbus set fwupdate_enforce="0"
-	/sbin/sysupgrade -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
+	/sbin/sysupgrade -F -v $(get_keep_mode $fwupdate_keep) /tmp/$fwfile
 }
 
 download_firmware(){
