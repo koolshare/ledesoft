@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=koolddns
-VERSION=0.6.2
+VERSION=0.6.3
 TITLE="Koolddns"
 DESCRIPTION=动态域名解析工具
 HOME_URL=Module_koolddns.asp
-CHANGELOG="更新dnspod API"
+CHANGELOG="修复cloudflare API"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"

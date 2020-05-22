@@ -208,15 +208,15 @@
             "version": "1.0"
         }, 
         {
-            "build_date": "2020-01-03_15:50:29", 
-            "changelog": "更新dnspod API", 
+            "build_date": "2020-05-22_21:49:11", 
+            "changelog": "修复cloudflare API", 
             "description": "动态域名解析工具", 
             "home_url": "Module_koolddns.asp", 
-            "md5": "b01c12c5d4f174f155e7aa34f480f0bc", 
+            "md5": "3d5e0815bda5ce0dc0b470c18f0e572f", 
             "name": "koolddns", 
             "tar_url": "koolddns/koolddns.tar.gz", 
             "title": "Koolddns", 
-            "version": "0.6.2"
+            "version": "0.6.3"
         }, 
         {
             "build_date": "2018-05-12_14:47:04", 
