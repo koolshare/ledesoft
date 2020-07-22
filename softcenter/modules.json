@@ -1,4 +1,5 @@
 [
+{"module": "linkease", "git_source": "https://github.com/koolshare/ledesoft-linkease.git"},
 {"module": "udpspeeder", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
 {"module": "udp2raw", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
 {"module": "speedup", "git_source": "https://github.com/QinFanhua/speedup-koolsoft.git"},
