@@ -1,4 +1,4 @@
-<title>签到狗2.0</title>
+<title>签到狗3.0</title>
 <content>
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/tomato.js"></script>
@@ -17,6 +17,7 @@
 	</style>
 	<script type="text/javascript">
 		var noChange = 0;
+		var lan_ipaddr = "<% uci set network.lan.ipaddr; %>"
 		var _responseLen;
 		var dbus = {};
 		var option_web_name = [
@@ -193,7 +194,7 @@
 		}
 
 		function set_version() {
-			$('#_qiandao_version').html('<font color="#1bbf35">签到狗 V2.0</font>');
+			$('#_qiandao_version').html('<font color="#1bbf35">签到狗 V3.0</font>');
 		}
 
 		function calculate_max_node() {
@@ -235,7 +236,7 @@
 
 		function conf2obj() {
 			E("_autocheckin_enable").checked = dbus["autocheckin_enable"] == 1 ? true : false;
-			E("_autocheckin_hour").value = dbus["autocheckin_hour"];
+			//E("_autocheckin_hour").value = dbus["autocheckin_hour"];
 		}
 
 		function get_run_status() {
@@ -352,12 +353,12 @@
 
 		function save() {
 			// collect normal dataToView
-			if(!E("_autocheckin_hour").value){
-				alert("你尚未设置签到时间！");
-				return false;
-			}
+			//if(!E("_autocheckin_hour").value){
+			//	alert("你尚未设置签到时间！");
+			//	return false;
+			//}
 			dbus["autocheckin_enable"] = E("_autocheckin_enable").checked ? "1" : "0";
-			dbus["autocheckin_hour"] = E("_autocheckin_hour").value;
+			//dbus["autocheckin_hour"] = E("_autocheckin_hour").value;
 
 			// collect data from table2
 			var table2_conf = ["autocheckin_user_name_", "autocheckin_user_cookie_"];
@@ -377,11 +378,7 @@
 						dbus[table2_conf[j] + (i + 1)] = Base64.encode(data[i][j]);
 					}
 				}
-			}else{
-				alert("你尚未定义任何cookie！");
-				//return false;
 			}
-			// now post data
 			postdata("autocheckin_config.sh", dbus)
 		}
 
@@ -479,10 +476,10 @@
 					return false;
 				}
 			});
-		}		
-
+		}
+		
 		function join_qq(){
-			window.open("https://jq.qq.com/?_wv=1027&k=5RiTrKC");
+			window.open("https://jq.qq.com/?_wv=1027&k=SzDu4lhG");
 		}		
 		
 	</script>
@@ -494,7 +491,7 @@
 		</div>
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
-				每日签到，张大妈笑哈哈！这也是一款全新的签到插件，谁用谁知道，(￣▽￣)"！
+				签到狗3.0，这也是一款全新的收费签到插件，谁用谁知道，(￣▽￣)"！
 			</span>
 		</div>	
 	</div>
@@ -505,7 +502,7 @@
 			<div id="qiandao_switch_pannel" class="section" style="margin-top: -20px;"></div>
 			<script type="text/javascript">
 				$('#qiandao_switch_pannel').forms([
-					{ title: '开启自动签到', name:'autocheckin_enable',type:'checkbox',value: "" }
+					{ title: '运行签到狗', name:'autocheckin_enable',type:'checkbox',value: "" }
 				]);
 			</script>
 			<hr />
@@ -519,8 +516,7 @@
 	</div>	
 	<!-- ------------------ 标签页 --------------------- -->
 	<ul id="pbr_tabs" class="nav nav-tabs">
-		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" ><i class="icon-system"></i> 基本设置</a></li>
-		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" ><i class="icon-globe"></i> 站点选择</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" ><i class="icon-warning"></i> 基本设置</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" ><i class="icon-info"></i> 运行日志</a></li>
 	</ul>
 	<div class="box boxr1" id="_qiandao_settings" style="margin-top: 15px;">
@@ -530,9 +526,10 @@
 				$('#identification').forms([
 					//{ title: '开启自动签到', name:'autocheckin_enable',type:'checkbox',value: "" },
 					//{ title: '运行状态', text: '<font id="_autocheckin_status" name=_autocheckin_status color="#1bbf35">正在检查运行状态...</font>' },
-					{ title: '签到时间', name: 'autocheckin_hour', type: 'select', options: option_cru_hour, value: "" },
-					{ title: '一键签到', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键签到 <i class="icon-cloud"></i></button>'},
-					{ title: '交流反馈', suffix: '<button id="join_qq" onclick="join_qq();" class="btn btn-danger">加入QQ群 <i class="icon-tools"></li></button>'}
+					//{ title: '签到时间', name: 'autocheckin_hour', type: 'select', options: option_cru_hour, value: "" },
+					//{ title: '一键签到', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键签到 <i class="icon-cloud"></i></button>'},
+					{ title: 'WEB控制台',  name: 'linkease_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":9930" + '/ target="_blank"><u>http://'  + location.hostname + ":9930" + '</u></a>'},
+					{ title: '交流反馈', suffix: '<button id="join_qq" onclick="join_qq();" class="btn btn-danger">加入QQ群 <i class="icon-tools"></i></button>'}
 				]);
 			</script>
 		</div>
@@ -540,7 +537,7 @@
 	<div id="pbr_basic_readme" class="box boxr1" style="margin-top: 15px;">
 	<div class="heading">自动签到说明： <a class="pull-right" data-toggle="tooltip" title="Hide/Show Notes" href="javascript:toggleVisibility('notes');"><span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></div>
 	<div class="section content" id="sesdivnotes" style="display:">
-			<li> 为了避免每天自动签到的时间一样，自动任务将在设置的时间1-30分钟分钟内随机执行。</li>
+			<li> 为了避免每天自动签到的时间一样，自动签到程序将设置的时间1-30分钟分钟内随机执行。</li>
 			<li> 支持同一个站点多个账号进行同时签到。</li>
 			<li><font color="red"> 注意！保存自己的Cookie，防止泄露出去。</font></li>
 			<li><font color="red"> Cookie是有时效性的，需重新获取Cookie。</font></li>

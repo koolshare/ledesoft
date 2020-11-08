@@ -1,9 +1,9 @@
 {
-"version":"1.2",
-"md5":"b412b6742fd02e0d9f50ba84a7d1d036",
+"version":"1.3",
+"md5":"67cfe883a12efc1346dc74627711c31f",
 "home_url":"Module_autocheckin.asp",
-"title":"签到狗2.0",
+"title":"签到狗3.0",
 "description":"每日批量自动签到",
-"changelog":"修复读取cookie错误",
-"build_date":"2019-03-28_12:47:23"
+"changelog":"上线全新3.0版本",
+"build_date":"2020-11-08_19:44:13"
 }

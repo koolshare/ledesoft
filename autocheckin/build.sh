@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE="autocheckin"
-VERSION="1.2"
-TITLE="签到狗2.0"
+VERSION="1.3"
+TITLE="签到狗3.0"
 DESCRIPTION="每日批量自动签到"
 HOME_URL="Module_autocheckin.asp"
-CHANGELOG="修复读取cookie错误"
+CHANGELOG="上线全新3.0版本"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
