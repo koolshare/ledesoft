@@ -17,10 +17,10 @@
 	</style>
 	<script type="text/javascript">
 		var noChange = 0;
-		var lan_ipaddr = "<% uci set network.lan.ipaddr; %>"
+//		var lan_ipaddr = "<% uci set network.lan.ipaddr; %>"
 		var _responseLen;
 		var dbus = {};
-		var option_web_name = [
+/*		var option_web_name = [
 			['baidu', 'baidu'],
 			['v2ex', 'v2ex'],
 			['hostloc', 'hostloc'],
@@ -40,7 +40,8 @@
 			['huawei', 'huawei'],
 			['jd', 'jd']
 		];
-		var table2_node_nu;
+*/		
+//		var table2_node_nu;
 		var softcenter = 0;
 		var option_cru_hour = [];
 		for (var i = 0; i < 24; i++) {
@@ -151,9 +152,9 @@
 					return t
 				}
 			}
-		}
+		}		
 		var table2 = new TomatoGrid();
-
+/*
 		table2.dataToView = function(data, i) {
 			return [data[0], data[1]];
 		}
@@ -163,7 +164,8 @@
 			f[0].value = '';
 			f[1].value = '';
 		}
-		table2.setup = function() {
+*/		
+/*		table2.setup = function() {
 			this.init('table_2_grid', '', 500, [
 				{ type: 'select', size: 4, options: option_web_name, value: '' },
 				{ type: 'text' }
@@ -179,7 +181,7 @@
 			this.showNewEditor();
 			this.resetNewEditor();
 		}
-
+*/
 		function init_autocheckin() {
 			get_dbus_data();
 			tabSelect("app1");
@@ -196,7 +198,7 @@
 		function set_version() {
 			$('#_qiandao_version').html('<font color="#1bbf35">签到狗 V3.0</font>');
 		}
-
+/*
 		function calculate_max_node() {
 			//--------------------------------------
 			// count table3 line data nu
@@ -217,7 +219,7 @@
 			table2_node_nu = tmp_2.length;
 			table2.setup();
 		}
-
+*/
 		function get_dbus_data() {
 			$.ajax({
 				type: "GET",
@@ -227,7 +229,7 @@
 				success: function(data) {
 					dbus = data.result[0];
 					//console.log(dbus);
-					calculate_max_node();
+					//calculate_max_node();
 					//get_wans_list();
 					conf2obj();
 				}
@@ -361,16 +363,19 @@
 			//dbus["autocheckin_hour"] = E("_autocheckin_hour").value;
 
 			// collect data from table2
-			var table2_conf = ["autocheckin_user_name_", "autocheckin_user_cookie_"];
+			//var table2_conf = ["autocheckin_user_name_", "autocheckin_user_cookie_"];
 			// mark all data for delete first
+			/*
 			for (var i = 1; i <= table2_node_nu; i++) {
 				for (var j = 0; j < table2_conf.length; ++j) {
 					dbus[table2_conf[j] + i] = ""
 				}
 			}
+			*/
 			//now save table2 data to object dbus
-			var data = table2.getAllData();
-			console.log(data);
+			//var data = table2.getAllData();
+			//console.log(data);
+			/*
 			if (data.length > 0) {
 				for (var i = 0; i < data.length; ++i) {
 					dbus[table2_conf[0] + (i + 1)] = data[i][0];
@@ -379,10 +384,11 @@
 					}
 				}
 			}
+			*/
 			postdata("autocheckin_config.sh", dbus)
 		}
 
-		function qiandao_now(arg){
+		function node_opkg(arg){
 			if (arg == 5){
 				shellscript = 'autocheckin_config.sh';
 			}
@@ -477,6 +483,66 @@
 				}
 			});
 		}
+
+		function cookie_backup(script, arg){
+			tabSelect("app3");
+			var id = parseInt(Math.random() * 100000000);
+			var postData = {"id": id, "method": script, "params":[arg], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					console.log("id", id);
+					console.log("response", response);
+					if (response.result == id){
+						if (arg == 1){
+							console.log("333");
+							var a = document.createElement('A');
+							a.href = "/files/signdog.tar.gz";
+							a.download = 'signdog_config.tar.gz';
+							document.body.appendChild(a);
+							a.click();
+							document.body.removeChild(a);
+						}else if (arg == 2){
+							setTimeout("window.location.reload()", 1000);
+						}
+					}
+				}
+			});
+		}
+		function restore_cookie(){
+			var filename = $("#file").val();
+			filename = filename.split('\\');
+			filename = filename[filename.length-1];
+			var filelast = filename.split('.');
+			filelast = filelast[filelast.length-1];
+			if(filelast !='gz'){
+				alert('恢复文件格式不正确！');
+				return false;
+			}
+			var formData = new FormData();
+			formData.append('signdog_config.tar.gz', $('#file')[0].files[0]);
+			$('.popover').html('正在恢复，请稍后……');
+			//changeButton(true);
+			$.ajax({
+				url: '/_upload',
+				type: 'POST',
+				async: true,
+				cache:false,
+				data: formData,
+				processData: false,
+				contentType: false,
+				complete:function(res){
+					if(res.status==200){
+						cookie_backup('signdog_config.sh', 2);
+					}
+				}
+			});
+		}
 		
 		function join_qq(){
 			window.open("https://jq.qq.com/?_wv=1027&k=SzDu4lhG");
@@ -517,6 +583,7 @@
 	<!-- ------------------ 标签页 --------------------- -->
 	<ul id="pbr_tabs" class="nav nav-tabs">
 		<li><a href="javascript:void(0);" onclick="tabSelect('app1');" id="app1-tab" class="active" ><i class="icon-warning"></i> 基本设置</a></li>
+		<li><a href="javascript:void(0);" onclick="tabSelect('app2');" id="app2-tab" ><i class="icon-tools"></i> 数据备份</a></li>
 		<li><a href="javascript:void(0);" onclick="tabSelect('app3');" id="app3-tab" ><i class="icon-info"></i> 运行日志</a></li>
 	</ul>
 	<div class="box boxr1" id="_qiandao_settings" style="margin-top: 15px;">
@@ -527,8 +594,9 @@
 					//{ title: '开启自动签到', name:'autocheckin_enable',type:'checkbox',value: "" },
 					//{ title: '运行状态', text: '<font id="_autocheckin_status" name=_autocheckin_status color="#1bbf35">正在检查运行状态...</font>' },
 					//{ title: '签到时间', name: 'autocheckin_hour', type: 'select', options: option_cru_hour, value: "" },
-					//{ title: '一键签到', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键签到 <i class="icon-cloud"></i></button>'},
+					//{ title: 'node环境', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键安装 <i class="icon-cloud"></i></button>'},
 					{ title: 'WEB控制台',  name: 'linkease_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":9930" + '/ target="_blank"><u>http://'  + location.hostname + ":9930" + '</u></a>'},
+					{ title: 'node环境', suffix: '<button id="node_opkg" onclick="node_opkg(5);" class="btn btn-success">一键安装 <i class="icon-cloud"></i></button>'},
 					{ title: '交流反馈', suffix: '<button id="join_qq" onclick="join_qq();" class="btn btn-danger">加入QQ群 <i class="icon-tools"></i></button>'}
 				]);
 			</script>
@@ -544,12 +612,26 @@
 	</div>
 	</div>
 	<!-- ------------------ 表格2--------------------- -->
+<!-----
 	<div class="box boxr2" id="table_2" style="margin-top: 15px;">
 		<div class="content">
 			<div class="tabContent">
 				<table class="line-table" cellspacing="1" id="table_2_grid">
 				</table>
 			</div>
+		</div>
+	</div>
+------>	
+	<div class="box boxr2">
+		<div class="heading"></div>
+		<div class="content">
+			<div id="signdog_backup" class="section"></div>
+			<script type="text/javascript">
+				$('#signdog_backup').forms([
+					{ title: 'Cookie备份', suffix: '<button onclick="cookie_backup(\'signdog_config.sh\', 1);" class="btn btn-success">Cookie备份 <i class="icon-download"></i></button>' },
+					{ title: 'Cookie恢复', suffix: '<input type="file" id="file" size="50">&nbsp;&nbsp;<button id="upload1" type="button"  onclick="restore_cookie();" class="btn btn-danger">上传并恢复 <i class="icon-cloud"></i></button>' }
+				]);
+			</script>
 		</div>
 	</div>
 	<!-- ------------------ 查看日志 --------------------- -->

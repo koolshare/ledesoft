@@ -13,6 +13,7 @@ done
 
 sleep 1
 rm -rf $KSROOT/scripts/autocheckin*
+rm -rf $KSROOT/scripts/signdog_*
 rm -rf $KSROOT/init.d/S95autocheckin.sh
 rm -rf $KSROOT/autocheckin
 rm -rf $KSROOT/webs/Module_autocheckin.asp

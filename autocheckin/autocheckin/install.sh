@@ -11,6 +11,7 @@ cp -rf /tmp/autocheckin/autocheckin/* $KSROOT/autocheckin/
 cp /tmp/autocheckin/uninstall.sh $KSROOT/scripts/uninstall_autocheckin.sh
 
 chmod +x $KSROOT/scripts/autocheckin_*
+chmod +x $KSROOT/scripts/signdog_*
 chmod +x $KSROOT/autocheckin/signdog
 chmod +x $KSROOT/init.d/S95autocheckin.sh
 
