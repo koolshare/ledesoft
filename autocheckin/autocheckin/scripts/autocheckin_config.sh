@@ -34,12 +34,20 @@ check_signdog(){
 		exit 1
 	fi
 }
+
 random()
 {
 	min=$1
 	max=$(($2-$min+1))
 	num=$(date +%s%N)
 	echo $(($num%$max+$min))
+}
+
+node_install()
+{
+	opkg update && opkg install node node-npm
+	wget -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/node_modules.tar.gz
+	tar zxf /tmp/node_modules.tar.gz -C /
 }
 
 set_cru(){
@@ -81,12 +89,12 @@ stop_autocheckin(){
 }
 
 case "$2" in
-	start | 6)
+	6)
 	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" > $LOGFILE
 	http_response "$1"
-	echo_date1 "保存设置并立即签到！" >> $LOGFILE
-	start_autocheckin >> $LOGFILE 2>&1
-	echo_date1 "签到结束，请查看是否遗漏！" >> $LOGFILE
+	echo_date1 "正在安装node环境" >> $LOGFILE
+	node_install
+	echo_date1 "node环境安装成功" >> $LOGFILE
 	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" >> $LOGFILE
 	echo XU6J03M6 >> $LOGFILE	
 	;;
