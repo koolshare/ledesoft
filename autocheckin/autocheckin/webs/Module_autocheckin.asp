@@ -410,7 +410,31 @@
 				}
 			});
 			reload = 1;			
-		}	
+		}
+
+		function bin_update(arg){
+			if (arg == 4){
+				shellscript = 'autocheckin_config.sh';
+			}
+			var id = parseInt(Math.random() * 100000000);
+			var postData = {"id": id, "method": shellscript, "params":[7], "fields": ""};
+			$.ajax({
+				type: "POST",
+				url: "/_api/",
+				async: true,
+				cache:false,
+				data: JSON.stringify(postData),
+				dataType: "json",
+				success: function(response){
+					if(response.result == id){
+						tabSelect("app3");
+						setTimeout("window.location.reload()", 10000);
+						return true;
+					}
+				}
+			});
+			reload = 1;			
+		}		
 		
 		function postdata(script, obj) {
 			var id = parseInt(Math.random() * 100000000);
@@ -595,7 +619,8 @@
 					//{ title: '运行状态', text: '<font id="_autocheckin_status" name=_autocheckin_status color="#1bbf35">正在检查运行状态...</font>' },
 					//{ title: '签到时间', name: 'autocheckin_hour', type: 'select', options: option_cru_hour, value: "" },
 					//{ title: 'node环境', suffix: '<button id="qiandao_now" onclick="qiandao_now(5);" class="btn btn-success">一键安装 <i class="icon-cloud"></i></button>'},
-					{ title: 'WEB控制台',  name: 'linkease_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":9930" + '/ target="_blank"><u>http://'  + location.hostname + ":9930" + '</u></a>'},
+					{ title: 'WEB控制台',  name: 'signdog_web',text: ' &nbsp;&nbsp;<a href=http://' + location.hostname + ":9930" + '/ target="_blank"><u>http://'  + location.hostname + ":9930" + '</u></a>'},
+					{ title: '主程序更新', suffix: '<button id="bin_update" onclick="bin_update(4);" class="btn btn-success">一键更新 <i class="icon-download"></i></button>'},
 					{ title: 'node环境', suffix: '<button id="node_opkg" onclick="node_opkg(5);" class="btn btn-success">一键安装 <i class="icon-cloud"></i></button>'},
 					{ title: '交流反馈', suffix: '<button id="join_qq" onclick="join_qq();" class="btn btn-danger">加入QQ群 <i class="icon-tools"></i></button>'}
 				]);

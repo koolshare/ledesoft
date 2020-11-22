@@ -45,9 +45,30 @@ random()
 
 node_install()
 {
-	opkg update && opkg install node node-npm
-	wget -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/node_modules.tar.gz
+	rm -rf /tmp/node*
+	wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node_v12.19.0-1_x86_64.ipk -O /tmp/node_v12.19.0-1_x86_64.ipk
+	wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node-npm_v12.19.0-1_x86_64.ipk -O /tmp/node-npm_v12.19.0-1_x86_64.ipk
+	cd /tmp;opkg update && opkg install node_v12.19.0-1_x86_64.ipk node-npm_v12.19.0-1_x86_64.ipk --force-depends
+	wget -c -q -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/node_modules.tar.gz -O /tmp/node_modules.tar.gz
 	tar zxf /tmp/node_modules.tar.gz -C /
+	rm -rf /tmp/node*
+}
+
+bin_update()
+{
+	wget -c -q -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog.md5 -O /tmp/signdog.md5
+	online_bin=`cat /tmp/signdog.md5 | awk '{print $1}'`
+	local_bin=`md5sum /koolshare/autocheckin/signdog | awk '{print $1}'`
+
+	if [ "$online_bin" == "$local_bin" ]; then
+		echo_date1 "线上版本与本地版本相同，不更新！" >> $LOGFILE
+	else
+		echo_date1 "线上版本与本地版本不一致，更新开始......" >> $LOGFILE
+		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog -O /koolshare/autocheckin/signdog
+		echo_date1 "签到狗主程序更新完毕！" >> $LOGFILE
+	fi
+	rm -rf /tmp/signdog.md5
+	chmod +x $KSROOT/autocheckin/signdog
 }
 
 set_cru(){
@@ -78,7 +99,7 @@ save_config(){
 
 start_autocheckin(){
 #	echo_date1 "立即开始签到..."
-	cd $KSROOT/autocheckin && ./signdog >/dev/null 2>&1 &
+	cd $KSROOT/autocheckin && ./signdog -addr=0.0.0.0 >/dev/null 2>&1 &
 }
 
 stop_autocheckin(){
@@ -98,6 +119,16 @@ case "$2" in
 	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" >> $LOGFILE
 	echo XU6J03M6 >> $LOGFILE	
 	;;
+	7)
+	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" > $LOGFILE
+	http_response "$1"
+	echo_date1 "正在更新签到狗主程序......" >> $LOGFILE
+	bin_update
+	stop_autocheckin
+	start_autocheckin
+	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" >> $LOGFILE
+	echo XU6J03M6 >> $LOGFILE	
+	;;	
 	*)
 	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" > $LOGFILE
 	http_response "$1"
