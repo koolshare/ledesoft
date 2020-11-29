@@ -46,11 +46,18 @@ random()
 node_install()
 {
 	rm -rf /tmp/node*
-	wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node_v12.19.0-1_x86_64.ipk -O /tmp/node_v12.19.0-1_x86_64.ipk
-	wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node-npm_v12.19.0-1_x86_64.ipk -O /tmp/node-npm_v12.19.0-1_x86_64.ipk
-	cd /tmp;opkg update && opkg install node_v12.19.0-1_x86_64.ipk node-npm_v12.19.0-1_x86_64.ipk --force-depends
-	wget -c -q -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/node_modules.tar.gz -O /tmp/node_modules.tar.gz
-	tar zxf /tmp/node_modules.tar.gz -C /
+	if [ ! -f "/usr/bin/node" ] && [ ! -f "/usr/bin/npm" ]; then
+		wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node_v12.19.0-1_x86_64.ipk -O /tmp/node_v12.19.0-1_x86_64.ipk
+		wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/packages/node-npm_v12.19.0-1_x86_64.ipk -O /tmp/node-npm_v12.19.0-1_x86_64.ipk
+		cd /tmp;opkg update && opkg install node_v12.19.0-1_x86_64.ipk node-npm_v12.19.0-1_x86_64.ipk --force-depends
+		if [ ! -d "/usr/lib/node" ]; then
+			wget -c -q -P /tmp --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/node_modules.tar.gz -O /tmp/node_modules.tar.gz
+			tar zxf /tmp/node_modules.tar.gz -C /
+		fi
+		echo_date1 "node环境安装成功" >> $LOGFILE
+	else
+		echo_date1 "node环境已经安装，不需要重复安装！" >> $LOGFILE
+	fi
 	rm -rf /tmp/node*
 }
 
@@ -64,11 +71,11 @@ bin_update()
 		echo_date1 "线上版本与本地版本相同，不更新！" >> $LOGFILE
 	else
 		echo_date1 "线上版本与本地版本不一致，更新开始......" >> $LOGFILE
-		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog -O /koolshare/autocheckin/signdog
+		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/signdog -O /koolshare/autocheckin/signdog
+		chmod +x $KSROOT/autocheckin/signdog
 		echo_date1 "签到狗主程序更新完毕！" >> $LOGFILE
 	fi
 	rm -rf /tmp/signdog.md5
-	chmod +x $KSROOT/autocheckin/signdog
 }
 
 set_cru(){
@@ -115,7 +122,6 @@ case "$2" in
 	http_response "$1"
 	echo_date1 "正在安装node环境" >> $LOGFILE
 	node_install
-	echo_date1 "node环境安装成功" >> $LOGFILE
 	echo_date1 "------------------------------ Koolshare LEDE X64 签到狗3.0 -------------------------------" >> $LOGFILE
 	echo XU6J03M6 >> $LOGFILE	
 	;;
