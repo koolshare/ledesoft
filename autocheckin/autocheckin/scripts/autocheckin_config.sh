@@ -71,7 +71,7 @@ bin_update()
 		echo_date1 "线上版本与本地版本相同，不更新！" >> $LOGFILE
 	else
 		echo_date1 "线上版本与本地版本不一致，更新开始......" >> $LOGFILE
-		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://cdn.jsdelivr.net/gh/houzi-/CDN/tool/signdog -O /koolshare/autocheckin/signdog
+		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog -O /koolshare/autocheckin/signdog
 		chmod +x $KSROOT/autocheckin/signdog
 		echo_date1 "签到狗主程序更新完毕！" >> $LOGFILE
 	fi

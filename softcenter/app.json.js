@@ -1,15 +1,15 @@
 {
     "apps": [
         {
-            "build_date": "2020-11-29_23:47:48", 
+            "build_date": "2020-12-13_17:46:03", 
             "changelog": "修复BUG更新", 
             "description": "每日批量自动签到", 
             "home_url": "Module_autocheckin.asp", 
-            "md5": "d7177b93592a16ad2ba55303dde64ecf", 
+            "md5": "d7115d806770f81c78df4fc3c56e933f", 
             "name": "autocheckin", 
             "tar_url": "autocheckin/autocheckin.tar.gz", 
             "title": "签到狗3.0", 
-            "version": "1.6"
+            "version": "1.7"
         }, 
         {
             "build_date": "2019-01-01_23:37:39", 
