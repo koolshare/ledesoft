@@ -43,3 +43,4 @@ backup.sh
 /timewol/build
 /webrecord/build
 /test
+.DS_store
