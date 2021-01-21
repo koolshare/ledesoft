@@ -461,8 +461,8 @@ function getSoftCenter(obj){
 			get_overlay_status();
 			onlineversion = re.version;
 			locversion = obj["softcenter_version"];
-			$("#loading").hide();
-			$(".loader").show();
+			//$("#loading").hide();
+			//$(".loader").show();
 			if (onlineversion && locversion != onlineversion) {
 				$("#update").show();
 					layer.open({

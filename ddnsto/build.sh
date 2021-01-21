@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MODULE="ddnsto"
-VERSION="2.0"
+VERSION="2.1"
 TITLE="DDNSTO 远程穿透"
 DESCRIPTION="支持http2协议的远程管理，仅支持远程管理路由器+NAS+Windows远程桌面"
 HOME_URL="Module_ddnsto.asp"
