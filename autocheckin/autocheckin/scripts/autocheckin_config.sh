@@ -63,7 +63,7 @@ node_install()
 
 bin_update()
 {
-	wget -c -q -P /tmp --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog.md5 -O /tmp/signdog.md5
+	wget -c -q -P /tmp --no-cookie --no-check-certificate https://www.houzi-blog.top/tool/signdog.md5 -O /tmp/signdog.md5
 	online_bin=`cat /tmp/signdog.md5 | awk '{print $1}'`
 	local_bin=`md5sum /koolshare/autocheckin/signdog | awk '{print $1}'`
 
@@ -71,7 +71,7 @@ bin_update()
 		echo_date1 "线上版本与本地版本相同，不更新！" >> $LOGFILE
 	else
 		echo_date1 "线上版本与本地版本不一致，更新开始......" >> $LOGFILE
-		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://down.cmccw.xyz/tool/signdog -O /koolshare/autocheckin/signdog
+		wget -q -P /koolshare/autocheckin --no-cookie --no-check-certificate https://www.houzi-blog.top/tool/signdog -O /koolshare/autocheckin/signdog
 		chmod +x $KSROOT/autocheckin/signdog
 		echo_date1 "签到狗主程序更新完毕！" >> $LOGFILE
 	fi
