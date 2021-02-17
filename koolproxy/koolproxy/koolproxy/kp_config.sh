@@ -21,15 +21,15 @@ load_rules(){
 
 	if [ "$koolproxy_encryption_rules" == "1" -a "koolproxy_oline_rules" == "0" -a "$koolproxy_easylist_rules" == "0" -a "$koolproxy_abx_rules" == "0" -a "$koolproxy_fanboy_rules" == "0" ]; then
 		echo_date 加载【加密规则】
-		sed -i '3,4s/0/1/g' $SOURCE_LIST
+		sed -i '3,5s/0|/1|/g' $SOURCE_LIST
 	else
 		if [ "$koolproxy_oline_rules" == "1" ]; then
 			echo_date 加载【绿坝规则】
-			sed -i '1,2s/0/1/g;4s/0/1/g' $SOURCE_LIST
+			sed -i '1,2s/0|/1|/g;4,5s/0|/1|/g' $SOURCE_LIST
 		fi
 		if [ "$koolproxy_encryption_rules" == "1" ]; then
 			echo_date 加载【加密规则】
-			sed -i '3,4s/0/1/g' $SOURCE_LIST
+			sed -i '3,5s/0|/1|/g' $SOURCE_LIST
 		fi
 	fi
 }
@@ -470,6 +470,17 @@ dns_takeover(){
 	fi
 } 
 
+dnsmasq_filter(){
+	sed -i '/^$/d' /etc/dnsmasq.conf
+	echo -e >> /etc/dnsmasq.conf
+	echo -e "conf-file=/koolshare/koolproxy/data/rules/koolproxy.ads " >> /etc/dnsmasq.conf
+	sed -i '/^$/d' /etc/dnsmasq.conf
+}
+
+remove_dnsmasq_filter(){
+	sed -i '/koolproxy/d' /etc/dnsmasq.conf
+}
+
 detect_cert(){
 	if [ ! -f $KP_DIR/data/private/ca.key.pem -o ! -f $KP_DIR/data/certs/ca.crt ]; then
 		echo_date 开始生成koolproxy证书，用于https过滤！
@@ -494,6 +505,7 @@ start)
 	rm -rf /tmp/upload/user.txt && ln -sf $KSROOT/koolproxy/data/rules/user.txt /tmp/upload/user.txt
 	detect_cert
 	start_koolproxy
+	[ `grep -c "koolproxy.ads" /etc/dnsmasq.conf` -eq '0' ] && dnsmasq_filter
 	add_ipset_conf && restart_dnsmasq
 	creat_ipset
 	add_white_black_ip
@@ -519,6 +531,7 @@ restart)
 	echo_date ================== koolproxy启用 =================
 	detect_cert
 	start_koolproxy
+	[ `grep -c "koolproxy.ads" /etc/dnsmasq.conf` -eq '0' ] && dnsmasq_filter
 	add_ipset_conf && restart_dnsmasq
 	creat_ipset
 	add_white_black_ip
@@ -535,6 +548,7 @@ stop)
 	set_lock
 	remove_reboot_job
 	del_dns_takeover
+	[ `grep -c "koolproxy.ads" /etc/dnsmasq.conf` -eq '1' ] && remove_dnsmasq_filter
 	remove_ipset_conf && restart_dnsmasq
 	remove_nat_start
 	flush_nat

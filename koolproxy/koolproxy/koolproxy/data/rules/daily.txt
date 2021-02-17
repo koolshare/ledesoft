@@ -1,5 +1,5 @@
 !x  -----------------------------------------------------------------------------------------------------------------
-!x  -----[KoolProxy 3.8.4]
+!x  -----[KoolProxy 3.8.5]
 !x  -----Thanks: From lvba Group
 !x  -----Thanks for help: <yiclear> <adbyby> <adm> <adblock> <adguard>
 !x  -----------------------------------------------------------------------------------------------------------------
@@ -11,16 +11,84 @@
 |http://*/*_*@*.exe
 |http://*/*@*_*.exe
 ! ---- unsafe download ----
+! ---- test rules ----
+||https://mydrivers.com##div.news_info > p:last-of-type
+
+||https://govjiangsu.cn^
+||https://sdqoi2d.com^
+||https://googlevideo.com/ptracking?pltype=adhost
+||https://googlevideo.com/videogoodput?
+||https://youtube.com/api/stats/ads
+||https://youtube.com/error_204
+
+|https://play.googleapis.com/log*
+|https://www.googleapis.com/adsmeasurement/*
+|https://pagead2.googlesyndication.com/pagead/
+|https://premiumyva.appspot.com/vmclickstoadvertisersite
+|https://s.youtube.com/api/stats/watchtime?adformat
+|https://s0.2mdn.net/ads/
+
+|https://m.77kpp.com/template/*/ads/*
+|https://s.ssl.qhres.com/ssl/ab77b6ea7f3fbf79.js
+|https://mat1.gtimg.com/rain/bl20/json/8.js
+|https://ipv4.gdt.qq.com/get_client_ip
+|https://nex.163.com/q?
+!|https://cpro.baidustatic.com/cpro/ui/
+! -----------------------
+||https://i8ggwm.com^
+||https://hurom365.cn^
+||https://scorecardresearch.com^
+||https://criteo.com^
+|https://www.javbus.com/ads
+! -----------------------
+|https://www.ett.cc/$s@/((?<!<!--)(?=<html[^>]*?>)[\W\S]*?<head[^>]*?>|<meta[^>]+?name[^>]+?>|<meta[^>]+?charset[^>]+?>)([\s]{1,2}|)/@${1}${2}<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide.js"></script>${2}@
+|https://www.javbus.com/$s@/((?<!<!--)(?=<html[^>]*?>)[\W\S]*?<head[^>]*?>|<meta[^>]+?name[^>]+?>|<meta[^>]+?charset[^>]+?>)([\s]{1,2}|)/@${1}${2}<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide_mini.js"></script><script>fuckcss('.col-xs-12.col-md-4.text-center.ptb10')</script>${2}@
+|https://m.cnbeta.com/$s@/((?<!<!--)(?=<html[^>]*?>)[\W\S]*?<head[^>]*?>|<meta[^>]+?name[^>]+?>|<meta[^>]+?charset[^>]+?>)([\s]{1,2}|)/@${1}${2}<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide_mini.js"></script><script>fuckcss('div[data-role="content"] > div[style^="text-align:"],a[href^="http://click.aliyun.com/"],.cooperation,.cbv:not(#cb_share),.cbimage-fixed,.adsbygoogle')</script>${2}@
+|https://m.ithome.com/$s@/((?<!<!--)(?=<html[^>]*?>)[\W\S]*?<head[^>]*?>|<meta[^>]+?name[^>]+?>|<meta[^>]+?charset[^>]+?>)([\s]{1,2}|)/@${1}${2}<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide_mini.js"></script><script>fuckcss('.placeholder:has(> a > .plc-con > .plc-footer > .tip-gray)')</script>${2}@
+|https://cdn.taboola.com$r@https://cdn.taboola.com/libtrc/impl*.js@https://www.houzi-blog.top/5.0/3x2.png@
+|https://v2ex.com$s@/((?<!<!--)(?=<html[^>]*?>)[\W\S]*?<head[^>]*?>|<meta[^>]+?name[^>]+?>|<meta[^>]+?charset[^>]+?>)([\s]{1,2}|)/@${1}${2}<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide_mini.js"></script><script>fuckcss('.sidebar_units,.sidebar_compliance,.adsbygoogle,.fr > a[href^="https://www.digitalocean.com/"]')</script>${2}@
+|https://ssl.jcbdfyy.cn$r@https://ssl.jcbdfyy.cn/js/tb.min.js*@https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide.js@
+|https://m.77kpp.com$s@function advert@function advert_fuck@
+! -----------------------
+|https://www.right.com.cn/forum##img[src="https://www.right.com.cn/logo/zbz-1.gif"],#threadlisttableid > tbody:nth-child(10)
+|https://statics.woozooo.com/img/m*.js
+|http://livep.l.qq.com/livemsg
+!|http://*/moviets.tc.qq.com/
+!|http://puui.qpic.cn/video_caps/
+@@|http://ykugc.cp31.ott.cibntv.net/*.mp4?ccode=
+|https://js.tv.itc.cn/base/core/gg_
+||https://ggxt.net/
+|https://www.baidu.com/s?$s@<div id="????_im0"*</a></div>@@
+|https://www.baidu.com/s?$s@id="m??????????_canvas"@id="Fuck Ad" style="display:none"@
+|https://www.baidu.com/s?$s@id="m????????"@id="Fuck Ad" style="display:none"@
+|https://www.baidu.com/s?$s@id="ecomScript">*</script>@id="Fuck Ad"></script>@
+|https://www.baidu.com/s?$s@id="?00?"@id="Fuck Ad" style="display:none"@
+|https://m.baidu.com/$s@class="ec_r_????????????????"@id="ec_r_????????????????" style="display:none"@
+|https://www.baidu.com/$s@class="ec_r_????????????????"@id="ec_r_????????????????" style="display:none"@
+|https://m.baidu.com/$s@</head>@<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide.js"></script><script src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/sizzle_mini"></script><script>fuckcss('#header > div:nth-child(7):not([id])')</script>@
+|https://www.baidu.com/$s@</head>@<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/hide.js"></script><script src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/sizzle_mini"></script><script>fuckcss('#header > div:nth-child(7):not([id])')</script>@
+! ---- test rules ----
 !x  -----------------------------------------------------------------------------------------------------------------
 @@@@|https://pic.yefu365.com
-@@@@|https://www.douyu.com
-@@@@|https://www.bilibili.com
 @@@@|https://crash.163.com
 @@|http://static.ws.126.net
 @@|http://img3.126.net
 @@|http://logstat.laosiji.com/index.html?
 @@||cnzz.com/q_stat.php$domain=qd.alibaba.com
 @@||mmstat.com/eg.js$domain=rjno1.com
+! ---- 2020-09-16 ----
+|https://www.runoob.com##.adsbygoogle,#sidebar-right-re
+|https://www.googletagmanager.com/gtag/js?
+|https://static.runoob.com/images/re/
+|https://static.studygolang.com/static/img/ad/
+|https://ci.phncdn.com/www-static/js/vmobile/atatus.js?
+|https://ci.phncdn.com/www-static/js/vmobile/premium/premium-modals.js?
+|https://ci.phncdn.com/www-static/js/vmobile/premium/slider.js?
+|https://ci.phncdn.com/www-static/js/vmobile/flipbook.js?
+|https://static.trafficjunky.com/
+|https://www.vfthr.com/servlet/events?type=
+|https://cn.pornhub.com/$s@<head>@<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/houzi-/CDN/KP/fuckcss.js"></script><script>fuckcss('abortOnPropertyRead,	smpop,setConstant,	HTMLElement.prototype.attachShadow	null,abortOnPropertyWrite,	isAdblockOn,a[href^="http://ads.trafficjunky.net/"],.video-wrapper > #player + [class],.removeAdsStyle,.adsbytrafficjunky,.ad-link,#pb_template')</script><script src="https://www.houzi-blog.top/5.0/window.open-defuser.js"></script>@
+! ---- 2020-09-16 ----
 |http://*/adright.$domain=elecfans.com
 |http://d1.5h.com^
 |http://www.52movieba.com/img/ad*
@@ -260,95 +328,9 @@
 !|https://pan.baidu.com/feproxy/ad/list?
 !x  -----------------------------------------------------------------------------------------------------------------
 !|https://pan.baidu.com,yun.baidu.com##[id^="share-ad-"],A#share_ad_info_panl,div[id^="cpro_"],img.share-center,.ad-platform-tips,.banner-active
+@@@@|https://mobads.baidu.com
 !x  -----------------------------------------------------------------------------------------------------------------
-||avtbo.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||av.movie/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||gdmm.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||ad353.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||zhongzishenqi.pw/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||thzvv.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||ruanyifeng.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||itboth.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||itkeyword.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||pniao.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||uxxux.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||360-bo.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||cnforex.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||onlytvb.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||onlytvb.com/$s@</body>@<script>fuckcss('#photo-carousel')</script></body>@
-||dilidili.wang/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||yxdown.com/$s@</body>@<script>fuckcss('#adv_1,.pic_show');</script></body>@
-||yxdown.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||epinv.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||epinv.com/$s@</body>@<script>fuckcss('.close:contains(关闭)');</script></body>@
-||39.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||xsjdy.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||youxijpw.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||eyy5.cn/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||yn-dove.cn/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||https://mydrivers.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-||https://cnbeta.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.zuixingkong.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.freep.cn/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.ixjys.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.rs05.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://news.163.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.rs05.com/$s@</body>@<script>fuckcss('.item-third-dl,li:contains(家里没矿),li:contains(支付宝),.slideBox');</script></body>@
-|http://bbs.hh010.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://thz2.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.52ghai.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.52ghai.com/$s@</head>@<script>fuckcss('A[href="https://7449k.com/"]')</script></head>@
-|http://cpnn5.com:91/$s@</head>@<script>fuckcss('A[href="https://7449k.com/"]')</script></head>@
-|http://www.eroacg.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.friok.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.cjjjs.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.55xia.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://chromecj.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.ainuody.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://dm.dm530.net/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://dm.dm530.net/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|http://m.biqu*.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.chnmoney.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.zimuzu.io/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://*btbtdy.*/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://m.biqu*.*/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|http://www.meijumi.vip/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.meijumi.vip/$s@</body>@<script>fuckcss('.dgd_stb_box.none')</script></body>@
-|http://www.avtbp.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://onetvb.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://onetvb.com/$s@</body>@<script>fuckcss('.photo-carousel,div#photo-carousel,img[src^="http://pan-yz.chaoxing.com/"]')</script></body>@
-|http://yeyemo.biz/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.jav777.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://159i.com/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://159i.com/$s@</body>@<script>fuckcss('img[src^="https://159i.com/video/"],img[src^="/video/usr/uploads/bd/"],img[src^="//159i.com/video/usr/uploads/bd/"],img[src^="//img1.uploadhouse.com/"]')</script></body>@
-|http://www.xunbopian.cc/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|http://www.xunbopian.cc/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.avav336.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.bt121.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://99a18.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://cnbtkitty.xyz/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.onetvb.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.phb123.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.ankangwang.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.445zh.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.sbiquge.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://wangpan007.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.eyusky.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://cc.dety.men/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.1788hd.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.btdx8.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.coolinet.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.tywx.la/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.tywx.la/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.lanzous.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.biquge5200.cc/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://m.biquge5200.cc/$s@</head>@<script>fuckcss('FuckXHR')</script></head>@
-|https://www.tom024.com/$s@</head>@<script src="https://kprules.b0.upaiyun.com/js/AR.js"></script></head>@
-|https://xclient.info/$s@</head>@<script src=http://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=http://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.torrentkitty.se/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.imeiju.cc/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.chinatimes.com/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
-|https://www.wudidy.net/$s@</head>@<script src=https://kprules.b0.upaiyun.com/js/hide_w.js></script><script src=https://kprules.b0.upaiyun.com/js/hide.js charset=UTF-8></script></head>@
+
 !x  -----------------------------------------------------------------------------------------------------------------
 www.freep.cn###divimg_2
 epinv.com##A[href*=".taobao.com"]
@@ -435,14 +417,11 @@ m.520boxtv.com##.logo_top
 ||https://haha.mx##.joke-list-anecdote,.ad-2,.ad-6,.adsbygoogle
 ||https://huarenjie.net##DIV[style*="top: 50px;"]
 ||https://laomoit.com###sidebar A[target="_blank"] > IMG,.cboxElement + CENTER[style=" padding-top:10px; "]
-||https://pornhub.com##body > .wrapper + div[class][-ext-has='> .removeAdLink']
-||https://pornhub.com##.realsex,.removeAdsStyle,.ad-link,#hAd
-
 |https://hao.360.cn###header-patch,#daily-hotwords,#top_activity,#top_hotsite,#activity,#iguess,.mbar-bd,#festival-logoskin,#plane > .plane-hd,.cangbao_redbags,#top-full-column-tips,#plane-ria,.ad-top
 !x  -----------------------------------------------------------------------------------------------------------------
 |http://bbs.hh010.com/$s@var freeaddon_banadblock = 0;@var freeaddon_banadblock = 30;@
 |http://www.52movieba.com$s@var ua*</script>@</script>@
-|http://vv.video.qq.com/getvinfo?$s@<ad>*</ad>@@
+|http://vv.video.qq.com/getvinfo?$s@<m3u8>*</m3u8>@@
 ||52pk.com/$s@function goto() {@function goto() { return;@
 |https://cc.dety.men/*.html$s@/((!?function )[readS\w]+\(\) ?{)/@${1}return;@
 |https://cc.dety.men/*.html$s@/(setTimeout\(function ?\(\) ?{)/@${1}return;@

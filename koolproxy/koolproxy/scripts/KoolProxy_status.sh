@@ -15,7 +15,7 @@ rules_nu_local=`grep -E -v "^!" $KSROOT/koolproxy/data/rules/koolproxy.txt | wc 
 
 if [ "$status" -ge "1" ]; then
 	if [ "$koolproxy_oline_rules" == "1" ]; then
-		http_response "【$date】 KoolProxy $version  进程运行正常！(PID: $pid) @@绿坝规则：$rules_date_local / $rules_nu_local条"
+		http_response "【$date】 KoolProxy $version  进程运行正常！(PID: $pid) @@<a href='https://www.houzi-blog.top/koolproxy.txt' style='color:#1bbf35;'>绿坝规则：$rules_date_local / $rules_nu_local条</a>"
 	else
 		http_response "【$date】 KoolProxy $version  进程运行正常！(PID: $pid) @@<font color='#FF0000'>未加载！</font>"	
 	fi		

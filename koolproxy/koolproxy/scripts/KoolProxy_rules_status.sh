@@ -20,7 +20,7 @@ encryption_rules_local=`cat $KSROOT/koolproxy/data/rules/koolproxy.txt  | sed -n
 
 if [ "$status" -ge "1" ]; then
 	if [ "$koolproxy_encryption_rules" == "1" ]; then
-		[ "$koolproxy_encryption_rules" == "1" ] && http_response "加密规则：$encryption_rules_local"
+		[ "$koolproxy_encryption_rules" == "1" ] && http_response "<a href='https://www.houzi-blog.top/kp.dat' style='color:#1bbf35;'>加密规则：$encryption_rules_local</a>"
 	else
 		http_response "<font color='#FF0000'>未加载！</font>"
 	fi
