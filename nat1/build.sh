@@ -1,11 +1,11 @@
 #!/bin/sh
 
 MODULE=nat1
-VERSION=0.2
+VERSION=0.3
 TITLE="Full cone NAT"
 DESCRIPTION="NAT类型-Full cone"
 HOME_URL=Module_nat1.asp
-CHANGELOG=""
+CHANGELOG="开启高版本设置"
 
 # Check and include base
 DIR="$( cd "$( dirname "$BASH_SOURCE[0]" )" && pwd )"
