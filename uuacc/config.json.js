@@ -1,0 +1,9 @@
+{
+"version":"0.1",
+"md5":"9754dc7a43db123976ef1a21c9a1fba9",
+"home_url":"Module_uuacc.asp",
+"title":"UU游戏加速器",
+"description":"一键开启全球联机之旅",
+"changelog":"新增插件",
+"build_date":"2021-02-20_23:27:43"
+}

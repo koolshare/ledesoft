@@ -581,6 +581,17 @@
             "version": "0.2"
         }, 
         {
+            "build_date": "2021-02-20_23:27:43", 
+            "changelog": "新增插件", 
+            "description": "一键开启全球联机之旅", 
+            "home_url": "Module_uuacc.asp", 
+            "md5": "9754dc7a43db123976ef1a21c9a1fba9", 
+            "name": "uuacc", 
+            "tar_url": "uuacc/uuacc.tar.gz", 
+            "title": "UU游戏加速器", 
+            "version": "0.1"
+        }, 
+        {
             "build_date": "2018-04-26_13:50:07", 
             "changelog": "", 
             "description": "增强路由NAT能力", 
