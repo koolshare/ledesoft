@@ -449,15 +449,15 @@
             "version": "0.8"
         }, 
         {
-            "build_date": "2019-03-06_17:54:34", 
-            "changelog": "", 
+            "build_date": "2021-03-09_20:48:07", 
+            "changelog": "修复一些bug", 
             "description": "限时网址及协议过滤", 
             "home_url": "Module_mia.asp", 
-            "md5": "a90bada3770bc781084784d19d50b0dd", 
+            "md5": "7d2a9c47dd4de66cb2790775026a0ebb", 
             "name": "mia", 
             "tar_url": "mia/mia.tar.gz", 
             "title": "家长控制", 
-            "version": "0.1"
+            "version": "0.2"
         }, 
         {
             "build_date": "2017-11-24_18:16:42", 
