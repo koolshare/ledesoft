@@ -77,17 +77,6 @@
             "version": "0.1"
         }, 
         {
-            "build_date": "2021-02-08_23:55:15", 
-            "changelog": "修正更新", 
-            "description": "每日批量自动签到", 
-            "home_url": "Module_autocheckin.asp", 
-            "md5": "3d77bb60c4316f2dc457bc5cb02c6fc2", 
-            "name": "autocheckin", 
-            "tar_url": "autocheckin/autocheckin.tar.gz", 
-            "title": "签到狗3.0", 
-            "version": "2.0"
-        }, 
-        {
             "build_date": "2018-06-14_21:13:13", 
             "changelog": "增加自定义配置功能", 
             "description": "FRPC内网穿透工具", 
@@ -325,6 +314,17 @@
             "name": "timewol", 
             "tar_url": "timewol/timewol.tar.gz", 
             "title": "定时唤醒", 
+            "version": "0.1"
+        }, 
+        {
+            "build_date": "2022-03-31_23:27:07", 
+            "changelog": "", 
+            "description": "路由拨号后也能设置光猫", 
+            "home_url": "Module_tomodem.asp", 
+            "md5": "3fed4cf37b8d2743ca312dc59fd2a5cb", 
+            "name": "tomodem", 
+            "tar_url": "tomodem/tomodem.tar.gz", 
+            "title": "光猫助手", 
             "version": "0.1"
         }, 
         {

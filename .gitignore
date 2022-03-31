@@ -42,5 +42,6 @@ backup.sh
 /mia/build
 /timewol/build
 /webrecord/build
+/tomodem/build
 /test
 .DS_store
