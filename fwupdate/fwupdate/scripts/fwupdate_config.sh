@@ -8,7 +8,7 @@ alias echo_date='echo $(date +%Y年%m月%d日\ %X)'
 export KSROOT=/koolshare
 source $KSROOT/scripts/base.sh
 eval `dbus export fwupdate_`
-fwserver="http://firmware.koolshare.cn/LEDE_X64_fw867"
+fwserver="http://fw.koolcenter.com/LEDE_X64_fw867"
 fwlocal=`cat /etc/openwrt_release|grep DISTRIB_RELEASE|cut -d "'" -f 2|cut -d "V" -f 2`
 
 echo "" >> $logfile
@@ -42,7 +42,7 @@ update_firmware(){
 }
 
 download_firmware(){
-	wget --referer=http://koolshare.cn --timeout=8 --tries=2 -O - $fwserver/$fwfile > /tmp/$fwfile
+	wget --referer=http://koolcenter.com --timeout=8 --tries=2 -O - $fwserver/$fwfile > /tmp/$fwfile
 	echo_date "固件下载完成，开始校验固件"
 	dlsha256=`sha256sum /tmp/$fwfile|awk '{print $1}'`
 	echo_date "原始文件校验码：$fwsha256"
@@ -70,7 +70,7 @@ get_update(){
   else
     versionfile="version.md"
   fi
-	wget --referer=http://koolshare.cn --timeout=8 --tries=2 -qO - $fwserver/$versionfile > /tmp/fwversion
+	wget --referer=http://koolcenter.com --timeout=8 --tries=2 -qO - $fwserver/$versionfile > /tmp/fwversion
 	if [ -f "/tmp/fwversion" ];then
 		fwfile=$(cat /tmp/fwversion | sed -n 1p)
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)

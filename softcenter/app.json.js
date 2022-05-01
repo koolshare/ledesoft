@@ -12,15 +12,15 @@
             "version": "0.2"
         }, 
         {
-            "build_date": "2020-05-20_13:09:38", 
+            "build_date": "2022-05-01_12:21:35", 
             "changelog": "", 
             "description": "在线更新路由器固件", 
             "home_url": "Module_fwupdate.asp", 
-            "md5": "e94534e8eda291c22e93ceeccd0ce7e3", 
+            "md5": "d16df7889b71aeeb3871b9acc59805bb", 
             "name": "fwupdate", 
             "tar_url": "fwupdate/fwupdate.tar.gz", 
             "title": "固件更新", 
-            "version": "0.2.8"
+            "version": "0.2.9"
         }, 
         {
             "build_date": "2019-03-01_01:21:54", 

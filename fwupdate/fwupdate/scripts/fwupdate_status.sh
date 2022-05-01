@@ -12,7 +12,7 @@ timenow=`date +%Y%m%d%H%M`
 
 get_last(){
 	rm -rf /tmp/fwversion
-	wget --referer=http://koolshare.cn --timeout=8 -qO - http://firmware.koolshare.cn/LEDE_X64_fw867/version.md > /tmp/fwversion
+	wget --referer=http://koolshare.cn --timeout=8 -qO - http://fw.koolcenter.com/LEDE_X64_fw867/version.md > /tmp/fwversion
 	if [ -f "/tmp/fwversion" ];then
 		fwsha256=$(cat /tmp/fwversion | sed -n 2p)
 		fwlast=$(cat /tmp/fwversion | sed -n 3p)

@@ -273,7 +273,7 @@ input[disabled]:hover{
 		//推送信息
 		function notice_show() {
 			$.ajax({
-				url: 'https://ledesoft.ngrok.wang/fwupdate//push_message.json.js',
+				url: 'https://ledesoft.ddnsto.com/fwupdate//push_message.json.js',
 				type: 'GET',
 				dataType: "jsonp",
 				success: function(res) {
@@ -290,7 +290,7 @@ input[disabled]:hover{
 		<div class="content">
 			<span class="col" style="line-height:30px;width:700px">
 				<li>在线更新或者重刷你的路由器固件，使用前请先更新本插件到最新版本。</li>
-				<li>历史固件前往<a href='http://firmware.koolshare.cn/LEDE_X64_fw867/'  target='_blank'>Koolshare固件下载中心</a>查看。</li>
+				<li>历史固件前往<a href='http://fw.koolcenter.com//LEDE_X64_fw867/'  target='_blank'>Koolshare固件下载中心</a>查看。</li>
 			</span>
 		</div>	
 	</div>
