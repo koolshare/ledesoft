@@ -75,7 +75,7 @@ install_module() {
 	rm -rf "/tmp/$softcenter_installing_module"
 	dbus set softcenter_installing_status="3"
 	sleep 2
-	wget --no-check-certificate --tries=1 --timeout=15 $TAR_URL
+	wget --no-check-certificate --timeout=15 $TAR_URL
 	RETURN_CODE=$?
 
 	if [ "$RETURN_CODE" != "0" ]; then
