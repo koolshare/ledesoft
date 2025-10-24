@@ -1,8 +1,8 @@
 [
-{"module": "linkease", "git_source": "https://github.com/linkease/ledesoft-linkease.git"},
-{"module": "udpspeeder", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
-{"module": "udp2raw", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
-{"module": "speedup", "git_source": "https://github.com/QinFanhua/speedup-koolsoft.git"},
-{"module": "autocheckin", "git_source": "https://github.com/koolshare/ledesoft-autocheckin.git"},
-{"module": "qiandao", "git_source": "https://github.com/hikaruchang/qiandao-softcenter.git"}
+{"module": "linkease", "branch":"master", "git_source": "https://github.com/linkease/ledesoft-linkease.git"},
+{"module": "udpspeeder", "branch":"master", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
+{"module": "udp2raw", "branch":"master", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
+{"module": "speedup", "branch":"master", "git_source": "https://github.com/QinFanhua/speedup-koolsoft.git"},
+{"module": "autocheckin", "branch":"master", "git_source": "https://github.com/koolshare/ledesoft-autocheckin.git"},
+{"module": "qiandao", "branch":"master", "git_source": "https://github.com/hikaruchang/qiandao-softcenter.git"}
 ]
