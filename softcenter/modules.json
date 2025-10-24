@@ -3,6 +3,6 @@
 {"module": "udpspeeder", "branch":"master", "git_source": "https://github.com/hikaruchang/udpspeeder-koolsoft.git"},
 {"module": "udp2raw", "branch":"master", "git_source": "https://github.com/hikaruchang/udp2raw-koolsoft.git"},
 {"module": "speedup", "branch":"master", "git_source": "https://github.com/QinFanhua/speedup-koolsoft.git"},
-{"module": "autocheckin", "branch":"master", "git_source": "https://github.com/koolshare/ledesoft-autocheckin.git"},
+{"module": "autocheckin", "branch":"main", "git_source": "https://github.com/koolshare/ledesoft-autocheckin.git"},
 {"module": "qiandao", "branch":"master", "git_source": "https://github.com/hikaruchang/qiandao-softcenter.git"}
 ]
